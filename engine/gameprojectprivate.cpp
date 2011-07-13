@@ -62,7 +62,7 @@ GameProjectPrivate::saveChildren( const GluonCore::GluonObject* parent )
     DEBUG_FUNC_NAME
     if( !parent )
     {
-        DEBUG_TEXT( QString( "Object child was null!" ) );
+        DEBUG_TEXT( QString( "Object child was null!" ) )
         return false;
     }
 
@@ -71,7 +71,7 @@ GameProjectPrivate::saveChildren( const GluonCore::GluonObject* parent )
         GluonCore::GluonObject* child = parent->child( i );
         if( child && Savable::saveToFile( child ) )
         {
-            DEBUG_TEXT2( "Saved object named %1", child->name() );
+            DEBUG_TEXT2( "Saved object named %1", child->name() )
         }
 
         // Recurse!

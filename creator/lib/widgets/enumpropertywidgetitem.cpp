@@ -85,7 +85,7 @@ namespace GluonCreator
                     }
                 }
 
-                //DEBUG_TEXT(QString("Adding %1 items from the enum %2 (requested: %3)").arg(metaEnum.keyCount()).arg(metaEnum.name()).arg(typeName));
+                //DEBUG_TEXT(QString("Adding %1 items from the enum %2 (requested: %3)").arg(metaEnum.keyCount()).arg(metaEnum.name()).arg(typeName))
                 for( int i = 0; i < metaEnum.keyCount(); ++i )
                 {
                     comboBox->addItem( QString( metaEnum.key( i ) ), metaEnum.value( i ) );

@@ -104,12 +104,12 @@ void Prefab::setGameObject( GameObject* newGameObject )
     // Grab the parent of the GameObject...
     GameObject* oldParent = newGameObject->parentGameObject();
     int position = oldParent->children().indexOf(newGameObject);
-    DEBUG_TEXT2("Grabbing object from position %1", position);
+    DEBUG_TEXT2("Grabbing object from position %1", position)
 
     // Remove GameObject from parent, reparent to this
     oldParent->removeChild(newGameObject);
     addChild(newGameObject);
-    DEBUG_TEXT2("Object is named %1", newGameObject->fullyQualifiedName());
+    DEBUG_TEXT2("Object is named %1", newGameObject->fullyQualifiedName())
 
     // Replace the GameObject in-line with a prefab instance
     d->gameObject = newGameObject;

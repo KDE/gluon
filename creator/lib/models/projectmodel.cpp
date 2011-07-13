@@ -392,18 +392,18 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int /*
             GluonCore::GluonObject* itemObject = d->project->findItemByName( item );
             if( qobject_cast<GluonEngine::GameObject*>( itemObject ) )
             {
-                DEBUG_TEXT2("Dropped the object %1 on the project", itemObject->fullyQualifiedName());
+                DEBUG_TEXT2("Dropped the object %1 on the project", itemObject->fullyQualifiedName())
                 GluonEngine::GameObject* gameObject = qobject_cast<GluonEngine::GameObject*>( itemObject );
                 GluonEngine::GameObject* parentGO = gameObject->parentGameObject();
                 if(parentGO)
                 {
-                    DEBUG_TEXT("// Add Prefab on parent, set name to name of the dropped GameObject");
+                    DEBUG_TEXT("// Add Prefab on parent, set name to name of the dropped GameObject")
                     GluonEngine::Prefab* prefab = new GluonEngine::Prefab();
                     prefab->setName( gameObject->name() );
                     beginInsertRows( parent, rowCount( parent ), rowCount( parent ) );
                     newParentObject->addChild( prefab );
                     endInsertRows();
-                    DEBUG_TEXT("// Remove item from current parent, which automatically adds a new instance in the same place!");
+                    DEBUG_TEXT("// Remove item from current parent, which automatically adds a new instance in the same place!")
                     prefab->setGameObject(gameObject);
                     // Unfortunately the model needs to be reset here, as we can't do anything else
                     Models::instance()->sceneModel()->reset();
@@ -490,7 +490,7 @@ ProjectModel::removeRows( int row, int count, const QModelIndex& parent )
         return false;
 
     GluonCore::GluonObject* parentObject = static_cast<GluonCore::GluonObject*>( parent.internalPointer() );
-    DEBUG_TEXT( "Object removal begins..." );
+    DEBUG_TEXT( "Object removal begins..." )
 
     for( int i = row; i < row + count; ++i )
     {

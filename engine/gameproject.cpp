@@ -167,7 +167,7 @@ GameProject::loadFromFile()
             // adapt ourselves to represent that object...
             if( objectList.at(0)->metaObject()->className() == metaObject()->className() )
             {
-                DEBUG_TEXT( "Project successfully parsed - applying to local instance" );
+                DEBUG_TEXT( "Project successfully parsed - applying to local instance" )
                 GameProject* loadedProject = qobject_cast<GameProject*>( objectList[0] );
 
                 // First things first - clean ourselves out, all the children
@@ -211,12 +211,12 @@ GameProject::loadFromFile()
                 // Finally, get rid of the left-overs
                 qDeleteAll( objectList );
 
-                DEBUG_TEXT( "Project loading successful!" );
+                DEBUG_TEXT( "Project loading successful!" )
             }
             // Otherwise it is not a GluonProject, and should fail!
             else
             {
-                DEBUG_TEXT( QString( "First object loaded is not a Gluon::GameProject." ) );
+                DEBUG_TEXT( QString( "First object loaded is not a Gluon::GameProject." ) )
                 DEBUG_TEXT2( "Type of loaded object: %1", objectList.at(0)->metaObject()->className() )
                 DEBUG_TEXT2( "Name of loaded object: %1", objectList.at(0)->name() )
                 return false;

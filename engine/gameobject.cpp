@@ -359,7 +359,7 @@ GameObject::addComponent( Component* addThis )
     else
     {
         DEBUG_BLOCK
-        DEBUG_TEXT( "Attempting to add a null component" );
+        DEBUG_TEXT( "Attempting to add a null component" )
     }
 }
 
@@ -431,7 +431,7 @@ GameObject::addChild( GameObject* addThis )
     if( !addThis )
     {
         DEBUG_BLOCK
-        DEBUG_TEXT( QString( "Fail-add! you're trying to add a NULL GameObject" ) );
+        DEBUG_TEXT( QString( "Fail-add! you're trying to add a NULL GameObject" ) )
     }
     else if( !d->children.contains( addThis ) )
     {
@@ -452,7 +452,7 @@ GameObject::addChildAt( GluonCore::GluonObject* addThis, int index )
     if( !addThis || index >= d->children.count() )
     {
         DEBUG_BLOCK
-        DEBUG_TEXT( QString( "Fail-add! you're trying to add a NULL GameObject or specified an index that is out of range." ) );
+        DEBUG_TEXT( QString( "Fail-add! you're trying to add a NULL GameObject or specified an index that is out of range." ) )
     }
     else if( !d->children.contains( gObj ) )
     {

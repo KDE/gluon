@@ -134,7 +134,7 @@ QMimeData* Asset::dragData() const
     QDataStream stream( &encodedData, QIODevice::WriteOnly );
     stream << fullyQualifiedName();
     data->setData( QString("application/gluon.engine.").append(metaObject()->className()), encodedData );
-    DEBUG_TEXT(data->formats().join(","));
+    DEBUG_TEXT(data->formats().join(","))
     return data;
 }
 

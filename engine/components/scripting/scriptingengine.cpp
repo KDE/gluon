@@ -58,7 +58,7 @@ namespace GluonEngine
                 if( !theEngine )
                 {
                     DEBUG_BLOCK
-                    DEBUG_TEXT( "Somehow we do not have a scripting engine. This will cause crashes!" );
+                    DEBUG_TEXT( "Somehow we do not have a scripting engine. This will cause crashes!" )
                 }
                 return theEngine;
             }
@@ -104,13 +104,13 @@ ScriptingEngine::registerAsset( const ScriptingAsset* asset )
     // Dumb...
     if( !asset )
     {
-        DEBUG_TEXT( "Asset is empty" );
+        DEBUG_TEXT( "Asset is empty" )
         return d->engine()->checkSyntax( QString( ')' ) );
     }
     // This is even dumberer...
     if( d->classNames.contains( asset ) )
     {
-        DEBUG_TEXT( "Asset is already registered" );
+        DEBUG_TEXT( "Asset is already registered" )
         return d->engine()->checkSyntax( QString( '}' ) );
     }
 

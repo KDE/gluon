@@ -40,20 +40,20 @@ Savable::saveToFile( GluonCore::GluonObject* object )
     DEBUG_BLOCK
     if( !object )
     {
-        DEBUG_TEXT( "Asset was NULL!" );
+        DEBUG_TEXT( "Asset was NULL!" )
         return false;
     }
 
     Savable* savableObject = dynamic_cast<Savable*>( object );
     if( !savableObject )
     {
-        DEBUG_TEXT( "Attempted to save an object which does not inherit Savable!" );
+        DEBUG_TEXT( "Attempted to save an object which does not inherit Savable!" )
         return false;
     }
 
     if( !savableObject->savableDirty )
     {
-        DEBUG_TEXT( "Trying to save an un-dirty object. This is technically possible, but makes little sense. So - let's not and say we did, shall we?" );
+        DEBUG_TEXT( "Trying to save an un-dirty object. This is technically possible, but makes little sense. So - let's not and say we did, shall we?" )
         return true;
     }
 
@@ -67,7 +67,7 @@ Savable::saveToFile( GluonCore::GluonObject* object )
     QFile* savableFile = new QFile( file.toLocalFile() );
     if( !savableFile->open( QIODevice::WriteOnly ) )
     {
-        DEBUG_TEXT2( "Could not write to file %1", object->property( "file" ).value<QUrl>().toString() );
+        DEBUG_TEXT2( "Could not write to file %1", object->property( "file" ).value<QUrl>().toString() )
         delete savableFile;
         return false;
     }

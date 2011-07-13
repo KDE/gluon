@@ -268,7 +268,7 @@ bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int
 
         foreach( const QString & something, data->formats() )
         {
-            DEBUG_TEXT( QString( "Dropped mimetype %1 on object %2" ).arg( something ).arg( gobj->fullyQualifiedName() ) );
+            DEBUG_TEXT( QString( "Dropped mimetype %1 on object %2" ).arg( something ).arg( gobj->fullyQualifiedName() ) )
         }
 
         if( data->hasFormat( "application/gluon.engine.GluonEngine::Prefab" ) )

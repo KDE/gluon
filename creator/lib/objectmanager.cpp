@@ -103,7 +103,7 @@ GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, Gluo
     if( className.isEmpty() )
     {
         KMimeType::Ptr type = KMimeType::findByFileContent( fileName );
-        DEBUG_TEXT( QString( "Creating asset for file %1 of mimetype %2" ).arg( fileName ).arg( type->name() ) );
+        DEBUG_TEXT( QString( "Creating asset for file %1 of mimetype %2" ).arg( fileName ).arg( type->name() ) )
         newChild = GluonCore::GluonObjectFactory::instance()->instantiateObjectByMimetype( type->name() );
     }
     else
@@ -216,7 +216,7 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
 
     if( newObj->parentGameObject() == 0 )
     {
-        DEBUG_TEXT( QString( "No parent game object yet - assign as child to Scene root" ) );
+        DEBUG_TEXT( QString( "No parent game object yet - assign as child to Scene root" ) )
         Models::instance()->sceneModel()->newGameObject( Models::instance()->sceneModel()->rootGameObject(), newObj );
     }
 

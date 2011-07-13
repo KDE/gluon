@@ -57,7 +57,7 @@ namespace GluonCore
                 QString name( QString( T::staticMetaObject.className() ).split( "::" ).at( 1 ) );
                 qRegisterMetaType<T*>( ( name + '*' ).toLatin1().constData() );
 
-                DEBUG_TEXT( QString( "Registering object type %1 with typeID %2" ).arg( T::staticMetaObject.className() ).arg( typeID ) );
+                DEBUG_TEXT( QString( "Registering object type %1 with typeID %2" ).arg( T::staticMetaObject.className() ).arg( typeID ) )
 
                 m_objectTypes[T::staticMetaObject.className()] = &( T::staticMetaObject );
                 m_objectTypeIDs[T::staticMetaObject.className()] = typeID;
@@ -72,7 +72,7 @@ namespace GluonCore
                 }
                 if( mimetypenames.length() > 0 )
                 {
-                    DEBUG_TEXT( QString( "Added mimetypes %1 to the index" ).arg( mimetypenames ) );
+                    DEBUG_TEXT( QString( "Added mimetypes %1 to the index" ).arg( mimetypenames ) )
                 }
             };
 

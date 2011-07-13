@@ -80,12 +80,12 @@ GluonObjectFactory::instantiateObjectByName( const QString& objectTypeName )
         }
         else
         {
-            DEBUG_TEXT2( "If you are seeing this message, you have most likely failed to mark the constructor of %1 as Q_INVOKABLE", objectTypeName );
+            DEBUG_TEXT2( "If you are seeing this message, you have most likely failed to mark the constructor of %1 as Q_INVOKABLE", objectTypeName )
             return 0;
         }
     }
 
-    DEBUG_TEXT( QString( "Object type named %1 not found in factory!" ).arg( objectTypeName ) );
+    DEBUG_TEXT( QString( "Object type named %1 not found in factory!" ).arg( objectTypeName ) )
 
     return 0;
 }
@@ -113,7 +113,7 @@ GluonObjectFactory::wrapObject( const QVariant& original, GluonObject* newValue 
         return obj->toVariant( newValue );
     }
 
-    DEBUG_TEXT2( "Warning: Type %1 not found.", type );
+    DEBUG_TEXT2( "Warning: Type %1 not found.", type )
 
     return QVariant();
 }
@@ -132,7 +132,7 @@ GluonObjectFactory::wrapObject( const QString& type, GluonObject* newValue )
         return obj->toVariant( newValue );
     }
 
-    DEBUG_TEXT2( "Warning: Type %1 not found.", typeName );
+    DEBUG_TEXT2( "Warning: Type %1 not found.", typeName )
 
     return QVariant();
 }
@@ -152,7 +152,7 @@ GluonObjectFactory::wrappedObject( const QVariant& wrappedObject )
     }
 
     DEBUG_BLOCK
-    DEBUG_TEXT2( "Warning: Type %1 not found.", typeName);
+    DEBUG_TEXT2( "Warning: Type %1 not found.", typeName)
 
     return 0;
 }
@@ -190,10 +190,10 @@ GluonObjectFactory::loadPlugins()
     if( pluginDir.cd( QDir::homePath() + "/gluonplugins" ) )
         pluginDirs.append( pluginDir );
 
-    DEBUG_TEXT2( "Number of plugin locations: %1", pluginDirs.count() );
+    DEBUG_TEXT2( "Number of plugin locations: %1", pluginDirs.count() )
     for( QList<QDir>::iterator theDir = pluginDirs.begin(); theDir != pluginDirs.end(); ++theDir )
     {
-        DEBUG_TEXT( QString( "Looking for pluggable components in %1" ).arg( (*theDir).absolutePath() ) );
+        DEBUG_TEXT( QString( "Looking for pluggable components in %1" ).arg( (*theDir).absolutePath() ) )
 
 #ifdef Q_WS_X11
         //Only attempt to load our current version. This makes it possible to have different versions
@@ -202,7 +202,7 @@ GluonObjectFactory::loadPlugins()
 #endif
         (*theDir).setFilter( QDir::AllEntries| QDir::NoDotAndDotDot );
 
-        DEBUG_TEXT2( "Found %1 potential plugins. Attempting to load...", (*theDir).count() );
+        DEBUG_TEXT2( "Found %1 potential plugins. Attempting to load...", (*theDir).count() )
         foreach( const QString & fileName, (*theDir).entryList( QDir::Files ) )
         {
             // Don't attempt to load non-gluon_plugin prefixed libraries
@@ -218,12 +218,12 @@ GluonObjectFactory::loadPlugins()
 
             if( !loader.isLoaded() )
             {
-                DEBUG_TEXT( loader.errorString() );
+                DEBUG_TEXT( loader.errorString() )
             }
         }
     }
 
-    DEBUG_TEXT2( "Total number of objects in factory after loading: %1", m_objectTypes.count() );
+    DEBUG_TEXT2( "Total number of objects in factory after loading: %1", m_objectTypes.count() )
 }
 
 GluonObjectFactory::GluonObjectFactory ( QObject* parent )

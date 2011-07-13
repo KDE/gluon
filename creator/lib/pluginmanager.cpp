@@ -86,7 +86,7 @@ void PluginManager::loadPlugins()
             }
             else
             {
-                DEBUG_TEXT( error );
+                DEBUG_TEXT( error )
             }
         }
         else if( !loadPlugin && d->loadedPlugins.contains( serviceName ) )
