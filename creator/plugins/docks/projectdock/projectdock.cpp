@@ -318,7 +318,7 @@ void ProjectDock::deleteActionTriggered()
         return;
     }
 
-    DEBUG_TEXT( QString( "Requested deletion of %1" ).arg( object->fullyQualifiedName() ) );
+    DEBUG_TEXT2( "Requested deletion of %1", object->fullyQualifiedName() )
     if( KMessageBox::questionYesNo( this, i18n( "Are you sure you wish to delete %1?\nThis will delete the item and all its children!", object->name() ), i18n( "Really Delete?" ) ) == KMessageBox::Yes )
     {
         GluonEngine::Asset* asset = qobject_cast<GluonEngine::Asset*>( object );

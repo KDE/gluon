@@ -71,7 +71,7 @@ GameProjectPrivate::saveChildren( const GluonCore::GluonObject* parent )
         GluonCore::GluonObject* child = parent->child( i );
         if( child && Savable::saveToFile( child ) )
         {
-            DEBUG_TEXT( QString( "Saved object named %1" ).arg( child->name() ) );
+            DEBUG_TEXT2( "Saved object named %1", child->name() );
         }
 
         // Recurse!

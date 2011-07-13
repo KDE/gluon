@@ -113,7 +113,7 @@ GluonObjectFactory::wrapObject( const QVariant& original, GluonObject* newValue 
         return obj->toVariant( newValue );
     }
 
-    DEBUG_TEXT( QString( "Warning: Type %1 not found." ).arg( type ) );
+    DEBUG_TEXT2( "Warning: Type %1 not found.", type );
 
     return QVariant();
 }
@@ -132,7 +132,7 @@ GluonObjectFactory::wrapObject( const QString& type, GluonObject* newValue )
         return obj->toVariant( newValue );
     }
 
-    DEBUG_TEXT( QString( "Warning: Type %1 not found." ).arg( typeName ) );
+    DEBUG_TEXT2( "Warning: Type %1 not found.", typeName );
 
     return QVariant();
 }
@@ -152,7 +152,7 @@ GluonObjectFactory::wrappedObject( const QVariant& wrappedObject )
     }
 
     DEBUG_BLOCK
-    DEBUG_TEXT( QString( "Warning: Type %1 not found." ).arg( typeName ) );
+    DEBUG_TEXT2( "Warning: Type %1 not found.", typeName);
 
     return 0;
 }
@@ -190,7 +190,7 @@ GluonObjectFactory::loadPlugins()
     if( pluginDir.cd( QDir::homePath() + "/gluonplugins" ) )
         pluginDirs.append( pluginDir );
 
-    DEBUG_TEXT( QString( "Number of plugin locations: %1" ).arg( pluginDirs.count() ) );
+    DEBUG_TEXT2( "Number of plugin locations: %1", pluginDirs.count() );
     for( QList<QDir>::iterator theDir = pluginDirs.begin(); theDir != pluginDirs.end(); ++theDir )
     {
         DEBUG_TEXT( QString( "Looking for pluggable components in %1" ).arg( (*theDir).absolutePath() ) );
@@ -202,7 +202,7 @@ GluonObjectFactory::loadPlugins()
 #endif
         (*theDir).setFilter( QDir::AllEntries| QDir::NoDotAndDotDot );
 
-        DEBUG_TEXT( QString( "Found %1 potential plugins. Attempting to load..." ).arg( (*theDir).count() ) );
+        DEBUG_TEXT2( "Found %1 potential plugins. Attempting to load...", (*theDir).count() );
         foreach( const QString & fileName, (*theDir).entryList( QDir::Files ) )
         {
             // Don't attempt to load non-gluon_plugin prefixed libraries

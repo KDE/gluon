@@ -94,7 +94,7 @@ GamePrivate::findSceneInChildren( QObject* object )
     DEBUG_BLOCK
     foreach( QObject * child, object->children() )
     {
-        DEBUG_TEXT( QString( "Checking child %1" ).arg( qobject_cast<GluonCore::GluonObject*>( child )->fullyQualifiedName() ) );
+        DEBUG_TEXT2( "Checking child %1", qobject_cast<GluonCore::GluonObject*>( child )->fullyQualifiedName() )
         Scene* scene = qobject_cast<Scene*>( child );
         if( scene )
             return scene;

@@ -80,7 +80,7 @@ namespace GluonCreator
                     }
                     else
                     {
-                        DEBUG_TEXT( QString( "The enumerator %1 was not found! Maybe you forgot to declare it in the class?" ).arg( typeName ) );
+                        DEBUG_TEXT2( "The enumerator %1 was not found! Maybe you forgot to declare it in the class?", typeName )
                         metaEnum = QMetaEnum();
                     }
                 }

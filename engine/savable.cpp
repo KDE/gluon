@@ -67,7 +67,7 @@ Savable::saveToFile( GluonCore::GluonObject* object )
     QFile* savableFile = new QFile( file.toLocalFile() );
     if( !savableFile->open( QIODevice::WriteOnly ) )
     {
-        DEBUG_TEXT( QString( "Could not write to file %1" ).arg( object->property( "file" ).value<QUrl>().toString() ) )
+        DEBUG_TEXT2( "Could not write to file %1", object->property( "file" ).value<QUrl>().toString() );
         delete savableFile;
         return false;
     }

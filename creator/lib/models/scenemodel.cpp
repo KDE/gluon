@@ -285,7 +285,7 @@ bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int
             }
             foreach( const QString & text, newItems )
             {
-                DEBUG_TEXT( QString( "Creating instance for %1" ).arg( text ) );
+                DEBUG_TEXT2( "Creating instance for %1", text )
                 //ObjectManager::instance()->createNewComponent( text, gobj );
             }
         }
@@ -306,7 +306,7 @@ bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int
             }
             foreach( const QString & text, newItems )
             {
-                DEBUG_TEXT( QString( "Adding component of class %1" ).arg( text ) );
+                DEBUG_TEXT2( "Adding component of class %1", text )
                 ObjectManager::instance()->createNewComponent( text, gobj );
             }
         }
@@ -317,7 +317,7 @@ bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int
 
             QString dataString = data->data( "application/gluon.object.gameobject" );
             QStringList names = dataString.split( ';' );
-            DEBUG_TEXT( QString( "Dropped names %1 on Scene Model" ).arg( dataString ) );
+            DEBUG_TEXT2( "Dropped names %1 on Scene Model", dataString )
 
             GluonEngine::GameProject* project = GluonEngine::Game::instance()->gameProject();
             foreach( const QString & name, names )

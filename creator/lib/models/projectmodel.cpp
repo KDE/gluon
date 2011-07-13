@@ -319,7 +319,7 @@ ProjectModel::mimeTypes() const
         d->acceptedMimeTypes.append( GluonCore::GluonObjectFactory::instance()->objectMimeTypes() );
         foreach( const QString & theName, d->acceptedMimeTypes )
         {
-            DEBUG_TEXT( QString( "%1" ).arg( theName ) );
+            DEBUG_TEXT( theName )
         }
     }
 
@@ -494,7 +494,7 @@ ProjectModel::removeRows( int row, int count, const QModelIndex& parent )
 
     for( int i = row; i < row + count; ++i )
     {
-        DEBUG_TEXT( QString( "Checking child at row %1" ).arg( i ) );
+        DEBUG_TEXT2( "Checking child at row %1", i )
         GluonCore::GluonObject* child = parentObject->child( row );
         GluonEngine::Scene* sceneChild = qobject_cast< GluonEngine::Scene* >( child );
         if( sceneChild == GluonEngine::Game::instance()->currentScene() )
@@ -515,7 +515,7 @@ ProjectModel::removeRows( int row, int count, const QModelIndex& parent )
     beginRemoveRows( parent, row, row + count - 1 );
     for( int i = row; i < row + count; ++i )
     {
-        DEBUG_TEXT( QString( "Removing child at row %1" ).arg( i ) );
+        DEBUG_TEXT2( "Removing child at row %1", i )
         GluonCore::GluonObject* child = parentObject->child( row );
         if( child && parentObject->removeChild( child ) )
             child->deleteLater();

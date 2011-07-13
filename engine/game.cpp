@@ -165,13 +165,13 @@ Game::runGameFixedTimestep( int framesPerSecond )
         remainingSleep = nextTick - this->getCurrentTick();
         if( remainingSleep > 0 )
         {
-            DEBUG_TEXT( QString( "Sleeping for %1 milliseconds" ).arg( remainingSleep ) )
+            DEBUG_TEXT2( "Sleeping for %1 milliseconds", remainingSleep )
             I::msleep( remainingSleep );
         }
         else
         {
             // Oh buggery, we're falling behind... can we fix this in a generic manner? Or do we just allow for falling behind...
-            DEBUG_TEXT( tr( "Gameloop has fallen behind by %1 milliseconds" ).arg( remainingSleep ) )
+            DEBUG_TEXT2( tr( "Gameloop has fallen behind by %1 milliseconds" ), remainingSleep )
         }
     }
     stopAll();
@@ -328,7 +328,7 @@ Game::setGameProject( GluonEngine::GameProject* newGameProject )
         if( scene )
         {
             d->gameProject->setEntryPoint( scene );
-            DEBUG_TEXT( QString( "Entry point salvaged by resetting to first Scene in project - %1" ).arg( scene->fullyQualifiedName() ) )
+            DEBUG_TEXT2( "Entry point salvaged by resetting to first Scene in project - %1", scene->fullyQualifiedName() )
         }
     }
 
