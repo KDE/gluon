@@ -33,11 +33,13 @@ REGISTER_OBJECTTYPE( GluonEngine, Achievement )
 class Achievement::AchievementPrivate
 {
     public:
-        AchievementPrivate() : statistic(0), minimumScore(0), icon(0), hidden(false), dependency(0) {}
+        AchievementPrivate() : statistic(0), minimumScore(0), thresholdScore(0),
+                               icon(0), hidden(false), dependency(0) {}
         ~AchievementPrivate() {}
 
         AbstractStatistic* statistic;
         qlonglong minimumScore;
+        qlonglong thresholdScore;
         TextureAsset* icon;
         bool hidden;
         Achievement* dependency;
@@ -137,6 +139,16 @@ void Achievement::setMinimumScore(qlonglong score)
     d->minimumScore = score;
 }
 
+qlonglong Achievement::thresholdScore() const
+{
+    return d->thresholdScore;
+}
+
+void Achievement::setThresholdScore( qlonglong thresholdScore )
+{
+    d->thresholdScore = thresholdScore;
+}
+
 TextureAsset* Achievement::icon()
 {
     return d->icon;
@@ -201,6 +213,11 @@ qlonglong Achievement::currentScore() const
         }
     }
     return d->statistic->value();
+}
+
+bool Achievement::madeProgress() const
+{
+    return ( currentScore() > d->thresholdScore );
 }
 
 bool Achievement::hasDependency() const

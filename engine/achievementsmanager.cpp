@@ -76,14 +76,13 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
 
     //sort
     QList< Achievement* > achieved;
-    QList< Achievement* > hidden;
     QList< Achievement* > inProgress;
     QList< Achievement* > locked;
     foreach( Achievement* achievement, achievements )
         if( achievement->achieved() )
             achieved.append(achievement);
-        else if( achievement->isHidden() )
-            hidden.append(achievement);
+        else if( achievement->isHidden() && !achievement->madeProgress() )
+            continue;
         else if( achievement->dependencySatisfied() )
             inProgress.append(achievement);
         else
@@ -92,7 +91,6 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
     QList< Achievement* > allAchievements = achieved;
     allAchievements.append(inProgress);
     allAchievements.append(locked);
-    allAchievements.append(hidden);
 
     foreach( Achievement* achievement, allAchievements )
     {
@@ -103,10 +101,11 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
         if( achievement->icon() )
             object->setProperty( "icon", achievement->icon()->file().toLocalFile() );
         object->setProperty( "minimumScore", achievement->minimumScore() );
+        object->setProperty( "thresholdScore", achievement->thresholdScore() );
         object->setProperty( "currentScore", achievement->currentScore() );
         object->setProperty( "hasDependency", achievement->hasDependency() );
         if( achievement->hasDependency() )
-            object->setProperty( "dependency", achievement->dependency()->name() );
+            object->setProperty( "dependency", allAchievements.indexOf( achievement->dependency() ) );
         object->setProperty( "dependencySatisfied", achievement->dependencySatisfied() );
         object->setProperty( "hidden", achievement->isHidden() );
         object->setProperty( "achieved", achievement->achieved() );
@@ -115,11 +114,15 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
 
 void AchievementsManager::makeTemplate()
 {
-    foreach( QObject* child, children() )
+    QObjectList childList = children();
+    QMutableListIterator<QObject*> i( childList );
+    while( i.hasNext() )
     {
-        GluonCore::GluonObject* object = qobject_cast<GluonCore::GluonObject*>(child);
+        GluonCore::GluonObject* object = qobject_cast<GluonCore::GluonObject*>( i.next() );
         if( object )
         {
+            if( object->property( "hidden" ).toBool() )
+                delete object;
             object->setProperty( "currentScore", 0 );
             if( object->property( "hasDependency" ).toBool() )
                 object->setProperty( "dependencySatisfied", false );
@@ -185,14 +188,19 @@ qlonglong AchievementsManager::minimumScore(int index) const
     return children()[index]->property( "minimumScore" ).toLongLong();
 }
 
+qlonglong AchievementsManager::thresholdScore(int index) const
+{
+    return children()[index]->property( "thresholdScore" ).toLongLong();
+}
+
 qlonglong AchievementsManager::currentScore(int index) const
 {
     return children()[index]->property( "currentScore" ).toLongLong();
 }
 
-QString AchievementsManager::dependency(int index) const
+int AchievementsManager::dependency(int index) const
 {
-    return children()[index]->property( "dependency" ).toString();
+    return children()[index]->property( "dependency" ).toInt();
 }
 
 bool AchievementsManager::dependencySatisfied(int index) const
@@ -208,6 +216,12 @@ bool AchievementsManager::hidden(int index) const
 bool AchievementsManager::achievementAchieved(int index) const
 {
     return children()[index]->property("achieved").toBool();
+}
+
+bool AchievementsManager::madeProgress(int index) const
+{
+    QObject* object = children()[index];
+    return ( object->property( "currentScore" ).toLongLong() > object->property( "thresholdScore" ).toLongLong() );
 }
 
 #include "achievementsmanager.moc"

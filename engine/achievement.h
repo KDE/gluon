@@ -56,6 +56,12 @@ namespace GluonEngine
             Q_PROPERTY( qlonglong minimumScore READ minimumScore WRITE setMinimumScore )
 
             /**
+             * The score from which the user makes progress on the achievement. This is also the
+             * value from which hidden achievements will be shown to the user.
+             */
+            Q_PROPERTY( qlonglong thresholdScore READ thresholdScore WRITE setThresholdScore )
+
+            /**
              * An icon that represents the achievement.
              */
             Q_PROPERTY( GluonEngine::TextureAsset* icon READ icon WRITE setIcon );
@@ -79,6 +85,9 @@ namespace GluonEngine
             qlonglong minimumScore() const;
             void setMinimumScore( qlonglong score );
 
+            qlonglong thresholdScore() const;
+            void setThresholdScore( qlonglong thresholdScore );
+
             TextureAsset* icon();
             void setIcon( TextureAsset* icon );
 
@@ -91,6 +100,9 @@ namespace GluonEngine
 
             /** What current store does the user have? */
             qlonglong currentScore() const;
+
+            /** Did the user made progress? */
+            bool madeProgress() const;
 
             /** Does the achievement has a dependency? */
             bool hasDependency() const;

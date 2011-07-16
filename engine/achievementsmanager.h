@@ -78,11 +78,14 @@ namespace GluonEngine
             /** The score you need to get the achievement */
             qlonglong minimumScore( int index ) const;
 
+            /** The score from which the user makes progress in the achievement */
+            qlonglong thresholdScore( int index ) const;
+
             /** The current score of the statistic */
             qlonglong currentScore( int index ) const;
 
-            /** Return the name of the dependency of the achievement */
-            QString dependency( int index ) const;
+            /** Return the index of the dependency of the achievement */
+            int dependency( int index ) const;
 
             /** Has the user the dependency achievement achieved? */
             bool dependencySatisfied( int index ) const;
@@ -92,6 +95,9 @@ namespace GluonEngine
 
             /** Has the user the achievement at index? */
             bool achievementAchieved( int index ) const;
+
+            /** Has the user made progress? */
+            bool madeProgress( int index ) const;
     };
 }
 
