@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
+enable_testing()
+
 if(NOT GLUON_BUILD_ALL)
     project(GluonCoreTest)
 endif()
@@ -21,6 +23,7 @@ set(GluonCoreTest_SRCS
 
 set(GluonCoreTest_HDRS
     testgluoncore.h
+    gluonobjecttest.h
 )
 
 qt4_automoc(${GluonCoreTest_SRCS})
