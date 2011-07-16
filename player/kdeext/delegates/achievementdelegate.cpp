@@ -50,7 +50,62 @@ void AchievementDelegate::paint( QPainter* painter, const QStyleOptionViewItem& 
         kDebug() << "Wrong datamodel! Has to be AchievementModel.";
         return;
     }
+    const GluonEngine::AchievementsManager* achievementsManager = model->achievementsManager();
 
+    QIcon icon;
+    if( !achievementsManager->dependencySatisfied(index.row()) )
+    {
+        icon = KIcon( "games-achievements-locked" );
+    }
+    else
+    {
+        QString iconString = achievementsManager->achievementIcon(index.row());
+        if( iconString.isEmpty() )
+            icon = KIcon( "games-achievements" );
+        else
+            icon = QIcon( model->metaData()->projectDir() + '/' + iconString );
+    }
+
+    bool disabled = !achievementsManager->achievementAchieved( index.row() );
+
+    QString name, description, progressString;
+    qlonglong maxScore, minScore, currentScore;
+    bool paintProgressBar;
+    if( !achievementsManager->dependencySatisfied(index.row()) )
+    {
+        name = "Locked";
+        int dependency = achievementsManager->dependency(index.row());
+        description = "Depends on: ";
+        if( dependency == -1 )
+            description += "hidden achievement";
+        else if( !achievementsManager->dependencySatisfied( dependency ) )
+            description += "locked achievement";
+        else
+            description += achievementsManager->achievementName( dependency );
+        paintProgressBar = false;
+    }
+    else
+    {
+        name = achievementsManager->achievementName( index.row() );
+        description = achievementsManager->description( index.row() );
+        if( !achievementsManager->madeProgress( index.row() ) || achievementsManager->achievementAchieved( index.row() ) )
+        {
+            paintProgressBar = false;
+        }
+        else
+        {
+            paintProgressBar = true;
+            minScore = achievementsManager->thresholdScore( index.row() );
+            maxScore = achievementsManager->minimumScore( index.row() );
+            currentScore = qMin( maxScore, achievementsManager->currentScore( index.row() ) );
+            progressString = QString("%1 %").arg( 100*(currentScore-minScore)/(maxScore-minScore) );
+        }
+    }
+
+    bool paintAchievedIcon = achievementsManager->achievementAchieved( index.row() );
+
+
+    // Paint!
     painter->save();
     QApplication::style()->drawPrimitive( QStyle::PE_PanelItemViewItem, &option, painter );
 
@@ -61,79 +116,62 @@ void AchievementDelegate::paint( QPainter* painter, const QStyleOptionViewItem& 
 
     // paint the icon
     int imageSize = option.rect.height() - 10;
-    QString iconString = model->achievementsManager()->achievementIcon(index.row());
-    QIcon icon;
-    if( iconString.isEmpty() )
-        icon = KIcon("games-achievements");
-    else
-        icon = QIcon( model->metaData()->projectDir() + "/" + iconString );
     QPixmap image;
-    if( !model->achievementsManager()->achievementAchieved(index.row()) )
-        image = icon.pixmap(50, QIcon::Disabled);
+    if( disabled )
+        image = icon.pixmap(imageSize, QIcon::Disabled);
     else
     {
         if( option.state & QStyle::State_Selected )
-            image = icon.pixmap(50, QIcon::Selected);
+            image = icon.pixmap(imageSize, QIcon::Selected);
         else
-            image = icon.pixmap(50, QIcon::Normal);
+            image = icon.pixmap(imageSize, QIcon::Normal);
     }
     painter->drawPixmap( option.rect.x() + 5, option.rect.y() + 5, imageSize, imageSize, image );
 
     int textStartX = option.rect.x() + 5 + imageSize + 10;
     int textRowHeight = (option.rect.height()-5) / 3;
-    QString name, description, progressString;
-    qlonglong minimumScore, currentScore;
-    if( model->achievementsManager()->hidden(index.row()) && !model->achievementsManager()->achievementAchieved(index.row()) )
-    {
-        name = "Hidden";
-        description = "";
-        minimumScore = 100;
-        currentScore = 0;
-        progressString = "???";
-    }
-    else if( model->achievementsManager()->dependencySatisfied(index.row()) )
-    {
-        name = model->achievementsManager()->achievementName(index.row());
-        description = model->achievementsManager()->description(index.row());
-        minimumScore = model->achievementsManager()->minimumScore(index.row());
-        currentScore = qMin( minimumScore, model->achievementsManager()->currentScore(index.row()) );
-        progressString = QString::number(currentScore) + "/" + QString::number(minimumScore);
-    }
-    else
-    {
-        name = "Locked";
-        description = "Depends on: " + model->achievementsManager()->dependency(index.row());
-        minimumScore = 100;
-        currentScore = 0;
-        progressString = "0/0";
-    }
-
+    int textLength = option.rect.right() - textStartX;
+    if( paintAchievedIcon )
+        textLength -= (imageSize+5);
     // paint the text
     QFont font;
     font.setBold(true);
     painter->save();
     painter->setFont(font);
-    painter->drawText( textStartX, option.rect.y(), option.rect.right() - textStartX, textRowHeight,
+    painter->drawText( textStartX, option.rect.y(), textLength, textRowHeight,
                        Qt::AlignVCenter, name );
     painter->restore();
-    painter->drawText( textStartX, option.rect.y() + textRowHeight, option.rect.right() - textStartX, textRowHeight,
+    painter->drawText( textStartX, option.rect.y() + textRowHeight, textLength, textRowHeight,
                        Qt::AlignVCenter, description );
 
-    // paint the progress bar
-    QStyleOptionProgressBar progressStyleOption;
-    progressStyleOption.rect = QRect( textStartX, option.rect.y() + 2*textRowHeight,
-                                      option.rect.right() - textStartX, textRowHeight );
-    progressStyleOption.minimum = 0;
-    progressStyleOption.maximum = 100;
-    progressStyleOption.progress = 100*currentScore / minimumScore;
-    progressStyleOption.text = progressString;
-    progressStyleOption.textVisible = true;
+    if( paintProgressBar )
+    {
+        // paint the progress bar
+        QStyleOptionProgressBar progressStyleOption;
+        progressStyleOption.rect = QRect( textStartX, option.rect.y() + 2*textRowHeight,
+                                          textLength, textRowHeight );
+        progressStyleOption.minimum = minScore;
+        progressStyleOption.maximum = maxScore;
+        progressStyleOption.progress = currentScore;
+        progressStyleOption.text = progressString;
+        progressStyleOption.textVisible = true;
 
-    QApplication::style()->drawControl( QStyle::CE_ProgressBar, &progressStyleOption, painter );
+        QApplication::style()->drawControl( QStyle::CE_ProgressBar, &progressStyleOption, painter );
+    }
+
+    if( paintAchievedIcon )
+    {
+        QPixmap pixmap;
+        if( option.state & QStyle::State_Selected )
+            pixmap = KIcon( "games-endturn" ).pixmap( imageSize, QIcon::Selected );
+        else
+            pixmap = KIcon( "games-endturn" ).pixmap( imageSize, QIcon::Normal );
+        painter->drawPixmap( textStartX + textLength, option.rect.y() + 5, imageSize, imageSize, pixmap );
+    }
     painter->restore();
 }
 
 QSize AchievementDelegate::sizeHint(const QStyleOptionViewItem& /*option*/, const QModelIndex& /*index*/) const
 {
-    return QSize( 300, 60 );
+    return QSize( 300, 58 );
 }
