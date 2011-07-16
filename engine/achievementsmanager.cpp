@@ -97,7 +97,7 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
         {
             achieved.append(achievement);
         }
-        else if( achievement->isHidden() )
+        else if( achievement->isHidden() && !achievement->isPastThreshold() )
         {
             hidden.append(achievement);
         }
@@ -125,10 +125,11 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
         if( achievement->icon() )
             object->setProperty( "icon", achievement->icon()->file().toLocalFile() );
         object->setProperty( "minimumScore", achievement->minimumScore() );
+        object->setProperty( "thresholdScore", achievement->thresholdScore() );
         object->setProperty( "currentScore", achievement->currentScore() );
         object->setProperty( "hasDependency", achievement->hasDependency() );
         if( achievement->hasDependency() )
-            object->setProperty( "dependency", achievement->dependency()->name() );
+            object->setProperty( "dependency", allAchievements.indexOf( achievement->dependency() ) );
         object->setProperty( "dependencySatisfied", achievement->dependencySatisfied() );
         object->setProperty( "hidden", achievement->isHidden() );
         object->setProperty( "achieved", achievement->achieved() );
@@ -137,7 +138,7 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
 
 void AchievementsManager::makeTemplate()
 {
-    QObjectList childList;
+    QObjectList childList = children();
     QMutableListIterator<QObject*> i( childList );
     while( i.hasNext() )
     {
@@ -187,16 +188,22 @@ qlonglong AchievementsManager::minimumScore( int index ) const
     return children().at(index)->property( "minimumScore" ).toLongLong();
 }
 
+qlonglong AchievementsManager::thresholdScore(int index) const
+{
+    Q_ASSERT_X( index >= 0 && index < achievementsCount(), Q_FUNC_INFO, "index out of range in list of achievements" );
+    return children().at(index)->property( "thresholdScore" ).toLongLong();
+}
+
 qlonglong AchievementsManager::currentScore( int index ) const
 {
     Q_ASSERT_X( index >= 0 && index < achievementsCount(), Q_FUNC_INFO, "index out of range in list of achievements" );
     return children().at(index)->property( "currentScore" ).toLongLong();
 }
 
-QString AchievementsManager::dependency( int index ) const
+int AchievementsManager::dependency( int index ) const
 {
     Q_ASSERT_X( index >= 0 && index < achievementsCount(), Q_FUNC_INFO, "index out of range in list of achievements" );
-    return children().at(index)->property( "dependency" ).toString();
+    return children().at(index)->property( "dependency" ).toInt();
 }
 
 bool AchievementsManager::dependencySatisfied( int index ) const
@@ -215,6 +222,12 @@ bool AchievementsManager::achievementAchieved( int index ) const
 {
     Q_ASSERT_X( index >= 0 && index < achievementsCount(), Q_FUNC_INFO, "index out of range in list of achievements" );
     return children().at(index)->property("achieved").toBool();
+}
+
+bool AchievementsManager::isPastThreshold(int index) const
+{
+    QObject* object = children().at(index);
+    return ( object->property( "currentScore" ).toLongLong() > object->property( "thresholdScore" ).toLongLong() );
 }
 
 #include "achievementsmanager.moc"

@@ -124,6 +124,15 @@ namespace GluonEngine
             qlonglong minimumScore( int index ) const;
 
             /**
+             * The score from which the user makes progress in the achievement at index.
+             * Index must be a valid index position, i.e. between 0 and achievementsCount()-1.
+             * @param index A valid index
+             * @return The threshold value
+             * @see achievementsCount
+             */
+            qlonglong thresholdScore( int index ) const;
+
+            /**
              * The current score of the statistic. Index must be a valid index
              * position, i.e. between 0 and achievementsCount()-1.
              * @param index A valid index
@@ -133,7 +142,7 @@ namespace GluonEngine
             qlonglong currentScore( int index ) const;
 
             /**
-             * Check whether the user has the dependency achievement achieved? Index must
+             * Check whether the user has the dependency achievement achieved. Index must
              * be a valid index position, i.e. between 0 and achievementsCount()-1.
              * @param index A valid index
              * @returns true if the dependency is satisfied, false otherwise
@@ -142,13 +151,13 @@ namespace GluonEngine
             bool dependencySatisfied( int index ) const;
 
             /**
-             * Get the name of the achievement the achievement at index depends upon.
+             * Get the index of the achievement the achievement at index depends upon.
              * Index must be a valid index position, i. e. between 0 and achievementsCount()-1.
              * @param index A valid index
-             * @returns The name of the achievement the achievement at index depends upon
+             * @returns The index of the achievement the achievement at index depends upon
              * @see achievementsCount
              */
-            QString dependency( int index ) const;
+           int dependency( int index ) const;
 
             /**
              * Check whether the achievement at index is hidden. If the achievement is hidden
@@ -168,6 +177,15 @@ namespace GluonEngine
              * @see achievementsCount
              */
             bool achievementAchieved( int index ) const;
+
+            /**
+             * Check whether the current score is higher than the threshold score at index.
+             * Index must be a valid index position, i.e. between 0 and achievementsCount()-1.
+             * @param index A valid index
+             * @returns True, if the user is past the threshold score, false otherwise.
+             * @see achievementsCount, thresholdScore
+             */
+            bool isPastThreshold( int index ) const;
     };
 }
 
