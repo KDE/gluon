@@ -84,6 +84,7 @@ endif()
 ####### Gluon Input #######
 if(BUILD_GLUON_INPUT)
     add_subdirectory(input)
+    add_subdirectory(input/tests)
 endif()
 ###### Gluon Graphics #####
 if(BUILD_GLUON_GRAPHICS)
