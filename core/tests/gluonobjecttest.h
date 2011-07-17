@@ -25,6 +25,9 @@
 class GluonObjectTest : public QObject
 {
 	Q_OBJECT
+public:
+    GluonObjectTest();
+    virtual ~GluonObjectTest();
 
 private Q_SLOTS:
     void testName();

@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
 
-enable_testing()
-
 if(NOT GLUON_BUILD_ALL)
     project(GluonCoreTest)
 endif()
@@ -16,6 +14,30 @@ include_directories(
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
+MACRO(GLUONCORE_UNIT_TESTS)
+       FOREACH(testname ${ARGN})
+               qt4_automoc(${testname}.cpp)
+               add_executable(gluoncore-${testname} ${testname}.cpp)
+               target_link_libraries(gluoncore-${testname} ${GLUON_CORE_LIBS} ${QT_QTTEST_LIBRARY})
+               add_test(name gluoncore-${testname} NOGUI ${testname}.cpp)
+               if(WINCE)
+                target_link_libraries(${testname} ${WCECOMPAT_LIBRARIES})
+               endif(WINCE)
+       ENDFOREACH(testname)
+ENDMACRO(GLUONCORE_UNIT_TESTS)
+MACRO(GLUONCORE_EXECUTABLE_TESTS)
+       FOREACH(testname ${ARGN})
+               qt4_automoc(${testname}.cpp)
+               add_executable(${testname} ${testname}.cpp)
+               target_link_libraries(${testname} ${GLUON_CORE_LIBS} ${QT_QTTEST_LIBRARY})
+               if(WINCE)
+                target_link_libraries(${testname} ${WCECOMPAT_LIBRARIES})
+               endif(WINCE)
+       ENDFOREACH(testname)
+ENDMACRO(GLUONCORE_EXECUTABLE_TESTS)
+
+enable_testing()
+
 set(GluonCoreTest_SRCS
     main.cpp
     testgluoncore.cpp
@@ -23,10 +45,15 @@ set(GluonCoreTest_SRCS
 
 set(GluonCoreTest_HDRS
     testgluoncore.h
-    gluonobjecttest.h
 )
 
 qt4_automoc(${GluonCoreTest_SRCS})
 
 add_executable(GluonCoreTest ${GluonCoreTest_SRCS})
 target_link_libraries(GluonCoreTest GluonCore ${QT_QTTEST_LIBRARY} ${GLUON_CORE_LIBS})
+
+########### next target ###############
+
+GLUONCORE_UNIT_TESTS(
+    gluonobjecttest
+)

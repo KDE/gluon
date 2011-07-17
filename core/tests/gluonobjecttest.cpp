@@ -19,18 +19,27 @@
 
 #include "gluonobjecttest.h"
 
-#include "gluonobject.h"
+#include <core/gluonobject.h>
+
+#include <QtTest>
 
 using namespace GluonCore;
 
-void
-KLocaleTest::testName()
+GluonObjectTest::GluonObjectTest()
+{
+}
+
+GluonObjectTest::~GluonObjectTest()
+{
+}
+
+void GluonObjectTest::testName()
 {
     GluonObject gluonObject;
     gluonObject.setName("GluonObjectTest");
     QCOMPARE(gluonObject.name(), QString("GluonObjectTest"));
 }
 
-QTEST_MAIN_CORE(GluonObjectTest)
+QTEST_MAIN(GluonObjectTest)
 
 #include "gluonobjecttest.moc"
