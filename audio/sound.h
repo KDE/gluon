@@ -33,6 +33,7 @@ namespace GluonAudio
     class GLUON_AUDIO_EXPORT Sound : public QObject
     {
             Q_OBJECT
+
         public:
             /**
             * Constructs an empty, invalid Sound object

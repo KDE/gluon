@@ -39,6 +39,47 @@ void SoundTest::testIsValid()
     QCOMPARE(sound.isValid(), false);
 }
 
+void SoundTest::testIsPlaying()
+{
+    Sound sound;
+    QCOMPARE(sound.isPlaying(), false);
+}
+
+void SoundTest::testIsLooping()
+{
+    Sound sound;
+    QCOMPARE(sound.isLooping(), false);
+}
+
+void SoundTest::testVolume()
+{
+    Sound sound;
+    sound.setVolume(2.0f);
+    QCOMPARE(sound.volume(), 2.0f);
+}
+
+void SoundTest::testPitch()
+{
+    Sound sound;
+    sound.setPitch(1.5f);
+    QCOMPARE(sound.pitch(), 1.5f);
+}
+
+void SoundTest::testRadius()
+{
+    Sound sound;
+    sound.setRadius(15000.0f);
+    QCOMPARE(sound.radius(), 15000.0f);
+}
+
+void SoundTest::testMinVolume()
+{
+}
+
+void SoundTest::testMaxVolume()
+{
+}
+
 QTEST_MAIN(SoundTest)
 
 #include "soundtest.moc"
