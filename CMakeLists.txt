@@ -79,6 +79,7 @@ add_subdirectory(core/tests)
 ####### Gluon Audio #######
 if(BUILD_GLUON_AUDIO)
     add_subdirectory(audio)
+    add_subdirectory(audio/tests)
 endif()
 ####### Gluon Input #######
 if(BUILD_GLUON_INPUT)
