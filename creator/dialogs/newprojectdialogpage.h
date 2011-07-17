@@ -44,7 +44,8 @@ namespace GluonCreator
             void validationFinished( bool );
 
         private slots:
-            void urlEdited();
+            void validateByProjectName();
+            void validateByProjectLocation();
             void validateData();
 
         private:

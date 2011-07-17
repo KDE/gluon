@@ -94,8 +94,10 @@ NewProjectDialogPage::NewProjectDialogPage()
     d->locationValidLabel = new KSqueezedTextLabel( box );
     boxLayout->addRow( QString(), d->locationValidLabel );
 
-    connect( d->location->lineEdit(), SIGNAL( textEdited( const QString& ) ), SLOT( urlEdited() ) );
+    connect( d->name, SIGNAL( textEdited( const QString& ) ), SLOT( validateByProjectName() ) );
+    connect( d->location->lineEdit(), SIGNAL( textEdited( const QString& ) ), SLOT( validateByProjectLocation() ) );
 
+    validateData();
 }
 
 NewProjectDialogPage::~NewProjectDialogPage()
@@ -170,11 +172,6 @@ QString NewProjectDialogPage::createProject() const
     return location.toLocalFile();
 }
 
-void NewProjectDialogPage::urlEdited()
-{
-    validateData();
-}
-
 void NewProjectDialogPage::setForeground( QLabel* label, KColorScheme::ForegroundRole role )
 {
     QPalette p = label->palette();
@@ -182,6 +179,16 @@ void NewProjectDialogPage::setForeground( QLabel* label, KColorScheme::Foregroun
     label->setPalette( p );
 }
 
+
+void NewProjectDialogPage::validateByProjectName()
+{
+    validateData();
+}
+
+void NewProjectDialogPage::validateByProjectLocation()
+{
+    validateData();
+}
 
 void NewProjectDialogPage::validateData()
 {
