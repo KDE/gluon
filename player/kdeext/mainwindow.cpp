@@ -77,6 +77,8 @@ MainWindow::MainWindow( const QString& /* filename */ )
     setupActions();
     setupGUI();
     showGames();
+
+    stateChanged( "initial" );
 }
 
 MainWindow::~MainWindow( )
@@ -118,15 +120,15 @@ void MainWindow::setupActions()
     connect( forgottenPassword, SIGNAL( triggered( bool ) ), SLOT( mForgottenPassword() ) );
 
     KAction* play = new KAction( KIcon( "media-playback-start" ), i18n( "Play Game" ), actionCollection() );
-    actionCollection()->addAction( "playGame", play );
+    actionCollection()->addAction( "game_play", play );
     connect( play, SIGNAL( triggered( bool ) ), SLOT( openProject() ) );
 
     KAction* pause = new KAction( KIcon( "media-playback-pause" ), i18n( "Pause Game" ), actionCollection() );
-    actionCollection()->addAction( "pauseGame", pause );
+    actionCollection()->addAction( "game_pause", pause );
     connect( pause, SIGNAL( triggered( bool ) ), SLOT( pauseGame() ) );
 
     KAction* stop = new KAction( KIcon( "media-playback-stop" ), i18n( "Stop Game" ), actionCollection() );
-    actionCollection()->addAction( "stopGame", stop );
+    actionCollection()->addAction( "game_stop", stop );
     connect( stop, SIGNAL( triggered( bool ) ), SLOT( stopGame() ) );
 
     KStandardAction::quit( kapp, SLOT( quit() ), actionCollection() );
@@ -134,6 +136,16 @@ void MainWindow::setupActions()
 
 void MainWindow::startGame( )
 {
+    if( GluonEngine::Game::instance()->isRunning() )
+    {
+        GluonEngine::Game::instance()->setPause( false );
+        stateChanged( "paused", StateReverse );
+    }
+    else
+    {
+        stateChanged( "playing" );
+    }
+
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     m_project->loadFromFile( m_gameFileName );
@@ -164,6 +176,9 @@ void MainWindow::startGame( )
     //Start the game loop
     //Note that this starts an infinite loop in Game
     GluonEngine::Game::instance()->runGame();
+
+    //This happens after we exit the game loop
+    stateChanged( "playing", StateReverse );
     QApplication::instance()->exit();
     //This happens after we exit the game loop
     // stateChanged( "playing", StateReverse );
