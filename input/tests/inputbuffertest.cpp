@@ -21,7 +21,7 @@
 
 #include <input/inputbuffer.h>
 
-#include <QtTest>
+#include <QtTest/QtTest>
 
 using namespace GluonInput;
 
