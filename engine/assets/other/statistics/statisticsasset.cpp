@@ -41,7 +41,7 @@ StatisticsAsset::StatisticsAsset(QObject* parent)
     : Asset(parent)
     , d( new StatisticsAssetPrivate() )
 {
-    QAction* newStatistic = new QAction( tr("New Statistic"), this );
+    QAction* newStatistic = new QAction( tr("New Statistic"), 0 );
     connect( newStatistic, SIGNAL(triggered()), this, SLOT(createStatistic()) );
     d->actions.append(newStatistic);
     savableDirty = true;
@@ -49,6 +49,7 @@ StatisticsAsset::StatisticsAsset(QObject* parent)
 
 StatisticsAsset::~StatisticsAsset()
 {
+    qDeleteAll( d->actions );
     delete d;
 }
 
