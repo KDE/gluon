@@ -127,7 +127,9 @@ MainWindow::~MainWindow()
     GluonCreator::Settings::setLockLayout( actionCollection()->action( "lock_layout" )->isChecked() );
     GluonCreator::Settings::self()->writeConfig();
 
-    GluonEngine::Game::instance()->cleanupAll();
+
+    if( GluonEngine::Game::instance()->currentScene() )
+        GluonEngine::Game::instance()->cleanupAll();
 }
 
 void MainWindow::closeEvent( QCloseEvent* event )
