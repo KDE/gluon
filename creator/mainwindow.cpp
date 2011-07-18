@@ -396,13 +396,13 @@ void GluonCreator::MainWindow::showNewProjectDialog()
     d->projectDialog->show();
 }
 
-void GluonCreator::MainWindow::showOpenProjectDialog()
+void MainWindow::showOpenProjectDialog()
 {
     d->projectDialog->setPage( ProjectSelectionDialog::OpenProjectPage );
     d->projectDialog->show();
 }
 
-void GluonCreator::MainWindow::projectDialogAccepted()
+void MainWindow::projectDialogAccepted()
 {
     openProject( d->projectDialog->fileName() );
 }
