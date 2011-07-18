@@ -57,7 +57,7 @@ namespace GluonKDEPlayer
             virtual void closeEvent( QCloseEvent* event );
             virtual void resizeEvent( QResizeEvent* event );
 
-        public slots:
+        public Q_SLOTS:
             void startGame();
             void pauseGame();
             void stopGame();

@@ -136,15 +136,7 @@ void MainWindow::setupActions()
 
 void MainWindow::startGame( )
 {
-    if( GluonEngine::Game::instance()->isRunning() )
-    {
-        GluonEngine::Game::instance()->setPause( false );
-        stateChanged( "paused", StateReverse );
-    }
-    else
-    {
-        stateChanged( "playing" );
-    }
+    stateChanged( "playing" );
 
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
@@ -292,6 +284,13 @@ void MainWindow::setProject( const QModelIndex& index )
 
 void MainWindow::openProject()
 {
+    if( GluonEngine::Game::instance()->isRunning() )
+    {
+        GluonEngine::Game::instance()->setPause( false );
+        stateChanged( "paused", StateReverse );
+        return;
+    }
+
     if( m_gameFileName.isEmpty() )
     {
         return;
