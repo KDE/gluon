@@ -260,12 +260,11 @@ GluonObject::setGameProject( GluonObject* newGameProject )
 {
     d->gameProject = newGameProject;
 
-    const QObjectList& allChildren = children();
-    foreach( QObject * child, allChildren )
+    foreach( QObject * child, children() )
     {
-        GluonObject* gobj = qobject_cast<GluonObject*>( child );
-        if( gobj )
-            gobj->setGameProject( newGameProject );
+        GluonObject* obj = qobject_cast<GluonObject*>( child );
+        if( obj )
+            obj->setGameProject( newGameProject );
     }
 }
 
