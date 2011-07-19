@@ -31,6 +31,7 @@ public:
     virtual ~SoundTest();
 
 private Q_SLOTS:
+    void testConstructorMemberInit();
     void testIsValid();
     void testIsPlaying();
     void testIsLooping();

@@ -112,7 +112,7 @@ namespace GluonAudio
             * @todo this function isn't defined!
             * @return the last error reported
             */
-            QString lastError() const ;
+            QString lastError() const;
 
             /**
             * @return the coordinates of the sound postion

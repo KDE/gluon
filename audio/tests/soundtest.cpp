@@ -33,22 +33,28 @@ SoundTest::~SoundTest()
 {
 }
 
-void SoundTest::testIsValid()
+void SoundTest::testConstructorMemberInit()
 {
     Sound sound;
     QCOMPARE(sound.isValid(), false);
+    QCOMPARE(sound.isPlaying(), false);
+    QCOMPARE(sound.isLooping(), false);
+    QCOMPARE(sound.volume(), 1.0f);
+    QCOMPARE(sound.pitch(), 1.0f);
+    QCOMPARE(sound.radius(), 10000.0f);
+    QCOMPARE(sound.duration(), 0.0);
+}
+
+void SoundTest::testIsValid()
+{
 }
 
 void SoundTest::testIsPlaying()
 {
-    Sound sound;
-    QCOMPARE(sound.isPlaying(), false);
 }
 
 void SoundTest::testIsLooping()
 {
-    Sound sound;
-    QCOMPARE(sound.isLooping(), false);
 }
 
 void SoundTest::testVolume()
