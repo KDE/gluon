@@ -33,6 +33,23 @@ GluonObjectTest::~GluonObjectTest()
 {
 }
 
+void GluonObjectTest::testAddChild()
+{
+    GluonObject parentObject;
+    GluonObject childObject;
+    parentObject.addChild(&childObject);
+    QCOMPARE(1, parentObject.children().count());
+    QCOMPARE(&childObject, parentObject.children().at(0));
+}
+
+void GluonObjectTest::testChildAt()
+{
+    GluonObject parentObject("ParentObject");
+    GluonObject childObject("ChildObject");
+    parentObject.addChild(&childObject);
+    QCOMPARE(&childObject, parentObject.child(0));
+}
+
 void GluonObjectTest::testName()
 {
     GluonObject gluonObject;

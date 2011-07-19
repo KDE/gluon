@@ -30,6 +30,8 @@ public:
     virtual ~GluonObjectTest();
 
 private Q_SLOTS:
+    void testAddChild();
+    void testChildAt();
     void testName();
 };
 
