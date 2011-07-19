@@ -12,26 +12,26 @@ include_directories(
     ${GLUON_CORE_INCLUDES}
 )
 
-MACRO(GLUONCORE_UNIT_TESTS)
-       FOREACH(testname ${ARGN})
-               qt4_automoc(${testname}.cpp)
-               add_executable("gluoncore-${testname}" ${testname}.cpp)
-               target_link_libraries("gluoncore-${testname}" ${GLUON_CORE_LIBS} ${QT_QTTEST_LIBRARY})
-               add_test("gluoncore-${testname}" gluoncore-${testname})
-               if(WINCE)
-                target_link_libraries("gluoncore-${testname}" ${WCECOMPAT_LIBRARIES})
-               endif(WINCE)
-       ENDFOREACH(testname)
+MACRO(GLUONCORE_UNIT_TESTS modulename)
+    FOREACH(testname ${ARGN})
+        qt4_automoc(${testname}.cpp)
+        add_executable("${modulename}-${testname}" ${testname}.cpp)
+        target_link_libraries("${modulename}-${testname}" ${GLUON_CORE_LIBS} ${QT_QTTEST_LIBRARY})
+        add_test("${modulename}-${testname}" ${modulename}-${testname})
+        if(WINCE)
+            target_link_libraries("${modulename}-${testname}" ${WCECOMPAT_LIBRARIES})
+        endif(WINCE)
+    ENDFOREACH(testname)
 ENDMACRO(GLUONCORE_UNIT_TESTS)
 MACRO(GLUONCORE_EXECUTABLE_TESTS)
-       FOREACH(testname ${ARGN})
-               qt4_automoc(${testname}.cpp)
-               add_executable("gluoncore-${testname}" ${testname}.cpp)
-               target_link_libraries("gluoncore-${testname}" ${GLUON_CORE_LIBS} ${QT_QTTEST_LIBRARY})
-               if(WINCE)
-                target_link_libraries("gluoncore-${testname}" ${WCECOMPAT_LIBRARIES})
-               endif(WINCE)
-       ENDFOREACH(testname)
+    FOREACH(testname ${ARGN})
+        qt4_automoc(${testname}.cpp)
+        add_executable("${modulename}-${testname}" ${testname}.cpp)
+        target_link_libraries("${modulename}-${testname}" ${GLUON_CORE_LIBS} ${QT_QTTEST_LIBRARY})
+        if(WINCE)
+            target_link_libraries("${modulename}-${testname}" ${WCECOMPAT_LIBRARIES})
+        endif(WINCE)
+    ENDFOREACH(testname)
 ENDMACRO(GLUONCORE_EXECUTABLE_TESTS)
 
 enable_testing()
@@ -53,5 +53,6 @@ target_link_libraries(GluonCoreTest GluonCore ${QT_QTTEST_LIBRARY} ${GLUON_CORE_
 ########### next target ###############
 
 GLUONCORE_UNIT_TESTS(
+    gluoncore # modulename argument
     gluonobjecttest
 )
