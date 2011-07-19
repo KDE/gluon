@@ -248,3 +248,8 @@ install(
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/qt
     COMPONENT Devel
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()

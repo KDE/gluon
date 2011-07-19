@@ -24,8 +24,6 @@ MACRO(GLUONINPUT_EXECUTABLE_TESTS modulename)
     ENDFOREACH(testname)
 ENDMACRO(GLUONINPUT_EXECUTABLE_TESTS)
 
-enable_testing()
-
 ########### next target ###############
 
 GLUONINPUT_UNIT_TESTS(

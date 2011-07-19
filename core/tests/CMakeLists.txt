@@ -34,8 +34,6 @@ MACRO(GLUON_EXECUTABLE_TESTS)
     ENDFOREACH(testname)
 ENDMACRO(GLUON_EXECUTABLE_TESTS)
 
-enable_testing()
-
 set(GluonCoreTest_SRCS
     main.cpp
     testgluoncore.cpp
@@ -51,9 +49,11 @@ add_executable(GluonCoreTest ${GluonCoreTest_SRCS})
 target_link_libraries(GluonCoreTest GluonCore ${QT_QTTEST_LIBRARY} ${GLUON_CORE_LIBS})
 
 ########### next target ###############
+
 #Set the library variable that is needed for the testing
 set(GLUON_TEST_LIBS ${GLUON_CORE_LIBS})
+
 GLUON_UNIT_TESTS(
-    gluoncore # modulename argument
+    "gluoncore" # modulename argument
     gluonobjecttest
 )

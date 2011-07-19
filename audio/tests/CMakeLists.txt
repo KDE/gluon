@@ -24,8 +24,6 @@ MACRO(GLUONAUDIO_EXECUTABLE_TESTS)
     ENDFOREACH(testname)
 ENDMACRO(GLUONAUDIO_EXECUTABLE_TESTS)
 
-enable_testing()
-
 ########### next target ###############
 
 GLUONAUDIO_UNIT_TESTS(

@@ -19,6 +19,7 @@ option(BUILD_GLUON_PLAYER "Build Gluon Player Application" ON)
 option(BUILD_PLASMOID "Build Gluon Player Plasmoid" ON)
 option(BUILD_GLUON_CREATOR "Build Gluon Creator Application" ON)
 option(BUILD_GLUON_CREATOR_VCS "Build Version Control System support for the Gluon Creator" OFF)
+option(BUILD_GLUON_TESTS "Build Unit Tests for the Gluon libraries and applications" ON)
 option(INSTALL_EXAMPLES "Install the game examples for Gluon Player" ON)
 
 if(CMAKE_INSTALL_PREFIX STREQUAL "/usr")
@@ -75,21 +76,22 @@ endif()
 
 ####### Gluon Core ########
 add_subdirectory(core)
-add_subdirectory(core/tests)
+
 ####### Gluon Audio #######
 if(BUILD_GLUON_AUDIO)
     add_subdirectory(audio)
-    add_subdirectory(audio/tests)
 endif()
+
 ####### Gluon Input #######
 if(BUILD_GLUON_INPUT)
     add_subdirectory(input)
-    add_subdirectory(input/tests)
 endif()
+
 ###### Gluon Graphics #####
 if(BUILD_GLUON_GRAPHICS)
     add_subdirectory(graphics)
 endif()
+
 ###### Gluon Engine #######
 if(BUILD_GLUON_ENGINE)
     add_subdirectory(engine)

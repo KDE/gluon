@@ -114,3 +114,9 @@ install(
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/audio
     COMPONENT Devel
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+
