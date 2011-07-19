@@ -12,8 +12,6 @@ include_directories(
     ${GLUON_CORE_INCLUDES}
 )
 
-add_definitions(${QT_DEFINITIONS})
-
 MACRO(GLUONCORE_UNIT_TESTS)
        FOREACH(testname ${ARGN})
                qt4_automoc(${testname}.cpp)

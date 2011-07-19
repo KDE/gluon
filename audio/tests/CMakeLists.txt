@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 2.8)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} ${GLUON_AUDIO_INCLUDES})
 
-add_definitions(${QT_DEFINITIONS})
-
 MACRO(GLUONAUDIO_UNIT_TESTS)
        FOREACH(testname ${ARGN})
                qt4_automoc(${testname}.cpp)
