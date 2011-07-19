@@ -29,10 +29,9 @@ target_link_libraries(GluonCoreTest GluonCore ${QT_QTTEST_LIBRARY} ${GLUON_CORE_
 
 ########### next target ###############
 
-#Set the library variable that is needed for the testing
-set(GLUON_TEST_LIBS ${GLUON_CORE_LIBS})
-
 GLUON_UNIT_TESTS(
-    "gluoncore" # modulename argument
+    "${GLUON_CORE_LIBS}"    # libraries arguement
+    "gluoncore"             # modulename argument
+    # Source files without the extension
     gluonobjecttest
 )

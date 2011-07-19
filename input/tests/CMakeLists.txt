@@ -7,10 +7,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} ${GL
 
 ########### next target ###############
 
-#Set the library variable that is needed for the testing
-set(GLUON_TEST_LIBS ${GLUON_INPUT_LIBS})
-
 GLUON_UNIT_TESTS(
-    "gluoninput" # modulename argument
+    "${GLUON_INPUT_LIBS}"   # libraries arguement
+    "gluoninput"            # modulename argument
+    # Source files without the extension
     inputbuffertest
 )
