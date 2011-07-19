@@ -155,10 +155,15 @@ namespace GluonAudio
             ALfloat pitch() const;
 
             /**
-             *
+             * @return the file radius currently applied
+             * @see setRadius
              */
             ALfloat radius() const;
 
+            /**
+            * @return the file sound duration in seconds
+            */
+            double duration() const;
             //ALfloat duration() const;
 
         public Q_SLOTS:
@@ -267,13 +272,6 @@ namespace GluonAudio
             * @see duration()
             */
             void setTimePosition( ALfloat time );
-
-            //void setRadius(float radius);
-
-            /**
-            * @return the file sound duration in seconds
-            */
-            double duration() const;
 
         Q_SIGNALS:
             void played();

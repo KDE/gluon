@@ -280,6 +280,15 @@ ALfloat Sound::radius() const
     return d->radius;
 }
 
+double Sound::duration() const
+{
+    if( !d->isValid )
+    {
+        return 0;
+    }
+    return d->duration;
+}
+
 void Sound::setPosition( ALfloat x, ALfloat y, ALfloat z )
 {
     setPosition( QVector3D( x, y, z ) );
@@ -408,15 +417,6 @@ void Sound::setTimePosition( ALfloat time )
 {
     alSourcef( d->source, AL_SEC_OFFSET, time );
 
-}
-
-double Sound::duration() const
-{
-    if( !d->isValid )
-    {
-        return 0;
-    }
-    return d->duration;
 }
 
 #include "sound.moc"
