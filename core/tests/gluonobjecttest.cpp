@@ -57,6 +57,25 @@ void GluonObjectTest::testName()
     QCOMPARE(gluonObject.name(), QString("GluonObjectTest"));
 }
 
+void GluonObjectTest::testSupportedMimeTypes()
+{
+    GluonObject gluonObject;
+    QCOMPARE(gluonObject.supportedMimeTypes(), QStringList());
+}
+
+void GluonObjectTest::testMetaInfo()
+{
+    GluonObject gluonObject;
+    QVERIFY2(gluonObject.metaInfo() != 0, "The meta info has not been created \
+                                            successfully!");
+}
+
+void GluonObjectTest::testHasMetaInfo()
+{
+    GluonObject gluonObject;
+    QCOMPARE(gluonObject.hasMetaInfo(), false);
+}
+
 QTEST_MAIN(GluonObjectTest)
 
 #include "gluonobjecttest.moc"

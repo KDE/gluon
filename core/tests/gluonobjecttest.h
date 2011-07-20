@@ -33,6 +33,9 @@ private Q_SLOTS:
     void testAddChild();
     void testChildAt();
     void testName();
+    void testSupportedMimeTypes();
+    void testMetaInfo();
+    void testHasMetaInfo();
 };
 
 #endif // GLUON_CORE_GLUONOBJECTTEST_H
