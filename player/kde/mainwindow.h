@@ -17,9 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
-#ifndef GLUONKDEPLAYER_MAINWINDOW_H
-#define GLUONKDEPLAYER_MAINWINDOW_H
+#ifndef GLUON_KDEPLAYER_MAINWINDOW_H
+#define GLUON_KDEPLAYER_MAINWINDOW_H
 
 #include <core/gluon_global.h>
 
@@ -37,6 +36,7 @@ namespace GluonPlayer
     class MainWindow: public KMainWindow
     {
             Q_OBJECT
+
         public:
             explicit MainWindow( const QString& fileName = "" );
             virtual ~MainWindow();
@@ -60,5 +60,5 @@ namespace GluonPlayer
     };
 }
 
-#endif // GLUONKDEPLAYER_MAINWINDOW_H
+#endif // GLUON_KDEPLAYER_MAINWINDOW_H
 

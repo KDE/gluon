@@ -1,33 +1,33 @@
-/*****************************************************************************
- * This file is part of the Gluon Development Platform                       
- * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>                      
- *                                                                           
- * This program is free software; you can redistribute it and/or modify      
- * it under the terms of the GNU General Public License as published by     
- * the Free Software Foundation; either version 2 of the License, or         
- * (at your option) any later version.                                       
- *                                                                           
- * This program is distributed in the hope that it will be useful,           
+/************************************************************************
+ * This file is part of the Gluon Development Platform
+ * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
+ *      
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *           
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of            
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             
- * GNU General Public License for more details.                              
- *                                                                           
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *                              
  * You should have received a copy of the GNU General Public License along   
- * with this program; if not, write to the Free Software Foundation, Inc.,   
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.               
- *****************************************************************************/
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
 
-#ifndef GLUONKDEPLAYER_MAINWINDOW_H
-#define GLUONKDEPLAYER_MAINWINDOW_H
+#ifndef GLUON KDEEXTPLAYER_MAINWINDOW_H
+#define GLUON_KDEEXTPLAYER_MAINWINDOW_H
 
 #include "loginform.h"
 
 #include "gamesoverlay.h"
 #include "gamedetailsoverlay.h"
 
-#include <core/gluon_global.h>
-#include <graphics/engine.h>
 #include <engine/gameproject.h>
+#include <graphics/engine.h>
+#include <core/gluon_global.h>
 
 #include <KDE/KXmlGuiWindow>
 #include <KDE/KApplication>
@@ -49,6 +49,7 @@ namespace GluonKDEPlayer
     class MainWindow: public KXmlGuiWindow
     {
             Q_OBJECT
+
         public:
             explicit MainWindow( const QString& fileName = "" );
             virtual ~MainWindow();
@@ -96,5 +97,5 @@ namespace GluonKDEPlayer
     };
 }
 
-#endif // GLUONKDEPLAYER_MAINWINDOW_H
+#endif // GLUON_KDEEXTPLAYER_MAINWINDOW_H
 

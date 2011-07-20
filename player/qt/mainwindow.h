@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_MAINWINDOW_H
-#define GLUONPLAYER_MAINWINDOW_H
+#ifndef GLUON_QTPLAYER_MAINWINDOW_H
+#define GLUON_QTPLAYER_MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
 
@@ -51,4 +51,4 @@ namespace GluonPlayer
     };
 }
 
-#endif // GLUONPLAYER_MAINWINDOW_H
+#endif // GLUON_QTPLAYER_MAINWINDOW_H
