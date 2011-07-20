@@ -58,6 +58,7 @@ add_definitions(-DMAKE_BT_LIB)
 
 qt4_automoc(${btlib_SRCS})
 
+
 if(APPLE)
 	#add_executable(btlib ${btlib_SRCS} ${btlib_HEADERS})
 	add_library(btlib SHARED ${btlib_SRCS} ${btlib_HEADERS})#${btlib_UIS_H})
@@ -79,10 +80,14 @@ endif()
 
 target_link_libraries(btlib ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY})
 
-install(TARGETS btlib DESTINATION ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX})
+install(
+  TARGETS btlib 
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}
+  )
 
-set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include/gluon/smarts)
+set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/gluon/smarts)
 
 install(FILES
 ${btlib_HEADERS}
-DESTINATION ${INCLUDE_INSTALL_DIR}/ COMPONENT Devel)
+DESTINATION ${INCLUDE_INSTALL_DIR}/
+COMPONENT Devel)

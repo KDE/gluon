@@ -89,6 +89,12 @@ endif()
 if(BUILD_GLUON_GRAPHICS)
     add_subdirectory(graphics)
 endif()
+
+####### SMARTS Library #######
+if(BUILD_GLUON_SMARTS)
+     add_subdirectory(smarts)
+endif()
+
 ###### Gluon Engine #######
 if(BUILD_GLUON_ENGINE)
     add_subdirectory(engine)
@@ -124,10 +130,6 @@ if(BUILD_GLUON_CREATOR)
     add_subdirectory(creator)
 endif(BUILD_GLUON_CREATOR)
 
-####### SMARTS Library #######
-if(BUILD_GLUON_SMARTS)
-     add_subdirectory(smarts)
-endif()
 
 
 message(STATUS)
