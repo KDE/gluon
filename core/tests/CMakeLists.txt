@@ -32,6 +32,8 @@ target_link_libraries(GluonCoreTest GluonCore ${QT_QTTEST_LIBRARY} ${GLUON_CORE_
 GLUON_UNIT_TESTS(
     "${GLUON_CORE_LIBS}"    # libraries arguement
     "gluoncore"             # modulename argument
+
     # Source files without the extension
     gluonobjecttest
+    metainfotest
 )
