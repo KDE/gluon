@@ -52,6 +52,10 @@ Item {
             PropertyChanges { }
         },
 
+        State { name: "achievements"; when: statepoint == "achievements"
+            PropertyChanges { }
+        },
+
         State { name: "other"; when: statepoint == "other" }
     ]
 
@@ -138,6 +142,18 @@ Item {
             height: parent.height;
             width: parent.width;
             visible: statepoint == "comments";
+        }
+    }
+
+    Flickable {
+        id: flickAchievementsPage;
+        contentWidth: parent.width;
+        contentHeight: parent.height;
+        Achievements {
+            id: achievementsPage;
+            height: parent.height;
+            width: parent.width;
+            visible: statepoint == "achievements";
         }
     }
 

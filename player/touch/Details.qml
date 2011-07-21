@@ -87,7 +87,7 @@ Rectangle {
         }
    }
 
-    Button {
+   Button {
         id: play_game_btn;
         height: parent.height * 1 / 5 - 10;
         icon: "icons/media-playback-start.png";
@@ -154,7 +154,7 @@ Rectangle {
         }
 
         onClicked: {
-            console.log("this doesn't do anything yet...");
+            mainview.statepoint = "achievements";
         }
     }
 
