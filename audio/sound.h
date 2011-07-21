@@ -105,12 +105,6 @@ namespace GluonAudio
             ALint status() const;
 
             /**
-             * Returns true if it is currently in initial state before the first
-             * play; otherwise returns false if it is currently playing, paused
-             */
-            bool isInitial() const;
-
-            /**
              * Returns true if it is currently playing; otherwise returns false
              * if it is currently stopped or paused
              */

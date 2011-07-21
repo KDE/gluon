@@ -36,7 +36,7 @@ class Sound::SoundPrivate
         SoundPrivate()
             : isValid(false)
             , isStreamed(false)
-            , status(INITIAL)
+            , status(STOPPED)
             , isLooping(false)
             , stream(0)
             , source(0)
@@ -222,11 +222,6 @@ ALint Sound::status() const
 bool Sound::isLooping() const
 {
     return d->isLooping;
-}
-
-bool Sound::isInitial() const
-{
-    return d->status == INITIAL;
 }
 
 bool Sound::isPlaying() const
