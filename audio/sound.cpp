@@ -36,8 +36,7 @@ class Sound::SoundPrivate
         SoundPrivate()
             : isValid(false)
             , isStreamed(false)
-            , isPaused(false)
-            , isStopped(true)
+            , status(INITIAL)
             , isLooping(false)
             , stream(0)
             , source(0)
@@ -100,7 +99,7 @@ class Sound::SoundPrivate
                 source = 0;
             }
             isValid = false;
-            isStopped = true;
+            status = STOPPED;
             if( isStreamed )
             {
                 alureDestroyStream( stream, 0, 0 );
@@ -112,9 +111,8 @@ class Sound::SoundPrivate
 
         bool isValid;
         bool isStreamed;
-        bool isPaused;
-        bool isStopped;
         bool isLooping;
+        Status status;
         alureStream* stream;
         ALuint source;
         QVector3D position;
@@ -226,14 +224,24 @@ bool Sound::isLooping() const
     return d->isLooping;
 }
 
-bool Sound::isPaused() const
+bool Sound::isInitial() const
 {
-    return !d->isPaused;
+    return d->status == INITIAL;
 }
 
 bool Sound::isPlaying() const
 {
-    return !d->isStopped;
+    return d->status == PLAYING;
+}
+
+bool Sound::isPaused() const
+{
+    return d->status == PAUSED;
+}
+
+bool Sound::isStopped() const
+{
+    return d->status == STOPPED;
 }
 
 void Sound::setLoop( bool enabled )
@@ -331,7 +339,7 @@ void Sound::callbackStopped( void* object, ALuint source )
 
 void Sound::cbStop()
 {
-    d->isStopped = true;
+    d->status = STOPPED;
     if( d->isLooping )
     {
         play();
@@ -344,12 +352,11 @@ void Sound::cbStop()
 
 void Sound::play()
 {
-    if( d->isPaused )
+    if( isPaused() )
     {
         alureResumeSource( d->source );
     }
-
-    if( !d->isStopped )
+    else if( isPlaying() )
     {
         stop();
     }
@@ -363,7 +370,7 @@ void Sound::play()
     {
         alurePlaySource( d->source, callbackStopped, this );
     }
-    d->isStopped = false;
+    d->status = PLAYING;
     d->newError( "Playing " + d->path + " failed" );
     emit played();
 }
@@ -371,7 +378,7 @@ void Sound::play()
 void Sound::pause()
 {
     alurePauseSource( d->source );
-    d->isPaused = true;
+    d->status = PAUSED;
     d->newError( "Pausing " + d->path + " failed" );
     emit paused();
 }
@@ -379,7 +386,7 @@ void Sound::pause()
 void Sound::stop()
 {
     alureStopSource( d->source, false );
-    d->isStopped = true;
+    d->status = STOPPED;
     d->newError( "Stopping " + d->path + " failed" );
 }
 

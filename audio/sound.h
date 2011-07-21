@@ -35,6 +35,13 @@ namespace GluonAudio
             Q_OBJECT
 
         public:
+            enum Status {
+                INITIAL,
+                PLAYING,
+                PAUSED,
+                STOPPED,
+            };
+
             /**
             * Constructs an empty, invalid Sound object
             * @see isValid, load
@@ -98,16 +105,28 @@ namespace GluonAudio
             ALint status() const;
 
             /**
-             * Returns true if it is currently paused; otherwise returns false
-             * if it is currently playing or stopped
+             * Returns true if it is currently in initial state before the first
+             * play; otherwise returns false if it is currently playing, paused
              */
-            bool isPaused() const;
+            bool isInitial() const;
 
             /**
              * Returns true if it is currently playing; otherwise returns false
              * if it is currently stopped or paused
              */
             bool isPlaying() const;
+
+            /**
+             * Returns true if it is currently paused; otherwise returns false
+             * if it is currently playing or stopped
+             */
+            bool isPaused() const;
+
+            /**
+             * Returns true if it is currently stopped; otherwise returns false
+             * if it is currently playing or paused
+             */
+            bool isStopped() const;
 
             /**
             * Returns true if the sound was set to loop, false otherwise.
