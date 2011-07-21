@@ -32,6 +32,7 @@ public:
 private Q_SLOTS:
     void testAddChild();
     void testChildAt();
+    void testChildByName();
     void testName();
     void testSupportedMimeTypes();
     void testRemoveChild();

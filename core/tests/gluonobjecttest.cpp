@@ -50,6 +50,14 @@ void GluonObjectTest::testChildAt()
     QCOMPARE(&childObject, parentObject.child(0));
 }
 
+void GluonObjectTest::testChildByName()
+{
+    GluonObject parentObject("ParentObject");
+    GluonObject childObject("ChildObject");
+    parentObject.addChild(&childObject);
+    QCOMPARE(&childObject, parentObject.child("ChildObject"));
+}
+
 void GluonObjectTest::testName()
 {
     GluonObject gluonObject;
@@ -78,7 +86,7 @@ void GluonObjectTest::testMetaInfo()
 {
     GluonObject gluonObject;
     QVERIFY2(gluonObject.metaInfo() != 0, "The meta info has not been created \
-                                            successfully!");
+             successfully!");
 }
 
 void GluonObjectTest::testHasMetaInfo()
