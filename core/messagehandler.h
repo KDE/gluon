@@ -25,6 +25,7 @@
 #include "singleton.h"
 
 class QScriptValue;
+
 namespace GluonCore
 {
     class GluonObject;
@@ -51,6 +52,7 @@ namespace GluonCore
              * \param receiver The object to receive the message.
              */
             Q_INVOKABLE void subscribe( const QString& message, GluonObject* receiver );
+
             /**
              * Subscribe to a message.
              * This overload is meant to be called from script. call()

@@ -12,4 +12,5 @@ GLUON_UNIT_TESTS(
     "gluoninput"            # modulename argument
     # Source files without the extension
     inputbuffertest
+    inputdevicetest
 )

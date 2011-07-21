@@ -38,7 +38,7 @@ void GluonObjectTest::testAddChild()
     GluonObject parentObject;
     GluonObject childObject;
     parentObject.addChild(&childObject);
-    QCOMPARE(1, parentObject.children().count());
+    QCOMPARE(parentObject.children().count(), 1);
     QCOMPARE(&childObject, parentObject.children().at(0));
 }
 
@@ -63,6 +63,17 @@ void GluonObjectTest::testSupportedMimeTypes()
     QCOMPARE(gluonObject.supportedMimeTypes(), QStringList());
 }
 
+void GluonObjectTest::testRemoveChild()
+{
+    GluonObject parentObject("ParentObject");
+    GluonObject childObject("ChildObject");
+    parentObject.addChild(&childObject);
+    QCOMPARE(parentObject.children().count(), 1);
+    QCOMPARE(&childObject, parentObject.children().at(0));
+    parentObject.removeChild(&childObject);
+    QCOMPARE(parentObject.children().isEmpty(), true);
+}
+
 void GluonObjectTest::testMetaInfo()
 {
     GluonObject gluonObject;
@@ -74,6 +85,12 @@ void GluonObjectTest::testHasMetaInfo()
 {
     GluonObject gluonObject;
     QCOMPARE(gluonObject.hasMetaInfo(), false);
+}
+
+void GluonObjectTest::testShouldSerializeChildren()
+{
+    GluonObject gluonObject;
+    QCOMPARE(gluonObject.shouldSerializeChildren(), true);
 }
 
 QTEST_MAIN(GluonObjectTest)

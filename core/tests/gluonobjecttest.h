@@ -34,8 +34,10 @@ private Q_SLOTS:
     void testChildAt();
     void testName();
     void testSupportedMimeTypes();
+    void testRemoveChild();
     void testMetaInfo();
     void testHasMetaInfo();
+    void testShouldSerializeChildren();
 };
 
 #endif // GLUON_CORE_GLUONOBJECTTEST_H

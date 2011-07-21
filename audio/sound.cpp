@@ -226,6 +226,11 @@ bool Sound::isLooping() const
     return d->isLooping;
 }
 
+bool Sound::isPaused() const
+{
+    return !d->isPaused;
+}
+
 bool Sound::isPlaying() const
 {
     return !d->isStopped;

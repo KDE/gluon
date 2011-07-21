@@ -20,9 +20,9 @@
 
 #include "directoryprovider.h"
 
-#include <QtCore/QDir>
 #include <QtGui/QDesktopServices>
 #include <QtCore/QCoreApplication>
+#include <QtCore/QDir>
 
 using namespace GluonCore;
 

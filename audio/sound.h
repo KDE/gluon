@@ -98,8 +98,15 @@ namespace GluonAudio
             ALint status() const;
 
             /**
-            * @return true if the sound is currently being played, false otherwise
-            */
+             * Returns true if it is currently paused; otherwise returns false
+             * if it is currently playing or stopped
+             */
+            bool isPaused() const;
+
+            /**
+             * Returns true if it is currently playing; otherwise returns false
+             * if it is currently stopped or paused
+             */
             bool isPlaying() const;
 
             /**
