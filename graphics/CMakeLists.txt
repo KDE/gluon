@@ -8,7 +8,7 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 if(WIN32)
-    find_package(GLEE)
+    find_package(Glee)
     if(NOT GLEE_FOUND)
         message(FATAL_ERROR "Could NOT find GLee!")
     endif(NOT GLEE_FOUND)

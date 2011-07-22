@@ -23,7 +23,7 @@
 #include <QtCore/QtGlobal>
 #ifdef Q_OS_WIN
 #include <windows.h>
-#include <GL/glee.h>
+#include <GL/GLee.h>
 #elif defined(Q_WS_MAC)
 #include <OpenGL/gl.h>
 #include <OpenGL/glext.h>

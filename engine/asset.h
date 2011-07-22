@@ -26,7 +26,7 @@
 #include <core/gluonobject.h>
 #include <core/referencecounter.h>
 
-#include <QtPlugin>
+#include <QtCore/QtPlugin>
 #include <QtGui/QIcon>
 #include <QtCore/QUrl>
 #include <QtCore/QMimeData>
