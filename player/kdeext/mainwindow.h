@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef GLUON KDEEXTPLAYER_MAINWINDOW_H
+#ifndef GLUON_KDEEXTPLAYER_MAINWINDOW_H
 #define GLUON_KDEEXTPLAYER_MAINWINDOW_H
 
 #include "loginform.h"
