@@ -20,7 +20,7 @@
 #include "renderablescene.h"
 
 #ifdef Q_OS_WIN
-#include <GL/glee.h>
+#include <GL/GLee.h>
 #endif
 
 #include <input/inputmanager.h>

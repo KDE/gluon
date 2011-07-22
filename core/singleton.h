@@ -150,7 +150,7 @@ namespace GluonCore
 }
 
 
-#ifdef Q_OS_WIN
+#ifdef Q_CC_MSVC
 #define GLUON_DEFINE_SINGLETON(Type)\
     template<> Type* GluonCore::Singleton<Type>::sm_instance = 0;\
     template<> QBasicAtomicPointer<QMutex> GluonCore::Singleton<Type>::sm_mutex = Q_BASIC_ATOMIC_INITIALIZER(0);\
