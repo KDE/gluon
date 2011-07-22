@@ -101,6 +101,26 @@ void GluonObjectTest::testShouldSerializeChildren()
     QCOMPARE(gluonObject.shouldSerializeChildren(), true);
 }
 
+void GluonObjectTest::testqualifiedname()
+{
+    GluonObject gluonObject1("GluonObject1");
+    GluonObject gluonObject2("GluonObject2");
+    GluonObject gluonObject3("GluonObject3");
+    gluonObject1.addChild(&gluonObject2);
+    gluonObject2.addChild(&gluonObject3);
+    QCOMPARE(gluonObject1.qualifiedName(&gluonObject3), QString("GluonObject1"));
+    QCOMPARE(gluonObject2.qualifiedName(&gluonObject3), QString("GluonObject1/GluonObject2"));
+    QCOMPARE(gluonObject3.qualifiedName(&gluonObject3), QString("GluonObject1/GluonObject2/GluonObject3"));
+}
+
+void GluonObjectTest::testfullyqualifiedname()
+{
+    GluonObject parentObject("ParentObject");
+    GluonObject childObject("ChildObject");
+    parentObject.addChild(&childObject);
+    QCOMPARE(childObject.fullyQualifiedName(), QString("ParentObject/ChildObject"));
+}
+
 QTEST_MAIN(GluonObjectTest)
 
 #include "gluonobjecttest.moc"

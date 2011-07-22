@@ -39,6 +39,8 @@ private Q_SLOTS:
     void testMetaInfo();
     void testHasMetaInfo();
     void testShouldSerializeChildren();
+    void testqualifiedname();
+    void testfullyqualifiedname();
 };
 
 #endif // GLUON_CORE_GLUONOBJECTTEST_H
