@@ -215,7 +215,7 @@ set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An open framework to create, distribute a
 set(CPACK_PACKAGE_NAME "Gluon")
 set(CPACK_PACKAGE_VERSION "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}")
 set(CPACK_PACKAGE_FILE_NAME "Gluon-${GLUON_VERSION_STRING}")
-set(CPACK_GENERATOR "RPM;DEB;TGZ")
+set(CPACK_GENERATOR "RPM;DEB;TGZ;NSIS")
 set(CPACK_PACKAGE_CONTACT "Laszlo Papp <lpapp@kde.org>, Arjen Hiemstra <ahiemstra@heimr.nl>")
 
 #debian package generation
@@ -224,6 +224,16 @@ set(CPACK_DEBIAN_PACKAGE_SECTION "Games")
 
 #rpm package generation
 #set(CPACK_RPM_PACKAGE_REQUIRES "libqt-devel (>= 4.7.1), libsndfile")
+
+#Windows NSIS
+#set(CPACK_NSIS_MUI_ICON "installer.ico")
+#set(CPACK_NSIS_MUI_UNIICON "uninstaller.ico")
+#set(CPACK_PACKAGE_ICON "installer.bmp")
+#set(CPACK_NSIS_COMPRESSOR "/SOLID lzma")
+#set(CPACK_NSIS_INSTALLED_ICON_NAME "")
+set(CPACK_NSIS_HELP_LINK "http://gluon.gamingfreedom.org/about-gluon/contact")
+set(CPACK_NSIS_URL_INFO_ABOUT "http://gluon.gamingfreedom.org/")
+set(CPACK_NSIS_CONTACT "gluon@kde.org")
 
 include(InstallRequiredSystemLibraries)
 include(CPack)
