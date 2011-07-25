@@ -56,6 +56,7 @@ void GluonObjectTest::testChildByName()
     GluonObject childObject("ChildObject");
     parentObject.addChild(&childObject);
     QCOMPARE(&childObject, parentObject.child("ChildObject"));
+    QCOMPARE(&childObject, parentObject.findItemByName("ChildObject"));
 }
 
 void GluonObjectTest::testName()
@@ -101,7 +102,7 @@ void GluonObjectTest::testShouldSerializeChildren()
     QCOMPARE(gluonObject.shouldSerializeChildren(), true);
 }
 
-void GluonObjectTest::testqualifiedname()
+void GluonObjectTest::testQualifiedname()
 {
     GluonObject gluonObject1("GluonObject1");
     GluonObject gluonObject2("GluonObject2");
@@ -113,12 +114,18 @@ void GluonObjectTest::testqualifiedname()
     QCOMPARE(gluonObject3.qualifiedName(&gluonObject3), QString("GluonObject1/GluonObject2/GluonObject3"));
 }
 
-void GluonObjectTest::testfullyqualifiedname()
+void GluonObjectTest::testFullyqualifiedname()
 {
     GluonObject parentObject("ParentObject");
     GluonObject childObject("ChildObject");
     parentObject.addChild(&childObject);
     QCOMPARE(childObject.fullyQualifiedName(), QString("ParentObject/ChildObject"));
+}
+
+void GluonObjectTest::testNameToObjectName()
+{
+    GluonObject gluonObject;
+    QCOMPARE(gluonObject.nameToObjectName("@GluonObject&"),QString("GluonObject"));
 }
 
 QTEST_MAIN(GluonObjectTest)
