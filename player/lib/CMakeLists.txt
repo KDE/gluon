@@ -70,7 +70,7 @@ install(FILES
     authentication.h
 
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib
-    COMPONENT Devel
+    COMPONENT gluonplayer
 )
 
 install(FILES
@@ -78,5 +78,5 @@ install(FILES
     models/gameitemsmodel.h
     models/highscoresmodel.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib/models
-    COMPONENT Devel
+    COMPONENT gluonplayer
 )

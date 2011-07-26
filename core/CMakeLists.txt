@@ -115,7 +115,7 @@ install(
     FILES
     ${GluonCore_HEADERS}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/core
-    COMPONENT Devel
+    COMPONENT gluoncore
 )
 
 if(BUILD_GLUON_TESTS)

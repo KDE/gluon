@@ -61,8 +61,12 @@ set(GLUON_CREATOR_LIBS
     CACHE INTERNAL "Libraries required for Gluon Creator"
 )
 
-install(TARGETS libGluonCreator RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIB_INSTALL_DIR} ARCHIVE DESTINATION ${LIB_INSTALL_DIR})
-
+install(
+    TARGETS libGluonCreator
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION ${LIB_INSTALL_DIR}
+    ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
+)
 
 install(FILES
     abstractundocommand.h
@@ -78,26 +82,30 @@ install(FILES
     propertychangedcommand.h
     selectionmanager.h
     toolplugin.h
+
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib
-    COMPONENT Devel
+    COMPONENT gluoncreator
 )
 
 install(FILES
     models/componentmodel.h
     models/projectmodel.h
     models/scenemodel.h
+
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib/models
-    COMPONENT Devel
+    COMPONENT gluoncreator
 )
 
 install(FILES
     widgets/propertywidget.h
+
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib/widgets
-    COMPONENT Devel
+    COMPONENT gluoncreator
 )
 
 install(FILES
     gluoncreator_plugin.desktop
+
     DESTINATION ${SERVICETYPES_INSTALL_DIR}
-    COMPONENT Devel
+    COMPONENT gluoncreator
 )

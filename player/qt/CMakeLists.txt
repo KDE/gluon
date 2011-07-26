@@ -51,8 +51,19 @@ endif()
 target_link_libraries(gluon_qtplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_INPUT_LIBS})
 
 if(NOT APPLE)
-    install(TARGETS gluon_qtplayer DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-    install(FILES gluon_qtplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
+    install(TARGETS
+        gluon_qtplayer
+
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+        COMPONENT gluonqtplayer
+    )
+
+    install(FILES
+        gluon_qtplayer.desktop
+
+        DESTINATION ${SHARE_INSTALL_DIR}/applications
+        COMPONENT gluonqtplayer
+    )
 
     if(NOT PLAYER_ICONS_INSTALLED)
         add_subdirectory(../icons icons)
