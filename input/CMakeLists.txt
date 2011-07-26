@@ -217,7 +217,7 @@ if(APPLE)
         ${GluonInput_HEADERS_COMMON}
         ${GluonInput_HEADERS_MAC}
         DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/input
-        COMPONENT Devel
+        COMPONENT gluoninput
     )
 elseif(WIN32)
     install(
@@ -225,7 +225,7 @@ elseif(WIN32)
         ${GluonInput_HEADERS_COMMON}
         ${GluonInput_HEADERS_WIN}
         DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/input
-        COMPONENT Devel
+        COMPONENT gluoninput
     )
 elseif(UNIX)
     install(
@@ -233,7 +233,7 @@ elseif(UNIX)
         ${GluonInput_HEADERS_COMMON}
         ${GluonInput_HEADERS_LINUX}
         DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/input
-        COMPONENT Devel
+        COMPONENT gluoninput
     )
 endif()
 
@@ -246,7 +246,7 @@ install(
     ${GluonInput_HEADERS_COMMON}
     ${GluonInput_HEADERS_QT}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/qt
-    COMPONENT Devel
+    COMPONENT gluoninput
 )
 
 if(BUILD_GLUON_TESTS)

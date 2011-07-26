@@ -143,5 +143,5 @@ install(
     FILES
     ${GluonEngine_HEADERS}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/engine
-    COMPONENT Devel
+    COMPONENT gluonengine
 )

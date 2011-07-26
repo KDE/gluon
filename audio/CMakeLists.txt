@@ -112,7 +112,7 @@ install(
     FILES
     ${GluonAudio_HEADERS}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/audio
-    COMPONENT Devel
+    COMPONENT gluonaudio
 )
 
 if(BUILD_GLUON_TESTS)

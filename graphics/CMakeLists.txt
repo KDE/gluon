@@ -149,7 +149,7 @@ install(
 install(FILES
     ${GluonGraphics_HEADERS}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics
-    COMPONENT Devel
+    COMPONENT gluongraphics
 )
 
 install(
