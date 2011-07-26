@@ -94,6 +94,8 @@ void GluonObjectTest::testHasMetaInfo()
 {
     GluonObject gluonObject;
     QCOMPARE(gluonObject.hasMetaInfo(), false);
+    gluonObject.metaInfo();
+    QCOMPARE(gluonObject.hasMetaInfo(), true);
 }
 
 void GluonObjectTest::testShouldSerializeChildren()
@@ -125,7 +127,7 @@ void GluonObjectTest::testFullyqualifiedname()
 void GluonObjectTest::testNameToObjectName()
 {
     GluonObject gluonObject;
-    QCOMPARE(gluonObject.nameToObjectName("@_Gluon Object1&"),QString("_GluonObject1"));
+    QCOMPARE(gluonObject.nameToObjectName("@_Gluon Object1&"), QString("_GluonObject1"));
 }
 
 QTEST_MAIN(GluonObjectTest)
