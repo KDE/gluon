@@ -125,7 +125,7 @@ void GluonObjectTest::testFullyqualifiedname()
 void GluonObjectTest::testNameToObjectName()
 {
     GluonObject gluonObject;
-    QCOMPARE(gluonObject.nameToObjectName("@GluonObject&"),QString("GluonObject"));
+    QCOMPARE(gluonObject.nameToObjectName("@_Gluon Object1&"),QString("_GluonObject1"));
 }
 
 QTEST_MAIN(GluonObjectTest)
