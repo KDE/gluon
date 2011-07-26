@@ -307,7 +307,19 @@ set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An open framework to create, distribute a
 set(CPACK_PACKAGE_FILE_NAME "Gluon-${GLUON_VERSION_STRING}")
 set(CPACK_GENERATOR "RPM;DEB;TGZ;NSIS")
 set(CPACK_PACKAGE_CONTACT "Laszlo Papp <lpapp@kde.org>, Arjen Hiemstra <ahiemstra@heimr.nl>")
-set(CPACK_RESOURCE_FILE_LICENSE "${Gluon_SOURCE_DIR}/COPYING")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING")
+SET(CPACK_SOURCE_IGNORE_FILES
+    "/\\\\.git/;
+    /\\\\.gitignore$;
+    /\\\\.reviewboardrc$;
+    /\\\\astylerc$;
+    /#;
+    \\\\.krazy$;
+    \\\\.swp$;
+    \\\\.#;
+    .*~;
+    cscope.*"
+)
 
 #debian package generation
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt4-gui (>= 4.6), libqt4-opengl (>= 4.6), libopenal1, libsndfile1, libgles2")

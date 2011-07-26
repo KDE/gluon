@@ -4,7 +4,7 @@ if(NOT GLUON_BUILD_ALL)
     project(GluonCoreTest)
 endif()
 
-set(CMAKE_MODULE_PATH ${Gluon_SOURCE_DIR}/cmake/)
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
 include(GluonMacros)
 
 include_directories(
