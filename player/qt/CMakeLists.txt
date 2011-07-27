@@ -54,7 +54,7 @@ if(NOT APPLE)
     install(TARGETS
         gluon_qtplayer
 
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+        DESTINATION ${BIN_INSTALL_DIR}
         COMPONENT gluonqtplayer
     )
 

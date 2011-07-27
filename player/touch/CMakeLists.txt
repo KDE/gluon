@@ -76,7 +76,7 @@ set(GLUON_DECLARATIVE_LIBS
 )
 
 if(NOT APPLE)
-    install(TARGETS gluon_qmlplayer DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+    install(TARGETS gluon_qmlplayer DESTINATION ${BIN_INSTALL_DIR})
     install(FILES gluon_qmlplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
 
     if(NOT PLAYER_ICONS_INSTALLED)
