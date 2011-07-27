@@ -54,6 +54,6 @@ endif()
 target_link_libraries(gluon_kdeplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_INPUT_LIBS} ${KDE4_KIO_LIBS})
 
 if(NOT APPLE)
-    install(TARGETS gluon_kdeplayer DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+    install(TARGETS gluon_kdeplayer DESTINATION ${BIN_INSTALL_DIR})
     install(FILES gluon_kdeplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
 endif()

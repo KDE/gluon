@@ -4,7 +4,7 @@ endif()
 
 include_directories(${GLUON_INPUT_INCLUDES})
 
-set(EXAMPLES_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/bin)
+set(EXAMPLES_INSTALL_DIR ${BIN_INSTALL_DIR})
 
 add_subdirectory(devicesloop)
 add_subdirectory(keyboardloop)

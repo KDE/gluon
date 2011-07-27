@@ -4,7 +4,7 @@ endif()
 
 include_directories(${GLUON_AUDIO_INCLUDES})
 
-set(EXAMPLES_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/bin)
+set(EXAMPLES_INSTALL_DIR ${BIN_INSTALL_DIR})
 
 add_subdirectory(play3d)
 add_subdirectory(playbasic)

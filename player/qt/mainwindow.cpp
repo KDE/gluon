@@ -110,7 +110,7 @@ void MainWindow::activated( QModelIndex index )
 
 void MainWindow::openClicked( bool /* toggled */ )
 {
-    QString fileName = QFileDialog::getOpenFileName( this, tr( "Select a Project" ), QString(), QString( "*%1|Gluon Project Files" ).arg( GluonEngine::projectFilename ) );
+    QString fileName = QFileDialog::getOpenFileName( this, tr( "Select a Project" ), QString(), tr( "Gluon Project Files (%1)" ).arg( GluonEngine::projectFilename ) );
     if( !fileName.isEmpty() )
         openProject( fileName );
 }

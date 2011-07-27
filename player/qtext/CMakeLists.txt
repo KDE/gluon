@@ -73,7 +73,7 @@ endif()
 target_link_libraries(gluon_qtextplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS})
 
 if(NOT APPLE)
-    install(TARGETS gluon_qtextplayer DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+    install(TARGETS gluon_qtextplayer DESTINATION ${BIN_INSTALL_DIR})
     install(FILES gluon_qtextplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
 
     if(NOT PLAYER_ICONS_INSTALLED)
