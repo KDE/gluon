@@ -31,6 +31,7 @@ public:
 
 private Q_SLOTS:
     void testAddChild();
+    void testAddChildAt();
     void testChildAt();
     void testChildByName();
     void testName();
