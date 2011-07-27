@@ -54,12 +54,12 @@ QString DirectoryProvider::installPrefix() const
 
 QString DirectoryProvider::dataDirectory() const
 {
-    return GLUON_SHARE_INSTALL_DIR;
+    return GLUON_INSTALL_PREFIX + "/" + GLUON_SHARE_INSTALL_DIR;
 }
 
 QString DirectoryProvider::libDirectory() const
 {
-    return GLUON_LIB_INSTALL_DIR;
+    return GLUON_INSTALL_PREFIX + "/" + GLUON_LIB_INSTALL_DIR;
 }
 
 QString DirectoryProvider::userDirectory( const QString& name )
