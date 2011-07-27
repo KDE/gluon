@@ -263,7 +263,7 @@ set(CPACK_COMPONENT_GLUONENGINE_DESCRIPTION
     "GluonEngine provides all the necessary classes to build the structure of a
     game, like the game loop or the scene management."
 )
-set(CPACK_COMPONENT_GLUONENGINE_DEPENDS audio input graphics)
+set(CPACK_COMPONENT_GLUONENGINE_DEPENDS gluonaudio gluoninput gluongraphics)
 set(CPACK_COMPONENT_GLUONENGINE_GROUP "GLUONLIBS")
 set(CPACK_COMPONENT_GLUONENGINE_INSTALL_TYPES Minimal Full)
 
