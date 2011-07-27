@@ -16,6 +16,7 @@ endif ("${QT_QTCORE_LIBRARY}" MATCHES lib64)
 
 set(LIB_SUFFIX		${_Init_LIB_SUFFIX}                      CACHE INTERNAL      "The suffix of the system-wide library path")
 
+set(BIN_INSTALL_DIR     bin              CACHE INTERNAL "The subdirectory relative to the install prefix where binary files will be installed.")
 set(INCLUDE_INSTALL_DIR include          CACHE INTERNAL "The subdirectory relative to the install prefix where header files will be installed.")
 set(LIB_INSTALL_DIR     lib${LIB_SUFFIX} CACHE INTERNAL "The subdirectory relative to the install prefix where libraries will be installed.")
 set(SHARE_INSTALL_DIR   share            CACHE INTERNAL "The subdiractory relative to the install prefix where data and other files will be installed.")
