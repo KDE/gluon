@@ -218,6 +218,7 @@ set(CPACK_COMPONENTS_ALL
     gluongraphics
     gluonengine
     gluonplayer
+    gluonqtplayer
     gluoncreator
 )
 
@@ -274,11 +275,6 @@ set(CPACK_COMPONENT_GLUONPLAYER_DEPENDS gluonengine)
 set(CPACK_COMPONENT_GLUONPLAYER_GROUP "GLUONLIBS")
 set(CPACK_COMPONENT_GLUONPLAYER_INSTALL_TYPES Minimal Full)
 
-set(CPACK_COMPONENT_GLUONQTPLAYER_DISPLAY_NAME "Gluon Qt Player Application")
-set(CPACK_COMPONENT_GLUONQTPLAYER_DESCRIPTION
-    "Gluon Qt Player Application mostly meant for debugging and simple purposes"
-)
-
 set(CPACK_COMPONENT_GROUP_GLUONLIBS_DISPLAY_NAME "Gluon Libraries")
 set(CPACK_COMPONENT_GROUP_GLUONLIBS_DESCRIPTION
     "They provide functionality to assist in constructing games, and they
@@ -286,12 +282,16 @@ set(CPACK_COMPONENT_GROUP_GLUONLIBS_DESCRIPTION
     these games."
 )
 
-set(CPACK_COMPONENT_GROUP_GLUONPLAYERS_DISPLAY_NAME "Gluon Player Applications")
-set(CPACK_COMPONENT_GROUP_GLUONPLAYERS_DISPLAY_DESCRIPTION "Gluon Player Applications")
-
+set(CPACK_COMPONENT_GLUONQTPLAYER_DISPLAY_NAME "Gluon Qt Player Application")
+set(CPACK_COMPONENT_GLUONQTPLAYER_DESCRIPTION
+    "Gluon Qt Player Application mostly meant for debugging and simple purposes"
+)
 set(CPACK_COMPONENT_GLUONQTPLAYER_DEPENDS gluonplayer)
 set(CPACK_COMPONENT_GLUONQTPLAYER_GROUP "GLUONPLAYERS")
 set(CPACK_COMPONENT_GLUONQTPLAYER_INSTALL_TYPES Minimal Full)
+
+set(CPACK_COMPONENT_GROUP_GLUONPLAYERS_DISPLAY_NAME "Gluon Player Applications")
+set(CPACK_COMPONENT_GROUP_GLUONPLAYERS_DISPLAY_DESCRIPTION "Gluon Player Applications")
 
 set(CPACK_COMPONENT_GLUONCREATOR_DISPLAY_NAME "Gluon Creator Application")
 set(CPACK_COMPONENT_GLUONCREATOR_DESCRIPTION "Gluon Creator Application")
