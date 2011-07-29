@@ -23,6 +23,7 @@
 #include <QtGui/QDesktopServices>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
+#include <QtCore/QSettings>
 
 using namespace GluonCore;
 
@@ -49,17 +50,23 @@ DirectoryProvider::DirectoryProvider( QObject* parent )
 
 QString DirectoryProvider::installPrefix() const
 {
+#ifdef Q_OS_WIN
+    QSettings settings("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Gluon\\Gluon-" + GLUON_VERSION_STRING + "\\", QSettings::NativeFormat);
+    QString installPath = settings.value("Default").toString();
+    return installPath.isEmpty() ? GLUON_INSTALL_PREFIX : installPath;
+#else
     return GLUON_INSTALL_PREFIX;
+#endif
 }
 
 QString DirectoryProvider::dataDirectory() const
 {
-    return GLUON_INSTALL_PREFIX + "/" + GLUON_SHARE_INSTALL_DIR;
+    return installPrefix() + "/" + GLUON_SHARE_INSTALL_DIR;
 }
 
 QString DirectoryProvider::libDirectory() const
 {
-    return GLUON_INSTALL_PREFIX + "/" + GLUON_LIB_INSTALL_DIR;
+    return installPrefix() + "/" + GLUON_LIB_INSTALL_DIR;
 }
 
 QString DirectoryProvider::userDirectory( const QString& name )
