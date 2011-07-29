@@ -302,13 +302,15 @@ set(CPACK_ALL_INSTALL_TYPES Minimal Full)
 
 #common package generation settings
 set(CPACK_PACKAGE_NAME "Gluon")
+set(CPACK_PACKAGE_VENDOR "Gluon")
 set(CPACK_PACKAGE_VERSION "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An open framework to create, distribute and play games")
 set(CPACK_PACKAGE_FILE_NAME "Gluon-${GLUON_VERSION_STRING}")
 set(CPACK_GENERATOR "RPM;DEB;TGZ;NSIS")
 set(CPACK_PACKAGE_CONTACT "Laszlo Papp <lpapp@kde.org>, Arjen Hiemstra <ahiemstra@heimr.nl>")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/COPYING")
-SET(CPACK_SOURCE_IGNORE_FILES
+set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY "Gluon-${GLUON_VERSION_STRING}")
+set(CPACK_SOURCE_IGNORE_FILES
     "/\\\\.git/;
     /\\\\.gitignore$;
     /\\\\.reviewboardrc$;
