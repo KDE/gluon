@@ -54,14 +54,6 @@ namespace GluonAudio
             explicit Sound( const QString& fileName );
 
             /**
-            * This function might become private
-            * @param soundFile the path of the file to play
-            * @param toStream whether or not the file should be streamed
-            * @see Engine::bufferLength, Engine::buffersPerStream
-            */
-            Sound( const QString& fileName, bool toStream );
-
-            /**
             * Destructor
             */
             virtual ~Sound();
@@ -70,14 +62,6 @@ namespace GluonAudio
             * Load a new sound file
             */
             bool load( const QString& fileName );
-
-            /**
-            * This function might become private
-            * Load a new sound file and specify whether or not it should
-            * be streamed.
-            * @see Engine::bufferLength, Engine::buffersPerStream
-            */
-            bool load( const QString& fileName, bool toStream );
 
             /**
             * An object is invalid when no file is loaded or the last file

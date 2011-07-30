@@ -196,7 +196,6 @@ else()
         core/cmake/FindGluon.cmake
         core/cmake/FindGluonCore.cmake
         audio/cmake/FindGluonAudio.cmake
-        audio/cmake/FindSndFile.cmake
         audio/cmake/FindAlure.cmake
         graphics/cmake/FindGluonGraphics.cmake
         cmake/FindOpenGLES2.cmake
@@ -324,11 +323,11 @@ set(CPACK_SOURCE_IGNORE_FILES
 )
 
 #debian package generation
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt4-gui (>= 4.6), libqt4-opengl (>= 4.6), libopenal1, libsndfile1, libgles2")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt4-gui (>= 4.6), libqt4-opengl (>= 4.6), libopenal1, libgles2")
 set(CPACK_DEBIAN_PACKAGE_SECTION "Games")
 
 #rpm package generation
-#set(CPACK_RPM_PACKAGE_REQUIRES "libqt-devel (>= 4.7.1), libsndfile")
+#set(CPACK_RPM_PACKAGE_REQUIRES "libqt-devel (>= 4.7.1)")
 
 #Windows NSIS
 #set(CPACK_NSIS_MUI_ICON "installer.ico")
