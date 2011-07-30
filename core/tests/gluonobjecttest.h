@@ -43,6 +43,8 @@ private Q_SLOTS:
     void testQualifiedname();
     void testFullyqualifiedname();
     void testNameToObjectName();
+    void testSetProperty();
+    void testSetProperty_data();
 };
 
 #endif // GLUON_CORE_GLUONOBJECTTEST_H

@@ -141,6 +141,35 @@ void GluonObjectTest::testNameToObjectName()
     QCOMPARE(gluonObject.nameToObjectName("@_Gluon Object1&"), QString("_GluonObject1"));
 }
 
+void GluonObjectTest::testSetProperty()
+{
+    GluonObject gluonObject;
+    QFETCH(QString, propertyName);
+    QFETCH(QString, propertyValue);
+    gluonObject.setPropertyFromString(propertyName, propertyValue);
+    QCOMPARE(gluonObject.stringFromProperty(propertyName, ""),
+             QString("\n"+propertyName+" "+propertyValue));
+}
+
+void GluonObjectTest::testSetProperty_data()
+{
+    QTest::addColumn<QString>("propertyName");
+    QTest::addColumn<QString>("propertyValue");
+
+    QTest::newRow("Int")       <<"Int"       <<"int(-1)";
+    QTest::newRow("UInt")      <<"UInt"      <<"uint(1)";
+    QTest::newRow("Long")      <<"Long"      <<"longlong(1)";
+    QTest::newRow("Bool")      <<"Bool"      <<"bool(true)";
+    QTest::newRow("Float")     <<"Float"     <<"float(1.1)";
+    QTest::newRow("Color")     <<"Color"     <<"rgba(1;2;3;4)";
+    QTest::newRow("String")    <<"String"    <<"string(Gluon)";
+    QTest::newRow("Size2D")    <<"Size2D"    <<"size2d(1;2)";
+    QTest::newRow("Vector2D")  <<"Vector2D"  <<"vector2d(1;2)";
+    QTest::newRow("Vector3D")  <<"Vector3D"  <<"vector3d(1;2;3)";
+    QTest::newRow("Vector4D")  <<"Vector4D"  <<"vector4d(1;2;3;4)";
+    QTest::newRow("Quaternion")<<"Quaternion"<<"quaternion(1;2;3;4)";
+}
+
 QTEST_MAIN(GluonObjectTest)
 
 #include "gluonobjecttest.moc"
