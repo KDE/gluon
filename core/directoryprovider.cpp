@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -51,8 +52,13 @@ DirectoryProvider::DirectoryProvider( QObject* parent )
 QString DirectoryProvider::installPrefix() const
 {
 #ifdef Q_OS_WIN
-    QSettings settings("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Gluon\\Gluon-" + GLUON_VERSION_STRING + "\\", QSettings::NativeFormat);
-    QString installPath = settings.value("Default").toString();
+    QSettings *settings;
+    if (GLUON_ARCHITECTURE == "32")
+        settings = new QSettings("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Gluon\\Gluon-" + GLUON_VERSION_STRING + "\\", QSettings::NativeFormat);
+    //else if (GLUON_ARCHITECTURE == "64")
+    //	;
+    QString installPath = settings->value("Default").toString();
+    delete settings;
     return installPath.isEmpty() ? GLUON_INSTALL_PREFIX : installPath;
 #else
     return GLUON_INSTALL_PREFIX;
