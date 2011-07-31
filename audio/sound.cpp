@@ -338,7 +338,7 @@ void Sound::play()
     }
     else if( isPlaying() )
     {
-        stop();
+        return;
     }
 
     if( d->isStreamed )
