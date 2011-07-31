@@ -32,12 +32,6 @@
 typedef char GLchar;
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
-#elif defined(QT_OPENGL_ES_1)
-#include <GLES/gl.h>
-#include <GLES/glext.h>
-#elif defined(QT_OPENGL_ES_2)
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
 #else
 #include <GL/gl.h>
 #include <GL/glext.h>
