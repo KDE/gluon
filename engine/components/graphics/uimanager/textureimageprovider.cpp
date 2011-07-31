@@ -44,8 +44,16 @@ QImage TextureImageProvider::requestImage( const QString& id, QSize* size, const
         return GluonGraphics::Engine::instance()->texture( "default" )->image();
 
     GluonEngine::Asset* asset = qobject_cast<GluonEngine::Asset*>( obj );
-    if( !asset || !asset->data()->hasText() )
+    if( !asset )
         return GluonGraphics::Engine::instance()->texture( "default" )->image();
+
+    if( !asset->data()->hasText() )
+    {
+        asset->load();
+        if( !asset->data()->hasText() )
+            return GluonGraphics::Engine::instance()->texture( "default" )->image();
+    }
+
 
     GluonGraphics::Texture* tex = GluonGraphics::Engine::instance()->texture( asset->data()->text() );
     *size = tex->image().size();
