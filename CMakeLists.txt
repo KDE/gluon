@@ -209,8 +209,8 @@ else()
 endif()
 
 ###### CPACK PART ######
-#Packaging options
-#Component based settings
+# Packaging options
+# Component based settings
 set(CPACK_COMPONENTS_ALL
     gluoncore
     gluonaudio
@@ -294,7 +294,7 @@ set(CPACK_COMPONENT_GROUP_GLUONLIBS_DESCRIPTION
     these games."
 )
 
-#Qt Player
+# Qt Player
 set(CPACK_COMPONENT_GLUONQTPLAYER_DISPLAY_NAME "Gluon Qt Player Application")
 set(CPACK_COMPONENT_GLUONQTPLAYER_DESCRIPTION
     "Gluon Qt Player Application mostly meant for debugging and simple purposes"
@@ -303,7 +303,7 @@ set(CPACK_COMPONENT_GLUONQTPLAYER_DEPENDS gluonplayer)
 set(CPACK_COMPONENT_GLUONQTPLAYER_GROUP "GLUONPLAYERS")
 set(CPACK_COMPONENT_GLUONQTPLAYER_INSTALL_TYPES Minimal Full)
 
-#Touch Player
+# Touch Player
 set(CPACK_COMPONENT_GLUONTOUCHPLAYER_DISPLAY_NAME "Gluon Touch Player Application")
 set(CPACK_COMPONENT_GLUONTOUCHPLAYER_DESCRIPTION
     "Gluon Touch Player Application mostly meant for Maemo, Meego, handset,
@@ -313,7 +313,7 @@ set(CPACK_COMPONENT_GLUONTOUCHPLAYER_DEPENDS gluonplayer)
 set(CPACK_COMPONENT_GLUONTOUCHPLAYER_GROUP "GLUONPLAYERS")
 set(CPACK_COMPONENT_GLUONTOUCHPLAYER_INSTALL_TYPES Full)
 
-#KDE Player
+# KDE Player
 set(CPACK_COMPONENT_GLUONKDEPLAYER_DISPLAY_NAME "Gluon KDE Player Application")
 set(CPACK_COMPONENT_GLUONKDEPLAYER_DESCRIPTION
     "Gluon KDE Player Application mostly meant for debugging on Windows and simple purposes"
@@ -322,7 +322,7 @@ set(CPACK_COMPONENT_GLUONKDEPLAYER_DEPENDS gluonplayer)
 set(CPACK_COMPONENT_GLUONKDEPLAYER_GROUP "GLUONPLAYERS")
 set(CPACK_COMPONENT_GLUONKDEPLAYER_INSTALL_TYPES Full)
 
-#KDE Ext. Player
+# KDE Ext. Player
 set(CPACK_COMPONENT_GLUONKDEEXTPLAYER_DISPLAY_NAME "Gluon KDE Ext. Player Application")
 set(CPACK_COMPONENT_GLUONKDEEXTPLAYER_DESCRIPTION
     "Gluon KDE Ext. Player Application is a full-fledged and powerful KDE Desktop Player"
@@ -331,20 +331,20 @@ set(CPACK_COMPONENT_GLUONKDEEXTPLAYER_DEPENDS gluonplayer)
 set(CPACK_COMPONENT_GLUONKDEEXTPLAYER_GROUP "GLUONPLAYERS")
 set(CPACK_COMPONENT_GLUONKDEEXTPLAYER_INSTALL_TYPES Full)
 
-#Plasmoid Player
-#set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_DISPLAY_NAME "Gluon Plasmoid Player Application")
-#set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_DESCRIPTION
-#    "Gluon Plasmoid Player Application is a full-fledged and powerful Plasmoid applet "
-#)
-#set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_DEPENDS gluonplayer)
-#set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_GROUP "GLUONPLAYERS")
-#set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_INSTALL_TYPES Full)
+# Plasmoid Player
+set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_DISPLAY_NAME "Gluon Plasmoid Player Application")
+set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_DESCRIPTION
+    "Gluon Plasmoid Player Application is a full-fledged and powerful Plasmoid applet "
+)
+set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_DEPENDS gluonplayer)
+set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_GROUP "GLUONPLAYERS")
+set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_INSTALL_TYPES Full)
 
-#Players
+# Players
 set(CPACK_COMPONENT_GROUP_GLUONPLAYERS_DISPLAY_NAME "Gluon Player Applications")
 set(CPACK_COMPONENT_GROUP_GLUONPLAYERS_DISPLAY_DESCRIPTION "Gluon Player Applications")
 
-#Creator
+# Creator
 set(CPACK_COMPONENT_GLUONCREATOR_DISPLAY_NAME "Gluon Creator Application")
 set(CPACK_COMPONENT_GLUONCREATOR_DESCRIPTION "Gluon Creator Application")
 set(CPACK_COMPONENT_GLUONCREATOR_DEPENDS gluonplayer)
@@ -352,7 +352,7 @@ set(CPACK_COMPONENT_GLUONCREATOR_INSTALL_TYPES Full)
 
 set(CPACK_ALL_INSTALL_TYPES Minimal Full)
 
-#common package generation settings
+# Common package generation settings
 set(CPACK_PACKAGE_NAME "Gluon")
 set(CPACK_PACKAGE_VENDOR "Gluon")
 set(CPACK_PACKAGE_VERSION "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}")
@@ -375,14 +375,14 @@ set(CPACK_SOURCE_IGNORE_FILES
     cscope.*"
 )
 
-#debian package generation
+# Debian package generation
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt4-gui (>= 4.6), libqt4-opengl (>= 4.6), libopenal1, libgles2")
 set(CPACK_DEBIAN_PACKAGE_SECTION "Games")
 
-#rpm package generation
+# Rpm package generation
 #set(CPACK_RPM_PACKAGE_REQUIRES "libqt-devel (>= 4.7.1)")
 
-#Windows NSIS
+# Windows NSIS
 #set(CPACK_NSIS_MUI_ICON "installer.ico")
 #set(CPACK_NSIS_MUI_UNIICON "uninstaller.ico")
 #set(CPACK_PACKAGE_ICON "installer.bmp")
