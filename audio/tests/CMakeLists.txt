@@ -10,6 +10,8 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} ${GL
 GLUON_UNIT_TESTS(
     "${GLUON_AUDIO_LIBS}"   # libraries arguement
     "gluonaudio"            # modulename argument
+
     # Source files without the extension
     soundtest
+    enginetest
 )

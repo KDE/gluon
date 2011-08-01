@@ -32,6 +32,8 @@ public:
 
 private Q_SLOTS:
     void testBufferLength();
+    void testBuffersPerStream();
+    void testListenerPosition();
 };
 
 #endif // GLUON_AUDIO_ENGINETEST_H
