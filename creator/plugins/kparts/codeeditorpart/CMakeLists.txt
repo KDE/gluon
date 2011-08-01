@@ -108,10 +108,16 @@ target_link_libraries(gluon_creator_codewidgetkpart
 
 ################## INSTALLS ##########################
 
-install( TARGETS gluon_creator_codewidgetkpart  DESTINATION ${PLUGIN_INSTALL_DIR} )
+install(TARGETS gluon_creator_codewidgetkpart
+        DESTINATION ${PLUGIN_INSTALL_DIR}
+        COMPONENT gluoncreator)
 
-install( FILES gluon_creator_codewidgetkpart.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+install(FILES gluon_creator_codewidgetkpart.desktop
+        DESTINATION ${SERVICES_INSTALL_DIR}
+        COMPONENT gluoncreator)
 
-install (FILES nodetypes.gdl DESTINATION ${DATA_INSTALL_DIR} )
+install(FILES nodetypes.gdl
+        DESTINATION ${DATA_INSTALL_DIR}
+        COMPONENT gluoncreator)
 
 
