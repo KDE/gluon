@@ -76,8 +76,13 @@ set(GLUON_DECLARATIVE_LIBS
 )
 
 if(NOT APPLE)
-    install(TARGETS gluon_qmlplayer DESTINATION ${BIN_INSTALL_DIR})
-    install(FILES gluon_qmlplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
+    install(TARGETS gluon_qmlplayer
+            DESTINATION ${BIN_INSTALL_DIR}
+            COMPONENT gluontouchplayer)
+
+    install(FILES gluon_qmlplayer.desktop
+            DESTINATION ${SHARE_INSTALL_DIR}/applications
+            COMPONENT gluontouchplayer)
 
     if(NOT PLAYER_ICONS_INSTALLED)
         set(PLAYER_ICONS_INSTALLED TRUE)

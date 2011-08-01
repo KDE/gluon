@@ -208,6 +208,7 @@ else()
     )
 endif()
 
+###### CPACK PART ######
 #Packaging options
 #Component based settings
 set(CPACK_COMPONENTS_ALL
@@ -221,6 +222,7 @@ set(CPACK_COMPONENTS_ALL
     gluoncreator
 )
 
+# Core library
 set(CPACK_COMPONENT_GLUONCORE_DISPLAY_NAME "Gluon Core Library")
 set(CPACK_COMPONENT_GLUONCORE_DESCRIPTION
     "GluonCore is a thin library which
@@ -230,6 +232,7 @@ set(CPACK_COMPONENT_GLUONCORE_DESCRIPTION
 set(CPACK_COMPONENT_GLUONCORE_GROUP "GLUONLIBS")
 set(CPACK_COMPONENT_GLUONCORE_INSTALL_TYPES Minimal Full)
 
+# Audio library
 set(CPACK_COMPONENT_GLUONAUDIO_DISPLAY_NAME "Gluon Audio Library")
 set(CPACK_COMPONENT_GLUONAUDIO_DESCRIPTION
     "GluonAudio provides many convenience classes to easily use OpenAL in your
@@ -239,6 +242,7 @@ set(CPACK_COMPONENT_GLUONAUDIO_DEPENDS gluoncore)
 set(CPACK_COMPONENT_GLUONAUDIO_GROUP "GLUONLIBS")
 set(CPACK_COMPONENT_GLUONAUDIO_INSTALL_TYPES Minimal Full)
 
+# Input library
 set(CPACK_COMPONENT_GLUONINPUT_DISPLAY_NAME "Gluon Input Library")
 set(CPACK_COMPONENT_GLUONINPUT_DESCRIPTION
     "GluonInput provides a cross-platform way to manage and use the various
@@ -248,6 +252,7 @@ set(CPACK_COMPONENT_GLUONINPUT_DEPENDS gluoncore)
 set(CPACK_COMPONENT_GLUONINPUT_GROUP "GLUONLIBS")
 set(CPACK_COMPONENT_GLUONINPUT_INSTALL_TYPES Minimal Full)
 
+# Graphics library
 set(CPACK_COMPONENT_GLUONGRAPHICS_DISPLAY_NAME "Gluon Graphics Library")
 set(CPACK_COMPONENT_GLUONGRAPHICS_DESCRIPTION
     "GluonGraphics is a graphics library based on OpenGL. It provides easy to
@@ -257,6 +262,7 @@ set(CPACK_COMPONENT_GLUONGRAPHICS_DEPENDS gluoncore)
 set(CPACK_COMPONENT_GLUONGRAPHICS_GROUP "GLUONLIBS")
 set(CPACK_COMPONENT_GLUONGRAPHICS_INSTALL_TYPES Minimal Full)
 
+# Engine library
 set(CPACK_COMPONENT_GLUONENGINE_DISPLAY_NAME "Gluon Engine Library")
 set(CPACK_COMPONENT_GLUONENGINE_DESCRIPTION
     "GluonEngine provides all the necessary classes to build the structure of a
@@ -266,6 +272,7 @@ set(CPACK_COMPONENT_GLUONENGINE_DEPENDS gluonaudio gluoninput gluongraphics)
 set(CPACK_COMPONENT_GLUONENGINE_GROUP "GLUONLIBS")
 set(CPACK_COMPONENT_GLUONENGINE_INSTALL_TYPES Minimal Full)
 
+# Player library
 set(CPACK_COMPONENT_GLUONPLAYER_DISPLAY_NAME "Gluon Player Library")
 set(CPACK_COMPONENT_GLUONPLAYER_DESCRIPTION
     "GluonPlayer provides all the necessary utilities to build a Gluon Player"
@@ -274,6 +281,7 @@ set(CPACK_COMPONENT_GLUONPLAYER_DEPENDS gluonengine)
 set(CPACK_COMPONENT_GLUONPLAYER_GROUP "GLUONLIBS")
 set(CPACK_COMPONENT_GLUONPLAYER_INSTALL_TYPES Minimal Full)
 
+# Libraries
 set(CPACK_COMPONENT_GROUP_GLUONLIBS_DISPLAY_NAME "Gluon Libraries")
 set(CPACK_COMPONENT_GROUP_GLUONLIBS_DESCRIPTION
     "They provide functionality to assist in constructing games, and they
@@ -281,6 +289,7 @@ set(CPACK_COMPONENT_GROUP_GLUONLIBS_DESCRIPTION
     these games."
 )
 
+#Qt Player
 set(CPACK_COMPONENT_GLUONQTPLAYER_DISPLAY_NAME "Gluon Qt Player Application")
 set(CPACK_COMPONENT_GLUONQTPLAYER_DESCRIPTION
     "Gluon Qt Player Application mostly meant for debugging and simple purposes"
@@ -289,9 +298,48 @@ set(CPACK_COMPONENT_GLUONQTPLAYER_DEPENDS gluonplayer)
 set(CPACK_COMPONENT_GLUONQTPLAYER_GROUP "GLUONPLAYERS")
 set(CPACK_COMPONENT_GLUONQTPLAYER_INSTALL_TYPES Minimal Full)
 
+#Touch Player
+set(CPACK_COMPONENT_GLUONTOUCHPLAYER_DISPLAY_NAME "Gluon Touch Player Application")
+set(CPACK_COMPONENT_GLUONTOUCHPLAYER_DESCRIPTION
+    "Gluon Touch Player Application mostly meant for Maemo, Meego, handset,
+    tablet, mobile platforms by using plain Qt/QML solution"
+)
+set(CPACK_COMPONENT_GLUONTOUCHPLAYER_DEPENDS gluonplayer)
+set(CPACK_COMPONENT_GLUONTOUCHPLAYER_GROUP "GLUONPLAYERS")
+set(CPACK_COMPONENT_GLUONTOUCHPLAYER_INSTALL_TYPES Minimal Full)
+
+#KDE Player
+set(CPACK_COMPONENT_GLUONKDEPLAYER_DISPLAY_NAME "Gluon KDE Player Application")
+set(CPACK_COMPONENT_GLUONKDEPLAYER_DESCRIPTION
+    "Gluon KDE Player Application mostly meant for debugging on Windows and simple purposes"
+)
+set(CPACK_COMPONENT_GLUONKDEPLAYER_DEPENDS gluonplayer)
+set(CPACK_COMPONENT_GLUONKDEPLAYER_GROUP "GLUONPLAYERS")
+set(CPACK_COMPONENT_GLUONKDEPLAYER_INSTALL_TYPES Full)
+
+#KDE Ext. Player
+set(CPACK_COMPONENT_GLUONKDEEXTPLAYER_DISPLAY_NAME "Gluon KDE Ext. Player Application")
+set(CPACK_COMPONENT_GLUONKDEEXTPLAYER_DESCRIPTION
+    "Gluon KDE Ext. Player Application is a full-fledged and powerful KDE Desktop Player"
+)
+set(CPACK_COMPONENT_GLUONKDEEXTPLAYER_DEPENDS gluonplayer)
+set(CPACK_COMPONENT_GLUONKDEEXTPLAYER_GROUP "GLUONPLAYERS")
+set(CPACK_COMPONENT_GLUONKDEEXTPLAYER_INSTALL_TYPES Full)
+
+#Plasmoid Player
+#set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_DISPLAY_NAME "Gluon Plasmoid Player Application")
+#set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_DESCRIPTION
+#    "Gluon Plasmoid Player Application is a full-fledged and powerful Plasmoid applet "
+#)
+#set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_DEPENDS gluonplayer)
+#set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_GROUP "GLUONPLAYERS")
+#set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_INSTALL_TYPES Full)
+
+#Players
 set(CPACK_COMPONENT_GROUP_GLUONPLAYERS_DISPLAY_NAME "Gluon Player Applications")
 set(CPACK_COMPONENT_GROUP_GLUONPLAYERS_DISPLAY_DESCRIPTION "Gluon Player Applications")
 
+#Creator
 set(CPACK_COMPONENT_GLUONCREATOR_DISPLAY_NAME "Gluon Creator Application")
 set(CPACK_COMPONENT_GLUONCREATOR_DESCRIPTION "Gluon Creator Application")
 set(CPACK_COMPONENT_GLUONCREATOR_DEPENDS gluonplayer)
@@ -341,4 +389,6 @@ set(CPACK_NSIS_CONTACT "gluon@kde.org")
 
 include(InstallRequiredSystemLibraries)
 include(CPack)
+
+###### CTEST part ######
 include(CTest)

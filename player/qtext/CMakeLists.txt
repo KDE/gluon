@@ -73,8 +73,13 @@ endif()
 target_link_libraries(gluon_qtextplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS})
 
 if(NOT APPLE)
-    install(TARGETS gluon_qtextplayer DESTINATION ${BIN_INSTALL_DIR})
-    install(FILES gluon_qtextplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
+    install(TARGETS gluon_qtextplayer
+            DESTINATION ${BIN_INSTALL_DIR}
+            COMPONENT gluonqtextplayer)
+
+    install(FILES gluon_qtextplayer.desktop
+            DESTINATION ${SHARE_INSTALL_DIR}/applications
+            COMPONENT gluonqtextplayer)
 
     if(NOT PLAYER_ICONS_INSTALLED)
         add_subdirectory(../icons icons)
