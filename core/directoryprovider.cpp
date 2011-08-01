@@ -55,8 +55,9 @@ QString DirectoryProvider::installPrefix() const
     QSettings *settings;
     if (GLUON_ARCHITECTURE == "32")
         settings = new QSettings("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Gluon\\Gluon-" + GLUON_VERSION_STRING + "\\", QSettings::NativeFormat);
-    //else if (GLUON_ARCHITECTURE == "64")
-    //	;
+    else if (GLUON_ARCHITECTURE == "64")
+        settings = new QSettings("HKEY_LOCAL_MACHINE\\SOFTWARE\\Gluon\\Gluon-" + GLUON_VERSION_STRING + "\\", QSettings::NativeFormat);
+
     QString installPath = settings->value("Default").toString();
     delete settings;
     return installPath.isEmpty() ? GLUON_INSTALL_PREFIX : installPath;
