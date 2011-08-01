@@ -219,6 +219,11 @@ set(CPACK_COMPONENTS_ALL
     gluonengine
     gluonplayer
     gluonqtplayer
+    gluontouchplayer
+    gluonqtextplayer
+    gluonkdeplayer
+    gluonkdeextplayer
+    gluonplasmoidplayer
     gluoncreator
 )
 
@@ -306,7 +311,7 @@ set(CPACK_COMPONENT_GLUONTOUCHPLAYER_DESCRIPTION
 )
 set(CPACK_COMPONENT_GLUONTOUCHPLAYER_DEPENDS gluonplayer)
 set(CPACK_COMPONENT_GLUONTOUCHPLAYER_GROUP "GLUONPLAYERS")
-set(CPACK_COMPONENT_GLUONTOUCHPLAYER_INSTALL_TYPES Minimal Full)
+set(CPACK_COMPONENT_GLUONTOUCHPLAYER_INSTALL_TYPES Full)
 
 #KDE Player
 set(CPACK_COMPONENT_GLUONKDEPLAYER_DISPLAY_NAME "Gluon KDE Player Application")
