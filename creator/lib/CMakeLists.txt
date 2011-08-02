@@ -109,3 +109,9 @@ install(FILES
     DESTINATION ${SERVICETYPES_INSTALL_DIR}
     COMPONENT gluoncreator
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+

@@ -6,16 +6,14 @@ include(GluonMacros)
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${GLUON_INPUT_INCLUDES}
+    ${GLUON_CREATOR_INCLUDES}
 )
 
 ########### next target ###############
 
 GLUON_UNIT_TESTS(
-    "${GLUON_INPUT_LIBS}"   # libraries arguement
-    "gluoninput"            # modulename argument
+    "${GLUON_CREATOR_LIBS}"   # libraries arguement
+    "gluoncreator"            # modulename argument
 
     # Source files without the extension
-    inputbuffertest
-    inputdevicetest
 )

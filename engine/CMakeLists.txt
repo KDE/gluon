@@ -145,3 +145,9 @@ install(
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/engine
     COMPONENT gluonengine
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+

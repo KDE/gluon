@@ -81,3 +81,9 @@ install(FILES
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib/models
     COMPONENT gluonplayer
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+

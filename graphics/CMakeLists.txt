@@ -158,3 +158,9 @@ install(
     default.png
     DESTINATION ${SHARE_INSTALL_DIR}/gluon/defaults
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+
