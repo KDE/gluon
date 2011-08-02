@@ -1,4 +1,4 @@
-#project(btcomponents)
+project(btcomponents)
 cmake_minimum_required(VERSION 2.6)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/share/kde4/apps/cmake/modules/)
@@ -25,14 +25,14 @@ set(behaviorTreeComponent_SRCs
     asset.cpp
     treeprivate.cpp
     tree.cpp
-    #characterprivate.cpp
-    #character.cpp
+    characterprivate.cpp
+    character.cpp
     btcharacterscriptable.cpp
     btnodescriptable.cpp
-    #viewcone.cpp
-    #viewconeprivate.cpp
-    #perceptionatom.cpp
-    #perceptionatomprivate.cpp
+    viewcone.cpp
+    viewconeprivate.cpp
+    perceptionatom.cpp
+    perceptionatomprivate.cpp
     perceptioninfo.cpp
     perceptioninfoprivate.cpp
     btperceptioninfoscriptable.cpp
@@ -53,9 +53,9 @@ find_library(LIBBT
     NAMES
         libbtlib.so
     PATHS
-        c:/repo/gluon-bt/src/gluon-bt-lib/qtcreator-build/
-        /usr/lib
-        /usr/lib64
+        #c:/repo/gluon-bt/src/gluon-bt-lib/qtcreator-build/
+        /usr/local/lib/
+        #/usr/lib64
 )
 message("-- Found libbtlib:" ${LIBBT})
 
@@ -63,9 +63,9 @@ find_path(LIBBTPATH
     NAMES
         libbtlib.so
     PATHS
-        c:/repo/gluon-bt/src/gluon-bt-lib/qtcreator-build/
-        /usr/lib
-        /usr/lib64
+        #c:/repo/gluon-bt/src/gluon-bt-lib/qtcreator-build/
+        /usr/local/lib/
+        #/usr/lib64
 )
 message("-- Found libbt's path:" ${LIBBTPATH})
 
@@ -82,15 +82,14 @@ ADD_DEFINITIONS(-DQT_NO_DEBUG)
 ADD_DEFINITIONS(-DQT_SHARED)
 
 add_library(gluon_plugin_asset_behaviortree SHARED ${behaviorTreeComponent_SRCs} )
-set_target_properties(gluon_plugin_asset_behaviortree PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_BTCOMPONENT_LIB)
-target_link_libraries(gluon_plugin_asset_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} ${QT_QTSCRIPT_LIBRARY} btlib GluonEngine)
 
 if(GLUON_BUILD_ALL)
-    add_dependencies(gluon_plugin_asset_behaviortree GluonEngine)
+    add_dependencies(gluon_plugin_asset_behaviortree GluonEngine btlib)
 endif()
 
 
-
+set_target_properties(gluon_plugin_asset_behaviortree PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_BTCOMPONENT_LIB)
+target_link_libraries(gluon_plugin_asset_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} ${QT_QTSCRIPT_LIBRARY} btlib)
 
 install(
     TARGETS

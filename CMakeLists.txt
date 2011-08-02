@@ -13,6 +13,7 @@ set(GLUON_VERSION_NAME      "Alpha Particle")
 option(WITH_KDE "Build with KDE Development Platform Support" ON)
 option(BUILD_GLUON_AUDIO "Build Gluon Audio Library" ON)
 option(BUILD_GLUON_INPUT "Build Gluon Input Library" ON)
+option(BUILD_GLUON_SMARTS "Build SMARTS Game AI Library" ON)
 option(BUILD_GLUON_GRAPHICS "Build Gluon Graphics Library" ON)
 option(BUILD_GLUON_ENGINE "Build Gluon Engine Library" ON)
 option(BUILD_GLUON_PLAYER "Build Gluon Player Application" ON)
@@ -20,7 +21,6 @@ option(BUILD_PLASMOID "Build Gluon Player Plasmoid" ON)
 option(BUILD_GLUON_CREATOR "Build Gluon Creator Application" ON)
 option(BUILD_GLUON_CREATOR_VCS "Build Version Control System support for the Gluon Creator" OFF)
 option(INSTALL_EXAMPLES "Install the game examples for Gluon Player" ON)
-option(BUILD_GLUON_SMARTS "Build SMARTS Game AI Library" ON)
 
 if(CMAKE_INSTALL_PREFIX STREQUAL "/usr")
     option(INSTALL_CMAKE_FILES "Install the *.cmake files into the CMake root" ON)
@@ -90,10 +90,12 @@ if(BUILD_GLUON_GRAPHICS)
     add_subdirectory(graphics)
 endif()
 
+
 ####### SMARTS Library #######
 if(BUILD_GLUON_SMARTS)
      add_subdirectory(smarts)
 endif()
+
 
 ###### Gluon Engine #######
 if(BUILD_GLUON_ENGINE)
@@ -130,8 +132,6 @@ if(BUILD_GLUON_CREATOR)
     add_subdirectory(creator)
 endif(BUILD_GLUON_CREATOR)
 
-
-
 message(STATUS)
 message(STATUS "========== Gluon Build Information ==========")
 message(STATUS "Build Version: ${GLUON_VERSION_STRING} (${GLUON_VERSION_NAME})")
@@ -145,8 +145,8 @@ message(STATUS "Build Gluon Graphics Library (BUILD_GLUON_GRAPHICS): ${BUILD_GLU
 if(BUILD_GLUON_GRAPHICS)
     message(STATUS "    Build Mesh loading support: ${GLUON_GRAPHICS_HAS_MESH}")
 endif(BUILD_GLUON_GRAPHICS)
-message(STATUS "Build Gluon Engine Library (BUILD_GLUON_ENGINE): ${BUILD_GLUON_ENGINE}")
 message(STATUS "Build Smarts Game AI Library (BUILD_GLUON_SMARTS): ${BUILD_GLUON_SMARTS}")
+message(STATUS "Build Gluon Engine Library (BUILD_GLUON_ENGINE): ${BUILD_GLUON_ENGINE}")
 if(BUILD_GLUON_ENGINE)
     message(STATUS "    Build Components dependant on Gluon Audio (BUILD_AUDIO_COMPONENTS): ${BUILD_AUDIO_COMPONENTS}")
     message(STATUS "    Build Assets dependant on Gluon Audio (BUILD_AUDIO_ASSETS): ${BUILD_AUDIO_ASSETS}")

@@ -85,7 +85,7 @@ install(
   DESTINATION ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}
   )
 
-set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/gluon/smarts)
+set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include/gluon/smarts)
 
 install(FILES
 ${btlib_HEADERS}
