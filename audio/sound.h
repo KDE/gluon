@@ -81,7 +81,7 @@ namespace GluonAudio
             /**
             * @return the time since the sound started playing
             */
-            ALfloat elapsedTime() const;
+            ALfloat timeOffset() const;
 
             /**
             * @return the sound status
@@ -271,11 +271,11 @@ namespace GluonAudio
             void setDirection( ALfloat dx, ALfloat dy, ALfloat dz );
 
             /**
-            * Specify the current time position.
+            * Specify the current time offset.
             * @param time must be inferior than duration.
             * @see duration()
             */
-            void setTimePosition( ALfloat time );
+            void setTimeOffset( ALfloat time );
 
         Q_SIGNALS:
             void played();

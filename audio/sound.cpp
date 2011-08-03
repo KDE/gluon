@@ -190,7 +190,7 @@ bool Sound::load( const QString& fileName )
     return d->isValid;
 }
 
-ALfloat Sound::elapsedTime() const
+ALfloat Sound::timeOffset() const
 {
     ALfloat seconds = 0.f;
     alGetSourcef( d->source, AL_SEC_OFFSET, &seconds );
@@ -405,7 +405,7 @@ void Sound::setDirection( ALfloat dx, ALfloat dy, ALfloat dz )
     alSourcefv( d->source, AL_POSITION, direction );
 }
 
-void Sound::setTimePosition( ALfloat time )
+void Sound::setTimeOffset( ALfloat time )
 {
     alSourcef( d->source, AL_SEC_OFFSET, time );
 
