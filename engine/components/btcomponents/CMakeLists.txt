@@ -54,7 +54,7 @@ find_library(LIBBT
         libbtlib.so
     PATHS
         #c:/repo/gluon-bt/src/gluon-bt-lib/qtcreator-build/
-        /usr/local/lib/
+        /usr/lib/
         #/usr/lib64
 )
 message("-- Found libbtlib:" ${LIBBT})
@@ -64,7 +64,7 @@ find_path(LIBBTPATH
         libbtlib.so
     PATHS
         #c:/repo/gluon-bt/src/gluon-bt-lib/qtcreator-build/
-        /usr/local/lib/
+        /usr/lib/
         #/usr/lib64
 )
 message("-- Found libbt's path:" ${LIBBTPATH})

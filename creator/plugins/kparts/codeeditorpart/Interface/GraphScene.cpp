@@ -233,7 +233,7 @@ void GraphScene::mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent )
         {
             //eew yuck, popup windows!
             bool ok;
-            QString response = KInputDialog::getText( qobject_cast<QWidget*>( _parent ), "Change If Test", "New If Test:", QLineEdit::Normal, nItem->node()->value().toString(), &ok );
+            QString response = KInputDialog::getText( /*qobject_cast<QWidget*>( _parent ),*/ "Change If Test", "New If Test:", nItem->node()->value().toString(), &ok/*, QLineEdit::Normal*/ );
             if( ok && !response.isEmpty() )
             {
                 nItem->node()->setValue( response );

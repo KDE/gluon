@@ -356,7 +356,8 @@ bool Graph::assignEdgeAction( Node* from, Edge* edge )
                 middleman << temp;
             }
         }
-        selectedProperty = KInputDialog::getItem( 0, "Select Action to Associate to:", "Select Action:", middleman, 0, false, &okPressed );
+
+        selectedProperty = KInputDialog::getItem( "Select Action to Associate to:", "Select Action:" , middleman, false, &okPressed);
     }
     if( !okPressed )
     {
