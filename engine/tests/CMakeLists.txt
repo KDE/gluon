@@ -16,5 +16,6 @@ GLUON_UNIT_TESTS(
     "gluonengine"            # modulename argument
 
     # Source files without the extension
+    abstractstatistictest
     statistictest
 )
