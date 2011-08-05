@@ -25,7 +25,7 @@
 #include <graphics/item.h>
 #include <graphics/engine.h>
 #include <graphics/material.h>
-#include <graphics/mesh.h>
+#include <graphics/spritemesh.h>
 #include <graphics/materialinstance.h>
 #include <graphics/texture.h>
 

@@ -20,7 +20,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "mesh.h"
+#include "abstractmesh.h"
 
 #include "materialinstance.h"
 #include "vertexbuffer.h"
@@ -29,10 +29,10 @@
 
 using namespace GluonGraphics;
 
-class Mesh::MeshPrivate
+class AbstractMesh::Private
 {
     public:
-        MeshPrivate()
+        Private()
         {
         }
 
@@ -40,58 +40,19 @@ class Mesh::MeshPrivate
         MaterialInstance* material;
 };
 
-Mesh::Mesh( QObject* parent )
-    : QObject( parent ),
-      d( new MeshPrivate )
+AbstractMesh::AbstractMesh( QObject* parent )
+    : QObject( parent ), d( new Private )
 {
 }
 
-Mesh::~Mesh()
+AbstractMesh::~AbstractMesh()
 {
     delete d->buffer;
     delete d;
 }
 
 void
-Mesh::load( const QString& filename )
-{
-    // TODO: Investigate why this works.
-    //     if( isLoaded() )
-    //         return;
-    d->buffer = new VertexBuffer( VertexBuffer::BM_STATIC_DRAW, this );
-
-    VertexAttribute vertices( "vertex", 3 );
-    vertices << -1.f << -1.f << 0.f;
-    vertices << -1.f <<  1.f << 0.f;
-    vertices <<  1.f <<  1.f << 0.f;
-    vertices <<  1.f << -1.f << 0.f;
-    d->buffer->addAttribute( vertices );
-
-    VertexAttribute colors( "color", 4 );
-    colors << 1.f << 1.f << 1.f << 1.f;
-    colors << 1.f << 1.f << 1.f << 1.f;
-    colors << 1.f << 1.f << 1.f << 1.f;
-    colors << 1.f << 1.f << 1.f << 1.f;
-    d->buffer->addAttribute( colors );
-
-    VertexAttribute uvs( "uv0", 2 );
-    uvs << 0.f << 0.f;
-    uvs << 0.f << 1.f;
-    uvs << 1.f << 1.f;
-    uvs << 1.f << 0.f;
-    d->buffer->addAttribute( uvs );
-
-    QVector<uint> indices;
-    indices << 0 << 1 << 2
-            << 0 << 2 << 3;
-
-    d->buffer->setIndices( indices );
-
-    d->buffer->initialize();
-}
-
-void
-Mesh::setVertexBuffer( VertexBuffer* buffer )
+AbstractMesh::setVertexBuffer( VertexBuffer* buffer )
 {
     if( d->buffer )
     {
@@ -110,27 +71,27 @@ Mesh::setVertexBuffer( VertexBuffer* buffer )
     }
 }
 
-void Mesh::update()
+void AbstractMesh::update()
 {
     //Intentionally empty
 }
 
 void
-Mesh::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
+AbstractMesh::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
 {
     d->buffer->render( mode, material );
 }
 
 bool
-Mesh::isLoaded() const
+AbstractMesh::isInitialized() const
 {
     return d->buffer && d->buffer->isInitialized();
 }
 
 VertexBuffer*
-Mesh::vertexBuffer() const
+AbstractMesh::vertexBuffer() const
 {
     return d->buffer;
 }
 
-#include "mesh.moc"
+#include "abstractmesh.moc"

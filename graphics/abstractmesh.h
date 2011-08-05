@@ -20,8 +20,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONGRAPHICS_MESH_H
-#define GLUONGRAPHICS_MESH_H
+#ifndef GLUONGRAPHICS_ABSTRACTMESH_H
+#define GLUONGRAPHICS_ABSTRACTMESH_H
 
 #include "gluon_graphics_export.h"
 
@@ -35,24 +35,36 @@ namespace GluonGraphics
     class VertexBuffer;
 
     /**
-     * \brief A collection of vertices that combine to an object.
+     * \brief Abstract base class for different types of meshes.
      *
-     * A mesh contains all the vertex data of an object. This
-     * vertex data is used to render triangles on the screen.
+     * A mesh is a collection of data that combines to create an
+     * object. This data consists of vertices, indexes and
+     * possibly more. This data enables the mesh to be rendered
+     * to screen.
+     *
+     * The exact interpretation of the data is handled by the
+     * shader supplied by the material.
+     *
+     * If you want to create custom meshes, subclass this class
+     * and reimplement at least load(). Load needs to create
+     * a VertexBuffer and populate the buffer with data. If you
+     * want to use dynamic meshes, you also need to reimplement
+     * update(), which needs to adjust the data.
      */
-    class GLUON_GRAPHICS_EXPORT Mesh : public QObject
+    class GLUON_GRAPHICS_EXPORT AbstractMesh : public QObject
     {
             Q_OBJECT
         public:
-            Mesh( QObject* parent = 0 );
-            virtual ~Mesh();
+            AbstractMesh( QObject* parent = 0 );
+            virtual ~AbstractMesh();
 
             /**
-             * Load the data for this mesh.
+             * Initialize the data of this mesh.
              *
-             * \param filename The name of the file to load.
+             * This method should create a VertexBuffer and populate
+             * this buffer with data.
              */
-            virtual void load( const QString& filename );
+            virtual void initialize() = 0;
 
             /**
              * Set the buffer used by this Mesh to render.
@@ -62,9 +74,9 @@ namespace GluonGraphics
             void setVertexBuffer( VertexBuffer* buffer );
 
             /**
-             * Has this mesh been loaded yet?
+             * Has this mesh been initialized yet?
              */
-            virtual bool isLoaded() const;
+            virtual bool isInitialized() const;
 
             /**
              * Update the geometry of this mesh.
@@ -86,7 +98,7 @@ namespace GluonGraphics
              * program.
              * \param mode The mode used to render the mesh.
              */
-            virtual void render( MaterialInstance* material, VertexBuffer::RenderMode mode );
+            virtual void render( MaterialInstance* material, VertexBuffer::RenderMode mode = VertexBuffer::RM_TRIANGLES );
 
         protected:
             /**
@@ -95,8 +107,8 @@ namespace GluonGraphics
             VertexBuffer* vertexBuffer() const;
 
         private:
-            class MeshPrivate;
-            MeshPrivate* const d;
+            class Private;
+            Private* const d;
 
     };
 }

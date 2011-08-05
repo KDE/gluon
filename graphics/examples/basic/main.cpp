@@ -28,7 +28,7 @@
 #include "graphics/frustrum.h"
 #include "graphics/material.h"
 #include "graphics/materialinstance.h"
-#include "graphics/mesh.h"
+#include "graphics/spritemesh.h"
 
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QApplication>

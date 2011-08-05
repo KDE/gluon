@@ -22,7 +22,7 @@
 
 #include "item.h"
 
-#include "mesh.h"
+#include "abstractmesh.h"
 #include "camera.h"
 #include "frustrum.h"
 #include "engine.h"
@@ -43,7 +43,7 @@ class Item::ItemPrivate
             mesh = 0;
             materialInstance = 0;
         }
-        Mesh* mesh;
+        AbstractMesh* mesh;
         QMatrix4x4 transform;
         MaterialInstance* materialInstance;
 };
@@ -60,7 +60,7 @@ Item::~Item()
     delete d;
 }
 
-Mesh*
+AbstractMesh*
 Item::mesh()
 {
     return d->mesh;
@@ -110,7 +110,7 @@ Item::setTransform( const QMatrix4x4 transform )
 }
 
 void
-Item::setMesh( Mesh* mesh )
+Item::setMesh( AbstractMesh* mesh )
 {
     d->mesh = mesh;
 }

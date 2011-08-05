@@ -25,7 +25,7 @@
 #include "graphics/texture.h"
 #include "graphics/material.h"
 #include "graphics/materialinstance.h"
-#include "graphics/mesh.h"
+#include "graphics/abstractmesh.h"
 
 #include <core/directoryprovider.h>
 

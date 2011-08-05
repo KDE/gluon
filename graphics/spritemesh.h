@@ -1,6 +1,6 @@
-/*****************************************************************************
+/******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,41 +17,34 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONGRAPHICS_FILEMESH_H
-#define GLUONGRAPHICS_FILEMESH_H
+
+#ifndef GLUONGRAPHICS_SPRITEMESH_H
+#define GLUONGRAPHICS_SPRITEMESH_H
 
 #include "abstractmesh.h"
+#include "gluon_graphics_export.h"
 
 namespace GluonGraphics
 {
     /**
-    * \brief A mesh that is loaded from a file.
-    *
-    * This class loads a mesh from a file, by using the AssetImporter
-    * library for loading.
-    *
-    */
-    class FileMesh : public AbstractMesh
+     * \brief A simple quad mesh for rendering sprites.
+     *
+     * This mesh provides a basic mesh for rendering
+     * sprites. It defines the following attributes:
+     *
+     * - vertex
+     * - color
+     * - uv0
+     */
+    class GLUON_GRAPHICS_EXPORT SpriteMesh : public AbstractMesh
     {
         Q_OBJECT
         public:
-            /**
-             * Constructor.
-             *
-             * \param file The file to load the data from.
-             */
-            FileMesh( const QString& file, QObject* parent = 0 );
-            virtual ~FileMesh();
-
-            QString file() const;
+            explicit SpriteMesh( QObject* parent = 0 );
+            virtual ~SpriteMesh();
 
             virtual void initialize();
-
-        private:
-            class Private;
-            Private* const d;
     };
-
 }
 
-#endif // GLUONGRAPHICS_FILEMESH_H
+#endif // GLUONGRAPHICS_SPRITEMESH_H

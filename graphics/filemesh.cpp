@@ -24,16 +24,20 @@
 #include <assimp/aiMesh.h>
 #include <assimp/aiPostProcess.h>
 
-#include "core/debughelper.h"
-
 #include "vertexattribute.h"
 
 using namespace GluonGraphics;
 
-FileMesh::FileMesh( QObject* parent )
-    : Mesh( parent )
+class FileMesh::Private
 {
+    public:
+        QString file;
+};
 
+FileMesh::FileMesh( const QString& file, QObject* parent )
+    : AbstractMesh( parent ), d(new Private)
+{
+    d->file = file;
 }
 
 FileMesh::~FileMesh()
@@ -41,17 +45,17 @@ FileMesh::~FileMesh()
 
 }
 
-void FileMesh::load( const QString& filename )
+void FileMesh::initialize()
 {
     Assimp::Importer imp;
-    const aiScene* scene = imp.ReadFile(filename.toUtf8(), aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType );
+    const aiScene* scene = imp.ReadFile( d->file.toUtf8(), aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType );
 
     if(!scene)
     {
         return;
     }
 
-    VertexBuffer *buffer = vertexBuffer();
+    VertexBuffer* buffer = new VertexBuffer( VertexBuffer::BM_STATIC_DRAW, this );
     for(uint m = 0; m < scene->mNumMeshes; ++m)
     {
         aiMesh* mesh = scene->mMeshes[m];
