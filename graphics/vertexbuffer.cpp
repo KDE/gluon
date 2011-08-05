@@ -31,23 +31,26 @@ class VertexBuffer::VertexBufferPrivate
 {
     public:
         VertexBufferPrivate()
-            : buffer( 0 )
-            , indexBuffer( 0 )
+            : buffer( 0 ),
+              indexBuffer( 0 ),
+              dataMode( BM_STATIC_DRAW )
         {
         }
 
         GLuint buffer;
         GLuint indexBuffer;
 
+        BufferDataMode dataMode;
+
         QList<VertexAttribute> attributes;
         QVector<uint> indices;
 };
 
-VertexBuffer::VertexBuffer( QObject* parent )
+VertexBuffer::VertexBuffer( VertexBuffer::BufferDataMode mode, QObject* parent )
     : QObject( parent )
     , d( new VertexBufferPrivate() )
 {
-
+    d->dataMode = mode;
 }
 
 VertexBuffer::~VertexBuffer()
@@ -58,6 +61,11 @@ VertexBuffer::~VertexBuffer()
 void VertexBuffer::addAttribute( const VertexAttribute& attribute )
 {
     d->attributes << attribute;
+}
+
+VertexBuffer::BufferDataMode VertexBuffer::bufferDataMode() const
+{
+    return d->dataMode;
 }
 
 void VertexBuffer::setIndices( const QVector<uint>& indices )
@@ -85,7 +93,7 @@ void VertexBuffer::initialize()
         size += attribute.size();
     }
 
-    glBufferData( GL_ARRAY_BUFFER, size, 0, GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, size, 0, d->dataMode );
 
     quintptr offset = 0;
     for( int i = 0; i < d->attributes.size(); ++i )

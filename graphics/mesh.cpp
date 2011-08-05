@@ -44,7 +44,6 @@ Mesh::Mesh( QObject* parent )
     : QObject( parent ),
       d( new MeshPrivate )
 {
-    d->buffer = new VertexBuffer( this );
 }
 
 Mesh::~Mesh()
@@ -59,6 +58,7 @@ Mesh::load( const QString& filename )
     // TODO: Investigate why this works.
     //     if( isLoaded() )
     //         return;
+    d->buffer = new VertexBuffer( VertexBuffer::BM_STATIC_DRAW, this );
 
     VertexAttribute vertices( "vertex", 3 );
     vertices << -1.f << -1.f << 0.f;
@@ -108,6 +108,11 @@ Mesh::setVertexBuffer( VertexBuffer* buffer )
             buffer->initialize();
         }
     }
+}
+
+void Mesh::update()
+{
+    //Intentionally empty
 }
 
 void

@@ -67,6 +67,18 @@ namespace GluonGraphics
             virtual bool isLoaded() const;
 
             /**
+             * Update the geometry of this mesh.
+             *
+             * The default implementation of this method does
+             * nothing.
+             *
+             * Note also that you want to avoid doing anything
+             * in this method when you are using any of the
+             * STATIC_* data upload methods.
+             */
+            virtual void update();
+
+            /**
              * Render this mesh to the screen.
              *
              * \param material The material used to render the mesh. This

@@ -93,9 +93,35 @@ namespace GluonGraphics
             };
 
             /**
-             * Constructs an empty vertex buffer object.
+             * This enumeration determines how the data of this buffer is treated.
+             *
+             * - STATIC_* modes are meant for data that does not change oftern, like world geomrtry.
+             * - DYNAMIC_* modes are meant for data that is changed almost every frame, such as a
+             *   skinned character mesh.
+             * -
              */
-            VertexBuffer( QObject* parent = 0 );
+            enum BufferDataMode
+            {
+                BM_STATIC_DRAW = 0x88E4,  ///<
+                BM_STATIC_READ = 0x88E5,  ///<
+                BM_STATIC_COPY = 0x88E6,  ///<
+
+                BM_DYNAMIC_DRAW = 0x88E8, ///<
+                BM_DYNAMIC_READ = 0x88E9, ///<
+                BM_DYNAMIC_COPY = 0x88EA, ///<
+
+                BM_STREAM_DRAW = 0x88E0,  ///<
+                BM_STREAM_READ = 0x88E1,  ///<
+                BM_STREAM_COPY = 0x88E2,  ///<
+            };
+
+            /**
+             * Constructs an empty vertex buffer object.
+             *
+             * \param mode The data mode to use for this buffer.
+             * \param parent The QObject parent.
+             */
+            explicit VertexBuffer( BufferDataMode mode = BM_STATIC_DRAW, QObject* parent = 0 );
 
             /**
              * Destroys the buffer.
@@ -109,6 +135,13 @@ namespace GluonGraphics
              * \param attribute The attribute to be added.
              */
             void addAttribute( const VertexAttribute& attribute );
+
+            /**
+             * Retrieve the buffer data mode.
+             *
+             * \see setBufferDataMode
+             */
+            BufferDataMode bufferDataMode() const;
 
             /**
              * Sets the vertex indices to be used when rendering.
@@ -125,6 +158,13 @@ namespace GluonGraphics
              * \see isInitialized
              */
             void initialize();
+
+            /**
+             * Update the changed data. Note that if you use this often, you
+             * should use one of the STREAM or DYNAMIC data modes for this
+             * buffer.
+             */
+            void update();
 
             /**
              * Render the local OpenGL buffer.
