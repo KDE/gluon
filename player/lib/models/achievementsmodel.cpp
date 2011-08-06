@@ -49,6 +49,12 @@ AchievementsModel::AchievementsModel(QObject* parent)
         d->achievements = gameProject->achievements();
     else
         qDebug() << Q_FUNC_INFO << "No GameProject open!";
+
+    QHash<int, QByteArray> roles;
+    roles[Qt::DisplayRole] = "qtDisplayRole";
+    roles[Qt::DecorationRole] = "qtDecorationRole";
+    roles[Qt::ToolTipRole] = "qtToolTipRole";
+    setRoleNames(roles);
 }
 
 AchievementsModel::~AchievementsModel()
