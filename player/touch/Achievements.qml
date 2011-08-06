@@ -20,7 +20,7 @@
 import QtQuick 1.0
 
 Rectangle {
-    id: gluon_player;
+    id: achievements;
 
     color: "black";
     anchors.fill: parent;
@@ -30,25 +30,27 @@ Rectangle {
     }
 
     Component {
-        id: achievemensDelegate;
-        Text {
-             id: achievementText;
-             text: qsTr("Username");
-             color: "white";
-             font.pixelSize: 24;
-             anchors {
-                 right: achievedIcon.left;
-                 rightMargin: 5;
-             }
-        }
+        id: achievementsDelegate;
+        Item {
+            Text {
+                 id: achievementText;
+                 text: qsTr("Username");
+                 color: "white";
+                 font.pixelSize: 24;
+                 anchors {
+                     right: achievedIcon.left;
+                     rightMargin: 5;
+                 }
+            }
 
-        Image {
-            id: achievedIcon;
-            source: "icons/progress-indicator.png"
-             anchors {
-                 left: achievedIcon.left;
-                 rightMargin: 5;
-             }
+            Image {
+                id: achievedIcon;
+                source: "icons/progress-indicator.png"
+                anchors {
+                    left: achievedIcon.left;
+                    rightMargin: 5;
+                }
+            }
         }
     }
 

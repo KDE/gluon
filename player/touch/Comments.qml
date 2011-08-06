@@ -20,7 +20,7 @@
 import QtQuick 1.0
 
 Rectangle {
-    id: gluon_player;
+    id: comments;
 
     color: "black";
     anchors.fill: parent;
