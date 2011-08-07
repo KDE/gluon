@@ -16,16 +16,11 @@ endif()
 
 target_link_libraries(gluonexamples_audio_play3d ${GLUON_AUDIO_LIBS})
 
-set(GluonAudio_SOUNDS
+install(FILES
     Front_Center.wav
     Front_Left.wav
     Front_Right.wav
-)
-
-install(
-    FILES
-    ${GluonAudio_SOUNDS}
-    DESTINATION ${SHARE_INSTALL_DIR}/gluon/audio/sounds
+    DESTINATION ${EXAMPLES_DATA_INSTALL_DIR}
     COMPONENT Devel
 )
 

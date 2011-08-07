@@ -16,6 +16,6 @@ endif()
 
 target_link_libraries(gluonexamples_graphics_filemesh ${GLUON_GRAPHICS_LIBS} ${QT_QTCORE_LIBRARIES})
 
-install(TARGETS gluonexamples_graphics_filemesh DESTINATION ${EXAMPLES_INSTALL_DIR})
-install(FILES duck.dae duck.tga DESTINATION ${SHARE_INSTALL_DIR}/gluon/examples )
+install(TARGETS gluonexamples_graphics_filemesh RUNTIME DESTINATION ${EXAMPLES_INSTALL_DIR})
+install(FILES duck.dae duck.tga DESTINATION ${EXAMPLES_DATA_INSTALL_DIR})
 

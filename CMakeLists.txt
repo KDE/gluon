@@ -36,15 +36,9 @@ set(GLUON_BUILD_ALL TRUE
 )
 
 if(NOT MSVC)
-SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -Wno-switch -O2 -g")
-SET(CMAKE_CXX_FLAGS_RELEASE "-Wall -Wno-switch -O2")
-SET(CMAKE_CXX_FLAGS_DEBUG  "-Wall -Wno-switch -g3 -ggdb -O0" CACHE STRING "Debug options." FORCE)
-
-
-# Build Release by default
-IF (NOT CMAKE_BUILD_TYPE)
-    SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
-ENDIF ()
+    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -Wno-switch -O2 -g")
+    set(CMAKE_CXX_FLAGS_RELEASE "-Wall -Wno-switch -O2")
+    set(CMAKE_CXX_FLAGS_DEBUG  "-Wall -Wno-switch -g3 -ggdb -O0" CACHE STRING "Debug options." FORCE)
 endif(NOT MSVC)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
