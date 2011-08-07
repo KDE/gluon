@@ -85,6 +85,11 @@ int VertexAttribute::itemSize() const
     return d->size;
 }
 
+void VertexAttribute::clear()
+{
+    d->data.clear();
+}
+
 int VertexAttribute::size() const
 {
     return d->data.size() * sizeof( float );
