@@ -23,7 +23,6 @@
 #include "materialinstance.h"
 #include "vertexattribute.h"
 #include "vertexattribute_p.h"
-#include "glheaders.h"
 
 using namespace GluonGraphics;
 
@@ -47,8 +46,7 @@ class VertexBuffer::VertexBufferPrivate
 };
 
 VertexBuffer::VertexBuffer( VertexBuffer::BufferDataMode mode, QObject* parent )
-    : QObject( parent )
-    , d( new VertexBufferPrivate() )
+    : QObject( parent ), d( new VertexBufferPrivate() )
 {
     d->dataMode = mode;
 }
@@ -56,6 +54,17 @@ VertexBuffer::VertexBuffer( VertexBuffer::BufferDataMode mode, QObject* parent )
 VertexBuffer::~VertexBuffer()
 {
     delete d;
+}
+
+VertexAttribute& VertexBuffer::attributeRef(const QString& name)
+{
+    QList<VertexAttribute>::iterator itr;
+    for(itr = d->attributes.begin(); itr != d->attributes.end(); ++itr)
+    {
+        if(itr->name() == name)
+            break;
+    }
+    return *itr;
 }
 
 void VertexBuffer::addAttribute( const VertexAttribute& attribute )
@@ -66,6 +75,11 @@ void VertexBuffer::addAttribute( const VertexAttribute& attribute )
 VertexBuffer::BufferDataMode VertexBuffer::bufferDataMode() const
 {
     return d->dataMode;
+}
+
+void VertexBuffer::setBufferDataMode(VertexBuffer::BufferDataMode mode)
+{
+    d->dataMode = mode;
 }
 
 void VertexBuffer::setIndices( const QVector<uint>& indices )
@@ -86,6 +100,17 @@ void VertexBuffer::initialize()
     }
 
     glGenBuffers( 1, &d->buffer );
+
+    update();
+}
+
+void VertexBuffer::update()
+{
+    if( d->attributes.isEmpty() )
+    {
+        return;
+    }
+
     glBindBuffer( GL_ARRAY_BUFFER, d->buffer );
     int size = 0;
     foreach( const VertexAttribute & attribute, d->attributes )
@@ -106,15 +131,18 @@ void VertexBuffer::initialize()
 
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
 
-    glGenBuffers( 1, &d->indexBuffer );
-    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, d->indexBuffer );
-    glBufferData( GL_ELEMENT_ARRAY_BUFFER, d->indices.size() * sizeof( float ), d->indices.data(), GL_STATIC_DRAW );
-    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+    if(d->indices.size() > 0)
+    {
+        glGenBuffers( 1, &d->indexBuffer );
+        glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, d->indexBuffer );
+        glBufferData( GL_ELEMENT_ARRAY_BUFFER, d->indices.size() * sizeof( float ), d->indices.data(), GL_STATIC_DRAW );
+        glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+    }
 }
 
 void VertexBuffer::render( RenderMode mode, GluonGraphics::MaterialInstance* material )
 {
-    if( d->buffer == 0 )
+    if( d->buffer == 0 || d->attributes.size() == 0 )
     {
         return;
     }

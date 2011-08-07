@@ -93,26 +93,34 @@ namespace GluonGraphics
             };
 
             /**
-             * This enumeration determines how the data of this buffer is treated.
+             * This enumeration determines how the data of this buffer is treated. It provides a
+             * hint to OpenGL that can be used by OpenGL to optimize the data usage.
              *
-             * - STATIC_* modes are meant for data that does not change oftern, like world geomrtry.
-             * - DYNAMIC_* modes are meant for data that is changed almost every frame, such as a
-             *   skinned character mesh.
-             * -
+             * - STREAM_ modes are meant for data that is uploaded once and then used only a few times.
+             * - STATIC_ modes are meant for data that is uploaded once and then used very often.
+             * - DYNAMIC_ modes are meant for data that is uploaded often and used often.
+             *
+             * There are three forms of the buffer mode:
+             *
+             * - DRAW_ modes are for data that is modified by the application and should be used by
+             *   OpenGL for vertex processing and drawing.
+             * - READ_ modes are for data that is read from OpenGL for processing in the application.
+             * - COPY_ modes are for data that is read from OpenGL and should be used by OpenGL for
+             *   vertex processing and drawing.
              */
             enum BufferDataMode
             {
-                BM_STATIC_DRAW = 0x88E4,  ///<
-                BM_STATIC_READ = 0x88E5,  ///<
-                BM_STATIC_COPY = 0x88E6,  ///<
+                BM_STATIC_DRAW = GL_STATIC_DRAW,  ///<
+                BM_STATIC_READ = GL_STATIC_READ,  ///<
+                BM_STATIC_COPY = GL_STATIC_COPY,  ///<
 
-                BM_DYNAMIC_DRAW = 0x88E8, ///<
-                BM_DYNAMIC_READ = 0x88E9, ///<
-                BM_DYNAMIC_COPY = 0x88EA, ///<
+                BM_DYNAMIC_DRAW = GL_DYNAMIC_DRAW, ///<
+                BM_DYNAMIC_READ = GL_DYNAMIC_READ, ///<
+                BM_DYNAMIC_COPY = GL_DYNAMIC_COPY, ///<
 
-                BM_STREAM_DRAW = 0x88E0,  ///<
-                BM_STREAM_READ = 0x88E1,  ///<
-                BM_STREAM_COPY = 0x88E2,  ///<
+                BM_STREAM_DRAW = GL_STREAM_DRAW,  ///<
+                BM_STREAM_READ = GL_STREAM_READ,  ///<
+                BM_STREAM_COPY = GL_STREAM_COPY,  ///<
             };
 
             /**
@@ -129,6 +137,11 @@ namespace GluonGraphics
             virtual ~VertexBuffer();
 
             /**
+             * Retrieve a reference to an attribute.
+             */
+            VertexAttribute& attributeRef( const QString& name );
+
+            /**
              * Add a vertex attribute to the list of attributes that will
              * be used by initialize() to create the buffer.
              *
@@ -142,6 +155,17 @@ namespace GluonGraphics
              * \see setBufferDataMode
              */
             BufferDataMode bufferDataMode() const;
+
+            /**
+             * Set the buffer data mode.
+             *
+             * The buffer data mode is used to give OpenGL a hint about
+             * the way the data is used. This allows OpenGL to optimize
+             * the data usage.
+             *
+             * \param mode The data mode to use.
+             */
+            void setBufferDataMode( BufferDataMode mode );
 
             /**
              * Sets the vertex indices to be used when rendering.
