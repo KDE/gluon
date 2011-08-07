@@ -268,6 +268,11 @@ bool CommentsModel::isOnline()
 
 void CommentsModel::uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message )
 {
+    if( d->m_gameId.isEmpty() )
+    {
+        qDebug() << "Invalid game id, can't upload comment";
+        return;
+    }
     GluonObject* parentNode = static_cast<GluonObject*>( parentIndex.internalPointer() );
     ServiceProvider::instance()->uploadComment(d->m_gameId, parentNode->name(), subject, message);
 

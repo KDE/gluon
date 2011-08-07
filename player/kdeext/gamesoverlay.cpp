@@ -91,12 +91,7 @@ void GamesOverlay::backToGames()
 
 void GamesOverlay::showGameDetails( const QModelIndex& index )
 {
-    QString projectId = index.data( GluonPlayer::GameItemsModel::ProjectIDRole ).toString();
-    if( projectId.isEmpty() )
-    {
-        qDebug() << "Invalid game ID while querying the game details!";
-        return;
-    }
+    QString userName = "user";
 
     if( m_gameDetailsOverlay )
     {
@@ -105,7 +100,7 @@ void GamesOverlay::showGameDetails( const QModelIndex& index )
         m_gameDetailsOverlay = 0;
     }
 
-    m_gameDetailsOverlay = new GameDetailsOverlay( projectId, this );
+    m_gameDetailsOverlay = new GameDetailsOverlay( m_gameItemsModel->installedGameInfo( index.row())->metaData(), userName, this );
     m_stackedWidget->addWidget( m_gameDetailsOverlay );
     m_stackedWidget->setCurrentIndex( m_stackedWidget->count() - 1 );
     connect( m_gameDetailsOverlay, SIGNAL( back() ), SLOT( backToGames() ) );

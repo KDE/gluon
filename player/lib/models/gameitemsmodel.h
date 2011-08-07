@@ -83,6 +83,8 @@ namespace GluonPlayer
             int downloadableCount() const;
             int upgradableCount() const;
 
+            GameViewItem* installedGameInfo( int row );
+
         Q_SIGNALS:
             void downloadableCountChanged();
             void upgradableCountChanged();

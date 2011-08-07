@@ -25,6 +25,11 @@
 
 #include <QtCore/QStringList>
 
+namespace GluonEngine
+{
+    class ProjectMetaData;
+}
+
 namespace GluonPlayer
 {
     /**
@@ -47,9 +52,12 @@ namespace GluonPlayer
                 Upgradable
             };
 
+            GameViewItem( const QString& projectFilePath, const Status& status, QObject* parent = 0 );
+
             GameViewItem( const QString& projectName, const QString& projectDescription,
-                          const QString& projectDirPath, const QString& projectFilePath,
-                          const Status& status, const QString& projectId, QObject* parent = 0 );
+                          const QString& projectFilePath, const Status& status,
+                          const QString& projectId, QObject* parent = 0 );
+
             GameViewItem( const GameViewItem& other, QObject* parent = 0 );
             virtual ~GameViewItem();
 
@@ -60,6 +68,8 @@ namespace GluonPlayer
             QStringList screenshotUrls() const;
             Status status() const;
             QString projectId() const;
+
+            GluonEngine::ProjectMetaData* metaData();
 
         private:
             class Private;
