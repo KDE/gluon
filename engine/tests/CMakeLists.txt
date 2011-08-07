@@ -17,5 +17,6 @@ GLUON_UNIT_TESTS(
 
     # Source files without the extension
     abstractstatistictest
+    gameobjecttest
     statistictest
 )
