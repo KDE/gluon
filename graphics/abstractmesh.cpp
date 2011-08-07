@@ -32,7 +32,7 @@ using namespace GluonGraphics;
 class AbstractMesh::Private
 {
     public:
-        Private()
+        Private() : buffer(0), material(0)
         {
         }
 
@@ -43,6 +43,7 @@ class AbstractMesh::Private
 AbstractMesh::AbstractMesh( QObject* parent )
     : QObject( parent ), d( new Private )
 {
+    d->buffer = new VertexBuffer( VertexBuffer::BM_STATIC_DRAW, this );
 }
 
 AbstractMesh::~AbstractMesh()

@@ -49,8 +49,7 @@ class Item::ItemPrivate
 };
 
 Item::Item( QObject* parent )
-    : QObject( parent ),
-      d( new ItemPrivate )
+    : QObject( parent ), d( new ItemPrivate )
 {
     d->materialInstance = Engine::instance()->material( "default" )->instance( "default" );
 }

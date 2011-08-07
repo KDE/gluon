@@ -37,7 +37,7 @@ SpriteMesh::~SpriteMesh()
 
 void SpriteMesh::initialize()
 {
-    VertexBuffer* buffer = new VertexBuffer( VertexBuffer::BM_STATIC_DRAW, this );
+    VertexBuffer* buffer = vertexBuffer();
 
     VertexAttribute vertices( "vertex", 3 );
     vertices << -1.f << -1.f << 0.f;
@@ -65,8 +65,6 @@ void SpriteMesh::initialize()
             << 0 << 2 << 3;
 
     buffer->setIndices( indices );
-
-    setVertexBuffer(buffer);
     buffer->initialize();
 }
 

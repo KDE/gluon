@@ -55,7 +55,7 @@ void FileMesh::initialize()
         return;
     }
 
-    VertexBuffer* buffer = new VertexBuffer( VertexBuffer::BM_STATIC_DRAW, this );
+    VertexBuffer* buffer = vertexBuffer();
     for(uint m = 0; m < scene->mNumMeshes; ++m)
     {
         aiMesh* mesh = scene->mMeshes[m];
