@@ -50,9 +50,9 @@ int main( int argc, char* argv[] )
     GluonGraphics::Engine::instance()->setActiveCamera( cam );
 
     //Create a new FileMesh to load vertex data from a mesh.
-    GluonGraphics::FileMesh* mesh = new GluonGraphics::FileMesh();
+    GluonGraphics::FileMesh* mesh = new GluonGraphics::FileMesh(GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/examples/graphics/duck.dae" );
     //Load the data.
-    mesh->load(GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/examples/graphics/duck.dae");
+    mesh->initialize();
     //Register it with the Engine so we can track it.
     GluonGraphics::Engine::instance()->addMesh("duck", mesh);
 
