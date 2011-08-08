@@ -20,7 +20,7 @@
 #include "soundemittercomponenttest.h"
 
 #include <engine/gameobject.h>
-#include <engine/components/sound/soundemitter/soundemittercomponent.h>
+#include <engine/components/audio/soundemitter/soundemittercomponent.h>
 
 #include <QtTest/QtTest>
 
@@ -104,6 +104,6 @@ void SoundEmitterComponentTest::testPopulateMetaInfo()
 {
 }
 
-QTEST_MAIN(SoundEmitterSoundEmitterComponentTest)
+QTEST_MAIN(SoundEmitterComponentTest)
 
 #include "soundemittercomponenttest.moc"

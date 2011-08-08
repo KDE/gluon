@@ -20,7 +20,7 @@
 #include "soundlistenercomponenttest.h"
 
 #include <engine/gameobject.h>
-#include <engine/components/sound/soundlistener/soundlistenercomponent.h>
+#include <engine/components/audio/soundlistener/soundlistenercomponent.h>
 
 #include <QtTest/QtTest>
 
@@ -53,13 +53,17 @@ void SoundListenerComponentTest::testActive()
     SoundListenerComponent soundListenerComponent;
     bool active = true;
     soundListenerComponent.setActive(active);
-    QCOMPARE(soundListenerComponent.active(), active);
+    QVERIFY(soundListenerComponent.active() != 0);
 }
 
 void SoundListenerComponentTest::testEffectsEnabled()
 {
+    SoundListenerComponent soundListenerComponent;
+    bool effectsEnabled = true;
+    soundListenerComponent.setEffectsEnabled();
+    QCOMPARE(soundListenerComponent.effectsEnabled(), effectsEnabled);
 }
 
-QTEST_MAIN(SoundEmitterSoundListenerComponentTest)
+QTEST_MAIN(SoundListenerComponentTest)
 
 #include "soundlistenercomponenttest.moc"
