@@ -38,8 +38,8 @@ DirectoryProvider::DirectoryProvider( QObject* parent )
     m_userDataPath.append( "/gluon/" );
 
     //Define standard dirs Gluon recommends
-    m_userDirs["data"] =  QDir::fromNativeSeparators( m_userDataPath + "/data/" );
-    m_userDirs["games"] = QDir::fromNativeSeparators( m_userDataPath + "/games/" );
+    m_userDirs["data"] =  QDir::fromNativeSeparators( m_userDataPath + "/data" );
+    m_userDirs["games"] = QDir::fromNativeSeparators( m_userDataPath + "/games" );
 
     //Create standard dirs Gluon recommends
     QDir dir;
@@ -68,12 +68,12 @@ QString DirectoryProvider::installPrefix() const
 
 QString DirectoryProvider::dataDirectory() const
 {
-    return installPrefix() + "/" + GLUON_SHARE_INSTALL_DIR + "/";
+    return installPrefix() + "/" + GLUON_SHARE_INSTALL_DIR;
 }
 
 QString DirectoryProvider::libDirectory() const
 {
-    return installPrefix() + "/" + GLUON_LIB_INSTALL_DIR + "/";
+    return installPrefix() + "/" + GLUON_LIB_INSTALL_DIR;
 }
 
 QString DirectoryProvider::userDirectory( const QString& name )
