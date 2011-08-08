@@ -60,7 +60,6 @@ set(GluonGraphics_SRCS
     vertexbuffer.cpp
     viewport.cpp
     spritemesh.cpp
-    particlemesh.cpp
 )
 
 set(GluonGraphics_HEADERS
