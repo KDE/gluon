@@ -21,7 +21,7 @@
 #ifndef GENERICS_H
 #define GENERICS_H
 
-#include "../GraphicsItem/NodeItem.h"
+#include "NodeItem.h"
 /*! for the AlignNodes class, checks if a node is more in the left than the other.
 \p n1 first node
 \p n2 second node

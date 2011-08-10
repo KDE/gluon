@@ -22,15 +22,15 @@
 
 #include "node.h"
 
-#include <QtGui/QGraphicsSvgItem>
-#include <QtGui/QPropertyAnimation>
-#include <QtGui/QSvgRenderer>
 #include <QtGui/QGraphicsTextItem>
 #include <QtGui/QGraphicsPixmapItem>
 #include <QtGui/QGraphicsColorizeEffect>
 #include <QtGui/QFont>
 #include <QtGui/QPixmap>
 #include <QtGui/QGraphicsItem>
+
+#include <QtSvg/QGraphicsSvgItem>
+#include <QtSvg/QSvgRenderer>
 
 #include <QtCore/QStateMachine>
 #include <QtCore/QState>

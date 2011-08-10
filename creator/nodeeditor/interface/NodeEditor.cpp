@@ -19,7 +19,7 @@
      Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include "MainWindow.h"
+#include "NodeEditor.h"
 
 #include "lib/abstractundocommand.h"
 #include "lib/objectmanager.h"
@@ -63,7 +63,7 @@
 #include <QtCore/QDir>
 
 
-MainWindow::MainWindow() :  QWidget()
+NodeEditor::NodeEditor() :  QWidget()
 {
     _tDocument = new    GraphDocument( "Untitled" );
 
@@ -84,12 +84,12 @@ MainWindow::MainWindow() :  QWidget()
     connect( GluonCreator::ObjectManager::instance(), SIGNAL( newComponent( GluonEngine::Component* ) ), SLOT( markAsGameComponent() ) );
 }
 
-GraphDocument* MainWindow::activeDocument() const
+GraphDocument* NodeEditor::activeDocument() const
 {
     return _tDocument;
 }
 
-void MainWindow::eatChildren( GluonEngine::GameObject* trap )
+void NodeEditor::eatChildren( GluonEngine::GameObject* trap )
 {
     qsrand( trap->childCount() );
     int i = trap->childCount();
@@ -116,7 +116,7 @@ void MainWindow::eatChildren( GluonEngine::GameObject* trap )
     }
 }
 
-GluonCore::GluonObject* MainWindow::surfNodesIntoTree()
+GluonCore::GluonObject* NodeEditor::surfNodesIntoTree()
 {
     GluonCore::GluonObject* nodelist = new GluonCore::GluonObject( "plantaseedgrowatree" );
     foreach( Edge * e, _graph->edges() )
@@ -131,7 +131,7 @@ GluonCore::GluonObject* MainWindow::surfNodesIntoTree()
     return nodelist;
 }
 
-void MainWindow::traceNodeGen( GluonCore::GluonObject* n )
+void NodeEditor::traceNodeGen( GluonCore::GluonObject* n )
 {
     foreach( Edge * e, _graph->node( n->objectName() )->out_edges() )
     {
@@ -140,17 +140,17 @@ void MainWindow::traceNodeGen( GluonCore::GluonObject* n )
     }
 }
 
-void MainWindow::markAsGameObject()
+void NodeEditor::markAsGameObject()
 {
     _isGameObject = true;
 }
 
-void MainWindow::markAsGameComponent()
+void NodeEditor::markAsGameComponent()
 {
     _isGameComponent = true;
 }
 
-void MainWindow::updateNodesFromModel( const QUndoCommand* cmd )
+void NodeEditor::updateNodesFromModel( const QUndoCommand* cmd )
 {
     if( _skipNextUpdate != false )
     {
@@ -206,7 +206,7 @@ void MainWindow::updateNodesFromModel( const QUndoCommand* cmd )
     _isGameComponent = false;
 }
 
-void MainWindow::deleteThisSceneObject( QString objectName, QString objectParent )
+void NodeEditor::deleteThisSceneObject( QString objectName, QString objectParent )
 {
     //not sure if this whole piece is correctly identifing child object.
     GluonEngine::GameObject* parent;
@@ -226,7 +226,7 @@ void MainWindow::deleteThisSceneObject( QString objectName, QString objectParent
     }
 }
 
-void MainWindow::exportFromThisNode( GluonCore::GluonObject* o, QTextStream* file )
+void NodeEditor::exportFromThisNode( GluonCore::GluonObject* o, QTextStream* file )
 {
     if( _graph->node( o->objectName() )->type() == "if" )
     {
@@ -271,7 +271,7 @@ void MainWindow::exportFromThisNode( GluonCore::GluonObject* o, QTextStream* fil
     }
 }
 
-void MainWindow::exportCode( bool /* checked */ )
+void NodeEditor::exportCode( bool /* checked */ )
 {
     if( GluonEngine::Game::instance()->gameProject()->findItemByName( "vn-" + GluonEngine::Game::instance()->currentScene()->name() ) == NULL )
     {
@@ -303,7 +303,7 @@ void MainWindow::exportCode( bool /* checked */ )
     }
 }
 
-void MainWindow::saveStateGDL()
+void NodeEditor::saveStateGDL()
 {
     if( !_skipSaving )
     {
@@ -340,7 +340,7 @@ void MainWindow::saveStateGDL()
     }
 }
 
-void MainWindow::loadStateGDL()
+void NodeEditor::loadStateGDL()
 {
     QList<GluonCore::GluonObject*> rootlist = GluonCore::GDLHandler::instance()->parseGDL( QFileInfo( GluonEngine::Game::instance()->gameProject()->filename().toLocalFile() ).dir().absolutePath() + "/Assets/visualnodes-" + GluonEngine::Game::instance()->currentScene()->name() + ".gdl" );
     foreach( QObject * n, rootlist.first()->children() )
@@ -357,7 +357,7 @@ void MainWindow::loadStateGDL()
     }
 }
 
-void MainWindow::readTheScene()
+void NodeEditor::readTheScene()
 {
     QDir path = QDir( QFileInfo( GluonEngine::Game::instance()->gameProject()->filename().toLocalFile() ).dir().absolutePath() + "/Assets" );
     if( GluonEngine::Game::instance()->currentScene()->name() == _lastScene ) return;
@@ -382,7 +382,7 @@ void MainWindow::readTheScene()
     _lastScene = GluonEngine::Game::instance()->currentScene()->name();
 }
 
-void MainWindow::setupWidgets()
+void NodeEditor::setupWidgets()
 {
     _layout = new QVBoxLayout( this );
     _graphVisualEditor = new GraphVisualEditor( this );
@@ -397,7 +397,7 @@ void MainWindow::setupWidgets()
     _layout->addWidget( _graphVisualEditor );
 }
 
-void MainWindow::setupLists()
+void NodeEditor::setupLists()
 {
     QHash<QString, const QMetaObject*> objectTypes = GluonCore::GluonObjectFactory::instance()->objectTypes();
     foreach( const QMetaObject * obj, objectTypes )
@@ -410,7 +410,7 @@ void MainWindow::setupLists()
     }
 }
 
-void MainWindow::addCustomTypes( KComboBox* bigList )
+void NodeEditor::addCustomTypes( KComboBox* bigList )
 {
     QList<GluonCore::GluonObject*> noderootlist = GluonCore::GDLHandler::instance()->parseGDL( KGlobal::dirs()->locate( "data", "nodetypes.gdl" ) );
     QMap<QString, QVariant> propertlist;
@@ -425,7 +425,7 @@ void MainWindow::addCustomTypes( KComboBox* bigList )
     }
 }
 
-void MainWindow::setupActions()
+void NodeEditor::setupActions()
 {
     GraphScene* gc = _graphVisualEditor->scene();
     ac = new KActionCollection( this );
@@ -444,7 +444,7 @@ void MainWindow::setupActions()
     ac->action( "move_node" )->trigger();
 }
 
-void MainWindow::toggleWidgetTypeShown()
+void NodeEditor::toggleWidgetTypeShown()
 {
     if( _widgetTypeBar->isVisible() )
     {
@@ -456,7 +456,7 @@ void MainWindow::toggleWidgetTypeShown()
     }
 }
 
-void MainWindow::setActiveGraphDocument( GraphDocument* d )
+void NodeEditor::setActiveGraphDocument( GraphDocument* d )
 {
     foreach( QAction * action, ac->actions() )
     {
@@ -469,7 +469,7 @@ void MainWindow::setActiveGraphDocument( GraphDocument* d )
     _graphVisualEditor->setActiveGraphDocument( d );
 }
 
-void MainWindow::setActiveGraph( Graph* g )
+void NodeEditor::setActiveGraph( Graph* g )
 {
     disconnect( SIGNAL( saveStateGDL() ) );
     foreach( QAction * action, ac->actions() )
@@ -483,12 +483,12 @@ void MainWindow::setActiveGraph( Graph* g )
     connect( g, SIGNAL( changed() ), SLOT( saveStateGDL() ) );
 }
 
-Graph* MainWindow::graph() const
+Graph* NodeEditor::graph() const
 {
     return _graph;
 }
 
-GraphScene* MainWindow::scene() const
+GraphScene* NodeEditor::scene() const
 {
     return _graphVisualEditor->scene();
 }

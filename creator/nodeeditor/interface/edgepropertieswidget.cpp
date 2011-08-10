@@ -19,7 +19,7 @@
 
 #include "edgepropertieswidget.h"
 #include "edge.h"
-#include "MainWindow.h"
+#include "NodeEditor.h"
 #include "model_GraphProperties.h"
 #include <graph.h>
 

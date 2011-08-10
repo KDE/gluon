@@ -32,7 +32,7 @@ class Graph;
 class Node;
 class GraphScene;
 class QToolButton;
-class MainWindow;
+class NodeEditor;
 class NodeItem;
 class QGraphicsView;
 
@@ -42,11 +42,11 @@ class GraphVisualEditor : public QWidget
     public:
         /*! Default Constructor
         \param parent the owner of this widget. */
-        GraphVisualEditor( MainWindow* parent = 0 );
+        GraphVisualEditor( NodeEditor* parent = 0 );
 
         GraphScene* scene() const;
         QGraphicsView* view() const;
-        MainWindow* mainWindow();
+        NodeEditor* mainWindow();
 
         /*! as the name says, it removes the current GraphDocument
         from the screen and releases it from the evil hands of GraphEditWidget.*/
@@ -77,7 +77,7 @@ class GraphVisualEditor : public QWidget
         GraphDocument* _graphDocument;
         Graph* _graph;
 
-        MainWindow* _mainWindow;
+        NodeEditor* _mainWindow;
 
         qreal _topNode;
         qreal _bottomNode;

@@ -26,7 +26,7 @@
 #include "graphDocument.h"
 #include "node.h"
 #include "edge.h"
-#include "MainWindow.h"
+#include "NodeEditor.h"
 #include "NodeItem.h"
 #include "OrientedEdgeItem.h"
 #include "GraphScene.h"
@@ -38,7 +38,7 @@ GraphPropertiesWidget::GraphPropertiesWidget( Graph* g, QWidget* parent )
     : KButtonGroup( parent )
 {
     setupUi( this );
-    _mainWindow = ( MainWindow* ) parent;
+    _mainWindow = ( NodeEditor* ) parent;
     //! do not lock here, it will create a racing condition.
 
     _graph = g;

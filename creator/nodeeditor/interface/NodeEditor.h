@@ -52,7 +52,7 @@ class CodeEditor;
 
 #include <QtCore/QWaitCondition>
 
-class MainWindow : public QWidget
+class NodeEditor : public QWidget
 {
         Q_OBJECT
         /**
@@ -60,7 +60,7 @@ class MainWindow : public QWidget
          * Creates Graph to put Nodes on and Buttons to change interaction mode.
          */
     public:
-        MainWindow();
+        NodeEditor();
 
         /**
          * Gets graph currently in use.

@@ -20,7 +20,7 @@
 
 #include "GraphVisualEditor.h"
 #include "GraphScene.h"
-#include "MainWindow.h"
+#include "NodeEditor.h"
 #include "NodeItem.h"
 #include "OrientedEdgeItem.h"
 
@@ -38,7 +38,7 @@
 #include <QGraphicsView>
 #include <QPainter>
 
-GraphVisualEditor::GraphVisualEditor( MainWindow* parent )
+GraphVisualEditor::GraphVisualEditor( NodeEditor* parent )
     : QWidget( parent ),
       _topNode( 0 ),
       _bottomNode( 0 ),

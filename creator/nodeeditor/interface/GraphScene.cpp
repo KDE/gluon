@@ -27,7 +27,7 @@
 #include "OrientedEdgeItem.h"
 #include "graph.h"
 #include "NodePropertiesWidget.h"
-#include "MainWindow.h"
+#include "NodeEditor.h"
 #include "edgepropertieswidget.h"
 
 #include <KDE/KInputDialog>
@@ -233,7 +233,7 @@ void GraphScene::mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent )
         {
             //eew yuck, popup windows!
             bool ok;
-            QString response = KInputDialog::getText( qobject_cast<QWidget*>( _parent ), "Change If Test", "New If Test:", QLineEdit::Normal, nItem->node()->value().toString(), &ok );
+            QString response = KInputDialog::getText( "Change If Test", "New If Test:", nItem->node()->value().toString(), &ok, qobject_cast<QWidget*>( _parent ) );
             if( ok && !response.isEmpty() )
             {
                 nItem->node()->setValue( response );

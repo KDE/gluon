@@ -29,7 +29,7 @@ class Edge;
 
 
 /*! \brief Properties Area, not used yet. */
-class MainWindow;
+class NodeEditor;
 class GraphPropertiesWidget : public KButtonGroup, public Ui::GraphPropertiesWidget
 {
         Q_OBJECT
@@ -62,7 +62,7 @@ class GraphPropertiesWidget : public KButtonGroup, public Ui::GraphPropertiesWid
 
     private:
         Graph* _graph;
-        MainWindow* _mainWindow;
+        NodeEditor* _mainWindow;
 
 };
 #endif

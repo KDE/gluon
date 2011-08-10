@@ -19,7 +19,7 @@
 
 #include "NodePropertiesWidget.h"
 #include "node.h"
-#include "MainWindow.h"
+#include "NodeEditor.h"
 #include <KDebug>
 #include "NodeItem.h"
 #include "graph.h"
