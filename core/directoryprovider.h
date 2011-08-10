@@ -18,13 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONCORE_DIRECTORYPROVIDER_H
-#define GLUONCORE_DIRECTORYPROVIDER_H
+#ifndef GLUON_CORE_DIRECTORYPROVIDER_H
+#define GLUON_CORE_DIRECTORYPROVIDER_H
+
+#include "gluon_core_export.h"
+#include "core/gluon_global.h"
 
 #include "singleton.h"
-
-#include <core/gluon_global.h>
-#include "gluon_core_export.h"
 
 #include <QtCore/QHash>
 
@@ -52,4 +52,4 @@ namespace GluonCore
 
 }
 
-#endif // GLUONCORE_DIRECTORYPROVIDER_H
+#endif // GLUON_CORE_DIRECTORYPROVIDER_H

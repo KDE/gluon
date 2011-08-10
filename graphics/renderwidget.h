@@ -28,7 +28,7 @@
 
 #ifdef Q_OS_WIN
 #include <windows.h>
-#include <GL/glee.h>
+#include <GL/GLee.h>
 #endif
 
 #include <QtOpenGL/QGLWidget>

@@ -97,12 +97,14 @@ namespace GluonEngine
              * is needed. This includes scene changes.
              */
             virtual void initialize() {}
+
             /**
              * The start function is run once after each scene change,
              * immediately before the first update
              * @see Game::setCurrentScene, update
              */
             virtual void start() {};
+
             /**
              * The update function is run each time the game logic needs to be
              * updated. Implement this function in inherited classed to allow
@@ -113,6 +115,7 @@ namespace GluonEngine
              * @see Game::runGame, draw
              */
             virtual void update( int elapsedMilliseconds );
+
             /**
              * The draw function is run every time the engine requests a redraw
              * of the screen. Avoid putting any game logic in this function.
@@ -134,7 +137,7 @@ namespace GluonEngine
              * this function if you have something that needs cleaning up
              * between runs.
              */
-            virtual void stop() {};
+            virtual void stop() {}
 
             /**
              * The cleanup function is called whenever an object is no longer
@@ -150,6 +153,7 @@ namespace GluonEngine
              * @see setDescription
              */
             QString description() const;
+
             /**
              * Set the description of the Component
              * @param newDescription The new description
@@ -163,6 +167,7 @@ namespace GluonEngine
              * @see setEnabled
              */
             bool enabled() const;
+
             /**
              * Set the enabled parameter of the Component instance
              * @param newEnabled The new value for the parameter
@@ -180,6 +185,7 @@ namespace GluonEngine
              * @see setGameObject, GameObject
              */
             GameObject* gameObject();
+
             /**
              * Move this Component to another GameObject. Please note that this
              * will remove the Component from its current GameObject!

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 if(NOT GLUON_BUILD_ALL)
 project(GluonGraphics)
@@ -8,7 +8,7 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 if(WIN32)
-    find_package(GLEE)
+    find_package(Glee)
     if(NOT GLEE_FOUND)
         message(FATAL_ERROR "Could NOT find GLee!")
     endif(NOT GLEE_FOUND)
@@ -43,23 +43,23 @@ endif(ASSIMP_FOUND)
 set(GluonGraphics_SRCS
     backendcapabilities.cpp
     camera.cpp
+    engine.cpp
     frustrum.cpp
     item.cpp
     material.cpp
     materialelement.cpp
     materialinstance.cpp
-    #engine.cpp has to be after the materialinstance.cpp, otherwise crash here
-    engine.cpp
     mathutils.cpp
     rendertarget.cpp
     renderwidget.cpp
     technique.cpp
     texture.cpp
-    mesh.cpp
+    abstractmesh.cpp
     vertex.cpp
     vertexattribute.cpp
     vertexbuffer.cpp
     viewport.cpp
+    spritemesh.cpp
 )
 
 set(GluonGraphics_HEADERS
@@ -70,7 +70,7 @@ set(GluonGraphics_HEADERS
     glheaders.h
     gluon_graphics_export.h
     item.h
-    mesh.h
+    abstractmesh.h
     material.h
     materialelement.h
     materialinstance.h
@@ -140,17 +140,17 @@ if(INSTALL_EXAMPLES)
 endif()
 
 install(
-    TARGETS GluonGraphics
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION ${LIB_INSTALL_DIR}
-    ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
-    FRAMEWORK DESTINATION ${LIB_INSTALL_DIR}
+    TARGETS     GluonGraphics
+    RUNTIME     DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluongraphics
+    LIBRARY     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
+    ARCHIVE     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
+    FRAMEWORK   DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
 )
 
 install(FILES
     ${GluonGraphics_HEADERS}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics
-    COMPONENT Devel
+    COMPONENT gluongraphics
 )
 
 install(
@@ -159,3 +159,9 @@ install(
     default.png
     DESTINATION ${SHARE_INSTALL_DIR}/gluon/defaults
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+

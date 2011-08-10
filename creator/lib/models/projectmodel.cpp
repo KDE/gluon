@@ -319,7 +319,7 @@ ProjectModel::mimeTypes() const
         d->acceptedMimeTypes.append( GluonCore::GluonObjectFactory::instance()->objectMimeTypes() );
         foreach( const QString & theName, d->acceptedMimeTypes )
         {
-            DEBUG_TEXT( QString( "%1" ).arg( theName ) );
+            DEBUG_TEXT( theName )
         }
     }
 
@@ -392,18 +392,18 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int /*
             GluonCore::GluonObject* itemObject = d->project->findItemByName( item );
             if( qobject_cast<GluonEngine::GameObject*>( itemObject ) )
             {
-                DEBUG_TEXT2("Dropped the object %1 on the project", itemObject->fullyQualifiedName());
+                DEBUG_TEXT2("Dropped the object %1 on the project", itemObject->fullyQualifiedName())
                 GluonEngine::GameObject* gameObject = qobject_cast<GluonEngine::GameObject*>( itemObject );
                 GluonEngine::GameObject* parentGO = gameObject->parentGameObject();
                 if(parentGO)
                 {
-                    DEBUG_TEXT("// Add Prefab on parent, set name to name of the dropped GameObject");
+                    DEBUG_TEXT("// Add Prefab on parent, set name to name of the dropped GameObject")
                     GluonEngine::Prefab* prefab = new GluonEngine::Prefab();
                     prefab->setName( gameObject->name() );
                     beginInsertRows( parent, rowCount( parent ), rowCount( parent ) );
                     newParentObject->addChild( prefab );
                     endInsertRows();
-                    DEBUG_TEXT("// Remove item from current parent, which automatically adds a new instance in the same place!");
+                    DEBUG_TEXT("// Remove item from current parent, which automatically adds a new instance in the same place!")
                     prefab->setGameObject(gameObject);
                     // Unfortunately the model needs to be reset here, as we can't do anything else
                     Models::instance()->sceneModel()->reset();
@@ -490,11 +490,11 @@ ProjectModel::removeRows( int row, int count, const QModelIndex& parent )
         return false;
 
     GluonCore::GluonObject* parentObject = static_cast<GluonCore::GluonObject*>( parent.internalPointer() );
-    DEBUG_TEXT( "Object removal begins..." );
+    DEBUG_TEXT( "Object removal begins..." )
 
     for( int i = row; i < row + count; ++i )
     {
-        DEBUG_TEXT( QString( "Checking child at row %1" ).arg( i ) );
+        DEBUG_TEXT2( "Checking child at row %1", i )
         GluonCore::GluonObject* child = parentObject->child( row );
         GluonEngine::Scene* sceneChild = qobject_cast< GluonEngine::Scene* >( child );
         if( sceneChild == GluonEngine::Game::instance()->currentScene() )
@@ -515,7 +515,7 @@ ProjectModel::removeRows( int row, int count, const QModelIndex& parent )
     beginRemoveRows( parent, row, row + count - 1 );
     for( int i = row; i < row + count; ++i )
     {
-        DEBUG_TEXT( QString( "Removing child at row %1" ).arg( i ) );
+        DEBUG_TEXT2( "Removing child at row %1", i )
         GluonCore::GluonObject* child = parentObject->child( row );
         if( child && parentObject->removeChild( child ) )
             child->deleteLater();

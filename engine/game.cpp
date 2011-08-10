@@ -77,7 +77,7 @@ Game::runGameFixedUpdate( int updatesPerSecond, int maxFrameSkip )
     // Bail out if we're not fed a level to work with!
     if( !d->currentScene )
     {
-        DEBUG_TEXT( QString( "There is no scene to run!" ) );
+        DEBUG_TEXT( QString( "There is no scene to run!" ) )
         return;
     }
 
@@ -86,7 +86,7 @@ Game::runGameFixedUpdate( int updatesPerSecond, int maxFrameSkip )
     cleanupAll();;
 
     int millisecondsPerUpdate = 1000 / updatesPerSecond;
-    DEBUG_TEXT( QString( "Running the game using fixed update at %1 updates per second (meaning %2 milliseconds between each update, and drawing as often as possible, with a maximum of %3 frames skipped before forcing a draw)" ).arg( updatesPerSecond ).arg( millisecondsPerUpdate ).arg( maxFrameSkip ) );
+    DEBUG_TEXT( QString( "Running the game using fixed update at %1 updates per second (meaning %2 milliseconds between each update, and drawing as often as possible, with a maximum of %3 frames skipped before forcing a draw)" ).arg( updatesPerSecond ).arg( millisecondsPerUpdate ).arg( maxFrameSkip ) )
 
     int nextTick = 0, loops = 0;
     int timeLapse = 0;
@@ -132,12 +132,12 @@ Game::runGameFixedTimestep( int framesPerSecond )
     // Bail out if we're not fed a level to work with!
     if( !d->currentScene )
     {
-        DEBUG_TEXT( QString( "There is no scene to run!" ) );
+        DEBUG_TEXT( QString( "There is no scene to run!" ) )
         return;
     }
 
     int millisecondsPerUpdate = 1000 / framesPerSecond;
-    DEBUG_TEXT( QString( "Running the game using fixed timestep at %1 frames per second (meaning %2 milliseconds between each update and draw)" ).arg( framesPerSecond ).arg( millisecondsPerUpdate ) );
+    DEBUG_TEXT( QString( "Running the game using fixed timestep at %1 frames per second (meaning %2 milliseconds between each update and draw)" ).arg( framesPerSecond ).arg( millisecondsPerUpdate ) )
 
     int remainingSleep = 0;
     int nextTick = 0;
@@ -165,13 +165,13 @@ Game::runGameFixedTimestep( int framesPerSecond )
         remainingSleep = nextTick - this->getCurrentTick();
         if( remainingSleep > 0 )
         {
-            DEBUG_TEXT( QString( "Sleeping for %1 milliseconds" ).arg( remainingSleep ) )
+            DEBUG_TEXT2( "Sleeping for %1 milliseconds", remainingSleep )
             I::msleep( remainingSleep );
         }
         else
         {
             // Oh buggery, we're falling behind... can we fix this in a generic manner? Or do we just allow for falling behind...
-            DEBUG_TEXT( tr( "Gameloop has fallen behind by %1 milliseconds" ).arg( remainingSleep ) )
+            DEBUG_TEXT2( tr( "Gameloop has fallen behind by %1 milliseconds" ), remainingSleep )
         }
     }
     stopAll();
@@ -207,7 +207,7 @@ void Game::initializeAll()
     if(!d->gameProject)
     {
         DEBUG_BLOCK
-        DEBUG_TEXT("You are attempting to initialize all objects in the game, but there is no game project loaded.");
+        DEBUG_TEXT("You are attempting to initialize all objects in the game, but there is no game project loaded.")
     }
     d->currentScene->sceneContents()->initialize();
     emit initialized();
@@ -328,7 +328,7 @@ Game::setGameProject( GluonEngine::GameProject* newGameProject )
         if( scene )
         {
             d->gameProject->setEntryPoint( scene );
-            DEBUG_TEXT( QString( "Entry point salvaged by resetting to first Scene in project - %1" ).arg( scene->fullyQualifiedName() ) )
+            DEBUG_TEXT2( "Entry point salvaged by resetting to first Scene in project - %1", scene->fullyQualifiedName() )
         }
     }
 

@@ -65,11 +65,11 @@ void MeshAsset::load()
             delete d->mesh;
         }
 
-        d->mesh = new GluonGraphics::FileMesh(this);
+        d->mesh = new GluonGraphics::FileMesh( file().toLocalFile(), this);
         GluonGraphics::Engine::instance()->addMesh( name(), d->mesh );
-        d->mesh->load( file().toLocalFile() );
+        d->mesh->initialize();
 
-        if( d->mesh->isLoaded() )
+        if( d->mesh->isInitialized() )
         {
             mimeData()->setText( name() );
             setLoaded( true );

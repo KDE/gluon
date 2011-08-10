@@ -16,16 +16,18 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #ifndef GLUON_CORE_GLUONOBJECTFACTORY_H
 #define GLUON_CORE_GLUONOBJECTFACTORY_H
 
-#include "singleton.h"
 #include "gluon_core_export.h"
+
+#include "singleton.h"
 #include "debughelper.h"
 
+#include <QtScript/QScriptEngine>
 #include <QtCore/QHash>
 #include <QtCore/QStringList>
-#include <QtScript/QScriptEngine>
 
 namespace GluonCore
 {
@@ -55,7 +57,7 @@ namespace GluonCore
                 QString name( QString( T::staticMetaObject.className() ).split( "::" ).at( 1 ) );
                 qRegisterMetaType<T*>( ( name + '*' ).toLatin1().constData() );
 
-                DEBUG_TEXT( QString( "Registering object type %1 with typeID %2" ).arg( T::staticMetaObject.className() ).arg( typeID ) );
+                DEBUG_TEXT( QString( "Registering object type %1 with typeID %2" ).arg( T::staticMetaObject.className() ).arg( typeID ) )
 
                 m_objectTypes[T::staticMetaObject.className()] = &( T::staticMetaObject );
                 m_objectTypeIDs[T::staticMetaObject.className()] = typeID;
@@ -70,7 +72,7 @@ namespace GluonCore
                 }
                 if( mimetypenames.length() > 0 )
                 {
-                    DEBUG_TEXT( QString( "Added mimetypes %1 to the index" ).arg( mimetypenames ) );
+                    DEBUG_TEXT( QString( "Added mimetypes %1 to the index" ).arg( mimetypenames ) )
                 }
             };
 

@@ -64,7 +64,7 @@ PropertyWidgetItemFactory::create( const QObject* object, const QString& type, Q
     //         {
     //             for (int i = 0; i < mo->enumeratorCount(); ++i)
     //             {
-    //                 DEBUG_TEXT(QString("Enumerator found: %1").arg(mo->enumerator(i).name()));
+    //                 DEBUG_TEXT2( "Enumerator found: %1", mo->enumerator(i).name())
     //             }
     //
     if( mo && mo->indexOfEnumerator( typeStr.toUtf8() ) > -1 )
@@ -91,7 +91,7 @@ PropertyWidgetItemFactory::create( const QObject* object, const QString& type, Q
     }
 
     // Finally, throw back a Null item if we've got nothing...
-    DEBUG_TEXT( QString( "Attempting to instantiate unknown property widget item of type %1" ).arg( type ) );
+    DEBUG_TEXT2( "Attempting to instantiate unknown property widget item of type %1", type )
 
     return new NullPropertyWidgetItem( parent );
 }

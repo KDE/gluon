@@ -182,7 +182,7 @@ void RenderTarget::Private::createVertexData()
     if( vertexData )
         delete vertexData;
 
-    vertexData = new VertexBuffer( q );
+    vertexData = new VertexBuffer( VertexBuffer::BM_STATIC_DRAW, q );
 
     VertexAttribute vert( "vertex", 3 );
     vert << -1.0f << -1.0f << 0.0f;

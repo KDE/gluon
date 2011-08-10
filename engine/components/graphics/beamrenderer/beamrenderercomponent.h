@@ -35,12 +35,12 @@ namespace GluonEngine
     class GLUON_COMPONENT_BEAMRENDERER_EXPORT BeamRendererComponent : public Component
     {
             Q_OBJECT
-            GLUON_OBJECT( GluonEngine::BeamRendererComponent )
             Q_PROPERTY( QSizeF size READ size WRITE setSize )
             Q_PROPERTY( GluonGraphics::MaterialInstance* baseMaterial READ baseMaterial WRITE setBaseMaterial )
             Q_PROPERTY( GluonGraphics::MaterialInstance* beamMaterial READ beamMaterial WRITE setBeamMaterial )
             Q_PROPERTY( GluonGraphics::MaterialInstance* tipMaterial READ tipMaterial WRITE setTipMaterial )
             Q_INTERFACES( GluonEngine::Component )
+            GLUON_OBJECT( GluonEngine::BeamRendererComponent )
 
         public:
             Q_INVOKABLE BeamRendererComponent( QObject* parent = 0 );

@@ -15,11 +15,11 @@ set(libGluonCreator_SRCS
     deleteobjectcommand.cpp
     propertychangedcommand.cpp
 
-    models/models.cpp
     models/componentmodel.cpp
+    models/models.cpp
+    models/modeltest.cpp
     models/projectmodel.cpp
     models/scenemodel.cpp
-    models/modeltest.cpp
 
     widgets/enumpropertywidgetitem.cpp
     widgets/filearea.cpp
@@ -61,8 +61,12 @@ set(GLUON_CREATOR_LIBS
     CACHE INTERNAL "Libraries required for Gluon Creator"
 )
 
-install(TARGETS libGluonCreator RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIB_INSTALL_DIR} ARCHIVE DESTINATION ${LIB_INSTALL_DIR})
-
+install(
+    TARGETS libGluonCreator
+    RUNTIME DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluoncreator
+    LIBRARY DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoncreator
+    ARCHIVE DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoncreator
+)
 
 install(FILES
     abstractundocommand.h
@@ -78,26 +82,36 @@ install(FILES
     propertychangedcommand.h
     selectionmanager.h
     toolplugin.h
+
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib
-    COMPONENT Devel
+    COMPONENT gluoncreator
 )
 
 install(FILES
     models/componentmodel.h
     models/projectmodel.h
     models/scenemodel.h
+
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib/models
-    COMPONENT Devel
+    COMPONENT gluoncreator
 )
 
 install(FILES
     widgets/propertywidget.h
+
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib/widgets
-    COMPONENT Devel
+    COMPONENT gluoncreator
 )
 
 install(FILES
     gluoncreator_plugin.desktop
+
     DESTINATION ${SERVICETYPES_INSTALL_DIR}
-    COMPONENT Devel
+    COMPONENT gluoncreator
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+

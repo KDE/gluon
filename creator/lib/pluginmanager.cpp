@@ -72,7 +72,7 @@ void PluginManager::loadPlugins()
 
             if( !factory )
             {
-                DEBUG_TEXT( QString( "KPluginFactory could not load the plugin: %1" ).arg( service->library() ) );
+                DEBUG_TEXT2( "KPluginFactory could not load the plugin: %1", service->library() )
                 continue;
             }
 
@@ -80,13 +80,13 @@ void PluginManager::loadPlugins()
 
             if( plugin )
             {
-                DEBUG_TEXT( QString( "Load plugin: %1" ).arg( service->name() ) );
+                DEBUG_TEXT2( "Load plugin: %1", service->name() )
                 plugin->load( d->mainWindow );
                 d->loadedPlugins.insert( serviceName, plugin );
             }
             else
             {
-                DEBUG_TEXT( error );
+                DEBUG_TEXT( error )
             }
         }
         else if( !loadPlugin && d->loadedPlugins.contains( serviceName ) )

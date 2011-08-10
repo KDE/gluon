@@ -23,6 +23,7 @@
 
 #include "scene.h"
 #include "game.h"
+#include "achievement.h"
 
 #include <core/gdlhandler.h>
 #include <core/scriptengine.h>
@@ -142,11 +143,11 @@ GameProject::loadFromFile()
     DEBUG_FUNC_NAME
 
     // change directory to the project path..
-    DEBUG_TEXT( QString( "Changing working directory to %1" ).arg( QFileInfo( filename().toLocalFile() ).canonicalPath() ) );
+    DEBUG_TEXT2( "Changing working directory to %1", QFileInfo( filename().toLocalFile() ).canonicalPath() )
     QDir::setCurrent( QFileInfo( filename().toLocalFile() ).canonicalPath() );
     setFilename( filename().toLocalFile() );
 
-    DEBUG_TEXT( QString( "Loading project from %1" ).arg( QFileInfo( filename().toLocalFile() ).fileName() ) );
+    DEBUG_TEXT2( "Loading project from %1",QFileInfo( filename().toLocalFile() ).fileName() )
     QFile projectFile( QFileInfo( filename().toLocalFile() ).fileName() );
     if( !projectFile.open( QIODevice::ReadOnly ) )
         return false;
@@ -161,13 +162,13 @@ GameProject::loadFromFile()
     QList<GluonObject*> objectList = GluonCore::GDLHandler::instance()->parseGDL( filename().toLocalFile(), parent() );
     if( objectList.count() > 0 )
     {
-        if( objectList[0]->metaObject() )
+        if( objectList.at(0)->metaObject() )
         {
             // If the first object in the list is a GluonProject, then let's
             // adapt ourselves to represent that object...
-            if( objectList[0]->metaObject()->className() == metaObject()->className() )
+            if( objectList.at(0)->metaObject()->className() == metaObject()->className() )
             {
-                DEBUG_TEXT( "Project successfully parsed - applying to local instance" );
+                DEBUG_TEXT( "Project successfully parsed - applying to local instance" )
                 GameProject* loadedProject = qobject_cast<GameProject*>( objectList[0] );
 
                 // First things first - clean ourselves out, all the children
@@ -211,14 +212,14 @@ GameProject::loadFromFile()
                 // Finally, get rid of the left-overs
                 qDeleteAll( objectList );
 
-                DEBUG_TEXT( "Project loading successful!" );
+                DEBUG_TEXT( "Project loading successful!" )
             }
             // Otherwise it is not a GluonProject, and should fail!
             else
             {
-                DEBUG_TEXT( QString( "First object loaded is not a Gluon::GameProject." ) );
-                DEBUG_TEXT( QString( "Type of loaded object:" ).arg( objectList[0]->metaObject()->className() ) );
-                DEBUG_TEXT( QString( "Name of loaded object:" ).arg( objectList[0]->name() ) );
+                DEBUG_TEXT( QString( "First object loaded is not a Gluon::GameProject." ) )
+                DEBUG_TEXT2( "Type of loaded object: %1", objectList.at(0)->metaObject()->className() )
+                DEBUG_TEXT2( "Name of loaded object: %1", objectList.at(0)->name() )
                 return false;
             }
         }
@@ -351,6 +352,22 @@ GluonEngine::TextureAsset* GameProject::screenshot() const
 void GameProject::setScreenshot( GluonEngine::TextureAsset* newScreenshot )
 {
     d->screenshot = newScreenshot;
+}
+
+QList<Achievement*> GameProject::achievements() const
+{
+    return d->achievements;
+}
+
+void GameProject::addAchievement(Achievement* achievement)
+{
+    if( !d->achievements.contains(achievement) )
+        d->achievements.append(achievement);
+}
+
+void GameProject::removeAchievement(Achievement* achievement)
+{
+    d->achievements.removeOne(achievement);
 }
 
 QString GameProject::userName() const

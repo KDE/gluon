@@ -20,7 +20,7 @@
 #include "renderablescene.h"
 
 #ifdef Q_OS_WIN
-#include <GL/glee.h>
+#include <GL/GLee.h>
 #endif
 
 #include <input/inputmanager.h>
@@ -147,8 +147,12 @@ void RenderableScene::renderScene()
 */
 void RenderableScene::deliverEvent( QEvent* event )
 {
+    if( d->dirty )
+        return;
+
     QRectF bounds = sceneRect();
-    int screenX = 0, screenY = 0;
+    int screenX = 0;
+    int screenY = 0;
 
     // Convert the event and deliver it to the scene.
     switch( event->type() )

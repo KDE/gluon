@@ -33,7 +33,7 @@ namespace GluonGraphics
     class RenderTarget;
 
     class Camera;
-    class Mesh;
+    class AbstractMesh;
     class Material;
     class Item;
     class Texture;
@@ -164,14 +164,14 @@ namespace GluonGraphics
             void removeMaterial( const QString& name );
 
             /**
-             * Create a Mesh.
+             * Create a Sprite Mesh.
              *
              * \param name The name of the mesh to create.
              *
-             * \return A new mesh with name as name or an existing
+             * \return A new sprite mesh with name as name or an existing
              * mesh if name is equal to an existing mesh.
              */
-            Mesh* createMesh( const QString& name );
+            AbstractMesh* createSpriteMesh( const QString& name );
 
             /**
              * Destroy a mesh.
@@ -200,7 +200,7 @@ namespace GluonGraphics
              *
              * \return The mesh requested or 0 if not found.
              */
-            Mesh* mesh( const QString& name );
+            AbstractMesh* mesh( const QString& name );
 
             /**
              * Add a mesh to the registry.
@@ -212,7 +212,7 @@ namespace GluonGraphics
              * returned when a mesh with the same name is already registered.
              *
              */
-            bool addMesh( const QString& name, Mesh* mesh );
+            bool addMesh( const QString& name, AbstractMesh* mesh );
 
             /**
              * Remove a mesh from the registry.

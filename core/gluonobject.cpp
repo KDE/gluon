@@ -90,7 +90,7 @@ void
 GluonObject::debug( const QString& debugText ) const
 {
     DEBUG_BLOCK
-    DEBUG_TEXT( debugText );
+    DEBUG_TEXT( debugText )
     emit showDebug( QString( "%1: %2" ).arg( fullyQualifiedName() ).arg( debugText ) );
 }
 
@@ -98,7 +98,7 @@ void
 GluonObject::debug( const QString& debugText, const QString& arg ) const
 {
     DEBUG_BLOCK
-    DEBUG_TEXT2( debugText, arg );
+    DEBUG_TEXT2( debugText, arg )
     emit showDebug( QString( "%1: %2" ).arg( fullyQualifiedName() ).arg( debugText.arg( arg ) ) );
 }
 
@@ -163,7 +163,7 @@ void
 GluonObject::sanitize()
 {
     DEBUG_BLOCK
-    //    DEBUG_TEXT(QString("Sanitizing the object %1 with %2 children").arg(this->fullyQualifiedName()).arg(this->children().count()));
+    //    DEBUG_TEXT(QString("Sanitizing the object %1 with %2 children").arg(this->fullyQualifiedName()).arg(this->children().count()))
 
     foreach( QObject * child, children() )
     {
@@ -219,7 +219,7 @@ GluonObject::sanitize()
         if( !theValue.endsWith( ')' ) )
             continue;
 
-        //DEBUG_TEXT(QString("Attempting to sanitize property %1 with current value %2").arg(metaproperty.name()).arg(theValue));
+        //DEBUG_TEXT(QString("Attempting to sanitize property %1 with current value %2").arg(metaproperty.name()).arg(theValue))
 
         sanitizeReference( theName, theValue );
     }
@@ -243,7 +243,7 @@ GluonObject::sanitize()
         if( !theValue.endsWith( ')' ) )
             continue;
 
-        //DEBUG_TEXT(QString("Attempting to sanitize property %1 (dynamic) with current value %2").arg(QString(propName)).arg(theValue));
+        //DEBUG_TEXT(QString("Attempting to sanitize property %1 (dynamic) with current value %2").arg(QString(propName)).arg(theValue))
 
         sanitizeReference( theName, theValue );
     }
@@ -260,12 +260,11 @@ GluonObject::setGameProject( GluonObject* newGameProject )
 {
     d->gameProject = newGameProject;
 
-    const QObjectList& allChildren = children();
-    foreach( QObject * child, allChildren )
+    foreach( QObject * child, children() )
     {
-        GluonObject* gobj = qobject_cast<GluonObject*>( child );
-        if( gobj )
-            gobj->setGameProject( newGameProject );
+        GluonObject* obj = qobject_cast<GluonObject*>( child );
+        if( obj )
+            obj->setGameProject( newGameProject );
     }
 }
 
@@ -363,7 +362,7 @@ GluonCore::GluonObject*
 GluonObject::findItemByName( QString qualifiedName ) const
 {
     /*DEBUG_BLOCK
-    DEBUG_TEXT(QString("Looking up %1").arg(qualifiedName));*/
+    DEBUG_TEXT(QString("Looking up %1").arg(qualifiedName))*/
     QStringList names = qualifiedName.split( '/' );
     if( names.at( 0 ) == name() )
         names.removeFirst();
@@ -447,11 +446,11 @@ GluonObject::setPropertyFromString( const QString& propertyName, const QString& 
     QVariant value;
 
     // propertyValue format is type(value)
-    QRegExp rx( "(([a-zA-Z0-9:<>*]*)+)\\((.+)\\)" );
+    QRegExp rx( "([a-zA-Z0-9:<>*]+)\\((.+)\\)" );
     rx.indexIn( propertyValue );
 
     QString theTypeName = rx.cap( 1 );
-    QString theValue = rx.cap( 3 );
+    QString theValue = rx.cap( 2 );
 
     if( theTypeName == "string" )
     {
@@ -479,7 +478,7 @@ GluonObject::setPropertyFromString( const QString& propertyName, const QString& 
     }
     else if( theTypeName == "file" || theTypeName == "url" )
     {
-        //DEBUG_TEXT(QString("Setting property from %1").arg(theTypeName));
+        //DEBUG_TEXT(QString("Setting property from %1").arg(theTypeName))
         value = QVariant( QUrl( theValue ) );
     }
     else if( theTypeName == "vector2d" )
@@ -607,7 +606,7 @@ GluonObject::stringFromProperty( const QString& propertyName, const QString& ind
     switch( theValue.type() )
     {
             /*case QVariant::UserType:
-                DEBUG_TEXT("UserType detected");
+                DEBUG_TEXT("UserType detected")
 
                 break;*/
         case QVariant::String:
@@ -705,7 +704,7 @@ GluonObject::stringFromProperty( const QString& propertyName, const QString& ind
                 }
                 else
                 {
-                    DEBUG_TEXT( QString( "Property %1 is of an unrecognised type %2" ).arg( propertyName ).arg( theValue.typeName() ) );
+                    DEBUG_TEXT( QString( "Property %1 is of an unrecognised type %2" ).arg( propertyName ).arg( theValue.typeName() ) )
                     value = theValue.toString();
                 }
             }
@@ -720,7 +719,7 @@ GluonObject::stringFromProperty( const QString& propertyName, const QString& ind
         returnString.clear();
     }
 
-    //DEBUG_TEXT(QString("Getting GDL string from property %1 of type %2 (%4) with value %3").arg(propertyName).arg(theValue.typeToName(theValue.type())).arg(value).arg(theValue.type()));
+    //DEBUG_TEXT(QString("Getting GDL string from property %1 of type %2 (%4) with value %3").arg(propertyName).arg(theValue.typeToName(theValue.type())).arg(value).arg(theValue.type()))
 
     return returnString;
 }
@@ -753,12 +752,12 @@ GluonObject::findItemByNameInObject( QStringList qualifiedName, const GluonCore:
     {
         if( qualifiedName.count() > 0 )
         {
-            //DEBUG_TEXT(QString("Found child, recursing..."));
+            //DEBUG_TEXT(QString("Found child, recursing..."))
             return GluonObject::findItemByNameInObject( qualifiedName, foundChild );
         }
         else
         {
-            //DEBUG_TEXT(QString("Found child!"));
+            //DEBUG_TEXT(QString("Found child!"))
         }
     }
     else

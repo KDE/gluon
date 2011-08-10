@@ -24,14 +24,14 @@
 
 #ifdef Q_OS_WIN
 #include <windows.h>
-#include <GL/glee.h>
+#include <GL/GLee.h>
 #endif
 
 #include "camera.h"
 #include "item.h"
 #include "material.h"
 #include "materialinstance.h"
-#include "mesh.h"
+#include "abstractmesh.h"
 #include "texture.h"
 #include "viewport.h"
 #include "rendertarget.h"
@@ -40,6 +40,7 @@
 
 #include <QtCore/QMutex>
 #include <QtCore/QMutableListIterator>
+#include "spritemesh.h"
 
 using namespace GluonGraphics;
 
@@ -187,22 +188,27 @@ void Engine::initialize()
     Texture* tex = createTexture( "default" );
     tex->load( QUrl( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/defaults/default.png" ) );
 
-    Mesh* mesh = createMesh( "default" );
-    mesh->load( QString() );
+    AbstractMesh* mesh = createSpriteMesh( "default" );
+    mesh->initialize();
 
     d->mainTarget = new RenderTarget( 1024, 768, this );
     d->mainTarget->setMaterialInstance( material->createInstance( "mainTarget" ) );
 }
 
 Item*
-Engine::createItem( const QString& mesh )
+Engine::createItem( const QString& meshName )
 {
     QMutexLocker locker( &d->itemMutex );
 
     Item* newItem = new Item( this );
-    newItem->setMesh( d->createObject<Mesh>( "Mesh", mesh ) );
-    d->items << newItem;
 
+    AbstractMesh* mesh = d->object<AbstractMesh>( "Mesh", meshName );
+    if(!mesh) {
+        mesh = d->createObject<SpriteMesh>( "Mesh", meshName );
+    }
+    newItem->setMesh( mesh );
+
+    d->items << newItem;
     return newItem;
 }
 
@@ -259,10 +265,10 @@ Engine::removeMaterial( const QString& name )
     d->removeObject( "Material", name );
 }
 
-Mesh*
-Engine::createMesh( const QString& name )
+AbstractMesh*
+Engine::createSpriteMesh( const QString& name )
 {
-    return d->createObject<Mesh>( "Mesh", name );
+    return d->createObject<SpriteMesh>( "Mesh", name );
 }
 
 void
@@ -277,14 +283,14 @@ Engine::hasMesh( const QString& name )
     return d->hasObject( "Mesh", name );
 }
 
-Mesh*
+AbstractMesh*
 Engine::mesh( const QString& name )
 {
-    return d->object<Mesh>( "Mesh", name );
+    return d->object<AbstractMesh>( "Mesh", name );
 }
 
 bool
-Engine::addMesh( const QString& name, Mesh* mesh )
+Engine::addMesh( const QString& name, AbstractMesh* mesh )
 {
     return d->addObject( "Mesh", name, mesh );
 }

@@ -21,7 +21,7 @@
 #include "commentsmodel.h"
 
 #include "lib/serviceprovider.h"
-#include "lib/comment.h"
+#include "lib/commentlistjob.h"
 
 #include <engine/gameproject.h>
 
@@ -33,6 +33,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QDir>
 #include <QtCore/QStringList>
+#include <QtCore/QDateTime>
 
 using namespace GluonCore;
 using namespace GluonPlayer;
@@ -52,7 +53,7 @@ class CommentsModel::Private
 
 CommentsModel::CommentsModel( QString gameId, QObject* parent )
     : QAbstractItemModel( parent )
-    , d(new Private() )
+    , d(new Private)
 {
     d->m_rootNode = new GluonObject( "Comment" );
     d->m_isOnline = false;
@@ -270,24 +271,24 @@ void CommentsModel::uploadComment( const QModelIndex& parentIndex, const QString
     GluonObject* parentNode = static_cast<GluonObject*>( parentIndex.internalPointer() );
     ServiceProvider::instance()->uploadComment(d->m_gameId, parentNode->name(), subject, message);
 
-    Comment *commentsProvider = ServiceProvider::instance()->uploadComment(d->m_gameId,
+    CommentListJob *commentsProvider = ServiceProvider::instance()->uploadComment(d->m_gameId,
                                                                                    parentNode->name(),
                                                                                    subject, message);
-    connect(commentsProvider, SIGNAL(commentUploaded()), SLOT(uploadCommentFinished()));
-    connect(commentsProvider, SIGNAL(failedToUploadComment()), SIGNAL(addCommentFailed()));
+    connect(commentsProvider, SIGNAL(commentUploadFinished()), SLOT(uploadCommentFinished()));
+    connect(commentsProvider, SIGNAL(commentUploadFailed()), SIGNAL(addCommentFailed()));
 }
 
 void CommentsModel::updateData()
 {
     qDebug() << "Updating..";
-    Comment *commentsProvider = ServiceProvider::instance()->fetchComments(d->m_gameId, 0, 0);
+    CommentListJob *commentListJob = ServiceProvider::instance()->fetchCommentList(d->m_gameId, 0, 0);
 
-    if (commentsProvider) {
-        connect(commentsProvider, SIGNAL(commentsFetched(QList<CommentItem*>)), 
+    if (commentListJob) {
+        connect(commentListJob, SIGNAL(commentListFetchFinished(QList<CommentItem*>)), 
             SLOT(processFetchedComments(QList<CommentItem*>)));
-        connect(commentsProvider, SIGNAL(failedToFetchComments()), SIGNAL(fetchCommentsFailed()));
+        connect(commentListJob, SIGNAL(failedToFetchComments()), SIGNAL(fetchCommentsFailed()));
     } else {
-        emit fetchCommentsFailed();
+        emit commentListFetchFailed();
     }
 }
 

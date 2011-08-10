@@ -27,12 +27,17 @@ using namespace GluonCreator;
 K_PLUGIN_FACTORY( CodeWidgetFactory, registerPlugin<CodeWidgetKpart>(); ) // produce a factory
 K_EXPORT_PLUGIN( CodeWidgetFactory( "Code Editor", "Code Editor" ) )
 
+
 GluonCreator::CodeWidgetKpart::CodeWidgetKpart( QWidget* parentWidget, QObject* parent, const QVariantList& ) : KParts::ReadWritePart( parent )
+
+//CodeWidgetKpart::CodeWidgetKpart( QWidget *parentWidget, QObject *parent, const QVariantList& )
+  //  : KParts::ReadWritePart( parent )
+
 {
     KGlobal::locale()->insertCatalog( "gluoncreator" );
     setComponentData( CodeWidgetFactory::componentData() );
 
-    main = new MainWindow();
+    main = new NodeEditor();
     setWidget( main );
 }
 

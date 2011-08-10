@@ -41,7 +41,7 @@ GameViewItem::GameViewItem( const QString& gameName, const QString& gameDescript
                             const QString& projectDirName, const QString& projectFileName, const Status& status,
                             const QString& id, QObject* parent )
     : QObject( parent )
-    , d( new Private() )
+    , d( new Private )
 {
     d->m_gameName = gameName;
     d->m_gameDescription = gameDescription;

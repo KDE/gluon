@@ -23,19 +23,13 @@
 #include <QtCore/QtGlobal>
 #ifdef Q_OS_WIN
 #include <windows.h>
-#include <GL/glee.h>
+#include <GL/GLee.h>
 #elif defined(Q_WS_MAC)
 #include <OpenGL/gl.h>
 #include <OpenGL/glext.h>
 #else
 #ifdef GLUON_GRAPHICS_GLES
 typedef char GLchar;
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#elif defined(QT_OPENGL_ES_1)
-#include <GLES/gl.h>
-#include <GLES/glext.h>
-#elif defined(QT_OPENGL_ES_2)
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 #else

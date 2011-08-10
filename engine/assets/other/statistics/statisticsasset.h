@@ -17,11 +17,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef STATISTICSASSET_H
-#define STATISTICSASSET_H
+#ifndef GLUON_ENGINE_STATISTICSASSET_H
+#define GLUON_ENGINE_STATISTICSASSET_H
 
-#include <engine/asset.h>
-#include <engine/savable.h>
+#include "asset.h"
+#include "savable.h"
+
 #include <core/metainfo.h>
 
 namespace GluonEngine

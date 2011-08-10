@@ -351,6 +351,7 @@ GameObject::addComponent( Component* addThis )
         {
             d->componentTypes.insert( typeID, addThis );
             d->components.append( addThis );
+            connect( addThis, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
             addThis->setParent( this );
             addThis->setGameObject( this );
             addThis->setName( addThis->name() );
@@ -359,7 +360,7 @@ GameObject::addComponent( Component* addThis )
     else
     {
         DEBUG_BLOCK
-        DEBUG_TEXT( "Attempting to add a null component" );
+        DEBUG_TEXT( "Attempting to add a null component" )
     }
 }
 
@@ -368,6 +369,7 @@ GameObject::removeComponent( Component* removeThis )
 {
     int typeID = QMetaType::type( removeThis->metaObject()->className() );
     d->componentTypes.remove( typeID, removeThis );
+    disconnect( removeThis, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
     return d->components.removeOne( removeThis );
 }
 
@@ -431,11 +433,12 @@ GameObject::addChild( GameObject* addThis )
     if( !addThis )
     {
         DEBUG_BLOCK
-        DEBUG_TEXT( QString( "Fail-add! you're trying to add a NULL GameObject" ) );
+        DEBUG_TEXT( QString( "Fail-add! you're trying to add a NULL GameObject" ) )
     }
     else if( !d->children.contains( addThis ) )
     {
         d->children.append( addThis );
+        connect( addThis, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
 
         if( addThis->d->parentGameObject )
             addThis->d->parentGameObject->removeChild( addThis );
@@ -452,12 +455,13 @@ GameObject::addChildAt( GluonCore::GluonObject* addThis, int index )
     if( !addThis || index >= d->children.count() )
     {
         DEBUG_BLOCK
-        DEBUG_TEXT( QString( "Fail-add! you're trying to add a NULL GameObject or specified an index that is out of range." ) );
+        DEBUG_TEXT( QString( "Fail-add! you're trying to add a NULL GameObject or specified an index that is out of range." ) )
     }
     else if( !d->children.contains( gObj ) )
     {
         d->children.insert( index, gObj );
-
+        connect( gObj, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
+        
         if( gObj->d->parentGameObject )
             gObj->d->parentGameObject->removeChild( gObj );
 
@@ -471,17 +475,22 @@ GameObject::removeChild( GameObject* removeThis )
 {
     removeThis->d->parentGameObject = 0;
     d->children.removeOne( removeThis );
+    disconnect( removeThis, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
     return GluonObject::removeChild( removeThis );
 }
 
 bool GameObject::removeChild( GluonObject* child )
 {
+    if( qobject_cast<GameObject*>( child ) )
+        return removeChild( qobject_cast<GameObject*>( child ) );
     return GluonObject::removeChild( child );
 }
 
 int
 GameObject::childCount() const
 {
+    DEBUG_BLOCK
+    DEBUG_TEXT2("getting child count on %1", metaObject()->className());
     return d->children.count();
 }
 
@@ -513,6 +522,17 @@ GameObject*
 GameObject::parentGameObject()
 {
     return d->parentGameObject;
+}
+
+void GameObject::childDeleted(QObject* obj)
+{
+    if(qobject_cast<GameObject*>(obj))
+        d->children.removeOne(qobject_cast<GameObject*>(obj));
+    else if(qobject_cast<Component*>(obj))
+    {
+        d->components.removeOne(qobject_cast<Component*>(obj));
+        d->componentTypes.remove( d->componentTypes.key( qobject_cast<Component*>(obj) ) );
+    }
 }
 
 // ----------------------------------------------------------------------------

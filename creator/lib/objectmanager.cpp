@@ -103,7 +103,7 @@ GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, Gluo
     if( className.isEmpty() )
     {
         KMimeType::Ptr type = KMimeType::findByFileContent( fileName );
-        DEBUG_TEXT( QString( "Creating asset for file %1 of mimetype %2" ).arg( fileName ).arg( type->name() ) );
+        DEBUG_TEXT( QString( "Creating asset for file %1 of mimetype %2" ).arg( fileName ).arg( type->name() ) )
         newChild = GluonCore::GluonObjectFactory::instance()->instantiateObjectByMimetype( type->name() );
     }
     else
@@ -199,7 +199,7 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
     DEBUG_FUNC_NAME
     GluonEngine::GameObject* newObj = new GluonEngine::GameObject();
     newObj->setName( humanifyClassName( newObj->metaObject()->className(), false ) );
-    DEBUG_TEXT( QString( "Creating object: %1" ).arg( newObj->name() ) );
+    DEBUG_TEXT2( "Creating object: %1", newObj->name() )
 
     newObj->initialize();
 
@@ -209,14 +209,14 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
         GluonEngine::GameObject* obj = qobject_cast<GluonEngine::GameObject*>( selection.at( 0 ) );
         if( obj )
         {
-            DEBUG_TEXT( QString( "Item %1 selected in Scene tree - assign new object as child" ).arg( obj->fullyQualifiedName() ) );
+            DEBUG_TEXT2( "Item %1 selected in Scene tree - assign new object as child", obj->fullyQualifiedName() )
             Models::instance()->sceneModel()->newGameObject( obj, newObj );
         }
     }
 
     if( newObj->parentGameObject() == 0 )
     {
-        DEBUG_TEXT( QString( "No parent game object yet - assign as child to Scene root" ) );
+        DEBUG_TEXT( QString( "No parent game object yet - assign as child to Scene root" ) )
         Models::instance()->sceneModel()->newGameObject( Models::instance()->sceneModel()->rootGameObject(), newObj );
     }
 
@@ -262,7 +262,7 @@ void ObjectManager::watchCurrentAssets()
     foreach( GluonEngine::Asset * asset, assets )
     {
         QString path( asset->absolutePath() );
-        DEBUG_TEXT( QString( "Watching %1 for changes." ).arg( path ) );
+        DEBUG_TEXT2( "Watching %1 for changes.", path )
         KDirWatch::self()->addFile( path );
         d->m_assets.insert( path, asset );
     }

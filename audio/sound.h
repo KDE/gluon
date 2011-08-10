@@ -33,7 +33,15 @@ namespace GluonAudio
     class GLUON_AUDIO_EXPORT Sound : public QObject
     {
             Q_OBJECT
+
         public:
+            enum Status {
+                INITIAL,
+                PLAYING,
+                PAUSED,
+                STOPPED,
+            };
+
             /**
             * Constructs an empty, invalid Sound object
             * @see isValid, load
@@ -46,14 +54,6 @@ namespace GluonAudio
             explicit Sound( const QString& fileName );
 
             /**
-            * This function might become private
-            * @param soundFile the path of the file to play
-            * @param toStream whether or not the file should be streamed
-            * @see Engine::bufferLength, Engine::buffersPerStream
-            */
-            Sound( const QString& fileName, bool toStream );
-
-            /**
             * Destructor
             */
             virtual ~Sound();
@@ -62,14 +62,6 @@ namespace GluonAudio
             * Load a new sound file
             */
             bool load( const QString& fileName );
-
-            /**
-            * This function might become private
-            * Load a new sound file and specify whether or not it should
-            * be streamed.
-            * @see Engine::bufferLength, Engine::buffersPerStream
-            */
-            bool load( const QString& fileName, bool toStream );
 
             /**
             * An object is invalid when no file is loaded or the last file
@@ -89,7 +81,7 @@ namespace GluonAudio
             /**
             * @return the time since the sound started playing
             */
-            ALfloat elapsedTime() const;
+            ALfloat timeOffset() const;
 
             /**
             * @return the sound status
@@ -97,9 +89,22 @@ namespace GluonAudio
             ALint status() const;
 
             /**
-            * @return true if the sound is currently being played, false otherwise
-            */
+             * Returns true if it is currently playing; otherwise returns false
+             * if it is currently stopped or paused
+             */
             bool isPlaying() const;
+
+            /**
+             * Returns true if it is currently paused; otherwise returns false
+             * if it is currently playing or stopped
+             */
+            bool isPaused() const;
+
+            /**
+             * Returns true if it is currently stopped; otherwise returns false
+             * if it is currently playing or paused
+             */
+            bool isStopped() const;
 
             /**
             * Returns true if the sound was set to loop, false otherwise.
@@ -111,7 +116,7 @@ namespace GluonAudio
             * @todo this function isn't defined!
             * @return the last error reported
             */
-            QString lastError() const ;
+            QString lastError() const;
 
             /**
             * @return the coordinates of the sound postion
@@ -154,10 +159,15 @@ namespace GluonAudio
             ALfloat pitch() const;
 
             /**
-             *
+             * @return the file radius currently applied
+             * @see setRadius
              */
             ALfloat radius() const;
 
+            /**
+            * @return the file sound duration in seconds
+            */
+            double duration() const;
             //ALfloat duration() const;
 
         public Q_SLOTS:
@@ -261,18 +271,11 @@ namespace GluonAudio
             void setDirection( ALfloat dx, ALfloat dy, ALfloat dz );
 
             /**
-            * Specify the current time position.
+            * Specify the current time offset.
             * @param time must be inferior than duration.
             * @see duration()
             */
-            void setTimePosition( ALfloat time );
-
-            //void setRadius(float radius);
-
-            /**
-            * @return the file sound duration in seconds
-            */
-            double duration() const;
+            void setTimeOffset( ALfloat time );
 
         Q_SIGNALS:
             void played();

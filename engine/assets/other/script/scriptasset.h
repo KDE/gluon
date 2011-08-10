@@ -17,11 +17,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONENGINE_SCRIPTASSET_H
-#define GLUONENGINE_SCRIPTASSET_H
+#ifndef GLUON_ENGINE_SCRIPTASSET_H
+#define GLUON_ENGINE_SCRIPTASSET_H
 
-#include <engine/gluon_engine_export.h>
-#include <engine/asset.h>
+#include "asset.h"
 
 namespace GluonEngine
 {
@@ -47,4 +46,4 @@ namespace GluonEngine
 
 Q_DECLARE_METATYPE( GluonEngine::ScriptAsset* )
 
-#endif // GLUONENGINE_SCRIPTASSET_H
+#endif // GLUON_ENGINE_SCRIPTASSET_H

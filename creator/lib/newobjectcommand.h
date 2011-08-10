@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONCREATOR_NEWOBJECTCOMMAND_H
-#define GLUONCREATOR_NEWOBJECTCOMMAND_H
+#ifndef GLUON_CREATOR_NEWOBJECTCOMMAND_H
+#define GLUON_CREATOR_NEWOBJECTCOMMAND_H
 
 #include "abstractundocommand.h"
 
@@ -39,4 +39,4 @@ namespace GluonCreator
     };
 }
 
-#endif // GLUONCREATOR_NEWOBJECTCOMMAND_H
+#endif // GLUON_CREATOR_NEWOBJECTCOMMAND_H

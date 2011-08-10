@@ -82,7 +82,7 @@ class ProjectDock::ProjectDockPrivate
                     {
                         if( obj->inherits( "GluonEngine::Asset" ) )
                         {
-                            DEBUG_TEXT2( "The Asset class %1 is lacking the Q_INTERFACES(GluonEngine::Asset) macro", i.value()->className() );
+                            DEBUG_TEXT2( "The Asset class %1 is lacking the Q_INTERFACES(GluonEngine::Asset) macro", i.value()->className() )
                         }
                     }
                 }
@@ -318,7 +318,7 @@ void ProjectDock::deleteActionTriggered()
         return;
     }
 
-    DEBUG_TEXT( QString( "Requested deletion of %1" ).arg( object->fullyQualifiedName() ) );
+    DEBUG_TEXT2( "Requested deletion of %1", object->fullyQualifiedName() )
     if( KMessageBox::questionYesNo( this, i18n( "Are you sure you wish to delete %1?\nThis will delete the item and all its children!", object->name() ), i18n( "Really Delete?" ) ) == KMessageBox::Yes )
     {
         GluonEngine::Asset* asset = qobject_cast<GluonEngine::Asset*>( object );
@@ -354,7 +354,7 @@ void GluonCreator::ProjectDock::newAssetTriggered()
         if( fileName.isEmpty() )
         {
             DEBUG_BLOCK
-            DEBUG_TEXT( "Failed at finding the template file!" );
+            DEBUG_TEXT( "Failed at finding the template file!" )
             return;
         }
 

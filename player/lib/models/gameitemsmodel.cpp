@@ -20,7 +20,7 @@
 #include "gameitemsmodel.h"
 
 #include "lib/serviceprovider.h"
-#include "lib/gamedetail.h"
+#include "lib/gamedetaillistjob.h"
 
 #include <engine/gameproject.h>
 
@@ -47,7 +47,7 @@ class GameItemsModel::Private
 
 GameItemsModel::GameItemsModel( QObject* parent )
     : QAbstractListModel( parent )
-    , d( new Private() )
+    , d( new Private )
 {
     QDir m_dir;
     m_dir.cd( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/games" );
@@ -172,12 +172,12 @@ QVariant GameItemsModel::headerData( int section, Qt::Orientation orientation, i
 
 void GameItemsModel::fetchGamesList()
 {
-    GameDetail *gameDetail = ServiceProvider::instance()->fetchGames();
-    connect(gameDetail, SIGNAL(gameDetailsFetched (QList<GameDetailItem*>)),
-            SLOT(processFetchedGamesList(QList<GameDetailItem*>)));
+    GameDetailListJob *gameDetailListJob = ServiceProvider::instance()->fetchGames();
+    connect(gameDetailListJob, SIGNAL(gameDetailListFetchFinished(QList<GameDetailItem*>)),
+            SLOT(processFetchedGameList(QList<GameDetailItem*>)));
 }
 
-void GameItemsModel::processFetchedGamesList(QList< GameDetailItem* > comments)
+void GameItemsModel::processFetchedGameList(QList< GameDetailItem* > comments)
 {
     foreach(GameDetailItem *c, comments) {
         GameViewItem* gameViewItem = new GameViewItem( c->gameName(), c->gameDescription(), "", "",

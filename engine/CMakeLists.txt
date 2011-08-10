@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 if(NOT GLUON_BUILD_ALL)
     project(GluonEngine)
@@ -48,6 +48,8 @@ add_subdirectory(components)
 
 set(GluonEngine_SRCS
     abstractstatistic.cpp
+    achievement.cpp
+    achievementsmanager.cpp
     asset.cpp
     component.cpp
     componentprivate.cpp
@@ -62,6 +64,7 @@ set(GluonEngine_SRCS
     prefabprivate.cpp
     prefabinstance.cpp
     prefabinstancechild.cpp
+    projectmetadata.cpp
     savable.cpp
     scene.cpp
     sceneprivate.cpp
@@ -73,6 +76,8 @@ set(GluonEngine_SRCS
 
 set(GluonEngine_HEADERS
     abstractstatistic.h
+    achievement.h
+    achievementsmanager.h
     asset.h
     component.h
     databasemanager.h
@@ -82,6 +87,7 @@ set(GluonEngine_HEADERS
     prefab.h
     prefabinstance.h
     prefabinstancechild.h
+    projectmetadata.h
     savable.h
     scene.h
     statistic.h
@@ -130,16 +136,22 @@ set(GLUON_ENGINE_LIBS
 )
 
 install(
-    TARGETS GluonEngine
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION ${LIB_INSTALL_DIR}
-    ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
-    FRAMEWORK DESTINATION ${LIB_INSTALL_DIR}
+    TARGETS     GluonEngine
+    RUNTIME     DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluonengine
+    LIBRARY     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonengine
+    ARCHIVE     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonengine
+    FRAMEWORK   DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonengine
 )
 
 install(
     FILES
     ${GluonEngine_HEADERS}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/engine
-    COMPONENT Devel
+    COMPONENT gluonengine
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+

@@ -16,8 +16,9 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef GLUONBUTTONS_H
-#define GLUONBUTTONS_H
+
+#ifndef GLUON_INPUT_GLUONBUTTONS_H
+#define GLUON_INPUT_GLUONBUTTONS_H
 
 #include "gluon_input_export.h"
 #include "gluondevices.h"
@@ -313,5 +314,4 @@ namespace GluonInput
     };
 }
 
-//@}
-#endif // KCL_H
+#endif // GLUON_INPUT_GLUONBUTTONS_H

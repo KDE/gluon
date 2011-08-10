@@ -31,11 +31,12 @@ namespace GluonEngine
     class GLUON_COMPONENT_TEXTRENDERER_EXPORT TextRendererComponent : public Component
     {
             Q_OBJECT
-            GLUON_OBJECT( GluonEngine::TextRendererComponent )
             Q_PROPERTY( QString text READ text WRITE setText )
             Q_PROPERTY( QFont font READ font WRITE setFont )
             Q_PROPERTY( QColor color READ color WRITE setColor )
+
             Q_INTERFACES( GluonEngine::Component )
+            GLUON_OBJECT( GluonEngine::TextRendererComponent )
 
         public:
             Q_INVOKABLE TextRendererComponent( QObject* parent = 0 );

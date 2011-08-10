@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -76,11 +76,15 @@ set(GLUON_DECLARATIVE_LIBS
 )
 
 if(NOT APPLE)
-    install(TARGETS gluon_qmlplayer DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-    install(FILES gluon_qmlplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
+    install(TARGETS gluon_qmlplayer
+            DESTINATION ${BIN_INSTALL_DIR}
+            COMPONENT gluontouchplayer)
+
+    install(FILES gluon_qmlplayer.desktop
+            DESTINATION ${SHARE_INSTALL_DIR}/applications
+            COMPONENT gluontouchplayer)
 
     if(NOT PLAYER_ICONS_INSTALLED)
-        add_subdirectory(../icons icons)
         set(PLAYER_ICONS_INSTALLED TRUE)
     endif()
 endif()

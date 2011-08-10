@@ -16,17 +16,19 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #ifndef GLUON_CORE_GLUONOBJECT_H
 #define GLUON_CORE_GLUONOBJECT_H
 
-#include "gluonobjectfactory.h"
 #include "gluon_core_export.h"
 
+#include "gluonobjectfactory.h"
+
+#include <QtScript/QScriptValue>
 #include <QtCore/QList>
 #include <QtCore/QUrl>
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
-#include <QtScript/QScriptValue>
 
 Q_DECLARE_METATYPE( QList<QUrl> )
 
@@ -213,6 +215,7 @@ namespace GluonCore
              * @return A deep copy of the object and all its children
              */
             Q_INVOKABLE GluonObject* clone() const;
+
             /**
              * Copy this object and all of its children, recursively, and insert the cloned object
              * as a child of the passed GluonObject
@@ -227,16 +230,19 @@ namespace GluonCore
              * @return  The object's name
              */
             virtual QString name() const;
+
             /**
              * Set a new name for the object. See also the property description.
              *
              * @param   newName     The requested new name for this object
              */
             virtual void setName( const QString& newName );
+
             /**
              * Emitted when the name of the object changes
              */
             Q_SIGNAL void nameChanged( const QString& oldName, const QString& newName );
+
             /**
              * The fully qualified name of the object, from the root and upwards.
              * The object name separator is "/" which means that an object named
@@ -244,6 +250,7 @@ namespace GluonCore
              * AnotherObject/AnObject
              */
             QString fullyQualifiedName() const;
+
             /**
              * The qualified name of the object, from the local root and upwards.
              * @see fullyQualifiedName
@@ -270,6 +277,7 @@ namespace GluonCore
              * @see GameProject GameProject::findItemByName
              */
             GluonObject* gameProject() const;
+
             /**
              * Do not use this function unless you are absolutely sure what you
              * are doing!
@@ -287,6 +295,7 @@ namespace GluonCore
              * @return The meta information related to this object
              */
             Q_INVOKABLE MetaInfo* metaInfo();
+
             /**
              * Request information on whether the class contains MetaInfo. This function is needed
              * to ensure the ability to read metaInfo without creating one automatically.
@@ -315,6 +324,7 @@ namespace GluonCore
              * @return  The object if found, or null if not
              */
             Q_INVOKABLE GluonObject* findItemByName( QString qualifiedName ) const;
+
             /**
              * Get the top-most GluonObject in the object hierarchy
              *
@@ -331,6 +341,7 @@ namespace GluonCore
              * @see name
              */
             virtual void addChild( GluonObject* child );
+
             /**
              * Add the passed GluonObject as a new child to this object, at the position requested.
              * If position is larger than the number of children, the new child will be appended
@@ -344,6 +355,7 @@ namespace GluonCore
              * @see name
              */
             virtual void addChildAt( GluonObject* child, int position );
+
             /**
              * Remove the passed GluonObject from the list of children on this object.
              *
@@ -351,6 +363,7 @@ namespace GluonCore
              * @return  True if the child was removed successfully, false if the child did not exist in this object
              */
             virtual bool removeChild( GluonObject* child );
+
             /**
              * Convenience function for getting a child at a specific index in the list of children
              *
@@ -358,6 +371,7 @@ namespace GluonCore
              * @return  The child at that index, or null if the index is invalid
              */
             virtual GluonObject* child( int index ) const;
+
             /**
              * Convenience function for fetching a child by a specified name
              *
@@ -365,6 +379,7 @@ namespace GluonCore
              * @return  The child with the passed name, or null if no child exists by that name
              */
             virtual GluonObject* child( const QString& name ) const;
+
             /**
              * Fetches all the children of a given type from a GluonObject,
              * searching in the entire hierarchy.
@@ -415,6 +430,7 @@ namespace GluonCore
              * @return  The object if found, or null if the object was not found
              */
             static GluonObject* findItemByNameInObject( QStringList qualifiedName, const GluonCore::GluonObject* object );
+
             /**
              * This function is called by the clone function before handing the cloned object
              * back to the caller. If you have something special which needs to be done to each

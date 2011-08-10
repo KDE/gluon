@@ -5,7 +5,8 @@ endif()
 
 include_directories(${GLUON_GRAPHICS_INCLUDES})
 
-set(EXAMPLES_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/bin)
+set(EXAMPLES_INSTALL_DIR ${BIN_INSTALL_DIR})
+set(EXAMPLES_DATA_INSTALL_DIR ${SHARE_INSTALL_DIR}/gluon/examples/graphics)
 
 add_subdirectory(basic)
 add_subdirectory(loadtexture)

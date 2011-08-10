@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${GLUON_INPUT_INCLUDES})
 
@@ -54,6 +54,12 @@ endif()
 target_link_libraries(gluon_kdeplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_INPUT_LIBS} ${KDE4_KIO_LIBS})
 
 if(NOT APPLE)
-    install(TARGETS gluon_kdeplayer DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-    install(FILES gluon_kdeplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
+    install(TARGETS gluon_kdeplayer
+            DESTINATION ${BIN_INSTALL_DIR}
+            COMPONENT gluonkdeplayer)
+
+    install(FILES gluon_kdeplayer.desktop
+            DESTINATION ${SHARE_INSTALL_DIR}/applications
+            COMPONENT gluonkdeplayer)
+
 endif()

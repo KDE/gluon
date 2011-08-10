@@ -20,14 +20,18 @@ set(GLUON_PLAYER_INCLUDES
 )
 
 set(libGluonPlayer_SRCS
+    abstractjob.cpp
+    addgamejob.cpp
     atticamanager.cpp
     authentication.cpp
-    comment.cpp
-    gamecontenttransfer.cpp
-    gamedetail.cpp
-    rating.cpp
+    categorylistjob.cpp
+    commentlistjob.cpp
+    gamecontentjob.cpp
+    gamedetaillistjob.cpp
+    ratingjob.cpp
     serviceprovider.cpp
 
+    models/achievementsmodel.cpp
     models/gameviewitem.cpp
     models/gameitemsmodel.cpp
     models/commentitemsmodel.cpp
@@ -56,29 +60,32 @@ set(GLUON_PLAYER_LIBS
 )
 
 install(
-    TARGETS libGluonPlayer
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION ${LIB_INSTALL_DIR}
-    ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
+    TARGETS     libGluonPlayer
+    RUNTIME     DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluonplayer
+    LIBRARY     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonplayer
+    ARCHIVE     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonplayer
+    FRAMEWORK   DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonplayer
 )
 
 install(FILES
     atticamanager.h
     authentication.h
 
-    models/commentitemsmodel.h
-    models/commentsmodel.h
-    models/gameviewitem.h
-    models/gameitemsmodel.h
-    models/highscoresmodel.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib
-    COMPONENT Devel
+    COMPONENT gluonplayer
 )
 
 install(FILES
+    models/achievementsmodel.h
     models/commentitemsmodel.h
     models/gameitemsmodel.h
     models/highscoresmodel.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib/models
-    COMPONENT Devel
+    COMPONENT gluonplayer
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+

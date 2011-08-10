@@ -113,6 +113,11 @@ namespace GluonGraphics
              **/
             quintptr offset() const;
 
+            /**
+             * Clear the data of this attribute.
+             */
+            void clear();
+
             VertexAttribute& operator=( const VertexAttribute& other );
 
             /**

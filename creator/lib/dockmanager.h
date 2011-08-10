@@ -18,8 +18,8 @@
  * 02110-1301  USA
  */
 
-#ifndef GLUONCREATOR_DOCKMANAGER_H
-#define GLUONCREATOR_DOCKMANAGER_H
+#ifndef GLUON_CREATOR_DOCKMANAGER_H
+#define GLUON_CREATOR_DOCKMANAGER_H
 
 #include "gluoncreator_macros.h"
 
@@ -53,4 +53,4 @@ namespace GluonCreator
     };
 }
 
-#endif // GLUONCREATOR_DOCKMANAGER_H
+#endif // GLUON_CREATOR_DOCKMANAGER_H

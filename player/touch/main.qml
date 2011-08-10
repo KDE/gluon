@@ -52,42 +52,109 @@ Item {
             PropertyChanges { }
         },
 
+        State { name: "achievements"; when: statepoint == "achievements"
+            PropertyChanges { }
+        },
+
         State { name: "other"; when: statepoint == "other" }
     ]
 
-    MainWindow {
-        id: mainWindowPage;
-        height: parent.height;
-        width: parent.width;
-        visible: statepoint == "mainwindow";
+    Flickable {
+        id: flickMainWindow;
+        anchors.fill: parent;
+        contentWidth: parent.width;
+        contentHeight: parent.height;
+
+        /* PinchArea { */
+            /* width: Math.max(flick.contentWidth, flick.width) */
+            /* height: Math.max(flick.contentHeight, flick.height) */
+
+            /* property real initialWidth */
+            /* property real initialHeight */
+            /* onPinchStarted: { */
+                /* initialWidth = flick.contentWidth */
+                /* initialHeight = flick.contentHeight */
+            /* }    */
+
+            /* onPinchUpdated: { */
+                /* // adjust content pos due to drag */
+                /* flick.contentX += pinch.previousCenter.x - pinch.center.x */
+                /* flick.contentY += pinch.previousCenter.y - pinch.center.y */
+
+                /* // resize content */
+                /* flick.resizeContent(initialWidth * pinch.scale, initialHeight * pinch.scale, pinch.center) */
+            /* }    */
+
+            /* onPinchFinished: { */
+                /* // Move its content within bounds. */
+                /* flick.returnToBounds() */
+            /* } */
+
+            MainWindow {
+                width: flickMainWindow.contentWidth
+                height: flickMainWindow.contentHeight
+                id: mainWindowPage;
+                visible: statepoint == "mainwindow";
+            }
+        /* } */
     }
 
-    Registration {
-        id: registrationPage;
-        height: parent.height;
-        width: parent.width;
-        visible: statepoint == "registration";
+    Flickable {
+        id: flickRegistration;
+        contentWidth: parent.width;
+        contentHeight: parent.height;
+        Registration {
+            id: registrationPage;
+            visible: statepoint == "registration";
+        }
     }
 
-    Home {
-        id: homePage;
-        height: parent.height;
-        width: parent.width;
-        visible: statepoint == "home";
+    Flickable {
+        id: flickHomePage;
+        contentWidth: parent.width;
+        contentHeight: parent.height;
+        Home {
+            id: homePage;
+            height: parent.height;
+            width: parent.width;
+            visible: statepoint == "home";
+        }
     }
 
-    Details {
-        id: detailsPage;
-        height: parent.height;
-        width: parent.width;
-        visible: statepoint == "details";
+    Flickable {
+        id: flickDetailsPage;
+        contentWidth: parent.width;
+        contentHeight: parent.height;
+        Details {
+            id: detailsPage;
+            height: parent.height;
+            width: parent.width;
+            visible: statepoint == "details";
+        }
     }
 
-    Comments {
-        id: commentsPage;
-        height: parent.height;
-        width: parent.width;
-        visible: statepoint == "comments";
+    Flickable {
+        id: flickCommentsPage;
+        contentWidth: parent.width;
+        contentHeight: parent.height;
+        Comments {
+            id: commentsPage;
+            height: parent.height;
+            width: parent.width;
+            visible: statepoint == "comments";
+        }
+    }
+
+    Flickable {
+        id: flickAchievementsPage;
+        contentWidth: parent.width;
+        contentHeight: parent.height;
+        Achievements {
+            id: achievementsPage;
+            height: parent.height;
+            width: parent.width;
+            visible: statepoint == "achievements";
+        }
     }
 
     Component.onCompleted: {

@@ -35,8 +35,36 @@
 
     <ToolBar name="gameActionsToolbar">
         <text>Game Actions</text>
-        <Action name="playGame" />
-        <Action name="pauseGame" />
-        <Action name="stopGame" />
+        <Action name="game_play" />
+        <Action name="game_pause" />
+        <Action name="game_stop" />
     </ToolBar>
+
+   <State name="initial">
+       <disable>
+           <Action name="game_play" />
+           <Action name="game_pause" />
+           <Action name="game_stop" />
+       </disable>
+   </State>
+
+    <State name="playing">
+        <enable>
+            <Action name="game_pause" />
+            <Action name="game_stop" />
+        </enable>
+        <disable>
+            <Action name="game_play" />
+        </disable>
+    </State>
+
+    <State name="paused">
+        <enable>
+            <Action name="game_play" />
+        </enable>
+        <disable>
+            <Action name="game_pause" />
+        </disable>
+    </State>
+
 </gui>

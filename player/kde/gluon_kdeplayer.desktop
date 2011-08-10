@@ -1,7 +1,9 @@
 [Desktop Entry]
 Name=Gluon Player (KDE only)
+Name[de]=Gluon-Player (KDE-Version)
 Name[es]=Gluon Player (sólo KDE)
 Name[et]=Gluoni mängija (ainult KDE)
+Name[fr]=Gluon Player (KDE uniquement)
 Name[pt]=Leitor do Gluon (apenas para KDE)
 Name[pt_BR]=Jogador do Gluon (somente para KDE)
 Name[sv]=Gluon spelare (bara KDE)
@@ -11,6 +13,7 @@ GenericName=Game Launcher
 GenericName[de]=Spielestarter
 GenericName[es]=Lanzador de juegos
 GenericName[et]=Mängukäivitaja
+GenericName[fr]=Démarrage du jeu
 GenericName[pt]=Lançador do Jogo
 GenericName[pt_BR]=Lançador do jogo
 GenericName[sv]=Startprogram för spel

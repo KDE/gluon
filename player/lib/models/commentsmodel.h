@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_COMMENTSMODEL_H
-#define GLUONPLAYER_COMMENTSMODEL_H
+#ifndef GLUON_PLAYER_COMMENTSMODEL_H
+#define GLUON_PLAYER_COMMENTSMODEL_H
 
 #include "lib/gluon_player_export.h"
 
@@ -90,15 +90,15 @@ namespace GluonPlayer
              */
             void uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message );
 
-        private Q_SLOTS:
-            void processFetchedComments( QList<CommentItem*> list );
-            void uploadCommentFinished();
-
         Q_SIGNALS:
             /** signal which is emitted when the comment failed to be added
              */
             void addCommentFailed();
-            void fetchCommentsFailed();
+            void commentListFetchFailed();
+
+        private Q_SLOTS:
+            void processFetchedComments( QList<CommentItem*> list );
+            void uploadCommentFinished();
 
         private:
             GluonCore::GluonObject* addComment( CommentItem *comment, GluonCore::GluonObject* parent );
@@ -111,4 +111,4 @@ namespace GluonPlayer
     };
 }
 
-#endif // GLUONPLAYER_COMMENTSMODEL_H
+#endif // GLUON_PLAYER_COMMENTSMODEL_H

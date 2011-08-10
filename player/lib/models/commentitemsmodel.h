@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_COMMENTITEMSMODEL_H
-#define GLUONPLAYER_COMMENTITEMSMODEL_H
+#ifndef GLUON_PLAYER_COMMENTITEMSMODEL_H
+#define GLUON_PLAYER_COMMENTITEMSMODEL_H
 
 #include "lib/gluon_player_export.h"
 
@@ -118,4 +118,4 @@ namespace GluonPlayer
     };
 }
 
-#endif // GLUONPLAYER_COMMENTITEMSMODEL_H
+#endif // GLUON_PLAYER_COMMENTITEMSMODEL_H

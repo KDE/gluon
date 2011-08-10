@@ -35,9 +35,11 @@ namespace GluonCreator
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 
-        public slots:
+        public Q_SLOTS:
             virtual void setEditProperty( const QString& value );
             virtual void setEditValue( const QVariant& value );
+
+        private Q_SLOTS:
             void qrealValueChanged( double value );
 
     };

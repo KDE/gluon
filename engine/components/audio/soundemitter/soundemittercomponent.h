@@ -37,7 +37,6 @@ namespace GluonEngine
             Q_PROPERTY( bool loop READ isLooping WRITE setLoop )
             Q_PROPERTY( bool autoPlay READ autoPlay WRITE setAutoPlay )
 
-
             Q_INTERFACES( GluonEngine::Component )
             GLUON_OBJECT( GluonEngine::SoundEmitterComponent )
 

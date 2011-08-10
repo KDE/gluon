@@ -57,6 +57,7 @@ MaterialAsset::~MaterialAsset()
     // TODO: MaterialAsset needs to clean up after itself. This needs loading process fixes though.
     //if(d->material)
     //    GluonGraphics::Engine::instance()->destroyMaterial(name());
+    qDeleteAll( d->actions );
     delete d;
 }
 

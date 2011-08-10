@@ -20,6 +20,7 @@ option(BUILD_GLUON_PLAYER "Build Gluon Player Application" ON)
 option(BUILD_PLASMOID "Build Gluon Player Plasmoid" ON)
 option(BUILD_GLUON_CREATOR "Build Gluon Creator Application" ON)
 option(BUILD_GLUON_CREATOR_VCS "Build Version Control System support for the Gluon Creator" OFF)
+option(BUILD_GLUON_TESTS "Build Unit Tests for the Gluon libraries and applications" ON)
 option(INSTALL_EXAMPLES "Install the game examples for Gluon Player" ON)
 
 if(CMAKE_INSTALL_PREFIX STREQUAL "/usr")
@@ -36,15 +37,9 @@ set(GLUON_BUILD_ALL TRUE
 )
 
 if(NOT MSVC)
-SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -Wno-switch -O2 -g")
-SET(CMAKE_CXX_FLAGS_RELEASE "-Wall -Wno-switch -O2")
-SET(CMAKE_CXX_FLAGS_DEBUG  "-Wall -Wno-switch -g3 -ggdb -O0" CACHE STRING "Debug options." FORCE)
-
-
-# Build Release by default
-IF (NOT CMAKE_BUILD_TYPE)
-    SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
-ENDIF ()
+    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -Wno-switch -O2 -g")
+    set(CMAKE_CXX_FLAGS_RELEASE "-Wall -Wno-switch -O2")
+    set(CMAKE_CXX_FLAGS_DEBUG  "-Wall -Wno-switch -g3 -ggdb -O0" CACHE STRING "Debug options." FORCE)
 endif(NOT MSVC)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
@@ -76,26 +71,26 @@ endif()
 
 ####### Gluon Core ########
 add_subdirectory(core)
-add_subdirectory(core/tests)
+
 ####### Gluon Audio #######
 if(BUILD_GLUON_AUDIO)
     add_subdirectory(audio)
 endif()
+
 ####### Gluon Input #######
 if(BUILD_GLUON_INPUT)
     add_subdirectory(input)
 endif()
+
 ###### Gluon Graphics #####
 if(BUILD_GLUON_GRAPHICS)
     add_subdirectory(graphics)
 endif()
 
-
 ####### SMARTS Library #######
 if(BUILD_GLUON_SMARTS)
      add_subdirectory(smarts)
 endif()
-
 
 ###### Gluon Engine #######
 if(BUILD_GLUON_ENGINE)
@@ -202,7 +197,6 @@ else()
         core/cmake/FindGluon.cmake
         core/cmake/FindGluonCore.cmake
         audio/cmake/FindGluonAudio.cmake
-        audio/cmake/FindSndFile.cmake
         audio/cmake/FindAlure.cmake
         graphics/cmake/FindGluonGraphics.cmake
         cmake/FindOpenGLES2.cmake
@@ -215,22 +209,8 @@ else()
     )
 endif()
 
-#Packaging options
-#common package generation settings
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "An open framework to create, distribute and play games")
-set(CPACK_PACKAGE_NAME "Gluon")
-set(CPACK_PACKAGE_VERSION "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}")
-set(CPACK_PACKAGE_FILE_NAME "Gluon-${GLUON_VERSION_STRING}")
-set(CPACK_GENERATOR "RPM;DEB;TGZ")
-set(CPACK_PACKAGE_CONTACT "Laszlo Papp <lpapp@kde.org>, Arjen Hiemstra <ahiemstra@heimr.nl>")
-
-#debian package generation
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt4-gui (>= 4.6), libqt4-opengl (>= 4.6), libopenal1, libsndfile1, libvorbis0a, libgles2")
-set(CPACK_DEBIAN_PACKAGE_SECTION "Games")
-
-#rpm package generation
-#set(CPACK_RPM_PACKAGE_REQUIRES "libqt-devel (>= 4.7.1), libsndfile, libvorbis")
-
-include(InstallRequiredSystemLibraries)
+###### CPACK part ######
 include(CPack)
+
+###### CTEST part ######
 include(CTest)

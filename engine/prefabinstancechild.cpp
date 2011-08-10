@@ -23,8 +23,6 @@
 #include "prefabinstance.h"
 #include "component.h"
 
-#include <QtCore/QMetaProperty>
-
 REGISTER_OBJECTTYPE( GluonEngine, PrefabInstanceChild )
 
 using namespace GluonEngine;
@@ -55,19 +53,14 @@ PrefabInstanceChild::PrefabInstanceChild( QObject* parent )
 {
 }
 
-PrefabInstanceChild::PrefabInstanceChild( const PrefabInstanceChild& other )
-    : d( new Private() )
-{
-    *d = *other.d;
-}
-
 PrefabInstanceChild::~PrefabInstanceChild()
 {
-
+    delete(d);
 }
 
 void PrefabInstanceChild::cloneFromGameObject(GluonEngine::GameObject* gameObject)
 {
+    DEBUG_FUNC_NAME
     d->linkedGameObject = gameObject;
     Prefab::cloneObjectProperties(gameObject, this);
 
@@ -79,7 +72,8 @@ void PrefabInstanceChild::cloneFromGameObject(GluonEngine::GameObject* gameObjec
         {
             GameObject* childGobj = gameObject->childGameObject(i);
             // Clone this GameObject as a PrefabInstanceChild...
-            PrefabInstanceChild* newChild = new PrefabInstanceChild(this);
+            PrefabInstanceChild* newChild = new PrefabInstanceChild();
+            addChild(newChild);
             newChild->cloneFromGameObject(childGobj);
         }
     }
@@ -89,8 +83,10 @@ void PrefabInstanceChild::cloneFromGameObject(GluonEngine::GameObject* gameObjec
     {
         cmp->clone(this);
         //Prefab::cloneObjectProperties( cmp, cmpClone );
+        DEBUG_TEXT2("Completed copy of %1", cmp->name());
     }
     d->instantiationCompleted = true;
+    DEBUG_TEXT2("Completed copy of %1", name());
 }
 
 PrefabInstance* PrefabInstanceChild::parentInstance()

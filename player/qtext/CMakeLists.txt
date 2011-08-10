@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -73,8 +73,13 @@ endif()
 target_link_libraries(gluon_qtextplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS})
 
 if(NOT APPLE)
-    install(TARGETS gluon_qtextplayer DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-    install(FILES gluon_qtextplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
+    install(TARGETS gluon_qtextplayer
+            DESTINATION ${BIN_INSTALL_DIR}
+            COMPONENT gluonqtextplayer)
+
+    install(FILES gluon_qtextplayer.desktop
+            DESTINATION ${SHARE_INSTALL_DIR}/applications
+            COMPONENT gluonqtextplayer)
 
     if(NOT PLAYER_ICONS_INSTALLED)
         add_subdirectory(../icons icons)

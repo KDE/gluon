@@ -17,14 +17,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#ifndef GLUON_CORE_MESSAGEHANDLER_H
+#define GLUON_CORE_MESSAGEHANDLER_H
 
-#ifndef GLUONCORE_MESSAGEHANDLER_H
-#define GLUONCORE_MESSAGEHANDLER_H
-
-#include "singleton.h"
 #include "gluon_core_export.h"
 
+#include "singleton.h"
+
 class QScriptValue;
+
 namespace GluonCore
 {
     class GluonObject;
@@ -51,6 +52,7 @@ namespace GluonCore
              * \param receiver The object to receive the message.
              */
             Q_INVOKABLE void subscribe( const QString& message, GluonObject* receiver );
+
             /**
              * Subscribe to a message.
              * This overload is meant to be called from script. call()
@@ -97,4 +99,4 @@ namespace GluonCore
 
 }
 
-#endif // GLUONCORE_MESSAGEHANDLER_H
+#endif // GLUON_CORE_MESSAGEHANDLER_H

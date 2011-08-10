@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONCREATOR_HISTORYMANAGER_H
+#ifndef GLUON_CREATOR_HISTORYMANAGER_H
 #define GLUONCREATOR_HISTORYMANAGER_H
 
 #include "gluoncreator_macros.h"
@@ -34,7 +34,6 @@ namespace GluonCreator
     {
             Q_OBJECT
             GLUON_SINGLETON( HistoryManager )
-        public:
 
         public Q_SLOTS:
             void addCommand( QUndoCommand* command );
@@ -60,4 +59,4 @@ namespace GluonCreator
     };
 }
 
-#endif // GLUONCREATOR_HISTORYMANAGER_H
+#endif // GLUON_CREATOR_HISTORYMANAGER_H

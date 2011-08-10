@@ -17,13 +17,14 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #ifndef GLUON_CREATOR_PROPERTYWIDGET_H
 #define GLUON_CREATOR_PROPERTYWIDGET_H
 
+#include "lib/gluoncreator_macros.h"
+
 #include <QtGui/QWidget>
 #include <QtGui/QScrollArea>
-
-#include <creator/lib/gluoncreator_macros.h>
 
 namespace GluonCore
 {
@@ -60,4 +61,4 @@ namespace GluonCreator
     };
 }
 
-#endif    // GLUON_CREATOR_PROPERTYWIDGET_H
+#endif // GLUON_CREATOR_PROPERTYWIDGET_H

@@ -29,12 +29,12 @@ namespace GluonEngine
     class GLUON_COMPONENT_DISCRENDERER_EXPORT DiscRendererComponent : public Component
     {
             Q_OBJECT
-            GLUON_OBJECT( GluonEngine::DiscRendererComponent )
             Q_PROPERTY( float radius READ radius WRITE setRadius )
             Q_PROPERTY( uint nbPoints READ nbPoints WRITE setNbPoints )
             Q_PROPERTY( QColor color READ color WRITE setColor )
             Q_PROPERTY( GluonEngine::Asset* texture READ texture WRITE setTexture )
             Q_INTERFACES( GluonEngine::Component )
+            GLUON_OBJECT( GluonEngine::DiscRendererComponent )
 
         public:
             Q_INVOKABLE DiscRendererComponent( QObject* parent = 0 );

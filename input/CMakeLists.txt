@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 if(NOT GLUON_BUILD_ALL)
     project(GluonInput)
@@ -204,11 +204,11 @@ if(APPLE)
 endif()
 
 install(
-    TARGETS GluonInput
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION ${LIB_INSTALL_DIR}
-    ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
-    FRAMEWORK DESTINATION ${LIB_INSTALL_DIR}
+    TARGETS     GluonInput
+    RUNTIME     DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluoninput
+    LIBRARY     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoninput
+    ARCHIVE     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoninput
+    FRAMEWORK   DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoninput
 )
 
 if(APPLE)
@@ -217,7 +217,7 @@ if(APPLE)
         ${GluonInput_HEADERS_COMMON}
         ${GluonInput_HEADERS_MAC}
         DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/input
-        COMPONENT Devel
+        COMPONENT gluoninput
     )
 elseif(WIN32)
     install(
@@ -225,7 +225,7 @@ elseif(WIN32)
         ${GluonInput_HEADERS_COMMON}
         ${GluonInput_HEADERS_WIN}
         DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/input
-        COMPONENT Devel
+        COMPONENT gluoninput
     )
 elseif(UNIX)
     install(
@@ -233,7 +233,7 @@ elseif(UNIX)
         ${GluonInput_HEADERS_COMMON}
         ${GluonInput_HEADERS_LINUX}
         DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/input
-        COMPONENT Devel
+        COMPONENT gluoninput
     )
 endif()
 
@@ -246,5 +246,10 @@ install(
     ${GluonInput_HEADERS_COMMON}
     ${GluonInput_HEADERS_QT}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/qt
-    COMPONENT Devel
+    COMPONENT gluoninput
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()

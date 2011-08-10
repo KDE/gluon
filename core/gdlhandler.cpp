@@ -75,7 +75,7 @@ GDLHandler::createObject( QStringList objectStringList, QObject* parent )
                     createdObject->setParent( parent );
                 }
             }
-            //DEBUG_TEXT(QString("Instantiated object of type %1").arg(createdObject->metaObject()->className()));
+            //DEBUG_TEXT(QString("Instantiated object of type %1").arg(createdObject->metaObject()->className()))
             break;
             case 1:
                 // Object name
@@ -427,7 +427,7 @@ GDLHandler::propertiesToGDL( const GluonObject* gluonObject, int indentLevel ) c
     int count = metaobject->propertyCount();
     if( count == 2 )
     {
-        //DEBUG_TEXT(QString("No normal properties"));
+        //DEBUG_TEXT(QString("No normal properties"))
     }
     for( int i = 0; i < count; ++i )
     {
@@ -442,7 +442,7 @@ GDLHandler::propertiesToGDL( const GluonObject* gluonObject, int indentLevel ) c
     QList<QByteArray> propertyNames = gluonObject->dynamicPropertyNames();
     if( propertyNames.length() == 0 )
     {
-        //DEBUG_TEXT(QString("No dynamic properties"));
+        //DEBUG_TEXT(QString("No dynamic properties"))
     }
     foreach( const QByteArray & propName, propertyNames )
     {
@@ -457,8 +457,8 @@ QString
 GDLHandler::toGDL( const GluonObject* gluonObject, int indentLevel ) const
 {
     QString serializedObject;
-    //DEBUG_TEXT(QString("Serializing object named %1").arg(this->name()));
-    //DEBUG_TEXT(QString("With %1 Children").arg(children().size()));
+    //DEBUG_TEXT(QString("Serializing object named %1").arg(this->name()))
+    //DEBUG_TEXT(QString("With %1 Children").arg(children().size()))
 
     QString indentChars( indentLevel * 4, ' ' );
 

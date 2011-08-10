@@ -7,10 +7,10 @@
 #  GLEE_LIBS         - Link this to use OpenGLES
 #   
 
-FIND_PATH(GLEE_INCLUDE_DIR GL/glee.h)
+FIND_PATH(GLEE_INCLUDE_DIR GL/GLee.h)
 
 FIND_LIBRARY(GLEE_LIBRARY
-  NAMES glee
+  NAMES GLee
         libglee
   PATHS /opt/graphics/OpenGL/lib
         /usr/openwin/lib

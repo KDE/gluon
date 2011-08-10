@@ -16,12 +16,13 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #ifndef GLUON_CREATOR_PROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_PROPERTYWIDGETITEM_H
 
-#include "propertywidgetitemfactory.h"
+#include "lib/gluoncreator_macros.h"
 
-#include <creator/lib/gluoncreator_macros.h>
+#include "propertywidgetitemfactory.h"
 
 #include <QtCore/QVariant>
 #include <QtGui/QWidget>
@@ -75,4 +76,4 @@ namespace GluonCreator
     };
 }
 
-#endif    // GLUON_CREATOR_PROPERTYWIDGETITEM_H
+#endif // GLUON_CREATOR_PROPERTYWIDGETITEM_H

@@ -127,7 +127,9 @@ MainWindow::~MainWindow()
     GluonCreator::Settings::setLockLayout( actionCollection()->action( "lock_layout" )->isChecked() );
     GluonCreator::Settings::self()->writeConfig();
 
-    GluonEngine::Game::instance()->cleanupAll();
+
+    if( GluonEngine::Game::instance()->currentScene() )
+        GluonEngine::Game::instance()->cleanupAll();
 }
 
 void MainWindow::closeEvent( QCloseEvent* event )
@@ -396,13 +398,13 @@ void GluonCreator::MainWindow::showNewProjectDialog()
     d->projectDialog->show();
 }
 
-void GluonCreator::MainWindow::showOpenProjectDialog()
+void MainWindow::showOpenProjectDialog()
 {
     d->projectDialog->setPage( ProjectSelectionDialog::OpenProjectPage );
     d->projectDialog->show();
 }
 
-void GluonCreator::MainWindow::projectDialogAccepted()
+void MainWindow::projectDialogAccepted()
 {
     openProject( d->projectDialog->fileName() );
 }

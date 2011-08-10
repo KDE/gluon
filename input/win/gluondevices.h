@@ -19,8 +19,9 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef GLUONDEVICES_H
-#define GLUONDEVICES_H
+
+#ifndef GLUON_INPUT_GLUONDEVICES_H
+#define GLUON_INPUT_GLUONDEVICES_H
 
 #include <QtCore/QFlags>
 #include <QtCore/QEvent>
@@ -48,4 +49,4 @@ namespace GluonInput
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( GluonInput::Devices );
 
-#endif
+#endif // GLUON_INPUT_GLUONDEVICES_H

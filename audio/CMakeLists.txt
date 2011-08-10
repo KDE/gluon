@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 if(NOT GLUON_BUILD_ALL)
     project(GluonAudio)
@@ -8,8 +8,7 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(OpenAL 1.8 REQUIRED)
-find_package(SndFile REQUIRED)
-find_package(Alure 1.1 REQUIRED)
+find_package(Alure 1.2 REQUIRED)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -20,7 +19,6 @@ include_directories(
     ${ALURE_INCLUDE_DIRS}
     ${OPENAL_INCLUDE_DIR}
     #TODO: Make use of phonon instead of these libs for file input. Saves us another few dependencies.
-    ${SNDFILE_INCLUDE_DIR}
 )
 
 set(GLUON_AUDIO_INCLUDES
@@ -28,22 +26,21 @@ set(GLUON_AUDIO_INCLUDES
 
     ${ALURE_INCLUDE_DIRS}
     ${OPENAL_INCLUDE_DIR}
-    ${SNDFILE_INCLUDE_DIR}
     CACHE INTERNAL "Includes required for Gluon Audio"
 )
 
 set(GluonAudio_SRCS
-    capture.cpp
+    #capture.cpp
     engine.cpp
     player.cpp
     sound.cpp
 
-    capturedevice_p.cpp
+    #capturedevice_p.cpp
     device_p.cpp
 )
 
 set(GluonAudio_HEADERS
-    capture.h
+    #capture.h
     engine.h
     gluon_audio_export.h
     player.h
@@ -66,7 +63,6 @@ target_link_libraries(
     GluonAudio
     ${GLUON_CORE_LIBS}
     ${OPENAL_LIBRARY}
-    ${SNDFILE_LIBRARIES}
     ${ALURE_LIBRARIES}
 )
 
@@ -74,7 +70,6 @@ set(GLUON_AUDIO_LIBS
     GluonAudio
     ${GLUON_CORE_LIBS}
     ${OPENAL_LIBRARY}
-    ${SNDFILE_LIBRARIES}
     ${ALURE_LIBRARIES}
     CACHE INTERNAL "Libraries required for Gluon audio"
 )
@@ -101,16 +96,22 @@ if(INSTALL_EXAMPLES)
 endif()
 
 install(
-    TARGETS GluonAudio
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION ${LIB_INSTALL_DIR}
-    ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
-    FRAMEWORK DESTINATION ${LIB_INSTALL_DIR}
+    TARGETS     GluonAudio
+    RUNTIME     DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluonaudio
+    LIBRARY     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonaudio
+    ARCHIVE     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonaudio
+    FRAMEWORK   DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonaudio
 )
 
 install(
     FILES
     ${GluonAudio_HEADERS}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/audio
-    COMPONENT Devel
+    COMPONENT gluonaudio
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+

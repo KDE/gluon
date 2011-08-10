@@ -182,7 +182,7 @@ void IntVectorPropertyWidgetItem::valueHasChanged()
         theValues.append( intValues[item] );
     }
     if( isList )
-        PropertyWidgetItem::valueChanged( QVariant::fromValue< QList<int> >( theValues ) );
+        PropertyWidgetItem::valueChanged( qVariantFromValue< QList<int> >( theValues ) );
     else
-        PropertyWidgetItem::valueChanged( QVariant::fromValue< QVector<int> >( QVector<int>::fromList( theValues ) ) );
+        PropertyWidgetItem::valueChanged( qVariantFromValue< QVector<int> >( QVector<int>::fromList( theValues ) ) );
 }

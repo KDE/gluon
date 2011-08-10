@@ -54,7 +54,7 @@ Component::toVariant( GluonCore::GluonObject* wrapThis )
     if( QString::fromAscii( staticMetaObject.className() ).compare( "GluonCore::Component" ) )
     {
         DEBUG_BLOCK
-        DEBUG_TEXT( QString( "Found attempt to use class without toVariant as property. Offending class: %1" ).arg( staticMetaObject.className() ) );
+        DEBUG_TEXT2( "Found attempt to use class without toVariant as property. Offending class: %1", staticMetaObject.className() )
     }
     return QVariant::fromValue<GluonEngine::Component*>( qobject_cast<GluonEngine::Component*>( wrapThis ) );
 }

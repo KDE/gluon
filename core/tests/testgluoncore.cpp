@@ -22,6 +22,7 @@
 #include "testgluoncore.h"
 
 #include <QtCore/QMetaProperty>
+#include <QtCore/QDebug>
 
 #define SANITY_CHECK_POINTERS(a, b) if((a) == NULL || (b) == NULL) return (a) == NULL && (b) == NULL
 
@@ -122,7 +123,9 @@ bool TestGluonCore::compareTrees( const QList<GluonCore::GluonObject*>& t1, cons
 bool TestGluonCore::ensureReversible( const QString& gdl )
 {
     GluonCore::GDLHandler* gh = GluonCore::GDLHandler::instance();
-    QList<GluonCore::GluonObject*> parsed = gh->parseGDL( gdl, ( QObject* )0 );
+    QList<GluonCore::GluonObject*> parsed = gh->parseGDL( gdl, gdl.size() );
+    qDebug() << "GGGGDDDDLLLL:" << gdl;
+    qDebug() << "PARSED:" << parsed;
     return compareTrees( parsed, gh->parseGDL( gh->serializeGDL( constListFromNonConst( parsed ) ), ( QObject* )0 ) );
 }
 

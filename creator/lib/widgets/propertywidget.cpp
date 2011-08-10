@@ -27,10 +27,11 @@ using namespace GluonCreator;
 #include "propertywidgetitem.h"
 #include "propertywidgetitemfactory.h"
 
-#include <engine/asset.h>
-#include <engine/scene.h>
+#include "engine/asset.h"
+#include "engine/scene.h"
+#include "engine/gameobject.h"
 
-#include <core/gluonobject.h>
+#include "core/gluonobject.h"
 
 #include <KDE/KLocalizedString>
 
@@ -113,10 +114,9 @@ void PropertyWidget::clear()
 
 void PropertyWidget::appendObject( GluonCore::GluonObject* obj, bool first )
 {
-    if( !first && obj->metaObject()->className() == QString( "GluonEngine::GameObject" ) )
-    {
+    // Don't append any kind of GameObject
+    if( !first && qobject_cast< GluonEngine::GameObject* >(obj) )
         return;
-    }
 
     d->layout->addWidget( new PropertyWidgetContainer( obj, this ) );
 }

@@ -5,6 +5,7 @@
         <file>Home.qml</file>
         <file>Details.qml</file>
         <file>Comments.qml</file>
+        <file>Achievements.qml</file>
 
         <file>Registration.qml</file>
         <file>RegistrationModel.qml</file>

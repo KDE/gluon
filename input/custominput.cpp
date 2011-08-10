@@ -30,7 +30,7 @@ using namespace GluonInput;
 
 CustomInput::CustomInput( QObject* parent )
     : QObject( parent )
-    , d( new CustomInputPrivate() )
+    , d( new CustomInputPrivate )
 {
 }
 

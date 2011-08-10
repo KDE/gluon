@@ -102,7 +102,7 @@ void Player::pause()
     d->sound->pause();
 }
 
-void Player::seek()
+void Player::seek(qint64 ms)
 {
 }
 

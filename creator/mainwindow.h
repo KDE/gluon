@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef GLUON_CREATOR_MAINWINDOW_H
+#define GLUON_CREATOR_MAINWINDOW_H
 
 #include "dialogs/projectselectiondialog.h"
 
@@ -74,4 +74,4 @@ namespace GluonCreator
     };
 }
 
-#endif // MAINWINDOW_H
+#endif // GLUON_CREATOR_MAINWINDOW_H

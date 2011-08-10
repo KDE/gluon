@@ -18,10 +18,9 @@
  */
 
 #include "prefabinstance.h"
+
 #include "component.h"
 #include "prefabinstancechild.h"
-
-#include <QtCore/QMetaProperty>
 
 REGISTER_OBJECTTYPE( GluonEngine, PrefabInstance )
 
@@ -41,15 +40,10 @@ class PrefabInstance::Private
 };
 
 PrefabInstance::PrefabInstance( QObject* parent )
-    : d( new Private )
+    : GameObject( parent )
+    , d( new Private )
 {
 
-}
-
-PrefabInstance::PrefabInstance( const PrefabInstance& other )
-    : d( new Private() )
-{
-    *d = *other.d;
 }
 
 PrefabInstance::~PrefabInstance()
@@ -97,6 +91,7 @@ void PrefabInstance::storeChanges() const
 
 void PrefabInstance::rebuildInstance()
 {
+    DEBUG_FUNC_NAME
     d->instantiationCompleted = false;
     // Clear all children out
     qDeleteAll(children());
@@ -111,7 +106,8 @@ void PrefabInstance::rebuildInstance()
         {
             GameObject* childGobj = d->prefabLink->gameObject()->childGameObject(i);
             // Clone this GameObject as a PrefabInstanceChild...
-            PrefabInstanceChild* newChild = new PrefabInstanceChild(this);
+            PrefabInstanceChild* newChild = new PrefabInstanceChild();
+            addChild(newChild);
             newChild->cloneFromGameObject(childGobj);
         }
     }
@@ -119,9 +115,12 @@ void PrefabInstance::rebuildInstance()
     // Clone all the Components
     foreach( Component* cmp, d->prefabLink->gameObject()->components() )
     {
-        Prefab::cloneObjectProperties( cmp, cmp->clone( this ) );
+        cmp->clone( this );
+        //Prefab::cloneObjectProperties( cmp,  );
+        DEBUG_TEXT2("Completed copy of %1", cmp->name());
     }
     d->instantiationCompleted = true;
+    DEBUG_TEXT2("Completed copy of %1", name());
 }
 
 void PrefabInstance::addChild(GameObject* child)

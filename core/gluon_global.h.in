@@ -32,6 +32,8 @@
 
 #define GLUON_PLATFORM_NAME     "Gluon Development Platform"
 
+#define GLUON_ARCHITECTURE	QString("${GLUON_ARCHITECTURE}")
+
 #include <QtCore/QString>
 
 namespace GluonCore
