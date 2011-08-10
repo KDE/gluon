@@ -17,19 +17,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef ROCSLIB_EXPORT_H
-#define ROCSLIB_EXPORT_H
+#ifndef GLUONCREATOR_NODEEDITOR_EXPORT_H
+#define GLUONCREATOR_NODEEDITOR_EXPORT_H
 
 // needed for KDE_EXPORT and KDE_IMPORT macros
 #include <kdemacros.h>
 
 #ifndef ROCSLIB_EXPORT
-# if defined(MAKE_ROCSLIB_LIB)
+# if defined(MAKE_GLUON_NODEEDITOR_LIB)
 // We are building this library
 #  define ROCSLIB_EXPORT KDE_EXPORT
+#  define GLUONCREATOR_NODEEDITOR_EXPORT Q_DECL_EXPORT
 # else
 // We are using this library
 #  define ROCSLIB_EXPORT KDE_IMPORT
+#  define GLUONCREATOR_NODEEDITOR_EXPORT Q_DECL_IMPORT
 # endif
 #endif
 

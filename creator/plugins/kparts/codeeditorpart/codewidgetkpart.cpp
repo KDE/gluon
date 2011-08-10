@@ -33,7 +33,7 @@ CodeWidgetKpart::CodeWidgetKpart( QWidget *parentWidget, QObject *parent, const 
     KGlobal::locale()->insertCatalog( "gluoncreator" );
     setComponentData( CodeWidgetFactory::componentData() );
 
-    main = new MainWindow();
+    main = new NodeEditor();
     setWidget( main );
 }
 

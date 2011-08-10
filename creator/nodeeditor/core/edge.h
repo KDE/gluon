@@ -25,7 +25,7 @@
 #include <QString>
 #include <QGraphicsSvgItem>
 
-#include "rocslib_export.h"
+#include "gluoncreator_nodeeditor_export.h"
 
 class Node;
 class Graph;

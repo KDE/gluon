@@ -22,7 +22,7 @@
 
 #include <QList>
 #include <QObject>
-#include "rocslib_export.h"
+#include "gluoncreator_nodeeditor_export.h"
 
 class Graph;
 

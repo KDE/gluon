@@ -21,8 +21,8 @@
 
 #include <QThread>
 #include <QMutex>
-#include "rocslib_export.h"
 #include <QWaitCondition>
+#include "gluoncreator_nodeeditor_export.h"
 
 class Graph;
 class Node;

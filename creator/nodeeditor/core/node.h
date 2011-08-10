@@ -25,7 +25,7 @@
 #include <QString>
 #include <QPixmap>
 
-#include "rocslib_export.h"
+#include "gluoncreator_nodeeditor_export.h"
 #include "edge.h"
 #include <QGraphicsSvgItem>
 

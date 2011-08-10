@@ -25,7 +25,7 @@
 #include "graph.h"
 #include "edge.h"
 
-#include "rocslib_export.h"
+#include "gluoncreator_nodeeditor_export.h"
 
 enum DynamicPropertyType
 {

@@ -39,6 +39,8 @@
 #include <QtGui/QUndoCommand>
 #include <QtCore/QTextStream>
 
+#include "gluoncreator_nodeeditor_export.h"
+
 class KPushButton;
 class GraphVisualEditor;
 class KActionCollection;
@@ -52,7 +54,7 @@ class CodeEditor;
 
 #include <QtCore/QWaitCondition>
 
-class NodeEditor : public QWidget
+class GLUONCREATOR_NODEEDITOR_EXPORT NodeEditor : public QWidget
 {
         Q_OBJECT
         /**

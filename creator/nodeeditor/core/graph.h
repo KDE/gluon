@@ -25,7 +25,7 @@
 #include <KComboBox>
 
 #include <klocalizedstring.h>
-#include "rocslib_export.h"
+#include "gluoncreator_nodeeditor_export.h"
 
 #include "node.h"
 #include "edge.h"
