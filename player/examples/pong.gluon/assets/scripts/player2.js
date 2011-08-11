@@ -18,16 +18,16 @@ this.move = function(time)
     }
 
     var pos = this.GameObject.position;
-    if(pos.x() < -30)
+    if(pos.y() < -30)
     {
-        this.GameObject.setPosition(-30, pos.y(), pos.z());
+        this.GameObject.setPosition(pos.x(), -30, pos.z());
     }
-    if(pos.x() > 30)
+    else if(pos.y() > 30)
     {
-        this.GameObject.setPosition(30, pos.y(), pos.z());
+        this.GameObject.setPosition(pos.x(), 30, pos.z());
     }
 
-    if(pos.y() < -30)
+    if(pos.x() < -30)
     {
         this.GameObject.translate(0, 5 * (time/1000), 0);
     }

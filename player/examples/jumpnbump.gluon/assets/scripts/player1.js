@@ -16,7 +16,7 @@ this.move = function(time)
         this.GameObject.translate(-addX, 0, 0);
     }
 
-    if(this.GameObject.Key_Right.isActionHeld())
+    else if(this.GameObject.Key_Right.isActionHeld())
     {
         this.GameObject.translate(addX, 0, 0);
     }
@@ -26,7 +26,7 @@ this.move = function(time)
     {
         this.GameObject.setPosition(-30, pos.y(), pos.z());
     }
-    if(pos.x() > 30)
+    else if(pos.x() > 30)
     {
         this.GameObject.setPosition(30, pos.y(), pos.z());
     }

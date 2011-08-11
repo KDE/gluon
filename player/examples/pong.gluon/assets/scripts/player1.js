@@ -8,32 +8,23 @@ this.move = function(time)
 {
     var addY = this.speed * (time/1000);
 
-    if(this.GameObject.Key_Up.isActionHeld())
+    if(this.GameObject.Key_W.isActionHeld())
     {
         this.GameObject.translate(0, addY, 0);
     } 
-    else if(this.GameObject.Key_Down.isActionHeld())
+    else if(this.GameObject.Key_S.isActionHeld())
     {
         this.GameObject.translate(0, -addY, 0);
     }
 
     var pos = this.GameObject.position;
-    if(pos.x() < -30)
-    {
-        this.GameObject.setPosition(-30, pos.y(), pos.z());
-    }
-    if(pos.x() > 30)
-    {
-        this.GameObject.setPosition(30, pos.y(), pos.z());
-    }
-
     if(pos.y() < -30)
     {
-        this.GameObject.translate(0, 5 * (time/1000), 0);
+        this.GameObject.setPosition(pos.x(), -30, pos.z());
     }
-    else
+    if(pos.y() > 30)
     {
-        this.justSpawned = false;
+        this.GameObject.setPosition(pos.x(), 30, pos.z());
     }
 }
 

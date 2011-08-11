@@ -11,6 +11,12 @@
     }
     { GluonCore::GluonObject(Assets)
         { GluonCore::GluonObject(Textures)
+            { GluonEngine::TextureAsset(Background)
+                file url(assets/textures/background.png)
+            }
+            { GluonEngine::TextureAsset(Player)
+                file url(assets/textures/player.png)
+            }
             { GluonEngine::TextureAsset(Score)
                 file url(assets/textures/score.png)
             }
@@ -45,12 +51,11 @@
             file url(assets/main_material.gml)
             { GluonGraphics::MaterialInstance(Background)
                 materialColor rgba(0;0;0;255)
+                texture0 GluonEngine::TextureAsset(Pong/Assets/Textures/Background)
             }
-            { GluonGraphics::MaterialInstance(Player1)
-                materialColor rgba(255;255;255;255)
-            }
-            { GluonGraphics::MaterialInstance(Player2)
-                materialColor rgba(255;255;255;255)
+            { GluonGraphics::MaterialInstance(Player)
+                materialColor rgba(255;114;232;255)
+                texture0 GluonEngine::TextureAsset(Pong/Assets/Textures/Player)
             }
             { GluonGraphics::MaterialInstance(Ball)
                 materialColor rgba(255;255;255;255)
