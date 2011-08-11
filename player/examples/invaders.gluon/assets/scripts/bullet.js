@@ -6,9 +6,9 @@ this.update = function(time)
     if(this.Scene.paused)
         return;
     
-    var addX = this.speed*(time/1000)
+    var addY = this.speed*(time/1000)
 
-    this.GameObject.translate(0, addX, 0);
+    this.GameObject.translate(0, addY, 0);
     
     this.life -= time;
     if(this.life <= 0)
