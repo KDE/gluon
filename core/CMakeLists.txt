@@ -52,11 +52,12 @@ set(GluonCore_SRCS
     scriptengine.cpp
 
     bindings/com_trolltech_qt_gui_init.cpp
+    bindings/qtscript_QColor.cpp
+    bindings/qtscript_QSizeF.cpp
+    bindings/qtscript_QQuaternion.cpp
     bindings/qtscript_QVector2D.cpp
     bindings/qtscript_QVector3D.cpp
     bindings/qtscript_QVector4D.cpp
-    bindings/qtscript_QColor.cpp
-    bindings/qtscript_QQuaternion.cpp
 )
 
 set(GluonCore_HEADERS
@@ -129,3 +130,4 @@ if(BUILD_GLUON_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif()
+
