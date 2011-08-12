@@ -13,52 +13,68 @@
         { GluonCore::GluonObject(Textures)
             { GluonEngine::TextureAsset(Background)
                 file url(assets/textures/background.png)
+                description string(The image of the Background item)
+            }
+            { GluonEngine::TextureAsset(Ball)
+                file url(assets/textures/ball.png)
+                description string(The image of the Ball item)
             }
             { GluonEngine::TextureAsset(Player)
                 file url(assets/textures/player.png)
+                description string(The image of the Player item)
             }
             { GluonEngine::TextureAsset(Score)
                 file url(assets/textures/score.png)
+                description string(The image of the Score item)
             }
         }
         { GluonCore::GluonObject(Interface)
             { GluonEngine::UiAsset(Menu Interface)
                 file url(assets/interface/menu_interface.qml)
+                description string(The menu interface)
             }
         }
         { GluonCore::GluonObject(Scripts)
+            { GluonEngine::ScriptingAsset(Ball)
+                file url(assets/scripts/ball.js)
+                description string(The Ball controller script)
+            }
             { GluonEngine::ScriptingAsset(Controller)
                 file url(assets/scripts/controller.js)
+                description string(The "main" controller code)
             }
             { GluonEngine::ScriptingAsset(Player1)
                 file url(assets/scripts/player1.js)
+                description string(The controller code of the player on the left side)
             }
             { GluonEngine::ScriptingAsset(Player2)
                 file url(assets/scripts/player2.js)
-            }
-            { GluonEngine::ScriptingAsset(Ball)
-                file url(assets/scripts/ball.js)
+                description string(The controller code of the player on the right side)
             }
         }
         { GluonCore::GluonObject(Sounds)
             { GluonEngine::SoundAsset(MerryGo.ogg)
                 file url(assets/sounds/merry_go.ogg)
                 enabled bool(true)
-                expanded bool(true)
+                description string(The merry sound)
             }
         }
         { GluonEngine::MaterialAsset(Main Material)
             file url(assets/main_material.gml)
             { GluonGraphics::MaterialInstance(Background)
                 materialColor rgba(0;0;0;255)
+                description string(Background Material)
                 texture0 GluonEngine::TextureAsset(Pong/Assets/Textures/Background)
             }
-            { GluonGraphics::MaterialInstance(Player)
-                materialColor rgba(255;114;232;255)
-                texture0 GluonEngine::TextureAsset(Pong/Assets/Textures/Player)
-            }
             { GluonGraphics::MaterialInstance(Ball)
-                materialColor rgba(255;255;255;255)
+                materialColor rgba(255;161;237;255)
+                description string(Ball Material)
+                texture0 GluonEngine::TextureAsset(Pong/Assets/Textures/Ball)
+            }
+            { GluonGraphics::MaterialInstance(Player)
+                materialColor rgba(24;31;255;255)
+                description string(Player Material)
+                texture0 GluonEngine::TextureAsset(Pong/Assets/Textures/Player)
             }
         }
         { GluonEngine::MaterialAsset(Render Target Material)

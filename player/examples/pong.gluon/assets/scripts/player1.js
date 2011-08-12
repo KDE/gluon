@@ -1,7 +1,15 @@
 this.speed = 30;
+this.cameraHeight;
+this.player1Height;
+this.downcollide;
+this.upcollide;
 
 this.initialize = function()
 {
+    this.cameraHeight = this.Scene.sceneContents().Camera.CameraControllerComponent.visibleArea.height();
+    this.player1Height = this.Scene.sceneContents().Player1.Player1SpriteRenderer.size.height();
+    this.downcollide = -this.cameraHeight/2 + this.player1Height/2;
+    this.upcollide = this.cameraHeight/2 - this.player1Height/2;
 }
 
 this.move = function(time)
@@ -18,13 +26,14 @@ this.move = function(time)
     }
 
     var pos = this.GameObject.position;
-    if(pos.y() < -30)
+
+    if(pos.y() < this.downcollide)
     {
-        this.GameObject.setPosition(pos.x(), -30, pos.z());
+        this.GameObject.setPosition(pos.x(), this.downcollide, pos.z());
     }
-    if(pos.y() > 30)
+    else if(pos.y() > this.upcollide)
     {
-        this.GameObject.setPosition(pos.x(), 30, pos.z());
+        this.GameObject.setPosition(pos.x(), this.upcollide, pos.z());
     }
 }
 
