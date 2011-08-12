@@ -22,14 +22,13 @@
 #include <QtScript/QScriptEngine>
 #include <QtScript/QScriptContext>
 #include <QtScript/QScriptValue>
+#include <QtGui/QColor>
 #include <QtCore/QStringList>
 #include <QtCore/QDebug>
-#include <qmetaobject.h>
-
-#include <QVariant>
-#include <qcolor.h>
-#include <qdatastream.h>
-#include <qstringlist.h>
+#include <QtCore/QMetaObject>
+#include <QtCore/QVariant>
+#include <QtCore/QDataStream>
+#include <QtCore/QStringList>
 
 static const char* const qtscript_QColor_function_names[] =
 {

@@ -124,8 +124,8 @@ bool TestGluonCore::ensureReversible( const QString& gdl )
 {
     GluonCore::GDLHandler* gh = GluonCore::GDLHandler::instance();
     QList<GluonCore::GluonObject*> parsed = gh->parseGDL( gdl, gdl.size() );
-    qDebug() << "GGGGDDDDLLLL:" << gdl;
-    qDebug() << "PARSED:" << parsed;
+    // qDebug() << "GGGGDDDDLLLL:" << gdl;
+    // qDebug() << "PARSED:" << parsed;
     return compareTrees( parsed, gh->parseGDL( gh->serializeGDL( constListFromNonConst( parsed ) ), ( QObject* )0 ) );
 }
 
