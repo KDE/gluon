@@ -332,6 +332,8 @@ void MainWindow::playGame( )
         stateChanged( "playing", StateReverse );
 
         setFocus();
+        GluonEngine::Game::instance()->gameProject()->deleteLater();
+        GluonEngine::Game::instance()->setGameProject(0);
         openProject( d->fileName );
         GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
         GluonEngine::Game::instance()->initializeAll();
