@@ -48,7 +48,7 @@ namespace GluonCreator
             void currentProjectChanged( GluonEngine::GameProject* project );
 
             void contextMenuHiding();
-            void newSubMenuTriggered();
+            void createNewFolder();
             void newAssetTriggered();
             void deleteActionTriggered();
             void importAssetsTriggered();

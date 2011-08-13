@@ -197,7 +197,7 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
 
     d->toolBar->insertWidget( 0, menuButton );
 
-    d->newMenu->addAction( KIcon( "folder" ), i18n( "New Folder" ), this, SLOT( newSubMenuTriggered() ) );
+    d->newMenu->addAction( KIcon( "folder" ), i18n( "New Folder" ), this, SLOT( createNewFolder() ) );
     d->newMenu->addAction( KIcon( "document-new" ), i18n( "New Scene" ), ObjectManager::instance(), SLOT( createNewScene() ) );
     d->newMenu->addSeparator();
 
@@ -333,7 +333,7 @@ void ProjectDock::deleteActionTriggered()
     }
 }
 
-void ProjectDock::newSubMenuTriggered()
+void ProjectDock::createNewFolder()
 {
     if( !d->currentContextIndex.isValid() )
         d->currentContextIndex = d->model->index( 0, 0 );
