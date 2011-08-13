@@ -42,6 +42,7 @@ namespace GluonEngine
             void resetEngine()
             {
                 theEngine = 0;
+                scriptInstances.clear();
                 GluonCore::ScriptEngine::instance()->resetEngine();
             }
             QScriptEngine* engine()
@@ -134,13 +135,10 @@ void
 ScriptingEngine::Private::buildScript()
 {
     resetEngine();
-    scriptInstances.clear();
 
     QHash<const ScriptingAsset*, QString>::const_iterator i;
     for( i = classNames.constBegin(); i != classNames.constEnd(); ++i )
-    {
         appendScript( i.key(), i.value() );
-    }
 }
 
 void
