@@ -114,14 +114,14 @@ GameProject::saveToFile() const
     if( directoryFile.open( QFile::WriteOnly | QFile::Truncate | QIODevice::Text ) )
     {
         QTextStream out( &directoryFile );
-        out << QString( "[Desktop Entry]\nIcon=game.png\nType=Directory\n" );
+        out << "[Desktop Entry]" << endl << "Icon=game.png" << endl << "Type=Directory" << endl;
         directoryFile.close();
     }
     QFile folderFile( projectDir + "/desktop.ini" );
     if( folderFile.open( QFile::WriteOnly | QFile::Truncate | QIODevice::Text ) )
     {
         QTextStream out( &folderFile );
-        out << QString( "[.ShellClassInfo]\nConfirmFileOp=0\nIconFile=game.ico\nIconIndex=0\nInfoTip=A Gluon Game\n" );
+        out << "[.ShellClassInfo]" << endl << "ConfirmFileOp=0" << endl << "IconFile=game.ico" << endl << "IconIndex=0" << endl << "InfoTip=A Gluon Game" << endl;
         folderFile.close();
     }
 
