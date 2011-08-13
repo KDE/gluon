@@ -24,7 +24,7 @@
 
 namespace GluonCreator
 {
-    class NewObjectCommand : public AbstractUndoCommand
+    class GLUONCREATOR_EXPORT NewObjectCommand : public AbstractUndoCommand
     {
         public:
             NewObjectCommand( GluonCore::GluonObject* newObject );

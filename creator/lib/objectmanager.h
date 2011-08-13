@@ -45,6 +45,7 @@ namespace GluonCreator
     {
             Q_OBJECT
             GLUON_SINGLETON( ObjectManager )
+
         public Q_SLOTS:
             GluonEngine::Component* createNewComponent( const QString& type, GluonEngine::GameObject* parent );
             GluonEngine::Scene* createNewScene();

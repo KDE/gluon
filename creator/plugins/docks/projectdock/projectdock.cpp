@@ -29,13 +29,14 @@
 #include <creator/lib/models/modeltest.h>
 #include <creator/lib/selectionmanager.h>
 
-#include <core/debughelper.h>
-#include <core/directoryprovider.h>
-#include <engine/asset.h>
 #include <engine/game.h>
 #include <engine/gameobject.h>
 #include <engine/gameproject.h>
 #include <engine/scene.h>
+#include <engine/asset.h>
+
+#include <core/debughelper.h>
+#include <core/directoryprovider.h>
 
 #include <KDE/KIcon>
 #include <KDE/KLocalizedString>
@@ -337,8 +338,12 @@ void ProjectDock::newSubMenuTriggered()
     if( !d->currentContextIndex.isValid() )
         d->currentContextIndex = d->model->index( 0, 0 );
 
-    QModelIndex newFolder = d->model->addChild( new GluonCore::GluonObject( i18n( "New Folder" ) ), d->currentContextIndex );
-    d->view->edit( newFolder );
+    GluonCore::GluonObject *newFolder = new GluonCore::GluonObject( i18n( "New Folder" ) );
+    QModelIndex newFolderIndex = d->model->addChild( newFolder, d->currentContextIndex );
+    d->view->edit( newFolderIndex );
+
+    NewObjectCommand *newObjectCommand = new NewObjectCommand( newFolder );
+    HistoryManager::instance()->addCommand( newObjectCommand );
 }
 
 void GluonCreator::ProjectDock::newAssetTriggered()
