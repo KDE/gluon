@@ -40,6 +40,14 @@ void MouseInputComponentTest::testCategory()
     QVERIFY(mouseInputComponent.category() == "Input");
 }
 
+void MouseInputComponentTest::testIsActionStarted()
+{
+}
+
+void MouseInputComponentTest::testIsActionStopped()
+{
+}
+
 void MouseInputComponentTest::testInitialize()
 {
 }
@@ -61,13 +69,13 @@ void MouseInputComponentTest::testMouseButton()
     MouseInputComponent mouseInputComponent;
     QCOMPARE(mouseInputComponent.mouseButton(), GluonInput::Mouse::MOUSE_BUTTON_UNKNOWN);
     mouseInputComponent.setMouseButton(GluonInput::Mouse::MOUSE_BUTTON_LEFT);
-    QCOMPARE(mouseInputComponent.mouseButton(), luonInput::Mouse::MOUSE_BUTTON_LEFT);
+    QCOMPARE(mouseInputComponent.mouseButton(), GluonInput::Mouse::MOUSE_BUTTON_LEFT);
 }
 
 void MouseInputComponentTest::testMouseTrack()
 {
     MouseInputComponent mouseInputComponent;
-    QCOMPARE(mouseInputComponent.mouseTrack, false);
+    QCOMPARE(mouseInputComponent.mouseTrack(), false);
     bool enable = true;
     mouseInputComponent.setMouseTrack(enable);
     QCOMPARE(mouseInputComponent.mouseTrack(), enable);

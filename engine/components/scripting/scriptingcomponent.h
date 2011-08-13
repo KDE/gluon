@@ -50,6 +50,7 @@ namespace GluonEngine
             virtual void cleanup();
 
             ScriptingAsset* script() const;
+
         public Q_SLOTS:
             void setScript( GluonEngine::ScriptingAsset* newAsset );
             void scriptAssetUpdated();

@@ -45,4 +45,4 @@ private Q_SLOTS:
     void testTouchCode();
 };
 
-#endif // GLUON_ENGINE_MOUSEINPUTCOMPONENTTEST_H
+#endif // GLUON_ENGINE_TOUCHINPUTCOMPONENTTEST_H

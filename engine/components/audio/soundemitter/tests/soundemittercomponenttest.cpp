@@ -36,8 +36,8 @@ SoundEmitterComponentTest::~SoundEmitterComponentTest()
 
 void SoundEmitterComponentTest::testCategory()
 {
-    Component component;
-    QVERIFY(component.category() == "Audio");
+    SoundEmitterComponent soundEmitterComponent;
+    QVERIFY(soundEmitterComponent.category() == "Audio");
 }
 
 void SoundEmitterComponentTest::testAsset()

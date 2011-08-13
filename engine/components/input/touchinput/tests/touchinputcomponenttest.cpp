@@ -40,6 +40,18 @@ void TouchInputComponentTest::testCategory()
     QVERIFY(touchInputComponent.category() == "Input");
 }
 
+void TouchInputComponentTest::testIsActionHeld()
+{
+}
+
+void TouchInputComponentTest::testIsActionStarted()
+{
+}
+
+void TouchInputComponentTest::testIsActionStopped()
+{
+}
+
 void TouchInputComponentTest::testInitialize()
 {
 }
@@ -48,27 +60,22 @@ void TouchInputComponentTest::testStart()
 {
 }
 
-void MouseInputComponentTest::testUpdate()
+void TouchInputComponentTest::testUpdate()
 {
 }
 
-void MouseInputComponentTest::testMouseButton()
+void TouchInputComponentTest::testStop()
 {
-    MouseInputComponent mouseInputComponent;
-    QCOMPARE(mouseInputComponent.mouseButton(), GluonInput::Mouse::MOUSE_BUTTON_UNKNOWN);
-    mouseInputComponent.setMouseButton(GluonInput::Mouse::MOUSE_BUTTON_LEFT);
-    QCOMPARE(mouseInputComponent.mouseButton(), luonInput::Mouse::MOUSE_BUTTON_LEFT);
 }
 
-void MouseInputComponentTest::testMouseTrack()
+void TouchInputComponentTest::testTouchCode()
 {
-    MouseInputComponent mouseInputComponent;
-    QCOMPARE(mouseInputComponent.mouseTrack, false);
-    bool enable = true;
-    mouseInputComponent.setMouseTrack(enable);
-    QCOMPARE(mouseInputComponent.mouseTrack(), enable);
+    // TouchInputComponent touchInputComponent;
+    // QCOMPARE(touchInputComponent.touchCode(), GluonInput::TouchName::UKNOWN);
+    // touchInputComponent.setTouchCode(GluonInput::TouchName::ONE);
+    // QCOMPARE(touchInputComponent.touchCode(), GluonInput::TouchName::UNKNOWN);
 }
 
-QTEST_MAIN(MouseInputComponentTest)
+QTEST_MAIN(TouchInputComponentTest)
 
-#include "mouseinputcomponenttest.moc"
+#include "touchinputcomponenttest.moc"

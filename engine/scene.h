@@ -44,8 +44,8 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT Scene : public Asset, public GluonEngine::Savable
     {
             Q_OBJECT
-            GLUON_OBJECT( GluonEngine::Scene )
             Q_INTERFACES( GluonEngine::Asset )
+            GLUON_OBJECT( GluonEngine::Scene )
 
         public:
             Q_INVOKABLE Scene( QObject* parent = 0 );
@@ -58,6 +58,7 @@ namespace GluonEngine
              * @param   newFile     The new file for the scene
              */
             virtual void setFile( const QUrl& newFile );
+
             /**
              * Set the new name of the scene.
              *
@@ -80,8 +81,6 @@ namespace GluonEngine
             Q_INVOKABLE GluonEngine::GameObject* sceneContents();
 
             virtual QList< QAction* > actions();
-
-
 
         public Q_SLOTS:
             /**
