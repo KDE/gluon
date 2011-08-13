@@ -198,7 +198,7 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     d->toolBar->insertWidget( 0, menuButton );
 
     d->newMenu->addAction( KIcon( "folder" ), i18n( "New Folder" ), this, SLOT( createNewFolder() ) );
-    d->newMenu->addAction( KIcon( "document-new" ), i18n( "New Scene" ), ObjectManager::instance(), SLOT( createNewScene() ) );
+    d->newMenu->addAction( KIcon( "document-new" ), i18n( "New Scene" ), this, SLOT( createNewScene() ) );
     d->newMenu->addSeparator();
 
     // Run through all the templates and add an action for each...
@@ -343,6 +343,21 @@ void ProjectDock::createNewFolder()
     d->view->edit( newFolderIndex );
 
     NewObjectCommand *newObjectCommand = new NewObjectCommand( newFolder );
+    HistoryManager::instance()->addCommand( newObjectCommand );
+}
+
+void ProjectDock::createNewScene()
+{
+    if( !d->currentContextIndex.isValid() )
+        d->currentContextIndex = d->model->index( 0, 0 );
+
+    GluonEngine::Scene* newScene = new GluonEngine::Scene();
+    newScene->setName( i18n( "NewScene" ) );
+    newScene->setGameProject( GluonEngine::Game::instance()->gameProject() );
+    QModelIndex newSceneIndex = d->model->addChild( newScene, d->currentContextIndex );
+    d->view->edit( newSceneIndex );
+
+    NewObjectCommand *newObjectCommand = new NewObjectCommand( newScene );
     HistoryManager::instance()->addCommand( newObjectCommand );
 }
 

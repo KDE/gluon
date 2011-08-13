@@ -49,6 +49,7 @@ namespace GluonCreator
 
             void contextMenuHiding();
             void createNewFolder();
+            void createNewScene();
             void newAssetTriggered();
             void deleteActionTriggered();
             void importAssetsTriggered();
