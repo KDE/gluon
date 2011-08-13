@@ -48,8 +48,7 @@ NewObjectCommand::~NewObjectCommand()
     delete d;
 }
 
-void
-NewObjectCommand::undo()
+void NewObjectCommand::undo()
 {
     setCommandDirection( "undo" );
     d->applied = false;
@@ -69,8 +68,7 @@ NewObjectCommand::undo()
     AbstractUndoCommand::undo();
 }
 
-void
-NewObjectCommand::redo()
+void NewObjectCommand::redo()
 {
     setCommandDirection( "redo" );
     d->applied = true;
