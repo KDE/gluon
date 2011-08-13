@@ -123,14 +123,8 @@ ScriptingEngine::registerAsset( const ScriptingAsset* asset )
         // Add that to the classes listing
         d->classNames.insert( asset, className );
         // Build the new code
-        d->appendScript( asset, className );
-        //d->buildScript();
-    }
-    else
-    {
-        asset->debug( QString( "This script didn't pass the syntax checker (%2)\n" )
-                      .arg( asset->fullyQualifiedName() )
-                      .arg( result.errorMessage() ) );
+        //d->appendScript( asset, className );
+        d->buildScript();
     }
 
     return result;
@@ -139,8 +133,8 @@ ScriptingEngine::registerAsset( const ScriptingAsset* asset )
 void
 ScriptingEngine::Private::buildScript()
 {
-    script.clear();
     resetEngine();
+    scriptInstances.clear();
 
     QHash<const ScriptingAsset*, QString>::const_iterator i;
     for( i = classNames.constBegin(); i != classNames.constEnd(); ++i )
@@ -163,10 +157,17 @@ ScriptingEngine::Private::appendScript( const GluonEngine::ScriptingAsset* asset
 bool
 ScriptingEngine::unregisterAsset( const ScriptingAsset* asset )
 {
+    DEBUG_BLOCK
     if( !asset )
+    {
+        DEBUG_TEXT("Cannot unregister a null asset");
         return false;
+    }
     if( !d->classNames.contains( asset ) )
+    {
+        DEBUG_TEXT2("Cannot unregister an asset which is not previously registered (%1)", asset->fullyQualifiedName());
         return false;
+    }
 
     d->classNames.remove( asset );
     d->scriptInstances.remove( asset );

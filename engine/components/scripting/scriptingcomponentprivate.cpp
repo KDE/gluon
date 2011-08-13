@@ -36,6 +36,7 @@ ScriptingComponent::ScriptingComponentPrivate::~ScriptingComponentPrivate()
 
 void ScriptingComponent::ScriptingComponentPrivate::updateScriptObject()
 {
+    DEBUG_FUNC_NAME
     scriptObject = ScriptingEngine::instance()->instantiateClass( scriptingAsset );
 
     // Set the convenience objects - this allows users to work in a consistent manner, as this needs to be done a lot

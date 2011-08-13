@@ -80,6 +80,8 @@ void ScriptingAsset::load()
 {
     if( !isLoaded() )
     {
+        d->script.clear();
+        mimeData()->setText(d->script);
         QFile script( file().toLocalFile() );
         if( script.open( QIODevice::ReadOnly ) )
         {
