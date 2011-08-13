@@ -37,6 +37,8 @@ ScriptingComponent::ScriptingComponentPrivate::~ScriptingComponentPrivate()
 void ScriptingComponent::ScriptingComponentPrivate::updateScriptObject()
 {
     DEBUG_FUNC_NAME
+    QScriptEngine* engine = ScriptingEngine::instance()->scriptEngine();
+
     scriptObject = ScriptingEngine::instance()->instantiateClass( scriptingAsset );
 
     // Set the convenience objects - this allows users to work in a consistent manner, as this needs to be done a lot
@@ -44,19 +46,19 @@ void ScriptingComponent::ScriptingComponentPrivate::updateScriptObject()
     QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater | QScriptEngine::PreferExistingWrapperObject;
     QScriptEngine::ValueOwnership ownership = QScriptEngine::QtOwnership;
 
-    QScriptValue component = ScriptingEngine::instance()->scriptEngine()->newQObject( q, ownership, wrapOptions );
+    QScriptValue component = engine->newQObject( q, ownership, wrapOptions );
     scriptObject.setProperty( "Component", component );
 
-    QScriptValue gameObj = ScriptingEngine::instance()->scriptEngine()->newQObject( q->gameObject(), ownership, wrapOptions );
+    QScriptValue gameObj = engine->newQObject( q->gameObject(), ownership, wrapOptions );
     scriptObject.setProperty( "GameObject", gameObj );
 
-    QScriptValue sceneObj = ScriptingEngine::instance()->scriptEngine()->newQObject( q->gameObject()->scene(), ownership, wrapOptions );
+    QScriptValue sceneObj = engine->newQObject( q->gameObject()->scene(), ownership, wrapOptions );
     scriptObject.setProperty( "Scene", sceneObj );
 
-    QScriptValue gameProjectObj = ScriptingEngine::instance()->scriptEngine()->newQObject( GluonEngine::Game::instance()->gameProject(), ownership, wrapOptions );
+    QScriptValue gameProjectObj = engine->newQObject( GluonEngine::Game::instance()->gameProject(), ownership, wrapOptions );
     scriptObject.setProperty( "GameProject", gameProjectObj );
 
-    QScriptValue debugFunc = ScriptingEngine::instance()->scriptEngine()->newFunction( debug );
+    QScriptValue debugFunc = engine->newFunction( debug );
     scriptObject.setProperty( "debug", debugFunc );
 
     // Lastly, get the functions out so they're easy to call
