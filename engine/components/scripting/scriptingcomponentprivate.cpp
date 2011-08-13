@@ -36,7 +36,6 @@ ScriptingComponent::ScriptingComponentPrivate::~ScriptingComponentPrivate()
 
 void ScriptingComponent::ScriptingComponentPrivate::updateScriptObject()
 {
-    DEBUG_FUNC_NAME
     QScriptEngine* engine = ScriptingEngine::instance()->scriptEngine();
 
     scriptObject = ScriptingEngine::instance()->instantiateClass( scriptingAsset );
