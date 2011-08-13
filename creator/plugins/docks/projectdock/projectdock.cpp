@@ -385,6 +385,8 @@ void GluonCreator::ProjectDock::newAssetTriggered()
         if( newAsset )
         {
             d->model->addChild( newAsset, d->currentContextIndex );
+            NewObjectCommand *newObjectCommand = new NewObjectCommand( newAsset );
+            HistoryManager::instance()->addCommand( newObjectCommand );
         }
     }
 }
