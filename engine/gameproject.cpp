@@ -138,6 +138,19 @@ GameProject::saveToFile() const
     return true;
 }
 
+void GameProject::traverseChildren(GluonObject* gluonObject)
+{
+    foreach( QObject *child, gluonObject->children() )
+    {
+        Asset *assetChild = qobject_cast<Asset*>(child);
+        if (assetChild)
+        {
+            addAsset(assetChild);
+            assetChild->load();
+        }
+    }
+}
+
 bool
 GameProject::loadFromFile()
 {
@@ -181,9 +194,14 @@ GameProject::loadFromFile()
                 foreach( QObject * child, loadedProject->children() )
                 {
                     GluonObject* theChild = qobject_cast<GluonObject*>( child );
-                    theChild->setParent( this );
-                    theChild->setGameProject( this );
+                    if( theChild )
+                    {
+                        theChild->setParent( this );
+                        theChild->setGameProject( this );
+                        traverseChildren(theChild);
+                    }
                 }
+
 
                 // Set all the interesting values...
                 setName( loadedProject->name() );
@@ -432,16 +450,15 @@ void GameProject::addAsset( Asset* asset )
 {
     if( asset )
     {
-
         int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( asset->metaObject()->className() );
         if( d->assetTypes.constFind( typeID, asset ) == d->assetTypes.constEnd() )
         {
             d->assetTypes.insert( typeID, asset );
             d->assets.append( asset );
-            connect( asset, SIGNAL(destroyed(QObject*)), SLOT(childDeleted(QObject*)) );
-            asset->setParent( this );
-            asset->setGameProject( this );
-            asset->setName( asset->name() );
+            // connect( asset, SIGNAL(destroyed(QObject*)), SLOT(childDeleted(QObject*)) );
+            // asset->setParent( this );
+            // asset->setGameProject( this );
+            // asset->setName( asset->name() );
         }
     }
     else
@@ -455,7 +472,7 @@ bool GameProject::removeAsset( Asset* asset )
 {
     int typeID = QMetaType::type( asset->metaObject()->className() );
     d->assetTypes.remove( typeID, asset );
-    disconnect( asset, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
+    // disconnect( asset, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
     return d->assets.removeOne( asset );
 }
 
