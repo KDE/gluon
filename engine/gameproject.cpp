@@ -88,7 +88,7 @@ GameProject::saveToFile() const
     thisProject.append( this );
 
     QTextStream projectWriter( &projectFile );
-    projectWriter << GluonCore::GDLHandler::instance()->serializeGDL( thisProject );
+    projectWriter << GluonCore::GDLHandler::instance()->serializeGDL( thisProject ) << endl;
     projectFile.close();
 
     QString projectDir = filename().toLocalFile().section( '/', 0, -2 );
