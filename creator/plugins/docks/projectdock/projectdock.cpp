@@ -229,7 +229,6 @@ ProjectDock::~ProjectDock()
 
 void ProjectDock::activated( QModelIndex index )
 {
-    DEBUG_FUNC_NAME
     if( !index.isValid() )
     {
         return;

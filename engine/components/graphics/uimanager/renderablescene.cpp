@@ -147,9 +147,6 @@ void RenderableScene::renderScene()
 */
 void RenderableScene::deliverEvent( QEvent* event )
 {
-    if( d->dirty )
-        return;
-
     QRectF bounds = sceneRect();
     int screenX = 0;
     int screenY = 0;
