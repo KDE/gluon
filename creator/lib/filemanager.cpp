@@ -33,11 +33,18 @@ using namespace GluonCreator;
 
 GLUON_DEFINE_SINGLETON( FileManager )
 
-class FileManager::FileManagerPrivate
+class FileManager::Private
 {
     public:
+
+        struct OpenedFile
+        {
+            KParts::Part* part;
+            bool closable;
+        };
+
         KParts::PartManager* partManager;
-        QHash<QString, KParts::ReadOnlyPart*> parts;
+        QHash<QString, OpenedFile> files;
 };
 
 
@@ -48,8 +55,8 @@ KParts::PartManager* FileManager::partManager() const
 
 KParts::Part* FileManager::part( const QString& partName ) const
 {
-    if( d->parts.contains( partName ) )
-        return d->parts.value( partName );
+    if( d->files.contains( partName ) )
+        return d->files.value( partName ).part;
 
     return 0;
 }
@@ -68,14 +75,14 @@ void FileManager::openAsset( GluonEngine::Asset* asset )
     openFile( asset->absolutePath(), asset->name(), asset->name() );
 }
 
-void FileManager::openFile( const QString& fileName, const QString& name, const QString& title, const QString& partName, const QVariantList& partParams )
+void FileManager::openFile( const QString& fileName, const QString& name, const QString& title, const QString& partName, const QVariantList& partParams, bool closeable )
 {
     if( fileName.isEmpty() )
         return;
 
     QString fullName = name.isEmpty() ? KUrl( fileName ).fileName() : name;
     QString fullTitle = title.isEmpty() ? fullName : title;
-    if( d->parts.contains( fullName ) )
+    if( d->files.contains( fullName ) )
     {
         emit newPart( fullName, fullTitle );
         return;
@@ -114,7 +121,12 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
         // Add the part if it is found
         KUrl url( fileName );
         part->openUrl( url );
-        d->parts.insert( fullName, part );
+
+        Private::OpenedFile openFile;
+        openFile.part = part;
+        openFile.closable = closeable;
+
+        d->files.insert( fullName, openFile );
         d->partManager->addPart( part, true );
         emit newPart( fullName, fullTitle );
 
@@ -126,25 +138,38 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
     // KRun* runner = new KRun( KUrl( fileName ), qApp->activeWindow() );
 }
 
-void FileManager::closeFile( const QString& file )
+void FileManager::closeFile( const QString& file, bool force )
 {
-    KParts::Part* part;
-    if( ( part = d->parts.value( file , 0 ) ) )
+    if( d->files.contains( file ) )
     {
-        d->partManager->removePart( part );
-        d->parts.remove( file );
-        delete part;
+        Private::OpenedFile openFile = d->files.value( file );
+        if( openFile.closable || force )
+        {
+            d->partManager->removePart( openFile.part );
+            d->files.remove( file );
+            delete openFile.part;
+            emit fileClosed( file );
+        }
     }
 }
 
 void FileManager::setCurrentFile( const QString& file )
 {
-    if( d->parts.contains( file ) )
-        d->partManager->setActivePart( d->parts.value( file ) );
+    if( d->files.contains( file ) )
+        d->partManager->setActivePart( d->files.value( file ).part );
+}
+
+void FileManager::closeAll( bool force )
+{
+    QList< QString > files = d->files.keys();
+    foreach( const QString& file, files )
+    {
+        closeFile( file, force );
+    }
 }
 
 FileManager::FileManager( QObject* parent )
-    : GluonCore::Singleton< GluonCreator::FileManager >( parent ), d( new FileManagerPrivate )
+    : GluonCore::Singleton< GluonCreator::FileManager >( parent ), d( new Private )
 {
 }
 

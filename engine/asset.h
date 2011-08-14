@@ -91,7 +91,7 @@ namespace GluonEngine
              * no .. in the path string), and as this essentially sandboxes GluonEngine based
              * games.
              */
-            Q_PROPERTY( QUrl file READ file WRITE setFile )
+            Q_PROPERTY( QUrl file READ file WRITE setFile DESIGNABLE false )
 
         public:
             Q_INVOKABLE Asset( QObject* parent = 0 );
@@ -153,7 +153,7 @@ namespace GluonEngine
              * always return the primary data for the asset.
              */
             virtual const QMimeData* data() const;
-            
+
             /**
              * This function should return a QMimeType containing a reference to the
              * asset itself. The data should provide a mimedata instance with the
