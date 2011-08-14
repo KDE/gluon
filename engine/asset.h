@@ -58,16 +58,17 @@ namespace GluonEngine
             { }
             virtual ~AssetTemplate() {};
 
-
             /**
             * The name which the newly created asset object will be given
             */
             QString name;
+
             /**
             * The filename of the template, as found inside the template directory for
             * this asset (for example /usr/share/gluon/template/assetclassname/filename)
             */
             QString filename;
+
             /**
              * The name of the plugin (that is, the subdir inside which the template file is found)
              */
@@ -190,6 +191,7 @@ namespace GluonEngine
              * Load the data of this Asset into memory.
              */
             virtual void load();
+
             /**
              * Unload the data of this Asset from memory.
              */

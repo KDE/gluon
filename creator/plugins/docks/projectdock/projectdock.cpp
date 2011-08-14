@@ -145,7 +145,7 @@ void ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex index, QMenu* m
             {
                 menu->addSeparator();
 
-                action = new QAction( KIcon( "edit-delete" ), i18n( "Delete \"%1\"...", object->name() ), this->q );
+                action = new QAction( KIcon( "edit-delete" ), i18n( "Delete \"%1\"...", object->name() ), q );
                 connect( action, SIGNAL( triggered() ), q, SLOT( deleteActionTriggered() ) );
                 menu->addAction( action );
             }
