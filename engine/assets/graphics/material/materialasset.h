@@ -20,8 +20,13 @@
 #ifndef GLUON_ENGINE_MATERIALASSET_H
 #define GLUON_ENGINE_MATERIALASSET_H
 
-#include "gluon_engine_export.h"
-#include "asset.h"
+#include <engine/gluon_engine_export.h>
+#include <engine/asset.h>
+
+namespace GluonGraphics
+{
+    class MaterialInstance;
+};
 
 namespace GluonEngine
 {
@@ -48,6 +53,9 @@ namespace GluonEngine
 
         public Q_SLOTS:
             void createInstance();
+
+        Q_SIGNALS:
+            void instanceCreated(GluonGraphics::MaterialInstance*);
 
         private:
             class MaterialAssetPrivate;

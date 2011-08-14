@@ -97,6 +97,8 @@ namespace GluonEngine
             Q_INVOKABLE Asset( QObject* parent = 0 );
             virtual ~Asset();
 
+            void sanitize();
+
             /**
              * An extension on the GluonCore::GluonObject::setName function which changes the
              * file name of the Asset when setting a new name for the Asset.

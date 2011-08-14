@@ -28,6 +28,8 @@
 #include <QtCore/QDir>
 #include <QtCore/QMimeData>
 
+#include <QtCore/QDebug>
+
 REGISTER_OBJECTTYPE( GluonEngine, Asset )
 
 using namespace GluonEngine;
@@ -56,6 +58,16 @@ Asset::~Asset()
 {
     delete d->mime;
     delete d;
+}
+
+void Asset::sanitize()
+{
+    if (GluonEngine::Game::instance()->gameProject())
+    {
+        GluonEngine::Game::instance()->gameProject()->addAsset(this);
+    }
+
+    GluonObject::sanitize();
 }
 
 void

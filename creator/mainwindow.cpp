@@ -170,6 +170,12 @@ void MainWindow::openProject( const QString& fileName )
 
         statusBar()->showMessage( i18n( "Project successfully opened" ) );
         setCaption( i18n( "%1 - Gluon Creator", fileName.section( '/', -2, -2 ) ) );
+
+        foreach(GluonEngine::Asset* asset, GluonEngine::Game::instance()->gameProject()->findAssetsByType("GluonEngine::MaterialAsset*"))
+        {
+            connect(asset, SIGNAL(instanceCreated(GluonGraphics::MaterialInstance*)), ObjectManager::instance(), SLOT(createObjectCommand(GluonGraphics::MaterialInstance*)));
+        }
+
         HistoryManager::instance()->clear();
         connect( HistoryManager::instance(), SIGNAL( historyChanged( const QUndoCommand* ) ), SLOT( historyChanged() ) );
     }
