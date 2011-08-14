@@ -194,6 +194,19 @@ namespace GluonEngine
              */
             void setUserName( const QString& newUsername );
 
+            // ----------------------------------------------------------------
+            // Asset management
+
+            Q_INVOKABLE Asset* findAsset( const QString& name ) const;
+            Q_INVOKABLE Asset* findAssetByType( const QString& typeName ) const;
+            Q_INVOKABLE Asset* findAssetByType( int type ) const;
+            Q_INVOKABLE QList<Asset*> findAssetsByType( const QString& typeName ) const;
+            Q_INVOKABLE QList<Asset*> findAssetsByType( int type ) const;
+            Q_INVOKABLE virtual void addAsset( GluonEngine::Asset* addThis );
+            Q_INVOKABLE virtual bool removeAsset( GluonEngine::Asset* removeThis );
+            Q_INVOKABLE QList<Asset*> assets() const;
+
+
         private:
             QSharedDataPointer<GameProjectPrivate> d;
     };
