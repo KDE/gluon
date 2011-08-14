@@ -1,0 +1,75 @@
+{ GluonEngine::GameProject(snake)
+    entryPoint GluonEngine::Scene(snake/Scenes/Menu)
+    { GluonCore::GluonObject(Scenes)
+        { GluonEngine::Scene(Menu)
+            file url(scenes/menu.gluonscene)
+        }
+        { GluonEngine::Scene(Game)
+            file url(scenes/game.gluonscene)
+            description string(The scene of the snake game)
+        }
+    }
+    { GluonCore::GluonObject(Assets)
+        { GluonCore::GluonObject(Interface)
+            { GluonEngine::UiAsset(Menu Interface)
+                file url(assets/interface/menu_interface.qml)
+                description string(The menu in-game Ui interface file)
+            }
+        }
+        { GluonCore::GluonObject(Scripts)
+            { GluonEngine::ScriptingAsset(Snake)
+                file url(assets/scripts/snake.js)
+                description string(The game logic script of the snake)
+            }
+            { GluonEngine::ScriptingAsset(Cookie)
+                file url(assets/scripts/cookie.js)
+                description string(The game logic script of the cookie)
+            }
+            { GluonEngine::ScriptingAsset(Controller)
+                file url(assets/scripts/controller.js)
+            }
+        }
+        { GluonCore::GluonObject(Sounds)
+        }
+        { GluonCore::GluonObject(Textures)
+            { GluonEngine::TextureAsset(Head)
+                file url(assets/textures/head.png)
+                description string(The texture of the head)
+            }
+            { GluonEngine::TextureAsset(Eyes)
+                file url(assets/textures/eyes.png)
+                description string(The texture of the eyes)
+            }
+            { GluonEngine::TextureAsset(Background)
+                file url(assets/textures/background.png)
+                description string(The Texture of the background)
+            }
+        }
+        { GluonEngine::MaterialAsset(Material)
+            file url(assets/main_material.gml)
+            { GluonGraphics::MaterialInstance(Background)
+                materialColor rgba(0;0;0;255)
+                texture0 GluonEngine::TextureAsset(snake/Assets/Textures/Background)
+            }
+            { GluonGraphics::MaterialInstance(Snake)
+                materialColor rgba(255;255;255;255)
+                texture0 GluonEngine::TextureAsset(snake/Assets/Textures/Head)
+            }
+            { GluonGraphics::MaterialInstance(Cookie)
+                materialColor rgba(255;255;255;255)
+                texture0 GluonEngine::TextureAsset(snake/Assets/Textures/Eyes)
+            }
+        }
+        { GluonEngine::MaterialAsset(Render Target Material)
+            file url(assets/render_target_material.gml)
+            description string(The render target material)
+            { GluonGraphics::MaterialInstance(Main)
+                materialColor rgba(0;0;0;255)
+                texture0 uint(2)
+                description string(The main instance of the render target material)
+            }
+        }
+    }
+    { GluonCore::GluonObject(Prefabs)
+    }
+}
