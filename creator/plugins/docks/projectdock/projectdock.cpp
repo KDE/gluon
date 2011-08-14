@@ -204,7 +204,7 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     // Run through all the templates and add an action for each...
     foreach( const GluonEngine::AssetTemplate * item, d->assetTemplates )
     {
-        QAction* action = d->newMenu->addAction( i18nc( "Add a new menu action", "New %1", item->name ), this, SLOT( newAssetTriggered() ) );
+        QAction* action = d->newMenu->addAction( i18nc( "Add a new menu action", "New %1", item->name ), this, SLOT( createNewAsset() ) );
         action->setProperty( "newAssetClassname", item->parent()->metaObject()->className() );
         action->setProperty( "newAssetName", item->name );
         action->setProperty( "newAssetPluginname", item->pluginname );
@@ -361,7 +361,7 @@ void ProjectDock::createNewScene()
     HistoryManager::instance()->addCommand( newObjectCommand );
 }
 
-void GluonCreator::ProjectDock::newAssetTriggered()
+void ProjectDock::createNewAsset()
 {
     if( !d->currentContextIndex.isValid() )
         d->currentContextIndex = d->model->index( 0, 0 );
