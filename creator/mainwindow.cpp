@@ -308,6 +308,7 @@ void MainWindow::showPreferences()
 
 void MainWindow::playGame( )
 {
+    SelectionManager::instance()->clearSelection();
     if( GluonEngine::Game::instance()->isRunning() )
     {
         FileManager::instance()->setCurrentFile( "view" );
