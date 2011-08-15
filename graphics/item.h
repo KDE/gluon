@@ -24,8 +24,9 @@
 #define GLUONGRAPHICS_ITEM_H
 
 #include "gluon_graphics_export.h"
-
 #include "vertexbuffer.h"
+
+#include <core/gluonobject.h>
 
 class QMatrix4x4;
 namespace GluonGraphics
@@ -43,9 +44,11 @@ namespace GluonGraphics
      * should be rendered. This allows us to reuse a mesh
      * multiple times.
      */
-    class GLUON_GRAPHICS_EXPORT Item : public QObject
+    class GLUON_GRAPHICS_EXPORT Item : public GluonCore::GluonObject
     {
             Q_OBJECT
+            GLUON_OBJECT( Item )
+
         public:
             Item( QObject* parent = 0 );
             virtual ~Item();
@@ -111,9 +114,12 @@ namespace GluonGraphics
             void setMaterialInstance( MaterialInstance* material );
 
         private:
-            class ItemPrivate;
-            ItemPrivate* const d;
+            class Private;
+            Private* const d;
     };
 
 }
+
+Q_DECLARE_METATYPE(GluonGraphics::Item*)
+
 #endif // GLUONGRAPHICS_ITEM_H

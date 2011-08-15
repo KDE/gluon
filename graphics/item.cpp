@@ -33,12 +33,14 @@
 
 #include <QtGui/QMatrix4x4>
 
+REGISTER_OBJECTTYPE(GluonGraphics, Item)
+
 using namespace GluonGraphics;
 
-class Item::ItemPrivate
+class Item::Private
 {
     public:
-        ItemPrivate()
+        Private()
         {
             mesh = 0;
             materialInstance = 0;
@@ -49,7 +51,7 @@ class Item::ItemPrivate
 };
 
 Item::Item( QObject* parent )
-    : QObject( parent ), d( new ItemPrivate )
+    : GluonObject( parent ), d( new Private )
 {
     d->materialInstance = Engine::instance()->material( "default" )->instance( "default" );
 }
