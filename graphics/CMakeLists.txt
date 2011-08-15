@@ -60,7 +60,8 @@ set(GluonGraphics_SRCS
     vertexbuffer.cpp
     viewport.cpp
     spritemesh.cpp
-    particlemesh.cpp
+
+    particles/particlemesh.cpp
 )
 
 set(GluonGraphics_HEADERS
@@ -86,6 +87,10 @@ set(GluonGraphics_HEADERS
     viewport.h
 )
 
+set(GluonGraphics_Particles_HEADERS
+    particles/particlemesh.h
+)
+
 if(ASSIMP_FOUND)
     set( GluonGraphics_SRCS ${GluonGraphics_SRCS} filemesh.cpp )
     set( GluonGraphics_HEADERS ${GluonGraphics_HEADERS} filemesh.h )
@@ -100,6 +105,7 @@ if(APPLE)
     #hack for being able to set headers as public in a osx framework
     list(APPEND GluonGraphics_HEADERS
             ${GluonGraphics_HEADERS}
+            ${GluonGraphics_Particles_HEADERS}
     )
 
     set_target_properties(GluonGraphics PROPERTIES FRAMEWORK TRUE)
@@ -140,24 +146,24 @@ if(INSTALL_EXAMPLES)
     add_subdirectory(examples)
 endif()
 
-install(
-    TARGETS     GluonGraphics
-    RUNTIME     DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluongraphics
-    LIBRARY     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
-    ARCHIVE     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
-    FRAMEWORK   DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
+install(TARGETS GluonGraphics
+    RUNTIME DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluongraphics
+    LIBRARY DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
+    ARCHIVE DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
+    FRAMEWORK DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
 )
 
-install(FILES
-    ${GluonGraphics_HEADERS}
+install(FILES ${GluonGraphics_HEADERS}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics
     COMPONENT gluongraphics
 )
 
-install(
-    FILES
-    default.gml
-    default.png
+install(FILES ${GluonGraphics_Particles_HEADERS}
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics/particles
+    COMPONENT gluongraphics
+)
+
+install(FILES default.gml default.png
     DESTINATION ${SHARE_INSTALL_DIR}/gluon/defaults
 )
 
@@ -165,4 +171,3 @@ if(BUILD_GLUON_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif()
-

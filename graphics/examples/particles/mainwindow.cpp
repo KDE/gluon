@@ -25,7 +25,7 @@
 #include <graphics/renderwidget.h>
 #include <graphics/camera.h>
 #include <graphics/item.h>
-#include <graphics/particlemesh.h>
+#include <graphics/particles/particlemesh.h>
 #include <graphics/engine.h>
 #include <graphics/frustrum.h>
 #include <material.h>
