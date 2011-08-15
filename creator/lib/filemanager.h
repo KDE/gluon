@@ -61,20 +61,36 @@ namespace GluonCreator
              * an appropriate editor will be searched for.
              * \param partParams Parameters to pass on to the KPart when
              * loading.
+             * \param closeable Determines whether the file can be closed.
              */
-            void openFile( const QString& fileName, const QString& name = QString(), const QString& title = QString(), const QString& partName = QString(), const QVariantList& partParams = QVariantList() );
-            void closeFile( const QString& file );
+            void openFile( const QString& fileName, const QString& name = QString(), const QString& title = QString(), const QString& partName = QString(), const QVariantList& partParams = QVariantList(), bool closeable = true );
+
+            /**
+             * Close a file and associated editor.
+             *
+             * \param file The name of the file to close.
+             * \param force If true, ignore whether or not the file has
+             * been marked as non-closable and close it anyway.
+             */
+            void closeFile( const QString& file, bool force = false );
+
             void setCurrentFile( const QString& file );
+
+            /**
+             * Close all open files.
+             *
+             * Note that this will not close non-closable files.
+             */
+            void closeAll();
 
         Q_SIGNALS:
             void newPart( const QString&, const QString& );
 
-
         private:
             ~FileManager();
 
-            class FileManagerPrivate;
-            FileManagerPrivate* const d;
+            class Private;
+            Private* const d;
     };
 }
 
