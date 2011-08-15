@@ -40,13 +40,13 @@ namespace GluonCreator
             void setActiveTab( const QString& name );
             void setActiveTab( int index );
 
-        private Q_SLOTS:
-            void activePartChanged( KParts::Part* part );
-            void tabMoved( int, int );
-
         private:
             class Private;
             Private* const d;
+
+            Q_PRIVATE_SLOT(d, void activePartChanged( KParts::Part* part ) );
+            Q_PRIVATE_SLOT(d, void tabMoved( int from, int to ) );
+            Q_PRIVATE_SLOT(d, void tabCloseRequested( int tab ) );
     };
 }
 

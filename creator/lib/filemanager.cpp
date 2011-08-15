@@ -147,7 +147,8 @@ void FileManager::closeFile( const QString& file, bool force )
         {
             d->partManager->removePart( openFile.part );
             d->files.remove( file );
-            openFile.part->deleteLater();
+            delete openFile.part;
+            emit fileClosed( file );
         }
     }
 }
@@ -158,12 +159,12 @@ void FileManager::setCurrentFile( const QString& file )
         d->partManager->setActivePart( d->files.value( file ).part );
 }
 
-void FileManager::closeAll()
+void FileManager::closeAll( bool force )
 {
     QList< QString > files = d->files.keys();
     foreach( const QString& file, files )
     {
-        closeFile( file );
+        closeFile( file, force );
     }
 }
 

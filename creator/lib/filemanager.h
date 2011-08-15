@@ -79,12 +79,13 @@ namespace GluonCreator
             /**
              * Close all open files.
              *
-             * Note that this will not close non-closable files.
+             * \param force Close all files, including those marked as non-closeable.
              */
-            void closeAll();
+            void closeAll( bool force = false );
 
         Q_SIGNALS:
             void newPart( const QString&, const QString& );
+            void fileClosed( const QString& file );
 
         private:
             ~FileManager();
