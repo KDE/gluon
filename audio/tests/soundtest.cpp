@@ -45,7 +45,18 @@ void SoundTest::testConstructorMemberInit()
     QCOMPARE(sound.duration(), 0.0);
 }
 
+void SoundTest::testLoad()
+{
+    Sound sound;
+    QCOMPARE(sound.load("non.existing.file"), false);
+    QCOMPARE(sound.isValid(), false);
+}
+
 void SoundTest::testIsValid()
+{
+}
+
+void SoundTest::testStatus()
 {
 }
 
@@ -54,6 +65,10 @@ void SoundTest::testIsPlaying()
 }
 
 void SoundTest::testIsLooping()
+{
+}
+
+void SoundTest::testPosition()
 {
 }
 

@@ -19,10 +19,11 @@
 
 #include "materialasset.h"
 
-#include <core/gdlhandler.h>
 #include <graphics/material.h>
 #include <graphics/materialinstance.h>
 #include <graphics/engine.h>
+
+#include <core/gdlhandler.h>
 
 #include <QtGui/QAction>
 
@@ -151,6 +152,8 @@ void MaterialAsset::createInstance()
     instance->setName( "New Instance" );
     instance->setPropertiesFromMaterial();
     instance->setMaterial( d->material );
+
+    emit instanceCreated(instance);
 }
 
 Q_EXPORT_PLUGIN2( gluon_asset_material, GluonEngine::MaterialAsset )

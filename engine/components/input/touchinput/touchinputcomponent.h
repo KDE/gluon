@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef TOUCHINPUTCOMPONENT_H
-#define TOUCHINPUTCOMPONENT_H
+#ifndef GLUON_ENGINE_TOUCHINPUTCOMPONENT_H
+#define GLUON_ENGINE_TOUCHINPUTCOMPONENT_H
 
 #include <engine/component.h>
 
@@ -79,4 +79,4 @@ namespace GluonEngine
 
 Q_DECLARE_METATYPE( GluonEngine::TouchInputComponent* )
 
-#endif // TOUCHINPUTCOMPONENT_H
+#endif // GLUON_ENGINE_TOUCHINPUTCOMPONENT_H

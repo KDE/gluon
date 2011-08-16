@@ -20,25 +20,36 @@
 #ifndef GLUONGRAPHICS_FILEMESH_H
 #define GLUONGRAPHICS_FILEMESH_H
 
-#include "mesh.h"
+#include "abstractmesh.h"
 
-/**
- * \brief Loads a Mesh from a file.
- *
- * This class loads a mesh from a file, by using the AssetImporter
- * library for loading.
- *
- */
 namespace GluonGraphics
 {
-
-    class FileMesh : public Mesh
+    /**
+    * \brief A mesh that is loaded from a file.
+    *
+    * This class loads a mesh from a file, by using the AssetImporter
+    * library for loading.
+    *
+    */
+    class FileMesh : public AbstractMesh
     {
         Q_OBJECT
         public:
-            FileMesh( QObject* parent = 0 );
+            /**
+             * Constructor.
+             *
+             * \param file The file to load the data from.
+             */
+            FileMesh( const QString& file, QObject* parent = 0 );
             virtual ~FileMesh();
-            virtual void load( const QString& filename );
+
+            QString file() const;
+
+            virtual void initialize();
+
+        private:
+            class Private;
+            Private* const d;
     };
 
 }

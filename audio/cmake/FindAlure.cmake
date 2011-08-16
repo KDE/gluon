@@ -23,21 +23,29 @@ find_path(ALURE_INCLUDE_DIR
       /sw/include
   )
 
-IF (NOT ALURE_MIN_VERSION)
-  SET(ALURE_MIN_VERSION "1.1")
-ENDIF(NOT ALURE_MIN_VERSION)
+if(NOT ALURE_MIN_VERSION)
+  set(ALURE_MIN_VERSION "1.2")
+endif(NOT ALURE_MIN_VERSION)
 
-SET(ALURE_VERSION_OK TRUE)
-IF(ALURE_INCLUDE_DIR)
-    FILE(READ ${ALURE_INCLUDE_DIR}/alure.h ALURE_VERSION_CONTENT)
-    STRING (REGEX MATCH "ALURE_API.*.alureUpdateInterval" ALURE_VERSION_MATCH "${ALURE_VERSION_CONTENT}")
-    IF(ALURE_VERSION_MATCH)
-        SET(ALURE_VERSION "1.1")
-    ELSE(ALURE_VERSION_MATCH)
-        SET(ALURE_VERSION_OK FALSE)
-        MESSAGE(FATAL_ERROR "Can not find a recent enough version of Alure. Please install ${ALURE_MIN_VERSION} or newer.")
-    ENDIF(ALURE_VERSION_MATCH)
-ENDIF(ALURE_INCLUDE_DIR)
+set(ALURE_VERSION "<1.2")
+set(ALURE_VERSION_OK FALSE)
+if(ALURE_INCLUDE_DIR)
+    file(READ ${ALURE_INCLUDE_DIR}/alure.h ALURE_VERSION_CONTENT)
+    string(REGEX MATCH "ALURE_VERSION_STRING \".*\"\n" ALURE_VERSION_MATCH "${ALURE_VERSION_CONTENT}")
+    if(ALURE_VERSION_MATCH)
+        string(REGEX REPLACE "ALURE_VERSION_STRING \"(.*)\"\n" "\\1" ALURE_VERSION ${ALURE_VERSION_MATCH})
+        if(NOT ALURE_VERSION STRLESS "${ALURE_MIN_VERSION}")
+            set(ALURE_VERSION_OK TRUE)
+        endif(NOT ALURE_VERSION STRLESS "${ALURE_MIN_VERSION}")
+    endif(ALURE_VERSION_MATCH)
+    if(NOT ALURE_VERSION_OK)
+        if(Alure_FIND_REQUIRED)
+            message(FATAL_ERROR "Alure version ${ALURE_VERSION} is too old. Please install ${ALURE_MIN_VERSION} or newer.")
+        else(Alure_FIND_REQUIRED)
+            message(STATUS "Alure version ${ALURE_VERSION} is too old. Please install ${ALURE_MIN_VERSION} or newer.")
+        endif(Alure_FIND_REQUIRED)
+    endif(NOT ALURE_VERSION_OK)
+endif(ALURE_INCLUDE_DIR)
 
 
   find_library(ALURE_LIBRARY
@@ -57,10 +65,10 @@ ENDIF(ALURE_INCLUDE_DIR)
       ${ALURE_LIBRARY}
   )
 
-  INCLUDE(FindPackageHandleStandardArgs)
+  include(FindPackageHandleStandardArgs)
   # handle the QUIETLY and REQUIRED arguments and set ALURE_FOUND to TRUE if
   # all listed variables are TRUE
-  FIND_PACKAGE_HANDLE_STANDARD_ARGS(Alure DEFAULT_MSG ALURE_LIBRARY ALURE_INCLUDE_DIR)
+  find_package_handle_standard_args(Alure DEFAULT_MSG ALURE_LIBRARY ALURE_INCLUDE_DIR)
 
   # show the ALURE_INCLUDE_DIRS and ALURE_LIBRARIES variables only in the advanced view
   mark_as_advanced(ALURE_INCLUDE_DIRS ALURE_LIBRARIES)

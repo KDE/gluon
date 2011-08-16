@@ -20,6 +20,7 @@
 #ifndef GLUONKDEPLAYER_GAMEWINDOWMANAGER_H
 #define GLUONKDEPLAYER_GAMEWINDOWMANAGER_H
 
+#include "lib/models/achievementsmodel.h"
 #include "lib/models/gameitemsmodel.h"
 #include "lib/models/commentitemsmodel.h"
 
@@ -44,6 +45,9 @@ namespace GluonQMLPlayer
             Q_INVOKABLE void setProject( int index );
             Q_INVOKABLE int availableGamesCount( ) const;
             Q_INVOKABLE void buildCommentsModel( int index );
+
+            GluonPlayer::AchievementsModel* achievementsModel() const;
+            void setAchievementsModel( GluonPlayer::AchievementsModel* achievementsModel );
 
             GluonPlayer::GameItemsModel* gameItemsModel() const;
             void setGameItemsModel( GluonPlayer::GameItemsModel* gameItemsModel );

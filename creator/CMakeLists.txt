@@ -30,6 +30,7 @@ add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 add_subdirectory(lib)
 add_subdirectory(plugins)
 add_subdirectory(icons)
+add_subdirectory(nodeeditor)
 
 set(gluoncreator_SRCS
     main.cpp

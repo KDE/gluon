@@ -147,12 +147,11 @@ void MainWindow::openProject( const QString& fileName )
 {
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
-        FileManager::instance()->closeFile( "view" );
-        FileManager::instance()->closeFile( "edit" );
+        FileManager::instance()->closeAll( true );
 
         statusBar()->showMessage( i18n( "Opening project..." ) );
-        FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ) );
-        // FileManager::instance()->openFile( fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), "gluon_editor_part", QVariantList() << QString( "autoplay=false" ) );
+        FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ), false );
+        // FileManager::instance()->openFile( fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), "gluon_editor_part", QVariantList() << QString( "autoplay=false" ), false );
         d->mainArea->setActiveTab( "view" );
 
         GluonEngine::Game::instance()->initializeAll();
@@ -170,6 +169,12 @@ void MainWindow::openProject( const QString& fileName )
 
         statusBar()->showMessage( i18n( "Project successfully opened" ) );
         setCaption( i18n( "%1 - Gluon Creator", fileName.section( '/', -2, -2 ) ) );
+
+        foreach(GluonEngine::Asset* asset, GluonEngine::Game::instance()->gameProject()->findAssetsByType("GluonEngine::MaterialAsset*"))
+        {
+            connect(asset, SIGNAL(instanceCreated(GluonGraphics::MaterialInstance*)), ObjectManager::instance(), SLOT(createObjectCommand(GluonGraphics::MaterialInstance*)));
+        }
+
         HistoryManager::instance()->clear();
         connect( HistoryManager::instance(), SIGNAL( historyChanged( const QUndoCommand* ) ), SLOT( historyChanged() ) );
     }
@@ -303,6 +308,7 @@ void MainWindow::showPreferences()
 
 void MainWindow::playGame( )
 {
+    SelectionManager::instance()->clearSelection();
     if( GluonEngine::Game::instance()->isRunning() )
     {
         FileManager::instance()->setCurrentFile( "view" );
@@ -332,6 +338,8 @@ void MainWindow::playGame( )
         stateChanged( "playing", StateReverse );
 
         setFocus();
+        GluonEngine::Game::instance()->gameProject()->deleteLater();
+        GluonEngine::Game::instance()->setGameProject(0);
         openProject( d->fileName );
         GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
         GluonEngine::Game::instance()->initializeAll();

@@ -43,6 +43,10 @@ class FileArea::Private
         { }
         ~Private() { }
 
+        void activePartChanged( KParts::Part* part );
+        void tabMoved( int from, int to );
+        void tabCloseRequested( int tab );
+
         KParts::Part* currentPart;
 
         KTabBar* tabBar;
@@ -67,7 +71,7 @@ FileArea::FileArea( QWidget* parent, Qt::WindowFlags f )
     d->tabBar->setExpanding( false );
     d->tabBar->setSelectionBehaviorOnRemove( QTabBar::SelectPreviousTab );
 
-    connect( d->tabBar, SIGNAL( tabCloseRequested( int ) ), SLOT( removeTab( int ) ) );
+    connect( d->tabBar, SIGNAL( tabCloseRequested( int ) ), SLOT( tabCloseRequested( int ) ) );
     connect( d->tabBar, SIGNAL( currentChanged( int ) ), SLOT( setActiveTab( int ) ) );
     connect( d->tabBar, SIGNAL( tabMoved( int, int ) ), SLOT( tabMoved( int, int ) ) );
 
@@ -80,6 +84,7 @@ FileArea::FileArea( QWidget* parent, Qt::WindowFlags f )
 
     connect( FileManager::instance(), SIGNAL( newPart( QString, QString ) ), SLOT( addTab( QString, QString ) ) );
     connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( activePartChanged( KParts::Part* ) ) );
+    connect( FileManager::instance(), SIGNAL( fileClosed( QString ) ), SLOT( removeTab( QString ) ) );
 }
 
 FileArea::~FileArea()
@@ -108,7 +113,6 @@ void FileArea::removeTab( const QString& name )
 
 void FileArea::removeTab( int index )
 {
-    FileManager::instance()->closeFile( d->tabs.key( index ) );
     d->tabs.remove( d->tabs.key( index ) );
 
     for( QHash<QString, int>::iterator itr = d->tabs.begin(); itr != d->tabs.end(); ++itr )
@@ -135,28 +139,35 @@ void FileArea::setActiveTab( const QString& name )
     FileManager::instance()->setCurrentFile( name );
 }
 
-void FileArea::activePartChanged( KParts::Part* part )
+void FileArea::Private::activePartChanged( KParts::Part* part )
 {
-    if( d->currentPart )
+    if( currentPart )
     {
-        d->layout->removeWidget( d->currentPart->widget() );
-        d->currentPart->widget()->hide();
+        layout->removeWidget( currentPart->widget() );
+        currentPart->widget()->hide();
     }
 
     if( !part )
     {
-        d->currentPart = 0;
+        currentPart = 0;
         return;
     }
 
-    d->layout->addWidget( part->widget() );
+    layout->addWidget( part->widget() );
     part->widget()->show();
 
-    d->currentPart = part;
+    currentPart = part;
 }
 
-void FileArea::tabMoved( int from, int to )
+void FileArea::Private::tabMoved( int from, int to )
 {
-    QString name = d->tabs.key( from );
-    d->tabs.insert( name, to );
+    QString name = tabs.key( from );
+    tabs.insert( name, to );
 }
+
+void FileArea::Private::tabCloseRequested(int tab)
+{
+    FileManager::instance()->closeFile( tabs.key( tab ) );
+}
+
+#include "filearea.moc"

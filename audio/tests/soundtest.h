@@ -32,9 +32,12 @@ public:
 
 private Q_SLOTS:
     void testConstructorMemberInit();
+    void testLoad();
     void testIsValid();
+    void testStatus();
     void testIsPlaying();
     void testIsLooping();
+    void testPosition();
     void testVolume();
     void testPitch();
     void testRadius();

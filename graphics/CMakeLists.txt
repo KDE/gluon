@@ -54,11 +54,12 @@ set(GluonGraphics_SRCS
     renderwidget.cpp
     technique.cpp
     texture.cpp
-    mesh.cpp
+    abstractmesh.cpp
     vertex.cpp
     vertexattribute.cpp
     vertexbuffer.cpp
     viewport.cpp
+    spritemesh.cpp
 )
 
 set(GluonGraphics_HEADERS
@@ -69,7 +70,7 @@ set(GluonGraphics_HEADERS
     glheaders.h
     gluon_graphics_export.h
     item.h
-    mesh.h
+    abstractmesh.h
     material.h
     materialelement.h
     materialinstance.h
@@ -158,3 +159,9 @@ install(
     default.png
     DESTINATION ${SHARE_INSTALL_DIR}/gluon/defaults
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+

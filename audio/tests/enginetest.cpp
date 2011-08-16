@@ -35,9 +35,26 @@ EngineTest::~EngineTest()
 
 void EngineTest::testBufferLength()
 {
-    Engine *engine;
-    engine.setBufferLength(1);
-    QCOMPARE(engine.bufferLength(), 1);
+    Engine *engine = Engine::instance();
+    QCOMPARE(engine->bufferLength(), 250000);
+    engine->setBufferLength(100000);
+    QCOMPARE(engine->bufferLength(), 100000);
+}
+
+void EngineTest::testBuffersPerStream()
+{
+    Engine *engine = Engine::instance();
+    QCOMPARE(engine->buffersPerStream(), 3);
+    engine->setBuffersPerStream(2);
+    QCOMPARE(engine->buffersPerStream(), 2);
+}
+
+void EngineTest::testListenerPosition()
+{
+    Engine *engine = Engine::instance();
+    QVector3D vector3D(1.0, 2.0, 3.0);
+    engine->setListenerPosition(vector3D);
+    QCOMPARE(engine->listenerPosition(), vector3D);
 }
 
 QTEST_MAIN(EngineTest)

@@ -19,9 +19,11 @@
 
 #ifndef GLUON_CREATOR_CODEWIDGETKPART_H
 #define GLUON_CREATOR_CODEWIDGETKPART_H
+
 #include <kparts/part.h>
 #include <kparts/factory.h>
-#include "Interface/MainWindow.h"
+
+#include "nodeeditor/interface/NodeEditor.h"
 
 namespace GluonCreator
 {
@@ -36,7 +38,7 @@ namespace GluonCreator
              */
         public:
             CodeWidgetKpart( QWidget* parentWidget, QObject* parent, const QVariantList& );
-            MainWindow* MainWidget()
+            NodeEditor* MainWidget()
             {
                 return main;
             };
@@ -51,7 +53,7 @@ namespace GluonCreator
             };
 
         private:
-            MainWindow* main;
+            NodeEditor* main;
     };
 
 }

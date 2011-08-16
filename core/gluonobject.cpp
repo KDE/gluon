@@ -446,11 +446,11 @@ GluonObject::setPropertyFromString( const QString& propertyName, const QString& 
     QVariant value;
 
     // propertyValue format is type(value)
-    QRegExp rx( "(([a-zA-Z0-9:<>*]*)+)\\((.+)\\)" );
+    QRegExp rx( "([a-zA-Z0-9:<>*]+)\\((.+)\\)" );
     rx.indexIn( propertyValue );
 
     QString theTypeName = rx.cap( 1 );
-    QString theValue = rx.cap( 3 );
+    QString theValue = rx.cap( 2 );
 
     if( theTypeName == "string" )
     {

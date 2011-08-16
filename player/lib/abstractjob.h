@@ -20,8 +20,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_ABSTRACTJOB_H
-#define GLUONPLAYER_ABSTRACTJOB_H
+#ifndef GLUON_PLAYER_ABSTRACTJOB_H
+#define GLUON_PLAYER_ABSTRACTJOB_H
 
 #include <QtCore/QObject>
 #include <QtCore/QPair>
@@ -263,12 +263,12 @@ public:
      *
      * Example for errid == ERR_CANNOT_OPEN_FOR_READING:
      * \code
-     *   i18n( "Could not read\n%1" , errorText() );
+     *   tr( "Could not read\n%1" , errorText() );
      * \endcode
      * Only call if error is not 0.
      *
      * @return the error message and if there is no error, a message
-     *         telling the user that the app is broken, so check with
+     *         telling the user that the application is broken, so check with
      *         error() whether there is an error
      */
     virtual QString errorString() const;

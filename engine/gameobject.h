@@ -235,10 +235,12 @@ namespace GluonEngine
 
             Q_INVOKABLE QMatrix4x4 transform() const;
 
+        protected Q_SLOTS:
+            void childDeleted(QObject* obj);
+
         public Q_SLOTS:
             void setParentGameObject( GameObject* newParent );
 
-            //Transformation
             /**
              * Set the position of the object
              * Note that this position is relative to the object's parent.
@@ -248,6 +250,7 @@ namespace GluonEngine
              * @param newPosition The new position of the object
              */
             void setPosition( const QVector3D& newPosition );
+
             /**
              * Set the position of the object
              *
@@ -282,6 +285,7 @@ namespace GluonEngine
              * the object will move in world space.
              */
             void translate( const QVector3D& translation, GluonEngine::GameObject::TransformSpace ts = TS_LOCAL );
+
             /**
              * Translate the object relative to its current position.
              *

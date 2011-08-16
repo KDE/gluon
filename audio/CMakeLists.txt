@@ -8,8 +8,7 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(OpenAL 1.8 REQUIRED)
-find_package(SndFile REQUIRED)
-find_package(Alure 1.1 REQUIRED)
+find_package(Alure 1.2 REQUIRED)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -20,7 +19,6 @@ include_directories(
     ${ALURE_INCLUDE_DIRS}
     ${OPENAL_INCLUDE_DIR}
     #TODO: Make use of phonon instead of these libs for file input. Saves us another few dependencies.
-    ${SNDFILE_INCLUDE_DIR}
 )
 
 set(GLUON_AUDIO_INCLUDES
@@ -28,7 +26,6 @@ set(GLUON_AUDIO_INCLUDES
 
     ${ALURE_INCLUDE_DIRS}
     ${OPENAL_INCLUDE_DIR}
-    ${SNDFILE_INCLUDE_DIR}
     CACHE INTERNAL "Includes required for Gluon Audio"
 )
 
@@ -66,7 +63,6 @@ target_link_libraries(
     GluonAudio
     ${GLUON_CORE_LIBS}
     ${OPENAL_LIBRARY}
-    ${SNDFILE_LIBRARIES}
     ${ALURE_LIBRARIES}
 )
 
@@ -74,7 +70,6 @@ set(GLUON_AUDIO_LIBS
     GluonAudio
     ${GLUON_CORE_LIBS}
     ${OPENAL_LIBRARY}
-    ${SNDFILE_LIBRARIES}
     ${ALURE_LIBRARIES}
     CACHE INTERNAL "Libraries required for Gluon audio"
 )

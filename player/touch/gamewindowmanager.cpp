@@ -19,6 +19,7 @@
 
 #include "gamewindowmanager.h"
 
+#include "lib/models/achievementsmodel.h"
 #include "lib/models/gameviewitem.h"
 #include "lib/models/gameitemsmodel.h"
 #include "lib/models/commentitemsmodel.h"
@@ -43,19 +44,21 @@ class GameWindowManager::GameWindowManagerPrivate
 {
     public:
         GameWindowManagerPrivate()
-            : stackedWidget( new QStackedWidget( 0 ) )
-            , gameItemsModel( new GluonPlayer::GameItemsModel() )
-            , commentItemsModel( 0 )
-            , auth( 0 )
-            , declarativeView( new QDeclarativeView( stackedWidget ) )
-            , renderWidget( new GluonGraphics::RenderWidget( stackedWidget ) )
-            , ctxt( 0 )
+            : stackedWidget(new QStackedWidget(0))
+            , achievementsModel(0)
+            , gameItemsModel(new GluonPlayer::GameItemsModel())
+            , commentItemsModel(0)
+            , auth(0)
+            , declarativeView(new QDeclarativeView(stackedWidget))
+            , renderWidget(new GluonGraphics::RenderWidget(stackedWidget))
+            , ctxt(0)
         {
         }
 
         ~GameWindowManagerPrivate()
         {
             delete stackedWidget;
+            delete achievementsModel;
             delete gameItemsModel;
             delete commentItemsModel;
         }
@@ -67,6 +70,7 @@ class GameWindowManager::GameWindowManagerPrivate
         int frameCount;
 
         QStackedWidget* stackedWidget;
+        GluonPlayer::AchievementsModel* achievementsModel;
         GluonPlayer::GameItemsModel* gameItemsModel;
         GluonPlayer::CommentItemsModel* commentItemsModel;
         GluonPlayer::Authentication* auth;
@@ -87,6 +91,7 @@ GameWindowManager::GameWindowManager( const QString& /* filename */ )
 
     d->ctxt = d->declarativeView->rootContext();
     d->ctxt->setContextProperty( "authentication", d->auth );
+    d->ctxt->setContextProperty( "achievementsModel", d->achievementsModel );
     d->ctxt->setContextProperty( "gameItemsModel", d->gameItemsModel );
     d->ctxt->setContextProperty( "commentItemsModel", d->commentItemsModel );
     d->ctxt->setContextProperty( "gameWindowManager", this );
@@ -209,6 +214,16 @@ void GameWindowManager::updateTitle( int msec )
 void GameWindowManager::countFrames( int /* time */ )
 {
     d->frameCount++;
+}
+
+GluonPlayer::AchievementsModel* GameWindowManager::achievementsModel() const
+{
+    return d->achievementsModel;
+}
+
+void GameWindowManager::setAchievementsModel( GluonPlayer::AchievementsModel* achievementsModel )
+{
+    d->achievementsModel = achievementsModel;
 }
 
 GluonPlayer::GameItemsModel* GameWindowManager::gameItemsModel() const

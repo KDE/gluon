@@ -1,19 +1,19 @@
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 set(libGluonCreator_SRCS
-    plugin.cpp
-    dockplugin.cpp
-    dockmanager.cpp
-    toolplugin.cpp
-    pluginmanager.cpp
-    objectmanager.cpp
-    historymanager.cpp
-    selectionmanager.cpp
-    filemanager.cpp
     abstractundocommand.cpp
-    newobjectcommand.cpp
     deleteobjectcommand.cpp
+    dockmanager.cpp
+    dockplugin.cpp
+    filemanager.cpp
+    historymanager.cpp
+    newobjectcommand.cpp
+    objectmanager.cpp
+    plugin.cpp
+    pluginmanager.cpp
     propertychangedcommand.cpp
+    selectionmanager.cpp
+    toolplugin.cpp
 
     models/componentmodel.cpp
     models/models.cpp
@@ -36,19 +36,10 @@ set(libGluonCreator_SRCS
 qt4_automoc(${libGluonCreator_SRCS})
 kde4_add_library(libGluonCreator SHARED ${libGluonCreator_SRCS})
 set_target_properties(libGluonCreator PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_CREATOR_LIB PREFIX "")
+
 if(GLUON_BUILD_ALL)
     add_dependencies(libGluonCreator GluonEngine GluonPlayer)
 endif()
-
-target_link_libraries(libGluonCreator
-    ${GLUON_ENGINE_LIBS}
-    ${GLUON_PLAYER_LIBS}
-    ${GLUON_CREATOR_LIBS}
-    ${KDE4_KDECORE_LIBS}
-    ${KDE4_KDEUI_LIBS}
-    ${KDE4_KIO_LIBS}
-    ${KDE4_KPARTS_LIBS}
-)
 
 set(GLUON_CREATOR_LIBS
     libGluonCreator
@@ -59,6 +50,16 @@ set(GLUON_CREATOR_LIBS
     ${KDE4_KDEUI_LIBS}
     ${KDE4_KPARTS_LIBS}
     CACHE INTERNAL "Libraries required for Gluon Creator"
+)
+
+target_link_libraries(libGluonCreator
+    ${GLUON_ENGINE_LIBS}
+    ${GLUON_PLAYER_LIBS}
+    ${GLUON_CREATOR_LIBS}
+    ${KDE4_KDECORE_LIBS}
+    ${KDE4_KDEUI_LIBS}
+    ${KDE4_KIO_LIBS}
+    ${KDE4_KPARTS_LIBS}
 )
 
 install(
@@ -109,3 +110,9 @@ install(FILES
     DESTINATION ${SERVICETYPES_INSTALL_DIR}
     COMPONENT gluoncreator
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+

@@ -70,7 +70,15 @@ endif()
 target_link_libraries(gluon_kdeextplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS} ${KDE4_KIO_LIBS})
 
 if(NOT APPLE)
-    install(TARGETS gluon_kdeextplayer DESTINATION ${BIN_INSTALL_DIR})
-    install(FILES ui/gluon_kdeextplayerui.rc DESTINATION ${DATA_INSTALL_DIR}/gluon_kdeextplayer)
-    install(FILES gluon_kdeextplayer.desktop DESTINATION ${SHARE_INSTALL_DIR}/applications)
+    install(TARGETS gluon_kdeextplayer
+            DESTINATION ${BIN_INSTALL_DIR}
+            COMPONENT gluonkdeextplayer)
+
+    install(FILES ui/gluon_kdeextplayerui.rc
+            DESTINATION ${DATA_INSTALL_DIR}/gluon_kdeextplayer
+            COMPONENT gluonkdeextplayer)
+
+    install(FILES gluon_kdeextplayer.desktop
+            DESTINATION ${SHARE_INSTALL_DIR}/applications
+            COMPONENT gluonkdeextplayer)
 endif()

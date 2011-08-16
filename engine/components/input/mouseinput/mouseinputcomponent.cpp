@@ -43,6 +43,7 @@ class MouseInputComponent::MouseInputComponentPrivate
             , lastX( 0 )
             , lastY( 0 )
             , lastZ( 0 )
+            , mouseTrack( false )
         {
         }
 

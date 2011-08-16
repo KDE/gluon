@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef MOUSEINPUTCOMPONENT_H
-#define MOUSEINPUTCOMPONENT_H
+#ifndef GLUON_ENGINE_MOUSEINPUTCOMPONENT_H
+#define GLUON_ENGINE_MOUSEINPUTCOMPONENT_H
 
 #include <input/mouse.h>
 
@@ -87,4 +87,4 @@ namespace GluonEngine
 
 Q_DECLARE_METATYPE( GluonEngine::MouseInputComponent* )
 
-#endif // MOUSEINPUTCOMPONENT_H
+#endif // GLUON_ENGINE_MOUSEINPUTCOMPONENT_H

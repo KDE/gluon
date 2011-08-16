@@ -40,6 +40,7 @@ namespace GluonEngine
 {
     class Scene;
     class Achievement;
+    class Asset;
 
     class GameProjectPrivate : public QSharedData
     {
@@ -58,6 +59,9 @@ namespace GluonEngine
             GluonEngine::TextureAsset* screenshot;
             QList<Achievement*> achievements;
             QString userName;
+
+            QList<Asset*> assets;
+            QMultiHash<int, Asset*> assetTypes;
 
             static bool saveChildren( const GluonCore::GluonObject* parent );
     };

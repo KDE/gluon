@@ -16,4 +16,4 @@ endif()
 
 target_link_libraries(gluonexamples_graphics_basic ${GLUON_GRAPHICS_LIBS} ${QT_QTCORE_LIBRARIES})
 
-install(TARGETS gluonexamples_graphics_basic DESTINATION ${EXAMPLES_INSTALL_DIR})
+install(TARGETS gluonexamples_graphics_basic RUNTIME DESTINATION ${EXAMPLES_INSTALL_DIR})

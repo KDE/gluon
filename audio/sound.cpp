@@ -26,7 +26,6 @@
 #include <core/debughelper.h>
 
 #include <alure.h>
-#include <sndfile.h>
 
 using namespace GluonAudio;
 
@@ -136,13 +135,6 @@ Sound::Sound( const QString& fileName )
     load( fileName );
 }
 
-Sound::Sound( const QString& fileName, bool toStream )
-    : QObject( Engine::instance() )
-    , d( new SoundPrivate )
-{
-    load( fileName, toStream );
-}
-
 Sound::~Sound()
 {
     d->_k_deleteSource();
@@ -155,19 +147,6 @@ bool Sound::isValid() const
 }
 
 bool Sound::load( const QString& fileName )
-{
-    SF_INFO sfinfo;
-    memset( &sfinfo, 0, sizeof( sfinfo ) );
-    SNDFILE* sndfile = sf_open( fileName.toLocal8Bit().data(), SFM_READ, &sfinfo );
-    sf_close( sndfile );
-
-    d->duration = ( double )sfinfo.frames / sfinfo.samplerate;
-    bool toStream = ( d->duration >= ( double )( Engine::instance()->bufferLength() * Engine::instance()->buffersPerStream() ) / 1e6 );
-
-    return load( fileName, toStream );
-}
-
-bool Sound::load( const QString& fileName, bool toStream )
 {
     if( fileName.isEmpty() )
     {
@@ -184,14 +163,19 @@ bool Sound::load( const QString& fileName, bool toStream )
     if( !d->setupSource() )
         return false;
 
-    d->isStreamed = toStream;
+    alureStreamSizeIsMicroSec(true);
+    alureStream *stream = alureCreateStreamFromFile(fileName.toLocal8Bit().data(), Engine::instance()->bufferLength(), 0, NULL);
+    if( stream )
+        d->duration = (double)alureGetStreamLength(stream) / alureGetStreamFrequency(stream);
+
+    d->isStreamed = (d->duration >= Engine::instance()->bufferLength()*Engine::instance()->buffersPerStream() / 1e6);
     if( d->isStreamed )
-    {
-        alureStreamSizeIsMicroSec( true );
-        d->stream = alureCreateStreamFromFile( d->path.toLocal8Bit().constData(), Engine::instance()->bufferLength(), 0, 0 );
-    }
+        d->stream = stream;
     else
     {
+        alureDestroyStream(stream, 0, NULL);
+        stream = NULL;
+
         ALuint buffer = Engine::instance()->genBuffer( d->path );
         if( d->newError( "Loading " + d->path + " failed" ) )
         {
@@ -202,10 +186,11 @@ bool Sound::load( const QString& fileName, bool toStream )
     }
 
     d->isValid = !d->newError( "Loading " + d->path + " failed" );
+
     return d->isValid;
 }
 
-ALfloat Sound::elapsedTime() const
+ALfloat Sound::timeOffset() const
 {
     ALfloat seconds = 0.f;
     alGetSourcef( d->source, AL_SEC_OFFSET, &seconds );
@@ -353,7 +338,7 @@ void Sound::play()
     }
     else if( isPlaying() )
     {
-        stop();
+        return;
     }
 
     if( d->isStreamed )
@@ -420,7 +405,7 @@ void Sound::setDirection( ALfloat dx, ALfloat dy, ALfloat dz )
     alSourcefv( d->source, AL_POSITION, direction );
 }
 
-void Sound::setTimePosition( ALfloat time )
+void Sound::setTimeOffset( ALfloat time )
 {
     alSourcef( d->source, AL_SEC_OFFSET, time );
 

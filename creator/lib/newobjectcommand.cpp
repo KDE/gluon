@@ -48,8 +48,7 @@ NewObjectCommand::~NewObjectCommand()
     delete d;
 }
 
-void
-NewObjectCommand::undo()
+void NewObjectCommand::undo()
 {
     setCommandDirection( "undo" );
     d->applied = false;
@@ -69,21 +68,20 @@ NewObjectCommand::undo()
     AbstractUndoCommand::undo();
 }
 
-void
-NewObjectCommand::redo()
+void NewObjectCommand::redo()
 {
     setCommandDirection( "redo" );
     d->applied = true;
     object()->setParent( d->parent );
 
-    GluonEngine::GameObject* gobjParent = qobject_cast< GluonEngine::GameObject* >( d->parent );
-    GluonEngine::GameObject* obj = qobject_cast<GluonEngine::GameObject*>( object() );
-    if( obj && gobjParent )
-        gobjParent->addChild( obj );
+    GluonEngine::GameObject* gameObjectParent = qobject_cast< GluonEngine::GameObject* >( d->parent );
+    GluonEngine::GameObject* gameObject = qobject_cast<GluonEngine::GameObject*>( object() );
+    if( gameObject && gameObjectParent )
+        gameObjectParent->addChild( gameObject );
 
     GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>( object() );
-    if( comp && gobjParent )
-        gobjParent->addComponent( comp );
+    if( comp && gameObjectParent )
+        gameObjectParent->addComponent( comp );
     AbstractUndoCommand::redo();
 }
 

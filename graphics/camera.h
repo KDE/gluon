@@ -31,6 +31,7 @@
 class QRectF;
 class QSizeF;
 class QMatrix4x4;
+
 namespace GluonGraphics
 {
     class Frustrum;

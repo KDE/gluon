@@ -31,6 +31,7 @@ set(libGluonPlayer_SRCS
     ratingjob.cpp
     serviceprovider.cpp
 
+    models/achievementsmodel.cpp
     models/gameviewitem.cpp
     models/gameitemsmodel.cpp
     models/commentitemsmodel.cpp
@@ -75,9 +76,16 @@ install(FILES
 )
 
 install(FILES
+    models/achievementsmodel.h
     models/commentitemsmodel.h
     models/gameitemsmodel.h
     models/highscoresmodel.h
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib/models
     COMPONENT gluonplayer
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+

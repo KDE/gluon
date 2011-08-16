@@ -16,6 +16,10 @@ option(BUILD_PHYSICS_ASSETS "Build Assets related to physics" OFF)
 option(BUILD_OTHER_COMPONENTS "Build other Components" ON)
 option(BUILD_OTHER_ASSETS "Build other Assets" ON)
 
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+endif()
+
 if(NOT BUILD_GLUON_AUDIO)
     set(BUILD_AUDIO_COMPONENTS OFF)
     set(BUILD_AUDIO_ASSETS OFF)
@@ -49,6 +53,7 @@ add_subdirectory(components)
 set(GluonEngine_SRCS
     abstractstatistic.cpp
     achievement.cpp
+    achievementsmanager.cpp
     asset.cpp
     component.cpp
     componentprivate.cpp
@@ -63,6 +68,7 @@ set(GluonEngine_SRCS
     prefabprivate.cpp
     prefabinstance.cpp
     prefabinstancechild.cpp
+    projectmetadata.cpp
     savable.cpp
     scene.cpp
     sceneprivate.cpp
@@ -75,6 +81,7 @@ set(GluonEngine_SRCS
 set(GluonEngine_HEADERS
     abstractstatistic.h
     achievement.h
+    achievementsmanager.h
     asset.h
     component.h
     databasemanager.h
@@ -84,6 +91,7 @@ set(GluonEngine_HEADERS
     prefab.h
     prefabinstance.h
     prefabinstancechild.h
+    projectmetadata.h
     savable.h
     scene.h
     statistic.h
@@ -145,3 +153,8 @@ install(
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/engine
     COMPONENT gluonengine
 )
+
+if(BUILD_GLUON_TESTS)
+    add_subdirectory(tests)
+endif()
+

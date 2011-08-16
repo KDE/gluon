@@ -148,7 +148,8 @@ void RenderableScene::renderScene()
 void RenderableScene::deliverEvent( QEvent* event )
 {
     QRectF bounds = sceneRect();
-    int screenX = 0, screenY = 0;
+    int screenX = 0;
+    int screenY = 0;
 
     // Convert the event and deliver it to the scene.
     switch( event->type() )

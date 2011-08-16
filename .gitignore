@@ -8,6 +8,7 @@ release-build
 Doxyfile
 *.patch
 .gdb_history
+*.kate-swp
 
 # CMake
 CMakeCache.txt

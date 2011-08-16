@@ -21,6 +21,12 @@ set(INCLUDE_INSTALL_DIR include          CACHE INTERNAL "The subdirectory relati
 set(LIB_INSTALL_DIR     lib${LIB_SUFFIX} CACHE INTERNAL "The subdirectory relative to the install prefix where libraries will be installed.")
 set(SHARE_INSTALL_DIR   share            CACHE INTERNAL "The subdiractory relative to the install prefix where data and other files will be installed.")
 
+if( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+    set( GLUON_ARCHITECTURE "64" )
+else( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+    set( GLUON_ARCHITECTURE "32" )
+endif( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/gluon_global.h.in ${CMAKE_CURRENT_BINARY_DIR}/gluon_global.h)
 
 include_directories(
@@ -46,11 +52,12 @@ set(GluonCore_SRCS
     scriptengine.cpp
 
     bindings/com_trolltech_qt_gui_init.cpp
+    bindings/qtscript_QColor.cpp
+    bindings/qtscript_QSizeF.cpp
+    bindings/qtscript_QQuaternion.cpp
     bindings/qtscript_QVector2D.cpp
     bindings/qtscript_QVector3D.cpp
     bindings/qtscript_QVector4D.cpp
-    bindings/qtscript_QColor.cpp
-    bindings/qtscript_QQuaternion.cpp
 )
 
 set(GluonCore_HEADERS
@@ -123,3 +130,4 @@ if(BUILD_GLUON_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif()
+

@@ -6,5 +6,10 @@ componentsdockplugin.cpp
 kde4_add_plugin(gluon_creator_dockplugin_componentsdock ${componentsdock_SRCS})
 target_link_libraries(gluon_creator_dockplugin_componentsdock ${GLUON_CREATOR_LIBS})
 
-install(TARGETS gluon_creator_dockplugin_componentsdock DESTINATION ${PLUGIN_INSTALL_DIR})
-install(FILES gluon_creator_dockplugin_componentsdock.desktop DESTINATION ${SERVICES_INSTALL_DIR})
+install(TARGETS gluon_creator_dockplugin_componentsdock
+        DESTINATION ${PLUGIN_INSTALL_DIR}
+        COMPONENT gluoncreator)
+
+install(FILES gluon_creator_dockplugin_componentsdock.desktop
+        DESTINATION ${SERVICES_INSTALL_DIR}
+        COMPONENT gluoncreator)

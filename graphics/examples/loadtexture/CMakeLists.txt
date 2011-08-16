@@ -16,4 +16,4 @@ endif()
 
 target_link_libraries(gluonexamples_graphics_loadtexture ${GLUON_GRAPHICS_LIBS} ${QT_QTCORE_LIBRARIES})
 
-install(TARGETS gluonexamples_graphics_loadtexture DESTINATION ${EXAMPLES_INSTALL_DIR})
+install(TARGETS gluonexamples_graphics_loadtexture RUNTIME DESTINATION ${EXAMPLES_INSTALL_DIR})

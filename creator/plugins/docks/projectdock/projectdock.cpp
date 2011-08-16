@@ -29,13 +29,14 @@
 #include <creator/lib/models/modeltest.h>
 #include <creator/lib/selectionmanager.h>
 
-#include <core/debughelper.h>
-#include <core/directoryprovider.h>
-#include <engine/asset.h>
 #include <engine/game.h>
 #include <engine/gameobject.h>
 #include <engine/gameproject.h>
 #include <engine/scene.h>
+#include <engine/asset.h>
+
+#include <core/debughelper.h>
+#include <core/directoryprovider.h>
 
 #include <KDE/KIcon>
 #include <KDE/KLocalizedString>
@@ -144,7 +145,7 @@ void ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex index, QMenu* m
             {
                 menu->addSeparator();
 
-                action = new QAction( KIcon( "edit-delete" ), i18n( "Delete \"%1\"...", object->name() ), this->q );
+                action = new QAction( KIcon( "edit-delete" ), i18n( "Delete \"%1\"...", object->name() ), q );
                 connect( action, SIGNAL( triggered() ), q, SLOT( deleteActionTriggered() ) );
                 menu->addAction( action );
             }
@@ -196,14 +197,14 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
 
     d->toolBar->insertWidget( 0, menuButton );
 
-    d->newMenu->addAction( KIcon( "folder" ), i18n( "New Folder" ), this, SLOT( newSubMenuTriggered() ) );
-    d->newMenu->addAction( KIcon( "document-new" ), i18n( "New Scene" ), ObjectManager::instance(), SLOT( createNewScene() ) );
+    d->newMenu->addAction( KIcon( "folder" ), i18n( "New Folder" ), this, SLOT( createNewFolder() ) );
+    d->newMenu->addAction( KIcon( "document-new" ), i18n( "New Scene" ), this, SLOT( createNewScene() ) );
     d->newMenu->addSeparator();
 
     // Run through all the templates and add an action for each...
     foreach( const GluonEngine::AssetTemplate * item, d->assetTemplates )
     {
-        QAction* action = d->newMenu->addAction( i18nc( "Add a new menu action", "New %1", item->name ), this, SLOT( newAssetTriggered() ) );
+        QAction* action = d->newMenu->addAction( i18nc( "Add a new menu action", "New %1", item->name ), this, SLOT( createNewAsset() ) );
         action->setProperty( "newAssetClassname", item->parent()->metaObject()->className() );
         action->setProperty( "newAssetName", item->name );
         action->setProperty( "newAssetPluginname", item->pluginname );
@@ -228,7 +229,6 @@ ProjectDock::~ProjectDock()
 
 void ProjectDock::activated( QModelIndex index )
 {
-    DEBUG_FUNC_NAME
     if( !index.isValid() )
     {
         return;
@@ -332,16 +332,35 @@ void ProjectDock::deleteActionTriggered()
     }
 }
 
-void ProjectDock::newSubMenuTriggered()
+void ProjectDock::createNewFolder()
 {
     if( !d->currentContextIndex.isValid() )
         d->currentContextIndex = d->model->index( 0, 0 );
 
-    QModelIndex newFolder = d->model->addChild( new GluonCore::GluonObject( i18n( "New Folder" ) ), d->currentContextIndex );
-    d->view->edit( newFolder );
+    GluonCore::GluonObject *newFolder = new GluonCore::GluonObject( i18n( "New Folder" ) );
+    QModelIndex newFolderIndex = d->model->addChild( newFolder, d->currentContextIndex );
+    d->view->edit( newFolderIndex );
+
+    NewObjectCommand *newObjectCommand = new NewObjectCommand( newFolder );
+    HistoryManager::instance()->addCommand( newObjectCommand );
 }
 
-void GluonCreator::ProjectDock::newAssetTriggered()
+void ProjectDock::createNewScene()
+{
+    if( !d->currentContextIndex.isValid() )
+        d->currentContextIndex = d->model->index( 0, 0 );
+
+    GluonEngine::Scene* newScene = new GluonEngine::Scene();
+    newScene->setName( i18n( "NewScene" ) );
+    newScene->setGameProject( GluonEngine::Game::instance()->gameProject() );
+    QModelIndex newSceneIndex = d->model->addChild( newScene, d->currentContextIndex );
+    d->view->edit( newSceneIndex );
+
+    NewObjectCommand *newObjectCommand = new NewObjectCommand( newScene );
+    HistoryManager::instance()->addCommand( newObjectCommand );
+}
+
+void ProjectDock::createNewAsset()
 {
     if( !d->currentContextIndex.isValid() )
         d->currentContextIndex = d->model->index( 0, 0 );
@@ -365,6 +384,8 @@ void GluonCreator::ProjectDock::newAssetTriggered()
         if( newAsset )
         {
             d->model->addChild( newAsset, d->currentContextIndex );
+            NewObjectCommand *newObjectCommand = new NewObjectCommand( newAsset );
+            HistoryManager::instance()->addCommand( newObjectCommand );
         }
     }
 }

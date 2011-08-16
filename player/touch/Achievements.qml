@@ -20,7 +20,7 @@
 import QtQuick 1.0
 
 Rectangle {
-    id: gluon_player;
+    id: achievements;
 
     color: "black";
     anchors.fill: parent;
@@ -30,13 +30,30 @@ Rectangle {
     }
 
     Component {
-        id: achievementItemsDelegate;
-        Button {
-            id: achievementItem;
-            width: ListView.view.width;
-            icon: "icons/hi32-app-gluon.png";
-            text: qsTr("");
-            subtext: qsTr(body);
+        id: achievementsDelegate;
+        Item {
+            Row {
+                spacing: 2;
+                Text {
+                     id: achievementText;
+                     text: qsTr(qtDisplayRole);
+                     color: "white";
+                     font.pixelSize: 24;
+                     anchors {
+                         right: achievedIcon.left;
+                         rightMargin: 5;
+                     }
+                }
+
+                Image {
+                    id: achievedIcon;
+                    source: "icons/progress-indicator.png"
+                    anchors {
+                        left: achievedIcon.left;
+                        rightMargin: 5;
+                    }
+                }
+            }
         }
     }
 
@@ -44,8 +61,8 @@ Rectangle {
         width: 200;
         height: 250;
         anchors.fill: parent;
-        model: achievementItemsModel;
-        delegate: achievementItemsDelegate;
+        model: achievementsModel;
+        delegate: achievementsDelegate;
         spacing: 5;
 
         header: Button {

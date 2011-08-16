@@ -34,10 +34,10 @@
 
 using namespace GluonEngine;
 
-bool
-Savable::saveToFile( GluonCore::GluonObject* object )
+bool Savable::saveToFile( GluonCore::GluonObject* object )
 {
     DEBUG_BLOCK
+
     if( !object )
     {
         DEBUG_TEXT( "Asset was NULL!" )
@@ -73,7 +73,7 @@ Savable::saveToFile( GluonCore::GluonObject* object )
     }
 
     QTextStream fileWriter( savableFile );
-    fileWriter << savableObject->contentsToGDL();
+    fileWriter << savableObject->contentsToGDL() << endl;
     savableFile->close();
 
     delete savableFile;
