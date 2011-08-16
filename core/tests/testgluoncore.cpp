@@ -22,7 +22,6 @@
 #include "testgluoncore.h"
 
 #include <QtCore/QMetaProperty>
-#include <QtCore/QDebug>
 
 #define SANITY_CHECK_POINTERS(a, b) if((a) == NULL || (b) == NULL) return (a) == NULL && (b) == NULL
 
@@ -124,14 +123,13 @@ bool TestGluonCore::ensureReversible( const QString& gdl )
 {
     GluonCore::GDLHandler* gh = GluonCore::GDLHandler::instance();
     QList<GluonCore::GluonObject*> parsed = gh->parseGDL( gdl, gdl.size() );
-    // qDebug() << "GGGGDDDDLLLL:" << gdl;
-    // qDebug() << "PARSED:" << parsed;
-    return compareTrees( parsed, gh->parseGDL( gh->serializeGDL( constListFromNonConst( parsed ) ), ( QObject* )0 ) );
+    QString serializedString = gh->serializeGDL( constListFromNonConst( parsed ) );
+    return compareTrees( parsed, gh->parseGDL( serializedString, serializedString.size() ) );
 }
 
 void TestGluonCore::doxygenSample()
 {
-    const char* test =
+    QString test =
         "{ GluonCore::GluonObject(AnotherObject)\n"
         "reference GluonCore::GluonObject(AnObject/AChildObject)\n"
         "}\n"
@@ -146,7 +144,7 @@ void TestGluonCore::doxygenSample()
 
 void TestGluonCore::invadersSample()
 {
-    const char* test =
+    QString test =
         "{ GluonEngine::GameObject(Game)\n"
         "    enabled bool(true)\n"
         "    position vector3d(0;0;0)\n"
