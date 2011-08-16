@@ -19,9 +19,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "testgluoncore.h"
+#include "gdlhandlertest.h"
 
+#include <core/gdlhandler.h>
+#include <core/gluonobject.h>
+
+#include <QtTest/QtTest>
 #include <QtCore/QMetaProperty>
+
+using namespace GluonCore;
 
 #define SANITY_CHECK_POINTERS(a, b) if((a) == NULL || (b) == NULL) return (a) == NULL && (b) == NULL
 
@@ -56,7 +62,7 @@ static bool compare_metaproperties( const QMetaObject* a, const QObject* a_paren
     return true;
 }
 
-static bool compare_dynproperties( const GluonCore::GluonObject* a, const GluonCore::GluonObject* b )
+static bool compare_dynproperties( const GluonObject* a, const GluonObject* b )
 {
     typedef QList<QByteArray> PropNameList;
 
@@ -76,7 +82,7 @@ static bool compare_dynproperties( const GluonCore::GluonObject* a, const GluonC
     return true;
 }
 
-static bool compare_objects( const GluonCore::GluonObject* a, const GluonCore::GluonObject* b )
+static bool compare_objects( const GluonObject* a, const GluonObject* b )
 {
     SANITY_CHECK_POINTERS( a, b );
 
@@ -89,21 +95,21 @@ static bool compare_objects( const GluonCore::GluonObject* a, const GluonCore::G
     return true;
 }
 
-TestGluonCore::TestGluonCore( QObject* parent )
+GDLHandlerTest::GDLHandlerTest( QObject* parent )
     : QObject(parent)
 {
 }
 
-TestGluonCore::~TestGluonCore()
+GDLHandlerTest::~GDLHandlerTest()
 {
 }
 
-bool TestGluonCore::compareTrees( const QList<GluonCore::GluonObject*>& t1, const QList<GluonCore::GluonObject*>& t2 )
+bool GDLHandlerTest::compareTrees( const QList<GluonObject*>& t1, const QList<GluonObject*>& t2 )
 {
     if( t1.size() != t2.size() )
         return false;
 
-    QList<GluonCore::GluonObject*>::const_iterator p1 = t1.begin(),
+    QList<GluonObject*>::const_iterator p1 = t1.begin(),
                                                    p2 = t2.begin(),
                                                    end = t1.end();
 
@@ -119,15 +125,15 @@ bool TestGluonCore::compareTrees( const QList<GluonCore::GluonObject*>& t1, cons
 }
 
 
-bool TestGluonCore::ensureReversible( const QString& gdl )
+bool GDLHandlerTest::ensureReversible( const QString& gdl )
 {
-    GluonCore::GDLHandler* gh = GluonCore::GDLHandler::instance();
-    QList<GluonCore::GluonObject*> parsed = gh->parseGDL( gdl, gdl.size() );
+    GDLHandler* gh = GDLHandler::instance();
+    QList<GluonObject*> parsed = gh->parseGDL( gdl, gdl.size() );
     QString serializedString = gh->serializeGDL( constListFromNonConst( parsed ) );
     return compareTrees( parsed, gh->parseGDL( serializedString, serializedString.size() ) );
 }
 
-void TestGluonCore::doxygenSample()
+void GDLHandlerTest::testDoxygenSample()
 {
     QString test =
         "{ GluonCore::GluonObject(AnotherObject)\n"
@@ -142,7 +148,7 @@ void TestGluonCore::doxygenSample()
     QVERIFY( ensureReversible( test ) );
 }
 
-void TestGluonCore::invadersSample()
+void GDLHandlerTest::testInvadersSample()
 {
     QString test =
         "{ GluonEngine::GameObject(Game)\n"
@@ -366,5 +372,6 @@ void TestGluonCore::invadersSample()
     QVERIFY( ensureReversible( test ) );
 }
 
+QTEST_MAIN(GDLHandlerTest)
 
-#include "testgluoncore.moc"
+#include "gdlhandlertest.moc"
