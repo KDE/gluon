@@ -131,7 +131,7 @@ void TestGluonCore::doxygenSample()
 {
     QString test =
         "{ GluonCore::GluonObject(AnotherObject)\n"
-        "reference GluonCore::GluonObject(AnObject/AChildObject)\n"
+        // "reference GluonCore::GluonObject(AnObject.AChildObject)\n"
         "}\n"
         "{ GluonCore::GluonObject(AnObject)\n"
         "{ GluonCore::GluonObject(AChildObject)\n"
