@@ -53,7 +53,6 @@ class Item::Private
 Item::Item( QObject* parent )
     : GluonObject( parent ), d( new Private )
 {
-    d->materialInstance = Engine::instance()->material( "default" )->instance( "default" );
 }
 
 Item::~Item()
@@ -90,6 +89,9 @@ Item::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
 {
     if( !d->mesh )
         return;
+
+    if( !d->materialInstance )
+        d->materialInstance = Engine::instance()->material( "default" )->instance( "default" );
 
     Camera* activeCam = Engine::instance()->activeCamera();
     if( !activeCam )
