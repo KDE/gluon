@@ -36,14 +36,15 @@ class AddGameJob::Private
         Attica::Provider* provider;
         QString gameCategory;
         QString gameName;
+
+        QString id;
 };
 
 AddGameJob::AddGameJob( Attica::Provider* provider, const QString& gameCategory,
                         const QString& gameName, QObject* parent )
-    : AbstractJob( parent )
+    : AbstractSocialServicesJob( provider )
     , d( new Private )
 {
-    d->provider = provider;
     d->gameCategory = gameCategory;
     d->gameName = gameName;
 }
@@ -53,11 +54,7 @@ AddGameJob::~AddGameJob()
     delete d;
 }
 
-void AddGameJob::start()
-{
-}
-
-void AddGameJob::addGame()
+void AddGameJob::startSocialService()
 {
     Attica::Category category;
     category.setId( d->gameCategory );
@@ -76,12 +73,17 @@ void AddGameJob::addGameComplete( Attica::BaseJob* baseJob )
 
     if( job->metadata().error() == Attica::Metadata::NoError )
     {
-        emit addGameFinished( job->result().id() );
+        emitSucceeded();
     }
     else
     {
-        emit addGameFailed();
+        emitFailed();
     }
+}
+
+QVariant AddGameJob::data()
+{
+    return d->id;
 }
 
 #include "addgamejob.moc"

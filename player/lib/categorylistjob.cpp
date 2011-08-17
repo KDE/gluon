@@ -63,13 +63,13 @@ class CategoryListJob::Private
         }
 
         Attica::Provider* provider;
+        QList<QObject*> categoryList;
 };
 
 CategoryListJob::CategoryListJob( Attica::Provider* provider, QObject* parent )
-    : AbstractJob( parent )
+    : AbstractSocialServicesJob( provider )
     , d( new Private() )
 {
-    d->provider = provider;
 }
 
 CategoryListJob::~CategoryListJob()
@@ -77,11 +77,7 @@ CategoryListJob::~CategoryListJob()
     delete d;
 }
 
-void CategoryListJob::start()
-{
-}
-
-void CategoryListJob::fetchCategoryList()
+void CategoryListJob::startSocialService()
 {
     Attica::ListJob<Attica::Category> *job = d->provider->requestCategories();
     connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedCategoryList( Attica::BaseJob* ) ) );
@@ -92,22 +88,27 @@ void CategoryListJob::processFetchedCategoryList( Attica::BaseJob* job )
 {
     Attica::ListJob<Attica::Category> *categoriesJob = static_cast<Attica::ListJob<Attica::Category> *>( job );
 
-    QList<CategoryItem*> categoryList;
-
     if( categoriesJob->metadata().error() == Attica::Metadata::NoError )
     {
         foreach( const Attica::Category & category, categoriesJob->itemList() )
         {
             CategoryItem* newCategory = new CategoryItem( category.id(), category.name(), this );
-            categoryList.append( newCategory );
+            d->categoryList.append( newCategory );
         }
 
-        emit categoryListFetchFinished( categoryList );
+        emitSucceeded();
     }
     else
     {
-        emit categoryListFetchFailed();
+        emitFailed();
     }
 }
+
+QVariant CategoryListJob::data()
+{
+    return QVariant::fromValue(d->categoryList);
+}
+
+Q_DECLARE_METATYPE(QList<QObject*>)
 
 #include "categorylistjob.moc"

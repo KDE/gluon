@@ -18,21 +18,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "gamecontentjob.h"
+#include "gameuploadjob.h"
 
 #include <attica/itemjob.h>
-#include <attica/downloaditem.h>
 #include <attica/postjob.h>
 #include <attica/provider.h>
 
-#include <QtNetwork/QNetworkReply>
 #include <QtCore/QDebug>
-#include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 
 using namespace GluonPlayer;
 
-class GameContentJob::Private
+class GameUploadJob::Private
 {
 public:
     Private()
@@ -47,74 +44,28 @@ public:
     Attica::Provider *provider;
     QString id;
     QString fileName;
-    QString destinationDir;
 };
 
-
-GameContentJob::GameContentJob(Attica::Provider* provider, const QString& id,
-                                const QString& fileName, const QString& destinationDir, QObject* parent) 
-    : AbstractJob(parent)
-    , d(new Private)
+GameUploadJob::GameUploadJob(Attica::Provider* provider, const QString& id, const QString& fileName, QObject* parent)
+    : AbstractSocialServicesJob(provider)
+    , d(new Private())
 {
     d->provider = provider;
     d->id = id;
     d->fileName = fileName;
-
-    connect(this, SIGNAL( downloadStarting() ), SLOT( startDownload() ) );
-    connect(this, SIGNAL( uploadStarting() ), SLOT( startUpload() ) );
 }
 
-GameContentJob::~GameContentJob()
+GameUploadJob::~GameUploadJob()
 {
     delete d;
 }
 
-void GameContentJob::start()
-{
-}
-
-void GameContentJob::startDownload()
-{
-    Attica::ItemJob<Attica::DownloadItem> *job = d->provider->downloadLink(d->id);
-    connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processDownloadLink(Attica::BaseJob*)));
-    job->start();
-}
-
-void GameContentJob::processDownloadLink(Attica::BaseJob* baseJob)
-{
-    Attica::ItemJob<Attica::DownloadItem>* job = static_cast<Attica::ItemJob<Attica::DownloadItem>*>(baseJob);
-    Attica::DownloadItem item = job->result();
-
-    QFileInfo info(item.url().path());
-    d->fileName = info.fileName();
-    if (d->fileName.isEmpty()) {
-        emit downloadFailed();
-        return;
-    }
-
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    connect(manager, SIGNAL(finished(QNetworkReply*)), SLOT(downloadComplete(QNetworkReply*)));
-    manager->get(QNetworkRequest(item.url()));
-    emit downloadStarting();
-}
-
-void GameContentJob::downloadComplete(QNetworkReply* reply)
-{
-    QDir destDir(d->destinationDir);
-    QFile file(destDir.filePath(d->fileName));
-    file.open(QIODevice::WriteOnly);
-    file.write(reply->readAll());
-    file.close();
-    reply->deleteLater();
-    emit downloadFinished();
-}
-
-void GameContentJob::startUpload()
+void GameUploadJob::startSocialService()
 {
     QFile file(d->fileName);
     if (!file.open(QIODevice::ReadOnly)) {
         qDebug() << "Failed to open file:" << d->fileName;
-        emit uploadFailed();
+        emitFailed();
         return;
     }
 
@@ -128,14 +79,19 @@ void GameContentJob::startUpload()
     job->start();
 }
 
-void GameContentJob::uploadComplete(Attica::BaseJob* baseJob)
+void GameUploadJob::uploadComplete(Attica::BaseJob* baseJob)
 {
     Attica::PostJob *job = static_cast<Attica::PostJob*>(baseJob);
     if (job->metadata().error() == Attica::Metadata::NoError) {
-        emit uploadFinished();
+        emitSucceeded();
     } else {
-        emit uploadFailed();
+        emitFailed();
     }
 }
 
-#include "gamecontentjob.moc"
+QVariant GameUploadJob::data()
+{
+    return d->id;
+}
+
+#include "gameuploadjob.moc"

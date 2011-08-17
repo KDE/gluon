@@ -34,8 +34,9 @@ namespace Attica
 namespace GluonPlayer
 {
     class GameDetailListJob;
-    class CommentListJob;
-    class GameContentJob;
+    class CommentsListJob;
+    class CommentUploadJob;
+    class GameUploadJob;
     class RatingJob;
 
     /**
@@ -75,7 +76,7 @@ namespace GluonPlayer
              * @return  OcsCommentsProvider object which the caller must
              * monitor to find out the result of the operation
              */
-            Q_INVOKABLE CommentListJob* fetchCommentList(const QString& id, int page, int pageSize);
+            GluonPlayer::CommentsListJob* fetchCommentList( const QString& id, int page, int pageSize);
 
             /**
              * Upload a comment to the OCS compliant service
@@ -88,7 +89,7 @@ namespace GluonPlayer
              * @return  OcsCommentsProvider object which the caller must
              * monitor to find out the result of the operation
              */
-            Q_INVOKABLE CommentListJob* uploadComment(const QString& id, const QString& parentId,
+            GluonPlayer::CommentUploadJob* uploadComment(const QString& id, const QString& parentId,
                     const QString& subject, const QString& message);
 
             /**
@@ -150,7 +151,7 @@ namespace GluonPlayer
              * @return a GameContentTransfer object which the caller must
              * monitor to find out the result of the operation
              */
-            GameContentJob *downloadGame(const QString &id);
+            GameUploadJob *downloadGame(const QString &id);
 
             /**
              * Upload a game with ID
@@ -161,7 +162,7 @@ namespace GluonPlayer
              * @return a GameContentTransfer object which the caller must
              * monitor to find out the result of the operation
              */
-            GameContentJob *uploadGame(const QString &id, const QString &path);
+            GameUploadJob *uploadGame(const QString &id, const QString &path);
 
             /**
              * Rate a game having ID with a rating from 0 to 100

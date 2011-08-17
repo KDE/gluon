@@ -21,7 +21,7 @@
 #ifndef GLUON_PLAYER_ADDGAMEJOB_H
 #define GLUON_PLAYER_ADDGAMEJOB_H
 
-#include "abstractjob.h"
+#include "abstractsocialservicesjob.h"
 
 namespace Attica
 {
@@ -31,7 +31,7 @@ namespace Attica
 
 namespace GluonPlayer
 {
-    class AddGameJob : public AbstractJob
+    class AddGameJob : public AbstractSocialServicesJob
     {
             Q_OBJECT
         public:
@@ -39,14 +39,12 @@ namespace GluonPlayer
                                          const QString& gameName, QObject* parent = 0 );
             virtual ~AddGameJob();
 
-            virtual void start();
+            virtual QVariant data();
 
-        Q_SIGNALS:
-            void addGameFinished( const QString& id );
-            void addGameFailed();
+        protected Q_SLOTS:
+            virtual void startSocialService();
 
         private Q_SLOTS:
-            void addGame();
             void addGameComplete( Attica::BaseJob* baseJob );
 
         private:

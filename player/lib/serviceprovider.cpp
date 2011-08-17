@@ -20,9 +20,11 @@
 
 #include "serviceprovider.h"
 
-#include "commentlistjob.h"
+#include "commentslistjob.h"
+#include "commentuploadjob.h"
 #include "gamedetaillistjob.h"
-#include "gamecontentjob.h"
+#include "gamedownloadjob.h"
+#include "gameuploadjob.h"
 #include "ratingjob.h"
 
 #include <core/directoryprovider.h>
@@ -119,9 +121,9 @@ void ServiceProvider::loadCredentials()
     emit initializeFinished();
 }
 
-CommentListJob* ServiceProvider::fetchCommentList( const QString& id, int page, int pageSize )
+CommentsListJob* ServiceProvider::fetchCommentList( const QString& id, int page, int pageSize )
 {
-    CommentListJob* commentListJob = new CommentListJob( &d->provider, id, page, pageSize );
+    CommentsListJob* commentListJob = new CommentsListJob( &d->provider, id, page, pageSize );
     connect( this, SIGNAL( commentListFetchStarting() ), commentListJob, SIGNAL( commentListFetchStarting() ) );
 
     if( d->ready )
@@ -136,22 +138,10 @@ CommentListJob* ServiceProvider::fetchCommentList( const QString& id, int page, 
     return commentListJob;
 }
 
-CommentListJob* ServiceProvider::uploadComment( const QString& id, const QString& parentId,
+CommentUploadJob* ServiceProvider::uploadComment( const QString& id, const QString& parentId,
                                                 const QString& subject, const QString& message )
 {
-    CommentListJob* comment = new CommentListJob( &d->provider, id, parentId, subject, message );
-    connect( this, SIGNAL( commentListUploadStarting() ), comment, SIGNAL( commentListUploadStarting() ) );
-
-    if( d->ready && d->loggedIn )
-    {
-        emit commentListUploadStarting();
-    }
-    else
-    {
-        connect( this, SIGNAL( providerInitialized() ), comment, SIGNAL( commentListUploadStarting() ) );
-    }
-
-    return comment;
+    return new CommentUploadJob( &d->provider, id, parentId, subject, message );
 }
 
 bool ServiceProvider::hasCredentials() const
@@ -255,22 +245,10 @@ QString ServiceProvider::password() const
 
 GameDetailListJob* ServiceProvider::fetchGames()
 {
-    GameDetailListJob* gameDetailListJob = new GameDetailListJob( &d->provider );
-    connect( this, SIGNAL( gameDetailListFetchStarting() ), gameDetailListJob, SIGNAL( gameDetailListFetchStarting() ) );
-
-    if( d->ready )
-    {
-        emit gameDetailListFetchStarting();
-    }
-    else
-    {
-        connect( this, SIGNAL( initializeFinished() ), gameDetailListJob, SIGNAL( gameDetailListFetchStarting() ) );
-    }
-
-    return gameDetailListJob;
+    return new GameDetailListJob( &d->provider );
 }
 
-GameContentJob* ServiceProvider::downloadGame( const QString& id )
+GameUploadJob* ServiceProvider::downloadGame( const QString& id )
 {
     QString path( "gluon/games" );
     QDir destinationDir( GluonCore::DirectoryProvider::instance()->dataDirectory() );
@@ -280,53 +258,17 @@ GameContentJob* ServiceProvider::downloadGame( const QString& id )
     }
     destinationDir.cd( path );
 
-    GameContentJob* gameContentJob = new GameContentJob( &d->provider, id, destinationDir.path() );
-    connect( this, SIGNAL( gameContentDownloadStarting() ), gameContentJob, SIGNAL( downloadStarting() ) );
-
-    if( d->ready )
-    {
-        emit gameContentDownloadStarting();
-    }
-    else
-    {
-        connect( this, SIGNAL( providerInitialized() ), gameContentJob, SIGNAL( downloadStarting() ) );
-    }
-
-    return gameContentJob;
+    return new GameUploadJob( &d->provider, id, destinationDir.path() );
 }
 
-GameContentJob* ServiceProvider::uploadGame( const QString& id, const QString& path )
+GameUploadJob* ServiceProvider::uploadGame( const QString& id, const QString& path )
 {
-    GameContentJob* gameContentJob = new GameContentJob( &d->provider, id, path );
-    connect( this, SIGNAL( gameContentUploadStarting() ), gameContentJob, SIGNAL( uploadStarting() ) );
-
-    if( d->ready )
-    {
-        emit gameContentUploadStarting();
-    }
-    else
-    {
-        connect( this, SIGNAL( providerInitialized() ), gameContentJob, SIGNAL( uploadStarting() ) );
-    }
-
-    return gameContentJob;
+    return new GameUploadJob( &d->provider, id, path );
 }
 
 RatingJob* ServiceProvider::setRating( const QString& id, uint rate )
 {
-    RatingJob* rating = new RatingJob( &d->provider, id, rate );
-    connect( this, SIGNAL( ratingUploadStarting() ), rating, SIGNAL( ratingUploadStarting() ) );
-
-    if( d->ready )
-    {
-        emit ratingUploadStarting();
-    }
-    else
-    {
-        connect( this, SIGNAL( providerInitialized() ), rating, SIGNAL( ratingUploadStarting() ) );
-    }
-
-    return rating;
+    return new RatingJob( &d->provider, id, rate );
 }
 
 #include "serviceprovider.moc"

@@ -21,7 +21,8 @@
 #include "commentsmodel.h"
 
 #include "lib/serviceprovider.h"
-#include "lib/commentlistjob.h"
+#include "lib/commentslistjob.h"
+#include "lib/commentuploadjob.h"
 
 #include <engine/gameproject.h>
 
@@ -271,17 +272,17 @@ void CommentsModel::uploadComment( const QModelIndex& parentIndex, const QString
     GluonObject* parentNode = static_cast<GluonObject*>( parentIndex.internalPointer() );
     ServiceProvider::instance()->uploadComment(d->m_gameId, parentNode->name(), subject, message);
 
-    CommentListJob *commentsProvider = ServiceProvider::instance()->uploadComment(d->m_gameId,
+    CommentUploadJob *commentsProvider = ServiceProvider::instance()->uploadComment(d->m_gameId,
                                                                                    parentNode->name(),
                                                                                    subject, message);
-    connect(commentsProvider, SIGNAL(commentUploadFinished()), SLOT(uploadCommentFinished()));
-    connect(commentsProvider, SIGNAL(commentUploadFailed()), SIGNAL(addCommentFailed()));
+    connect(commentsProvider, SIGNAL(finished()), SLOT(uploadCommentFinished()));
+    connect(commentsProvider, SIGNAL(failed()), SIGNAL(addCommentFailed()));
 }
 
 void CommentsModel::updateData()
 {
     qDebug() << "Updating..";
-    CommentListJob *commentListJob = ServiceProvider::instance()->fetchCommentList(d->m_gameId, 0, 0);
+    CommentsListJob *commentListJob = ServiceProvider::instance()->fetchCommentList(d->m_gameId, 0, 0);
 
     if (commentListJob) {
         connect(commentListJob, SIGNAL(commentListFetchFinished(QList<CommentItem*>)), 

@@ -21,13 +21,16 @@ set(GLUON_PLAYER_INCLUDES
 
 set(libGluonPlayer_SRCS
     abstractjob.cpp
+    abstractsocialservicesjob.cpp
     addgamejob.cpp
     atticamanager.cpp
     authentication.cpp
     categorylistjob.cpp
-    commentlistjob.cpp
-    gamecontentjob.cpp
+    commentslistjob.cpp
+    commentuploadjob.cpp
     gamedetaillistjob.cpp
+    gamedownloadjob.cpp
+    gameuploadjob.cpp
     ratingjob.cpp
     serviceprovider.cpp
 

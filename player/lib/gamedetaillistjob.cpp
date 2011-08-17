@@ -113,7 +113,7 @@ public:
     }
 
     Attica::Provider *provider;
-    QList<GameDetailItem*> gameDetailList;
+    QList<QObject*> gameDetailList;
 };
 
 GameDetailListJob::GameDetailListJob(Attica::Provider* provider, QObject* parent)
@@ -121,24 +121,13 @@ GameDetailListJob::GameDetailListJob(Attica::Provider* provider, QObject* parent
     , d(new Private())
 {
     d->provider = provider;
-
-    connect( this, SIGNAL( gameDetailListFetchStarting() ), SLOT( fetchGameList() ) );
 }
 
 GameDetailListJob::~GameDetailListJob()
 {
 }
 
-void GameDetailListJob::start()
-{
-}
-
-QList<GameDetailItem*> GameDetailListJob::gameDetailList() const
-{
-    return d->gameDetailList;
-}
-
-void GameDetailListJob::fetchGameList()
+void GameDetailListJob::startImplementation()
 {
     QStringList gluonGamesCategories;
     gluonGamesCategories << "4400" << "4410" << "4420" << "4430" << "4440";
@@ -167,14 +156,19 @@ void GameDetailListJob::processFetchedGameList(Attica::BaseJob* job)
             GameDetailItem *details = new GameDetailItem(content.name(), content.description(), "", "",
                                                          QStringList(), GameDetailItem::Downloadable, content.id());
             d->gameDetailList.append(details);
-            //Uncomment to test download, downloads to install dir/games/id
-            //OcsProvider::instance()->downloadGame(details->id());
         }
 
-        emit gameDetailListFetchFinished(d->gameDetailList);
+        emitSucceeded();
     } else {
-        emit gameDetailListFetchFailed();
+        emitFailed();
     }
 }
+
+QVariant GameDetailListJob::data()
+{
+    return QVariant::fromValue(d->gameDetailList);
+}
+
+Q_DECLARE_METATYPE(QList<QObject*>)
 
 #include "gamedetaillistjob.moc"

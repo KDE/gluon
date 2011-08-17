@@ -70,17 +70,12 @@ class GameDetailListJob : public AbstractJob
         explicit GameDetailListJob(Attica::Provider* provider, QObject* parent = 0);
         virtual ~GameDetailListJob();
 
-        virtual void start();
+        virtual QVariant data();
 
-        QList<GameDetailItem*> gameDetailList() const;
-
-    Q_SIGNALS:
-        void gameDetailListFetchStarting();
-        void gameDetailListFetchFinished(QList<GameDetailItem*> comments);
-        void gameDetailListFetchFailed();
+    protected Q_SLOTS:
+        virtual void startImplementation();
 
     private Q_SLOTS:
-        void fetchGameList();
         void processFetchedGameList(Attica::BaseJob* job);
 
     private:
