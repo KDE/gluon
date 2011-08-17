@@ -28,12 +28,13 @@ namespace GluonGraphics
 {
     class ParticleAffector : public GluonCore::GluonObject
     {
+        Q_OBJECT
+        GLUON_OBJECT( ParticleAffector )
 
         public:
             ParticleAffector(QObject* parent = 0);
 
-            void update( const ParticleEmitter::ParticleList& particles );
-
+            void affectParticle( Particle* particle );
     };
 
 }

@@ -33,11 +33,10 @@ namespace GluonGraphics
         public:
             typedef QList< Particle* > ParticleList;
 
-            ParticleEmitter(QObject* parent = 0);
+            ParticleEmitter( QObject* parent = 0 );
             virtual ~ParticleEmitter();
 
-            virtual void render();
-            virtual void update();
+            virtual void update() = 0;
 
         private:
             class Private;

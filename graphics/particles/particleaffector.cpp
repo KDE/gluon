@@ -20,6 +20,8 @@
 
 #include "particleaffector.h"
 
+REGISTER_OBJECTTYPE( GluonGraphics, ParticleAffector );
+
 using namespace GluonGraphics;
 
 ParticleAffector::ParticleAffector(QObject* parent): GluonObject(parent)

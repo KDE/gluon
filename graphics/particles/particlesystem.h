@@ -28,7 +28,11 @@ namespace GluonGraphics
 {
     class ParticleEmitter;
     /**
+     * \brief A container class for managing particle emitters.
      *
+     * This class manages a set of particle emitters, including
+     * updating the emitters when needed and serialising or
+     * deserialising them.
      */
     class ParticleSystem : public GluonCore::GluonObject
     {
@@ -40,29 +44,86 @@ namespace GluonGraphics
             virtual ~ParticleSystem();
 
             /**
+             * Load the contents of this systen from a file.
              *
+             * The file should be a GDL file describing a particle
+             * system. See GluonCore::GDLHandler for more
+             * information about GDL.
+             *
+             * \param path The path to a file to load the data from.
+             *
+             * \return True if successful, false otherwise.
              */
-            ParticleEmitter* createEmitter( const QString& name );
+            bool load( const QUrl& path );
+
             /**
+             * Write the contents of this system to a file.
              *
+             * The system will be serialised to GDL and written
+             * to the file passed. The file will be overwritten.
+             *
+             * \param path The path to save the data to.
+             *
+             * \return True if successful, false otherwise.
+             */
+            bool save( const QUrl& path );
+
+            /**
+             * Unload the entire particle system from memory.
+             *
+             * This will destroy all emitters, affectors and
+             * other associated items.
+             */
+            void unload();
+
+            /**
+             * Create a new emitter inside this particle system.
+             *
+             * \param name The name used to reference the emitter.
+             * \param type The type of emitter.
+             */
+            ParticleEmitter* createEmitter( const QString& name, const QString& type );
+
+            /**
+             * Add an Emitter to this particle system.
+             *
+             * \param name The name used to reference the Emitter.
+             * \param emitter The emitter to add.
              */
             bool addEmitter( const QString& name, ParticleEmitter* emitter );
+
             /**
+             * Retrieve an emitter from this particle system.
              *
+             * \param name The name of the emitter to retrieve.
              */
             ParticleEmitter* emitter( const QString& name );
+
             /**
+             * Remove an emitter from this particle system.
              *
+             * Note that this will not delete the emitter, for that
+             * use destroyEmitter().
+             *
+             * \param name The name of the emitter to remove.
              */
             void removeEmitter( const QString& name );
+
             /**
+             * Remove and delete an emitter from this particle system.
              *
+             * \param name The name of the emitter to destroy.
              */
             void destroyEmitter( const QString& name );
+
             /**
+             * Update the particle system and all the emitters
+             * contained within.
              *
+             * \param time The amount of time that has elapsed since
+             * the last update, in seconds.
              */
-            void update();
+            void update( float time );
 
         private:
             class Private;
