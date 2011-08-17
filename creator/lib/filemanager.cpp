@@ -22,6 +22,8 @@
 
 #include <engine/asset.h>
 
+#include <QtCore/QMetaClassInfo>
+
 #include <KDE/KParts/ReadWritePart>
 #include <KDE/KParts/PartManager>
 #include <KDE/KMimeType>
@@ -72,10 +74,11 @@ void FileManager::openAsset( GluonEngine::Asset* asset )
     if( !asset )
         return;
 
-    openFile( asset->absolutePath(), asset->name(), asset->name() );
+    QString icon = asset->metaObject()->classInfo( asset->metaObject()->indexOfClassInfo( "org.gluon.icon" ) ).value();
+    openFile( asset->absolutePath(), asset->name(), asset->name(), icon );
 }
 
-void FileManager::openFile( const QString& fileName, const QString& name, const QString& title, const QString& partName, const QVariantList& partParams, bool closeable )
+void FileManager::openFile( const QString& fileName, const QString& name, const QString& title, const QString& icon,  const QString& partName, const QVariantList& partParams, bool closeable )
 {
     if( fileName.isEmpty() )
         return;
@@ -84,7 +87,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
     QString fullTitle = title.isEmpty() ? fullName : title;
     if( d->files.contains( fullName ) )
     {
-        emit newPart( fullName, fullTitle );
+        emit newPart( fullName, fullTitle, icon );
         return;
     }
 
@@ -128,7 +131,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
 
         d->files.insert( fullName, openFile );
         d->partManager->addPart( part, true );
-        emit newPart( fullName, fullTitle );
+        emit newPart( fullName, fullTitle, icon );
 
         return;
     }

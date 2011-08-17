@@ -36,6 +36,9 @@ namespace GluonEngine
             Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::MaterialAsset )
 
+            Q_CLASSINFO( "org.gluon.category", "Graphics Rendering" )
+            Q_CLASSINFO( "org.gluon.icon", "text-mathml" )
+
         public:
             Q_INVOKABLE MaterialAsset( QObject* parent = 0 );
             virtual ~MaterialAsset();

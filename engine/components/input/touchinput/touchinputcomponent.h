@@ -33,9 +33,13 @@ namespace GluonEngine
     {
             Q_OBJECT;
             GLUON_OBJECT( GluonEngine::TouchInputComponent )
-            Q_PROPERTY( TouchName touchCode READ touchCode WRITE setTouchCode );
             Q_INTERFACES( GluonEngine::Component )
+
+            Q_PROPERTY( TouchName touchCode READ touchCode WRITE setTouchCode );
             Q_ENUMS( KeyName )
+
+            Q_CLASSINFO( "org.gluon.category", "Input" )
+            Q_CLASSINFO( "org.gluon.icon", "input-tablet" )
 
         public:
             enum TouchName

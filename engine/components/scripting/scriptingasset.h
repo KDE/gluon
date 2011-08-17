@@ -31,6 +31,9 @@ namespace GluonEngine
             Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::ScriptingAsset )
 
+            Q_CLASSINFO( "org.gluon.category", "Game Logic" )
+            Q_CLASSINFO( "org.gluon.icon", "application-javascript" )
+
         public:
             Q_INVOKABLE ScriptingAsset( QObject* parent = 0 );
             virtual ~ScriptingAsset();

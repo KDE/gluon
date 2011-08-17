@@ -35,9 +35,13 @@ namespace GluonEngine
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::MeshRendererComponent )
+            Q_INTERFACES( GluonEngine::Component )
+
             Q_PROPERTY( GluonEngine::Asset* mesh READ mesh WRITE setMesh )
             Q_PROPERTY( GluonGraphics::MaterialInstance* material READ material WRITE setMaterial )
-            Q_INTERFACES( GluonEngine::Component )
+
+            Q_CLASSINFO( "org.gluon.category", "Graphics Rendering" )
+            Q_CLASSINFO( "org.gluon.icon", "image-x-generic" )
 
         public:
             Q_INVOKABLE MeshRendererComponent( QObject* parent = 0 );

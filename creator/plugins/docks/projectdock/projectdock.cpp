@@ -46,6 +46,7 @@
 #include <KDE/KFileItemActions>
 #include <KDE/KFileDialog>
 
+#include <QtCore/QMetaClassInfo>
 #include <QtGui/QMenu>
 #include <QtGui/QTreeView>
 #include <QtGui/QVBoxLayout>
@@ -70,10 +71,15 @@ class ProjectDock::ProjectDockPrivate
                 theItem = qobject_cast<GluonEngine::Asset*>( i.value()->newInstance() );
                 if( theItem )
                 {
+                    QString category = theItem->metaObject()->classInfo( theItem->metaObject()->indexOfClassInfo( "org.gluon.category" ) ).value();
+                    if( category.isEmpty() )
+                        category = i18nc( "Asset without a category", "Uncategorised" );
+
                     const QList<GluonEngine::AssetTemplate*> templates = theItem->templates();
                     for( int j = 0; j < templates.length(); ++j )
                     {
-                        assetTemplates.append( templates[j] );
+                        assetTemplates.insert( category, templates[j] );
+                        assetIcons.insert( templates[j], theItem->metaObject()->classInfo( theItem->metaObject()->indexOfClassInfo( "org.gluon.icon" ) ).value() );
                     }
                 }
                 else
@@ -97,8 +103,9 @@ class ProjectDock::ProjectDockPrivate
 
         QModelIndex currentContextIndex;
         void menuForObject( QModelIndex index, QMenu* menu );
-        QList<QAction*> currentContextMenu;
-        QList<GluonEngine::AssetTemplate*> assetTemplates;
+        QList< QAction* > currentContextMenu;
+        QMultiHash< QString, GluonEngine::AssetTemplate* > assetTemplates;
+        QHash< GluonEngine::AssetTemplate*, QString > assetIcons;
 };
 
 void ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex index, QMenu* menu )
@@ -186,11 +193,11 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     d->toolBar = new KToolBar( widget );
     d->toolBar->setIconDimensions( 16 );
 
-    d->newMenu = new QMenu( i18nc( "A new menu", "New" ), d->toolBar );
+    d->newMenu = new QMenu( i18nc( "Add asset menu", "Add" ), d->toolBar );
 
     QToolButton* menuButton = new QToolButton( d->toolBar );
     menuButton->setIcon( KIcon( "document-new" ) );
-    menuButton->setText( i18n( "Add..." ) );
+    menuButton->setText( i18nc( "Add asset menu", "Add" ) );
     menuButton->setPopupMode( QToolButton::InstantPopup );
     menuButton->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
     menuButton->setMenu( d->newMenu );
@@ -201,10 +208,26 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     d->newMenu->addAction( KIcon( "document-new" ), i18n( "New Scene" ), this, SLOT( createNewScene() ) );
     d->newMenu->addSeparator();
 
+    QHash< QString, QMenu* > menus;
     // Run through all the templates and add an action for each...
-    foreach( const GluonEngine::AssetTemplate * item, d->assetTemplates )
+    QMultiHash< QString, GluonEngine::AssetTemplate* >::const_iterator itr;
+    for( itr = d->assetTemplates.begin(); itr != d->assetTemplates.end(); ++itr )
     {
-        QAction* action = d->newMenu->addAction( i18nc( "Add a new menu action", "New %1", item->name ), this, SLOT( createNewAsset() ) );
+        QMenu* menu;
+        if( menus.contains( itr.key() ) )
+        {
+            menu = menus.value( itr.key() );
+        }
+        else
+        {
+            menu = new QMenu( itr.key(), d->newMenu );
+            menus.insert( itr.key(), menu );
+            d->newMenu->addMenu( menu );
+        }
+
+        GluonEngine::AssetTemplate* item = itr.value();
+        QAction* action = menu->addAction( i18nc( "Add a new asset", "New %1", item->name ), this, SLOT( createNewAsset() ) );
+        action->setIcon( KIcon( d->assetIcons.value( item ) ) );
         action->setProperty( "newAssetClassname", item->parent()->metaObject()->className() );
         action->setProperty( "newAssetName", item->name );
         action->setProperty( "newAssetPluginname", item->pluginname );
@@ -313,7 +336,7 @@ void ProjectDock::deleteActionTriggered()
     GluonCore::ReferenceCounter* counter = dynamic_cast<GluonCore::ReferenceCounter*>( object );
     if( counter && counter->count() > 0 )
     {
-        QString objs = i18ncp( "For shortening of the dialog text", "%1 other object", "%1 other objects", counter->count() );
+        QString objs = i18ncp( "Appended to the object reference error dialog text", "%1 other object", "%1 other objects", counter->count() );
         KMessageBox::error( this, i18n( "The object %1 is currently referenced by %2. Please remove these references before deleting the object.", object->name(), objs ), i18n( "Object in use" ) );
         return;
     }
@@ -377,9 +400,10 @@ void ProjectDock::createNewAsset()
             return;
         }
 
-        GluonEngine::Asset* newAsset = ObjectManager::instance()->createNewAsset( fileName, static_cast<GluonCore::GluonObject*>( d->currentContextIndex.internalPointer() ),
-                                       menuItem->property( "newAssetClassname" ).toString(),
-                                       menuItem->property( "newAssetName" ).toString() );
+        GluonEngine::Asset* newAsset = ObjectManager::instance()->createNewAsset( fileName,
+                                                                    static_cast<GluonCore::GluonObject*>( d->currentContextIndex.internalPointer() ),
+                                                                    menuItem->property( "newAssetClassname" ).toString(),
+                                                                    menuItem->property( "newAssetName" ).toString() );
 
         if( newAsset )
         {

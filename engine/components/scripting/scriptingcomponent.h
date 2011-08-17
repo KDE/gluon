@@ -31,10 +31,13 @@ namespace GluonEngine
     class GLUON_COMPONENT_SCRIPTING_EXPORT ScriptingComponent : public Component
     {
             Q_OBJECT
-            Q_PROPERTY( GluonEngine::ScriptingAsset* script READ script WRITE setScript )
-
             Q_INTERFACES( GluonEngine::Component )
             GLUON_OBJECT( GluonEngine::ScriptingComponent )
+
+            Q_PROPERTY( GluonEngine::ScriptingAsset* script READ script WRITE setScript )
+
+            Q_CLASSINFO( "org.gluon.category", "Game Logic" )
+            Q_CLASSINFO( "org.gluon.icon", "application-javascript" )
 
         public:
             Q_INVOKABLE ScriptingComponent( QObject* parent = 0 );

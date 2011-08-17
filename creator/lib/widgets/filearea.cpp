@@ -27,6 +27,7 @@
 #include <KDE/KParts/ReadOnlyPart>
 #include <KDE/KTabBar>
 #include <KDE/KToolBar>
+#include <KDE/KIcon>
 
 #include <QtGui/QVBoxLayout>
 
@@ -82,7 +83,7 @@ FileArea::FileArea( QWidget* parent, Qt::WindowFlags f )
 
     setLayout( d->layout );
 
-    connect( FileManager::instance(), SIGNAL( newPart( QString, QString ) ), SLOT( addTab( QString, QString ) ) );
+    connect( FileManager::instance(), SIGNAL( newPart( QString, QString, QString ) ), SLOT( addTab( QString, QString, QString ) ) );
     connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( activePartChanged( KParts::Part* ) ) );
     connect( FileManager::instance(), SIGNAL( fileClosed( QString ) ), SLOT( removeTab( QString ) ) );
 }
@@ -92,16 +93,27 @@ FileArea::~FileArea()
 
 }
 
-void FileArea::addTab( const QString& name, const QString& title )
+void FileArea::addTab( const QString& name, const QString& title, const QString& icon )
 {
     if( d->tabs.contains( name ) )
     {
         d->tabBar->setCurrentIndex( d->tabs.value( name ) );
         d->tabBar->setTabText( d->tabBar->currentIndex(), title );
+        if( !icon.isEmpty() )
+            d->tabBar->setTabIcon( d->tabBar->currentIndex(), KIcon( icon ) );
         return;
     }
 
-    int tab = d->tabBar->addTab( title );
+    int tab;
+    if( !icon.isEmpty() )
+    {
+        tab = d->tabBar->addTab( KIcon( icon ), title );
+    }
+    else
+    {
+        tab = d->tabBar->addTab( title );
+    }
+
     d->tabs.insert( name, tab );
     d->tabBar->setCurrentIndex( tab );
 }

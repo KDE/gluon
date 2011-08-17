@@ -38,8 +38,12 @@ namespace GluonEngine
             Q_OBJECT;
             GLUON_OBJECT( GluonEngine::MouseInputComponent )
             Q_INTERFACES( GluonEngine::Component )
+
             Q_PROPERTY( GluonInput::Mouse::MouseButton mouseButton READ mouseButton WRITE setMouseButton )
             Q_PROPERTY( bool mouseTrack READ mouseTrack WRITE setMouseTrack )
+
+            Q_CLASSINFO( "org.gluon.category", "Input" )
+            Q_CLASSINFO( "org.gluon.icon", "input-mouse" )
 
         public:
 

@@ -53,6 +53,9 @@ namespace GluonEngine
             //Q_PROPERTY( int textureCount READ textureCount WRITE setTextureCount )
             //Q_PROPERTY( QVector<Asset*> textures READ textures WRITE setTextures )
 
+            Q_CLASSINFO( "org.gluon.category", "Graphics Rendering" )
+            Q_CLASSINFO( "org.gluon.icon", "image-x-generic" )
+
         public:
             Q_INVOKABLE AnimatedSpriteRendererComponent( QObject* parent = 0 );
             virtual ~AnimatedSpriteRendererComponent();

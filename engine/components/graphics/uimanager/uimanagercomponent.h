@@ -33,11 +33,14 @@ namespace GluonEngine
     class GLUON_COMPONENT_UIMANAGER_EXPORT UiManagerComponent : public Component
     {
             Q_OBJECT
+            Q_INTERFACES( GluonEngine::Component )
+            GLUON_OBJECT( GluonEngine::UiManagerComponent )
+
             Q_PROPERTY( QSizeF size READ size WRITE setSize )
             Q_PROPERTY( GluonEngine::UiAsset* ui READ ui WRITE setUi )
 
-            Q_INTERFACES( GluonEngine::Component )
-            GLUON_OBJECT( GluonEngine::UiManagerComponent )
+            Q_CLASSINFO( "org.gluon.category", "Graphics Rendering" )
+            Q_CLASSINFO( "org.gluon.icon", "image-x-generic" )
 
         public:
             Q_INVOKABLE UiManagerComponent( QObject* parent = 0 );

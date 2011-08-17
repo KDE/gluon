@@ -38,6 +38,9 @@ namespace GluonEngine
             Q_PROPERTY( Qt::Key keyCode READ keyCode WRITE setKeyCode );
             Q_INTERFACES( GluonEngine::Component )
 
+            Q_CLASSINFO( "org.gluon.category", "Input" )
+            Q_CLASSINFO( "org.gluon.icon", "input-keyboard" )
+
         public:
             Q_INVOKABLE KeyboardInputComponent( QObject* parent = 0 );
             virtual ~KeyboardInputComponent();
