@@ -29,14 +29,16 @@
 #include "models/models.h"
 #include "models/scenemodel.h"
 
-#include <core/gluon_global.h>
-#include <core/debughelper.h>
-
 #include <engine/gameproject.h>
 #include <engine/gameobject.h>
 #include <engine/scene.h>
 #include <engine/game.h>
 #include <engine/component.h>
+
+#include <graphics/materialinstance.h>
+
+#include <core/gluon_global.h>
+#include <core/debughelper.h>
 
 #include <KDE/KLocalizedString>
 #include <KDE/KMimeType>
@@ -116,6 +118,9 @@ GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, Gluo
     {
         setupAsset( newAsset, parent, fileName, name );
     }
+
+    if( newAsset->inherits("GluonEngine::MaterialAsset"))
+        connect(newAsset, SIGNAL(instanceCreated(GluonGraphics::MaterialInstance*)), SLOT(createObjectCommand(GluonGraphics::MaterialInstance*)));
 
     return newAsset;
 }
@@ -227,6 +232,11 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
     return newObj;
 }
 
+void ObjectManager::createObjectCommand(GluonGraphics::MaterialInstance* materialInstance)
+{
+    HistoryManager::instance()->addCommand( new NewObjectCommand( materialInstance ) );
+}
+
 void ObjectManager::deleteGameObject( GluonEngine::GameObject* object )
 {
     if( !object && !object->parentGameObject() )
@@ -243,16 +253,16 @@ void ObjectManager::deleteGameObject( GluonEngine::GameObject* object )
 
 GluonEngine::Scene* ObjectManager::createNewScene()
 {
-    GluonEngine::Scene* newScn = new GluonEngine::Scene();
-    newScn->setName( i18n( "NewScene" ) );
-    newScn->setGameProject( GluonEngine::Game::instance()->gameProject() );
-    GluonEngine::Game::instance()->gameProject()->addChild( newScn );
+    GluonEngine::Scene* scene = new GluonEngine::Scene();
+    scene->setName( i18n( "NewScene" ) );
+    scene->setGameProject( GluonEngine::Game::instance()->gameProject() );
+    GluonEngine::Game::instance()->gameProject()->addChild( scene );
 
-    emit newScene( newScn );
+    emit newScene( scene );
 
-    HistoryManager::instance()->addCommand( new NewObjectCommand( newScn ) );
+    HistoryManager::instance()->addCommand( new NewObjectCommand( scene ) );
 
-    return newScn;
+    return scene;
 }
 
 void ObjectManager::watchCurrentAssets()

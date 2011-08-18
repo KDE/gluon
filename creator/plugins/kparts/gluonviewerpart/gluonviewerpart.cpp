@@ -44,6 +44,11 @@ using namespace GluonGraphics;
 class GluonViewerPart::GluonViewerPartPrivate
 {
     public:
+        GluonViewerPartPrivate()
+            : widget( new GluonGraphics::RenderWidget() )
+            , project(0)
+            , autoplay(true)
+        {}
         GluonGraphics::RenderWidget* widget;
         GluonEngine::GameProject* project;
 
@@ -57,8 +62,6 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* /* parentWidget */, QOb
     KComponentData data( "gluonviewerpart", "gluoncreator" );
     setComponentData( data );
 
-    d->autoplay = true;
-    d->widget = new GluonGraphics::RenderWidget();
     setWidget( d->widget );
 
     connect( GluonGraphics::Engine::instance(), SIGNAL( currentViewportChanging( Viewport* ) ),

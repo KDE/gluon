@@ -19,22 +19,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef TEST_GLUON_CORE_H
-#define TEST_GLUON_CORE_H
+#ifndef GLUON_CORE_GDLHANDLERTEST_H
+#define GLUON_CORE_GDLHANDLERTEST_H
 
-#include <core/gluonobject.h>
-#include <core/gdlhandler.h>
-
-#include <QtTest/QTest>
+#include <QtCore/QObject>
 #include <QtCore/QList>
 
-class TestGluonCore : public QObject
+namespace GluonCore
+{
+    class GluonObject;
+}
+
+class GDLHandlerTest : public QObject
 {
         Q_OBJECT
 
     public:
-        TestGluonCore( QObject* parent = 0 );
-        virtual ~TestGluonCore();
+        GDLHandlerTest( QObject* parent = 0 );
+        virtual ~GDLHandlerTest();
 
     private:
         static bool compareTrees( const QList<GluonCore::GluonObject*>& t1, const QList<GluonCore::GluonObject*>& t2 );
@@ -53,9 +55,9 @@ class TestGluonCore : public QObject
         // Returns true if the passed GDL has (parsed -> serialized -> parsed) == parsed
         static bool ensureReversible( const QString& gdl );
 
-    private slots:
-        void doxygenSample();
-        void invadersSample();
+    private Q_SLOTS:
+        void testDoxygenSample();
+        void testInvadersSample();
 };
 
-#endif
+#endif // GLUON_CORE_GDLHANDLERTEST_H

@@ -17,38 +17,50 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "touchinputcomponenttest.h"
+#include "mouseinputcomponenttest.h"
 
 #include <engine/gameobject.h>
-#include <engine/components/input/touchinput/touchinputcomponent.h>
+#include <engine/components/input/mouseinput/mouseinputcomponent.h>
 
 #include <QtTest/QtTest>
 
 using namespace GluonEngine;
 
-TouchInputComponentTest::TouchInputComponentTest()
+MouseInputComponentTest::MouseInputComponentTest()
 {
 }
 
-TouchInputComponentTest::~TouchInputComponentTest()
+MouseInputComponentTest::~MouseInputComponentTest()
 {
 }
 
-void TouchInputComponentTest::testCategory()
+void MouseInputComponentTest::testCategory()
 {
-    TouchInputComponent touchInputComponent;
-    QVERIFY(touchInputComponent.category() == "Input");
+    MouseInputComponent mouseInputComponent;
+    QVERIFY(mouseInputComponent.category() == "Input");
 }
 
-void TouchInputComponentTest::testInitialize()
+void MouseInputComponentTest::testIsActionStarted()
 {
 }
 
-void TouchInputComponentTest::testStart()
+void MouseInputComponentTest::testIsActionStopped()
+{
+}
+
+void MouseInputComponentTest::testInitialize()
+{
+}
+
+void MouseInputComponentTest::testStart()
 {
 }
 
 void MouseInputComponentTest::testUpdate()
+{
+}
+
+void MouseInputComponentTest::testStop()
 {
 }
 
@@ -57,13 +69,13 @@ void MouseInputComponentTest::testMouseButton()
     MouseInputComponent mouseInputComponent;
     QCOMPARE(mouseInputComponent.mouseButton(), GluonInput::Mouse::MOUSE_BUTTON_UNKNOWN);
     mouseInputComponent.setMouseButton(GluonInput::Mouse::MOUSE_BUTTON_LEFT);
-    QCOMPARE(mouseInputComponent.mouseButton(), luonInput::Mouse::MOUSE_BUTTON_LEFT);
+    QCOMPARE(mouseInputComponent.mouseButton(), GluonInput::Mouse::MOUSE_BUTTON_LEFT);
 }
 
 void MouseInputComponentTest::testMouseTrack()
 {
     MouseInputComponent mouseInputComponent;
-    QCOMPARE(mouseInputComponent.mouseTrack, false);
+    QCOMPARE(mouseInputComponent.mouseTrack(), false);
     bool enable = true;
     mouseInputComponent.setMouseTrack(enable);
     QCOMPARE(mouseInputComponent.mouseTrack(), enable);

@@ -1,7 +1,5 @@
-/******************************************************************************
+/*
  * This file is part of the Gluon Development Platform
- *
- * Copyright (c) 2010 Clark Gaebel <cg.wowus.cg@gmail.com>
  * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
@@ -19,8 +17,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QtTest/QTest>
+#ifndef GLUON_ENGINE_TOUCHINPUTCOMPONENTTEST_H
+#define GLUON_ENGINE_TOUCHINPUTCOMPONENTTEST_H
 
-#include "testgluoncore.h"
+#include <QtCore/QObject>
 
-QTEST_MAIN( TestGluonCore )
+class TouchInputComponentTest : public QObject
+{
+	Q_OBJECT
+
+public:
+    TouchInputComponentTest();
+    virtual ~TouchInputComponentTest();
+
+private Q_SLOTS:
+    void testCategory();
+
+    void testIsActionHeld();
+    void testIsActionStarted();
+    void testIsActionStopped();
+
+    void testInitialize();
+    void testStart();
+    void testUpdate();
+    void testStop();
+
+    void testTouchCode();
+};
+
+#endif // GLUON_ENGINE_TOUCHINPUTCOMPONENTTEST_H

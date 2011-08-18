@@ -16,6 +16,10 @@ option(BUILD_PHYSICS_ASSETS "Build Assets related to physics" OFF)
 option(BUILD_OTHER_COMPONENTS "Build other Components" ON)
 option(BUILD_OTHER_ASSETS "Build other Assets" ON)
 
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+endif()
+
 if(NOT BUILD_GLUON_AUDIO)
     set(BUILD_AUDIO_COMPONENTS OFF)
     set(BUILD_AUDIO_ASSETS OFF)
@@ -151,7 +155,6 @@ install(
 )
 
 if(BUILD_GLUON_TESTS)
-    enable_testing()
     add_subdirectory(tests)
 endif()
 

@@ -139,6 +139,8 @@ namespace GluonCore
     class GLUON_CORE_EXPORT GluonObject : public QObject
     {
             Q_OBJECT
+            GLUON_OBJECT( GluonCore::GluonObject )
+
             /**
              * The local name of the object. Setting the name will sanitize it according to
              * the following rules:
@@ -166,7 +168,8 @@ namespace GluonCore
              */
             Q_PROPERTY( QString name READ name WRITE setName )
             // There is deliberately no gameProject property
-            GLUON_OBJECT( GluonCore::GluonObject )
+
+            Q_CLASSINFO( "org.gluon.icon", "folder" )
 
         public:
             Q_INVOKABLE GluonObject( QObject* parent = 0 );
@@ -346,12 +349,12 @@ namespace GluonCore
              * Add the passed GluonObject as a new child to this object, at the position requested.
              * If position is larger than the number of children, the new child will be appended
              * to the object. The function will ensure the name is correct.
-             * 
+             *
              * \note The internal logic uses removeChild(GluonObject*) and addChild(GluonObject*)
-             * 
+             *
              * @param   child     The new child
              * @param   position  The position at which the new child will be added
-             * 
+             *
              * @see name
              */
             virtual void addChildAt( GluonObject* child, int position );

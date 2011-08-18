@@ -31,13 +31,17 @@ namespace GluonEngine
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::TextureAsset )
+
             Q_PROPERTY( GluonGraphics::Texture* texture READ texture );
+
+            Q_CLASSINFO( "org.gluon.category", "Graphics Rendering" )
+            Q_CLASSINFO( "org.gluon.icon", "image-x-generic" )
 
         public:
             Q_INVOKABLE TextureAsset( QObject* parent = 0 );
             virtual ~TextureAsset();
 
-            virtual QIcon icon() const;
+//             virtual QIcon icon() const;
 
             void load();
 
@@ -46,6 +50,7 @@ namespace GluonEngine
             virtual void setName( const QString& newName );
 
             virtual GluonGraphics::Texture* texture() const;
+
         private:
             class TextureAssetPrivate;
             TextureAssetPrivate* d;

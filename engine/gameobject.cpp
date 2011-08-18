@@ -490,7 +490,7 @@ int
 GameObject::childCount() const
 {
     DEBUG_BLOCK
-    DEBUG_TEXT2("getting child count on %1", metaObject()->className());
+    //DEBUG_TEXT2("getting child count on %1", metaObject()->className());
     return d->children.count();
 }
 

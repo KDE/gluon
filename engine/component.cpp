@@ -74,19 +74,14 @@ Component::sanitize()
 {
     if( parent() )
     {
-        if( parent()->metaObject() )
+        GameObject* theParent = qobject_cast<GameObject*>( parent() );
+        if( theParent )
         {
-            if( QString::compare( parent()->metaObject()->className(), "GameObject" ) )
-            {
-                GameObject* theParent = qobject_cast<GameObject*>( parent() );
-                if( theParent )
-                {
-                    theParent->addComponent( this );
-                    d->gameObject = theParent;
-                }
-            }
+            theParent->addComponent( this );
+            d->gameObject = theParent;
         }
     }
+
     GluonObject::sanitize();
 }
 

@@ -28,8 +28,10 @@
 #include <core/debughelper.h>
 
 #include <KDE/KLocalizedString>
+#include <KDE/KIcon>
 
 #include <QtCore/QMimeData>
+#include <QtCore/QMetaClassInfo>
 
 namespace GluonCreator
 {
@@ -42,6 +44,7 @@ namespace GluonCreator
             ComponentModelItem( const ComponentModelItem& other )
                 : name( other.name )
                 , className( other.className )
+                , iconName( other.iconName )
             {}
             ~ComponentModelItem()
             {
@@ -56,6 +59,7 @@ namespace GluonCreator
 
             QString name;
             QString className;
+            QString iconName;
 
             ComponentModelItem* parent;
             QList<ComponentModelItem*> items;
@@ -94,9 +98,15 @@ ComponentModel::ComponentModel( QObject* parent )
             ComponentModelItem* item = new ComponentModelItem();
             item->name = ObjectManager::instance()->humanifyClassName( name );
             item->className = name;
+            item->iconName = comp->metaObject()->classInfo( comp->metaObject()->indexOfClassInfo( "org.gluon.icon" ) ).value();
+
+
+
+            QString category = comp->metaObject()->classInfo( comp->metaObject()->indexOfClassInfo( "org.gluon.category" ) ).value();
+            if( category.isEmpty() )
+                category = i18nc( "Uncategorised component category", "Uncategorised" );
 
             // Ensure the category exists before attempting to insert anything into it... ;)
-            QString category = comp->category();
             if( !d->root->itemNames.contains( category ) )
             {
                 ComponentModelItem* categoryItem = new ComponentModelItem();
@@ -163,6 +173,9 @@ ComponentModel::data( const QModelIndex& index, int role ) const
                     return item->name;
                     break;
             }
+            break;
+        case Qt::DecorationRole:
+            return KIcon( item->iconName );
             break;
         default:
             return QVariant();

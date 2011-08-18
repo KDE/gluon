@@ -80,6 +80,7 @@ SceneDock::SceneDock( const QString& title, QWidget* parent, Qt::WindowFlags fla
     d->view->setSelectionMode( QAbstractItemView::ExtendedSelection );
     d->view->setContextMenuPolicy( Qt::ActionsContextMenu );
     connect( d->view->selectionModel(), SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ), SLOT( selectionChanged( QItemSelection, QItemSelection ) ) );
+    connect( SelectionManager::instance(), SIGNAL( selectionChanged( SelectionManager::SelectionList ) ), SLOT(  selectionChanged( SelectionManager::SelectionList ) ) );
 
     QWidget* widget = new QWidget( this );
     QVBoxLayout* layout = new QVBoxLayout();
@@ -112,8 +113,6 @@ SceneDock::~SceneDock()
 
 void SceneDock::selectionChanged( const QItemSelection& selected, const QItemSelection& /* deselected */ )
 {
-    DEBUG_FUNC_NAME
-
     SelectionManager::SelectionList selection;
     foreach( const QItemSelectionRange & range, selected )
     {
@@ -124,6 +123,14 @@ void SceneDock::selectionChanged( const QItemSelection& selected, const QItemSel
         }
     }
     SelectionManager::instance()->setSelection( selection );
+}
+
+void SceneDock::selectionChanged(const GluonCreator::SelectionManager::SelectionList& selection)
+{
+    if( selection.isEmpty() )
+        d->view->clearSelection();
+
+    //TODO: Implement synchronisation between view's selection model and SelectionManager.
 }
 
 void SceneDock::sceneChanged( GluonEngine::Scene* obj )

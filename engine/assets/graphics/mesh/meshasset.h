@@ -30,6 +30,9 @@ namespace GluonEngine
             Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::MeshAsset )
 
+            Q_CLASSINFO( "org.gluon.category", "Graphics Rendering" )
+            Q_CLASSINFO( "org.gluon.icon", "application-x-blender" )
+
         public:
             Q_INVOKABLE MeshAsset( QObject* parent = 0 );
             virtual ~MeshAsset();

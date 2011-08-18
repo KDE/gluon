@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef GLUONENGINE_SPHERECOLLISIONCOMPONENT_H
-#define GLUONENGINE_SPHERECOLLISIONCOMPONENT_H
+#ifndef GLUON_ENGINE_SPHERECOLLISIONCOMPONENT_H
+#define GLUON_ENGINE_SPHERECOLLISIONCOMPONENT_H
 
 #include <engine/component.h>
 
@@ -35,22 +35,27 @@ namespace GluonEngine
     class GLUON_COMPONENT_SPHERECOLLISION_EXPORT SphereCollisionComponent : public Component
     {
             Q_OBJECT
-            GLUON_OBJECT( GluonEngine::SphereCollisionComponent )
             Q_INTERFACES( GluonEngine::Component )
+            GLUON_OBJECT( GluonEngine::SphereCollisionComponent )
 
             Q_PROPERTY( int collisionGroup READ collisionGroup WRITE setCollisionGroup )
             Q_PROPERTY( int targetGroup READ targetGroup WRITE setTargetGroup )
             Q_PROPERTY( float radius READ radius WRITE setRadius )
+
+            Q_CLASSINFO( "org.gluon.category", "Physics" )
+            Q_CLASSINFO( "org.gluon.icon", "application-x-executable" )
 
         public:
             /**
              * Constructor.
              */
             Q_INVOKABLE SphereCollisionComponent( QObject* parent = 0 );
+
             /**
              * Destructor.
              */
             virtual ~SphereCollisionComponent();
+
             virtual QString category() const;
 
             virtual void start();
@@ -69,6 +74,7 @@ namespace GluonEngine
              * The collision group this object belongs to.
              */
             int collisionGroup() const;
+
             /**
              * The radius of this object.
              */
@@ -82,6 +88,7 @@ namespace GluonEngine
              * Is this object colliding with something?
              */
             Q_INVOKABLE bool isColliding() const;
+
             /**
              * Retrieve the object this object is colliding with.
              *
@@ -95,11 +102,14 @@ namespace GluonEngine
              * Set the group this object belongs to.
              */
             void setCollisionGroup( int group );
+
             /**
              * Set the radius of this object.
              */
             void setRadius( float radius );
+
             void componentDestroyed( QObject* obj );
+
             void addComponent( SphereCollisionComponent* comp );
 
             void setTargetGroup( int group );
@@ -121,4 +131,4 @@ namespace GluonEngine
 
 Q_DECLARE_METATYPE( GluonEngine::SphereCollisionComponent* )
 
-#endif // GLUONENGINE_SPHERECOLLISIONCOMPONENT_H
+#endif // GLUON_ENGINE_SPHERECOLLISIONCOMPONENT_H

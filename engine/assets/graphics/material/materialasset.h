@@ -17,11 +17,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef MATERIALASSET_H
-#define MATERIALASSET_H
+#ifndef GLUON_ENGINE_MATERIALASSET_H
+#define GLUON_ENGINE_MATERIALASSET_H
 
-#include <gluon_engine_export.h>
-#include <asset.h>
+#include <engine/gluon_engine_export.h>
+#include <engine/asset.h>
+
+namespace GluonGraphics
+{
+    class MaterialInstance;
+};
 
 namespace GluonEngine
 {
@@ -30,6 +35,9 @@ namespace GluonEngine
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::MaterialAsset )
+
+            Q_CLASSINFO( "org.gluon.category", "Graphics Rendering" )
+            Q_CLASSINFO( "org.gluon.icon", "text-mathml" )
 
         public:
             Q_INVOKABLE MaterialAsset( QObject* parent = 0 );
@@ -49,6 +57,9 @@ namespace GluonEngine
         public Q_SLOTS:
             void createInstance();
 
+        Q_SIGNALS:
+            void instanceCreated(GluonGraphics::MaterialInstance*);
+
         private:
             class MaterialAssetPrivate;
             MaterialAssetPrivate* d;
@@ -57,4 +68,4 @@ namespace GluonEngine
 
 Q_DECLARE_METATYPE( GluonEngine::MaterialAsset* )
 
-#endif // GLUON_ENGINE_TEXTUREASSET_H
+#endif // GLUON_ENGINE_MATERIALASSET_H

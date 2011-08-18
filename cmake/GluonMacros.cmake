@@ -11,6 +11,7 @@ MACRO(GLUON_UNIT_TESTS libraries modulename)
         endif(WINCE)
     ENDFOREACH(testname)
 ENDMACRO(GLUON_UNIT_TESTS)
+
 MACRO(GLUON_EXECUTABLE_TESTS libraries modulename1)
     FOREACH(testname ${ARGN})
         qt4_automoc(${testname}.cpp)
