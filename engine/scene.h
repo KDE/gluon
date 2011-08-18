@@ -47,6 +47,8 @@ namespace GluonEngine
             Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::Scene )
 
+            Q_CLASSINFO( "org.gluon.icon", "image-svg+xml" )
+
         public:
             Q_INVOKABLE Scene( QObject* parent = 0 );
             virtual ~Scene();

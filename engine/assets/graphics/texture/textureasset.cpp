@@ -51,13 +51,13 @@ TextureAsset::~TextureAsset()
     delete d;
 }
 
-QIcon TextureAsset::icon() const
-{
-    if( d->icon.isNull() )
-        return GluonEngine::Asset::icon();
-
-    return QIcon( d->icon );
-}
+// QIcon TextureAsset::icon() const
+// {
+//     if( d->icon.isNull() )
+//         return GluonEngine::Asset::icon();
+//
+//     return QIcon( d->icon );
+// }
 
 const QStringList TextureAsset::supportedMimeTypes() const
 {

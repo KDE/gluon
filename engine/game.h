@@ -47,7 +47,7 @@ namespace GluonEngine
             Q_PROPERTY( GluonEngine::GameProject* gameProject READ gameProject WRITE setGameProject )
 
         public:
-            int getCurrentTick();
+            Q_INVOKABLE int getCurrentTick();
             Scene* currentScene() const;
 
             GluonEngine::GameProject* gameProject() const;

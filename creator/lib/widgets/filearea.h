@@ -34,7 +34,7 @@ namespace GluonCreator
             virtual ~FileArea();
 
         public Q_SLOTS:
-            void addTab( const QString& name, const QString& title );
+            void addTab( const QString& name, const QString& title, const QString& icon = QString() );
             void removeTab( const QString& name );
             void removeTab( int index );
             void setActiveTab( const QString& name );

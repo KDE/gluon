@@ -57,13 +57,14 @@ namespace GluonCreator
              * fileName will be used if this is an empty string.
              * \param title The title of the tab created when embedding.
              * Name will be used if this is an empty string.
+             * \param icon The icon to use for the file. Will be ignored when empty.
              * \param partName The name of the KPart to use. If empty,
              * an appropriate editor will be searched for.
              * \param partParams Parameters to pass on to the KPart when
              * loading.
              * \param closeable Determines whether the file can be closed.
              */
-            void openFile( const QString& fileName, const QString& name = QString(), const QString& title = QString(), const QString& partName = QString(), const QVariantList& partParams = QVariantList(), bool closeable = true );
+            void openFile( const QString& fileName, const QString& name = QString(), const QString& title = QString(), const QString& icon = QString(), const QString& partName = QString(), const QVariantList& partParams = QVariantList(), bool closeable = true );
 
             /**
              * Close a file and associated editor.
@@ -84,7 +85,7 @@ namespace GluonCreator
             void closeAll( bool force = false );
 
         Q_SIGNALS:
-            void newPart( const QString&, const QString& );
+            void newPart( const QString& name, const QString& title, const QString& icon );
             void fileClosed( const QString& file );
 
         private:

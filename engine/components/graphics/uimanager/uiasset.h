@@ -35,6 +35,9 @@ namespace GluonEngine
             Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::UiAsset )
 
+            Q_CLASSINFO( "org.gluon.category", "Graphics Rendering" )
+            Q_CLASSINFO( "org.gluon.icon", "text-x-qml" )
+
         public:
             Q_INVOKABLE UiAsset( QObject* parent = 0 );
             ~UiAsset();

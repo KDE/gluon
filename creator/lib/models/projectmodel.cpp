@@ -41,6 +41,7 @@
 #include <KDE/KIcon>
 
 #include <QtCore/QMimeData>
+#include <QtCore/QMetaClassInfo>
 
 using namespace GluonCreator;
 
@@ -98,35 +99,45 @@ ProjectModel::data( const QModelIndex& index, int role ) const
 
     if( role == Qt::DecorationRole )
     {
-        GluonCore::GluonObject* gobj = qobject_cast<GluonCore::GluonObject*>( static_cast<QObject*>( index.internalPointer() ) );
-        if( gobj )
+        QObject* obj = static_cast<QObject*>( index.internalPointer() );
+        if( obj )
         {
-            QVariant filename = gobj->property( "file" );
-            QString classname( gobj->metaObject()->className() );
-            if( classname == QLatin1String( "GluonCore::GluonObject" ) )
+            QString icon = obj->metaObject()->classInfo( obj->metaObject()->indexOfClassInfo( "org.gluon.icon" ) ).value();
+
+            if( !icon.isEmpty() )
+                return KIcon( icon );
+
+            return KIcon( "text-x-generic" );
+            //QVariant filename = gobj->property( "file" );
+            /*if( gobj->metaObject()->className() == QString( "GluonCore::GluonObject" ) )
             {
                 // In this case we're dealing with something which is a "folder"... show it as such
                 return KIcon( "folder" );
             }
-            if( qobject_cast<GluonEngine::Asset*>( gobj ) )
-            {
-                QIcon icon = qobject_cast<GluonEngine::Asset*>( gobj )->icon();
-                if( icon.isNull() )
-                {
-                    if( filename.isValid() )
-                    {
-                        // If the asset doesn't provide an icon itself, but we do have a filename
-                        // Get the icon for the mimetype of that url
-                        QString name = filename.value<QString>();
-                        return KIcon( KMimeType::iconNameForUrl( KUrl( name ) ) );
-                    }
-                    else
-                        return KIcon( "unknown" );
-                }
-                return icon;
-            }
             else
-                return KIcon( "text-x-generic" );
+            {
+                return KIcon(
+            }
+  */
+//             if( qobject_cast<GluonEngine::Asset*>( gobj ) )
+//             {
+//                 QIcon icon = qobject_cast<GluonEngine::Asset*>( gobj )->icon();
+//                 if( icon.isNull() )
+//                 {
+//                     if( filename.isValid() )
+//                     {
+//                         // If the asset doesn't provide an icon itself, but we do have a filename
+//                         // Get the icon for the mimetype of that url
+//                         QString name = filename.value<QString>();
+//                         return KIcon( KMimeType::iconNameForUrl( KUrl( name ) ) );
+//                     }
+//                     else
+//                         return KIcon( "unknown" );
+//                 }
+//                 return icon;
+//             }
+//             else
+//                 return KIcon( "text-x-generic" );
         }
     }
 

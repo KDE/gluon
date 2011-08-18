@@ -150,7 +150,7 @@ void MainWindow::openProject( const QString& fileName )
         FileManager::instance()->closeAll( true );
 
         statusBar()->showMessage( i18n( "Opening project..." ) );
-        FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ), false );
+        FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), QString(), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ), false );
         // FileManager::instance()->openFile( fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), "gluon_editor_part", QVariantList() << QString( "autoplay=false" ), false );
         d->mainArea->setActiveTab( "view" );
 
