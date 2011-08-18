@@ -17,39 +17,33 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_GAMEDOWNLOADJOB_H
-#define GLUONPLAYER_GAMEDOWNLOADJOB_H
+#ifndef GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H
+#define GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H
 
-#include "abstractsocialservicesjob.h"
+#include <abstractjob.h>
 
 namespace Attica
 {
     class Provider;
-    class BaseJob;
 }
 
-class QNetworkReply;
+//TODO: Documentation
 
 namespace GluonPlayer
 {
-
-    class GameDownloadJob : AbstractSocialServicesJob
+    class AbstractSocialServicesJob : public AbstractJob
     {
             Q_OBJECT
 
         public:
-            GameDownloadJob( Attica::Provider* provider, const QString& id, const QString& fileName,
-                             const QString& destinationDir = QString(), QObject* parent = 0 );
-            virtual ~GameDownloadJob();
+            AbstractSocialServicesJob( Attica::Provider* provider );
 
-            virtual QVariant data();
+        protected:
+            virtual void startImplementation();
+            Attica::Provider* provider();
 
         protected Q_SLOTS:
-            virtual void startSocialService();
-
-        private Q_SLOTS:
-            void processDownloadLink( Attica::BaseJob* baseJob );
-            void downloadComplete( QNetworkReply* reply );
+            virtual void startSocialService() = 0;
 
         private:
             class Private;
@@ -58,4 +52,4 @@ namespace GluonPlayer
 
 }
 
-#endif // GLUONPLAYER_GAMEDOWNLOADJOB_H
+#endif // GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H

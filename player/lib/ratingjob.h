@@ -33,23 +33,23 @@ namespace GluonPlayer
 {
     class RatingJob : public AbstractSocialServicesJob
     {
-        Q_OBJECT
-    public:
-        RatingJob(Attica::Provider* provider, const QString& id, uint rating,
-                   QObject* parent = 0);
-        virtual ~RatingJob();
+            Q_OBJECT
+        public:
+            RatingJob( Attica::Provider* provider, const QString& id, uint rating,
+                       QObject* parent = 0 );
+            virtual ~RatingJob();
 
-        virtual QVariant data();
+            virtual QVariant data();
 
-    protected Q_SLOTS:
-        virtual void startSocialService();
+        protected Q_SLOTS:
+            virtual void startSocialService();
 
-    private Q_SLOTS:
-        void ratingUploadComplete(Attica::BaseJob* baseJob);
+        private Q_SLOTS:
+            void ratingUploadComplete( Attica::BaseJob* baseJob );
 
-    private:
-        class Private;
-        Private* const d;
+        private:
+            class Private;
+            Private* const d;
     };
 }
 

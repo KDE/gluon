@@ -27,28 +27,28 @@ using namespace GluonPlayer;
 
 class CommentItem::Private
 {
-public:
-    Private()
-        : score(0)
-    {
-    }
+    public:
+        Private()
+            : score( 0 )
+        {
+        }
 
-    ~Private()
-    {
-    }
+        ~Private()
+        {
+        }
 
-    QString id;
-    QString subject;
-    QString text;
-    QString user;
-    QDateTime dateTime;
-    int score;
+        QString id;
+        QString subject;
+        QString text;
+        QString user;
+        QDateTime dateTime;
+        int score;
 };
 
-CommentItem::CommentItem(const QString& id, const QString& subject, const QString& text, const QString& user,
-                        const QDateTime& dateTime, int score, QObject* parent)
-    : QObject (parent)
-    , d(new Private)
+CommentItem::CommentItem( const QString& id, const QString& subject, const QString& text, const QString& user,
+                          const QDateTime& dateTime, int score, QObject* parent )
+    : QObject( parent )
+    , d( new Private )
 {
     d->id = id;
     d->subject = subject;
@@ -95,31 +95,31 @@ QString CommentItem::user() const
 
 class CommentsListJob::Private
 {
-public:
-    Private()
-        : provider(0)
-        , page(0)
-        , pageSize(0)
-    {
-    }
+    public:
+        Private()
+            : provider( 0 )
+            , page( 0 )
+            , pageSize( 0 )
+        {
+        }
 
-    ~Private()
-    {
-    }
+        ~Private()
+        {
+        }
 
-    Attica::Provider *provider;
-    QString id;
-    int page;
-    int pageSize;
-    QString parentId;
-    QString subject;
-    QString message;
-    QList<QObject*> commentsList;
+        Attica::Provider* provider;
+        QString id;
+        int page;
+        int pageSize;
+        QString parentId;
+        QString subject;
+        QString message;
+        QList<QObject*> commentsList;
 };
 
 CommentsListJob::CommentsListJob( Attica::Provider* provider, const QString& id, int page, int pageSize )
     : AbstractSocialServicesJob( provider )
-    , d(new Private())
+    , d( new Private() )
 {
     d->id = id;
     d->page = page;
@@ -134,50 +134,57 @@ CommentsListJob::~CommentsListJob()
 void CommentsListJob::startSocialService()
 {
     //Attica uses some weird stuff called id2 which can be "0" for our uses
-    Attica::ListJob<Attica::Comment> *job = d->provider->requestComments(Attica::Comment::ContentComment,
-                                                                        d->id, "0", d->page, d->pageSize);
-    connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedCommentList(Attica::BaseJob*)));
+    Attica::ListJob<Attica::Comment> *job = d->provider->requestComments( Attica::Comment::ContentComment,
+                                            d->id, "0", d->page, d->pageSize );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedCommentList( Attica::BaseJob* ) ) );
     job->start();
 }
 
 void CommentsListJob::processFetchedCommentList( Attica::BaseJob* job )
 {
     Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment> *>( job );
-    if( commentsJob->metadata().error() == Attica::Metadata::NoError ) {
-        foreach(const Attica::Comment& comment, commentsJob->itemList()) {
-            CommentItem *newComment = new CommentItem(comment.id(), comment.subject(), comment.text(),
-                                                      comment.user(), comment.date(), comment.score(), this);
-            d->commentsList.append(newComment);
-            if (comment.childCount()) {
-                addChildren(newComment, comment);
+    if( commentsJob->metadata().error() == Attica::Metadata::NoError )
+    {
+        foreach( const Attica::Comment & comment, commentsJob->itemList() )
+        {
+            CommentItem* newComment = new CommentItem( comment.id(), comment.subject(), comment.text(),
+                    comment.user(), comment.date(), comment.score(), this );
+            d->commentsList.append( newComment );
+            if( comment.childCount() )
+            {
+                addChildren( newComment, comment );
             }
         }
 
         emitSucceeded();
-    } else {
+    }
+    else
+    {
         emitFailed();
     }
 }
 
 QVariant CommentsListJob::data()
 {
-    return QVariant::fromValue(d->commentsList);
+    return QVariant::fromValue( d->commentsList );
 }
 
 void CommentsListJob::addChildren( CommentItem* parentCommentItem, const Attica::Comment& parentComment )
 {
-    foreach (const Attica::Comment& comment, parentComment.children()) {
-        CommentItem *newComment = new CommentItem(comment.id(), comment.subject(),
-                                                  comment.text(), comment.user(),
-                                                  comment.date(), comment.score(),
-                                                  parentCommentItem);
+    foreach( const Attica::Comment & comment, parentComment.children() )
+    {
+        CommentItem* newComment = new CommentItem( comment.id(), comment.subject(),
+                comment.text(), comment.user(),
+                comment.date(), comment.score(),
+                parentCommentItem );
         newComment->setParent( parentCommentItem );
-        if (comment.children().count()) {
-            addChildren(newComment, comment);
+        if( comment.children().count() )
+        {
+            addChildren( newComment, comment );
         }
     }
 }
 
-Q_DECLARE_METATYPE(QList<QObject*>)
+Q_DECLARE_METATYPE( QList<QObject*> )
 
 #include "commentslistjob.moc"

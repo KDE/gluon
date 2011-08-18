@@ -35,22 +35,22 @@ namespace GluonPlayer
 {
     class GameUploadJob : public AbstractSocialServicesJob
     {
-        Q_OBJECT
-    public:
-        GameUploadJob(Attica::Provider* provider, const QString& id, const QString& fileName, QObject* parent = 0);
-        virtual ~GameUploadJob();
+            Q_OBJECT
+        public:
+            GameUploadJob( Attica::Provider* provider, const QString& id, const QString& fileName, QObject* parent = 0 );
+            virtual ~GameUploadJob();
 
-        virtual QVariant data();
+            virtual QVariant data();
 
-    protected Q_SLOTS:
-        virtual void startSocialService();
+        protected Q_SLOTS:
+            virtual void startSocialService();
 
-    private Q_SLOTS:
-        void uploadComplete(Attica::BaseJob* baseJob);
+        private Q_SLOTS:
+            void uploadComplete( Attica::BaseJob* baseJob );
 
-    private:
-        class Private;
-        Private* const d;
+        private:
+            class Private;
+            Private* const d;
     };
 }
 

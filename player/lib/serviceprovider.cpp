@@ -43,7 +43,7 @@ GLUON_DEFINE_SINGLETON( ServiceProvider )
 class ServiceProvider::Private
 {
     public:
-        Private() 
+        Private()
             : ready( false )
             , loggedIn( false )
         {
@@ -139,7 +139,7 @@ CommentsListJob* ServiceProvider::fetchCommentList( const QString& id, int page,
 }
 
 CommentUploadJob* ServiceProvider::uploadComment( const QString& id, const QString& parentId,
-                                                const QString& subject, const QString& message )
+        const QString& subject, const QString& message )
 {
     return new CommentUploadJob( &d->provider, id, parentId, subject, message );
 }

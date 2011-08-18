@@ -39,7 +39,7 @@ namespace GluonPlayer
             Q_OBJECT
         public:
             CommentItem( const QString& id, const QString& subject, const QString& text,
-                        const QString& user, const QDateTime& dateTime, int score, QObject* parent = 0 );
+                         const QString& user, const QDateTime& dateTime, int score, QObject* parent = 0 );
             virtual ~CommentItem();
 
             QString id() const;
@@ -56,7 +56,7 @@ namespace GluonPlayer
 
     class CommentsListJob : public AbstractSocialServicesJob
     {
-        Q_OBJECT
+            Q_OBJECT
 
         public:
             CommentsListJob( Attica::Provider* provider, const QString& id, int page, int pageSize );
@@ -71,7 +71,7 @@ namespace GluonPlayer
             void processFetchedCommentList( Attica::BaseJob* job );
 
         private:
-            void addChildren(CommentItem *parentCommentItem, const Attica::Comment& parentComment);
+            void addChildren( CommentItem* parentCommentItem, const Attica::Comment& parentComment );
 
             class Private;
             Private* const d;

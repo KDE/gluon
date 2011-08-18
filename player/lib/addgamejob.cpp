@@ -28,7 +28,7 @@ using namespace GluonPlayer;
 class AddGameJob::Private
 {
     public:
-        Private() 
+        Private()
             : provider( 0 )
         {
         }

@@ -36,7 +36,7 @@ namespace GluonPlayer
             Q_OBJECT
         public:
             AddGameJob( Attica::Provider* provider, const QString& gameCategory,
-                                         const QString& gameName, QObject* parent = 0 );
+                        const QString& gameName, QObject* parent = 0 );
             virtual ~AddGameJob();
 
             virtual QVariant data();

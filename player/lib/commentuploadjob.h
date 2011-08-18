@@ -32,10 +32,10 @@ namespace GluonPlayer
 
     class CommentUploadJob : public AbstractSocialServicesJob
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             CommentUploadJob( Attica::Provider* provider, const QString& id, const QString& parentId,
-                                          const QString& subject, const QString& message );
+                              const QString& subject, const QString& message );
             virtual ~CommentUploadJob();
 
             virtual QVariant data();

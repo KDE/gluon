@@ -58,7 +58,7 @@ QString CategoryItem::id() const
 class CategoryListJob::Private
 {
     public:
-        Private() : provider(0)
+        Private() : provider( 0 )
         {
         }
 
@@ -106,9 +106,9 @@ void CategoryListJob::processFetchedCategoryList( Attica::BaseJob* job )
 
 QVariant CategoryListJob::data()
 {
-    return QVariant::fromValue(d->categoryList);
+    return QVariant::fromValue( d->categoryList );
 }
 
-Q_DECLARE_METATYPE(QList<QObject*>)
+Q_DECLARE_METATYPE( QList<QObject*> )
 
 #include "categorylistjob.moc"

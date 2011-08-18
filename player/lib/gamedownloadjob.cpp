@@ -30,16 +30,16 @@ using namespace GluonPlayer;
 
 class GameDownloadJob::Private
 {
-public:
-    Private()
-        : provider(0)
-    {
-    }
+    public:
+        Private()
+            : provider( 0 )
+        {
+        }
 
-    Attica::Provider *provider;
-    QString id;
-    QString fileName;
-    QString destinationDir;
+        Attica::Provider* provider;
+        QString id;
+        QString fileName;
+        QString destinationDir;
 };
 
 GameDownloadJob::GameDownloadJob( Attica::Provider* provider, const QString& id, const QString& fileName,
@@ -59,34 +59,35 @@ GameDownloadJob::~GameDownloadJob()
 
 void GameDownloadJob::startSocialService()
 {
-    Attica::ItemJob<Attica::DownloadItem> *job = d->provider->downloadLink(d->id);
-    connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processDownloadLink(Attica::BaseJob*)));
+    Attica::ItemJob<Attica::DownloadItem> *job = d->provider->downloadLink( d->id );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processDownloadLink( Attica::BaseJob* ) ) );
     job->start();
 }
 
 void GameDownloadJob::processDownloadLink( Attica::BaseJob* baseJob )
 {
-    Attica::ItemJob<Attica::DownloadItem>* job = static_cast<Attica::ItemJob<Attica::DownloadItem>*>(baseJob);
+    Attica::ItemJob<Attica::DownloadItem>* job = static_cast<Attica::ItemJob<Attica::DownloadItem>*>( baseJob );
     Attica::DownloadItem item = job->result();
 
-    QFileInfo info(item.url().path());
+    QFileInfo info( item.url().path() );
     d->fileName = info.fileName();
-    if (d->fileName.isEmpty()) {
+    if( d->fileName.isEmpty() )
+    {
         emitFailed();
         return;
     }
 
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    connect(manager, SIGNAL(finished(QNetworkReply*)), SLOT(downloadComplete(QNetworkReply*)));
-    manager->get(QNetworkRequest(item.url()));
+    QNetworkAccessManager* manager = new QNetworkAccessManager( this );
+    connect( manager, SIGNAL( finished( QNetworkReply* ) ), SLOT( downloadComplete( QNetworkReply* ) ) );
+    manager->get( QNetworkRequest( item.url() ) );
 }
 
 void GameDownloadJob::downloadComplete( QNetworkReply* reply )
 {
-    QDir destDir(d->destinationDir);
-    QFile file(destDir.filePath(d->fileName));
-    file.open(QIODevice::WriteOnly);
-    file.write(reply->readAll());
+    QDir destDir( d->destinationDir );
+    QFile file( destDir.filePath( d->fileName ) );
+    file.open( QIODevice::WriteOnly );
+    file.write( reply->readAll() );
     file.close();
     reply->deleteLater();
     emitSucceeded();
@@ -94,7 +95,7 @@ void GameDownloadJob::downloadComplete( QNetworkReply* reply )
 
 QVariant GameDownloadJob::data()
 {
-    return QVariant(true);
+    return QVariant( true );
 }
 
 #include "gamedownloadjob.moc"

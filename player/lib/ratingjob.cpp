@@ -30,24 +30,24 @@ using namespace GluonPlayer;
 
 class RatingJob::Private
 {
-public:
-    Private()
-        : rating(0)
-    {
-    }
+    public:
+        Private()
+            : rating( 0 )
+        {
+        }
 
-    ~Private()
-    {
-    }
+        ~Private()
+        {
+        }
 
-    QString id;
-    uint rating;
+        QString id;
+        uint rating;
 };
 
-RatingJob::RatingJob(Attica::Provider* provider, const QString& id,
-                        uint rating, QObject* parent)
-    : AbstractSocialServicesJob(provider)
-    , d(new Private)
+RatingJob::RatingJob( Attica::Provider* provider, const QString& id,
+                      uint rating, QObject* parent )
+    : AbstractSocialServicesJob( provider )
+    , d( new Private )
 {
     d->id = id;
     d->rating = rating;
@@ -60,17 +60,20 @@ RatingJob::~RatingJob()
 
 void RatingJob::startSocialService()
 {
-    Attica::PostJob *job = provider()->voteForContent(d->id, d->rating);
-    connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(ratingUploadComplete(Attica::BaseJob*)));
+    Attica::PostJob* job = provider()->voteForContent( d->id, d->rating );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( ratingUploadComplete( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void RatingJob::ratingUploadComplete(Attica::BaseJob* baseJob)
+void RatingJob::ratingUploadComplete( Attica::BaseJob* baseJob )
 {
-    Attica::PostJob *job = static_cast<Attica::PostJob*>(baseJob);
-    if (job->metadata().error() == Attica::Metadata::NoError) {
+    Attica::PostJob* job = static_cast<Attica::PostJob*>( baseJob );
+    if( job->metadata().error() == Attica::Metadata::NoError )
+    {
         emitSucceeded();
-    } else {
+    }
+    else
+    {
         emitFailed();
     }
 }

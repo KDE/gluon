@@ -31,28 +31,28 @@
 
 class AbstractJob::Private
 {
-public:
-    Private()
-        : percentage(0)
-        , speedTimer(0)
-        , isAutoDelete(true)
-        , isFinished(false)
-    { }
-    ~Private() { }
-    void _k_speedTimeout();
+    public:
+        Private()
+            : percentage( 0 )
+            , speedTimer( 0 )
+            , isAutoDelete( true )
+            , isFinished( false )
+        { }
+        ~Private() { }
+        void _k_speedTimeout();
 
-    QString errorText;
-    qulonglong processedAmount;
-    qulonglong totalAmount;
-    unsigned long percentage;
-    QTimer* speedTimer;
-    bool isAutoDelete;
-    bool isFinished;
+        QString errorText;
+        qulonglong processedAmount;
+        qulonglong totalAmount;
+        unsigned long percentage;
+        QTimer* speedTimer;
+        bool isAutoDelete;
+        bool isFinished;
 };
 
-AbstractJob::AbstractJob(QObject* parent)
-    : QObject(parent)
-    , d(new Private)
+AbstractJob::AbstractJob( QObject* parent )
+    : QObject( parent )
+    , d( new Private )
 {
 }
 
@@ -64,12 +64,12 @@ AbstractJob::~AbstractJob()
 
 bool AbstractJob::kill()
 {
-    if ( doKill() )
+    if( doKill() )
     {
         emit finished();
         emit failed();
 
-        if ( isAutoDelete() )
+        if( isAutoDelete() )
             deleteLater();
         return true;
     }
@@ -104,42 +104,42 @@ QString AbstractJob::errorText() const
     return d->errorText;
 }
 
-void AbstractJob::setErrorText( const QString &errorText )
+void AbstractJob::setErrorText( const QString& errorText )
 {
     d->errorText = errorText;
 }
 
-void AbstractJob::setProcessedAmount( qulonglong amount)
+void AbstractJob::setProcessedAmount( qulonglong amount )
 {
-    bool should_emit = (d->processedAmount != amount);
+    bool should_emit = ( d->processedAmount != amount );
 
     d->processedAmount = amount;
 
-    if ( should_emit )
+    if( should_emit )
     {
-        emit processedAmount(amount);
-        emit processedSize(amount);
+        emit processedAmount( amount );
+        emit processedSize( amount );
         setPercent( d->processedAmount, d->totalAmount );
     }
 }
 
-void AbstractJob::setTotalAmount( qulonglong amount)
+void AbstractJob::setTotalAmount( qulonglong amount )
 {
-    bool should_emit = (d->totalAmount != amount);
+    bool should_emit = ( d->totalAmount != amount );
 
     d->totalAmount = amount;
 
-    if ( should_emit )
+    if( should_emit )
     {
-        emit totalAmount(amount);
-        emit totalSize(amount);
-        setPercent(d->processedAmount, d->totalAmount);
+        emit totalAmount( amount );
+        emit totalSize( amount );
+        setPercent( d->processedAmount, d->totalAmount );
     }
 }
 
 void AbstractJob::setPercent( unsigned long percentage )
 {
-    if( d->percentage!=percentage )
+    if( d->percentage != percentage )
     {
         d->percentage = percentage;
         emit percent( percentage );
@@ -151,7 +151,7 @@ void AbstractJob::emitSucceeded()
     d->isFinished = true;
     emit finished();
     emit succeeded();
-    if (isAutoDelete())
+    if( isAutoDelete() )
         deleteLater();
 }
 
@@ -160,31 +160,34 @@ void AbstractJob::emitFailed()
     d->isFinished = true;
     emit finished();
     emit failed();
-    if (isAutoDelete())
+    if( isAutoDelete() )
         deleteLater();
 }
 
 void AbstractJob::setPercent( qulonglong processedAmount, qulonglong totalAmount )
 {
     // calculate percents
-    if (totalAmount) {
+    if( totalAmount )
+    {
         unsigned long oldPercentage = d->percentage;
-        d->percentage = (unsigned long)(( (float)(processedAmount) / (float)(totalAmount) ) * 100.0);
-        if ( d->percentage != oldPercentage ) {
+        d->percentage = ( unsigned long )((( float )( processedAmount ) / ( float )( totalAmount ) ) * 100.0 );
+        if( d->percentage != oldPercentage )
+        {
             emit percent( d->percentage );
         }
     }
 }
 
-void AbstractJob::emitSpeed(unsigned long value)
+void AbstractJob::emitSpeed( unsigned long value )
 {
-    if (!d->speedTimer) {
-        d->speedTimer = new QTimer(this);
-        connect(d->speedTimer, SIGNAL(timeout()), SLOT(_k_speedTimeout()));
+    if( !d->speedTimer )
+    {
+        d->speedTimer = new QTimer( this );
+        connect( d->speedTimer, SIGNAL( timeout() ), SLOT( _k_speedTimeout() ) );
     }
 
-    emit speed(value);
-    d->speedTimer->start(5000);   // 5 seconds interval should be enough
+    emit speed( value );
+    d->speedTimer->start( 5000 ); // 5 seconds interval should be enough
 }
 
 void AbstractJob::Private::_k_speedTimeout()

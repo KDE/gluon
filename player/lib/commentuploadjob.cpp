@@ -29,25 +29,25 @@ using namespace GluonPlayer;
 
 class CommentUploadJob::Private
 {
-public:
-    Private()
-    {
-    }
+    public:
+        Private()
+        {
+        }
 
-    ~Private()
-    {
-    }
+        ~Private()
+        {
+        }
 
-    QString id;
-    QString parentId;
-    QString subject;
-    QString message;
+        QString id;
+        QString parentId;
+        QString subject;
+        QString message;
 };
 
 CommentUploadJob::CommentUploadJob( Attica::Provider* provider, const QString& id, const QString& parentId,
                                     const QString& subject, const QString& message )
     : AbstractSocialServicesJob( provider )
-    , d(new Private())
+    , d( new Private() )
 {
     d->id = id;
     d->parentId = parentId;
@@ -64,18 +64,21 @@ void CommentUploadJob::startSocialService()
 {
     //Attica uses some weird stuff called id2 which can be "0" for our uses
     Attica::PostJob* job = provider()->addNewComment( Attica::Comment::ContentComment, d->id, "0", d->parentId,
-                                                     d->subject, d->message );
-    connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(uploadCommentFinished(Attica::BaseJob*)));
+                           d->subject, d->message );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( uploadCommentFinished( Attica::BaseJob* ) ) );
     job->start();
 }
 
 void CommentUploadJob::uploadCommentFinished( Attica::BaseJob* job )
 {
-    Attica::PostJob *commentsJob = static_cast<Attica::PostJob*>( job );
-    if( commentsJob->metadata().error() == Attica::Metadata::NoError ) {
+    Attica::PostJob* commentsJob = static_cast<Attica::PostJob*>( job );
+    if( commentsJob->metadata().error() == Attica::Metadata::NoError )
+    {
         qDebug() << "ERROR:" << commentsJob->metadata().error();
         emitSucceeded();
-    } else {
+    }
+    else
+    {
         emitFailed();
     }
 }

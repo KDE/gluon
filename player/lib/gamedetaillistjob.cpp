@@ -34,25 +34,25 @@ using namespace GluonPlayer;
 
 class GameDetailItem::Private
 {
-public:
-    Private()
-    {
-    }
+    public:
+        Private()
+        {
+        }
 
-    QString gameName;
-    QString gameDescription;
-    QString projectDirName;
-    QString projectFileName;
-    QStringList screenshotUrls;
-    Status status;
-    QString id;
+        QString gameName;
+        QString gameDescription;
+        QString projectDirName;
+        QString projectFileName;
+        QStringList screenshotUrls;
+        Status status;
+        QString id;
 };
 
-GameDetailItem::GameDetailItem(const QString& gameName, const QString& gameDescription,
-                               const QString& projectDirName, const QString& projectFileName,
-                               const QStringList& screenshotUrls, Status status, const QString id,
-                               QObject* parent)
-    : QObject(parent)
+GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDescription,
+                                const QString& projectDirName, const QString& projectFileName,
+                                const QStringList& screenshotUrls, Status status, const QString id,
+                                QObject* parent )
+    : QObject( parent )
     , d( new Private )
 {
     d->gameName = gameName;
@@ -106,19 +106,19 @@ GameDetailItem::Status GameDetailItem::status() const
 
 class GameDetailListJob::Private
 {
-public:
-    Private()
-        : provider(0)
-    {
-    }
+    public:
+        Private()
+            : provider( 0 )
+        {
+        }
 
-    Attica::Provider *provider;
-    QList<QObject*> gameDetailList;
+        Attica::Provider* provider;
+        QList<QObject*> gameDetailList;
 };
 
-GameDetailListJob::GameDetailListJob(Attica::Provider* provider, QObject* parent)
-    : AbstractJob(parent)
-    , d(new Private())
+GameDetailListJob::GameDetailListJob( Attica::Provider* provider, QObject* parent )
+    : AbstractJob( parent )
+    , d( new Private() )
 {
     d->provider = provider;
 }
@@ -133,42 +133,47 @@ void GameDetailListJob::startImplementation()
     gluonGamesCategories << "4400" << "4410" << "4420" << "4430" << "4440";
     Attica::Category::List categories;
 
-    foreach(const QString& gluonCategory, gluonGamesCategories) {
+    foreach( const QString & gluonCategory, gluonGamesCategories )
+    {
         Attica::Category category;
-        category.setId(gluonCategory);
-        categories.append(category);
+        category.setId( gluonCategory );
+        categories.append( category );
     }
 
-    Attica::ListJob<Attica::Content> *job = d->provider->searchContents(categories);
-    connect(job, SIGNAL(finished (Attica::BaseJob*)), SLOT(processFetchedGameList(Attica::BaseJob*)));
+    Attica::ListJob<Attica::Content> *job = d->provider->searchContents( categories );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGameList( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void GameDetailListJob::processFetchedGameList(Attica::BaseJob* job)
+void GameDetailListJob::processFetchedGameList( Attica::BaseJob* job )
 {
     qDebug() << "Game list successfully fetched from the server!";
 
     d->gameDetailList.clear();
 
-    Attica::ListJob<Attica::Content> *contentJob = static_cast<Attica::ListJob<Attica::Content> *>(job);
-    if( contentJob->metadata().error() == Attica::Metadata::NoError ) {
-        foreach(const Attica::Content& content, contentJob->itemList()) {
-            GameDetailItem *details = new GameDetailItem(content.name(), content.description(), "", "",
-                                                         QStringList(), GameDetailItem::Downloadable, content.id());
-            d->gameDetailList.append(details);
+    Attica::ListJob<Attica::Content> *contentJob = static_cast<Attica::ListJob<Attica::Content> *>( job );
+    if( contentJob->metadata().error() == Attica::Metadata::NoError )
+    {
+        foreach( const Attica::Content & content, contentJob->itemList() )
+        {
+            GameDetailItem* details = new GameDetailItem( content.name(), content.description(), "", "",
+                    QStringList(), GameDetailItem::Downloadable, content.id() );
+            d->gameDetailList.append( details );
         }
 
         emitSucceeded();
-    } else {
+    }
+    else
+    {
         emitFailed();
     }
 }
 
 QVariant GameDetailListJob::data()
 {
-    return QVariant::fromValue(d->gameDetailList);
+    return QVariant::fromValue( d->gameDetailList );
 }
 
-Q_DECLARE_METATYPE(QList<QObject*>)
+Q_DECLARE_METATYPE( QList<QObject*> )
 
 #include "gamedetaillistjob.moc"
