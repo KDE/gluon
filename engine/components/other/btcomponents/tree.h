@@ -21,7 +21,7 @@
 #define BEHAVIORTREE_TREE_H
 
 #include <engine/gluon_engine_export.h>
-#include <gluon/engine/asset.h>
+#include <engine/asset.h>
 #include <smarts/lib/btnode.h>
 
 namespace GluonEngine
