@@ -54,8 +54,10 @@ class GDLHandlerTest : public QObject
 
         // Returns true if the passed GDL has (parsed -> serialized -> parsed) == parsed
         static bool ensureReversible( const QString& gdl );
+        static bool ensureParsable( const QList<GluonCore::GluonObject*>& t, const QString& gdl);
 
     private Q_SLOTS:
+        void testParseGDL();
         void testDoxygenSample();
         void testInvadersSample();
 };
