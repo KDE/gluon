@@ -37,6 +37,7 @@ class GameDetailItem::Private
     public:
         Private()
         {
+            status = Downloadable;
         }
 
         QString gameName;
@@ -107,27 +108,22 @@ GameDetailItem::Status GameDetailItem::status() const
 class GameDetailListJob::Private
 {
     public:
-        Private()
-            : provider( 0 )
-        {
-        }
-
-        Attica::Provider* provider;
         QList<QObject*> gameDetailList;
 };
 
 GameDetailListJob::GameDetailListJob( Attica::Provider* provider, QObject* parent )
-    : AbstractJob( parent )
+    : AbstractSocialServicesJob( provider )
     , d( new Private() )
 {
-    d->provider = provider;
+
 }
 
 GameDetailListJob::~GameDetailListJob()
 {
+    delete d;
 }
 
-void GameDetailListJob::startImplementation()
+void GameDetailListJob::startSocialService()
 {
     QStringList gluonGamesCategories;
     gluonGamesCategories << "4400" << "4410" << "4420" << "4430" << "4440";
@@ -140,7 +136,7 @@ void GameDetailListJob::startImplementation()
         categories.append( category );
     }
 
-    Attica::ListJob<Attica::Content> *job = d->provider->searchContents( categories );
+    Attica::ListJob<Attica::Content> *job = provider()->searchContents( categories );
     connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGameList( Attica::BaseJob* ) ) );
     job->start();
 }

@@ -21,7 +21,7 @@
 #ifndef GLUON_PLAYER_GAMEDETAILLISTJOB_H
 #define GLUON_PLAYER_GAMEDETAILLISTJOB_H
 
-#include "abstractjob.h"
+#include "abstractsocialservicesjob.h"
 
 #include <QtCore/QList>
 
@@ -37,6 +37,7 @@ namespace GluonPlayer
     {
             Q_OBJECT
             Q_ENUMS( Status )
+
         public:
             enum Status
             {
@@ -64,7 +65,7 @@ namespace GluonPlayer
             Private* const d;
     };
 
-    class GameDetailListJob : public AbstractJob
+    class GameDetailListJob : public AbstractSocialServicesJob
     {
             Q_OBJECT
         public:
@@ -74,7 +75,7 @@ namespace GluonPlayer
             virtual QVariant data();
 
         protected Q_SLOTS:
-            virtual void startImplementation();
+           virtual void startSocialService();
 
         private Q_SLOTS:
             void processFetchedGameList( Attica::BaseJob* job );

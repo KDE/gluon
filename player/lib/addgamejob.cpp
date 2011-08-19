@@ -28,12 +28,6 @@ using namespace GluonPlayer;
 class AddGameJob::Private
 {
     public:
-        Private()
-            : provider( 0 )
-        {
-        }
-
-        Attica::Provider* provider;
         QString gameCategory;
         QString gameName;
 
@@ -62,7 +56,7 @@ void AddGameJob::startSocialService()
     Attica::Content content;
     content.setName( d->gameName );
 
-    Attica::ItemPostJob<Attica::Content> *job = d->provider->addNewContent( category, content );
+    Attica::ItemPostJob<Attica::Content> *job = provider()->addNewContent( category, content );
     connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( addGameComplete( Attica::BaseJob* ) ) );
     job->start();
 }

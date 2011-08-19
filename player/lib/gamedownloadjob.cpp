@@ -31,15 +31,10 @@ using namespace GluonPlayer;
 class GameDownloadJob::Private
 {
     public:
-        Private()
-            : provider( 0 )
-        {
-        }
-
-        Attica::Provider* provider;
         QString id;
         QString fileName;
         QString destinationDir;
+        QString finalDownloadLocation;
 };
 
 GameDownloadJob::GameDownloadJob( Attica::Provider* provider, const QString& id, const QString& fileName,
@@ -59,7 +54,7 @@ GameDownloadJob::~GameDownloadJob()
 
 void GameDownloadJob::startSocialService()
 {
-    Attica::ItemJob<Attica::DownloadItem> *job = d->provider->downloadLink( d->id );
+    Attica::ItemJob<Attica::DownloadItem> *job = provider()->downloadLink( d->id );
     connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processDownloadLink( Attica::BaseJob* ) ) );
     job->start();
 }
@@ -86,6 +81,7 @@ void GameDownloadJob::downloadComplete( QNetworkReply* reply )
 {
     QDir destDir( d->destinationDir );
     QFile file( destDir.filePath( d->fileName ) );
+    d->finalDownloadLocation = file.fileName();
     file.open( QIODevice::WriteOnly );
     file.write( reply->readAll() );
     file.close();
@@ -95,7 +91,7 @@ void GameDownloadJob::downloadComplete( QNetworkReply* reply )
 
 QVariant GameDownloadJob::data()
 {
-    return QVariant( true );
+    return QVariant( d->finalDownloadLocation );
 }
 
 #include "gamedownloadjob.moc"

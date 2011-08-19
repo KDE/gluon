@@ -33,10 +33,6 @@ class CommentItem::Private
         {
         }
 
-        ~Private()
-        {
-        }
-
         QString id;
         QString subject;
         QString text;
@@ -97,17 +93,11 @@ class CommentsListJob::Private
 {
     public:
         Private()
-            : provider( 0 )
-            , page( 0 )
+            : page( 0 )
             , pageSize( 0 )
         {
         }
 
-        ~Private()
-        {
-        }
-
-        Attica::Provider* provider;
         QString id;
         int page;
         int pageSize;
@@ -134,7 +124,7 @@ CommentsListJob::~CommentsListJob()
 void CommentsListJob::startSocialService()
 {
     //Attica uses some weird stuff called id2 which can be "0" for our uses
-    Attica::ListJob<Attica::Comment> *job = d->provider->requestComments( Attica::Comment::ContentComment,
+    Attica::ListJob<Attica::Comment> *job = provider()->requestComments( Attica::Comment::ContentComment,
                                             d->id, "0", d->page, d->pageSize );
     connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedCommentList( Attica::BaseJob* ) ) );
     job->start();

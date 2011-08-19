@@ -20,7 +20,6 @@
 
 #include "gameuploadjob.h"
 
-#include <attica/itemjob.h>
 #include <attica/postjob.h>
 #include <attica/provider.h>
 
@@ -33,7 +32,6 @@ class GameUploadJob::Private
 {
     public:
         Private()
-            : provider( 0 )
         {
         }
 
@@ -41,7 +39,6 @@ class GameUploadJob::Private
         {
         }
 
-        Attica::Provider* provider;
         QString id;
         QString fileName;
 };
@@ -50,7 +47,6 @@ GameUploadJob::GameUploadJob( Attica::Provider* provider, const QString& id, con
     : AbstractSocialServicesJob( provider )
     , d( new Private() )
 {
-    d->provider = provider;
     d->id = id;
     d->fileName = fileName;
 }
@@ -75,7 +71,7 @@ void GameUploadJob::startSocialService()
     file.close();
 
     QFileInfo fileInfo( d->fileName );
-    Attica::PostJob* job = d->provider->setDownloadFile( d->id, fileInfo.fileName(), contents );
+    Attica::PostJob* job = provider()->setDownloadFile( d->id, fileInfo.fileName(), contents );
     connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( uploadComplete( Attica::BaseJob* ) ) );
     job->start();
 }

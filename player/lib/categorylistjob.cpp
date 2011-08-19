@@ -58,11 +58,6 @@ QString CategoryItem::id() const
 class CategoryListJob::Private
 {
     public:
-        Private() : provider( 0 )
-        {
-        }
-
-        Attica::Provider* provider;
         QList<QObject*> categoryList;
 };
 
@@ -79,7 +74,7 @@ CategoryListJob::~CategoryListJob()
 
 void CategoryListJob::startSocialService()
 {
-    Attica::ListJob<Attica::Category> *job = d->provider->requestCategories();
+    Attica::ListJob<Attica::Category> *job = provider()->requestCategories();
     connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedCategoryList( Attica::BaseJob* ) ) );
     job->start();
 }

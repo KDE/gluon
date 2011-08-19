@@ -30,14 +30,6 @@ using namespace GluonPlayer;
 class CommentUploadJob::Private
 {
     public:
-        Private()
-        {
-        }
-
-        ~Private()
-        {
-        }
-
         QString id;
         QString parentId;
         QString subject;
