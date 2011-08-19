@@ -35,6 +35,7 @@ namespace GluonPlayer
 {
     class GameDetailListJob;
     class CommentsListJob;
+    class GameDownloadJob;
     class CommentUploadJob;
     class GameUploadJob;
     class RatingJob;
@@ -73,7 +74,7 @@ namespace GluonPlayer
              * @param   page    page number of the desired page
              * @param   pageSize        number of comments per page
              *
-             * @return  OcsCommentsProvider object which the caller must
+             * @return  CommentsListJob object which the caller must
              * monitor to find out the result of the operation
              */
             GluonPlayer::CommentsListJob* fetchCommentList( const QString& id, int page, int pageSize );
@@ -86,7 +87,7 @@ namespace GluonPlayer
              * @param   subject Subject of the comment
              * @param   message The comment message (body)
              *
-             * @return  OcsCommentsProvider object which the caller must
+             * @return  CommentUploadJob object which the caller must
              * monitor to find out the result of the operation
              */
             GluonPlayer::CommentUploadJob* uploadComment( const QString& id, const QString& parentId,
@@ -138,7 +139,7 @@ namespace GluonPlayer
 
             /**
              * Fetch a list of games available on the OCS server
-             * @return a OcsGameDetailsProvider object which the caller must
+             * @return a GameDetailListJob object which the caller must
              * monitor to find out the result of the operation
              */
             GameDetailListJob* fetchGames();
@@ -148,10 +149,10 @@ namespace GluonPlayer
              *
              * @param id ID of the game
              *
-             * @return a GameContentTransfer object which the caller must
+             * @return a GameDownloadJob object which the caller must
              * monitor to find out the result of the operation
              */
-            GameUploadJob* downloadGame( const QString& id );
+            GameDownloadJob* downloadGame( const QString& id );
 
             /**
              * Upload a game with ID
@@ -159,7 +160,7 @@ namespace GluonPlayer
              * @param id ID of the game
              * @param path Path of the file to upload
              *
-             * @return a GameContentTransfer object which the caller must
+             * @return a GameUploadJob object which the caller must
              * monitor to find out the result of the operation
              */
             GameUploadJob* uploadGame( const QString& id, const QString& path );
@@ -169,6 +170,9 @@ namespace GluonPlayer
              *
              * @param id ID of the game
              * @param rating Rating value between 0 to 100
+             *
+             * @return a RatingJob object which the caller must
+             * monitor to find out the result of the operation
              */
             RatingJob* setRating( const QString& id, uint rate );
 
