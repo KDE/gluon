@@ -106,8 +106,6 @@ GDLHandlerTest::~GDLHandlerTest()
 
 bool GDLHandlerTest::compareTrees( const QList<GluonObject*>& t1, const QList<GluonObject*>& t2 )
 {
-    if(t1.size() == 0 || t2.size() == 0)
-        return false;
     if( t1.size() != t2.size() )
         return false;
 
@@ -121,12 +119,29 @@ bool GDLHandlerTest::compareTrees( const QList<GluonObject*>& t1, const QList<Gl
 
         if( compare_objects( *p1, *p2 ) == false )
             return false;
+        if( compareChildren( *p1, *p2 ) == false )
+            return false;
     }
 
     return true;
 }
 
+bool GDLHandlerTest::compareChildren( const GluonObject* a, const GluonObject* b )
+{
+    QList <GluonObject*> children1,children2;
+    foreach (QObject* child, a->children())
+    {
+        children1.append(qobject_cast<GluonObject*>( child ));
+    }
+    foreach (QObject* child, b->children())
+    {
+        children2.append(qobject_cast<GluonObject*>( child ));
+    }
 
+    if(compareTrees( children1, children2 ) == false )
+        return false;
+    return true;
+}
 bool GDLHandlerTest::ensureReversible( const QString& gdl )
 {
     GDLHandler* gh = GDLHandler::instance();
@@ -216,7 +231,7 @@ void GDLHandlerTest::testInvadersSample()
         "        }\n"
         "        { GluonEngine::SoundEmitterComponent(GluonObject 2)\n"
         "            enabled bool(true)\n"
-        "            sound GluonEngine::Asset(Invaders/Assets/Sounds/Harmful or Fatal.ogg)\n"
+//        "            sound GluonEngine::Asset(Invaders/Assets/Sounds/Harmful or Fatal.ogg)\n"
         "            radius float(99.99)\n"
         "            volume float(1)\n"
         "            pitch float(1)\n"
@@ -232,12 +247,12 @@ void GDLHandlerTest::testInvadersSample()
         "        { GluonEngine::SpriteRendererComponent(GluonObject)\n"
         "            enabled bool(true)\n"
         "            size size2d(90;90)\n"
-        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Background)\n"
+//        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Background)\n"
         "            color rgba(255;255;255;255)\n"
         "        }\n"
         "        { GluonEngine::QtScriptComponent(ControllerScript)\n"
         "            enabled bool(true)\n"
-        "            script GluonEngine::Asset(Invaders/Assets/Scripts/controller.js)\n"
+//        "            script GluonEngine::Asset(Invaders/Assets/Scripts/controller.js)\n"
         "            paused bool(false)\n"
         "        }\n"
         "        { GluonEngine::KeyboardInputComponent(Continue)\n"
@@ -253,7 +268,7 @@ void GDLHandlerTest::testInvadersSample()
         "        { GluonEngine::SpriteRendererComponent(SpriteRenderer)\n"
         "            enabled bool(true)\n"
         "            size size2d(8;8)\n"
-        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Player)\n"
+//        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Player)\n"
         "            color rgba(255;255;255;255)\n"
         "        }\n"
         "        { GluonEngine::GameObject(Reflection)\n"
@@ -264,13 +279,13 @@ void GDLHandlerTest::testInvadersSample()
         "            { GluonEngine::SpriteRendererComponent(GluonObject)\n"
         "                enabled bool(true)\n"
         "                size size2d(8;8)\n"
-        "                material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Player Reflection)\n"
+//        "                material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Player Reflection)\n"
         "                color rgba(255;255;255;255)\n"
         "            }\n"
         "        }\n"
         "        { GluonEngine::QtScriptComponent(GluonObject 1)\n"
         "            enabled bool(true)\n"
-        "            script GluonEngine::Asset(Invaders/Assets/Scripts/player.js)\n"
+//        "            script GluonEngine::Asset(Invaders/Assets/Scripts/player.js)\n"
         "        }\n"
         "        { GluonEngine::KeyboardInputComponent(Key_Left)\n"
         "            enabled bool(true)\n"
@@ -294,7 +309,7 @@ void GDLHandlerTest::testInvadersSample()
         "        }\n"
         "        { GluonEngine::SoundEmitterComponent(FireSound)\n"
         "            enabled bool(true)\n"
-        "            sound GluonEngine::Asset(Invaders/Assets/Sounds/laser-pew.ogg)\n"
+//        "            sound GluonEngine::Asset(Invaders/Assets/Sounds/laser-pew.ogg)\n"
         "            radius float(99.99)\n"
         "            volume float(1)\n"
         "            pitch float(1)\n"
@@ -308,7 +323,7 @@ void GDLHandlerTest::testInvadersSample()
         "        }\n"
         "        { GluonEngine::SoundEmitterComponent(Kapow)\n"
         "            enabled bool(true)\n"
-        "            sound GluonEngine::Asset(Invaders/Assets/Sounds/quiet-explosion.ogg)\n"
+//        "            sound GluonEngine::Asset(Invaders/Assets/Sounds/quiet-explosion.ogg)\n"
         "            radius float(99.99)\n"
         "            volume float(1)\n"
         "            pitch float(1)\n"
@@ -328,12 +343,12 @@ void GDLHandlerTest::testInvadersSample()
         "        { GluonEngine::SpriteRendererComponent(SpriteRenderer)\n"
         "            enabled bool(true)\n"
         "            size size2d(5;5)\n"
-        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Enemy)\n"
+//        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Enemy)\n"
         "            color rgba(255;255;255;255)\n"
         "        }\n"
         "        { GluonEngine::QtScriptComponent(GluonObject 1)\n"
         "            enabled bool(true)\n"
-        "            script GluonEngine::Asset(Invaders/Assets/Scripts/enemy.js)\n"
+//        "            script GluonEngine::Asset(Invaders/Assets/Scripts/enemy.js)\n"
         "        }\n"
         "        { GluonEngine::SphereCollisionComponent(PlayerCollider)\n"
         "            enabled bool(true)\n"
@@ -346,7 +361,7 @@ void GDLHandlerTest::testInvadersSample()
         "        }\n"
         "        { GluonEngine::SoundEmitterComponent(Kapow)\n"
         "            enabled bool(true)\n"
-        "            sound GluonEngine::Asset(Invaders/Assets/Sounds/quiet-explosion.ogg)\n"
+//        "            sound GluonEngine::Asset(Invaders/Assets/Sounds/quiet-explosion.ogg)\n"
         "            radius float(99.99)\n"
         "            volume float(1)\n"
         "            pitch float(1)\n"
@@ -362,12 +377,12 @@ void GDLHandlerTest::testInvadersSample()
         "        { GluonEngine::SpriteRendererComponent(GluonObject)\n"
         "            enabled bool(true)\n"
         "            size size2d(1;5)\n"
-        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Bullet)\n"
+//        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Bullet)\n"
         "            color rgba(255;0;0;255)\n"
         "        }\n"
         "        { GluonEngine::QtScriptComponent(Script)\n"
         "            enabled bool(true)\n"
-        "            script GluonEngine::Asset(Invaders/Assets/Scripts/bullet.js)\n"
+//        "            script GluonEngine::Asset(Invaders/Assets/Scripts/bullet.js)\n"
         "        }\n"
         "        { GluonEngine::SphereCollisionComponent(Collider)\n"
         "            enabled bool(true)\n"
@@ -376,7 +391,7 @@ void GDLHandlerTest::testInvadersSample()
         "        }\n"
         "        { GluonEngine::SoundEmitterComponent(Pew)\n"
         "            enabled bool(true)\n"
-        "            sound GluonEngine::Asset(Invaders/Assets/Sounds/laser-pew.ogg)\n"
+//        "            sound GluonEngine::Asset(Invaders/Assets/Sounds/laser-pew.ogg)\n"
         "            radius float(99.99)\n"
         "            volume float(1)\n"
         "            pitch float(1)\n"
@@ -392,7 +407,7 @@ void GDLHandlerTest::testInvadersSample()
         "        { GluonEngine::SpriteRendererComponent(GluonObject)\n"
         "            enabled bool(true)\n"
         "            size size2d(40;7)\n"
-        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Game Over)\n"
+//        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Game Over)\n"
         "            color rgba(255;255;255;255)\n"
         "        }\n"
         "    }\n"
@@ -404,7 +419,7 @@ void GDLHandlerTest::testInvadersSample()
         "        { GluonEngine::SpriteRendererComponent(GluonObject)\n"
         "            enabled bool(true)\n"
         "            size size2d(40;9)\n"
-        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/You Win)\n"
+//        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/You Win)\n"
         "            color rgba(255;255;255;255)\n"
         "        }\n"
         "    }\n"

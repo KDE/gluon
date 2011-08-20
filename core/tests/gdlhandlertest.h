@@ -40,6 +40,7 @@ class GDLHandlerTest : public QObject
 
     private:
         static bool compareTrees( const QList<GluonCore::GluonObject*>& t1, const QList<GluonCore::GluonObject*>& t2 );
+        static bool compareChildren( const GluonCore::GluonObject* a, const GluonCore::GluonObject* b  );
 
         template <typename T>
         static QList<const T*> constListFromNonConst( const QList<T*>& x )
