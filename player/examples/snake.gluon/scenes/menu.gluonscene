@@ -34,16 +34,17 @@
             renderTargetMaterial GluonGraphics::MaterialInstance(snake/Assets/Render Target Material/Main)
         }
     }
-    { GluonEngine::GameObject(Icon)
+    { GluonEngine::GameObject(MenuSnake)
         description string(The Icon game object inside the menu scene)
         enabled bool(true)
         position vector3d(0;0;0)
         scale vector3d(10;10;0)
         orientation quaternion(0;0;0;1)
-        { GluonEngine::SpriteRendererComponent(IconSpriteRenderer)
+        { GluonEngine::SpriteRendererComponent(MenuSnakeSpriteRenderer)
             description string(The sprite renderer component of the Icon)
             enabled bool(true)
-            size size2d(1;1)
+            size size2d(90;90)
+            material GluonGraphics::MaterialInstance(snake/Assets/Material/MenuSnake)
         }
     }
     { GluonEngine::GameObject(Interface)
