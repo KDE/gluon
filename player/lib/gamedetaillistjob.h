@@ -37,7 +37,6 @@ namespace GluonPlayer
     {
             Q_OBJECT
             Q_ENUMS( Status )
-
         public:
             enum Status
             {
@@ -46,17 +45,24 @@ namespace GluonPlayer
                 Upgradable
             };
 
-            GameDetailItem( const QString& gameName, const QString& gameDescription,
-                            const QString& projectDirName, const QString& projectFileName,
-                            const QStringList& screenshotUrls, GluonPlayer::GameDetailItem::Status status,
+            GameDetailItem( const QString& gameName, const QString& gameDescription, const QString &version,
+                            const QString &category, const QString& homePage, const QString &license,
+                            const QString &changelog, const QString& projectDirName, const QString& projectFileName,
+                            const QStringList& screenshotUrls, int rating, GluonPlayer::GameDetailItem::Status status,
                             const QString id, QObject* parent = 0 );
             virtual ~GameDetailItem();
 
             QString gameName() const;
             QString gameDescription() const;
+            QString version() const;
+            QString category() const;
+            QString homePage() const;
+            QString license() const;
+            QString changelog() const;
             QString projectDirName() const;
             QString projectFileName() const;
             QStringList screenshotUrls() const;
+            int rating() const;
             Status status() const;
             QString id() const;
 

@@ -173,13 +173,14 @@ QVariant GameItemsModel::headerData( int section, Qt::Orientation orientation, i
 void GameItemsModel::fetchGamesList()
 {
     GameDetailListJob *gameDetailListJob = ServiceProvider::instance()->fetchGames();
-    connect(gameDetailListJob, SIGNAL(gameDetailListFetchFinished(QList<GameDetailItem*>)),
-            SLOT(processFetchedGameList(QList<GameDetailItem*>)));
+    connect(gameDetailListJob, SIGNAL(succeeded()), SLOT(processFetchedGameList()));
+    gameDetailListJob->start();
 }
 
-void GameItemsModel::processFetchedGameList(QList< GameDetailItem* > comments)
+void GameItemsModel::processFetchedGameList()
 {
-    foreach(GameDetailItem *c, comments) {
+    QList<GameDetailItem*> list = qobject_cast<GameDetailListJob*>(sender())->data().value< QList<GameDetailItem*> > ();
+    foreach(GameDetailItem *c, list) {
         GameViewItem* gameViewItem = new GameViewItem( c->gameName(), c->gameDescription(), "", "",
                     GameViewItem::Downloadable, c->id() );
         d->m_gameViewItems.insertMulti( GameViewItem::Downloadable, gameViewItem );
@@ -187,5 +188,7 @@ void GameItemsModel::processFetchedGameList(QList< GameDetailItem* > comments)
     reset();
     emit downloadableCountChanged();
 }
+
+Q_DECLARE_METATYPE( QList<GluonPlayer::GameDetailItem*> )
 
 #include "gameitemsmodel.moc"

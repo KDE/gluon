@@ -35,10 +35,12 @@ set(libGluonPlayer_SRCS
     serviceprovider.cpp
 
     models/achievementsmodel.cpp
-    models/gameviewitem.cpp
-    models/gameitemsmodel.cpp
+    models/allgameitemsmodel.cpp
     models/commentitemsmodel.cpp
     models/commentsmodel.cpp
+    models/gameitem.cpp
+    models/gameitemsmodel.cpp
+    models/gameviewitem.cpp
     models/highscoresmodel.cpp
 )
 

@@ -58,7 +58,7 @@ QString CategoryItem::id() const
 class CategoryListJob::Private
 {
     public:
-        QList<QObject*> categoryList;
+        QList<CategoryItem*> categoryList;
 };
 
 CategoryListJob::CategoryListJob( Attica::Provider* provider, QObject* parent )
@@ -104,6 +104,6 @@ QVariant CategoryListJob::data()
     return QVariant::fromValue( d->categoryList );
 }
 
-Q_DECLARE_METATYPE( QList<QObject*> )
+Q_DECLARE_METATYPE( QList<GluonPlayer::CategoryItem*> )
 
 #include "categorylistjob.moc"

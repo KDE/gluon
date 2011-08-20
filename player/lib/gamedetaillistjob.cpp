@@ -37,30 +37,42 @@ class GameDetailItem::Private
     public:
         Private()
         {
-            status = Downloadable;
         }
 
         QString gameName;
         QString gameDescription;
+        QString version;
+        QString category;
+        QString homePage;
+        QString license;
+        QString changelog;
         QString projectDirName;
         QString projectFileName;
         QStringList screenshotUrls;
+        int rating;
         Status status;
         QString id;
 };
 
-GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDescription,
-                                const QString& projectDirName, const QString& projectFileName,
-                                const QStringList& screenshotUrls, Status status, const QString id,
-                                QObject* parent )
+GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDescription, const QString& version,
+                                const QString& category, const QString& homePage, const QString& license,
+                                const QString& changelog, const QString& projectDirName, const QString& projectFileName,
+                                const QStringList& screenshotUrls, int rating, GluonPlayer::GameDetailItem::Status status,
+                                const QString id, QObject* parent )
     : QObject( parent )
-    , d( new Private )
+    , d( new Private() )
 {
     d->gameName = gameName;
     d->gameDescription = gameDescription;
+    d->version = version;
+    d->category = category;
+    d->homePage = homePage;
+    d->license = license;
+    d->changelog = changelog;
     d->projectDirName = projectDirName;
     d->projectFileName = projectFileName;
     d->screenshotUrls = screenshotUrls;
+    d->rating = rating;
     d->status = status;
     d->id = id;
 }
@@ -73,6 +85,31 @@ GameDetailItem::~GameDetailItem()
 QString GameDetailItem::gameDescription() const
 {
     return d->gameDescription;
+}
+
+QString GameDetailItem::version() const
+{
+    return d->version;
+}
+
+QString GameDetailItem::category() const
+{
+    return d->category;
+}
+
+QString GameDetailItem::homePage() const
+{
+    return d->homePage;
+}
+
+QString GameDetailItem::license() const
+{
+    return d->license;
+}
+
+QString GameDetailItem::changelog() const
+{
+    return d->changelog;
 }
 
 QString GameDetailItem::gameName() const
@@ -105,10 +142,15 @@ GameDetailItem::Status GameDetailItem::status() const
     return d->status;
 }
 
+int GameDetailItem::rating() const
+{
+    return d->rating;
+}
+
 class GameDetailListJob::Private
 {
     public:
-        QList<QObject*> gameDetailList;
+        QList<GameDetailItem*> gameDetailList;
 };
 
 GameDetailListJob::GameDetailListJob( Attica::Provider* provider, QObject* parent )
@@ -152,8 +194,10 @@ void GameDetailListJob::processFetchedGameList( Attica::BaseJob* job )
     {
         foreach( const Attica::Content & content, contentJob->itemList() )
         {
-            GameDetailItem* details = new GameDetailItem( content.name(), content.description(), "", "",
-                    QStringList(), GameDetailItem::Downloadable, content.id() );
+            GameDetailItem* details = new GameDetailItem( content.name(), content.description(), content.version(),
+                    content.attribute("typeid"), content.homePageEntry( 0 ).url().toString(),
+                    content.license(), content.changelog(), "", "", QStringList(),
+                    content.rating(), GameDetailItem::Downloadable, content.id() );
             d->gameDetailList.append( details );
         }
 
@@ -170,6 +214,6 @@ QVariant GameDetailListJob::data()
     return QVariant::fromValue( d->gameDetailList );
 }
 
-Q_DECLARE_METATYPE( QList<QObject*> )
+Q_DECLARE_METATYPE( QList<GluonPlayer::GameDetailItem*> )
 
 #include "gamedetaillistjob.moc"

@@ -270,7 +270,8 @@ bool AllGameItemsModel::setData( const QModelIndex& index, const QVariant& value
         case RatingRole:
             RatingJob* ratingJob =
                 ServiceProvider::instance()->setRating( d->gameItems.at( index.row() )->id(), value.toUInt() );
-            connect( ratingJob, SIGNAL(ratingUploadFinished()), SLOT( ratingUploadFinished( QString ) ) );
+            connect( ratingJob, SIGNAL(succeeded()), SLOT( ratingUploadFinished() ) );
+            ratingJob->start();
             return true;
     }
 
@@ -299,14 +300,16 @@ QVariant AllGameItemsModel::headerData( int section, Qt::Orientation orientation
 
 void AllGameItemsModel::fetchGamesList()
 {
-    GameDetail* gameDetailsProvider = ServiceProvider::instance()->fetchGames();
-    connect( gameDetailsProvider, SIGNAL( gameListFetched( QList<GameDetailItem*> ) ),
-             SLOT( processFetchedGamesList( QList<GameDetailItem*> ) ) );
+    GameDetailListJob* gameDetailListJob = ServiceProvider::instance()->fetchGames();
+    connect( gameDetailListJob, SIGNAL( succeeded() ), SLOT( processFetchedGamesList() ) );
+    gameDetailListJob->start();
 }
 
-void AllGameItemsModel::processFetchedGamesList( QList< GameDetailItem* > gamesList )
+void AllGameItemsModel::processFetchedGamesList()
 {
-    foreach( GameDetailItem * c, gamesList )
+    GameDetailListJob* job = qobject_cast<GameDetailListJob*>(sender());
+    QList<GameDetailItem*> list = job->data().value< QList<GameDetailItem*> >();
+    foreach( GameDetailItem* c, list )
     {
         GameItem* gameItem = new GameItem( c->gameName(), c->gameDescription(), c->rating(), GameItem::Downloadable,
                                            c->id(), this );
@@ -320,9 +323,10 @@ void AllGameItemsModel::fetchAndUpdateExistingGameItem( const GameItem* gameItem
     if( gameItem->id().isEmpty() )
         return;
 
-    GameDetail* gameDetailsProvider = ServiceProvider::instance()->fetchOneGame( gameItem->id() );
+    //TODO: To be uncommented once fetchOneGame is implemented
+    /*GameDetail* gameDetailsProvider = ServiceProvider::instance()->fetchOneGame( gameItem->id() );
     connect( gameDetailsProvider, SIGNAL( gameDetailsFetched( GameDetailItem* ) ),
-             SLOT( processFetchedGameDetails( GameDetailItem* ) ) );
+             SLOT( processFetchedGameDetails( GameDetailItem* ) ) );*/
 }
 
 void AllGameItemsModel::processFetchedGameDetails( GameDetailItem* gameDetails )
@@ -333,9 +337,12 @@ void AllGameItemsModel::processFetchedGameDetails( GameDetailItem* gameDetails )
 }
 
 
-void AllGameItemsModel::ratingUploadFinished( const QString& id )
+void AllGameItemsModel::ratingUploadFinished()
 {
-    fetchAndUpdateExistingGameItem( gameItemForId( id ) );
+    RatingJob *job = qobject_cast<RatingJob*>(sender());
+    fetchAndUpdateExistingGameItem( gameItemForId( job->data().toString() ) );
 }
+
+Q_DECLARE_METATYPE( QList<GluonPlayer::GameDetailItem*> )
 
 #include "allgameitemsmodel.moc"

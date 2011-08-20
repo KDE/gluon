@@ -65,9 +65,10 @@ CommentsModel::CommentsModel( QString gameId, QObject* parent )
     updateData();   // Fetch latest comments from the web service
 }
 
-void CommentsModel::processFetchedComments( QList< CommentItem* > list )
+void CommentsModel::processFetchedComments()
 {
     qDebug() << "Comments Successfully Fetched from the server!";
+    QList<CommentItem*> list = qobject_cast<CommentsListJob*>(sender())->data().value< QList<CommentItem*> >();
     if (d->m_rootNode) {
         qDeleteAll(d->m_rootNode->children());
     }
@@ -270,32 +271,29 @@ bool CommentsModel::isOnline()
 void CommentsModel::uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message )
 {
     GluonObject* parentNode = static_cast<GluonObject*>( parentIndex.internalPointer() );
-    ServiceProvider::instance()->uploadComment(d->m_gameId, parentNode->name(), subject, message);
 
-    CommentUploadJob *commentsProvider = ServiceProvider::instance()->uploadComment(d->m_gameId,
+    CommentUploadJob *commentsUploadJob = ServiceProvider::instance()->uploadComment(d->m_gameId,
                                                                                    parentNode->name(),
                                                                                    subject, message);
-    connect(commentsProvider, SIGNAL(finished()), SLOT(uploadCommentFinished()));
-    connect(commentsProvider, SIGNAL(failed()), SIGNAL(addCommentFailed()));
+    connect(commentsUploadJob, SIGNAL(succeeded()), SLOT(uploadCommentFinished()));
+    connect(commentsUploadJob, SIGNAL(failed()), SIGNAL(addCommentFailed()));
+    commentsUploadJob->start();
 }
 
 void CommentsModel::updateData()
 {
     qDebug() << "Updating..";
     CommentsListJob *commentListJob = ServiceProvider::instance()->fetchCommentList(d->m_gameId, 0, 0);
-
-    if (commentListJob) {
-        connect(commentListJob, SIGNAL(commentListFetchFinished(QList<CommentItem*>)), 
-            SLOT(processFetchedComments(QList<CommentItem*>)));
-        connect(commentListJob, SIGNAL(failedToFetchComments()), SIGNAL(fetchCommentsFailed()));
-    } else {
-        emit commentListFetchFailed();
-    }
+    connect(commentListJob, SIGNAL(succeeded()), SLOT(processFetchedComments()));
+    connect(commentListJob, SIGNAL(failed()), SIGNAL(commentListFetchFailed()));
+    commentListJob->start();
 }
 
 void CommentsModel::uploadCommentFinished()
 {
     updateData();
 }
+
+Q_DECLARE_METATYPE( QList<GluonPlayer::CommentItem*> )
 
 #include "commentsmodel.moc"

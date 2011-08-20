@@ -69,12 +69,12 @@ namespace GluonPlayer
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
 
         protected Q_SLOTS:
-            void processFetchedGamesList( QList<GameDetailItem* > gamesList );
+            void processFetchedGamesList();
             void processFetchedGameDetails( GameDetailItem* gameDetails );
 
         private Q_SLOTS:
             void directoryLoaded( const QString& path );
-            void ratingUploadFinished( const QString& id );
+            void ratingUploadFinished();
 
         private:
             void fetchGamesList();

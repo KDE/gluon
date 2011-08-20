@@ -104,7 +104,7 @@ class CommentsListJob::Private
         QString parentId;
         QString subject;
         QString message;
-        QList<QObject*> commentsList;
+        QList<CommentItem*> commentsList;
 };
 
 CommentsListJob::CommentsListJob( Attica::Provider* provider, const QString& id, int page, int pageSize )
@@ -175,6 +175,6 @@ void CommentsListJob::addChildren( CommentItem* parentCommentItem, const Attica:
     }
 }
 
-Q_DECLARE_METATYPE( QList<QObject*> )
+Q_DECLARE_METATYPE( QList<GluonPlayer::CommentItem*> )
 
 #include "commentslistjob.moc"

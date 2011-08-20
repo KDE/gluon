@@ -248,7 +248,7 @@ GameDetailListJob* ServiceProvider::fetchGames()
     return new GameDetailListJob( &d->provider );
 }
 
-GameUploadJob* ServiceProvider::downloadGame( const QString& id )
+GameDownloadJob* ServiceProvider::downloadGame( const QString& id )
 {
     QString path( "gluon/games" );
     QDir destinationDir( GluonCore::DirectoryProvider::instance()->dataDirectory() );
@@ -258,7 +258,7 @@ GameUploadJob* ServiceProvider::downloadGame( const QString& id )
     }
     destinationDir.cd( path );
 
-    return new GameUploadJob( &d->provider, id, destinationDir.path() );
+    return new GameDownloadJob( &d->provider, id, destinationDir.path() );
 }
 
 GameUploadJob* ServiceProvider::uploadGame( const QString& id, const QString& path )
