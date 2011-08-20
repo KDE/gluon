@@ -26,6 +26,7 @@
 #include "absval.h"
 
 #include <QtCore/QThread>
+#include <QtCore/QSharedPointer>
 
 #include <IOKit/IOKitLib.h>
 #include <IOKit/hid/IOHIDKeys.h>
