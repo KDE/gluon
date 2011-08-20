@@ -20,7 +20,7 @@
 #include "bteditornodetype.h"
 #include "btnewtreewizard.h"
 
-bteditor::bteditor(QWidget *parent)
+bteditor::bteditor(QWidget *parent) : KParts::MainWindow()
 {
     m_currentBehaviorTree = NULL;
     oldPropertyWidget = NULL;
@@ -65,6 +65,7 @@ bteditor::bteditor(QWidget *parent)
             this,SLOT(bteditDeleteNodeTriggered())
             );
 
+    setXMLFile( "gluon_bteditor.rc" );
     m_brain->newBehaviorTree();
 }
 
