@@ -5,6 +5,7 @@
 #include <QMenu>
 #include "ui_bteditor.h"
 #include "treeselectordialog.h"
+#include <kparts/mainwindow.h>
 
 class btNode;
 class btNodeTypesModel;
@@ -16,7 +17,7 @@ class btPropertyWidget;
 class btNodeEditWidget;
 class NewTreeWizard;
 
-class bteditor : public QMainWindow, private Ui::BtEditor
+class bteditor : public KParts::MainWindow, private Ui::BtEditor
 {
 Q_OBJECT
 public:
