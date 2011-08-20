@@ -135,20 +135,31 @@ bool GDLHandlerTest::ensureReversible( const QString& gdl )
     return compareTrees( parsed, gh->parseGDL( serializedString, serializedString.size() ) );
 }
 
-bool GDLHandlerTest::ensureParsable(const QList<GluonCore::GluonObject *>& t, const QString& gdl)
+bool GDLHandlerTest::ensureParsing(const QList<GluonCore::GluonObject *>& t, const QString& gdl)
 {
     GDLHandler* gh = GDLHandler::instance();
-    QList<GluonObject*> parsed = gh->parseGDL( gdl, gdl.size() );
+    QList<GluonObject*> parsed = gh->parseGDL( gdl, gdl.size() );    
     return compareTrees( parsed, t);
 }
 
-void GDLHandlerTest::testParseGDL()
+bool GDLHandlerTest::ensureSerializing(const QList<GluonCore::GluonObject *>& t, const QString& gdl)
+{
+    GDLHandler* gh = GDLHandler::instance();
+    QString serializedString = gh->serializeGDL( constListFromNonConst( t ) );
+
+    if ( serializedString != gdl )
+        return false;
+
+    return true;
+}
+
+void GDLHandlerTest::testGDLSample()
 {
     QString test =
         "{ GluonCore::GluonObject(AnObject)\n"
         "    status bool(true)\n"
-        "{ GluonCore::GluonObject(AChildObject)\n"
-        "}\n"
+        "    { GluonCore::GluonObject(AChildObject)\n"
+        "    }\n"
         "}"
         ;
     QList<GluonObject*> objectList ;
@@ -158,7 +169,9 @@ void GDLHandlerTest::testParseGDL()
     parentObject.addChild(&childObject);
     parentObject.setPropertyFromString( "status", "bool(true)");
     objectList.append( &parentObject );
-    QVERIFY( ensureParsable( objectList, test ) );
+
+    QVERIFY( ensureParsing( objectList, test ) );
+    QVERIFY( ensureSerializing( objectList, test ) );
 }
 
 void GDLHandlerTest::testDoxygenSample()
