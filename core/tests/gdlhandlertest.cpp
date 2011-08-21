@@ -109,39 +109,22 @@ bool GDLHandlerTest::compareTrees( const QList<GluonObject*>& t1, const QList<Gl
     if( t1.size() != t2.size() )
         return false;
 
-    QList<GluonObject*>::const_iterator p1 = t1.begin(),
-                                                   p2 = t2.begin(),
-                                                   end = t1.end();
-
-    for( ; p1 != end; ++p1, ++p2 )
+    for( int i = 0 ; i < t1.size(); ++i )
     {
-        Q_ASSERT( p2 != t2.end() );
+        Q_ASSERT( i < t2.size() );
 
-        if( compare_objects( *p1, *p2 ) == false )
+        QList <GluonObject*> children1 = gluonObjectList( t1[i]->children() );
+        QList <GluonObject*> children2 = gluonObjectList( t2[i]->children() );
+
+        if( compare_objects( t1[i], t2[i] ) == false )
             return false;
-        if( compareChildren( *p1, *p2 ) == false )
+        if( compareTrees( children1, children2 ) == false )
             return false;
     }
 
     return true;
 }
 
-bool GDLHandlerTest::compareChildren( const GluonObject* a, const GluonObject* b )
-{
-    QList <GluonObject*> children1,children2;
-    foreach (QObject* child, a->children())
-    {
-        children1.append(qobject_cast<GluonObject*>( child ));
-    }
-    foreach (QObject* child, b->children())
-    {
-        children2.append(qobject_cast<GluonObject*>( child ));
-    }
-
-    if(compareTrees( children1, children2 ) == false )
-        return false;
-    return true;
-}
 bool GDLHandlerTest::ensureReversible( const QString& gdl )
 {
     GDLHandler* gh = GDLHandler::instance();

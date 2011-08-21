@@ -53,6 +53,16 @@ class GDLHandlerTest : public QObject
             return r;
         }
 
+        // Return QList<GluonObject*> by casting QList<QObject*>
+        static QList<GluonCore::GluonObject*> gluonObjectList( const QObjectList& objectList)
+        {
+            QList<GluonCore::GluonObject*> r;
+            foreach (QObject * object, objectList )
+                r.push_back( qobject_cast<GluonCore::GluonObject*>( object ) );
+
+            return r;
+        }
+
         // Returns true if the passed GDL has (parsed -> serialized -> parsed) == parsed
         static bool ensureReversible( const QString& gdl );
         static bool ensureParsing( const QList<GluonCore::GluonObject*>& t, const QString& gdl);
