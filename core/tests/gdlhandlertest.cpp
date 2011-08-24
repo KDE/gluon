@@ -136,7 +136,7 @@ bool GDLHandlerTest::ensureReversible( const QString& gdl )
 bool GDLHandlerTest::ensureParsing(const QList<GluonCore::GluonObject *>& t, const QString& gdl)
 {
     GDLHandler* gh = GDLHandler::instance();
-    QList<GluonObject*> parsed = gh->parseGDL( gdl, gdl.size() );    
+    QList<GluonObject*> parsed = gh->parseGDL( gdl, gdl.size() );
     return compareTrees( parsed, t);
 }
 
@@ -148,6 +148,17 @@ bool GDLHandlerTest::ensureSerializing(const QList<GluonCore::GluonObject *>& t,
     if ( serializedString != gdl )
         return false;
 
+    return true;
+}
+
+bool GDLHandlerTest::ensureCommenting(const QList<GluonCore::GluonObject *>& t, const QString& gdl)
+{
+    if( ensureParsing( t, gdl ) == false )
+        return false;
+    if( ensureSerializing( t, gdl ) == true )
+        return false;
+    if( ensureReversible( gdl ) == false )
+        return false;
     return true;
 }
 
@@ -172,26 +183,41 @@ void GDLHandlerTest::testGDLSample()
     QVERIFY( ensureSerializing( objectList, test ) );
 }
 
-void GDLHandlerTest::testIgnoreComment()
+void GDLHandlerTest::testCommentAtBegin()
 {
     QString test =
         "{ GluonCore::GluonObject(ObjectName)\n"
-        " # This is a comment\n"
-        "{ GluonCore::GluonObject(ObjectName)\n"
-        " # This is another comment\n"
-        "}\n"
-        "}";
+        "status bool(true)\n"
+        "# This is a comment\n"
+        "number int(5)"
+        "}"
+        ;
 
     QList<GluonObject*> objectList ;
-    GluonObject parentObject( "ObjectName" );
-    GluonObject childObject( "ObjectName" );
+    GluonObject Object( "ObjectName" );
+    Object.setPropertyFromString( "status", "bool(true)");
+    Object.setPropertyFromString( "number", "int(5)");
+    objectList.append( &Object );
 
-    parentObject.addChild(&childObject);
-    objectList.append( &parentObject );
+    QVERIFY( ensureCommenting( objectList, test ) );
+}
 
-    QVERIFY( ensureParsing( objectList, test ) );
-    QVERIFY( ensureSerializing( objectList, test ) == false );
-    QVERIFY( ensureReversible( test ) );
+void GDLHandlerTest::testCommentAtEnd()
+{
+    QString test =
+        "{ GluonCore::GluonObject(ObjectName)\n"
+        "number int(5) # comment at end\n"
+        "status bool(true)\n"
+        "}"
+        ;
+
+    QList<GluonObject*> objectList ;
+    GluonObject Object( "ObjectName" );
+    Object.setPropertyFromString( "number", "int(5)");
+    Object.setPropertyFromString( "status", "bool(true)");
+    objectList.append( &Object );
+
+    QVERIFY( ensureCommenting( objectList, test ) );
 }
 
 void GDLHandlerTest::testDoxygenSample()

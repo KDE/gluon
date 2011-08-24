@@ -67,10 +67,12 @@ class GDLHandlerTest : public QObject
         static bool ensureReversible( const QString& gdl );
         static bool ensureParsing( const QList<GluonCore::GluonObject*>& t, const QString& gdl);
         static bool ensureSerializing( const QList<GluonCore::GluonObject*>& t, const QString& gdl);
+        static bool ensureCommenting( const QList<GluonCore::GluonObject *>& t, const QString& gdl);
 
     private Q_SLOTS:
         void testGDLSample();
-        void testIgnoreComment();
+        void testCommentAtBegin();
+        void testCommentAtEnd();
         void testDoxygenSample();
         void testInvadersSample();
 };
