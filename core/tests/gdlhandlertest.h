@@ -70,6 +70,7 @@ class GDLHandlerTest : public QObject
 
     private Q_SLOTS:
         void testGDLSample();
+        void testIgnoreComment();
         void testDoxygenSample();
         void testInvadersSample();
 };

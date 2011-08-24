@@ -172,6 +172,28 @@ void GDLHandlerTest::testGDLSample()
     QVERIFY( ensureSerializing( objectList, test ) );
 }
 
+void GDLHandlerTest::testIgnoreComment()
+{
+    QString test =
+        "{ GluonCore::GluonObject(ObjectName)\n"
+        " # This is a comment\n"
+        "{ GluonCore::GluonObject(ObjectName)\n"
+        " # This is another comment\n"
+        "}\n"
+        "}";
+
+    QList<GluonObject*> objectList ;
+    GluonObject parentObject( "ObjectName" );
+    GluonObject childObject( "ObjectName" );
+
+    parentObject.addChild(&childObject);
+    objectList.append( &parentObject );
+
+    QVERIFY( ensureParsing( objectList, test ) );
+    QVERIFY( ensureSerializing( objectList, test ) == false );
+    QVERIFY( ensureReversible( test ) );
+}
+
 void GDLHandlerTest::testDoxygenSample()
 {
     QString test =
