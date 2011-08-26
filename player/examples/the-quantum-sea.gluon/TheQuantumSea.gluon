@@ -1,0 +1,170 @@
+{ GluonEngine::GameProject(TheQuantumSea)
+    filename url(/home/kim/thequantumsea/TheQuantumSea.gluon)
+    { GluonEngine::Scene(PlayingField)
+        file url(Scenes/TheQuantumSea_New_Scene.gdl)
+    }
+    { GluonEngine::Scene(AudioTest)
+        file url(Scenes/TheQuantumSea_Audio_Test.gdl)
+    }
+{ GluonCore::GluonObject(hej)
+    { GluonEngine::ScriptAsset(music-player.js)
+        file url(Assets/music-player.js)
+    }
+    { GluonEngine::SoundAsset(bridge-2.ogg)
+        file url(Assets/bridge-2.ogg)
+    }
+    { GluonEngine::SoundAsset(couplet-411.ogg)
+        file url(Assets/couplet-411.ogg)
+    }
+    { GluonEngine::SoundAsset(couplet-412.ogg)
+        file url(Assets/couplet-412.ogg)
+    }
+    { GluonEngine::SoundAsset(couplet-42.ogg)
+        file url(Assets/couplet-42.ogg)
+    }
+    { GluonEngine::SoundAsset(couplet-42-break.ogg)
+        file url(Assets/couplet-42-break.ogg)
+    }
+    { GluonEngine::SoundAsset(refrain-4.ogg)
+        file url(Assets/refrain-4.ogg)
+    }
+    { GluonEngine::TextureAsset(background.png)
+        file url(Assets/background.png)
+    }
+    { GluonEngine::TextureAsset(atom.png)
+        file url(Assets/atom.png)
+    }
+    { GluonEngine::TextureAsset(glow.png)
+        file url(Assets/glow.png)
+    }
+    { GluonEngine::TextureAsset(shade.png)
+        file url(Assets/shade.png)
+    }
+}
+    { GluonEngine::ScriptAsset(particle-info.js)
+        file url(Assets/particle-info.js)
+    }
+    { GluonEngine::ScriptAsset(particle-motion.js)
+        file url(Assets/particle-motion.js)
+    }
+    { GluonEngine::ScriptAsset(player-controls.js)
+        file url(Assets/player-controls.js)
+    }
+    { GluonEngine::ScriptAsset(player-manager.js)
+        file url(Assets/player-manager.js)
+    }
+    { GluonEngine::ScriptAsset(tqs-level.js)
+        file url(Assets/tqs-level.js)
+    }
+    { GluonEngine::ScriptAsset(ApplySpeed.js)
+        file url(Assets/applyspeed.js)
+    }
+    { GluonEngine::ScriptAsset(ApplySpin.js)
+        file url(Assets/applyspin.js)
+    }
+    { GluonEngine::ScriptAsset(Distance.js)
+        file url(Assets/distance.js)
+    }
+    { BehaviorTree::Asset(playerglbt)
+        file url(Assets/player.glbt.xml)
+    }
+    { GluonEngine::ScriptAsset(InfiniteLoop.js)
+        file url(Assets/infiniteloop.js)
+    }
+    { GluonEngine::ScriptAsset(ReqAvoidSpin.js)
+        file url(Assets/reqavoidspin.js)
+    }
+    { GluonEngine::ScriptAsset(ReqSpeedImpact.js)
+        file url(Assets/reqspeedimpact.js)
+    }
+    { GluonEngine::ScriptAsset(ReqSpinImpact.js)
+        file url(Assets/reqspinimpact.js)
+    }
+    { GluonEngine::ScriptAsset(SpeedThreshold.js)
+        file url(Assets/speedthreshold.js)
+    }
+    { GluonEngine::ScriptAsset(Switch.js)
+        file url(Assets/switch.js)
+    }
+    { GluonEngine::ScriptAsset(TimeInterval.js)
+        file url(Assets/timeinterval.js)
+    }
+    { GluonEngine::ScriptAsset(UntillSpeed.js)
+        file url(Assets/untillspeed.js)
+    }
+    { GluonEngine::ScriptAsset(UntillSpin.js)
+        file url(Assets/untillspin.js)
+    }
+    { GluonEngine::ScriptAsset(Velocity.js)
+        file url(Assets/velocity.js)
+    }
+    { GluonEngine::ScriptAsset(VisibleNearest.js)
+        file url(Assets/visiblenearest.js)
+    }
+    { GluonEngine::ScriptAsset(VisibleNearestHeaviest.js)
+        file url(Assets/visiblenearestheaviest.js)
+    }
+    { GluonEngine::ScriptAsset(perceptioninfo-speed.js)
+        file url(Assets/perceptioninfo-speed.js)
+    }
+    { GluonEngine::ScriptAsset(perceptioninfo-spin.js)
+        file url(Assets/perceptioninfo-spin.js)
+    }
+    { GluonEngine::ScriptAsset(perceptioninfo-position.js)
+        file url(Assets/perceptioninfo-position.js)
+    }
+    { GluonEngine::ScriptAsset(perceptioninfo-velocity.js)
+        file url(Assets/perceptioninfo-velocity.js)
+    }
+    { GluonEngine::ScriptAsset(LowSpeed.js)
+        file url(Assets/lowspeed.js)
+    }
+    { GluonEngine::ScriptAsset(MedSpeed.js)
+        file url(Assets/medspeed.js)
+    }
+    { GluonEngine::ScriptAsset(HighSpeed.js)
+        file url(Assets/highspeed.js)
+    }
+    { GluonEngine::ScriptAsset(KeepSpeed.js)
+        file url(Assets/keepspeed.js)
+    }
+    { GluonEngine::ScriptAsset(LowSpin.js)
+        file url(Assets/lowspin.js)
+    }
+    { GluonEngine::ScriptAsset(MedSpin.js)
+        file url(Assets/medspin.js)
+    }
+    { GluonEngine::ScriptAsset(HighSpin.js)
+        file url(Assets/highspin.js)
+    }
+    { GluonEngine::ScriptAsset(SpinLeft.js)
+        file url(Assets/spinleft.js)
+    }
+    { GluonEngine::ScriptAsset(SpinRight.js)
+        file url(Assets/spinright.js)
+    }
+    { GluonEngine::ScriptAsset(Timeout.js)
+        file url(Assets/timeout.js)
+    }
+    { GluonEngine::ScriptAsset(InPath.js)
+        file url(Assets/inpath.js)
+    }
+    { GluonEngine::ScriptAsset(ReqSpeedImpactTest.js)
+        file url(Assets/reqspeedimpacttest.js)
+    }
+    { GluonEngine::ScriptAsset(ReqSpinImpactTest.js)
+        file url(Assets/reqspinimpacttest.js)
+    }
+    { GluonEngine::ScriptAsset(Bounds.js)
+        file url(Assets/bounds.js)
+    }
+    { GluonEngine::ScriptAsset(IncreaseSpeed.js)
+        file url(Assets/increasespeed.js)
+    }
+    { GluonEngine::ScriptAsset(UntillOrthogonal.js)
+        file url(Assets/untillorthogonal.js)
+    }
+    { GluonEngine::ScriptAsset(Rotate.js)
+        file url(Assets/rotate.js)
+    }
+}

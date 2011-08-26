@@ -1,0 +1,341 @@
+<?xml version="1.0"?>
+<project name="">
+    <nodetypes>
+        <nodetype name="Visible, nearest and heaviest" description="checks for a visible, nearest and heaviest particle" className="VisibleNearestHeaviest" category="action"/>
+        <nodetype name="Apply Speed" description="Applying speed to the current particle" className="ApplySpeed" category="action"/>
+        <nodetype name="Apply Spin" description="Applying spin to the current particle" className="ApplySpin" category="action"/>
+        <nodetype name="Time Interval" description="Checks for a certain time interval and executes the child if it has been reached" className="TimeInterval" category="decorator">
+            <property name="interval" description="The interval which allows it to run its child" datatype="double"/>
+        </nodetype>
+        <nodetype name="Distance" description="Find distance to the particle" className="Distance" category="action"/>
+        <nodetype name="Velocity" description="Finds the velocity of the particle" className="Velocity" category="action"/>
+        <nodetype name="Required Speed For Impact" description="Calculates the required speed for impact" className="ReqSpeedImpact" category="action"/>
+        <nodetype name="Required Spin For Impact" description="Calculates the required spin for impact" className="ReqSpinImpact" category="action"/>
+        <nodetype name="Required Speed For Impact Test" description="Calculates the required speed for impact" className="ReqSpeedImpactTest" category="action"/>
+        <nodetype name="Required Spin For Impact Test" description="Calculates the required spin for impact" className="ReqSpinImpactTest" category="action"/>
+        <nodetype name="Untill Speed" description="Continues executing child untill a certain speed" className="UntillSpeed" category="decorator"/>
+        <nodetype name="Untill Spin" description="Continues to execute child untill a certain spin has been reached" className="UntillSpin" category="decorator"/>
+        <nodetype name="Speed Threshold" description="Only allowing the child to execute at a given speed threshold" className="SpeedThreshold" category="decorator">
+            <property name="speedThreshold" description="speed threshold" datatype="double"/>
+        </nodetype>
+        <nodetype name="Visible and Nearest" description="Checks for the nearest visible particle" className="VisibleNearest" category="action"/>
+        <nodetype name="Required avoid spin" description="Finds the required spin for avoidanc" className="ReqAvoidSpin" category="action"/>
+        <nodetype name="Switch to particle" description="Switching to another particle" className="Switch" category="action"/>
+        <nodetype name="Infinite loop" description="An infinite loop" className="InfiniteLoop" category="decorator"/>
+        <nodetype name="Low Speed" description="" className="LowSpeed" category="action">
+            <property name="speed" description="" datatype="double"/>
+        </nodetype>
+        <nodetype name="Keep Speed" description="" className="KeepSpeed" category="action"/>
+        <nodetype name="Med Speed" description="" className="MedSpeed" category="action">
+            <property name="speed" description="" datatype="double"/>
+        </nodetype>
+        <nodetype name="High Speed" description="" className="HighSpeed" category="action">
+            <property name="speed" description="" datatype="double"/>
+        </nodetype>
+        <nodetype name="Low Spin" description="" className="LowSpin" category="action">
+            <property name="spin" description="" datatype="double"/>
+        </nodetype>
+        <nodetype name="Med Spin" description="" className="MedSpin" category="action">
+            <property name="spin" description="" datatype="double"/>
+        </nodetype>
+        <nodetype name="High Spin" description="" className="HighSpin" category="action">
+            <property name="spin" description="" datatype="double"/>
+        </nodetype>
+        <nodetype name="In path" description="" className="InPath" category="action"/>
+        <nodetype name="Bounds" description="" className="Bounds" category="action"/>
+        <nodetype name="Timeout" description="" className="Timeout" category="action">
+            <property name="time" description="Timeout in seconds" datatype="double"/>
+        </nodetype>
+        <nodetype name="Spin Left" description="" className="SpinLeft" category="action"/>
+        <nodetype name="Spin Right" description="" className="SpinRight" category="action"/>
+        <nodetype name="Increase Speed" description="Increases the speed continuesly" className="IncreaseSpeed" category="action"/>
+        <nodetype name="Untill Orthogonal" description="Applies spin until it is 90 degrees" className="UntillOrthogonal" category="action"/>
+        <nodetype name="Rotate" description="Rotate" className="Rotate" category="action"/>
+    </nodetypes>
+    <behaviortrees>
+        <behaviortree name="Player" description="" uid="0">
+            <behaviornode name="Root" description="A collection of behaviors which are launched in order, until one succeeds (only fails if all fails)" nodetype="[probselector]">
+                <property name="weights" value="">
+                    <item value="0.333333333333333" editorvalue="0.5"/>
+                    <item value="0.333333333333333" editorvalue="0.5"/>
+                    <item value="0.333333333333333" editorvalue="0.5"/>
+                </property>
+                <behaviornode name="Aggressive" description="A reference to the behavior tree named Aggressive" nodetype="[reference]">
+                    <property name="reference" value="1">
+                        <decorator name="Infinite loop" description="An infinite loop" nodetype="InfiniteLoop"/>
+                    </property>
+                </behaviornode>
+                <behaviornode name="Exploration" description="A reference to the behavior tree named Exploration" nodetype="[reference]">
+                    <property name="reference" value="2">
+                        <decorator name="Infinite loop" description="An infinite loop" nodetype="InfiniteLoop"/>
+                    </property>
+                </behaviornode>
+                <behaviornode name="Cautious" description="A reference to the behavior tree named Cautious" nodetype="[reference]">
+                    <property name="reference" value="3">
+                        <decorator name="Infinite loop" description="An infinite loop" nodetype="InfiniteLoop"/>
+                    </property>
+                </behaviornode>
+            </behaviornode>
+        </behaviortree>
+        <behaviortree name="Aggressive" description="" uid="1">
+            <behaviornode name="Top Behavior" description="A collection of behaviors which are launched in order, until one succeeds (only fails if all fails)" nodetype="[selector]">
+                <behaviornode name="Aggressive" description="Agrressive tactic" nodetype="[sequence]">
+                    <behaviornode name="Find visible, heaviest and nearest particle" description="finding the nearest, heaviest and visible particle" nodetype="[parallel]">
+                        <property name="conditions" value="">
+                            <item value="1" editorvalue="1"/>
+                            <item value="-1" editorvalue="-1"/>
+                            <item value="-1" editorvalue="-1"/>
+                        </property>
+                        <behaviornode name="Visible, nearest and heaviest" description="checks for a visible, nearest and heaviest particle" nodetype="VisibleNearestHeaviest"/>
+                        <behaviornode name="Apply Speed" description="Applying speed to the current particle" nodetype="ApplySpeed">
+                            <decorator name="Time Interval" description="Checks for a certain time interval and executes the child if it has been reached" nodetype="TimeInterval">
+                                <property name="interval" value="0.1"/>
+                            </decorator>
+                        </behaviornode>
+                        <behaviornode name="Apply Spin" description="Applying spin to the current particle" nodetype="ApplySpin">
+                            <decorator name="Time Interval" description="Checks for a certain time interval and executes the child if it has been reached" nodetype="TimeInterval">
+                                <property name="interval" value="0.1"/>
+                            </decorator>
+                        </behaviornode>
+                    </behaviornode>
+                    <behaviornode name="Hit particle" description="Tries to hit a particle" nodetype="[sequence]">
+                        <behaviornode name="Distance" description="Find distance to the particle" nodetype="Distance"/>
+                        <behaviornode name="Velocity" description="Finds the velocity of the particle" nodetype="Velocity"/>
+                        <behaviornode name="Required Speed For Impact" description="Calculates the required speed for impact" nodetype="ReqSpeedImpact"/>
+                        <behaviornode name="Required Spin For Impact" description="Calculates the required spin for impact" nodetype="ReqSpinImpact"/>
+                        <behaviornode name="Apply Spin" description="Applying spin to the current particle" nodetype="ApplySpin">
+                            <decorator name="Untill Spin" description="Continues to execute child untill a certain spin has been reached" nodetype="UntillSpin"/>
+                        </behaviornode>
+                        <behaviornode name="Apply Speed" description="Applying speed to the current particle" nodetype="ApplySpeed">
+                            <decorator name="Untill Speed" description="Continues executing child untill a certain speed" nodetype="UntillSpeed"/>
+                        </behaviornode>
+                    </behaviornode>
+                </behaviornode>
+            </behaviornode>
+        </behaviortree>
+        <behaviortree name="Exploration" description="" uid="2">
+            <behaviornode name="Top Behavior" description="A collection of behaviors which are launched in order, until one succeeds (only fails if all fails)" nodetype="[selector]">
+                <behaviornode name="Exploration" description="A sequence of behaviors, launched in order (fails if one fails)" nodetype="[sequence]">
+                    <behaviornode name="Avoid particle" description="Tries to avoid particle" nodetype="[sequence]">
+                        <behaviornode name="Find Nearest and Visible Particle" description="A reference to the behavior tree named Find Nearest and Visible Particle" nodetype="[reference]">
+                            <property name="reference" value="4"/>
+                        </behaviornode>
+                        <behaviornode name="Required avoid spin" description="Finds the required spin for avoidanc" nodetype="ReqAvoidSpin"/>
+                        <behaviornode name="Apply Spin" description="Applying spin to the current particle" nodetype="ApplySpin">
+                            <decorator name="Untill Spin" description="Continues to execute child untill a certain spin has been reached" nodetype="UntillSpin"/>
+                        </behaviornode>
+                    </behaviornode>
+                    <behaviornode name="Apply Speed" description="Applying speed to the current particle" nodetype="ApplySpeed"/>
+                    <behaviornode name="Apply Spin" description="Applying spin to the current particle" nodetype="ApplySpin">
+                        <decorator name="Time Interval" description="Checks for a certain time interval and executes the child if it has been reached" nodetype="TimeInterval">
+                            <property name="interval" value="0.1"/>
+                        </decorator>
+                    </behaviornode>
+                    <behaviornode name="Aggressive" description="A reference to the behavior tree named Aggressive" nodetype="[reference]">
+                        <property name="reference" value="1">
+                            <decorator name="Speed Threshold" description="Only allowing the child to execute at a given speed threshold" nodetype="SpeedThreshold">
+                                <property name="speedThreshold" value="50"/>
+                            </decorator>
+                        </property>
+                    </behaviornode>
+                </behaviornode>
+            </behaviornode>
+        </behaviortree>
+        <behaviortree name="Cautious" description="" uid="3">
+            <behaviornode name="Cautious" description="Cautious tactic" nodetype="[selector]">
+                <behaviornode name="Switch" description="Switching particle" nodetype="[sequence]">
+                    <behaviornode name="Apply Spin" description="Applying spin to the current particle" nodetype="ApplySpin"/>
+                    <behaviornode name="Apply Speed" description="Applying speed to the current particle" nodetype="ApplySpeed"/>
+                    <behaviornode name="Switch particle" description="A sequence of behaviors, launched in order (fails if one fails)" nodetype="[sequence]">
+                        <behaviornode name="Find Nearest and Visible Particle" description="A reference to the behavior tree named Find Nearest and Visible Particle" nodetype="[reference]">
+                            <property name="reference" value="4"/>
+                        </behaviornode>
+                        <behaviornode name="Switch to particle" description="Switching to another particle" nodetype="Switch"/>
+                    </behaviornode>
+                </behaviornode>
+                <behaviornode name="Exploration" description="A reference to the behavior tree named Exploration" nodetype="[reference]">
+                    <property name="reference" value="2"/>
+                </behaviornode>
+            </behaviornode>
+        </behaviortree>
+        <behaviortree name="Find Nearest and Visible Particle" description="" uid="4">
+            <behaviornode name="Top Behavior" description="A collection of behaviors which are launched in order, until one succeeds (only fails if all fails)" nodetype="[selector]">
+                <behaviornode name="Find nearest and visible particle" description="Finds the nearest visible particle" nodetype="[parallel]">
+                    <property name="conditions" value="">
+                        <item value="1" editorvalue="1"/>
+                        <item value="-1" editorvalue="-1"/>
+                        <item value="-1" editorvalue="-1"/>
+                    </property>
+                    <behaviornode name="Visible and Nearest" description="Checks for the nearest visible particle" nodetype="VisibleNearest"/>
+                    <behaviornode name="Apply Spin" description="Applying spin to the current particle" nodetype="ApplySpin">
+                        <decorator name="Time Interval" description="Checks for a certain time interval and executes the child if it has been reached" nodetype="TimeInterval">
+                            <property name="interval" value="0.1"/>
+                        </decorator>
+                    </behaviornode>
+                    <behaviornode name="Apply Speed" description="Applying speed to the current particle" nodetype="ApplySpeed">
+                        <decorator name="Time Interval" description="Checks for a certain time interval and executes the child if it has been reached" nodetype="TimeInterval">
+                            <property name="interval" value="0.1"/>
+                        </decorator>
+                    </behaviornode>
+                </behaviornode>
+            </behaviornode>
+        </behaviortree>
+        <behaviortree name="Root" description="" uid="5">
+            <behaviornode name="Top Behavior" description="A collection of behaviors which are launched in order, until one succeeds (only fails if all fails)" nodetype="[selector]">
+                <behaviornode name="Root" description="A collection of behaviors which are launched due to a probability, until one succeeds (only fails if all fails)" nodetype="[probselector]">
+                    <property name="weights" value="">
+                        <item value="0.333333333333333" editorvalue="0.5"/>
+                        <item value="0.333333333333333" editorvalue="0.5"/>
+                        <item value="0.333333333333333" editorvalue="0.5"/>
+                    </property>
+                    <behaviornode name="Direct" description="A reference to the behavior tree named Direct" nodetype="[reference]">
+                        <property name="reference" value="6"/>
+                    </behaviornode>
+                    <behaviornode name="Arc" description="A reference to the behavior tree named Arc" nodetype="[reference]">
+                        <property name="reference" value="11"/>
+                    </behaviornode>
+                    <behaviornode name="Spiral" description="A reference to the behavior tree named Spiral" nodetype="[reference]">
+                        <property name="reference" value="7"/>
+                    </behaviornode>
+                </behaviornode>
+            </behaviornode>
+        </behaviortree>
+        <behaviortree name="DirectRoot" description="" uid="6">
+            <behaviornode name="Top Behavior" description="A collection of behaviors which are launched in order, until one succeeds (only fails if all fails)" nodetype="[selector]">
+                <behaviornode name="Direct" description="A sequence of behaviors, launched in order (fails if one fails)" nodetype="[sequence]">
+                    <behaviornode name="Speed" description="A reference to the behavior tree named Speed" nodetype="[reference]">
+                        <property name="reference" value="10"/>
+                    </behaviornode>
+                    <behaviornode name="Hit Particle Parallel" description="A collection of behaviors which are launched in parallel, and fails or succeeds according a set of conditions" nodetype="[parallel]">
+                        <property name="conditions" value="">
+                            <item value="1" editorvalue="1"/>
+                            <item value="-1" editorvalue="-1"/>
+                        </property>
+                        <behaviornode name="Hit particle" description="A sequence of behaviors, launched in order (fails if one fails)" nodetype="[sequence]">
+                            <behaviornode name="Distance" description="Find distance to the particle" nodetype="Distance"/>
+                            <behaviornode name="Velocity" description="Finds the velocity of the particle" nodetype="Velocity"/>
+                            <behaviornode name="Required Spin For Impact" description="Calculates the required spin for impact" nodetype="ReqSpinImpactTest"/>
+                            <behaviornode name="Rotate" description="" nodetype="Rotate"/>
+                            <behaviornode name="Apply Speed" description="Applying speed to the current particle" nodetype="ApplySpeed">
+                                <decorator name="Infinite loop" description="An infinite loop" nodetype="InfiniteLoop"/>
+                                <decorator name="Untill Speed" description="Continues executing child untill a certain speed" nodetype="UntillSpeed"/>
+                            </behaviornode>
+                        </behaviornode>
+                        <behaviornode name="Timeout" description="" nodetype="Timeout">
+			    <property name="time" value="10"/>
+			</behaviornode>
+                    </behaviornode>
+                </behaviornode>
+            </behaviornode>
+        </behaviortree>
+        <behaviortree name="SpiralRoot" description="" uid="7">
+            <behaviornode name="Top Behavior" description="A collection of behaviors which are launched in order, until one succeeds (only fails if all fails)" nodetype="[selector]">
+                <behaviornode name="Spiral" description="A collection of behaviors which are launched in parallel, and fails or succeeds according a set of conditions" nodetype="[parallel]">
+                    <property name="conditions" value="">
+                        <item value="1" editorvalue="1"/>
+                        <item value="-1" editorvalue="-1"/>
+                        <item value="-1" editorvalue="-1"/>
+                    </property>
+                    <behaviornode name="Move" description="A sequence of behaviors, launched in order (fails if one fails)" nodetype="[sequence]">
+                        <behaviornode name="Spin Direction" description="A reference to the behavior tree named Spin Direction" nodetype="[reference]">
+                            <property name="reference" value="9"/>
+                        </behaviornode>
+                        <behaviornode name="High Spin" description="Applying spin to the current particle" nodetype="HighSpin">
+			    <property name="spin" value="50"/>
+                        </behaviornode>
+                        <behaviornode name="Apply Spin" description="Applying spin to the current particle" nodetype="ApplySpin">
+                            <decorator name="Untill Spin" description="Continues to execute child untill a certain spin has been reached" nodetype="UntillSpin"/>
+                        </behaviornode>
+                        <behaviornode name="Increase Speed" description="" nodetype="IncreaseSpeed">
+                                <decorator name="Infinite loop" description="An infinite loop" nodetype="InfiniteLoop"/>
+                        </behaviornode>
+                    </behaviornode>
+                    <behaviornode name="Bounds" description="" nodetype="Bounds"/>
+                    <behaviornode name="Timeout" description="" nodetype="Timeout">
+                        <property name="time" value="10"/>
+                    </behaviornode>
+                </behaviornode>
+            </behaviornode>
+        </behaviortree>
+        <behaviortree name="Spin and Speed Root" description="" uid="8">
+            <behaviornode name="Top Behavior" description="A collection of behaviors which are launched in order, until one succeeds (only fails if all fails)" nodetype="[selector]">
+                <behaviornode name="Spin and Speed" description="A collection of behaviors which are launched in parallel, and fails or succeeds according a set of conditions" nodetype="[parallel]">
+                    <property name="conditions" value="">
+                        <item value="1" editorvalue="1"/>
+                        <item value="1" editorvalue="1"/>
+                    </property>
+                    <behaviornode name="Rotate" description="" nodetype="Rotate"/>
+                    <behaviornode name="Apply Speed" description="Applying speed to the current particle" nodetype="ApplySpeed">
+                        <decorator name="Infinite loop" description="An infinite loop" nodetype="InfiniteLoop"/>
+                        <decorator name="Untill Speed" description="Continues executing child untill a certain speed" nodetype="UntillSpeed"/>
+                    </behaviornode>
+                </behaviornode>
+            </behaviornode>
+        </behaviortree>
+        <behaviortree name="Spin Direction Root" description="" uid="9">
+            <behaviornode name="Top Behavior" description="A collection of behaviors which are launched in order, until one succeeds (only fails if all fails)" nodetype="[selector]">
+                <behaviornode name="Spin Direction" description="A collection of behaviors which are launched in parallel, and fails or succeeds according a set of conditions" nodetype="[probselector]">
+                    <property name="weights" value="">
+                        <item value="0.5" editorvalue="0.5"/>
+                        <item value="0.5" editorvalue="0.5"/>
+                    </property>
+                    <behaviornode name="Spin Left" description="" nodetype="SpinLeft"/>
+                    <behaviornode name="Spin Right" description="" nodetype="SpinRight"/>
+                </behaviornode>
+            </behaviornode>
+        </behaviortree>
+        <behaviortree name="SpeedRoot" description="" uid="10">
+            <behaviornode name="Top Behavior" description="A collection of behaviors which are launched in order, until one succeeds (only fails if all fails)" nodetype="[selector]">
+                <behaviornode name="Speed" description="A collection of behaviors which are launched due to a probability, until one succeeds (only fails if all fails)" nodetype="[probselector]">
+                    <property name="weights" value="">
+                        <item value="0.25" editorvalue="0.5"/>
+                        <item value="0.25" editorvalue="0.5"/>
+                        <item value="0.25" editorvalue="0.5"/>
+                        <item value="0.25" editorvalue="0.5"/>
+                    </property>
+                    <behaviornode name="Keep Speed" description="" nodetype="KeepSpeed"/>
+                    <behaviornode name="Med Speed" description="" nodetype="MedSpeed">
+                        <property name="speed" value="20"/>
+                    </behaviornode>
+                    <behaviornode name="Low Speed" description="" nodetype="LowSpeed">
+                        <property name="speed" value="10"/>
+                    </behaviornode>
+                    <behaviornode name="High Speed" description="" nodetype="HighSpeed">
+                        <property name="speed" value="50"/>
+                    </behaviornode>
+                </behaviornode>
+            </behaviornode>
+        </behaviortree>
+        <behaviortree name="ArcRoot" description="" uid="11">
+            <behaviornode name="Top Behavior" description="A collection of behaviors which are launched in order, until one succeeds (only fails if all fails)" nodetype="[selector]">
+                <behaviornode name="Arc" description="A sequence of behaviors, launched in order (fails if one fails)" nodetype="[sequence]">
+                    <behaviornode name="Spin Direction" description="A reference to the behavior tree named Spin Direction" nodetype="[reference]">
+                        <property name="reference" value="9"/>
+                    </behaviornode>
+                    
+                    <behaviornode name="Speed" description="A reference to the behavior tree named Speed" nodetype="[reference]">
+                        <property name="reference" value="10"/>
+                    </behaviornode>
+                    <behaviornode name="Try hit" description="A collection of behaviors which are launched in parallel, and fails or succeeds according a set of conditions" nodetype="[parallel]">
+                        <property name="conditions" value="">
+                            <item value="1" editorvalue="1"/>
+                            <item value="1" editorvalue="1"/>
+                            <item value="-1" editorvalue="-1"/>
+                        </property>
+                        <behaviornode name="Required Spin For Impact Test" description="Calculates the required spin for impact" nodetype="ReqSpinImpactTest">
+                            <decorator name="Time Interval" description="Checks for a certain time interval and executes the child if it has been reached" nodetype="TimeInterval">
+                                <property name="interval" value="0.1"/>
+                            </decorator>
+                        </behaviornode>
+                        <behaviornode name="Spin and Speed" description="A reference to the behavior tree named Spin and Speed" nodetype="[reference]">
+                            <property name="reference" value="8"/>
+                        </behaviornode>
+                        <behaviornode name="Timeout" description="" nodetype="Timeout">
+                            <property name="time" value="10"/>
+                        </behaviornode>
+                    </behaviornode>
+                </behaviornode>
+            </behaviornode>
+        </behaviortree>
+    </behaviortrees>
+</project>
