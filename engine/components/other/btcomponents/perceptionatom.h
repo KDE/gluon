@@ -22,7 +22,7 @@ namespace GluonEngine
 		Q_PROPERTY(QVariant knowledge READ knowledge)
 		Q_PROPERTY(qreal precision READ precision WRITE setPrecision)
 		Q_PROPERTY(bool shouldUpdate READ shouldUpdate WRITE setShouldUpdate)
-		
+                Q_CLASSINFO( "org.gluon.category", "Behavior Tree" )
 		public:
                         Q_INVOKABLE PerceptionAtom(QObject* parent = 0);
 			PerceptionAtom(const PerceptionAtom& other, QObject* parent = 0);

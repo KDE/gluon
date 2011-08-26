@@ -24,9 +24,10 @@ namespace GluonEngine
                 Q_PROPERTY(QVector3D position READ position WRITE setPosition/* NOTIFY positionUpdated*/)
                 Q_PROPERTY(qreal radius READ radius WRITE setRadius/* NOTIFY radiusUpdated*/)
 		Q_PROPERTY(GluonEngine::Asset* script READ script WRITE setScript)
+                Q_CLASSINFO( "org.gluon.category", "Behavior Tree" )
         
 		public:
-			PerceptionInfo(QObject* parent = 0);
+                        Q_INVOKABLE PerceptionInfo(QObject* parent = 0);
 			PerceptionInfo(const PerceptionInfo& other, QObject* parent = 0);
 			~PerceptionInfo();
 			

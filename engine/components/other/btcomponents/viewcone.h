@@ -20,7 +20,7 @@ namespace GluonEngine
 		Q_PROPERTY(qreal extentAngleVertical READ extentAngleVertical WRITE setExtentAngleVertical);
 		Q_PROPERTY(qreal radius READ radius WRITE setRadius);
 		Q_PROPERTY(qreal knowledgePrecision READ knowledgePrecision WRITE setKnowledgePrecision);
-		
+                Q_CLASSINFO( "org.gluon.category", "Behavior Tree" )
 		public:
                         Q_INVOKABLE ViewCone(QObject * parent = 0);
 			ViewCone(const ViewCone& other, QObject* parent = 0);
