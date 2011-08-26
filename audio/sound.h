@@ -51,7 +51,7 @@ namespace GluonAudio
             /**
             * @param fileName the path of the file to play
             */
-            explicit Sound( const QString& fileName );
+            explicit Sound( const QString& fileName, QObject *parent = 0 );
 
             /**
             * Destructor
