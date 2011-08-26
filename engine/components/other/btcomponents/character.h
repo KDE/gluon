@@ -43,7 +43,9 @@ namespace GluonEngine
         Q_PROPERTY(qreal knowledgePrecision READ knowledgePrecision WRITE setKnowledgePrecision)
         Q_PROPERTY(qreal perceptionLimit READ perceptionLimit WRITE setPerceptionLimit)
         Q_PROPERTY(GluonEngine::Tree* tree READ tree WRITE setTree)
+
         Q_CLASSINFO( "org.gluon.category", "Behavior Tree" )
+
         public:
             Q_INVOKABLE Character(QObject * parent = 0);
             Character(const Character &other, QObject * parent = 0);
