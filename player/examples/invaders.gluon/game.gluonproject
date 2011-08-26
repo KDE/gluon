@@ -14,6 +14,11 @@
         }
     }
     { GluonCore::GluonObject(Assets)
+	{ GluonEngine::GluonObject(BehaviorTree)
+	  { GluonEngine::btAsset(abc)
+	      file url(assets/btasset/abc.glbt)
+	  }
+	}
         { GluonCore::GluonObject(Interface)
             { GluonEngine::UiAsset(Menu Interface)
                 file url(assets/interface/menu_interface.qml)
@@ -107,6 +112,7 @@
                 texture0 uint(2)
             }
         }
+
     }
     { GluonCore::GluonObject(Prefabs)
     }

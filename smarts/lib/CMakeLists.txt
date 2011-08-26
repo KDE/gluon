@@ -13,7 +13,7 @@ endif ("${QT_QTCORE_LIBRARY}" MATCHES lib32)
 set(LIB_SUFFIX		    ${_Init_LIB_SUFFIX} CACHE STRING "The suffix of the system-wide library path")
 set(LIB_INSTALL_DIR         ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}    CACHE PATH "The subdirectory relative to the install prefix where libraries will be installed.")
 
-include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/../common/)
+include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${PROJECT_SOURCE_DIR})
 
 set(btlib_SRCS
 	btcharacter.cpp
@@ -40,7 +40,7 @@ set(btlib_HEADERS
     btbrain.h
     btselectornode.h
     btsequencenode.h
-    ../common/btglobal.h
+    btglobal.h
     btlib_export.h
     btlib.h
 	btnode.h
