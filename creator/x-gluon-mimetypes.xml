@@ -32,4 +32,9 @@
         <glob pattern="*.dae" />
         <comment>Collada Model</comment>
     </mime-type>
+    <mime-type type="application/xml">
+	<glob pattern="*.xml" />
+	<glob pattern="*.glbt" />
+        <comment>Gluon Behavior Tree</comment>
+    </mime-type>
 </mime-info>
