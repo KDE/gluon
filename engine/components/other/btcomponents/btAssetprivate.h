@@ -24,6 +24,7 @@
 #include <QtCore/QVariant>
 #include <QtCore/QMap>
 #include <smarts/lib/btbrain.h>
+#include <QtGui/QAction>
 
 namespace GluonEngine
 {
@@ -32,6 +33,7 @@ namespace GluonEngine
         Q_OBJECT
         public:
             btBrain* brain;
+            QList<QAction*> actions;
     };
 }
 

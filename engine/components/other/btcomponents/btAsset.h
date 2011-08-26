@@ -24,27 +24,40 @@
 #include <engine/gluon_engine_export.h>
 #include <smarts/lib/btnode.h>
 #include <smarts/lib/btbrain.h>
+#include <core/metainfo.h>
+
+#include "savable.h"
 
 namespace GluonEngine
 {
-    class btAssetPrivate;
-    
+
+class btAssetPrivate;
+
     class BTCOMPONENT_EXPORT btAsset : public GluonEngine::Asset
     {
         Q_OBJECT
         GLUON_OBJECT(GluonEngine::btAsset)
         Q_INTERFACES(GluonEngine::Asset)
+        Q_CLASSINFO( "org.gluon.category", "Behavior Tree" )
         
         public:
-            btAsset(QObject *parent = 0);
+            Q_INVOKABLE btAsset(QObject *parent = 0);
             btAsset(const btAsset& other, QObject* parent = 0);
             ~btAsset();
             
             virtual void setFile(const QUrl &newFile);
 	    virtual const QStringList supportedMimeTypes() const;
-            
+
+            virtual const QList<AssetTemplate*> templates();
+            virtual QList<QAction*> actions();
+
+
+        protected:
+            virtual void populateMetaInfo( GluonCore::MetaInfo*  info );
+
         private:
             btAssetPrivate* d;
+
     };
 }
 

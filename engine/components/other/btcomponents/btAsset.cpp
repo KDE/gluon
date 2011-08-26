@@ -28,12 +28,14 @@
 #include <QtCore/QMap>
 #include <QtCore/QDebug>
 #include <QtCore/QStringList>
+#include <core/gdlhandler.h>
 
 Q_DECLARE_METATYPE(btNode*)
 
 REGISTER_OBJECTTYPE(GluonEngine, btAsset)
 
 using namespace GluonEngine;
+
 
 btAsset::btAsset(QObject * parent)
     : GluonEngine::Asset(parent)
@@ -54,6 +56,18 @@ btAsset::~btAsset()
     delete(d);
 }
 
+const QList< AssetTemplate* > btAsset::templates()
+{
+    QList< AssetTemplate* > templates;
+    templates.append( new AssetTemplate( tr("Behavior Tree Asset"), "gluon_template.glbt", "btAsset", this ) );
+    return templates;
+}
+
+QList< QAction* > btAsset::actions()
+{
+    return d->actions;
+}
+
 void
 btAsset::setFile(const QUrl &newFile)
 {
@@ -61,20 +75,20 @@ btAsset::setFile(const QUrl &newFile)
     QFile *brainFile = new QFile(newFile.toLocalFile());
     if(!brainFile->open(QIODevice::ReadOnly))
         return;
-    
+
     debug(QString("File opened, attempting to create brain"));
     QTextStream brainReader(brainFile);
     btBrain* newBrain = new btBrain(brainReader.readAll(), newFile.toLocalFile());
     brainFile->close();
     delete(brainFile);
-    
+
     if(!newBrain)
         return;
-    
-    debug(QString("Brain loaded, replacing old brain and creating %1 sub-btAssets").arg(newBrain->behaviorTreesCount()));
+
+    debug(QString("Brain loaded, replacing old brain and creating %1 sub-Assets").arg(newBrain->behaviorTreesCount()));
     //delete(d->brain);
     d->brain = newBrain;
-    
+
     const QObjectList& oldChildren = children();
     QList<Tree*> newChildren;
     for(int i = 0; i < newBrain->behaviorTreesCount(); ++i)
@@ -85,7 +99,7 @@ btAsset::setFile(const QUrl &newFile)
         newTree->setName(newTree->behaviorTree()->name());
         newChildren.append(newTree);
     }
-    
+
     // Run through all old children
     foreach(QObject* oldChild, oldChildren)
     {
@@ -101,23 +115,28 @@ btAsset::setFile(const QUrl &newFile)
         // If no new child could be found, inform the oldChild that it should be removed
         emit theOldChild->treeChanged(theNewChild);
     }
-    
-    debug(QString("Brain successfully loaded! Number of sub-btAssets created: %1").arg(this->children().count()));
-    
+
+    debug(QString("Brain successfully loaded! Number of sub-Assets created: %1").arg(this->children().count()));
+
 //    qDeleteAll(oldChildren);
-    
+
     GluonEngine::Asset::setFile(newFile);
 }
 
 const QStringList
 btAsset::supportedMimeTypes() const
 {
-	QStringList list;
-	list.append("application/xml");
-	return list;
+        QStringList list;
+        list.append("application/xml");
+        return list;
+}
+
+void btAsset::populateMetaInfo(GluonCore::MetaInfo* info)
+{
+    info->setDefaultExtension( "glbt" );
 }
 
 //we only need to use this macro here, because we are registering and handling the other components and btAssets through the GLUON_OBJECT
-Q_EXPORT_PLUGIN2(gluon_plugin_Asset_behaviortree, GluonEngine::btAsset)
+Q_EXPORT_PLUGIN2(gluon_plugin_asset_behaviortree, GluonEngine::btAsset)
 
 #include "btAsset.moc"
