@@ -33,12 +33,15 @@ include_directories(
     ${QT_INCLUDES}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/gdl
 )
 
 set(GLUON_CORE_INCLUDES
     ${QT_INCLUDES}
     CACHE INTERNAL "Includes required for Gluon Core"
 )
+
+add_subdirectory(examples)
 
 set(GluonCore_SRCS
     directoryprovider.cpp
@@ -58,6 +61,11 @@ set(GluonCore_SRCS
     bindings/qtscript_QVector2D.cpp
     bindings/qtscript_QVector3D.cpp
     bindings/qtscript_QVector4D.cpp
+
+    gdl/gdllexer.cpp
+    gdl/gdlparser.cpp
+    gdl/gdlvisitor.cpp
+    gdl/gdldefaultvisitor.cpp
 )
 
 set(GluonCore_HEADERS
@@ -74,6 +82,21 @@ set(GluonCore_HEADERS
     singleton.h
 
     ${CMAKE_CURRENT_BINARY_DIR}/gluon_global.h
+)
+
+set(GluonCore_GDL_HEADERS
+    gdl/gdlparser.h
+    gdl/gdllexer.h
+    gdl/gdldefaultvisitor.h
+    gdl/gdlvisitor.h
+    gdl/gdlast.h
+    gdl/gdlast-fwd.h
+    gdl/kdev-pg-list.h
+    gdl/kdev-pg-allocator.h
+    gdl/kdev-pg-char-sets.h
+    gdl/kdev-pg-token-stream.h
+    gdl/kdev-pg-memory-pool.h
+    gdl/kdev-pg-location-table.h
 )
 
 qt4_automoc(${GluonCore_SRCS})
@@ -99,7 +122,7 @@ set_target_properties(GluonCore PROPERTIES BUILD_WITH_INSTALL_RPATH 1 VERSION ${
 if(APPLE)
     #hack for being able to set headers as public in a osx framework
     list(APPEND GluonCore_HEADERS
-            ${GluonCore_HEADERS}
+        ${GluonCore_HEADERS}
     )
 
     set_target_properties(GluonCore PROPERTIES FRAMEWORK TRUE)
@@ -111,18 +134,20 @@ if(APPLE)
     set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
 endif()
 
-install(
-    TARGETS     GluonCore
-    RUNTIME     DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluoncore
-    LIBRARY     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoncore
-    ARCHIVE     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoncore
-    FRAMEWORK   DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoncore
+install(TARGETS GluonCore
+    RUNTIME DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluoncore
+    LIBRARY DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoncore
+    ARCHIVE DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoncore
+    FRAMEWORK DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoncore
 )
 
-install(
-    FILES
-    ${GluonCore_HEADERS}
+install(FILES ${GluonCore_HEADERS}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/core
+    COMPONENT gluoncore
+)
+
+install(FILES ${GluonCore_GDL_HEADERS}
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/core/gdl
     COMPONENT gluoncore
 )
 
@@ -130,4 +155,3 @@ if(BUILD_GLUON_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif()
-
