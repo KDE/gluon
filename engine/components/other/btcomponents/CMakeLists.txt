@@ -89,4 +89,11 @@ install(
     DESTINATION ${LIB_INSTALL_DIR}/gluon
 )
 
+install(
+    FILES
+    gluon_template.glbt
+    DESTINATION
+    ${SHARE_INSTALL_DIR}/gluon/templates/btasset
+)
+
 #add_subdirectory(testapp)
