@@ -50,10 +50,16 @@ void SoundTest::testLoad()
     Sound sound;
     QCOMPARE(sound.load("non.existing.file"), false);
     QCOMPARE(sound.isValid(), false);
+    QCOMPARE(sound.load("/usr/share/sounds/KDE-Sys-Log-In.ogg"), true);
+    QCOMPARE(sound.isValid(), true);
 }
 
 void SoundTest::testIsValid()
 {
+    Sound sound;
+    QCOMPARE(sound.isValid(), false);
+    sound.load("/usr/share/sounds/KDE-Sys-Log-In.ogg");
+    QCOMPARE(sound.isValid(), true);
 }
 
 void SoundTest::testStatus()
@@ -62,14 +68,31 @@ void SoundTest::testStatus()
 
 void SoundTest::testIsPlaying()
 {
+    Sound sound;
+    QCOMPARE(sound.isPlaying(), false);
+    sound.load("/usr/share/sounds/KDE-Sys-Log-In.ogg");
+    sound.play();
+    QCOMPARE(sound.isPlaying(), true);
+    sound.stop();
+    QCOMPARE(sound.isPlaying(), false);
 }
 
 void SoundTest::testIsLooping()
 {
+    Sound sound;
+    QCOMPARE(sound.isLooping(), false);
+    sound.setLoop();
+    QCOMPARE(sound.isLooping(), true);
+    sound.setLoop(false);
+    QCOMPARE(sound.isLooping(), false);
 }
 
 void SoundTest::testPosition()
 {
+    Sound sound;
+    QCOMPARE(sound.position(), QVector3D(0, 0, 0));
+    sound.setPosition(QVector3D(1, 2, 3));
+    QCOMPARE(sound.position(), QVector3D(1, 2, 3));
 }
 
 void SoundTest::testVolume()
