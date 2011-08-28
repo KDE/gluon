@@ -44,6 +44,13 @@ namespace GluonPlayer
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 
+            enum Column
+            {
+                NameColumn,
+                ProgressColumn,
+                AchievedColumn
+            };
+
         private:
             class AchievementsModelPrivate;
             AchievementsModelPrivate* d;
