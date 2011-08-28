@@ -69,22 +69,22 @@ GameItemsModel::GameItemsModel( QObject* parent )
     }
 
     QHash<int, QByteArray> roles;
-    roles[GameNameRole] = "gameName";
-    roles[GameDescriptionRole] = "gameDescription";
-    roles[ProjectFileNameRole] = "projectFileName";
-    roles[ProjectDirNameRole] = "projectDirName";
+    roles[ProjectNameRole] = "projectName";
+    roles[ProjectDescriptionRole] = "projectDescription";
+    roles[ProjectFilePathRole] = "projectFilePath";
+    roles[ProjectDirPathRole] = "projectDirPath";
     roles[ScreenshotUrlsRole] = "screenshotUrls";
     roles[StatusRole] = "status";
-    roles[IDRole] = "id";
+    roles[ProjectIDRole] = "projcetId";
 
     // Downloadable Game item roles
-    roles[GameNameDownloadableRole] = "gameNameDownloadable";
-    roles[GameDescriptionDownloadableRole] = "gameDescriptionDownloadable";
-    roles[ProjectFileNameDownloadableRole] = "projectFileNameDownloadable";
-    roles[ProjectDirNameDownloadableRole] = "projectDirNameDownloadable";
+    roles[ProjectNameDownloadableRole] = "projectNameDownloadable";
+    roles[ProjectDescriptionDownloadableRole] = "projectDescriptionDownloadable";
+    roles[ProjectFilePathDownloadableRole] = "projectFilePathDownloadable";
+    roles[ProjectDirPathDownloadableRole] = "projectDirPathDownloadable";
     roles[ScreenshotUrlsDownloadableRole] = "screenshotUrlsDownloadable";
     roles[StatusDownloadableRole] = "statusDownloadable";
-    roles[IDDownloadableRole] = "idDownloadable";
+    roles[ProjectIDDownloadableRole] = "projectIdDownloadable";
     setRoleNames( roles );
 
     fetchGamesList();
@@ -103,37 +103,37 @@ QVariant GameItemsModel::data( const QModelIndex& index, int role ) const
     {
         case Qt::UserRole:
             break;
-        case GameNameRole:
-            return d->m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->gameName();
-        case GameDescriptionRole:
-            return d->m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->gameDescription();
-        case ProjectDirNameRole:
-            return d->m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->projectDirName();
+        case ProjectNameRole:
+            return d->m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->projectName();
+        case ProjectDescriptionRole:
+            return d->m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->projectDescription();
+        case ProjectDirPathRole:
+            return d->m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->projectDirPath();
         case Qt::DisplayRole:
-        case ProjectFileNameRole:
-            return d->m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->projectFileName();
+        case ProjectFilePathRole:
+            return d->m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->projectFilePath();
         case ScreenshotUrlsRole:
             return d->m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->screenshotUrls();
         case StatusRole:
             return d->m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->status();
-        case IDRole:
-            return d->m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->id();
+        case ProjectIDRole:
+            return d->m_gameViewItems.values( GameViewItem::Installed ).at( index.row() )->projectId();
 
             // Downloadable Game item roles
-        case GameNameDownloadableRole:
-            return d->m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->gameName();
-        case GameDescriptionDownloadableRole:
-            return d->m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->gameDescription();
-        case ProjectDirNameDownloadableRole:
-            return d->m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->projectDirName();
-        case ProjectFileNameDownloadableRole:
-            return d->m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->projectFileName();
+        case ProjectNameDownloadableRole:
+            return d->m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->projectName();
+        case ProjectDescriptionDownloadableRole:
+            return d->m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->projectDescription();
+        case ProjectDirPathDownloadableRole:
+            return d->m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->projectDirPath();
+        case ProjectFilePathDownloadableRole:
+            return d->m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->projectFilePath();
         case ScreenshotUrlsDownloadableRole:
             return d->m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->screenshotUrls();
         case StatusDownloadableRole:
             return d->m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->status();
-        case IDDownloadableRole:
-            return d->m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->id();
+        case ProjectIDDownloadableRole:
+            return d->m_gameViewItems.values( GameViewItem::Downloadable ).at( index.row() )->projectId();
         default:
             break;
     }

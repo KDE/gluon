@@ -28,27 +28,27 @@ class GameViewItem::Private
     {
     }
 
-    QString m_gameName;
-    QString m_gameDescription;
-    QString m_projectDirName;
-    QString m_projectFileName;
-    QStringList m_screenshotUrls;
-    Status m_status;
-    QString m_id;
+    QString projectName;
+    QString projectDescription;
+    QString projectDirPath;
+    QString projectFilePath;
+    QStringList screenshotUrls;
+    Status status;
+    QString projectId;
 };
 
-GameViewItem::GameViewItem( const QString& gameName, const QString& gameDescription,
-                            const QString& projectDirName, const QString& projectFileName, const Status& status,
-                            const QString& id, QObject* parent )
+GameViewItem::GameViewItem( const QString& projectName, const QString& projectDescription,
+                            const QString& projectDirPath, const QString& projectFilePath, const Status& status,
+                            const QString& projectId, QObject* parent )
     : QObject( parent )
     , d( new Private )
 {
-    d->m_gameName = gameName;
-    d->m_gameDescription = gameDescription;
-    d->m_projectDirName = projectDirName;
-    d->m_projectFileName = projectFileName;
-    d->m_status = status;
-    d->m_id = id;
+    d->projectName = projectName;
+    d->projectDescription = projectDescription;
+    d->projectDirPath = projectDirPath;
+    d->projectFilePath = projectFilePath;
+    d->status = status;
+    d->projectId = projectId;
 }
 
 GameViewItem::GameViewItem( const GameViewItem& /* other */, QObject* parent )
@@ -61,39 +61,39 @@ GameViewItem::~GameViewItem()
 {
 }
 
-QString GameViewItem::gameName() const
+QString GameViewItem::projectName() const
 {
-    return d->m_gameName;
+    return d->projectName;
 }
 
-QString GameViewItem::gameDescription() const
+QString GameViewItem::projectDescription() const
 {
-    return d->m_gameDescription;
+    return d->projectDescription;
 }
 
-QString GameViewItem::projectDirName() const
+QString GameViewItem::projectDirPath() const
 {
-    return d->m_projectDirName;
+    return d->projectDirPath;
 }
 
-QString GameViewItem::projectFileName() const
+QString GameViewItem::projectFilePath() const
 {
-    return d->m_projectFileName;
+    return d->projectFilePath;
 }
 
 QStringList GameViewItem::screenshotUrls() const
 {
-    return d->m_screenshotUrls;
+    return d->screenshotUrls;
 }
 
 GameViewItem::Status GameViewItem::status() const
 {
-    return d->m_status;
+    return d->status;
 }
 
-QString GameViewItem::id() const
+QString GameViewItem::projectId() const
 {
-    return d->m_id;
+    return d->projectId;
 }
 
 #include "gameviewitem.moc"

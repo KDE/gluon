@@ -127,7 +127,7 @@ void GameWindowManager::startGame( )
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     m_project = new GluonEngine::GameProject();
-    m_project->loadFromFile( m_gameFileName );
+    m_project->loadFromFile( m_projectFilePath );
 
     GluonEngine::Game::instance()->setGameProject( m_project );
     GluonEngine::Game::instance()->setCurrentScene( m_project->entryPoint() );
@@ -151,7 +151,7 @@ void GameWindowManager::stopGame()
 
 void GameWindowManager::setProject( int index )
 {
-    m_gameFileName = d->gameItemsModel->index( index ).data( GluonPlayer::GameItemsModel::ProjectFileNameRole ).toString();
+    m_projectFilePath = d->gameItemsModel->index( index ).data( GluonPlayer::GameItemsModel::ProjectFilePathRole ).toString();
     openProject();
 }
 
@@ -162,24 +162,24 @@ int GameWindowManager::availableGamesCount( ) const
 
 void GameWindowManager::buildCommentsModel( int index )
 {
-    QString gameID = d->gameItemsModel->index( index ).data( GluonPlayer::GameItemsModel::IDRole ).toString();
-    if( gameID.isEmpty() )
+    QString projectID = d->gameItemsModel->index( index ).data( GluonPlayer::GameItemsModel::ProjectIDRole ).toString();
+    if( projectID.isEmpty() )
     {
         return;
     }
 
-    d->commentItemsModel = new GluonPlayer::CommentItemsModel( gameID );
+    d->commentItemsModel = new GluonPlayer::CommentItemsModel( projectID );
 }
 
 void GameWindowManager::setProject( const QModelIndex& index )
 {
-    m_gameFileName = index.data( GluonPlayer::GameItemsModel::ProjectFileNameRole ).toString();
+    m_projectFilePath = index.data( GluonPlayer::GameItemsModel::ProjectFilePathRole ).toString();
     openProject();
 }
 
 void GameWindowManager::openProject()
 {
-    if( m_gameFileName.isEmpty() )
+    if( m_projectFilePath.isEmpty() )
     {
         return;
     }
