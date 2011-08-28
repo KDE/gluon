@@ -22,6 +22,7 @@ namespace GluonEngine
 		Q_PROPERTY(qreal knowledgePrecision READ knowledgePrecision WRITE setKnowledgePrecision);
 
                 Q_CLASSINFO( "org.gluon.category", "Behavior Tree" )
+                Q_CLASSINFO( "org.gluon.icon", "application-illustrator" )
 
 		public:
                         Q_INVOKABLE ViewCone(QObject * parent = 0);

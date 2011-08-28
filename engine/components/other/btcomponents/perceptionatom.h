@@ -24,6 +24,7 @@ namespace GluonEngine
 		Q_PROPERTY(bool shouldUpdate READ shouldUpdate WRITE setShouldUpdate)
 
                 Q_CLASSINFO( "org.gluon.category", "Behavior Tree" )
+                Q_CLASSINFO( "org.gluon.icon", "application-illustrator" )
 
 		public:
                         Q_INVOKABLE PerceptionAtom(QObject* parent = 0);

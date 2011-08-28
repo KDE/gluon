@@ -39,6 +39,7 @@ class btAssetPrivate;
         GLUON_OBJECT(GluonEngine::btAsset)
         Q_INTERFACES(GluonEngine::Asset)
         Q_CLASSINFO( "org.gluon.category", "Behavior Tree" )
+        Q_CLASSINFO( "org.gluon.icon", "application-illustrator" )
         
         public:
             Q_INVOKABLE btAsset(QObject *parent = 0);

@@ -25,6 +25,7 @@ namespace GluonEngine
                 Q_PROPERTY(qreal radius READ radius WRITE setRadius/* NOTIFY radiusUpdated*/)
 		Q_PROPERTY(GluonEngine::Asset* script READ script WRITE setScript)
                 Q_CLASSINFO( "org.gluon.category", "Behavior Tree" )
+                Q_CLASSINFO( "org.gluon.icon", "application-illustrator" )
         
 		public:
                         Q_INVOKABLE PerceptionInfo(QObject* parent = 0);

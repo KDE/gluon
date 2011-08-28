@@ -45,6 +45,7 @@ namespace GluonEngine
         Q_PROPERTY(GluonEngine::Tree* tree READ tree WRITE setTree)
 
         Q_CLASSINFO( "org.gluon.category", "Behavior Tree" )
+        Q_CLASSINFO( "org.gluon.icon", "application-illustrator" )
 
         public:
             Q_INVOKABLE Character(QObject * parent = 0);
