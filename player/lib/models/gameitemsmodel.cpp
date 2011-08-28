@@ -75,7 +75,7 @@ GameItemsModel::GameItemsModel( QObject* parent )
     roles[ProjectDirPathRole] = "projectDirPath";
     roles[ScreenshotUrlsRole] = "screenshotUrls";
     roles[StatusRole] = "status";
-    roles[ProjectIDRole] = "projcetId";
+    roles[ProjectIDRole] = "projectId";
 
     // Downloadable Game item roles
     roles[ProjectNameDownloadableRole] = "projectNameDownloadable";
