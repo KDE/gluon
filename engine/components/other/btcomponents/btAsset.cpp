@@ -59,7 +59,7 @@ btAsset::~btAsset()
 const QList< AssetTemplate* > btAsset::templates()
 {
     QList< AssetTemplate* > templates;
-    templates.append( new AssetTemplate( tr("Behavior Tree Asset"), "gluon_template.glbt", "btAsset", this ) );
+    templates.append( new AssetTemplate( tr("Behavior Tree Asset"), "gluon_template.glbt", "btasset", this ) );
     return templates;
 }
 

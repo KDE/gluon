@@ -8,7 +8,7 @@ Comment=Provides a Behavior Tree Editor for Gluon Creator
 Icon=gluon
 
 Type=Service
-MimeType=application/xml;
+MimeType=application/x-gluon-behaviortree;
 X-KDE-ServiceTypes=KParts/MainWindow,KParts/ReadWritePart
 
 X-KDE-Library=gluon_bteditor
