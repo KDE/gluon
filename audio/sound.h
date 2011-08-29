@@ -235,7 +235,7 @@ namespace GluonAudio
             * A value of 0.0 is meaningless with respect to a logarithmic
             * scale; it is interpreted as zero volume - the channel
             * is effectively disabled."
-            * The range that can be set is 0.0f - 10.0f
+            * The range that can be set is 0.0f - 1.0f
             * @see volume
             */
             void setVolume( ALfloat volume = 1.0f );

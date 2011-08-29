@@ -187,8 +187,6 @@ bool Sound::load( const QString& fileName )
         alSourcei( d->source, AL_BUFFER, buffer );
     }
 
-    alSourcef( d->source, AL_MAX_GAIN, 10.0f );
-
     d->isValid = !d->newError( "Loading " + d->path + " failed" );
 
     return d->isValid;
