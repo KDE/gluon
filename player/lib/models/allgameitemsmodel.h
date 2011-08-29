@@ -44,6 +44,7 @@ namespace GluonPlayer
     class GameItem;
     class GameDetailItem;
 
+    //TODO: Documentation (especially about roles)
     class GLUON_PLAYER_EXPORT AllGameItemsModel : public QAbstractListModel
     {
             Q_OBJECT
