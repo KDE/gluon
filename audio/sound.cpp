@@ -199,13 +199,6 @@ ALfloat Sound::timeOffset() const
     return seconds;
 }
 
-ALint Sound::status() const
-{
-    ALint status;
-    alGetSourcei( d->source, AL_SOURCE_STATE, &status );
-    return status;
-}
-
 bool Sound::isLooping() const
 {
     return d->isLooping;

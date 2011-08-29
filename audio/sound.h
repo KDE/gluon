@@ -84,11 +84,6 @@ namespace GluonAudio
             ALfloat timeOffset() const;
 
             /**
-            * @return the sound status
-            */
-            ALint status() const;
-
-            /**
              * Returns true if it is currently playing; otherwise returns false
              * if it is currently stopped or paused
              */
