@@ -51,7 +51,7 @@ namespace GluonAudio
             /**
             * @param fileName the path of the file to play
             */
-            explicit Sound( const QString& fileName );
+            explicit Sound( const QString& fileName, QObject *parent = 0 );
 
             /**
             * Destructor
@@ -82,11 +82,6 @@ namespace GluonAudio
             * @return the time since the sound started playing
             */
             ALfloat timeOffset() const;
-
-            /**
-            * @return the sound status
-            */
-            ALint status() const;
 
             /**
              * Returns true if it is currently playing; otherwise returns false

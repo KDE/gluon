@@ -18,6 +18,7 @@
  */
 
 #include "graphics/renderwidget.h"
+#include "graphics/rendertarget.h"
 #include "graphics/engine.h"
 #include "graphics/camera.h"
 #include "graphics/item.h"
@@ -37,6 +38,9 @@ int main( int argc, char* argv[] )
 {
     QApplication app( argc, argv );
 
+    //Store the engine instance in a variable
+    GluonGraphics::Engine *engine = GluonGraphics::Engine::instance();
+
     //Create a widget to render the graphics on.
     GluonGraphics::RenderWidget* widget = new GluonGraphics::RenderWidget();
     widget->show();
@@ -48,19 +52,46 @@ int main( int argc, char* argv[] )
     cam->frustrum()->setOrthographic( -5.f, 5.f, -5.f, 5.f, -5.f, 5.f );
 
     //Activate the new camera
-    GluonGraphics::Engine::instance()->setActiveCamera( cam );
+    engine->setActiveCamera( cam );
+
+    //Create a material
+    GluonGraphics::Material* material = engine->createMaterial( "customMaterialName" );
+    material->load( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/defaults/default.gml" );
+    material->build();
+
+    //Create an instance for the material
+    GluonGraphics::MaterialInstance *materialInstance = engine->material("customMaterialName")->createInstance("InstanceName");
 
     //Create an item to display
-    GluonGraphics::Item* item = GluonGraphics::Engine::instance()->createItem( "default" );
+    GluonGraphics::Item* item = engine->createItem( "default" );
+    item->setMaterialInstance(materialInstance);
 
     //Load a custom texture from file
-    GluonGraphics::Texture* tex = GluonGraphics::Engine::instance()->createTexture( "textureName" );
-    tex->load( QUrl( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/defaults/default.png" ) );
-    item->materialInstance()->setProperty( "texture0", "textureName" );
+    GluonGraphics::Texture* texture = engine->createTexture( "TextureName" );
+    texture->load( QUrl( GluonCore::DirectoryProvider::instance()->dataDirectory()
+                    + "/gluon/games/ball.gluon/assets/textures/ball.png" ) );
+    item->materialInstance()->setProperty( "texture0", "TextureName" );
+
+    //Create another instance for the material
+    GluonGraphics::MaterialInstance *materialInstance2 = engine->material("customMaterialName")->createInstance("Instance2Name");
+
+    //Create another item to display
+    GluonGraphics::Item* item2 = engine->createItem( "default" );
+    item2->setMaterialInstance(materialInstance2);
+
+    //Load another custom texture from file
+    GluonGraphics::Texture* texture2 = engine->createTexture( "Texture2Name" );
+    texture2->load( QUrl( GluonCore::DirectoryProvider::instance()->dataDirectory()
+                     + "/gluon/games/ball.gluon/assets/textures/trap.png" ));
+    item2->materialInstance()->setProperty( "texture0", "Texture2Name" );
 
     QMatrix4x4 mat;
-    mat.translate( -1.5f, -1.5f );
+    mat.translate( 1.5f, 1.5f );
     item->setTransform( mat );
+
+    QMatrix4x4 mat2;
+    mat2.translate( -1.5f, -1.5f );
+    item2->setTransform( mat2 );
 
     QTimer::singleShot( 0, widget, SLOT( updateGL() ) );
     return app.exec();

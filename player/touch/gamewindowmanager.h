@@ -74,7 +74,7 @@ namespace GluonQMLPlayer
             class GameWindowManagerPrivate;
             GameWindowManagerPrivate* d;
 
-            QString m_gameFileName;
+            QString m_projectFilePath;
             GluonEngine::GameProject* m_project;
 
             int m_viewportWidth;

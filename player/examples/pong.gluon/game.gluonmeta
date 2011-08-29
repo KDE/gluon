@@ -1,0 +1,5 @@
+{ GluonEngine::ProjectMetaData(GluonObject)
+    projectName string(Pong)
+    projectDescription string(Recreation of one of the first video games ever created)
+    projectFilePath string(/usr/share/gluon/games/pong.gluon/game.gluonproject)
+}

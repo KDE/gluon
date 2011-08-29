@@ -125,13 +125,15 @@ Sound::Sound(QObject *parent)
     : QObject( parent )
     , d( new SoundPrivate )
 {
+    Engine::instance();
     d->isValid = false;
 }
 
-Sound::Sound( const QString& fileName )
-    : QObject( Engine::instance() )
+Sound::Sound( const QString& fileName, QObject *parent )
+    : QObject( parent )
     , d( new SoundPrivate )
 {
+    Engine::instance();
     load( fileName );
 }
 
@@ -195,13 +197,6 @@ ALfloat Sound::timeOffset() const
     ALfloat seconds = 0.f;
     alGetSourcef( d->source, AL_SEC_OFFSET, &seconds );
     return seconds;
-}
-
-ALint Sound::status() const
-{
-    ALint status;
-    alGetSourcei( d->source, AL_SOURCE_STATE, &status );
-    return status;
 }
 
 bool Sound::isLooping() const

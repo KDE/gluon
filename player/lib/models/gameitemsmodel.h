@@ -53,22 +53,22 @@ namespace GluonPlayer
         public:
             enum GameItemsModelRoles
             {
-                GameNameRole = Qt::UserRole + 1,
-                GameDescriptionRole,
-                ProjectDirNameRole,
-                ProjectFileNameRole,
+                ProjectNameRole = Qt::UserRole + 1,
+                ProjectDescriptionRole,
+                ProjectDirPathRole,
+                ProjectFilePathRole,
                 ScreenshotUrlsRole,
                 StatusRole,
-                IDRole,
+                ProjectIDRole,
 
                 // Downloadable Game item roles
-                GameNameDownloadableRole,
-                GameDescriptionDownloadableRole,
-                ProjectDirNameDownloadableRole,
-                ProjectFileNameDownloadableRole,
+                ProjectNameDownloadableRole,
+                ProjectDescriptionDownloadableRole,
+                ProjectDirPathDownloadableRole,
+                ProjectFilePathDownloadableRole,
                 ScreenshotUrlsDownloadableRole,
                 StatusDownloadableRole,
-                IDDownloadableRole,
+                ProjectIDDownloadableRole,
             };
 
             explicit GameItemsModel( QObject* parent = 0 );
@@ -82,6 +82,8 @@ namespace GluonPlayer
 
             int downloadableCount() const;
             int upgradableCount() const;
+
+            GameViewItem* installedGameInfo( int row );
 
         Q_SIGNALS:
             void downloadableCountChanged();

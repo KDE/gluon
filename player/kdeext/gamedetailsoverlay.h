@@ -34,9 +34,15 @@
 #include <QtGui/QListView>
 #include <QtGui/QSortFilterProxyModel>
 
+namespace GluonEngine
+{
+    class ProjectMetaData;
+}
+
 namespace GluonPlayer
 {
     class HighScoresModel;
+    class AchievementsModel;
 }
 
 class HighScoresView;
@@ -49,7 +55,7 @@ namespace GluonKDEPlayer
     {
             Q_OBJECT
         public:
-            explicit GameDetailsOverlay( QString gameId, QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+            explicit GameDetailsOverlay( GluonEngine::ProjectMetaData* metaData, const QString& userName, QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
             virtual ~GameDetailsOverlay();
 
         protected slots:
@@ -66,12 +72,13 @@ namespace GluonKDEPlayer
 
             KTabWidget* m_tabWidget;
             QTableView* m_highScoresView;
-            AchievementsView* m_achievementsView;
+            QTableView* m_achievementsView;
             QListView* m_commentsView;
             CommentItemsViewDelegate* m_commentsDelegate;
 
             GluonPlayer::CommentItemsModel* m_commentsModel;
             GluonPlayer::HighScoresModel* m_highScoresModel;
+            GluonPlayer::AchievementsModel* m_achievementsModel;
             QGridLayout* m_contentLayout;
             NewCommentForm* m_newCommentForm;
             QWidget* m_commentWidget;

@@ -37,7 +37,7 @@ class ProjectMetaData::ProjectMetaDataPrivate
 
         QString projectName;
         QString projectDescription;
-        QString projectPath;
+        QString projectFilePath;
         QString projectId;
 };
 
@@ -47,13 +47,13 @@ ProjectMetaData::ProjectMetaData(QObject* parent)
 {
 }
 
-ProjectMetaData::ProjectMetaData( QString projectPath, QString projectName, QString projectDescription, QString projectId, QObject* parent )
+ProjectMetaData::ProjectMetaData( QString projectFilePath, QString projectName, QString projectDescription, QString projectId, QObject* parent )
     : GluonObject( parent )
     , d( new ProjectMetaDataPrivate )
 {
     d->projectName = projectName;
     d->projectDescription = projectDescription;
-    d->projectPath = projectPath;
+    d->projectFilePath = projectFilePath;
     d->projectId = projectId;
 }
 
@@ -82,14 +82,14 @@ void ProjectMetaData::setProjectDescription(const QString& description)
     d->projectDescription = description;
 }
 
-QString ProjectMetaData::projectPath() const
+QString ProjectMetaData::projectFilePath() const
 {
-    return d->projectPath;
+    return d->projectFilePath;
 }
 
-void ProjectMetaData::setProjectPath(const QString& path)
+void ProjectMetaData::setProjectFilePath(const QString& path)
 {
-    d->projectPath = path;
+    d->projectFilePath = path;
 }
 
 QString ProjectMetaData::projectId() const
@@ -104,12 +104,12 @@ void ProjectMetaData::setProjectId(const QString& id)
 
 QString ProjectMetaData::projectDir() const
 {
-    return projectPath().section( '/', 0, -2 );
+    return projectFilePath().section( '/', 0, -2 );
 }
 
 void ProjectMetaData::save()
 {
-    if( d->projectPath.isEmpty() )
+    if( d->projectFilePath.isEmpty() )
         return;
 
     const QString gdlString = GluonCore::GDLHandler::instance()->toGDL( qobject_cast<GluonCore::GluonObject*>( this ) );
@@ -128,7 +128,7 @@ void ProjectMetaData::save()
 
 void ProjectMetaData::load()
 {
-    if( d->projectPath.isEmpty() )
+    if( d->projectFilePath.isEmpty() )
         return;
 
     const QString saveDirectory = projectDir() + "/game.gluonmeta";

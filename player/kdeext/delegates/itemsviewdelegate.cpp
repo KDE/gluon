@@ -116,7 +116,7 @@ void ItemsViewDelegate::updateItemWidgets( const QList<QWidget*> widgets,
     {
         gameName->move( margin + m_buttonSize.width() * 3, option.fontMetrics.height() );
         gameName->resize( QSize( option.rect.width() - ( margin * 4 ) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2 ) );
-        gameName->setText( index.data( GluonPlayer::GameItemsModel::GameNameRole ).toString() );
+        gameName->setText( index.data( GluonPlayer::GameItemsModel::ProjectNameRole ).toString() );
     }
 
     GameTextLabel* gameDescription = qobject_cast<GameTextLabel*>( widgets.at( DelegateGameDescription ) );
@@ -125,7 +125,7 @@ void ItemsViewDelegate::updateItemWidgets( const QList<QWidget*> widgets,
     {
         gameDescription->move( margin + m_buttonSize.width() * 3,  option.fontMetrics.height() * 1 + gameName->size().height() );
         gameDescription->resize( QSize( option.rect.width() - ( margin * 4 ) - m_buttonSize.width() * 4, option.fontMetrics.height() * 2 ) );
-        gameDescription->setText( index.data( GluonPlayer::GameItemsModel::GameDescriptionRole ).toString() );
+        gameDescription->setText( index.data( GluonPlayer::GameItemsModel::ProjectDescriptionRole ).toString() );
     }
 
 }
