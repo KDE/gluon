@@ -187,6 +187,8 @@ bool Sound::load( const QString& fileName )
         alSourcei( d->source, AL_BUFFER, buffer );
     }
 
+    alSourcef( d->source, AL_MAX_GAIN, 10.0f );
+
     d->isValid = !d->newError( "Loading " + d->path + " failed" );
 
     return d->isValid;
@@ -255,7 +257,14 @@ ALfloat Sound::z() const
 
 ALfloat Sound::volume() const
 {
-    return d->volume;
+    if( !d->isValid )
+    {
+        return -1;
+    }
+
+    ALfloat volume;
+    alGetSourcef( d->source, AL_GAIN, &volume );
+    return volume;
 }
 
 ALfloat Sound::pitch() const
@@ -376,16 +385,6 @@ void Sound::rewind()
         alSourceRewind( d->source );
     }
     d->newError( "Rewinding " + d->path + " failed" );
-}
-
-void Sound::setMinVolume( ALfloat min )
-{
-    alSourcef( d->source, AL_MIN_GAIN, min );
-}
-
-void Sound::setMaxVolume( ALfloat max )
-{
-    alSourcef( d->source, AL_MAX_GAIN, max );
 }
 
 void Sound::setVelocity( ALfloat vx, ALfloat vy, ALfloat vz )

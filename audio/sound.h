@@ -142,7 +142,8 @@ namespace GluonAudio
             ALfloat z() const;
 
             /**
-            * @return the volume currently applied
+            * @return the volume currently applied.
+            * If there is no source loaded, it returns -1.
             * @see setVolume
             */
             ALfloat volume() const;
@@ -234,6 +235,7 @@ namespace GluonAudio
             * A value of 0.0 is meaningless with respect to a logarithmic
             * scale; it is interpreted as zero volume - the channel
             * is effectively disabled."
+            * The range that can be set is 0.0f - 10.0f
             * @see volume
             */
             void setVolume( ALfloat volume = 1.0f );
@@ -251,18 +253,8 @@ namespace GluonAudio
              */
             void setRadius( ALfloat radius = 10000.0f );
 
-            /**
-            * Specify the minimum index value of the volume,
-            * @param min is 0 by default
-            */
-            void setMinVolume( ALfloat min = 0.0f );
-
-            /**
-            * Specify the maximum index value of the volume,
-            * @param max is 10.0f by default
-            */
-            void setMaxVolume( ALfloat max = 10.0f );
             void setVelocity( ALfloat vx, ALfloat vy, ALfloat vz );
+
             void setDirection( ALfloat dx, ALfloat dy, ALfloat dz );
 
             /**
