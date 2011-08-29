@@ -35,7 +35,6 @@ private Q_SLOTS:
     void testLoad();
     void testLoadInvalidSource();
     void testIsValid();
-    void testStatus();
     void testIsPlaying();
     void testIsLooping();
     void testPosition();

@@ -60,7 +60,7 @@ void SoundTest::testLoad()
 
 void SoundTest::testLoadInvalidSource()
 {
-    Sound sound;
+    Sound sound(this);
     QCOMPARE(sound.isValid(), false);
     QCOMPARE(sound.load("non.existing.file"), false);
     QCOMPARE(sound.isValid(), false);
@@ -68,10 +68,13 @@ void SoundTest::testLoadInvalidSource()
 
 void SoundTest::testIsValid()
 {
-}
+    Sound sound(this);
+    QCOMPARE(sound.isValid(), false);
 
-void SoundTest::testStatus()
-{
+    QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
+    sound.load(shareInstallDir + "/gluon/audio/sounds/Front_Left.wav");
+
+    QCOMPARE(sound.isValid(), true);
 }
 
 void SoundTest::testIsPlaying()
@@ -93,30 +96,56 @@ void SoundTest::testIsPlaying()
 
 void SoundTest::testIsLooping()
 {
+    Sound sound(this);
+    QCOMPARE(sound.isValid(), false);
+    QCOMPARE(sound.isLooping(), false);
+
+    QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
+    sound.load(shareInstallDir + "/gluon/audio/sounds/Front_Left.wav");
+
+    QCOMPARE(sound.isValid(), true);
+
+    sound.setLoop(true);
+    QCOMPARE(sound.isLooping(), true);
+
+    sound.setLoop(false);
+    QCOMPARE(sound.isLooping(), false);
 }
 
 void SoundTest::testPosition()
 {
+    Sound sound(this);
+    QCOMPARE(sound.isValid(), false);
+    QVector3D vector3D(1.0, 2.0, 3.0);
+    sound.setPosition(vector3D);
+    QCOMPARE(sound.position(), vector3D);
 }
 
 void SoundTest::testVolume()
 {
+    Sound sound(this);
+    QCOMPARE(sound.isValid(), false);
+    QCOMPARE(sound.isLooping(), false);
+
     QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
-    Sound sound( shareInstallDir + "/gluon/audio/sounds/Front_Left.wav" );
-    sound.setVolume(2.0f);
-    QCOMPARE(sound.volume(), 2.0f);
+    sound.load(shareInstallDir + "/gluon/audio/sounds/Front_Left.wav");
+
+    QCOMPARE(sound.isValid(), true);
+
+    sound.setVolume(0.9f);
+    QCOMPARE(sound.volume(), 0.9f);
 }
 
 void SoundTest::testPitch()
 {
-    Sound sound;
+    Sound sound(this);
     sound.setPitch(1.5f);
     QCOMPARE(sound.pitch(), 1.5f);
 }
 
 void SoundTest::testRadius()
 {
-    Sound sound;
+    Sound sound(this);
     sound.setRadius(15000.0f);
     QCOMPARE(sound.radius(), 15000.0f);
 }
