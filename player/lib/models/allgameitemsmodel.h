@@ -18,14 +18,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_PLAYER_GAMEITEMSMODEL_H
-#define GLUON_PLAYER_GAMEITEMSMODEL_H
+#ifndef GLUONPLAYER_ALLGAMEITEMSMODEL_H
+#define GLUONPLAYER_ALLGAMEITEMSMODEL_H
 
 #include "lib/gluon_player_export.h"
 
-#include "gameviewitem.h"
-
 #include <QtCore/QAbstractListModel>
+#include <QtCore/QStringList>
+#include <QtCore/QMultiMap>
+#include <QtCore/QDir>
+
+namespace GluonEngine
+{
+    class GameProject;
+}
 
 namespace Attica
 {
@@ -34,70 +40,59 @@ namespace Attica
 
 namespace GluonPlayer
 {
+
+    class GameItem;
     class GameDetailItem;
 
-    /**
-     *\brief Model which contains a list of the installed games
-     *
-     * This model can be used to obtain a list of all the installed games
-     * Use the different roles of the model to obtain required properties.
-     *
-     */
-
-    class GLUON_PLAYER_EXPORT GameItemsModel : public QAbstractListModel
+    //TODO: Documentation (especially about roles)
+    class GLUON_PLAYER_EXPORT AllGameItemsModel : public QAbstractListModel
     {
             Q_OBJECT
-            Q_PROPERTY( int downloadableCount READ downloadableCount NOTIFY downloadableCountChanged )
-            Q_PROPERTY( int upgradableCount READ upgradableCount NOTIFY upgradableCountChanged )
 
         public:
             enum GameItemsModelRoles
             {
-                ProjectNameRole = Qt::UserRole + 1,
-                ProjectDescriptionRole,
-                ProjectDirPathRole,
-                ProjectFilePathRole,
-                ScreenshotUrlsRole,
+                GameNameRole = Qt::UserRole + 1,
+                GameDescriptionRole,
+                RatingRole,
                 StatusRole,
-                ProjectIDRole,
-
-                // Downloadable Game item roles
-                ProjectNameDownloadableRole,
-                ProjectDescriptionDownloadableRole,
-                ProjectDirPathDownloadableRole,
-                ProjectFilePathDownloadableRole,
-                ScreenshotUrlsDownloadableRole,
-                StatusDownloadableRole,
-                ProjectIDDownloadableRole,
+                IDRole
             };
 
-            explicit GameItemsModel( QObject* parent = 0 );
-            virtual ~GameItemsModel();
+            explicit AllGameItemsModel( QObject* parent = 0 );
+            virtual ~AllGameItemsModel();
 
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+            virtual bool setData( const QModelIndex& index, const QVariant& value, int role = Qt::EditRole );
 
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
 
-            int downloadableCount() const;
-            int upgradableCount() const;
-
-            GameViewItem* installedGameInfo( int row );
-
-        Q_SIGNALS:
-            void downloadableCountChanged();
-            void upgradableCountChanged();
-
         protected Q_SLOTS:
-            void processFetchedGameList ();
+            void processFetchedGamesList();
+            void processFetchedGameDetails( GameDetailItem* gameDetails );
+
+        private Q_SLOTS:
+            void directoryLoaded( const QString& path );
+            void ratingUploadFinished();
 
         private:
             void fetchGamesList();
+
+            void addGameItemToList( GameItem* gameItem );
+            GameItem* gameItemForId( const QString& id );
+            QString addGameFromDirectory( const QString& directoryPath );
+            void addOrUpdateGameFromFetchedGameItem( GameItem* gameItem );
+
+            void updateExistingGameItem( const GameItem* newGameItem );
+            void fetchAndUpdateExistingGameItem( const GameItem* gameItem );
+
+            void removeGameFromList( const QString& id );
 
             class Private;
             Private* const d;
     };
 }
 
-#endif // GLUON_PLAYER_GAMEITEMSMODEL_H
+#endif // GLUONPLAYER_ALLGAMEITEMSMODEL_H

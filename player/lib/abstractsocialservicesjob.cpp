@@ -1,7 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
- * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,39 +17,44 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_PLAYER_RATINGJOB_H
-#define GLUON_PLAYER_RATINGJOB_H
-
 #include "abstractsocialservicesjob.h"
 
-namespace Attica
+#include <attica/provider.h>
+#include "serviceprovider.h"
+
+using namespace GluonPlayer;
+
+class AbstractSocialServicesJob::Private
 {
-    class Provider;
-    class BaseJob;
+    public:
+        Private() : provider( 0 ) { }
+        ~Private();
+
+        Attica::Provider* provider;
+};
+
+AbstractSocialServicesJob::AbstractSocialServicesJob( Attica::Provider* provider )
+    : AbstractJob()
+    , d( new Private() )
+{
+    d->provider = provider;
 }
 
-namespace GluonPlayer
+void AbstractSocialServicesJob::startImplementation()
 {
-    class RatingJob : public AbstractSocialServicesJob
+    if( d->provider->isValid() )
     {
-            Q_OBJECT
-        public:
-            RatingJob( Attica::Provider* provider, const QString& id, uint rating,
-                       QObject* parent = 0 );
-            virtual ~RatingJob();
-
-            virtual QVariant data();
-
-        protected Q_SLOTS:
-            virtual void startSocialService();
-
-        private Q_SLOTS:
-            void ratingUploadComplete( Attica::BaseJob* baseJob );
-
-        private:
-            class Private;
-            Private* const d;
-    };
+        startSocialService();
+    }
+    else
+    {
+        connect( GluonPlayer::ServiceProvider::instance(), SIGNAL( initializeFinished() ), SLOT( startSocialService() ) );
+    }
 }
 
-#endif // GLUON_PLAYER_RATINGJOB_H
+Attica::Provider* AbstractSocialServicesJob::provider()
+{
+    return d->provider;
+}
+
+#include "abstractsocialservicesjob.moc"

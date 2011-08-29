@@ -18,53 +18,67 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "addgamejob.h"
+#include "gameuploadjob.h"
 
+#include <attica/postjob.h>
 #include <attica/provider.h>
-#include <attica/content.h>
+
+#include <QtCore/QDebug>
+#include <QtCore/QFileInfo>
 
 using namespace GluonPlayer;
 
-class AddGameJob::Private
+class GameUploadJob::Private
 {
     public:
-        QString gameCategory;
-        QString gameName;
+        Private()
+        {
+        }
+
+        ~Private()
+        {
+        }
 
         QString id;
+        QString fileName;
 };
 
-AddGameJob::AddGameJob( Attica::Provider* provider, const QString& gameCategory,
-                        const QString& gameName, QObject* parent )
+GameUploadJob::GameUploadJob( Attica::Provider* provider, const QString& id, const QString& fileName, QObject* parent )
     : AbstractSocialServicesJob( provider )
-    , d( new Private )
+    , d( new Private() )
 {
-    d->gameCategory = gameCategory;
-    d->gameName = gameName;
+    d->id = id;
+    d->fileName = fileName;
 }
 
-AddGameJob::~AddGameJob()
+GameUploadJob::~GameUploadJob()
 {
     delete d;
 }
 
-void AddGameJob::startSocialService()
+void GameUploadJob::startSocialService()
 {
-    Attica::Category category;
-    category.setId( d->gameCategory );
+    QFile file( d->fileName );
+    if( !file.open( QIODevice::ReadOnly ) )
+    {
+        qDebug() << "Failed to open file:" << d->fileName;
+        emitFailed();
+        return;
+    }
 
-    Attica::Content content;
-    content.setName( d->gameName );
+    QByteArray contents;
+    contents.append( file.readAll() );
+    file.close();
 
-    Attica::ItemPostJob<Attica::Content> *job = provider()->addNewContent( category, content );
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( addGameComplete( Attica::BaseJob* ) ) );
+    QFileInfo fileInfo( d->fileName );
+    Attica::PostJob* job = provider()->setDownloadFile( d->id, fileInfo.fileName(), contents );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( uploadComplete( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void AddGameJob::addGameComplete( Attica::BaseJob* baseJob )
+void GameUploadJob::uploadComplete( Attica::BaseJob* baseJob )
 {
-    Attica::ItemPostJob<Attica::Content>* job = static_cast<Attica::ItemPostJob<Attica::Content>*>( baseJob );
-
+    Attica::PostJob* job = static_cast<Attica::PostJob*>( baseJob );
     if( job->metadata().error() == Attica::Metadata::NoError )
     {
         emitSucceeded();
@@ -75,9 +89,9 @@ void AddGameJob::addGameComplete( Attica::BaseJob* baseJob )
     }
 }
 
-QVariant AddGameJob::data()
+QVariant GameUploadJob::data()
 {
     return d->id;
 }
 
-#include "addgamejob.moc"
+#include "gameuploadjob.moc"

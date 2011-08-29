@@ -97,7 +97,7 @@ namespace GluonPlayer
             void commentListFetchFailed();
 
         private Q_SLOTS:
-            void processFetchedComments( QList<CommentItem*> list );
+            void processFetchedComments();
             void uploadCommentFinished();
 
         private:

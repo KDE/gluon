@@ -1,8 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2000 Stephan Kulow <coolo@kde.org>
-                       David Faure <faure@kde.org>
- * Copyright (C) 2006 Kevin Ottens <ervin@kde.org>
+ * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
  * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
@@ -20,43 +18,40 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef ABSTRACTJOB_P_H
-#define ABSTRACTJOB_P_H
+#ifndef GLUON_PLAYER_GAMEUPLOADJOB_H
+#define GLUON_PLAYER_GAMEUPLOADJOB_H
 
-#include "abstractjob.h"
+#include "abstractsocialservicesjob.h"
 
-#include <QtCore/QMap>
+class QNetworkReply;
 
-class QTimer;
-class QEventLoop;
-
-class AbstractJobPrivate
+namespace Attica
 {
-public:
-    AbstractJobPrivate();
-    ~AbstractJobPrivate();
+    class Provider;
+    class BaseJob;
+}
 
-    int error;
-    QString errorText;
-    AbstractJob::Unit progressUnit;
-    QMap<AbstractJob::Unit, qulonglong> processedAmount;
-    QMap<AbstractJob::Unit, qulonglong> totalAmount;
-    unsigned long percentage;
-    bool suspended;
-    AbstractJob::Capabilities capabilities;
-    QTimer *speedTimer;
-    bool isAutoDelete;
-    QEventLoop *eventLoop;
+namespace GluonPlayer
+{
+    class GameUploadJob : public AbstractSocialServicesJob
+    {
+            Q_OBJECT
+        public:
+            GameUploadJob( Attica::Provider* provider, const QString& id, const QString& fileName, QObject* parent = 0 );
+            virtual ~GameUploadJob();
 
+            virtual QVariant data();
 
-    static bool _k_abstractjobUnitEnumRegistered;
+        protected Q_SLOTS:
+            virtual void startSocialService();
 
-    bool isFinished;
+        private Q_SLOTS:
+            void uploadComplete( Attica::BaseJob* baseJob );
 
-public Q_SLOTS:
+        private:
+            class Private;
+            Private* const d;
+    };
+}
 
-    void _k_speedTimeout();
-
-};
-
-#endif
+#endif // GLUON_PLAYER_GAMEUPLOADJOB_H

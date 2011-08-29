@@ -21,7 +21,8 @@
 #include "commentsmodel.h"
 
 #include "lib/serviceprovider.h"
-#include "lib/commentlistjob.h"
+#include "lib/commentslistjob.h"
+#include "lib/commentuploadjob.h"
 
 #include <engine/gameproject.h>
 
@@ -64,9 +65,10 @@ CommentsModel::CommentsModel( QString gameId, QObject* parent )
     updateData();   // Fetch latest comments from the web service
 }
 
-void CommentsModel::processFetchedComments( QList< CommentItem* > list )
+void CommentsModel::processFetchedComments()
 {
     qDebug() << "Comments Successfully Fetched from the server!";
+    QList<CommentItem*> list = qobject_cast<CommentsListJob*>(sender())->data().value< QList<CommentItem*> >();
     if (d->m_rootNode) {
         qDeleteAll(d->m_rootNode->children());
     }
@@ -274,32 +276,29 @@ void CommentsModel::uploadComment( const QModelIndex& parentIndex, const QString
         return;
     }
     GluonObject* parentNode = static_cast<GluonObject*>( parentIndex.internalPointer() );
-    ServiceProvider::instance()->uploadComment(d->m_gameId, parentNode->name(), subject, message);
 
-    CommentListJob *commentsProvider = ServiceProvider::instance()->uploadComment(d->m_gameId,
+    CommentUploadJob *commentsUploadJob = ServiceProvider::instance()->uploadComment(d->m_gameId,
                                                                                    parentNode->name(),
                                                                                    subject, message);
-    connect(commentsProvider, SIGNAL(commentUploadFinished()), SLOT(uploadCommentFinished()));
-    connect(commentsProvider, SIGNAL(commentUploadFailed()), SIGNAL(addCommentFailed()));
+    connect(commentsUploadJob, SIGNAL(succeeded()), SLOT(uploadCommentFinished()));
+    connect(commentsUploadJob, SIGNAL(failed()), SIGNAL(addCommentFailed()));
+    commentsUploadJob->start();
 }
 
 void CommentsModel::updateData()
 {
     qDebug() << "Updating..";
-    CommentListJob *commentListJob = ServiceProvider::instance()->fetchCommentList(d->m_gameId, 0, 0);
-
-    if (commentListJob) {
-        connect(commentListJob, SIGNAL(commentListFetchFinished(QList<CommentItem*>)), 
-            SLOT(processFetchedComments(QList<CommentItem*>)));
-        connect(commentListJob, SIGNAL(failedToFetchComments()), SIGNAL(fetchCommentsFailed()));
-    } else {
-        emit commentListFetchFailed();
-    }
+    CommentsListJob *commentListJob = ServiceProvider::instance()->fetchCommentList(d->m_gameId, 0, 0);
+    connect(commentListJob, SIGNAL(succeeded()), SLOT(processFetchedComments()));
+    connect(commentListJob, SIGNAL(failed()), SIGNAL(commentListFetchFailed()));
+    commentListJob->start();
 }
 
 void CommentsModel::uploadCommentFinished()
 {
     updateData();
 }
+
+Q_DECLARE_METATYPE( QList<GluonPlayer::CommentItem*> )
 
 #include "commentsmodel.moc"

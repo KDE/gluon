@@ -1,7 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
- * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,26 +17,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_PLAYER_RATINGJOB_H
-#define GLUON_PLAYER_RATINGJOB_H
+#ifndef GLUONPLAYER_COMMENTUPLOADJOB_H
+#define GLUONPLAYER_COMMENTUPLOADJOB_H
 
 #include "abstractsocialservicesjob.h"
 
 namespace Attica
 {
-    class Provider;
     class BaseJob;
 }
 
 namespace GluonPlayer
 {
-    class RatingJob : public AbstractSocialServicesJob
+
+    class CommentUploadJob : public AbstractSocialServicesJob
     {
             Q_OBJECT
         public:
-            RatingJob( Attica::Provider* provider, const QString& id, uint rating,
-                       QObject* parent = 0 );
-            virtual ~RatingJob();
+            CommentUploadJob( Attica::Provider* provider, const QString& id, const QString& parentId,
+                              const QString& subject, const QString& message );
+            virtual ~CommentUploadJob();
 
             virtual QVariant data();
 
@@ -45,12 +44,13 @@ namespace GluonPlayer
             virtual void startSocialService();
 
         private Q_SLOTS:
-            void ratingUploadComplete( Attica::BaseJob* baseJob );
+            void uploadCommentFinished( Attica::BaseJob* job );
 
         private:
             class Private;
             Private* const d;
     };
+
 }
 
-#endif // GLUON_PLAYER_RATINGJOB_H
+#endif // GLUONPLAYER_COMMENTUPLOADJOB_H
