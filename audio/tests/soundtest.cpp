@@ -49,7 +49,19 @@ void SoundTest::testConstructorMemberInit()
 
 void SoundTest::testLoad()
 {
+    Sound sound(this);
+    QCOMPARE(sound.isValid(), false);
+
+    QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
+    sound.load(shareInstallDir + "/gluon/audio/sounds/Front_Left.wav");
+
+    QCOMPARE(sound.isValid(), true);
+}
+
+void SoundTest::testLoadInvalidSource()
+{
     Sound sound;
+    QCOMPARE(sound.isValid(), false);
     QCOMPARE(sound.load("non.existing.file"), false);
     QCOMPARE(sound.isValid(), false);
 }
@@ -64,6 +76,19 @@ void SoundTest::testStatus()
 
 void SoundTest::testIsPlaying()
 {
+    Sound sound(this);
+    QCOMPARE(sound.isPlaying(), false);
+    QCOMPARE(sound.isValid(), false);
+
+    QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
+    sound.load(shareInstallDir + "/gluon/audio/sounds/Front_Left.wav");
+
+    QCOMPARE(sound.isPlaying(), false);
+    QCOMPARE(sound.isValid(), true);
+
+    sound.play();
+    QCOMPARE(sound.isPlaying(), true);
+    sound.stop();
 }
 
 void SoundTest::testIsLooping()

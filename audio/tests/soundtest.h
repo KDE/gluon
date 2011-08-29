@@ -33,6 +33,7 @@ public:
 private Q_SLOTS:
     void testConstructorMemberInit();
     void testLoad();
+    void testLoadInvalidSource();
     void testIsValid();
     void testStatus();
     void testIsPlaying();
