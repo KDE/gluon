@@ -38,10 +38,12 @@ set(libGluonPlayer_SRCS
     models/allgameitemsmodel.cpp
     models/commentitemsmodel.cpp
     models/commentsmodel.cpp
+    models/downloadablegamesmodel.cpp
     models/gameitem.cpp
     models/gameitemsmodel.cpp
     models/gameviewitem.cpp
     models/highscoresmodel.cpp
+    models/installedgamesmodel.cpp
 )
 
 qt4_automoc(${libGluonPlayer_SRCS})
