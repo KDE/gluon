@@ -41,8 +41,6 @@ private Q_SLOTS:
     void testVolume();
     void testPitch();
     void testRadius();
-    void testMinVolume();
-    void testMaxVolume();
 };
 
 #endif // GLUON_AUDIO_SOUNDTEST_H

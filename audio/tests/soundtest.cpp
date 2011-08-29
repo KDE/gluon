@@ -21,6 +21,8 @@
 
 #include <audio/sound.h>
 
+#include <core/directoryprovider.h>
+
 #include <QtTest/QtTest>
 
 using namespace GluonAudio;
@@ -35,11 +37,11 @@ SoundTest::~SoundTest()
 
 void SoundTest::testConstructorMemberInit()
 {
-    Sound sound;
+    QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
+    Sound sound(this);
     QCOMPARE(sound.isValid(), false);
     QCOMPARE(sound.isPlaying(), false);
     QCOMPARE(sound.isLooping(), false);
-    QCOMPARE(sound.volume(), 1.0f);
     QCOMPARE(sound.pitch(), 1.0f);
     QCOMPARE(sound.radius(), 10000.0f);
     QCOMPARE(sound.duration(), 0.0);
@@ -74,7 +76,8 @@ void SoundTest::testPosition()
 
 void SoundTest::testVolume()
 {
-    Sound sound;
+    QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
+    Sound sound( shareInstallDir + "/gluon/audio/sounds/Front_Left.wav" );
     sound.setVolume(2.0f);
     QCOMPARE(sound.volume(), 2.0f);
 }
@@ -91,14 +94,6 @@ void SoundTest::testRadius()
     Sound sound;
     sound.setRadius(15000.0f);
     QCOMPARE(sound.radius(), 15000.0f);
-}
-
-void SoundTest::testMinVolume()
-{
-}
-
-void SoundTest::testMaxVolume()
-{
 }
 
 QTEST_MAIN(SoundTest)
