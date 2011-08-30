@@ -80,6 +80,7 @@ namespace GluonAudio
 
             /**
             * @return the time since the sound started playing
+            * If there is no source loaded, it returns -1.
             */
             ALfloat timeOffset() const;
 
@@ -215,6 +216,8 @@ namespace GluonAudio
             * To switch from a left handed coordinate system, flip the
             * sign on the Z coordinate.
             * Listener position is always in the world coordinate system."
+            *
+            * If there is no source loaded, it does not set the position.
             */
             void setPosition( QVector3D position );
 
@@ -222,6 +225,8 @@ namespace GluonAudio
             * @overload setPosition()
             * Set the position of the sound relative to the listener
             * using the coordinates (@p x, @p y, @p z).
+            *
+            * If there is no source loaded, it does not set the position.
             */
             void setPosition( ALfloat x = 0.0, ALfloat y = 0.0, ALfloat z = 0.0 );
 
@@ -236,6 +241,8 @@ namespace GluonAudio
             * scale; it is interpreted as zero volume - the channel
             * is effectively disabled."
             * The range that can be set is 0.0f - 1.0f
+            *
+            * If there is no source loaded, it does not set the volume.
             * @see volume
             */
             void setVolume( ALfloat volume = 1.0f );
@@ -244,17 +251,33 @@ namespace GluonAudio
             * Specify the pitch to be applied, either at source,
             * or on mixer results, at listener.
             * @param pitch a value between 0.5 and 2.0
+            *
+            * If there is no source loaded, it does not set the pitch.
             */
             void setPitch( ALfloat pitch = 1.0f );
 
             /**
              * Specify the distance from which the sound can no longer be heard
              * @param radius A length
+             *
+             * If there is no source loaded, it does not set the radius.
              */
             void setRadius( ALfloat radius = 10000.0f );
 
+            /**
+            * Set the velocity of the sound relative to the listener
+            * using the coordinates (@p x, @p y, @p z).
+            *
+            * If there is no source loaded, it does not set the velocity.
+            */
             void setVelocity( ALfloat vx, ALfloat vy, ALfloat vz );
 
+            /**
+            * Set the direction of the sound relative to the listener
+            * using the coordinates (@p x, @p y, @p z).
+            *
+            * If there is no source loaded, it does not set the direction.
+            */
             void setDirection( ALfloat dx, ALfloat dy, ALfloat dz );
 
             /**
