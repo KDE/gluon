@@ -196,6 +196,8 @@ namespace GluonAudio
             /**
             * Makes the sound play in a loop when play() is called
             * @p enabled play in a loop if set to true
+            *
+            * If there is no source loaded, it does not set the looping.
             * @see play
             */
             void setLoop( bool enabled = true );

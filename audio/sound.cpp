@@ -228,7 +228,7 @@ void Sound::setLoop( bool enabled )
 {
     if( !d->isValid )
     {
-        return -1;
+        return;
     }
 
     d->isLooping = enabled;
