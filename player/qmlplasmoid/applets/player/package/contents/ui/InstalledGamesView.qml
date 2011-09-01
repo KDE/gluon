@@ -17,39 +17,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H
-#define GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H
+import QtQuick 1.0
+import org.kde.plasma.graphicswidgets 0.1 as PlasmaWidgets
+import org.kde.plasma.core 0.1 as PlasmaCore
+import org.kde.plasma.graphicslayouts 4.7 as GraphicsLayouts
+import org.gamingfreedom.gluon.gluonplayerimports 0.1 as GluonPlayer
 
-#include "lib/abstractjob.h"
+Item {
+    property alias spacing: installedGamesList.spacing
 
-namespace Attica
-{
-    class Provider;
+    GameItemsDelegate {
+        id: gameItemsDelegate
+    }
+
+    ListView {
+        id: installedGamesList
+        anchors.fill: parent
+        model: GluonPlayer.InstalledGamesModel { }
+        delegate: gameItemsDelegate
+    }
 }
-
-//TODO: Documentation
-
-namespace GluonPlayer
-{
-    class AbstractSocialServicesJob : public AbstractJob
-    {
-            Q_OBJECT
-
-        public:
-            AbstractSocialServicesJob( Attica::Provider* provider );
-
-        protected:
-            virtual void startImplementation();
-            Attica::Provider* provider();
-
-        protected Q_SLOTS:
-            virtual void startSocialService() = 0;
-
-        private:
-            class Private;
-            Private* const d;
-    };
-
-}
-
-#endif // GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H

@@ -38,6 +38,7 @@ if(LIBATTICA_FOUND)
 
             if(BUILD_PLASMOID)
                 add_subdirectory(plasmoid)
+                add_subdirectory(qmlplasmoid)
             endif(BUILD_PLASMOID)
         else(KDE4_FOUND)
             message(STATUS "WITH_KDE is enabled but KDE libraries are not found - not building the KDE players or the Plasmoid")
