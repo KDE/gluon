@@ -43,7 +43,7 @@ PrefabPrivate::PrefabPrivate( const PrefabPrivate& other )
 
 PrefabPrivate::~PrefabPrivate()
 {
-    delete( gameObject );
+    delete gameObject;
 }
 
 void PrefabPrivate::updateChildrenFromOther(GluonCore::GluonObject* updateThis, const GluonCore::GluonObject* updateFrom)
