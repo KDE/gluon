@@ -17,39 +17,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H
-#define GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H
+#include "gluonplayeradapter.h"
 
-#include "lib/abstractjob.h"
-
-namespace Attica
+GluonPlayer::ServiceProvider* GluonPlayerAdapter::serviceProvider()
 {
-    class Provider;
+    return GluonPlayer::ServiceProvider::instance();
 }
 
-//TODO: Documentation
-
-namespace GluonPlayer
-{
-    class AbstractSocialServicesJob : public AbstractJob
-    {
-            Q_OBJECT
-
-        public:
-            AbstractSocialServicesJob( Attica::Provider* provider );
-
-        protected:
-            virtual void startImplementation();
-            Attica::Provider* provider();
-
-        protected Q_SLOTS:
-            virtual void startSocialService() = 0;
-
-        private:
-            class Private;
-            Private* const d;
-    };
-
-}
-
-#endif // GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H
+#include "gluonplayeradapter.moc"
