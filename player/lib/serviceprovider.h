@@ -34,8 +34,10 @@ namespace Attica
 namespace GluonPlayer
 {
     class GameDetailListJob;
-    class CommentListJob;
-    class GameContentJob;
+    class CommentsListJob;
+    class GameDownloadJob;
+    class CommentUploadJob;
+    class GameUploadJob;
     class RatingJob;
 
     /**
@@ -48,13 +50,13 @@ namespace GluonPlayer
      */
     class GLUON_PLAYER_EXPORT ServiceProvider : public GluonCore::Singleton<ServiceProvider>
     {
-        Q_OBJECT
-        Q_PROPERTY( bool isReady READ isReady )
-        Q_PROPERTY( bool isLoggedIn READ isLoggedIn )
-        Q_PROPERTY( bool hasCredentials READ hasCredentials )
-        Q_PROPERTY( QString username READ username )
-        Q_PROPERTY( QString password READ password )
-        GLUON_SINGLETON( ServiceProvider )
+            Q_OBJECT
+            Q_PROPERTY( bool isReady READ isReady )
+            Q_PROPERTY( bool isLoggedIn READ isLoggedIn )
+            Q_PROPERTY( bool hasCredentials READ hasCredentials )
+            Q_PROPERTY( QString username READ username )
+            Q_PROPERTY( QString password READ password )
+            GLUON_SINGLETON( ServiceProvider )
 
         public:
             /**
@@ -72,10 +74,10 @@ namespace GluonPlayer
              * @param   page    page number of the desired page
              * @param   pageSize        number of comments per page
              *
-             * @return  OcsCommentsProvider object which the caller must
+             * @return  CommentsListJob object which the caller must
              * monitor to find out the result of the operation
              */
-            Q_INVOKABLE CommentListJob* fetchCommentList(const QString& id, int page, int pageSize);
+            GluonPlayer::CommentsListJob* fetchCommentList( const QString& id, int page, int pageSize );
 
             /**
              * Upload a comment to the OCS compliant service
@@ -85,11 +87,11 @@ namespace GluonPlayer
              * @param   subject Subject of the comment
              * @param   message The comment message (body)
              *
-             * @return  OcsCommentsProvider object which the caller must
+             * @return  CommentUploadJob object which the caller must
              * monitor to find out the result of the operation
              */
-            Q_INVOKABLE CommentListJob* uploadComment(const QString& id, const QString& parentId,
-                    const QString& subject, const QString& message);
+            GluonPlayer::CommentUploadJob* uploadComment( const QString& id, const QString& parentId,
+                    const QString& subject, const QString& message );
 
             /**
              * Execute a login. Connect to the signal loggedIn() and loginFailed() to know the result.
@@ -98,7 +100,7 @@ namespace GluonPlayer
              *
              * @return true if login was successfully initiated, false otherwise.
              */
-            Q_INVOKABLE bool login(const QString& username, const QString& password);
+            Q_INVOKABLE bool login( const QString& username, const QString& password );
 
             /**
              * Execute a logout. Connect to the signal loggedOut() and logoutFailed() to know the result.
@@ -137,49 +139,52 @@ namespace GluonPlayer
 
             /**
              * Fetch a list of games available on the OCS server
-             * @return a OcsGameDetailsProvider object which the caller must
+             * @return a GameDetailListJob object which the caller must
              * monitor to find out the result of the operation
              */
-            GameDetailListJob *fetchGames();
+            GameDetailListJob* fetchGames();
 
             /**
              * Download the game with ID id
              *
              * @param id ID of the game
-             * 
-             * @return a GameContentTransfer object which the caller must
+             *
+             * @return a GameDownloadJob object which the caller must
              * monitor to find out the result of the operation
              */
-            GameContentJob *downloadGame(const QString &id);
+            GameDownloadJob* downloadGame( const QString& id );
 
             /**
              * Upload a game with ID
              *
              * @param id ID of the game
              * @param path Path of the file to upload
-             * 
-             * @return a GameContentTransfer object which the caller must
+             *
+             * @return a GameUploadJob object which the caller must
              * monitor to find out the result of the operation
              */
-            GameContentJob *uploadGame(const QString &id, const QString &path);
+            GameUploadJob* uploadGame( const QString& id, const QString& path );
 
             /**
              * Rate a game having ID with a rating from 0 to 100
              *
              * @param id ID of the game
              * @param rating Rating value between 0 to 100
+             *
+             * @return a RatingJob object which the caller must
+             * monitor to find out the result of the operation
              */
-            RatingJob *setRating(const QString &id, uint rate);
+            RatingJob* setRating( const QString& id, uint rate );
 
         private Q_SLOTS:
             void providersUpdated();
-            void checkLoginResult (Attica::BaseJob* baseJob);
+            void checkLoginResult( Attica::BaseJob* baseJob );
             void loadCredentials();
             void doLogin();
             void doLogout();
 
         public Q_SLOTS:
-            /** Call to initialize the OCS Provider 
+            /** Call to initialize the OCS Provider
              */
             void init();
 

@@ -32,19 +32,19 @@ GLUON_DEFINE_SINGLETON( Authentication )
 class Authentication::Private
 {
     public:
-    Private()
-        : m_initialized( false )
-        , m_loggedIn( false )
-    {
-    }
+        Private()
+            : m_initialized( false )
+            , m_loggedIn( false )
+        {
+        }
 
-    bool m_initialized;
-    bool m_loggedIn;
-    QString m_username;
-    QString m_password;
-    Attica::PostJob* m_registerJob;
-    Attica::PostJob* m_checkLoginJob;
-    Attica::PostJob* m_checkLogoutJob;
+        bool m_initialized;
+        bool m_loggedIn;
+        QString m_username;
+        QString m_password;
+        Attica::PostJob* m_registerJob;
+        Attica::PostJob* m_checkLoginJob;
+        Attica::PostJob* m_checkLogoutJob;
 };
 
 Authentication::Authentication( QObject* parent )

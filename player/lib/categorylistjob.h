@@ -23,7 +23,9 @@
 
 #include "gluon_player_export.h"
 
-#include "abstractjob.h"
+#include "abstractsocialservicesjob.h"
+
+#include <QList>
 
 namespace Attica
 {
@@ -48,21 +50,20 @@ namespace GluonPlayer
             Private* const d;
     };
 
-    class CategoryListJob : public AbstractJob
+    class CategoryListJob : public AbstractSocialServicesJob
     {
             Q_OBJECT
         public:
+
             explicit CategoryListJob( Attica::Provider* provider, QObject* parent = 0 );
             virtual ~CategoryListJob();
 
-            virtual void start();
+            virtual QVariant data();
 
-        Q_SIGNALS:
-            void categoryListFetchFinished( QList<GluonPlayer::CategoryItem*> categories );
-            void categoryListFetchFailed();
+        protected Q_SLOTS:
+            virtual void startSocialService();
 
         private Q_SLOTS:
-            void fetchCategoryList();
             void processFetchedCategoryList( Attica::BaseJob* job );
 
         private:

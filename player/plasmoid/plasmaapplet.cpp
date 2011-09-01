@@ -173,7 +173,7 @@ void PlasmaApplet::showGames()
 
 void PlasmaApplet::showGameDetails( const QModelIndex& index )
 {
-    QString id = index.data( GluonPlayer::GameItemsModel::IDRole ).toString();
+    QString id = index.data( GluonPlayer::GameItemsModel::ProjectIDRole ).toString();
     if( id.isEmpty() )
     {
         return;

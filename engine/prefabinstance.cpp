@@ -51,7 +51,7 @@ PrefabInstance::~PrefabInstance()
     if( d->prefabLink )
         d->prefabLink->removeInstance( this );
 
-    delete( d );
+    delete d;
 }
 
 Prefab* PrefabInstance::prefabLink() const

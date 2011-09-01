@@ -21,7 +21,7 @@
 #ifndef GLUON_PLAYER_GAMEDETAILLISTJOB_H
 #define GLUON_PLAYER_GAMEDETAILLISTJOB_H
 
-#include "abstractjob.h"
+#include "abstractsocialservicesjob.h"
 
 #include <QtCore/QList>
 
@@ -33,59 +33,62 @@ namespace Attica
 
 namespace GluonPlayer
 {
-class GameDetailItem : public QObject
-{
-        Q_OBJECT
-        Q_ENUMS (Status)
-    public:
-        enum Status {
-            Downloadable,
-            Installed,
-            Upgradable
-        };
+    class GameDetailItem : public QObject
+    {
+            Q_OBJECT
+            Q_ENUMS( Status )
+        public:
+            enum Status
+            {
+                Downloadable,
+                Installed,
+                Upgradable
+            };
 
-        GameDetailItem(const QString& gameName, const QString& gameDescription,
-                        const QString& projectDirName, const QString& projectFileName,
-                        const QStringList& screenshotUrls, GluonPlayer::GameDetailItem::Status status,
-                        const QString id, QObject* parent = 0);
-        virtual ~GameDetailItem();
+            GameDetailItem( const QString& gameName, const QString& gameDescription, const QString &version,
+                            const QString &category, const QString& homePage, const QString &license,
+                            const QString &changelog, const QString& projectDirName, const QString& projectFileName,
+                            const QStringList& screenshotUrls, int rating, GluonPlayer::GameDetailItem::Status status,
+                            const QString id, QObject* parent = 0 );
+            virtual ~GameDetailItem();
 
-        QString gameName() const;
-        QString gameDescription() const;
-        QString projectDirName() const;
-        QString projectFileName() const;
-        QStringList screenshotUrls() const;
-        Status status() const;
-        QString id() const;
+            QString gameName() const;
+            QString gameDescription() const;
+            QString version() const;
+            QString category() const;
+            QString homePage() const;
+            QString license() const;
+            QString changelog() const;
+            QString projectDirName() const;
+            QString projectFileName() const;
+            QStringList screenshotUrls() const;
+            int rating() const;
+            Status status() const;
+            QString id() const;
 
-    private:
-        class Private;
-        Private* const d;
-};
+        private:
+            class Private;
+            Private* const d;
+    };
 
-class GameDetailListJob : public AbstractJob
-{
-        Q_OBJECT
-    public:
-        explicit GameDetailListJob(Attica::Provider* provider, QObject* parent = 0);
-        virtual ~GameDetailListJob();
+    class GameDetailListJob : public AbstractSocialServicesJob
+    {
+            Q_OBJECT
+        public:
+            explicit GameDetailListJob( Attica::Provider* provider, QObject* parent = 0 );
+            virtual ~GameDetailListJob();
 
-        virtual void start();
+            virtual QVariant data();
 
-        QList<GameDetailItem*> gameDetailList() const;
+        protected Q_SLOTS:
+           virtual void startSocialService();
 
-    Q_SIGNALS:
-        void gameDetailListFetchStarting();
-        void gameDetailListFetchFinished(QList<GameDetailItem*> comments);
-        void gameDetailListFetchFailed();
+        private Q_SLOTS:
+            void processFetchedGameList( Attica::BaseJob* job );
 
-    private Q_SLOTS:
-        void fetchGameList();
-        void processFetchedGameList(Attica::BaseJob* job);
-
-    private:
-        class Private;
-        Private* const d;
+        private:
+            class Private;
+            Private* const d;
     };
 }
 

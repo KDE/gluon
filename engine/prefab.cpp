@@ -42,7 +42,7 @@ Prefab::Prefab( const Prefab& other, QObject* parent )
 
 Prefab::~Prefab()
 {
-    delete( d );
+    delete d;
 }
 
 QString Prefab::contentsToGDL()

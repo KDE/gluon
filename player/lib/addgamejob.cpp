@@ -28,22 +28,17 @@ using namespace GluonPlayer;
 class AddGameJob::Private
 {
     public:
-        Private() 
-            : provider( 0 )
-        {
-        }
-
-        Attica::Provider* provider;
         QString gameCategory;
         QString gameName;
+
+        QString id;
 };
 
 AddGameJob::AddGameJob( Attica::Provider* provider, const QString& gameCategory,
                         const QString& gameName, QObject* parent )
-    : AbstractJob( parent )
+    : AbstractSocialServicesJob( provider )
     , d( new Private )
 {
-    d->provider = provider;
     d->gameCategory = gameCategory;
     d->gameName = gameName;
 }
@@ -53,11 +48,7 @@ AddGameJob::~AddGameJob()
     delete d;
 }
 
-void AddGameJob::start()
-{
-}
-
-void AddGameJob::addGame()
+void AddGameJob::startSocialService()
 {
     Attica::Category category;
     category.setId( d->gameCategory );
@@ -65,7 +56,7 @@ void AddGameJob::addGame()
     Attica::Content content;
     content.setName( d->gameName );
 
-    Attica::ItemPostJob<Attica::Content> *job = d->provider->addNewContent( category, content );
+    Attica::ItemPostJob<Attica::Content> *job = provider()->addNewContent( category, content );
     connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( addGameComplete( Attica::BaseJob* ) ) );
     job->start();
 }
@@ -76,12 +67,17 @@ void AddGameJob::addGameComplete( Attica::BaseJob* baseJob )
 
     if( job->metadata().error() == Attica::Metadata::NoError )
     {
-        emit addGameFinished( job->result().id() );
+        emitSucceeded();
     }
     else
     {
-        emit addGameFailed();
+        emitFailed();
     }
+}
+
+QVariant AddGameJob::data()
+{
+    return d->id;
 }
 
 #include "addgamejob.moc"

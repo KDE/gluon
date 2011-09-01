@@ -1,0 +1,5 @@
+{ GluonEngine::ProjectMetaData(GluonObject)
+    projectName string(JumpnBump)
+    projectDescription string(This is a game for the whole family with cute fluffy little bunnies)
+    projectFilePath string(/usr/share/gluon/games/jumpnbump.gluon/game.gluonproject)
+}

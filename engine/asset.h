@@ -217,7 +217,7 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_INTERFACE( GluonEngine::Asset, "com.gluon.Asset/1.0" )
+Q_DECLARE_INTERFACE( GluonEngine::Asset, "org.gluon.asset/1.0" )
 Q_DECLARE_METATYPE( GluonEngine::Asset* )
 
-#endif  // GLUON_ASSET_H
+#endif  // GLUON_ENGINE_ASSET_H
