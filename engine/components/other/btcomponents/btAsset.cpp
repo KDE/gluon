@@ -86,7 +86,7 @@ btAsset::setFile(const QUrl &newFile)
         return;
 
     debug(QString("Brain loaded, replacing old brain and creating %1 sub-Assets").arg(newBrain->behaviorTreesCount()));
-    //delete(d->brain);
+    delete(d->brain);
     d->brain = newBrain;
 
     const QObjectList& oldChildren = children();
@@ -127,7 +127,7 @@ const QStringList
 btAsset::supportedMimeTypes() const
 {
         QStringList list;
-        list.append("application/xml");
+        list.append("application/x-gluon-behaviortree");
         return list;
 }
 
