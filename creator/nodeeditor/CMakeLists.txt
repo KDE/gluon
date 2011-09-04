@@ -49,12 +49,19 @@ kde4_add_ui_files(
     interface/NodePropertiesWidget.ui
 )
 
-kde4_add_library(gluoncreator_nodeeditor SHARED ${gluoncreator_nodeeditor_SRCS})
-set_target_properties(gluoncreator_nodeeditor PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_NODEEDITOR_LIB PREFIX "")
+kde4_add_library(GluonCreator_NodeEditor SHARED ${gluoncreator_nodeeditor_SRCS})
+set_target_properties(GluonCreator_NodeEditor PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_NODEEDITOR_LIB)
 
-target_link_libraries(gluoncreator_nodeeditor ${GLUON_CREATOR_LIBS})
+target_link_libraries(GluonCreator_NodeEditor ${GLUON_CREATOR_LIBS})
 set(GLUONCREATOR_NODEEDITOR_LIBS
     ${GLUON_CREATOR_LIBS}
     gluoncreator_nodeeditor
     CACHE INTERNAL "Libraries required for linking to nodeeditor"
 )
+
+install(TARGETS GluonCreator_NodeEditor
+    LIBRARY DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoncreator
+    RUNTIME DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluoncreator
+    ARCHIVE DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoncreator
+)
+
