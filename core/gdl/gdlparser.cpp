@@ -7,7 +7,7 @@
 
 
 # 11 "/home/ahiemstra-work/Projects/KDE/gluon/core/gdl/gdlparser.cpp"
-# 40 "/home/ahiemstra-work/Projects/KDE/gluon/core/gdl/gdl.g" 1
+# 149 "/home/ahiemstra-work/Projects/KDE/gluon/core/gdl/gdl.g" 1
   
 void GDL::Parser::expectedSymbol(int /*expectedSymbol*/, const QString& name)
 {
@@ -22,6 +22,430 @@ void GDL::Parser::expectedToken(int /*expected*/, qint64 /*where*/, const QStrin
 
 namespace GDL
 {
+
+bool Parser::parseBoolean_type(Boolean_typeAst **yynode)
+{
+    *yynode = create<Boolean_typeAst>();
+
+    (*yynode)->startToken = tokenStream->index() - 1;
+    (*yynode)->value = -1;
+    (*yynode)->value = -1;
+
+    if (yytoken == Token_BOOLEAN)
+    {
+        if (yytoken != Token_BOOLEAN)
+        {
+            expectedToken(yytoken, Token_BOOLEAN, "BOOLEAN");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_LPAREN)
+        {
+            expectedToken(yytoken, Token_LPAREN, "LPAREN");
+            return false;
+        }
+        yylex();
+
+        if (yytoken == Token_TRUE_VALUE)
+        {
+            if (yytoken != Token_TRUE_VALUE)
+            {
+                expectedToken(yytoken, Token_TRUE_VALUE, "TRUE_VALUE");
+                return false;
+            }
+            (*yynode)->value = tokenStream->index() - 1;
+            yylex();
+
+        }
+        else if (yytoken == Token_FALSE_VALUE)
+        {
+            if (yytoken != Token_FALSE_VALUE)
+            {
+                expectedToken(yytoken, Token_FALSE_VALUE, "FALSE_VALUE");
+                return false;
+            }
+            (*yynode)->value = tokenStream->index() - 1;
+            yylex();
+
+        }
+        else
+        {
+            return false;
+        }
+        if (yytoken != Token_RPAREN)
+        {
+            expectedToken(yytoken, Token_RPAREN, "RPAREN");
+            return false;
+        }
+        yylex();
+
+    }
+    else
+    {
+        return false;
+    }
+
+    (*yynode)->endToken = tokenStream->index() - 2;
+
+    return true;
+}
+
+bool Parser::parseFloat_type(Float_typeAst **yynode)
+{
+    *yynode = create<Float_typeAst>();
+
+    (*yynode)->startToken = tokenStream->index() - 1;
+    (*yynode)->value = -1;
+
+    if (yytoken == Token_FLOAT)
+    {
+        if (yytoken != Token_FLOAT)
+        {
+            expectedToken(yytoken, Token_FLOAT, "FLOAT");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_LPAREN)
+        {
+            expectedToken(yytoken, Token_LPAREN, "LPAREN");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->value = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_RPAREN)
+        {
+            expectedToken(yytoken, Token_RPAREN, "RPAREN");
+            return false;
+        }
+        yylex();
+
+    }
+    else
+    {
+        return false;
+    }
+
+    (*yynode)->endToken = tokenStream->index() - 2;
+
+    return true;
+}
+
+bool Parser::parseInteger_type(Integer_typeAst **yynode)
+{
+    *yynode = create<Integer_typeAst>();
+
+    (*yynode)->startToken = tokenStream->index() - 1;
+    (*yynode)->value = -1;
+
+    if (yytoken == Token_INTEGER)
+    {
+        if (yytoken != Token_INTEGER)
+        {
+            expectedToken(yytoken, Token_INTEGER, "INTEGER");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_LPAREN)
+        {
+            expectedToken(yytoken, Token_LPAREN, "LPAREN");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->value = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_RPAREN)
+        {
+            expectedToken(yytoken, Token_RPAREN, "RPAREN");
+            return false;
+        }
+        yylex();
+
+    }
+    else
+    {
+        return false;
+    }
+
+    (*yynode)->endToken = tokenStream->index() - 2;
+
+    return true;
+}
+
+bool Parser::parseList_type(List_typeAst **yynode)
+{
+    *yynode = create<List_typeAst>();
+
+    (*yynode)->startToken = tokenStream->index() - 1;
+    (*yynode)->type = -1;
+    (*yynode)->type = -1;
+    (*yynode)->type = -1;
+    (*yynode)->type = -1;
+    (*yynode)->type = -1;
+    (*yynode)->type = -1;
+    (*yynode)->type = -1;
+    (*yynode)->type = -1;
+    (*yynode)->type = -1;
+    (*yynode)->type = -1;
+    (*yynode)->type = -1;
+    (*yynode)->type = -1;
+    (*yynode)->type = -1;
+    (*yynode)->value = -1;
+
+    if (yytoken == Token_LIST)
+    {
+        if (yytoken != Token_LIST)
+        {
+            expectedToken(yytoken, Token_LIST, "LIST");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_LARROW)
+        {
+            expectedToken(yytoken, Token_LARROW, "LARROW");
+            return false;
+        }
+        yylex();
+
+        if (yytoken == Token_BOOLEAN)
+        {
+            if (yytoken != Token_BOOLEAN)
+            {
+                expectedToken(yytoken, Token_BOOLEAN, "BOOLEAN");
+                return false;
+            }
+            (*yynode)->type = tokenStream->index() - 1;
+            yylex();
+
+        }
+        else if (yytoken == Token_INTEGER)
+        {
+            if (yytoken != Token_INTEGER)
+            {
+                expectedToken(yytoken, Token_INTEGER, "INTEGER");
+                return false;
+            }
+            (*yynode)->type = tokenStream->index() - 1;
+            yylex();
+
+        }
+        else if (yytoken == Token_UNSIGNED_INT)
+        {
+            if (yytoken != Token_UNSIGNED_INT)
+            {
+                expectedToken(yytoken, Token_UNSIGNED_INT, "UNSIGNED_INT");
+                return false;
+            }
+            (*yynode)->type = tokenStream->index() - 1;
+            yylex();
+
+        }
+        else if (yytoken == Token_LONG_LONG)
+        {
+            if (yytoken != Token_LONG_LONG)
+            {
+                expectedToken(yytoken, Token_LONG_LONG, "LONG_LONG");
+                return false;
+            }
+            (*yynode)->type = tokenStream->index() - 1;
+            yylex();
+
+        }
+        else if (yytoken == Token_FLOAT)
+        {
+            if (yytoken != Token_FLOAT)
+            {
+                expectedToken(yytoken, Token_FLOAT, "FLOAT");
+                return false;
+            }
+            (*yynode)->type = tokenStream->index() - 1;
+            yylex();
+
+        }
+        else if (yytoken == Token_STRING)
+        {
+            if (yytoken != Token_STRING)
+            {
+                expectedToken(yytoken, Token_STRING, "STRING");
+                return false;
+            }
+            (*yynode)->type = tokenStream->index() - 1;
+            yylex();
+
+        }
+        else if (yytoken == Token_RGBA)
+        {
+            if (yytoken != Token_RGBA)
+            {
+                expectedToken(yytoken, Token_RGBA, "RGBA");
+                return false;
+            }
+            (*yynode)->type = tokenStream->index() - 1;
+            yylex();
+
+        }
+        else if (yytoken == Token_VECTOR_TWOD)
+        {
+            if (yytoken != Token_VECTOR_TWOD)
+            {
+                expectedToken(yytoken, Token_VECTOR_TWOD, "VECTOR_TWOD");
+                return false;
+            }
+            (*yynode)->type = tokenStream->index() - 1;
+            yylex();
+
+        }
+        else if (yytoken == Token_VECTOR_THREED)
+        {
+            if (yytoken != Token_VECTOR_THREED)
+            {
+                expectedToken(yytoken, Token_VECTOR_THREED, "VECTOR_THREED");
+                return false;
+            }
+            (*yynode)->type = tokenStream->index() - 1;
+            yylex();
+
+        }
+        else if (yytoken == Token_VECTOR_FOURD)
+        {
+            if (yytoken != Token_VECTOR_FOURD)
+            {
+                expectedToken(yytoken, Token_VECTOR_FOURD, "VECTOR_FOURD");
+                return false;
+            }
+            (*yynode)->type = tokenStream->index() - 1;
+            yylex();
+
+        }
+        else if (yytoken == Token_QUATERNION)
+        {
+            if (yytoken != Token_QUATERNION)
+            {
+                expectedToken(yytoken, Token_QUATERNION, "QUATERNION");
+                return false;
+            }
+            (*yynode)->type = tokenStream->index() - 1;
+            yylex();
+
+        }
+        else if (yytoken == Token_SIZE_TWOD)
+        {
+            if (yytoken != Token_SIZE_TWOD)
+            {
+                expectedToken(yytoken, Token_SIZE_TWOD, "SIZE_TWOD");
+                return false;
+            }
+            (*yynode)->type = tokenStream->index() - 1;
+            yylex();
+
+        }
+        else if (yytoken == Token_URL)
+        {
+            if (yytoken != Token_URL)
+            {
+                expectedToken(yytoken, Token_URL, "URL");
+                return false;
+            }
+            (*yynode)->type = tokenStream->index() - 1;
+            yylex();
+
+        }
+        else
+        {
+            return false;
+        }
+        if (yytoken != Token_RARROW)
+        {
+            expectedToken(yytoken, Token_RARROW, "RARROW");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_VALUE)
+        {
+            expectedToken(yytoken, Token_VALUE, "VALUE");
+            return false;
+        }
+        (*yynode)->value = tokenStream->index() - 1;
+        yylex();
+
+    }
+    else
+    {
+        return false;
+    }
+
+    (*yynode)->endToken = tokenStream->index() - 2;
+
+    return true;
+}
+
+bool Parser::parseLong_long_type(Long_long_typeAst **yynode)
+{
+    *yynode = create<Long_long_typeAst>();
+
+    (*yynode)->startToken = tokenStream->index() - 1;
+    (*yynode)->value = -1;
+
+    if (yytoken == Token_LONG_LONG)
+    {
+        if (yytoken != Token_LONG_LONG)
+        {
+            expectedToken(yytoken, Token_LONG_LONG, "LONG_LONG");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_LPAREN)
+        {
+            expectedToken(yytoken, Token_LPAREN, "LPAREN");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->value = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_RPAREN)
+        {
+            expectedToken(yytoken, Token_RPAREN, "RPAREN");
+            return false;
+        }
+        yylex();
+
+    }
+    else
+    {
+        return false;
+    }
+
+    (*yynode)->endToken = tokenStream->index() - 2;
+
+    return true;
+}
 
 bool Parser::parseObject(ObjectAst **yynode)
 {
@@ -55,9 +479,9 @@ bool Parser::parseObject(ObjectAst **yynode)
         }
         yylex();
 
-        if (yytoken != Token_IDENTIFIER)
+        if (yytoken != Token_VALUE)
         {
-            expectedToken(yytoken, Token_IDENTIFIER, "IDENTIFIER");
+            expectedToken(yytoken, Token_VALUE, "VALUE");
             return false;
         }
         (*yynode)->name = tokenStream->index() - 1;
@@ -149,25 +573,16 @@ bool Parser::parseObject_list(Object_listAst **yynode)
     return true;
 }
 
-bool Parser::parseProperty(PropertyAst **yynode)
+bool Parser::parseObject_type(Object_typeAst **yynode)
 {
-    *yynode = create<PropertyAst>();
+    *yynode = create<Object_typeAst>();
 
     (*yynode)->startToken = tokenStream->index() - 1;
-    (*yynode)->variable = -1;
     (*yynode)->type = -1;
     (*yynode)->value = -1;
 
     if (yytoken == Token_IDENTIFIER)
     {
-        if (yytoken != Token_IDENTIFIER)
-        {
-            expectedToken(yytoken, Token_IDENTIFIER, "IDENTIFIER");
-            return false;
-        }
-        (*yynode)->variable = tokenStream->index() - 1;
-        yylex();
-
         if (yytoken != Token_IDENTIFIER)
         {
             expectedToken(yytoken, Token_IDENTIFIER, "IDENTIFIER");
@@ -183,12 +598,468 @@ bool Parser::parseProperty(PropertyAst **yynode)
         }
         yylex();
 
+        if (yytoken != Token_VALUE)
+        {
+            expectedToken(yytoken, Token_VALUE, "VALUE");
+            return false;
+        }
+        (*yynode)->value = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_RPAREN)
+        {
+            expectedToken(yytoken, Token_RPAREN, "RPAREN");
+            return false;
+        }
+        yylex();
+
+    }
+    else
+    {
+        return false;
+    }
+
+    (*yynode)->endToken = tokenStream->index() - 2;
+
+    return true;
+}
+
+bool Parser::parseProperty(PropertyAst **yynode)
+{
+    *yynode = create<PropertyAst>();
+
+    (*yynode)->startToken = tokenStream->index() - 1;
+    (*yynode)->propertyName = -1;
+
+    if (yytoken == Token_IDENTIFIER)
+    {
         if (yytoken != Token_IDENTIFIER)
         {
             expectedToken(yytoken, Token_IDENTIFIER, "IDENTIFIER");
             return false;
         }
-        (*yynode)->value = tokenStream->index() - 1;
+        (*yynode)->propertyName = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken == Token_BOOLEAN)
+        {
+            Boolean_typeAst *__node_3 = 0;
+            if (!parseBoolean_type(&__node_3))
+            {
+                expectedSymbol(AstNode::Boolean_typeKind, "boolean_type");
+                return false;
+            }
+            (*yynode)->boolean_type = __node_3;
+
+        }
+        else if (yytoken == Token_INTEGER)
+        {
+            Integer_typeAst *__node_4 = 0;
+            if (!parseInteger_type(&__node_4))
+            {
+                expectedSymbol(AstNode::Integer_typeKind, "integer_type");
+                return false;
+            }
+            (*yynode)->integer_type = __node_4;
+
+        }
+        else if (yytoken == Token_UNSIGNED_INT)
+        {
+            Unsigned_int_typeAst *__node_5 = 0;
+            if (!parseUnsigned_int_type(&__node_5))
+            {
+                expectedSymbol(AstNode::Unsigned_int_typeKind, "unsigned_int_type");
+                return false;
+            }
+            (*yynode)->unsigned_int_type = __node_5;
+
+        }
+        else if (yytoken == Token_LONG_LONG)
+        {
+            Long_long_typeAst *__node_6 = 0;
+            if (!parseLong_long_type(&__node_6))
+            {
+                expectedSymbol(AstNode::Long_long_typeKind, "long_long_type");
+                return false;
+            }
+            (*yynode)->long_long_type = __node_6;
+
+        }
+        else if (yytoken == Token_FLOAT)
+        {
+            Float_typeAst *__node_7 = 0;
+            if (!parseFloat_type(&__node_7))
+            {
+                expectedSymbol(AstNode::Float_typeKind, "float_type");
+                return false;
+            }
+            (*yynode)->float_type = __node_7;
+
+        }
+        else if (yytoken == Token_STRING)
+        {
+            String_typeAst *__node_8 = 0;
+            if (!parseString_type(&__node_8))
+            {
+                expectedSymbol(AstNode::String_typeKind, "string_type");
+                return false;
+            }
+            (*yynode)->string_type = __node_8;
+
+        }
+        else if (yytoken == Token_RGBA)
+        {
+            Rgba_typeAst *__node_9 = 0;
+            if (!parseRgba_type(&__node_9))
+            {
+                expectedSymbol(AstNode::Rgba_typeKind, "rgba_type");
+                return false;
+            }
+            (*yynode)->rgba_type = __node_9;
+
+        }
+        else if (yytoken == Token_VECTOR_TWOD)
+        {
+            Vector2d_typeAst *__node_10 = 0;
+            if (!parseVector2d_type(&__node_10))
+            {
+                expectedSymbol(AstNode::Vector2d_typeKind, "vector2d_type");
+                return false;
+            }
+            (*yynode)->vector2d_type = __node_10;
+
+        }
+        else if (yytoken == Token_VECTOR_THREED)
+        {
+            Vector3d_typeAst *__node_11 = 0;
+            if (!parseVector3d_type(&__node_11))
+            {
+                expectedSymbol(AstNode::Vector3d_typeKind, "vector3d_type");
+                return false;
+            }
+            (*yynode)->vector3d_type = __node_11;
+
+        }
+        else if (yytoken == Token_VECTOR_FOURD)
+        {
+            Vector4d_typeAst *__node_12 = 0;
+            if (!parseVector4d_type(&__node_12))
+            {
+                expectedSymbol(AstNode::Vector4d_typeKind, "vector4d_type");
+                return false;
+            }
+            (*yynode)->vector4d_type = __node_12;
+
+        }
+        else if (yytoken == Token_QUATERNION)
+        {
+            Quaternion_typeAst *__node_13 = 0;
+            if (!parseQuaternion_type(&__node_13))
+            {
+                expectedSymbol(AstNode::Quaternion_typeKind, "quaternion_type");
+                return false;
+            }
+            (*yynode)->quaternion_type = __node_13;
+
+        }
+        else if (yytoken == Token_SIZE_TWOD)
+        {
+            Size2d_typeAst *__node_14 = 0;
+            if (!parseSize2d_type(&__node_14))
+            {
+                expectedSymbol(AstNode::Size2d_typeKind, "size2d_type");
+                return false;
+            }
+            (*yynode)->size2d_type = __node_14;
+
+        }
+        else if (yytoken == Token_LIST)
+        {
+            List_typeAst *__node_15 = 0;
+            if (!parseList_type(&__node_15))
+            {
+                expectedSymbol(AstNode::List_typeKind, "list_type");
+                return false;
+            }
+            (*yynode)->list_type = __node_15;
+
+        }
+        else if (yytoken == Token_URL)
+        {
+            Url_typeAst *__node_16 = 0;
+            if (!parseUrl_type(&__node_16))
+            {
+                expectedSymbol(AstNode::Url_typeKind, "url_type");
+                return false;
+            }
+            (*yynode)->url_type = __node_16;
+
+        }
+        else if (yytoken == Token_IDENTIFIER)
+        {
+            Object_typeAst *__node_17 = 0;
+            if (!parseObject_type(&__node_17))
+            {
+                expectedSymbol(AstNode::Object_typeKind, "object_type");
+                return false;
+            }
+            (*yynode)->object_type = __node_17;
+
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        return false;
+    }
+
+    (*yynode)->endToken = tokenStream->index() - 2;
+
+    return true;
+}
+
+bool Parser::parseQuaternion_type(Quaternion_typeAst **yynode)
+{
+    *yynode = create<Quaternion_typeAst>();
+
+    (*yynode)->startToken = tokenStream->index() - 1;
+    (*yynode)->x = -1;
+    (*yynode)->y = -1;
+    (*yynode)->z = -1;
+    (*yynode)->w = -1;
+
+    if (yytoken == Token_QUATERNION)
+    {
+        if (yytoken != Token_QUATERNION)
+        {
+            expectedToken(yytoken, Token_QUATERNION, "QUATERNION");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_LPAREN)
+        {
+            expectedToken(yytoken, Token_LPAREN, "LPAREN");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->x = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_SEMICOLON)
+        {
+            expectedToken(yytoken, Token_SEMICOLON, "SEMICOLON");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->y = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_SEMICOLON)
+        {
+            expectedToken(yytoken, Token_SEMICOLON, "SEMICOLON");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->z = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_SEMICOLON)
+        {
+            expectedToken(yytoken, Token_SEMICOLON, "SEMICOLON");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->w = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_RPAREN)
+        {
+            expectedToken(yytoken, Token_RPAREN, "RPAREN");
+            return false;
+        }
+        yylex();
+
+    }
+    else
+    {
+        return false;
+    }
+
+    (*yynode)->endToken = tokenStream->index() - 2;
+
+    return true;
+}
+
+bool Parser::parseRgba_type(Rgba_typeAst **yynode)
+{
+    *yynode = create<Rgba_typeAst>();
+
+    (*yynode)->startToken = tokenStream->index() - 1;
+    (*yynode)->r = -1;
+    (*yynode)->g = -1;
+    (*yynode)->b = -1;
+    (*yynode)->a = -1;
+
+    if (yytoken == Token_RGBA)
+    {
+        if (yytoken != Token_RGBA)
+        {
+            expectedToken(yytoken, Token_RGBA, "RGBA");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_LPAREN)
+        {
+            expectedToken(yytoken, Token_LPAREN, "LPAREN");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->r = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_SEMICOLON)
+        {
+            expectedToken(yytoken, Token_SEMICOLON, "SEMICOLON");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->g = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_SEMICOLON)
+        {
+            expectedToken(yytoken, Token_SEMICOLON, "SEMICOLON");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->b = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_SEMICOLON)
+        {
+            expectedToken(yytoken, Token_SEMICOLON, "SEMICOLON");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->a = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_RPAREN)
+        {
+            expectedToken(yytoken, Token_RPAREN, "RPAREN");
+            return false;
+        }
+        yylex();
+
+    }
+    else
+    {
+        return false;
+    }
+
+    (*yynode)->endToken = tokenStream->index() - 2;
+
+    return true;
+}
+
+bool Parser::parseSize2d_type(Size2d_typeAst **yynode)
+{
+    *yynode = create<Size2d_typeAst>();
+
+    (*yynode)->startToken = tokenStream->index() - 1;
+    (*yynode)->width = -1;
+    (*yynode)->height = -1;
+
+    if (yytoken == Token_SIZE_TWOD)
+    {
+        if (yytoken != Token_SIZE_TWOD)
+        {
+            expectedToken(yytoken, Token_SIZE_TWOD, "SIZE_TWOD");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_LPAREN)
+        {
+            expectedToken(yytoken, Token_LPAREN, "LPAREN");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->width = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_SEMICOLON)
+        {
+            expectedToken(yytoken, Token_SEMICOLON, "SEMICOLON");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->height = tokenStream->index() - 1;
         yylex();
 
         if (yytoken != Token_RPAREN)
@@ -217,18 +1088,408 @@ bool Parser::parseStart(StartAst **yynode)
 
     if (yytoken == Token_LBRACE)
     {
-        Object_listAst *__node_3 = 0;
-        if (!parseObject_list(&__node_3))
+        Object_listAst *__node_18 = 0;
+        if (!parseObject_list(&__node_18))
         {
             expectedSymbol(AstNode::Object_listKind, "object_list");
             return false;
         }
-        (*yynode)->list = __node_3;
+        (*yynode)->list = __node_18;
 
         if (Token_EOF != yytoken)
         {
             return false;
         }
+    }
+    else
+    {
+        return false;
+    }
+
+    (*yynode)->endToken = tokenStream->index() - 2;
+
+    return true;
+}
+
+bool Parser::parseString_type(String_typeAst **yynode)
+{
+    *yynode = create<String_typeAst>();
+
+    (*yynode)->startToken = tokenStream->index() - 1;
+    (*yynode)->value = -1;
+
+    if (yytoken == Token_STRING)
+    {
+        if (yytoken != Token_STRING)
+        {
+            expectedToken(yytoken, Token_STRING, "STRING");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_LPAREN)
+        {
+            expectedToken(yytoken, Token_LPAREN, "LPAREN");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_VALUE)
+        {
+            expectedToken(yytoken, Token_VALUE, "VALUE");
+            return false;
+        }
+        (*yynode)->value = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_RPAREN)
+        {
+            expectedToken(yytoken, Token_RPAREN, "RPAREN");
+            return false;
+        }
+        yylex();
+
+    }
+    else
+    {
+        return false;
+    }
+
+    (*yynode)->endToken = tokenStream->index() - 2;
+
+    return true;
+}
+
+bool Parser::parseUnsigned_int_type(Unsigned_int_typeAst **yynode)
+{
+    *yynode = create<Unsigned_int_typeAst>();
+
+    (*yynode)->startToken = tokenStream->index() - 1;
+    (*yynode)->value = -1;
+
+    if (yytoken == Token_UNSIGNED_INT)
+    {
+        if (yytoken != Token_UNSIGNED_INT)
+        {
+            expectedToken(yytoken, Token_UNSIGNED_INT, "UNSIGNED_INT");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_LPAREN)
+        {
+            expectedToken(yytoken, Token_LPAREN, "LPAREN");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->value = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_RPAREN)
+        {
+            expectedToken(yytoken, Token_RPAREN, "RPAREN");
+            return false;
+        }
+        yylex();
+
+    }
+    else
+    {
+        return false;
+    }
+
+    (*yynode)->endToken = tokenStream->index() - 2;
+
+    return true;
+}
+
+bool Parser::parseUrl_type(Url_typeAst **yynode)
+{
+    *yynode = create<Url_typeAst>();
+
+    (*yynode)->startToken = tokenStream->index() - 1;
+    (*yynode)->path = -1;
+
+    if (yytoken == Token_URL)
+    {
+        if (yytoken != Token_URL)
+        {
+            expectedToken(yytoken, Token_URL, "URL");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_LPAREN)
+        {
+            expectedToken(yytoken, Token_LPAREN, "LPAREN");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_VALUE)
+        {
+            expectedToken(yytoken, Token_VALUE, "VALUE");
+            return false;
+        }
+        (*yynode)->path = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_RPAREN)
+        {
+            expectedToken(yytoken, Token_RPAREN, "RPAREN");
+            return false;
+        }
+        yylex();
+
+    }
+    else
+    {
+        return false;
+    }
+
+    (*yynode)->endToken = tokenStream->index() - 2;
+
+    return true;
+}
+
+bool Parser::parseVector2d_type(Vector2d_typeAst **yynode)
+{
+    *yynode = create<Vector2d_typeAst>();
+
+    (*yynode)->startToken = tokenStream->index() - 1;
+    (*yynode)->x = -1;
+    (*yynode)->y = -1;
+
+    if (yytoken == Token_VECTOR_TWOD)
+    {
+        if (yytoken != Token_VECTOR_TWOD)
+        {
+            expectedToken(yytoken, Token_VECTOR_TWOD, "VECTOR_TWOD");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_LPAREN)
+        {
+            expectedToken(yytoken, Token_LPAREN, "LPAREN");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->x = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_SEMICOLON)
+        {
+            expectedToken(yytoken, Token_SEMICOLON, "SEMICOLON");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->y = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_RPAREN)
+        {
+            expectedToken(yytoken, Token_RPAREN, "RPAREN");
+            return false;
+        }
+        yylex();
+
+    }
+    else
+    {
+        return false;
+    }
+
+    (*yynode)->endToken = tokenStream->index() - 2;
+
+    return true;
+}
+
+bool Parser::parseVector3d_type(Vector3d_typeAst **yynode)
+{
+    *yynode = create<Vector3d_typeAst>();
+
+    (*yynode)->startToken = tokenStream->index() - 1;
+    (*yynode)->x = -1;
+    (*yynode)->y = -1;
+    (*yynode)->z = -1;
+
+    if (yytoken == Token_VECTOR_THREED)
+    {
+        if (yytoken != Token_VECTOR_THREED)
+        {
+            expectedToken(yytoken, Token_VECTOR_THREED, "VECTOR_THREED");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_LPAREN)
+        {
+            expectedToken(yytoken, Token_LPAREN, "LPAREN");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->x = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_SEMICOLON)
+        {
+            expectedToken(yytoken, Token_SEMICOLON, "SEMICOLON");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->y = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_SEMICOLON)
+        {
+            expectedToken(yytoken, Token_SEMICOLON, "SEMICOLON");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->z = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_RPAREN)
+        {
+            expectedToken(yytoken, Token_RPAREN, "RPAREN");
+            return false;
+        }
+        yylex();
+
+    }
+    else
+    {
+        return false;
+    }
+
+    (*yynode)->endToken = tokenStream->index() - 2;
+
+    return true;
+}
+
+bool Parser::parseVector4d_type(Vector4d_typeAst **yynode)
+{
+    *yynode = create<Vector4d_typeAst>();
+
+    (*yynode)->startToken = tokenStream->index() - 1;
+    (*yynode)->x = -1;
+    (*yynode)->y = -1;
+    (*yynode)->z = -1;
+    (*yynode)->w = -1;
+
+    if (yytoken == Token_VECTOR_FOURD)
+    {
+        if (yytoken != Token_VECTOR_FOURD)
+        {
+            expectedToken(yytoken, Token_VECTOR_FOURD, "VECTOR_FOURD");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_LPAREN)
+        {
+            expectedToken(yytoken, Token_LPAREN, "LPAREN");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->x = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_SEMICOLON)
+        {
+            expectedToken(yytoken, Token_SEMICOLON, "SEMICOLON");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->y = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_SEMICOLON)
+        {
+            expectedToken(yytoken, Token_SEMICOLON, "SEMICOLON");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->z = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_SEMICOLON)
+        {
+            expectedToken(yytoken, Token_SEMICOLON, "SEMICOLON");
+            return false;
+        }
+        yylex();
+
+        if (yytoken != Token_NUMBER)
+        {
+            expectedToken(yytoken, Token_NUMBER, "NUMBER");
+            return false;
+        }
+        (*yynode)->w = tokenStream->index() - 1;
+        yylex();
+
+        if (yytoken != Token_RPAREN)
+        {
+            expectedToken(yytoken, Token_RPAREN, "RPAREN");
+            return false;
+        }
+        yylex();
+
     }
     else
     {
