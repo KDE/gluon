@@ -53,7 +53,7 @@ class GDLHandlerTest : public QObject
         }
 
         // Returns true if the passed GDL has (parsed -> serialized -> parsed) == parsed
-        static bool ensureReversible( const QString& gdl );
+        bool ensureReversible( const QString& gdl );
 
     private Q_SLOTS:
         void testDoxygenSample();
