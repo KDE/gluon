@@ -4,6 +4,7 @@
                        David Faure <faure@kde.org>
  * Copyright (C) 2006 Kevin Ottens <ervin@kde.org>
  * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
+ * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,40 +22,38 @@
  */
 
 #include "abstractjob.h"
-#include "abstractjob_p.h"
 
 #include <QtCore/QEventLoop>
 #include <QtCore/QMap>
 #include <QtCore/QMetaType>
 #include <QtCore/QTimer>
+#include <QtCore/QVariant>
 
-bool AbstractJobPrivate::_k_abstractjobUnitEnumRegistered = false;
-
-AbstractJobPrivate::AbstractJobPrivate()
-    : error(AbstractJob::NoError)
-    , progressUnit(AbstractJob::Bytes)
-    , percentage(0)
-    , suspended(false)
-    , capabilities(AbstractJob::NoCapabilities)
-    , speedTimer(0)
-    , isAutoDelete(true)
-    , eventLoop(0)
-    , isFinished(false)
+class AbstractJob::Private
 {
-    if (!_k_abstractjobUnitEnumRegistered) {
-        _k_abstractjobUnitEnumRegistered = qRegisterMetaType<AbstractJob::Unit>("AbstractJob::Unit");
-    }
-}
+    public:
+        Private()
+            : percentage( 0 )
+            , speedTimer( 0 )
+            , isAutoDelete( true )
+            , isFinished( false )
+        { }
+        ~Private() { }
+        void _k_speedTimeout();
 
-AbstractJobPrivate::~AbstractJobPrivate()
-{
-}
+        QString errorText;
+        qulonglong processedAmount;
+        qulonglong totalAmount;
+        unsigned long percentage;
+        QTimer* speedTimer;
+        bool isAutoDelete;
+        bool isFinished;
+};
 
-AbstractJob::AbstractJob(QObject *parent)
-    : QObject(parent)
-    , d(new AbstractJobPrivate)
+AbstractJob::AbstractJob( QObject* parent )
+    : QObject( parent )
+    , d( new Private )
 {
-    // d->q = this;
 }
 
 AbstractJob::~AbstractJob()
@@ -63,35 +62,15 @@ AbstractJob::~AbstractJob()
     delete d;
 }
 
-AbstractJob::Capabilities AbstractJob::capabilities() const
+bool AbstractJob::kill()
 {
-    return d->capabilities;
-}
-
-bool AbstractJob::isSuspended() const
-{
-    return d->suspended;
-}
-
-bool AbstractJob::kill( KillVerbosity verbosity )
-{
-    if ( doKill() )
+    if( doKill() )
     {
-        setError( KilledJobError );
+        emit finished();
+        emit failed();
 
-        if ( verbosity!=Quietly )
-        {
-            emitResult();
-        }
-        else
-        {
-            // If we are displaying a progress dialog, remove it first.
-            emit finished(this);
-
-            if ( isAutoDelete() )
-                deleteLater();
-        }
-
+        if( isAutoDelete() )
+            deleteLater();
         return true;
     }
     else
@@ -100,108 +79,19 @@ bool AbstractJob::kill( KillVerbosity verbosity )
     }
 }
 
-bool AbstractJob::suspend()
-{
-    if ( !d->suspended )
-    {
-        if ( doSuspend() )
-        {
-            d->suspended = true;
-            emit suspended(this);
-
-            return true;
-        }
-    }
-
-    return false;
-}
-
-bool AbstractJob::resume()
-{
-    if ( d->suspended )
-    {
-        if ( doResume() )
-        {
-            d->suspended = false;
-            emit resumed(this);
-
-            return true;
-        }
-    }
-
-    return false;
-}
-
 bool AbstractJob::doKill()
 {
     return false;
 }
 
-bool AbstractJob::doSuspend()
+qulonglong AbstractJob::processedAmount() const
 {
-    return false;
+    return d->processedAmount;
 }
 
-bool AbstractJob::doResume()
+qulonglong AbstractJob::totalAmount() const
 {
-    return false;
-}
-
-void AbstractJob::setCapabilities( AbstractJob::Capabilities capabilities )
-{
-    d->capabilities = capabilities;
-}
-
-bool AbstractJob::exec()
-{
-    // Usually this job would delete itself, via deleteLater() just after
-    // emitting result() (unless configured otherwise). Since we use an event
-    // loop below, that event loop will process the deletion event and we'll
-    // have been deleted when exec() returns. This crashes, so temporarily
-    // suspend autodeletion and manually do it afterwards.
-    const bool autoDeleted = isAutoDelete();
-    setAutoDelete( false );
-
-    Q_ASSERT( !d->eventLoop );
-
-    QEventLoop loop( this );
-    d->eventLoop = &loop;
-
-    start();
-    if( !d->isFinished ) {
-        d->eventLoop->exec(QEventLoop::ExcludeUserInputEvents);
-    }
-    d->eventLoop = 0;
-
-    if ( autoDeleted ) {
-        deleteLater();
-    }
-    return ( d->error == NoError );
-}
-
-int AbstractJob::error() const
-{
-    return d->error;
-}
-
-QString AbstractJob::errorText() const
-{
-    return d->errorText;
-}
-
-QString AbstractJob::errorString() const
-{
-    return d->errorText;
-}
-
-qulonglong AbstractJob::processedAmount(Unit unit) const
-{
-    return d->processedAmount[unit];
-}
-
-qulonglong AbstractJob::totalAmount(Unit unit) const
-{
-    return d->totalAmount[unit];
+    return d->totalAmount;
 }
 
 unsigned long AbstractJob::percent() const
@@ -209,102 +99,102 @@ unsigned long AbstractJob::percent() const
     return d->percentage;
 }
 
-void AbstractJob::setError( int errorCode )
+QString AbstractJob::errorText() const
 {
-    d->error = errorCode;
+    return d->errorText;
 }
 
-void AbstractJob::setErrorText( const QString &errorText )
+void AbstractJob::setErrorText( const QString& errorText )
 {
     d->errorText = errorText;
 }
 
-void AbstractJob::setProcessedAmount(Unit unit, qulonglong amount)
+void AbstractJob::setProcessedAmount( qulonglong amount )
 {
-    bool should_emit = (d->processedAmount[unit] != amount);
+    bool should_emit = ( d->processedAmount != amount );
 
-    d->processedAmount[unit] = amount;
+    d->processedAmount = amount;
 
-    if ( should_emit )
+    if( should_emit )
     {
-        emit processedAmount(this, unit, amount);
-        if (unit==d->progressUnit) {
-            emit processedSize(this, amount);
-            emitPercent(d->processedAmount[unit], d->totalAmount[unit]);
-        }
+        emit processedAmount( amount );
+        emit processedSize( amount );
+        setPercent( d->processedAmount, d->totalAmount );
     }
 }
 
-void AbstractJob::setTotalAmount(Unit unit, qulonglong amount)
+void AbstractJob::setTotalAmount( qulonglong amount )
 {
-    bool should_emit = (d->totalAmount[unit] != amount);
+    bool should_emit = ( d->totalAmount != amount );
 
-    d->totalAmount[unit] = amount;
+    d->totalAmount = amount;
 
-    if ( should_emit )
+    if( should_emit )
     {
-        emit totalAmount(this, unit, amount);
-        if (unit==d->progressUnit) {
-            emit totalSize(this, amount);
-            emitPercent(d->processedAmount[unit], d->totalAmount[unit]);
-        }
+        emit totalAmount( amount );
+        emit totalSize( amount );
+        setPercent( d->processedAmount, d->totalAmount );
     }
 }
 
 void AbstractJob::setPercent( unsigned long percentage )
 {
-    if ( d->percentage!=percentage )
+    if( d->percentage != percentage )
     {
         d->percentage = percentage;
-        emit percent( this, percentage );
+        emit percent( percentage );
     }
 }
 
-void AbstractJob::emitResult()
+void AbstractJob::emitSucceeded()
 {
     d->isFinished = true;
-
-    if ( d->eventLoop ) {
-        d->eventLoop->quit();
-    }
-
-    // If we are displaying a progress dialog, remove it first.
-    emit finished( this );
-
-    emit result( this );
-
-    if ( isAutoDelete() )
+    emit finished();
+    emit succeeded();
+    if( isAutoDelete() )
         deleteLater();
 }
 
-void AbstractJob::emitPercent( qulonglong processedAmount, qulonglong totalAmount )
+void AbstractJob::emitFailed()
+{
+    d->isFinished = true;
+    emit finished();
+    emit failed();
+    if( isAutoDelete() )
+        deleteLater();
+}
+
+void AbstractJob::setPercent( qulonglong processedAmount, qulonglong totalAmount )
 {
     // calculate percents
-    if (totalAmount) {
+    if( totalAmount )
+    {
         unsigned long oldPercentage = d->percentage;
-        d->percentage = (unsigned long)(( (float)(processedAmount) / (float)(totalAmount) ) * 100.0);
-        if ( d->percentage != oldPercentage ) {
-            emit percent( this, d->percentage );
+        d->percentage = ( unsigned long )((( float )( processedAmount ) / ( float )( totalAmount ) ) * 100.0 );
+        if( d->percentage != oldPercentage )
+        {
+            emit percent( d->percentage );
         }
     }
 }
 
-void AbstractJob::emitSpeed(unsigned long value)
+void AbstractJob::emitSpeed( unsigned long value )
 {
-    if (!d->speedTimer) {
-        d->speedTimer = new QTimer(this);
-        connect(d->speedTimer, SIGNAL(timeout()), SLOT(_k_speedTimeout()));
+    if( !d->speedTimer )
+    {
+        d->speedTimer = new QTimer( this );
+        connect( d->speedTimer, SIGNAL( timeout() ), SLOT( _k_speedTimeout() ) );
     }
 
-    emit speed(this, value);
-    d->speedTimer->start(5000);   // 5 seconds interval should be enough
+    emit speed( value );
+    d->speedTimer->start( 5000 ); // 5 seconds interval should be enough
 }
 
-void AbstractJobPrivate::_k_speedTimeout()
+void AbstractJob::Private::_k_speedTimeout()
 {
     // send 0 and stop the timer
     // timer will be restarted only when we receive another speed event
-    
+
     // TODO: make it work
     // emit q->speed(q, 0);
     speedTimer->stop();
@@ -318,6 +208,17 @@ bool AbstractJob::isAutoDelete() const
 void AbstractJob::setAutoDelete( bool autodelete )
 {
     d->isAutoDelete = autodelete;
+}
+
+void AbstractJob::start()
+{
+    //Do initialization stuff, and then call startImplementation()
+    startImplementation();
+}
+
+QVariant AbstractJob::data()
+{
+    return QVariant();  //FIXME: This implementation should not be needed.
 }
 
 #include "abstractjob.moc"

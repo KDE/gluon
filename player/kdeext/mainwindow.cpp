@@ -140,9 +140,9 @@ void MainWindow::startGame( )
 
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
-    m_project->loadFromFile( m_gameFileName );
+    m_project->loadFromFile( m_projectFilePath );
 
-    setWindowFilePath( m_gameFileName );
+    setWindowFilePath( m_projectFilePath );
     d->title = windowTitle();
 
     GluonEngine::Game::instance()->setGameProject( m_project );
@@ -277,7 +277,7 @@ void MainWindow::showGames()
 
 void MainWindow::setProject( const QModelIndex& index )
 {
-    m_gameFileName = index.data( GluonPlayer::GameItemsModel::ProjectFileNameRole ).toString();
+    m_projectFilePath = index.data( GluonPlayer::GameItemsModel::ProjectFilePathRole ).toString();
     m_gamesOverlay->hide();
     openProject();
 }
@@ -291,7 +291,7 @@ void MainWindow::openProject()
         return;
     }
 
-    if( m_gameFileName.isEmpty() )
+    if( m_projectFilePath.isEmpty() )
     {
         return;
     }

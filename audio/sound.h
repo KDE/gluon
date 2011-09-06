@@ -51,7 +51,7 @@ namespace GluonAudio
             /**
             * @param fileName the path of the file to play
             */
-            explicit Sound( const QString& fileName );
+            explicit Sound( const QString& fileName, QObject *parent = 0 );
 
             /**
             * Destructor
@@ -80,13 +80,9 @@ namespace GluonAudio
 
             /**
             * @return the time since the sound started playing
+            * If there is no source loaded, it returns -1.
             */
             ALfloat timeOffset() const;
-
-            /**
-            * @return the sound status
-            */
-            ALint status() const;
 
             /**
              * Returns true if it is currently playing; otherwise returns false
@@ -147,7 +143,8 @@ namespace GluonAudio
             ALfloat z() const;
 
             /**
-            * @return the volume currently applied
+            * @return the volume currently applied.
+            * If there is no source loaded, it returns -1.
             * @see setVolume
             */
             ALfloat volume() const;
@@ -199,6 +196,8 @@ namespace GluonAudio
             /**
             * Makes the sound play in a loop when play() is called
             * @p enabled play in a loop if set to true
+            *
+            * If there is no source loaded, it does not set the looping.
             * @see play
             */
             void setLoop( bool enabled = true );
@@ -219,6 +218,8 @@ namespace GluonAudio
             * To switch from a left handed coordinate system, flip the
             * sign on the Z coordinate.
             * Listener position is always in the world coordinate system."
+            *
+            * If there is no source loaded, it does not set the position.
             */
             void setPosition( QVector3D position );
 
@@ -226,6 +227,8 @@ namespace GluonAudio
             * @overload setPosition()
             * Set the position of the sound relative to the listener
             * using the coordinates (@p x, @p y, @p z).
+            *
+            * If there is no source loaded, it does not set the position.
             */
             void setPosition( ALfloat x = 0.0, ALfloat y = 0.0, ALfloat z = 0.0 );
 
@@ -239,6 +242,9 @@ namespace GluonAudio
             * A value of 0.0 is meaningless with respect to a logarithmic
             * scale; it is interpreted as zero volume - the channel
             * is effectively disabled."
+            * The range that can be set is 0.0f - 1.0f
+            *
+            * If there is no source loaded, it does not set the volume.
             * @see volume
             */
             void setVolume( ALfloat volume = 1.0f );
@@ -247,27 +253,33 @@ namespace GluonAudio
             * Specify the pitch to be applied, either at source,
             * or on mixer results, at listener.
             * @param pitch a value between 0.5 and 2.0
+            *
+            * If there is no source loaded, it does not set the pitch.
             */
             void setPitch( ALfloat pitch = 1.0f );
 
             /**
              * Specify the distance from which the sound can no longer be heard
              * @param radius A length
+             *
+             * If there is no source loaded, it does not set the radius.
              */
             void setRadius( ALfloat radius = 10000.0f );
 
             /**
-            * Specify the minimum index value of the volume,
-            * @param min is 0 by default
+            * Set the velocity of the sound relative to the listener
+            * using the coordinates (@p x, @p y, @p z).
+            *
+            * If there is no source loaded, it does not set the velocity.
             */
-            void setMinVolume( ALfloat min = 0.0f );
+            void setVelocity( ALfloat vx, ALfloat vy, ALfloat vz );
 
             /**
-            * Specify the maximum index value of the volume,
-            * @param max is 10.0f by default
+            * Set the direction of the sound relative to the listener
+            * using the coordinates (@p x, @p y, @p z).
+            *
+            * If there is no source loaded, it does not set the direction.
             */
-            void setMaxVolume( ALfloat max = 10.0f );
-            void setVelocity( ALfloat vx, ALfloat vy, ALfloat vz );
             void setDirection( ALfloat dx, ALfloat dy, ALfloat dz );
 
             /**

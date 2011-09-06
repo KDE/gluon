@@ -56,10 +56,10 @@ void GamesViewItem::layoutWidgets()
     m_preview->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
 
     m_gameName = new Plasma::Label( this );
-    m_gameName->setText( m_index.data( GluonPlayer::GameItemsModel::GameNameRole ).toString() );
+    m_gameName->setText( m_index.data( GluonPlayer::GameItemsModel::ProjectNameRole ).toString() );
 
     m_gameDescription = new Plasma::Label( this );
-    m_gameDescription->setText( m_index.data( GluonPlayer::GameItemsModel::GameDescriptionRole ).toString() );
+    m_gameDescription->setText( m_index.data( GluonPlayer::GameItemsModel::ProjectDescriptionRole ).toString() );
 
     m_playButton = new Plasma::IconWidget( this );
     m_playButton->setIcon( KIcon( "media-playback-start" ) );

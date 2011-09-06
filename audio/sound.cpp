@@ -125,13 +125,15 @@ Sound::Sound(QObject *parent)
     : QObject( parent )
     , d( new SoundPrivate )
 {
+    Engine::instance();
     d->isValid = false;
 }
 
-Sound::Sound( const QString& fileName )
-    : QObject( Engine::instance() )
+Sound::Sound( const QString& fileName, QObject *parent )
+    : QObject( parent )
     , d( new SoundPrivate )
 {
+    Engine::instance();
     load( fileName );
 }
 
@@ -192,16 +194,14 @@ bool Sound::load( const QString& fileName )
 
 ALfloat Sound::timeOffset() const
 {
+    if( !d->isValid )
+    {
+        return -1;
+    }
+
     ALfloat seconds = 0.f;
     alGetSourcef( d->source, AL_SEC_OFFSET, &seconds );
     return seconds;
-}
-
-ALint Sound::status() const
-{
-    ALint status;
-    alGetSourcei( d->source, AL_SOURCE_STATE, &status );
-    return status;
 }
 
 bool Sound::isLooping() const
@@ -226,6 +226,11 @@ bool Sound::isStopped() const
 
 void Sound::setLoop( bool enabled )
 {
+    if( !d->isValid )
+    {
+        return;
+    }
+
     d->isLooping = enabled;
     if( !d->isStreamed )
     {
@@ -260,7 +265,14 @@ ALfloat Sound::z() const
 
 ALfloat Sound::volume() const
 {
-    return d->volume;
+    if( !d->isValid )
+    {
+        return -1;
+    }
+
+    ALfloat volume;
+    alGetSourcef( d->source, AL_GAIN, &volume );
+    return volume;
 }
 
 ALfloat Sound::pitch() const
@@ -289,6 +301,11 @@ void Sound::setPosition( ALfloat x, ALfloat y, ALfloat z )
 
 void Sound::setPosition( QVector3D position )
 {
+    if( !d->isValid )
+    {
+        return;
+    }
+
     d->position = position;
     ALfloat sourcePosition[] = { position.x(), position.y() , position.z() };
     alSourcefv( d->source, AL_POSITION, sourcePosition );
@@ -296,18 +313,33 @@ void Sound::setPosition( QVector3D position )
 
 void Sound::setVolume( ALfloat volume )
 {
+    if( !d->isValid )
+    {
+        return;
+    }
+
     d->volume = volume;
     alSourcef( d->source, AL_GAIN, volume );
 }
 
 void Sound::setPitch( ALfloat pitch )
 {
+    if( !d->isValid )
+    {
+        return;
+    }
+
     d->pitch = pitch;
     alSourcef( d->source, AL_PITCH, pitch );
 }
 
 void Sound::setRadius( ALfloat radius )
 {
+    if( !d->isValid )
+    {
+        return;
+    }
+
     d->radius = radius;
     alSourcef( d->source, AL_REFERENCE_DISTANCE, radius );
 }
@@ -383,30 +415,35 @@ void Sound::rewind()
     d->newError( "Rewinding " + d->path + " failed" );
 }
 
-void Sound::setMinVolume( ALfloat min )
-{
-    alSourcef( d->source, AL_MIN_GAIN, min );
-}
-
-void Sound::setMaxVolume( ALfloat max )
-{
-    alSourcef( d->source, AL_MAX_GAIN, max );
-}
-
 void Sound::setVelocity( ALfloat vx, ALfloat vy, ALfloat vz )
 {
+    if( !d->isValid )
+    {
+        return;
+    }
+
     ALfloat velocity[] = { vx, vy, vz };
     alSourcefv( d->source, AL_VELOCITY, velocity );
 }
 
 void Sound::setDirection( ALfloat dx, ALfloat dy, ALfloat dz )
 {
+    if( !d->isValid )
+    {
+        return;
+    }
+
     ALfloat direction[] = { dx, dy, dz };
     alSourcefv( d->source, AL_POSITION, direction );
 }
 
 void Sound::setTimeOffset( ALfloat time )
 {
+    if( !d->isValid )
+    {
+        return;
+    }
+
     alSourcef( d->source, AL_SEC_OFFSET, time );
 
 }

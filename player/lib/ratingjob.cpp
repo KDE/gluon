@@ -30,33 +30,27 @@ using namespace GluonPlayer;
 
 class RatingJob::Private
 {
-public:
-    Private()
-        : provider(0)
-        , rating(0)
-    {
-    }
+    public:
+        Private()
+            : rating( 0 )
+        {
+        }
 
-    ~Private()
-    {
-    }
+        ~Private()
+        {
+        }
 
-    Attica::Provider *provider;
-    QString id;
-    uint rating;
+        QString id;
+        uint rating;
 };
 
-
-RatingJob::RatingJob(Attica::Provider* provider, const QString& id,
-                        uint rating, QObject* parent)
-    : AbstractJob(parent)
-    , d(new Private)
+RatingJob::RatingJob( Attica::Provider* provider, const QString& id,
+                      uint rating, QObject* parent )
+    : AbstractSocialServicesJob( provider )
+    , d( new Private )
 {
-    d->provider = provider;
     d->id = id;
     d->rating = rating;
-
-    connect(this, SIGNAL( ratingUploadStarting() ), SLOT( startRatingUpload() ) );
 }
 
 RatingJob::~RatingJob()
@@ -64,25 +58,29 @@ RatingJob::~RatingJob()
     delete d;
 }
 
-void RatingJob::start()
+void RatingJob::startSocialService()
 {
-}
-
-void RatingJob::startRatingUpload()
-{
-    Attica::PostJob *job = d->provider->voteForContent(d->id, d->rating);
-    connect(job, SIGNAL(finished(Attica::BaseJob*)), SLOT(ratingUploadComplete(Attica::BaseJob*)));
+    Attica::PostJob* job = provider()->voteForContent( d->id, d->rating );
+    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( ratingUploadComplete( Attica::BaseJob* ) ) );
     job->start();
 }
 
-void RatingJob::ratingUploadComplete(Attica::BaseJob* baseJob)
+void RatingJob::ratingUploadComplete( Attica::BaseJob* baseJob )
 {
-    Attica::PostJob *job = static_cast<Attica::PostJob*>(baseJob);
-    if (job->metadata().error() == Attica::Metadata::NoError) {
-        emit ratingUploadFinished();
-    } else {
-        emit ratingUploadFailed();
+    Attica::PostJob* job = static_cast<Attica::PostJob*>( baseJob );
+    if( job->metadata().error() == Attica::Metadata::NoError )
+    {
+        emitSucceeded();
     }
+    else
+    {
+        emitFailed();
+    }
+}
+
+QVariant RatingJob::data()
+{
+    return d->id;
 }
 
 #include "ratingjob.moc"

@@ -33,16 +33,14 @@ public:
 private Q_SLOTS:
     void testConstructorMemberInit();
     void testLoad();
+    void testLoadInvalidSource();
     void testIsValid();
-    void testStatus();
     void testIsPlaying();
     void testIsLooping();
     void testPosition();
     void testVolume();
     void testPitch();
     void testRadius();
-    void testMinVolume();
-    void testMaxVolume();
 };
 
 #endif // GLUON_AUDIO_SOUNDTEST_H

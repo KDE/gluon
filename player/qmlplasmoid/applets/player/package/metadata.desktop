@@ -1,0 +1,27 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Gluon Player (QML)
+Name[de]=Gluon-Player (QML)
+Name[es]=Gluon Player (sólo QML)
+Name[et]=Gluoni mängija (QML)
+Name[fr]=Gluon Player (QML)
+Name[pt]=Leitor do Gluon (QML)
+Name[pt_BR]=Jogador do Gluon (QML)
+Name[sv]=Gluon spelare (QML)
+Name[uk]=Програвач Gluon (QML)
+Name[x-test]=xxGluon Player (QML)xx
+Type=Service
+ServiceTypes=Plasma/Applet
+Icon=kde
+X-Plasma-API=declarativeappletscript
+X-Plasma-MainScript=ui/main.qml
+X-Plasma-DefaultSize=300,300
+X-KDE-PluginInfo-Author=Shantanu Tushar
+X-KDE-PluginInfo-Email=jhahoneyk@gmail.com
+X-KDE-PluginInfo-Name=org.kde.gluonplayer-qml
+X-KDE-PluginInfo-Version=1.0
+X-KDE-PluginInfo-Website=http://gluon.gamingfreedom.org/
+X-KDE-PluginInfo-Category=Fun and Games
+X-KDE-PluginInfo-Depends=
+X-KDE-PluginInfo-License=GPL
+X-KDE-PluginInfo-EnabledByDefault=true

@@ -55,7 +55,7 @@ PrefabInstanceChild::PrefabInstanceChild( QObject* parent )
 
 PrefabInstanceChild::~PrefabInstanceChild()
 {
-    delete(d);
+    delete d;
 }
 
 void PrefabInstanceChild::cloneFromGameObject(GluonEngine::GameObject* gameObject)

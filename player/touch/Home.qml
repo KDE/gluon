@@ -32,11 +32,11 @@ Rectangle {
             id: gameItem;
             width: ListView.view.width;
             icon: "icons/hi32-app-gluon.png";
-            text: qsTr(gameName);
-            subtext: qsTr(gameDescription);
+            text: qsTr(projectName);
+            subtext: qsTr(projectDescription);
 
             onClicked: {
-                detailsPage.propagate(gameName, gameDescription, screenshotUrls, status, index);
+                detailsPage.propagate(projectName, projectDescription, screenshotUrls, status, index);
             }
         }
     }
@@ -47,11 +47,11 @@ Rectangle {
             id: gameItemMoreGames;
             width: ListView.view.width;
             icon: "icons/hi32-app-gluon.png";
-            text: qsTr(gameNameDownloadable);
-            subtext: qsTr(gameDescriptionDownloadable);
+            text: qsTr(projectNameDownloadable);
+            subtext: qsTr(projectDescriptionDownloadable);
 
             onClicked: {
-                detailsPage.propagate(gameNameDownloadable, gameDescriptionDownloadable, screenshotUrlsDownloadable, statusDownloadable, index);
+                detailsPage.propagate(projectNameDownloadable, projectDescriptionDownloadable, screenshotUrlsDownloadable, statusDownloadable, index);
             }
         }
     }

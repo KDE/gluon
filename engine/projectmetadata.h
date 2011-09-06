@@ -42,7 +42,7 @@ namespace GluonEngine
             Q_PROPERTY( QString projectDescription READ projectDescription WRITE setProjectDescription )
 
             /** Path to the project */
-            Q_PROPERTY( QString projectPath READ projectPath WRITE setProjectPath )
+            Q_PROPERTY( QString projectFilePath READ projectFilePath WRITE setProjectFilePath )
 
             /** ID of the project on the gaming server */
             Q_PROPERTY( QString projectId READ projectId WRITE setProjectId )
@@ -51,7 +51,7 @@ namespace GluonEngine
 
         public:
             Q_INVOKABLE ProjectMetaData( QObject* parent = 0 );
-            ProjectMetaData( QString projectPath, QString projectName, QString description, QString id, QObject* parent = 0 );
+            ProjectMetaData( QString projectFilePath, QString projectName, QString description, QString id, QObject* parent = 0 );
             virtual ~ProjectMetaData();
 
             QString projectName() const;
@@ -60,8 +60,8 @@ namespace GluonEngine
             QString projectDescription() const;
             void setProjectDescription( const QString& description );
 
-            QString projectPath() const;
-            void setProjectPath( const QString& projectPath );
+            QString projectFilePath() const;
+            void setProjectFilePath( const QString& path );
 
             QString projectId() const;
             void setProjectId( const QString& id );

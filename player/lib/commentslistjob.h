@@ -1,7 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
- * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,16 +17,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_PLAYER_COMMENTLISTJOB_H
-#define GLUON_PLAYER_COMMENTLISTJOB_H
+#ifndef GLUONPLAYER_COMMENTSLISTJOB_H
+#define GLUONPLAYER_COMMENTSLISTJOB_H
 
-#include "abstractjob.h"
+#include "abstractsocialservicesjob.h"
+
+#include <QList>
 
 namespace Attica
 {
-    class Comment;
-    class Provider;
     class BaseJob;
+    class Comment;
 }
 
 class QDateTime;
@@ -39,7 +39,7 @@ namespace GluonPlayer
             Q_OBJECT
         public:
             CommentItem( const QString& id, const QString& subject, const QString& text,
-                        const QString& user, const QDateTime& dateTime, int score, QObject* parent = 0 );
+                         const QString& user, const QDateTime& dateTime, int score, QObject* parent = 0 );
             virtual ~CommentItem();
 
             QString id() const;
@@ -54,39 +54,29 @@ namespace GluonPlayer
             Private* const d;
     };
 
-    class CommentListJob : public AbstractJob
+    class CommentsListJob : public AbstractSocialServicesJob
     {
             Q_OBJECT
+
         public:
-            CommentListJob( Attica::Provider* provider, const QString& id, int page, int pageSize,
-                                          QObject* parent = 0 );
-            CommentListJob( Attica::Provider* provider, const QString& id, const QString& parentId,
-                                          const QString& subject, const QString& message, QObject* parent = 0 );
-            virtual ~CommentListJob();
+            CommentsListJob( Attica::Provider* provider, const QString& id, int page, int pageSize );
+            virtual ~CommentsListJob();
 
-            virtual void start();
+            virtual QVariant data();
 
-        Q_SIGNALS:
-            void commentListFetchStarting();
-            void commentListFetchFinished( QList<CommentItem*> comments );
-            void commentListFetchFailed();
-
-            void commentListUploadStarting();
-            void commentListUploadFinished();
-            void commentListUploadFailed();
+        protected Q_SLOTS:
+            virtual void startSocialService();
 
         private Q_SLOTS:
-            void fetchCommentList();
-            void uploadCommentList();
             void processFetchedCommentList( Attica::BaseJob* job );
-            void uploadCommentListFinished( Attica::BaseJob* job );
 
         private:
-            void addChildren(CommentItem *parentOcsComment, const Attica::Comment& parentComment);
+            void addChildren( CommentItem* parentCommentItem, const Attica::Comment& parentComment );
 
             class Private;
             Private* const d;
     };
+
 }
 
-#endif // GLUON_PLAYER_COMMENTLISTJOB_H
+#endif // GLUONPLAYER_COMMENTSLISTJOB_H
