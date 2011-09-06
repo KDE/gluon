@@ -1,39 +1,39 @@
 this.speed = 30;
+this.cameraHeight;
+this.player1Height;
+this.downcollide;
+this.upcollide;
 
 this.initialize = function()
 {
+    this.cameraHeight = this.Scene.sceneContents().Camera.CameraControllerComponent.visibleArea.height();
+    this.player1Height = this.Scene.sceneContents().Player1.Player1SpriteRenderer.size.height();
+    this.downcollide = -this.cameraHeight/2 + this.player1Height/2;
+    this.upcollide = this.cameraHeight/2 - this.player1Height/2;
 }
 
 this.move = function(time)
 {
     var addY = this.speed * (time/1000);
 
-    if(this.GameObject.Key_Up.isActionHeld())
+    if(this.GameObject.Key_W.isActionHeld())
     {
         this.GameObject.translate(0, addY, 0);
     } 
-    else if(this.GameObject.Key_Down.isActionHeld())
+    else if(this.GameObject.Key_S.isActionHeld())
     {
         this.GameObject.translate(0, -addY, 0);
     }
 
     var pos = this.GameObject.position;
-    if(pos.x() < -30)
-    {
-        this.GameObject.setPosition(-30, pos.y(), pos.z());
-    }
-    if(pos.x() > 30)
-    {
-        this.GameObject.setPosition(30, pos.y(), pos.z());
-    }
 
-    if(pos.y() < -30)
+    if(pos.y() < this.downcollide)
     {
-        this.GameObject.translate(0, 5 * (time/1000), 0);
+        this.GameObject.setPosition(pos.x(), this.downcollide, pos.z());
     }
-    else
+    else if(pos.y() > this.upcollide)
     {
-        this.justSpawned = false;
+        this.GameObject.setPosition(pos.x(), this.upcollide, pos.z());
     }
 }
 

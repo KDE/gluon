@@ -41,8 +41,7 @@ namespace GluonCreator
             void setEditValue( const QVariant& value );
 
         private Q_SLOTS:
-            void valueChanged( QVariant value );
-            void valueChanged( double value );
+            void spinValueChanged( double value );
 
         private:
             class QuaternionPropertyWidgetItemPrivate;

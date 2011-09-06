@@ -64,7 +64,7 @@ QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem( QWidget* parent, Qt:
     d->x->setDecimals( 3 );
     d->x->setSingleStep( 0.01 );
     vectorLayout->addWidget( d->x );
-    connect( d->x, SIGNAL( valueChanged( double ) ), this,  SLOT( valueChanged( double ) ) );
+    connect( d->x, SIGNAL( valueChanged( double ) ), this,  SLOT( spinValueChanged( double ) ) );
 
     d->y = new QDoubleSpinBox( this );
     d->y->setPrefix( "Y: " );
@@ -72,7 +72,7 @@ QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem( QWidget* parent, Qt:
     d->y->setDecimals( 3 );
     d->y->setSingleStep( 0.01 );
     vectorLayout->addWidget( d->y );
-    connect( d->y, SIGNAL( valueChanged( double ) ), this,  SLOT( valueChanged( double ) ) );
+    connect( d->y, SIGNAL( valueChanged( double ) ), this,  SLOT( spinValueChanged( double ) ) );
 
     d->z = new QDoubleSpinBox( this );
     d->z->setPrefix( "Z: " );
@@ -80,13 +80,13 @@ QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem( QWidget* parent, Qt:
     d->z->setDecimals( 3 );
     d->z->setSingleStep( 0.01 );
     vectorLayout->addWidget( d->z );
-    connect( d->z, SIGNAL( valueChanged( double ) ), this, SLOT( valueChanged( double ) ) );
+    connect( d->z, SIGNAL( valueChanged( double ) ), this, SLOT( spinValueChanged( double ) ) );
 
     d->angle = new QDoubleSpinBox( this );
     d->angle->setPrefix( "Angle: " );
     d->angle->setRange( -FLT_MAX, FLT_MAX );
     layout->addWidget( d->angle );
-    connect( d->angle, SIGNAL( valueChanged( double ) ), this, SLOT( valueChanged( double ) ) );
+    connect( d->angle, SIGNAL( valueChanged( double ) ), this, SLOT( spinValueChanged( double ) ) );
 
     setEditWidget( base );
 }
@@ -121,13 +121,9 @@ void QuaternionPropertyWidgetItem::setEditValue( const QVariant& value )
     d->angle->setValue( ( 2 * acos( d->value.scalar() ) ) * ( 180 / M_PI ) );
 }
 
-void QuaternionPropertyWidgetItem::valueChanged( QVariant value )
+void QuaternionPropertyWidgetItem::spinValueChanged( double value )
 {
-    valueChanged( value.toDouble() );
-}
-
-void QuaternionPropertyWidgetItem::valueChanged( double /* value */ )
-{
+    Q_UNUSED(value);
     d->value = QQuaternion::fromAxisAndAngle( d->x->value(), d->y->value(), d->z->value(), d->angle->value() );
-    PropertyWidgetItem::valueChanged( d->value );
+    PropertyWidgetItem::valueChanged( QVariant( d->value ) );
 }

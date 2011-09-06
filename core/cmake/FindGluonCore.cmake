@@ -19,11 +19,11 @@ if (GluonCore_FIND_REQUIRED)
     set(_gluonCoreReq "REQUIRED")
 endif (GluonCore_FIND_REQUIRED)
 
-set(GLUON_VERSION_MAJOR     0       CACHE STRING "Gluon Major Version")
-set(GLUON_VERSION_MINOR     70      CACHE STRING "Gluon Minor Version")
-set(GLUON_VERSION_PATCH     0       CACHE STRING "Gluon Patch Version")
+set(GLUON_VERSION_MAJOR     0                CACHE STRING "Gluon Major Version")
+set(GLUON_VERSION_MINOR     72               CACHE STRING "Gluon Minor Version")
+set(GLUON_VERSION_PATCH     0                CACHE STRING "Gluon Patch Version")
 set(GLUON_VERSION_STRING    "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}" CACHE STRING "Gluon Version String")
-set(GLUON_VERSION_NAME      "X-Ray" CACHE STRING "Gluon Version Name")
+set(GLUON_VERSION_NAME      "Alpha Particle" CACHE STRING "Gluon Version Name")
 
 find_path(GLUON_INSTALL_PREFIX
     NAMES

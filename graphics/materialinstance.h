@@ -52,6 +52,8 @@ namespace GluonGraphics
             Q_OBJECT
             GLUON_OBJECT( GluonGraphics::MaterialInstance )
 
+            Q_CLASSINFO( "org.gluon.icon", "text-mathml" )
+
         public:
             /**
              * Constructor.

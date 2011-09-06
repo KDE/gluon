@@ -38,6 +38,10 @@ namespace GluonEngine
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::StatisticsAsset )
             Q_INTERFACES( GluonEngine::Asset )
+
+            Q_CLASSINFO( "org.gluon.category", "Social Integration" )
+            Q_CLASSINFO( "org.gluon.icon", "text-mathml" )
+
         public:
             Q_INVOKABLE StatisticsAsset( QObject* parent = 0 );
             virtual ~StatisticsAsset();

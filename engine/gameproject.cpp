@@ -24,6 +24,7 @@
 #include "scene.h"
 #include "game.h"
 #include "achievement.h"
+#include "asset.h"
 
 #include <core/gdlhandler.h>
 #include <core/scriptengine.h>
@@ -87,7 +88,7 @@ GameProject::saveToFile() const
     thisProject.append( this );
 
     QTextStream projectWriter( &projectFile );
-    projectWriter << GluonCore::GDLHandler::instance()->serializeGDL( thisProject );
+    projectWriter << GluonCore::GDLHandler::instance()->serializeGDL( thisProject ) << endl;
     projectFile.close();
 
     QString projectDir = filename().toLocalFile().section( '/', 0, -2 );
@@ -114,14 +115,14 @@ GameProject::saveToFile() const
     if( directoryFile.open( QFile::WriteOnly | QFile::Truncate | QIODevice::Text ) )
     {
         QTextStream out( &directoryFile );
-        out << QString( "[Desktop Entry]\nIcon=game.png\nType=Directory\n" );
+        out << "[Desktop Entry]" << endl << "Icon=game.png" << endl << "Type=Directory" << endl;
         directoryFile.close();
     }
     QFile folderFile( projectDir + "/desktop.ini" );
     if( folderFile.open( QFile::WriteOnly | QFile::Truncate | QIODevice::Text ) )
     {
         QTextStream out( &folderFile );
-        out << QString( "[.ShellClassInfo]\nConfirmFileOp=0\nIconFile=game.ico\nIconIndex=0\nInfoTip=A Gluon Game\n" );
+        out << "[.ShellClassInfo]" << endl << "ConfirmFileOp=0" << endl << "IconFile=game.ico" << endl << "IconIndex=0" << endl << "InfoTip=A Gluon Game" << endl;
         folderFile.close();
     }
 
@@ -135,6 +136,19 @@ GameProject::saveToFile() const
     }
 
     return true;
+}
+
+void GameProject::traverseChildren(GluonObject* gluonObject)
+{
+    foreach( QObject *child, gluonObject->children() )
+    {
+        Asset *assetChild = qobject_cast<Asset*>(child);
+        if (assetChild)
+        {
+            addAsset(assetChild);
+            assetChild->load();
+        }
+    }
 }
 
 bool
@@ -180,9 +194,14 @@ GameProject::loadFromFile()
                 foreach( QObject * child, loadedProject->children() )
                 {
                     GluonObject* theChild = qobject_cast<GluonObject*>( child );
-                    theChild->setParent( this );
-                    theChild->setGameProject( this );
+                    if( theChild )
+                    {
+                        theChild->setParent( this );
+                        theChild->setGameProject( this );
+                        traverseChildren(theChild);
+                    }
                 }
+
 
                 // Set all the interesting values...
                 setName( loadedProject->name() );
@@ -378,6 +397,88 @@ QString GameProject::userName() const
 void GameProject::setUserName(const QString& newUserName)
 {
     d->userName = newUserName;
+}
+
+// ----------------------------------------------------------------------------
+// Asset management
+
+Asset* GameProject::findAsset( const QString& name ) const
+{
+    Asset* foundAsset = 0;
+
+    foreach( Asset *asset, d->assets )
+    {
+        if( asset->name() == name )
+        {
+            foundAsset = asset;
+            break;
+        }
+    }
+
+    return foundAsset;
+}
+
+Asset* GameProject::findAssetByType( const QString& typeName ) const
+{
+    int typeID = QMetaType::type( typeName.toAscii().data() );
+    return findAssetByType( typeID );
+}
+
+Asset* GameProject::findAssetByType( int type ) const
+{
+    if( d->assetTypes.find( type ) != d->assetTypes.end() )
+        return d->assetTypes.value( type );
+
+    return 0;
+}
+
+QList<Asset*> GameProject::findAssetsByType( const QString& typeName ) const
+{
+    int typeID = QMetaType::type( typeName.toAscii().data() );
+    return findAssetsByType( typeID );
+}
+
+QList<Asset*> GameProject::findAssetsByType( int type ) const
+{
+    if( d->assetTypes.find( type ) != d->assetTypes.end() )
+        return d->assetTypes.values( type );
+
+    return QList<Asset*>();
+}
+
+void GameProject::addAsset( Asset* asset )
+{
+    if( asset )
+    {
+        int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( asset->metaObject()->className() );
+        if( d->assetTypes.constFind( typeID, asset ) == d->assetTypes.constEnd() )
+        {
+            d->assetTypes.insert( typeID, asset );
+            d->assets.append( asset );
+            // connect( asset, SIGNAL(destroyed(QObject*)), SLOT(childDeleted(QObject*)) );
+            // asset->setParent( this );
+            // asset->setGameProject( this );
+            // asset->setName( asset->name() );
+        }
+    }
+    else
+    {
+        DEBUG_BLOCK
+        DEBUG_TEXT( "Attempting to add a null asset" )
+    }
+}
+
+bool GameProject::removeAsset( Asset* asset )
+{
+    int typeID = QMetaType::type( asset->metaObject()->className() );
+    d->assetTypes.remove( typeID, asset );
+    // disconnect( asset, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
+    return d->assets.removeOne( asset );
+}
+
+QList<Asset*> GameProject::assets() const
+{
+    return d->assets;
 }
 
 #include "gameproject.moc"

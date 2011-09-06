@@ -34,11 +34,14 @@ namespace GluonEngine
     class GLUON_COMPONENT_SPRITERENDERER_EXPORT SpriteRendererComponent : public Component
     {
             Q_OBJECT
+            Q_INTERFACES( GluonEngine::Component )
+            GLUON_OBJECT( GluonEngine::SpriteRendererComponent )
+
             Q_PROPERTY( QSizeF size READ size WRITE setSize )
             Q_PROPERTY( GluonGraphics::MaterialInstance* material READ material WRITE setMaterial )
 
-            Q_INTERFACES( GluonEngine::Component )
-            GLUON_OBJECT( GluonEngine::SpriteRendererComponent )
+            Q_CLASSINFO( "org.gluon.category", "Graphics Rendering" )
+            Q_CLASSINFO( "org.gluon.icon", "image-x-generic" )
 
         public:
             Q_INVOKABLE SpriteRendererComponent( QObject* parent = 0 );

@@ -26,3 +26,8 @@ install(
     DESTINATION
     ${LIB_INSTALL_DIR}/gluon
 )
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()

@@ -23,6 +23,7 @@
 
 #include <QtCore/QModelIndex>
 #include <QtGui/QDockWidget>
+#include <lib/selectionmanager.h>
 
 class QItemSelection;
 
@@ -43,6 +44,7 @@ namespace GluonCreator
 
         public slots:
             void selectionChanged( const QItemSelection& selected, const QItemSelection& deselected );
+            void selectionChanged( const SelectionManager::SelectionList& selection );
             void sceneChanged( GluonEngine::Scene* );
 
             void deleteSelection();

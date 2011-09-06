@@ -40,6 +40,9 @@ namespace GluonEngine
             Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::AchievementsAsset )
 
+            Q_CLASSINFO( "org.gluon.category", "Social Integration" )
+            Q_CLASSINFO( "org.gluon.icon", "text-mathml" )
+
         public:
             Q_INVOKABLE AchievementsAsset( QObject* parent = 0 );
             virtual ~AchievementsAsset();
