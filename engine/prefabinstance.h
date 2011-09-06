@@ -20,6 +20,7 @@
 #ifndef GLUONENGINE_PREFABINSTANCE_H
 #define GLUONENGINE_PREFABINSTANCE_H
 
+#include "abstractprefabinstance.h"
 #include "gameobject.h"
 #include "prefab.h"
 
@@ -36,7 +37,7 @@ namespace GluonEngine
      * performant instancing, as it is able to pre-create a number of instances, and keep those
      * instances handy for recreation on destruction.
      */
-    class GLUON_ENGINE_EXPORT PrefabInstance : public GameObject
+    class GLUON_ENGINE_EXPORT PrefabInstance : public AbstractPrefabInstance
     {
             Q_OBJECT
             /**
@@ -57,37 +58,20 @@ namespace GluonEngine
             Prefab* prefabLink() const;
 
             /**
-             * Store the changes to properties on this Prefab instance and all its children back
-             * into the linked Prefab. This will propagate the changes out into the other instances
-             * of this Prefab, as long as the properties have not changed locally in the other
-             * instances.
-             */
-            Q_INVOKABLE void storeChanges() const;
-
-            /**
-             * Revert all changes in this instance back to those stored in the linked Prefab,
-             * without destroying the stored objects.
-             */
-            Q_INVOKABLE void revertChanges();
-
-            /**
              * Clean out the current instance and recreate all the children
              */
             void rebuildInstance();
 
-            /*
-             * Reimplemented from GameObject
+        public slots:
+            /**
+             * Reimplementation of AbstractPrefabInstance::storeChanges
              */
-            virtual void addChild( GameObject* child );
-            virtual void addChild( GluonObject* child );
-            virtual void addChildAt( GluonObject* child, int position );
-            virtual bool removeChild( GameObject* child );
-            virtual bool removeChild( GluonObject* child );
-            Q_INVOKABLE virtual void addComponent( GluonEngine::Component* addThis );
-            Q_INVOKABLE virtual bool removeComponent( GluonEngine::Component* removeThis );
+            virtual void storeChanges();
 
-        protected Q_SLOTS:
-            void childNameChanged( const QString& oldName, const QString& newName);
+            /**
+             * Reimplementation of AbstractPrefabInstance::revertChanges
+             */
+            virtual void revertChanges();
 
         private:
             class Private;

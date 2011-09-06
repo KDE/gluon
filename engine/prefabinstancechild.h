@@ -21,7 +21,7 @@
 #ifndef GLUONENGINE_PREFABINSTANCECHILD_H
 #define GLUONENGINE_PREFABINSTANCECHILD_H
 
-#include "gameobject.h"
+#include "abstractprefabinstance.h"
 
 namespace GluonEngine
 {
@@ -34,7 +34,7 @@ namespace GluonEngine
      * The class is used by the Prefab system to contain children of a Prefab instance. To find out
      * how that system works, please see the documentation on GluonEngine::Prefab
      */
-    class GLUON_ENGINE_EXPORT PrefabInstanceChild : public GluonEngine::GameObject
+    class GLUON_ENGINE_EXPORT PrefabInstanceChild : public AbstractPrefabInstance
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::PrefabInstanceChild )
@@ -52,19 +52,16 @@ namespace GluonEngine
              */
             Q_INVOKABLE GluonEngine::PrefabInstance* parentInstance();
 
-            /*
-             * Reimplemented from GameObject
+        public slots:
+            /**
+             * Reimplementation of AbstractPrefabInstance::storeChanges
              */
-            virtual void addChild( GameObject* child );
-            virtual void addChild( GluonObject* child );
-            virtual void addChildAt( GluonObject* child, int position );
-            virtual bool removeChild( GameObject* child );
-            virtual bool removeChild( GluonObject* child );
-            Q_INVOKABLE virtual void addComponent( GluonEngine::Component* addThis );
-            Q_INVOKABLE virtual bool removeComponent( GluonEngine::Component* removeThis );
+            virtual void storeChanges();
 
-        protected Q_SLOTS:
-            void childNameChanged( const QString& oldName, const QString& newName);
+            /**
+             * Reimplementation of AbstractPrefabInstance::revertChanges
+             */
+            virtual void revertChanges();
 
         protected:
             friend class PrefabInstance;
@@ -82,6 +79,7 @@ namespace GluonEngine
              * Reset all changes on the instance child and all the attached Components
              */
             void resetProperties();
+
         private:
             class Private;
             Private* d;

@@ -51,6 +51,7 @@ add_subdirectory(assets)
 add_subdirectory(components)
 
 set(GluonEngine_SRCS
+    abstractprefabinstance.cpp
     abstractstatistic.cpp
     achievement.cpp
     achievementsmanager.cpp
@@ -81,6 +82,7 @@ set(GluonEngine_SRCS
 )
 
 set(GluonEngine_HEADERS
+    abstractprefabinstance.h
     abstractstatistic.h
     achievement.h
     achievementsmanager.h
