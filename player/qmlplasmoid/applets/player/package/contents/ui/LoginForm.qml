@@ -88,20 +88,20 @@ Item {
                     busyWidget.running = true
                     loginStatusLabel.text = "Logging In"
                     busyWidget.visible = true
-                    gluonPlayerAdapter.ocsProvider.login(usernameEdit.text, passwordEdit.text);
-                    gluonPlayerAdapter.ocsProvider.loggedIn.connect(loggedIn)
-                    gluonPlayerAdapter.ocsProvider.loginFailed.connect(loginFailed)
+                    gluonPlayerAdapter.serviceProvider.login(usernameEdit.text, passwordEdit.text);
+                    gluonPlayerAdapter.serviceProvider.loginFinished.connect(loggedIn)
+                    gluonPlayerAdapter.serviceProvider.loginFailed.connect(loginFailed)
                 }
             }
         }
     }
 
-    Component.onCompleted: gluonPlayerAdapter.ocsProvider.providerInitialized.connect(init);
+    Component.onCompleted: gluonPlayerAdapter.serviceProvider.providerInitialized.connect(init);
 
     function init()
     {
-        usernameEdit.text = gluonPlayerAdapter.ocsProvider.username;
-        passwordEdit.text = gluonPlayerAdapter.ocsProvider.password;
+        usernameEdit.text = gluonPlayerAdapter.serviceProvider.username;
+        passwordEdit.text = gluonPlayerAdapter.serviceProvider.password;
     }
 
     function loggedIn()
