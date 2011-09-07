@@ -124,6 +124,15 @@ bool GDLHandlerTest::compareTrees( const QList<GluonObject*>& t1, const QList<Gl
     return true;
 }
 
+template <typename T> QList<const T*> GDLHandlerTest::constListFromNonConst( const QList<T*>& x )
+{
+    QList<const T*> r;
+
+    foreach( T * e, x )
+    r.push_back( e );
+
+    return r;
+}
 
 bool GDLHandlerTest::ensureReversible( const QString& gdl )
 {

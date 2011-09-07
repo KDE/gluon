@@ -41,16 +41,7 @@ class GDLHandlerTest : public QObject
     private:
         static bool compareTrees( const QList<GluonCore::GluonObject*>& t1, const QList<GluonCore::GluonObject*>& t2 );
 
-        template <typename T>
-        static QList<const T*> constListFromNonConst( const QList<T*>& x )
-        {
-            QList<const T*> r;
-
-            foreach( T * e, x )
-            r.push_back( e );
-
-            return r;
-        }
+        template <typename T> QList<const T*> constListFromNonConst( const QList<T*>& x );
 
         // Returns true if the passed GDL has (parsed -> serialized -> parsed) == parsed
         bool ensureReversible( const QString& gdl );
