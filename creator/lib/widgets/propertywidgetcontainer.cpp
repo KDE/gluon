@@ -32,8 +32,8 @@
 #include <core/gluonobject.h>
 
 #include <engine/gameobject.h>
-#include <engine/prefabinstance.h>
-#include <engine/prefabinstancechild.h>
+#include <engine/prefab.h>
+#include <engine/abstractprefabinstance.h>
 #include <engine/component.h>
 
 #include <KDE/KIcon>
@@ -185,8 +185,13 @@ void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
     connect( this, SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)), parentWidget(), SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)) );
 
     // Create a set of Prefab controls if we're editing a Prefab instance (or one of its children)
-    if( qobject_cast<GluonEngine::PrefabInstance*>( theObject ) || qobject_cast<GluonEngine::PrefabInstanceChild*>( theObject ) )
-        layout()->addWidget(new PrefabControls(this));
+    GluonEngine::AbstractPrefabInstance* prefabInstance = qobject_cast<GluonEngine::AbstractPrefabInstance*>( theObject );
+    if( prefabInstance )
+    {
+        PrefabControls* prefabControls = new PrefabControls( prefabInstance, this );
+        layout()->addWidget( prefabControls );
+        connect( this, SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)), prefabControls, SLOT(propertyChanged()) );
+    }
     if( qobject_cast<GluonEngine::Prefab*>( theObject ) )
     {
         // this needs to also cause all the signals to be connected up, as all property changes
