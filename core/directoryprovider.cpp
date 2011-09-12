@@ -31,6 +31,7 @@ using namespace GluonCore;
 GLUON_DEFINE_SINGLETON( DirectoryProvider )
 
 DirectoryProvider::DirectoryProvider( QObject* parent )
+    : GluonCore::Singleton< GluonCore::DirectoryProvider >( parent )
 {
     m_userDataPath = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
     m_userDataPath.remove( QCoreApplication::organizationName() + "/" + QCoreApplication::applicationName() );
