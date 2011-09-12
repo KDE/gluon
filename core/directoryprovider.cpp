@@ -34,12 +34,12 @@ DirectoryProvider::DirectoryProvider( QObject* parent )
     : GluonCore::Singleton< GluonCore::DirectoryProvider >( parent )
 {
     m_userDataPath = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
-    m_userDataPath.remove( QCoreApplication::organizationName() + "/" + QCoreApplication::applicationName() );
-    m_userDataPath.append( "gluon/" );
+    m_userDataPath.chop( QString(QCoreApplication::organizationName() + "/" + QCoreApplication::applicationName()).size() );
+    m_userDataPath.append( "gluon" );
 
     //Define standard dirs Gluon recommends
-    m_userDirs["data"] =  QDir::fromNativeSeparators( m_userDataPath + "data" );
-    m_userDirs["games"] = QDir::fromNativeSeparators( m_userDataPath + "games" );
+    m_userDirs["data"] =  QDir::fromNativeSeparators( m_userDataPath + "/data" );
+    m_userDirs["games"] = QDir::fromNativeSeparators( m_userDataPath + "/games" );
 
     //Create standard dirs Gluon recommends
     QDir dir;
