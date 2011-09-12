@@ -19,6 +19,7 @@
  */
 
 #include "player.h"
+
 #include "engine.h"
 
 using namespace GluonAudio;
@@ -50,6 +51,16 @@ Player::Player(QObject* parent)
     : QObject(parent)
     , d( new PlayerPrivate )
 {
+    connect(d->sound, SIGNAL( paused() ), SLOT( playNext() ) );
+    connect(d->sound, SIGNAL( stopped() ), SLOT( playNext() ) );
+}
+
+Player( QStringList files, QObject* parent )
+    : QObject(parent)
+    , d(new PlayerPrivate)
+{
+    d->files = files;
+
     connect(d->sound, SIGNAL( paused() ), SLOT( playNext() ) );
     connect(d->sound, SIGNAL( stopped() ), SLOT( playNext() ) );
 }
@@ -168,6 +179,11 @@ void Player::playNext()
     }
 
     play();
+}
+
+QStringList Player::files()
+{
+    return d->files;
 }
 
 #include "player.moc"
