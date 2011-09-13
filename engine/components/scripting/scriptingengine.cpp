@@ -124,8 +124,8 @@ ScriptingEngine::registerAsset( const ScriptingAsset* asset )
         // Add that to the classes listing
         d->classNames.insert( asset, className );
         // Build the new code
-        //d->appendScript( asset, className );
-        d->buildScript();
+        d->appendScript( asset, className );
+        //d->buildScript();
     }
 
     return result;
