@@ -94,7 +94,7 @@ QStringList DirectoryProvider::pluginDirectoryPaths() const
 {
     QStringList pluginDirectoryPaths;
 
-    QString pluginDirectoryPath = QCoreApplication::instance()->applicationDirPath();
+    QString pluginDirectoryPath = QCoreApplication::applicationDirPath();
 
 #if defined(Q_OS_WIN)
     if( pluginDirectoryPath.endsWith("/debug", Qt::CaseInsensitive) )
