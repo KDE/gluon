@@ -28,9 +28,4 @@ ParticleRenderer::ParticleRenderer(QObject* parent)
 
 }
 
-void ParticleRenderer::update(const ParticleEmitter::ParticleList& particles)
-{
-
-}
-
 #include "particlerenderer.moc"

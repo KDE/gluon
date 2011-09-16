@@ -40,7 +40,7 @@ namespace GluonGraphics
             GLUON_OBJECT( ParticleSystem )
 
         public:
-            ParticleSystem( QObject* parent = 0 );
+            Q_INVOKABLE ParticleSystem( QObject* parent = 0 );
             virtual ~ParticleSystem();
 
             /**
@@ -121,9 +121,9 @@ namespace GluonGraphics
              * contained within.
              *
              * \param time The amount of time that has elapsed since
-             * the last update, in seconds.
+             * the last update, in milliseconds.
              */
-            void update( float time );
+            void update( int time );
 
         private:
             class Private;

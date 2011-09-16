@@ -21,6 +21,8 @@
 #include "particleemitter.h"
 #include "particle.h"
 #include "particlerenderer.h"
+#include <QMatrix4x4>
+#include "particleaffector.h"
 
 REGISTER_OBJECTTYPE( GluonGraphics, ParticleEmitter )
 
@@ -34,6 +36,14 @@ class ParticleEmitter::Private
         QList< Particle* > particles;
         QList< ParticleAffector* > affectors;
         ParticleRenderer* renderer;
+
+        float spawnRate;
+        bool enabled;
+        bool renderable;
+        bool attach;
+
+        int msecElapsed;
+        int msecPerSpawn;
 };
 
 ParticleEmitter::ParticleEmitter(QObject* parent)
@@ -44,16 +54,92 @@ ParticleEmitter::ParticleEmitter(QObject* parent)
 
 ParticleEmitter::~ParticleEmitter()
 {
+    qDeleteAll(d->particles);
+}
 
+float ParticleEmitter::spawnRate() const
+{
+    return d->spawnRate;
+}
+
+void ParticleEmitter::setSpawnRate(float rate)
+{
+    d->spawnRate = rate;
+    Q_ASSERT(rate != 0)
+    d->msecPerSpawn = 1000/rate;
+}
+
+bool ParticleEmitter::isEnabled() const
+{
+    return d->enabled;
+}
+
+void ParticleEmitter::setEnabled(bool enable)
+{
+    d->enabled = enable;
+}
+
+bool ParticleEmitter::isRenderable() const
+{
+    return d->renderable;
+}
+
+void ParticleEmitter::setRenderable(bool render)
+{
+    d->renderable = render;
+}
+
+bool ParticleEmitter::attachParticles() const
+{
+    return d->attach;
+}
+
+void ParticleEmitter::setAttachParticles(bool attach)
+{
+    d->attach = attach;
 }
 
 void ParticleEmitter::render()
 {
+    if( !d->renderable )
+        return;
+
+    if( d->attach )
+    {
+        d->renderer->render( d->particles, transform() );
+    }
+    else
+    {
+        d->renderer->render( d->particles );
+    }
 }
 
-void ParticleEmitter::update()
+void ParticleEmitter::update( int time )
 {
+    if( !d->enabled )
+        return;
 
+    d->msecElapsed += time;
+    if( d->msecElapsed >= d->msecPerSpawn )
+    {
+        d->particles.append( emitParticle() );
+        d->msecElapsed = 0;
+    }
+
+    const int affectorCount = d->affectors.count();
+    const int particleCount = d->particles.count();
+    Particle* particle;
+    for( int i = 0; i < particleCount; ++i )
+    {
+        particle = d->particles.at( i );
+        particle->age += time;
+
+        //TODO: Potential imporvement here: Use template metaprogramming to unroll loop.
+        for( int j = 0; j < affectorCount; ++j )
+        {
+            d->affectors.at( j )->affectParticle( particle, time );
+        }
+    }
 }
 
 #include "particleemitter.moc"

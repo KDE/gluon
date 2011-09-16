@@ -33,7 +33,8 @@ namespace GluonGraphics
         public:
             explicit ParticleRenderer(QObject* parent = 0);
 
-            void update( const ParticleEmitter::ParticleList& particles );
+            void render( const ParticleEmitter::ParticleList& particles ) = 0;
+            void render( const ParticleEmitter::ParticleList& particles, const QMatrix4x4& transform ) = 0;
     };
 
 }

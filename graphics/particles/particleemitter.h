@@ -30,13 +30,35 @@ namespace GluonGraphics
     {
             Q_OBJECT
             GLUON_OBJECT( ParticleEmitter )
+
+            Q_PROPERTY( float spawnRate READ spawnRate WRITE setSpawnRate )
+            Q_PROPERTY( bool enabled READ isEnabled WRITE setEnabled )
+            Q_PROPERTY( bool renderable READ isRenderable WRITE setRenderable )
+            Q_PROPERTY( bool attachParticles READ attachParticles WRITE setAttachParticles )
+
         public:
             typedef QList< Particle* > ParticleList;
 
-            ParticleEmitter( QObject* parent = 0 );
+            Q_INVOKABLE ParticleEmitter( QObject* parent = 0 );
             virtual ~ParticleEmitter();
 
-            virtual void update() = 0;
+            float spawnRate() const;
+            void setSpawnRate( float rate );
+
+            bool isEnabled() const;
+            void setEnabled( bool enable );
+
+            bool isRenderable() const;
+            void setRenderable( bool render );
+
+            bool attachParticles() const;
+            void setAttachParticles( bool attach );
+
+            virtual void render();
+            virtual void update( int time );
+
+        protected:
+            virtual Particle* emitParticle() = 0;
 
         private:
             class Private;

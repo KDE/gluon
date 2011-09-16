@@ -154,7 +154,7 @@ void ParticleSystem::removeEmitter(const QString& name)
     d->emitters.remove( name );
 }
 
-void ParticleSystem::update( float time )
+void ParticleSystem::update( int time )
 {
     QHash< QString, ParticleEmitter* >::const_iterator itr;
     for(itr = d->emitters.begin(); itr != d->emitters.end(); ++itr)

@@ -25,15 +25,12 @@
 
 namespace GluonGraphics
 {
-    class ParticleAffector;
     class Particle
     {
         public:
-            void accept(ParticleAffector* affector);
-
             QVector3D position;
-            QVector3D velocity;
-            int age;
+            float age;
+            bool destroy;
     };
 
 }
