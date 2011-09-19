@@ -27,17 +27,18 @@
 #include "graph.h"
 #include "math_constants.h"
 
-#include <QGraphicsScene>
-#include <QGraphicsSceneMouseEvent>
-#include <QPainter>
-#include <QPen>
-#include <QPainterPath>
-#include <QLine>
-#include <QPolygonF>
-#include <QtAlgorithms>
-#include <KDebug>
+#include <QtCore/QLine>
+#include <QtCore/QtAlgorithms>
+
+#include <QtGui/QGraphicsSimpleTextItem>
+#include <QtGui/QPolygonF>
+#include <QtGui/QGraphicsScene>
+#include <QtGui/QGraphicsSceneMouseEvent>
+#include <QtGui/QPainter>
+#include <QtGui/QPen>
+#include <QtGui/QPainterPath>
+
 #include <math.h>
-#include <QGraphicsSimpleTextItem>
 
 OrientedEdgeItem::OrientedEdgeItem( Edge* edge, QGraphicsItem* parent )
     : QObject( 0 ), QGraphicsPathItem( parent )
@@ -57,7 +58,7 @@ OrientedEdgeItem::OrientedEdgeItem( Edge* edge, QGraphicsItem* parent )
 OrientedEdgeItem::~OrientedEdgeItem()
 {
     //  dynamic_cast<GraphScene*>(scene())->removeGItem(this);
-    //  kDebug() << "Oriented Edge Removed";
+    //  qDebug() << "Oriented Edge Removed";
 }
 
 void OrientedEdgeItem::connectSignals()

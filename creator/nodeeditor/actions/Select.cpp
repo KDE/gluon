@@ -27,9 +27,11 @@
 #include "NodeItem.h"
 #include "OrientedEdgeItem.h"
 
-#include <KLocale>
-#include <KDebug>
-#include <QDebug>
+#include <QtCore/QtAlgorithms>
+#include <QtCore/QDebug>
+
+#include <KDE/KLocale>
+#include <KDE/KDebug>
 
 SelectAction::SelectAction( GraphScene* scene, QObject* parent )
     : AbstractAction( scene, parent )
@@ -128,7 +130,6 @@ void SelectAction::multiSelect( QPointF pos )
     }
 }
 
-#include <QtAlgorithms>
 bool zValue( QGraphicsItem* i1, QGraphicsItem* i2 )
 {
     return i1->zValue() < i2->zValue();
