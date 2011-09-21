@@ -161,59 +161,34 @@ void
 GluonObjectFactory::loadPlugins()
 {
     DEBUG_FUNC_NAME
-    QList<QDir> pluginDirs;
 
-    QDir pluginDir( QApplication::applicationDirPath() );
+    QStringList pluginDirectoryPaths = GluonCore::DirectoryProvider::instance()->pluginDirectoryPaths();
 
-#if defined(Q_OS_WIN)
-    if( pluginDir.dirName().toLower() == "debug" || pluginDir.dirName().toLower() == "release" )
-        pluginDir.cdUp();
-#elif defined(Q_OS_MAC)
-    if( pluginDir.dirName() == "MacOS" )
+    DEBUG_TEXT2( "Number of plugin locations: %1", pluginDirectoryPaths.count() )
+    foreach( const QString& pluginDirectoryPath, pluginDirectoryPaths )
     {
-        pluginDir.cdUp();
-    }
-#endif
-    if( pluginDir.cd( "PlugIns" ) )
-        pluginDirs.append( pluginDir );
-
-    if( pluginDir.cd( GluonCore::DirectoryProvider::instance()->libDirectory() ) )
-        pluginDirs.append( pluginDir );
-
-    // this is the plugin dir on windows
-    if( pluginDir.cd( GluonCore::DirectoryProvider::instance()->libDirectory() + "/kde4" ) )
-        pluginDirs.append( pluginDir );
-
-    if( pluginDir.cd( GluonCore::DirectoryProvider::instance()->libDirectory() + "/gluon" ) )
-        pluginDirs.append( pluginDir );
-
-    if( pluginDir.cd( QDir::homePath() + "/gluonplugins" ) )
-        pluginDirs.append( pluginDir );
-
-    DEBUG_TEXT2( "Number of plugin locations: %1", pluginDirs.count() )
-    for( QList<QDir>::iterator theDir = pluginDirs.begin(); theDir != pluginDirs.end(); ++theDir )
-    {
-        DEBUG_TEXT( QString( "Looking for pluggable components in %1" ).arg( (*theDir).absolutePath() ) )
+        QDir pluginDirectory( pluginDirectoryPath );
+        DEBUG_TEXT( QString( "Looking for pluggable components in %1" ).arg( pluginDirectory.absolutePath() ) )
 
 #ifdef Q_WS_X11
         //Only attempt to load our current version. This makes it possible to have different versions
         //of the plugins in the plugin dir.
-        (*theDir).setNameFilters( QStringList() << QString( "*.so.%1.%2.%3" ).arg( GLUON_VERSION_MAJOR ).arg( GLUON_VERSION_MINOR ).arg( GLUON_VERSION_PATCH ) );
+        pluginDirectory.setNameFilters( QStringList() << QString( "*.so.%1.%2.%3" ).arg( GLUON_VERSION_MAJOR ).arg( GLUON_VERSION_MINOR ).arg( GLUON_VERSION_PATCH ) );
 #endif
-        (*theDir).setFilter( QDir::AllEntries| QDir::NoDotAndDotDot );
+        pluginDirectory.setFilter( QDir::AllEntries| QDir::NoDotAndDotDot );
 
-        DEBUG_TEXT2( "Found %1 potential plugins. Attempting to load...", (*theDir).count() )
-        foreach( const QString & fileName, (*theDir).entryList( QDir::Files ) )
+        DEBUG_TEXT2( "Found %1 potential plugins. Attempting to load...", pluginDirectory.count() )
+        foreach( const QString & fileName, pluginDirectory.entryList( QDir::Files ) )
         {
             // Don't attempt to load non-gluon_plugin prefixed libraries
             if( !fileName.contains( "gluon" ) )
                 continue;
 
             // Don't attempt to load non-libraries
-            if( !QLibrary::isLibrary( (*theDir).absoluteFilePath( fileName ) ) )
+            if( !QLibrary::isLibrary( pluginDirectory.absoluteFilePath( fileName ) ) )
                 continue;
 
-            QPluginLoader loader( (*theDir).absoluteFilePath( fileName ) );
+            QPluginLoader loader( pluginDirectory.absoluteFilePath( fileName ) );
             loader.load();
 
             if( !loader.isLoaded() )

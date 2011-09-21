@@ -27,69 +27,64 @@
 #include <QtTest/QtTest>
 #include <QtCore/QMetaProperty>
 
-using namespace GluonCore;
-
 #define SANITY_CHECK_POINTERS(a, b) if((a) == NULL || (b) == NULL) return (a) == NULL && (b) == NULL
 
-static bool compare_metaproperties( const QMetaObject* a, const QObject* a_parent, const QMetaObject* b, const QObject* b_parent )
+static bool compare_metaproperties( const QObject* gluonObject1,const QObject* gluonObject2 )
 {
-    SANITY_CHECK_POINTERS( a, b );
+    SANITY_CHECK_POINTERS( gluonObject1, gluonObject2 );
+    const QMetaObject* metaObject1 = gluonObject1->metaObject();
+    const QMetaObject* metaObject2 = gluonObject2->metaObject();
 
-    if( a->className() != b->className() )
+    if( metaObject1->className() != metaObject2->className() )
         return false;
 
-    int a_propcount = a->propertyCount(),
-        b_propcount = b->propertyCount();
-
-    if( a_propcount != b_propcount )
+    if( metaObject1->propertyCount() != metaObject2->propertyCount() )
         return false;
 
-    for( int i = 0; i < a_propcount; ++i )
+    for( int i = 0; i < metaObject1->propertyCount(); ++i )
     {
-        QMetaProperty am = a->property( i ),
-                      bm = b->property( i );
+        QMetaProperty metaProterty1 = metaObject1->property( i );
+        QMetaProperty metaProterty2 = metaObject2->property( i );
 
-        if( am.type() != bm.type() )
+        if( metaProterty1.type() != metaProterty2.type() )
             return false;
 
-        if( am.name() != bm.name() )
+        if( metaProterty1.name() != metaProterty2.name() )
             return false;
 
-        if( am.read( a_parent ).toString() != bm.read( b_parent ).toString() )
+        if( metaProterty1.read( gluonObject1 ).toString() != metaProterty2.read( gluonObject2 ).toString() )
             return false;
     }
 
     return true;
 }
 
-static bool compare_dynproperties( const GluonObject* a, const GluonObject* b )
+static bool compare_dynproperties( const GluonObject* gluonObject1, const GluonObject* gluonObject2 )
 {
-    typedef QList<QByteArray> PropNameList;
+    SANITY_CHECK_POINTERS( gluonObject1, gluonObject2 );
 
-    SANITY_CHECK_POINTERS( a, b );
+    const QList<QByteArray> nameList1 = gluonObject1->dynamicPropertyNames();
+    const QList<QByteArray> nameList2 = gluonObject2->dynamicPropertyNames();
 
-    const PropNameList a_names = a->dynamicPropertyNames(),
-                       b_names = b->dynamicPropertyNames();
-
-    if( a_names.size() != b_names.size() )
+    if( nameList1.size() != nameList2.size() )
         return false;
 
-    for( PropNameList::const_iterator p1 = a_names.begin(), p2 = b_names.begin(), e = a_names.end(); p1 != e; ++p1, ++p2 )
+    for( int i = 0; i < nameList1.size(); ++i )
     {
-        if( QString( *p1 ) != QString( *p2 ) )
+        if( nameList1.at(i) != nameList2.at(i) )
             return false;
     }
     return true;
 }
 
-static bool compare_objects( const GluonObject* a, const GluonObject* b )
+static bool compare_objects( const GluonObject* gluonObject1, const GluonObject* gluonObject2 )
 {
-    SANITY_CHECK_POINTERS( a, b );
+    SANITY_CHECK_POINTERS( gluonObject1, gluonObject2 );
 
-    if( compare_metaproperties( a->metaObject(), a, b->metaObject(), b ) == false )
+    if( compare_metaproperties( gluonObject1, gluonObject2 ) == false )
         return false;
 
-    if( compare_dynproperties( a, b ) == false )
+    if( compare_dynproperties( gluonObject1, gluonObject2 ) == false )
         return false;
 
     return true;
@@ -104,48 +99,157 @@ GDLHandlerTest::~GDLHandlerTest()
 {
 }
 
-bool GDLHandlerTest::compareTrees( const QList<GluonObject*>& t1, const QList<GluonObject*>& t2 )
+QList<GluonObject*> GDLHandlerTest::gluonObjectList( const QObjectList& objectList)
 {
-    if( t1.size() != t2.size() )
+    QList<GluonObject*> gluonObject;
+    foreach (QObject * qObject, objectList )
+        gluonObject.append( qobject_cast<GluonObject*>( qObject ) );
+
+    return gluonObject;
+}
+
+bool GDLHandlerTest::compareTrees( const QList<GluonObject*>& gluonObjectList1, const QList<GluonObject*>& gluonObjectList2 )
+{
+    if( gluonObjectList1.size() != gluonObjectList2.size() )
         return false;
 
-    QList<GluonObject*>::const_iterator p1 = t1.begin(),
-                                                   p2 = t2.begin(),
-                                                   end = t1.end();
-
-    for( ; p1 != end; ++p1, ++p2 )
+    for( int i = 0 ; i < gluonObjectList1.size(); ++i )
     {
-        Q_ASSERT( p2 != t2.end() );
+        QList<GluonObject*> children1 = gluonObjectList( gluonObjectList1.at(i)->children() );
+        QList<GluonObject*> children2 = gluonObjectList( gluonObjectList2.at(i)->children() );
 
-        if( compare_objects( *p1, *p2 ) == false )
+        if( compare_objects( gluonObjectList1.at(i), gluonObjectList2.at(i) ) == false )
+            return false;
+
+        if( compareTrees( children1, children2 ) == false )
             return false;
     }
 
     return true;
 }
 
+template <typename T> QList<const T*> GDLHandlerTest::constListFromNonConst( const QList<T*>& nonConstTemplateList )
+{
+    QList<const T*> constTemplateList;
+
+    foreach( T * templateObject, nonConstTemplateList )
+        constTemplateList.append( templateObject );
+
+    return constTemplateList;
+}
 
 bool GDLHandlerTest::ensureReversible( const QString& gdl )
 {
     GDLHandler* gh = GDLHandler::instance();
-    QList<GluonObject*> parsed = gh->parseGDL( gdl, gdl.size() );
-    QString serializedString = gh->serializeGDL( constListFromNonConst( parsed ) );
-    return compareTrees( parsed, gh->parseGDL( serializedString, serializedString.size() ) );
+    QList<GluonObject*> parsedGluonObjectList = gh->parseGDL( gdl, gdl.size() );
+    QString serializedString = gh->serializeGDL( constListFromNonConst( parsedGluonObjectList ) );
+    bool result = compareTrees( parsedGluonObjectList, gh->parseGDL( serializedString, serializedString.size() ) );
+    qDeleteAll(parsedGluonObjectList);
+    return result;
+}
+
+bool GDLHandlerTest::ensureParsing(const QList<GluonCore::GluonObject *>& gluonObjectList, const QString& gdl)
+{
+    GDLHandler* gh = GDLHandler::instance();
+    QList<GluonObject*> parsedGluonObjectList = gh->parseGDL( gdl, gdl.size() );
+    bool result = compareTrees( parsedGluonObjectList, gluonObjectList);
+    qDeleteAll(parsedGluonObjectList);
+    return result;
+}
+
+bool GDLHandlerTest::ensureSerializing(const QList<GluonCore::GluonObject *>& gluonObjectList, const QString& gdl)
+{
+    GDLHandler* gh = GDLHandler::instance();
+    QString serializedString = gh->serializeGDL( constListFromNonConst( gluonObjectList ) );
+
+    if ( serializedString != gdl )
+        return false;
+
+    return true;
+}
+
+bool GDLHandlerTest::ensureCommenting(const QList<GluonCore::GluonObject *>& gluonObjectList, const QString& gdl)
+{
+    if( ensureParsing( gluonObjectList, gdl ) == false )
+        return false;
+
+    if( ensureSerializing( gluonObjectList, gdl ) == true )
+        return false;
+
+    if( ensureReversible( gdl ) == false )
+        return false;
+
+    return true;
+}
+
+void GDLHandlerTest::testGDLSample()
+{
+    QString test =
+        "{ GluonCore::GluonObject(ParentObjectName)\n"
+        "    status bool(true)\n"
+        "    { GluonCore::GluonObject(ChildObjectName)\n"
+        "    }\n"
+        "}";
+
+    QList<GluonObject*> gluonObjectList ;
+    GluonObject parentObject( "ParentObjectName" );
+    GluonObject childObject( "ChildObjectName" );
+
+    parentObject.addChild(&childObject);
+    parentObject.setPropertyFromString( "status", "bool(true)");
+    gluonObjectList.append( &parentObject );
+
+    QVERIFY( ensureParsing( gluonObjectList, test ) == true );
+    QVERIFY( ensureSerializing( gluonObjectList, test ) == true );
+}
+
+void GDLHandlerTest::testCommentAtBegin()
+{
+    QString test =
+        "{ GluonCore::GluonObject(GluonObjectName)\n"
+        "status bool(true)\n"
+        "# This is a comment\n"
+        "number int(5)"
+        "}";
+
+    QList<GluonObject*> gluonObjectList ;
+    GluonObject gluonObject( "GluonObjectName" );
+    gluonObject.setPropertyFromString( "status", "bool(true)");
+    gluonObject.setPropertyFromString( "number", "int(5)");
+    gluonObjectList.append( &gluonObject );
+
+    QVERIFY( ensureCommenting( gluonObjectList, test ) == true );
+}
+
+void GDLHandlerTest::testCommentAtEnd()
+{
+    QString test =
+        "{ GluonCore::GluonObject(GluonObjectName)\n"
+        "number int(5) # This is a comment\n"
+        "status bool(true)\n"
+        "}";
+
+    QList<GluonObject*> gluonObjectList ;
+    GluonObject gluonObject( "GluonObjectName" );
+    gluonObject.setPropertyFromString( "number", "int(5)");
+    gluonObject.setPropertyFromString( "status", "bool(true)");
+    gluonObjectList.append( &gluonObject );
+
+    QVERIFY( ensureCommenting( gluonObjectList, test ) == true );
 }
 
 void GDLHandlerTest::testDoxygenSample()
 {
     QString test =
-        "{ GluonCore::GluonObject(AnotherObject)\n"
-        // "reference GluonCore::GluonObject(AnObject.AChildObject)\n"
+        "{ GluonCore::GluonObject(GluonObject1)\n"
+        // "reference GluonCore::GluonObject(GluonObject2.ChildObject)\n"
         "}\n"
-        "{ GluonCore::GluonObject(AnObject)\n"
-        "{ GluonCore::GluonObject(AChildObject)\n"
+        "{ GluonCore::GluonObject(GluonObject2)\n"
+        "{ GluonCore::GluonObject(ChildObject)\n"
         "}\n"
-        "}"
-        ;
+        "}";
 
-    QVERIFY( ensureReversible( test ) );
+    QVERIFY( ensureReversible( test ) == true );
 }
 
 void GDLHandlerTest::testInvadersSample()
@@ -175,7 +279,7 @@ void GDLHandlerTest::testInvadersSample()
         "        }\n"
         "        { GluonEngine::SoundEmitterComponent(GluonObject 2)\n"
         "            enabled bool(true)\n"
-        "            sound GluonEngine::Asset(Invaders/Assets/Sounds/Harmful or Fatal.ogg)\n"
+        "#            sound GluonEngine::Asset(Invaders/Assets/Sounds/Harmful or Fatal.ogg)\n"
         "            radius float(99.99)\n"
         "            volume float(1)\n"
         "            pitch float(1)\n"
@@ -191,12 +295,12 @@ void GDLHandlerTest::testInvadersSample()
         "        { GluonEngine::SpriteRendererComponent(GluonObject)\n"
         "            enabled bool(true)\n"
         "            size size2d(90;90)\n"
-        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Background)\n"
+        "#            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Background)\n"
         "            color rgba(255;255;255;255)\n"
         "        }\n"
         "        { GluonEngine::QtScriptComponent(ControllerScript)\n"
         "            enabled bool(true)\n"
-        "            script GluonEngine::Asset(Invaders/Assets/Scripts/controller.js)\n"
+        "#            script GluonEngine::Asset(Invaders/Assets/Scripts/controller.js)\n"
         "            paused bool(false)\n"
         "        }\n"
         "        { GluonEngine::KeyboardInputComponent(Continue)\n"
@@ -212,7 +316,7 @@ void GDLHandlerTest::testInvadersSample()
         "        { GluonEngine::SpriteRendererComponent(SpriteRenderer)\n"
         "            enabled bool(true)\n"
         "            size size2d(8;8)\n"
-        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Player)\n"
+        "#            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Player)\n"
         "            color rgba(255;255;255;255)\n"
         "        }\n"
         "        { GluonEngine::GameObject(Reflection)\n"
@@ -223,13 +327,13 @@ void GDLHandlerTest::testInvadersSample()
         "            { GluonEngine::SpriteRendererComponent(GluonObject)\n"
         "                enabled bool(true)\n"
         "                size size2d(8;8)\n"
-        "                material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Player Reflection)\n"
+        "#                material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Player Reflection)\n"
         "                color rgba(255;255;255;255)\n"
         "            }\n"
         "        }\n"
         "        { GluonEngine::QtScriptComponent(GluonObject 1)\n"
         "            enabled bool(true)\n"
-        "            script GluonEngine::Asset(Invaders/Assets/Scripts/player.js)\n"
+        "#            script GluonEngine::Asset(Invaders/Assets/Scripts/player.js)\n"
         "        }\n"
         "        { GluonEngine::KeyboardInputComponent(Key_Left)\n"
         "            enabled bool(true)\n"
@@ -253,7 +357,7 @@ void GDLHandlerTest::testInvadersSample()
         "        }\n"
         "        { GluonEngine::SoundEmitterComponent(FireSound)\n"
         "            enabled bool(true)\n"
-        "            sound GluonEngine::Asset(Invaders/Assets/Sounds/laser-pew.ogg)\n"
+        "#            sound GluonEngine::Asset(Invaders/Assets/Sounds/laser-pew.ogg)\n"
         "            radius float(99.99)\n"
         "            volume float(1)\n"
         "            pitch float(1)\n"
@@ -267,7 +371,7 @@ void GDLHandlerTest::testInvadersSample()
         "        }\n"
         "        { GluonEngine::SoundEmitterComponent(Kapow)\n"
         "            enabled bool(true)\n"
-        "            sound GluonEngine::Asset(Invaders/Assets/Sounds/quiet-explosion.ogg)\n"
+        "#            sound GluonEngine::Asset(Invaders/Assets/Sounds/quiet-explosion.ogg)\n"
         "            radius float(99.99)\n"
         "            volume float(1)\n"
         "            pitch float(1)\n"
@@ -287,12 +391,12 @@ void GDLHandlerTest::testInvadersSample()
         "        { GluonEngine::SpriteRendererComponent(SpriteRenderer)\n"
         "            enabled bool(true)\n"
         "            size size2d(5;5)\n"
-        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Enemy)\n"
+        "#            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Enemy)\n"
         "            color rgba(255;255;255;255)\n"
         "        }\n"
         "        { GluonEngine::QtScriptComponent(GluonObject 1)\n"
         "            enabled bool(true)\n"
-        "            script GluonEngine::Asset(Invaders/Assets/Scripts/enemy.js)\n"
+        "#            script GluonEngine::Asset(Invaders/Assets/Scripts/enemy.js)\n"
         "        }\n"
         "        { GluonEngine::SphereCollisionComponent(PlayerCollider)\n"
         "            enabled bool(true)\n"
@@ -305,7 +409,7 @@ void GDLHandlerTest::testInvadersSample()
         "        }\n"
         "        { GluonEngine::SoundEmitterComponent(Kapow)\n"
         "            enabled bool(true)\n"
-        "            sound GluonEngine::Asset(Invaders/Assets/Sounds/quiet-explosion.ogg)\n"
+        "#            sound GluonEngine::Asset(Invaders/Assets/Sounds/quiet-explosion.ogg)\n"
         "            radius float(99.99)\n"
         "            volume float(1)\n"
         "            pitch float(1)\n"
@@ -321,12 +425,12 @@ void GDLHandlerTest::testInvadersSample()
         "        { GluonEngine::SpriteRendererComponent(GluonObject)\n"
         "            enabled bool(true)\n"
         "            size size2d(1;5)\n"
-        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Bullet)\n"
+        "#            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Bullet)\n"
         "            color rgba(255;0;0;255)\n"
         "        }\n"
         "        { GluonEngine::QtScriptComponent(Script)\n"
         "            enabled bool(true)\n"
-        "            script GluonEngine::Asset(Invaders/Assets/Scripts/bullet.js)\n"
+        "#            script GluonEngine::Asset(Invaders/Assets/Scripts/bullet.js)\n"
         "        }\n"
         "        { GluonEngine::SphereCollisionComponent(Collider)\n"
         "            enabled bool(true)\n"
@@ -335,7 +439,7 @@ void GDLHandlerTest::testInvadersSample()
         "        }\n"
         "        { GluonEngine::SoundEmitterComponent(Pew)\n"
         "            enabled bool(true)\n"
-        "            sound GluonEngine::Asset(Invaders/Assets/Sounds/laser-pew.ogg)\n"
+        "#            sound GluonEngine::Asset(Invaders/Assets/Sounds/laser-pew.ogg)\n"
         "            radius float(99.99)\n"
         "            volume float(1)\n"
         "            pitch float(1)\n"
@@ -351,7 +455,7 @@ void GDLHandlerTest::testInvadersSample()
         "        { GluonEngine::SpriteRendererComponent(GluonObject)\n"
         "            enabled bool(true)\n"
         "            size size2d(40;7)\n"
-        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Game Over)\n"
+        "#            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/Game Over)\n"
         "            color rgba(255;255;255;255)\n"
         "        }\n"
         "    }\n"
@@ -363,13 +467,13 @@ void GDLHandlerTest::testInvadersSample()
         "        { GluonEngine::SpriteRendererComponent(GluonObject)\n"
         "            enabled bool(true)\n"
         "            size size2d(40;9)\n"
-        "            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/You Win)\n"
+        "#            material GluonGraphics::MaterialInstance(Invaders/Assets/Material/You Win)\n"
         "            color rgba(255;255;255;255)\n"
         "        }\n"
         "    }\n"
         "}";
 
-    QVERIFY( ensureReversible( test ) );
+    QVERIFY( ensureReversible( test ) == true );
 }
 
 QTEST_MAIN(GDLHandlerTest)

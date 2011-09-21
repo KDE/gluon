@@ -43,7 +43,7 @@ namespace GluonPlayer
     /**
      * \brief Provides Open Collaboration Services
      *
-     * OcsProvider provides access to OCS functions on an OCS
+     * ServiceProvider provides access to OCS functions on an OCS
      * compliant remote server.
      * \note Its <b>important</b> to call init() before attempting
      * to use the class
@@ -152,7 +152,7 @@ namespace GluonPlayer
              * @return a GameDownloadJob object which the caller must
              * monitor to find out the result of the operation
              */
-            GameDownloadJob* downloadGame( const QString& id );
+            Q_INVOKABLE GluonPlayer::GameDownloadJob* downloadGame( const QString& id );
 
             /**
              * Upload a game with ID

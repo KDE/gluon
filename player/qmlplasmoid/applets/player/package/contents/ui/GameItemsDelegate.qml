@@ -42,7 +42,7 @@ Component {
             orientation: Qt.Horizontal
 
             onClicked: {
-                gameDetails.model = ListView.view.model
+                gameDetails.model = gameItemsDelegateItem.ListView.view.model
                 gameDetails.index = index
                 rootItem.state = "showGameDetails"
             }
@@ -64,8 +64,9 @@ Component {
                 if (Status == GluonPlayer.GameItem.Installed) {
                     console.log("Playing not yet implemented");
                 } else {
-                    var gameDownloadProvider = gluonPlayerAdapter.ocsProvider.downloadGame(Id);
-                    gameDownloadProvider.downloadProgress.connect(dlProgress)
+                    var gameDownloadProvider = gluonPlayerAdapter.serviceProvider.downloadGame(Id);
+//                     gameDownloadProvider.downloadProgress.connect(); //TODO: Add progress stuff to download
+                     gameDownloadProvider.start();
                 }
             }
         }

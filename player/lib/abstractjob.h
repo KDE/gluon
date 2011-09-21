@@ -75,7 +75,7 @@ class AbstractJob : public QObject
          * This method performs common initialization for the jobs and finally calls
          * startImplementation() which must be reimplemented by subclasses.
          */
-        virtual void start();
+        Q_INVOKABLE virtual void start();
 
         /**
          * Returns an error description string, if any. If there was no error, it returns a

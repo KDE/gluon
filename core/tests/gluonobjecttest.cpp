@@ -42,6 +42,17 @@ void GluonObjectTest::testAddChild()
     QCOMPARE(&childObject, parentObject.children().at(0));
 }
 
+void GluonObjectTest::testAddChildAt()
+{
+    GluonObject parentObject;
+    GluonObject childObject1;
+    GluonObject childObject2;
+    parentObject.addChild(&childObject1);
+    parentObject.addChildAt(&childObject2, 0);
+    QCOMPARE(&childObject2, parentObject.child(0));
+    QCOMPARE(&childObject1, parentObject.child(1));
+}
+
 void GluonObjectTest::testChildAt()
 {
     GluonObject parentObject("ParentObject");
@@ -53,9 +64,11 @@ void GluonObjectTest::testChildAt()
 void GluonObjectTest::testChildByName()
 {
     GluonObject parentObject("ParentObject");
-    GluonObject childObject("ChildObject");
+    QString childObjectName("ChildObject");
+    GluonObject childObject(childObjectName);
     parentObject.addChild(&childObject);
-    QCOMPARE(&childObject, parentObject.child("ChildObject"));
+    QCOMPARE(&childObject, parentObject.child(childObjectName));
+    QCOMPARE(&childObject, parentObject.findItemByName(childObjectName));
 }
 
 void GluonObjectTest::testName()
@@ -93,6 +106,8 @@ void GluonObjectTest::testHasMetaInfo()
 {
     GluonObject gluonObject;
     QCOMPARE(gluonObject.hasMetaInfo(), false);
+    gluonObject.metaInfo();
+    QCOMPARE(gluonObject.hasMetaInfo(), true);
 }
 
 void GluonObjectTest::testShouldSerializeChildren()
@@ -101,24 +116,77 @@ void GluonObjectTest::testShouldSerializeChildren()
     QCOMPARE(gluonObject.shouldSerializeChildren(), true);
 }
 
-void GluonObjectTest::testqualifiedname()
+void GluonObjectTest::testQualifiedName()
 {
-    GluonObject gluonObject1("GluonObject1");
-    GluonObject gluonObject2("GluonObject2");
-    GluonObject gluonObject3("GluonObject3");
+    QString gluonObject1Name = "GluonObject1";
+    QString gluonObject2Name = "GluonObject2";
+    QString gluonObject3Name = "GluonObject3";
+    GluonObject gluonObject1(gluonObject1Name);
+    GluonObject gluonObject2(gluonObject2Name);
+    GluonObject gluonObject3(gluonObject3Name);
     gluonObject1.addChild(&gluonObject2);
     gluonObject2.addChild(&gluonObject3);
-    QCOMPARE(gluonObject1.qualifiedName(&gluonObject3), QString("GluonObject1"));
-    QCOMPARE(gluonObject2.qualifiedName(&gluonObject3), QString("GluonObject1/GluonObject2"));
-    QCOMPARE(gluonObject3.qualifiedName(&gluonObject3), QString("GluonObject1/GluonObject2/GluonObject3"));
+
+    QCOMPARE(gluonObject1.qualifiedName(&gluonObject3), gluonObject1Name);
+    QCOMPARE(gluonObject2.qualifiedName(&gluonObject3),
+             gluonObject1Name + "/" + gluonObject2Name);
+    QCOMPARE(gluonObject3.qualifiedName(&gluonObject3),
+             gluonObject1Name + "/" + gluonObject2Name + "/" + gluonObject3Name);
 }
 
-void GluonObjectTest::testfullyqualifiedname()
+void GluonObjectTest::testFullyQualifiedName()
 {
-    GluonObject parentObject("ParentObject");
-    GluonObject childObject("ChildObject");
+    QString parentObjectName = "ParentObject";
+    QString childObjectName = "ChildObject";
+    GluonObject parentObject(parentObjectName);
+    GluonObject childObject(childObjectName);
     parentObject.addChild(&childObject);
-    QCOMPARE(childObject.fullyQualifiedName(), QString("ParentObject/ChildObject"));
+    QCOMPARE(childObject.fullyQualifiedName(),
+             parentObjectName + "/" + childObjectName);
+}
+
+void GluonObjectTest::testNameToObjectName()
+{
+    GluonObject gluonObject;
+    QCOMPARE(gluonObject.nameToObjectName("@_Gluon Object1&"), QString("_GluonObject1"));
+}
+
+void GluonObjectTest::testSetProperty()
+{
+    GluonObject gluonObject;
+    QFETCH(QByteArray, propertyName);
+    QFETCH(QByteArray, propertyValue);
+    gluonObject.setPropertyFromString(propertyName, propertyValue);
+
+    QString propertyString("\n" + propertyName + " " + propertyValue);
+    QCOMPARE(gluonObject.stringFromProperty(propertyName, ""),
+             propertyString);
+}
+
+void GluonObjectTest::testSetProperty_data()
+{
+    QTest::addColumn<QByteArray>("propertyName");
+    QTest::addColumn<QByteArray>("propertyValue");
+
+    QHash<QByteArray, QByteArray> hash;
+    hash["Int"] = "int(-1)";
+    hash["UInt"] = "uint(1)";
+    hash["Long"] = "longlong(1)";
+    hash["Bool"] = "bool(true)";
+    hash["Float"] = "float(1.1)";
+    hash["Color"] = "rgba(1;2;3;4)";
+    hash["String"] = "string(Gluon)";
+    hash["Size2D"] = "size2d(1;2)";
+    hash["Vector2D"] = "vector2d(1;2)";
+    hash["Vector3D"] = "vector3d(1;2;3)";
+    hash["Vector4D"] = "vector4d(1;2;3;4)";
+    hash["Quaternion"] = "quaternion(1;2;3;4)";
+
+    QHashIterator<QByteArray, QByteArray> i(hash);
+    while (i.hasNext()) {
+        i.next();
+        QTest::newRow(i.key().constData()) << i.key() << i.value();
+    }
 }
 
 QTEST_MAIN(GluonObjectTest)

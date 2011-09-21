@@ -99,6 +99,7 @@ void ModelTest::nonDestructiveBasicTest()
     model->fetchMore( QModelIndex() );
     fetchingMore = false;
     Qt::ItemFlags flags = model->flags( QModelIndex() );
+    Q_UNUSED( flags );
     Q_ASSERT( flags == Qt::ItemIsDropEnabled || flags == 0 );
     model->hasChildren( QModelIndex() );
     model->hasIndex( 0, 0 );
