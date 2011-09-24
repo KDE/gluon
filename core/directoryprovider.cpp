@@ -31,20 +31,36 @@ using namespace GluonCore;
 
 GLUON_DEFINE_SINGLETON( DirectoryProvider )
 
+class DirectoryProvider::DirectoryProviderPrivate
+{
+    public:
+        DirectoryProviderPrivate()
+        {
+        }
+
+        ~DirectoryProviderPrivate()
+        {
+        }
+
+        QString userDataPath;
+        QHash<QString, QString> userDirs;
+};
+
 DirectoryProvider::DirectoryProvider( QObject* parent )
     : GluonCore::Singleton< GluonCore::DirectoryProvider >( parent )
+    , d( new DirectoryProviderPrivate )
 {
-    m_userDataPath = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
-    m_userDataPath.chop( QString(QCoreApplication::organizationName() + "/" + QCoreApplication::applicationName()).size() );
-    m_userDataPath.append( "gluon" );
+    d->userDataPath = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
+    d->userDataPath.chop( QString(QCoreApplication::organizationName() + "/" + QCoreApplication::applicationName()).size() );
+    d->userDataPath.append( "gluon" );
 
     // Define standard dirs Gluon recommends
-    m_userDirs["data"] =  QDir::fromNativeSeparators( m_userDataPath + "/data" );
-    m_userDirs["games"] = QDir::fromNativeSeparators( m_userDataPath + "/games" );
+    d->userDirs["data"] =  QDir::fromNativeSeparators( d->userDataPath + "/data" );
+    d->userDirs["games"] = QDir::fromNativeSeparators( d->userDataPath + "/games" );
 
     // Create standard dirs Gluon recommends
     QDir dir;
-    foreach( const QString& dirPath, m_userDirs )
+    foreach( const QString& dirPath, d->userDirs )
     {
         dir.mkpath( dirPath );
     }
@@ -79,15 +95,15 @@ QString DirectoryProvider::libDirectory() const
 
 QString DirectoryProvider::userDirectory( const QString& name )
 {
-    if( !m_userDirs.contains( name ) )
+    if( !d->userDirs.contains( name ) )
     {
-        QString path = QDir::fromNativeSeparators( m_userDataPath + name );
-        m_userDirs[name] = path;
+        QString path = QDir::fromNativeSeparators( d->userDataPath + name );
+        d->userDirs[name] = path;
         QDir dir;
         dir.mkpath( path );
     }
 
-    return m_userDirs[name];
+    return d->userDirs[name];
 }
 
 QStringList DirectoryProvider::pluginDirectoryPaths() const
