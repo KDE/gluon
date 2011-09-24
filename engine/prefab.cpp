@@ -69,7 +69,6 @@ PrefabInstance* Prefab::createInstance()
         instance->setPrefabLink( this );
         instance->initialize();
     }
-    d->instances.append(instance);
     return instance;
 }
 
