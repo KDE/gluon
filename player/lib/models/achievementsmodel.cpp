@@ -39,6 +39,7 @@ class AchievementsModel::AchievementsModelPrivate
         ~AchievementsModelPrivate() { delete achievementsManager; }
 
         QStringList headerList;
+        QString projectDir;
         GluonEngine::AchievementsManager* achievementsManager;
 };
 
@@ -46,16 +47,25 @@ AchievementsModel::AchievementsModel( GluonEngine::ProjectMetaData* metaData, co
     : QAbstractTableModel(parent)
     , d( new AchievementsModelPrivate() )
 {
-    d->headerList << tr("Achievement") << tr("Achieved");
+    d->headerList << tr("Achievement") << tr("Progress") << tr("Achieved");
     d->achievementsManager = new GluonEngine::AchievementsManager(this);
-    QString achievementsDirectory = GluonCore::DirectoryProvider::instance()->userDirectory("data");
-    achievementsDirectory.append( "/" + userName + "/" + metaData->projectName() );
-    d->achievementsManager->load( achievementsDirectory );
-    qDebug() << "Achievements count: " << d->achievementsManager->achievementsCount();
-    if( d->achievementsManager->achievementsCount() == 0 )
+
+    if( metaData )
     {
-        achievementsDirectory = metaData->projectDir() + "/.cache";
+        d->projectDir = metaData->projectDir();
+        QString achievementsDirectory = GluonCore::DirectoryProvider::instance()->userDirectory("data");
+        achievementsDirectory.append( "/" + userName + "/" + metaData->projectName() );
         d->achievementsManager->load( achievementsDirectory );
+        qDebug() << "Achievements count:" << d->achievementsManager->achievementsCount();
+        if( d->achievementsManager->achievementsCount() == 0 )
+        {
+            achievementsDirectory = metaData->projectDir() + "/.cache";
+            d->achievementsManager->load( achievementsDirectory );
+        }
+    }
+    else
+    {
+        qDebug() << Q_FUNC_INFO << "metaData is NULL, so the model will be empty.";
     }
 
     QHash<int, QByteArray> roles;
@@ -77,7 +87,7 @@ int AchievementsModel::rowCount( const QModelIndex& /*parent*/ ) const
 
 int AchievementsModel::columnCount( const QModelIndex& /*parent*/ ) const
 {
-    return 2;
+    return 3;
 }
 
 QVariant AchievementsModel::data( const QModelIndex& index, int role ) const
@@ -87,12 +97,21 @@ QVariant AchievementsModel::data( const QModelIndex& index, int role ) const
 
     switch( index.column() )
     {
-        case 0:
+        case NameColumn:
             if( role == Qt::DisplayRole )
                 return d->achievementsManager->achievementName( index.row() );
 
+            if( role == Qt::DecorationRole )
+                return QIcon( d->projectDir + "/" + d->achievementsManager->achievementIcon( index.row() ) );
+
             break;
-        case 1:
+        case ProgressColumn:
+            if( role == Qt::DisplayRole )
+                return QString("%1/%2").arg( d->achievementsManager->currentScore( index.row()) )
+                                       .arg( d->achievementsManager->minimumScore( index.row()) );
+
+            break;
+        case AchievedColumn:
             if( role == Qt::DecorationRole )
             {
                 if( d->achievementsManager->achievementAchieved( index.row() ) )

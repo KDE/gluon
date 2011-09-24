@@ -22,6 +22,7 @@
 #include "abstractstatistic.h"
 #include "gameproject.h"
 #include "statistic.h"
+#include "asset.h"
 
 #include <QtCore/QVariant>
 
@@ -32,11 +33,12 @@ REGISTER_OBJECTTYPE( GluonEngine, Achievement )
 class Achievement::AchievementPrivate
 {
     public:
-        AchievementPrivate() : statistic(0), minimumScore(0) {}
+        AchievementPrivate() : statistic(0), minimumScore(0), icon(0) {}
         ~AchievementPrivate() {}
 
         AbstractStatistic* statistic;
         qlonglong minimumScore;
+        Asset* icon;
 };
 
 Achievement::Achievement( QObject* parent )
@@ -78,6 +80,32 @@ qlonglong Achievement::minimumScore() const
 void Achievement::setMinimumScore(qlonglong score)
 {
     d->minimumScore = score;
+}
+
+Asset* Achievement::icon()
+{
+    return d->icon;
+}
+
+void Achievement::setIcon( Asset* icon )
+{
+    if( d->icon )
+        d->icon->deref();
+
+    if( icon )
+        icon->ref();
+
+    d->icon = icon;
+}
+
+qlonglong Achievement::currentScore()
+{
+    if( !d->statistic )
+        return 0;
+
+    d->statistic->initialize();
+
+    return d->statistic->value();
 }
 
 bool Achievement::achieved() const

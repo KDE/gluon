@@ -30,6 +30,8 @@ namespace GluonCore
     class GluonObject;
 }
 
+using namespace GluonCore;
+
 class GDLHandlerTest : public QObject
 {
         Q_OBJECT
@@ -39,14 +41,19 @@ class GDLHandlerTest : public QObject
         virtual ~GDLHandlerTest();
 
     private:
-        static bool compareTrees( const QList<GluonCore::GluonObject*>& t1, const QList<GluonCore::GluonObject*>& t2 );
-
+        bool compareTrees( const QList<GluonObject*>& gluonObjectList1, const QList<GluonObject*>& gluonObjectList2 );
         template <typename T> QList<const T*> constListFromNonConst( const QList<T*>& x );
+        QList<GluonObject*> gluonObjectList( const QObjectList& objectList);
 
-        // Returns true if the passed GDL has (parsed -> serialized -> parsed) == parsed
         bool ensureReversible( const QString& gdl );
+        bool ensureParsing( const QList<GluonObject*>& gluonObjectList, const QString& gdl);
+        bool ensureSerializing( const QList<GluonObject*>& gluonObjectList, const QString& gdl);
+        bool ensureCommenting( const QList<GluonObject *>& gluonObjectList, const QString& gdl);
 
     private Q_SLOTS:
+        void testGDLSample();
+        void testCommentAtBegin();
+        void testCommentAtEnd();
         void testDoxygenSample();
         void testInvadersSample();
 };

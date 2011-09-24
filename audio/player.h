@@ -38,7 +38,7 @@ namespace GluonAudio
              * Constructs a new and empty Player instance with the specified
              * parent.
              */
-            explicit Player( QObject* parent = 0 );
+            Player( QObject* parent = 0 );
 
             /**
              * Constructs an playback with the files passed
@@ -136,6 +136,8 @@ namespace GluonAudio
              * @see pitch(), Sound::setPitch()
              */
             void setPitch(ALfloat pitch);
+
+            QStringList files();
 
         public Q_SLOTS:
 

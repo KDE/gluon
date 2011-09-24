@@ -212,7 +212,7 @@ void GraphScene::mouseMoveEvent( QGraphicsSceneMouseEvent* mouseEvent )
 
 void GraphScene::mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent )
 {
-    qDebug() << "Entrou aqui." << _action;
+    qDebug() << "Entered here:" << _action;
     if( mouseEvent->button() == Qt::MidButton )
     {
         NodeItem* nitem = qgraphicsitem_cast<NodeItem*>( itemAt( mouseEvent->scenePos() ) );
@@ -250,14 +250,14 @@ void GraphScene::mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent )
     }
     else if( mouseEvent -> button() == Qt::LeftButton )
     {
-        qDebug() << "Executando a ação";
+        qDebug() << "Executing the action...";
         _action->executePress( mouseEvent->scenePos() );
     }
 }
 
 void GraphScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* mouseEvent )
 {
-    qDebug() << "Entrou no release Action";
+    qDebug() << Q_FUNC_INFO;
     if( mouseEvent->button() == Qt::LeftButton )
     {
         _action->executeRelease( mouseEvent->scenePos() );

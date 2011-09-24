@@ -28,6 +28,7 @@
 namespace GluonEngine
 {
     class AbstractStatistic;
+    class Asset;
 
     /**
      * The Achievement class is connected to one statistic. If the statistic reaches a
@@ -48,6 +49,11 @@ namespace GluonEngine
              */
             Q_PROPERTY( qlonglong minimumScore READ minimumScore WRITE setMinimumScore )
 
+            /**
+             * An icon that represents the achievement.
+             */
+            Q_PROPERTY( GluonEngine::Asset* icon READ icon WRITE setIcon );
+
         public:
             Q_INVOKABLE Achievement( QObject* parent = 0 );
             virtual ~Achievement();
@@ -57,6 +63,15 @@ namespace GluonEngine
 
             qlonglong minimumScore() const;
             void setMinimumScore( qlonglong score );
+
+            Asset* icon();
+            void setIcon( Asset* icon );
+
+            /**
+             * What current score does the user have?
+             * @return The current score or 0, if the statistic property is not set.
+             */
+            qlonglong currentScore();
 
             /** Has the statistic achieved the goal? */
             bool achieved() const;

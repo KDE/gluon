@@ -45,9 +45,11 @@ namespace GluonCore
 
             QString userDirectory( const QString& name );
 
+            QStringList pluginDirectoryPaths() const;
+
         private:
-            QString m_userDataPath;
-            QHash<QString, QString> m_userDirs;
+            class DirectoryProviderPrivate;
+            DirectoryProviderPrivate *const d;
     };
 
 }

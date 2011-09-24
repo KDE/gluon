@@ -25,7 +25,7 @@
 
 #include <core/gluonobject.h>
 
-#include <QtPlugin>
+#include <QtCore/QtPlugin>
 
 /**
  * \defgroup Component Component

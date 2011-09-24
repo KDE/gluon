@@ -75,6 +75,24 @@ namespace GluonEngine
             QString achievementName( int index ) const;
 
             /**
+             * Get the icon of the achievement. Index must be a valid index
+             * position, i.e. between 0 and achievementsCount()-1.
+             */
+            QString achievementIcon( int index ) const;
+
+            /**
+             * The score you need to get the achievement. Index must be a valid index
+             * position, i.e. between 0 and achievementsCount()-1.
+             */
+            qlonglong minimumScore( int index ) const;
+
+            /**
+             * The current score of the statistic. Index must be a valid index
+             * position, i.e. between 0 and achievementsCount()-1.
+             */
+            qlonglong currentScore( int index ) const;
+
+            /**
              * Has the user the achievement at index? Index must be a valid index
              * position, i.e. between 0 and achievementsCount()-1.
              */
