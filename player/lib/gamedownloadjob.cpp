@@ -19,12 +19,16 @@
 
 #include "gamedownloadjob.h"
 
+#include "archive/extractor.h"
+
 #include <attica/provider.h>
 #include <attica/downloaditem.h>
 
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
 #include <QtNetwork/QNetworkReply>
+
+#include <QtCore/QDebug>
 
 using namespace GluonPlayer;
 
@@ -37,13 +41,12 @@ class GameDownloadJob::Private
         QString finalDownloadLocation;
 };
 
-GameDownloadJob::GameDownloadJob( Attica::Provider* provider, const QString& id, const QString& fileName,
-                                  const QString& destinationDir, QObject* parent )
+GameDownloadJob::GameDownloadJob( Attica::Provider* provider, const QString& id, const QString& destinationDir,
+                             QObject* parent )
     : AbstractSocialServicesJob( provider )
     , d( new Private() )
 {
     d->id = id;
-    d->fileName = fileName;
     d->destinationDir = destinationDir;
 }
 
@@ -74,7 +77,8 @@ void GameDownloadJob::processDownloadLink( Attica::BaseJob* baseJob )
 
     QNetworkAccessManager* manager = new QNetworkAccessManager( this );
     connect( manager, SIGNAL( finished( QNetworkReply* ) ), SLOT( downloadComplete( QNetworkReply* ) ) );
-    manager->get( QNetworkRequest( item.url() ) );
+    QNetworkReply* reply = manager->get( QNetworkRequest( item.url() ) );
+    connect( reply, SIGNAL( downloadProgress(qint64,qint64)), SLOT(updateDownloadProgress(qint64,qint64)) );
 }
 
 void GameDownloadJob::downloadComplete( QNetworkReply* reply )
@@ -86,7 +90,16 @@ void GameDownloadJob::downloadComplete( QNetworkReply* reply )
     file.write( reply->readAll() );
     file.close();
     reply->deleteLater();
+
+    Extractor extractor( destDir.filePath( d->fileName ), d->destinationDir );
+    extractor.start();
+
     emitSucceeded();
+}
+
+void GameDownloadJob::updateDownloadProgress( qint64 bytesReceived, qint64 bytesTotal )
+{
+    qDebug() << ( bytesReceived * 100 ) / bytesTotal << "% done " << bytesReceived << " of " << bytesTotal;
 }
 
 QVariant GameDownloadJob::data()

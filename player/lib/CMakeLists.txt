@@ -23,6 +23,10 @@ set(libGluonPlayer_SRCS
     abstractjob.cpp
     abstractsocialservicesjob.cpp
     addgamejob.cpp
+
+    archive/archiver.cpp
+    archive/extractor.cpp
+
     atticamanager.cpp
     authentication.cpp
     categorylistjob.cpp
