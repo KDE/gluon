@@ -32,9 +32,11 @@ set(libGluonPlayer_SRCS
     categorylistjob.cpp
     commentslistjob.cpp
     commentuploadjob.cpp
+    editgamejob.cpp
     gamedetaillistjob.cpp
     gamedownloadjob.cpp
     gameuploadjob.cpp
+    licensejob.cpp
     ratingjob.cpp
     serviceprovider.cpp
 

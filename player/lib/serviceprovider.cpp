@@ -26,6 +26,10 @@
 #include "gamedownloadjob.h"
 #include "gameuploadjob.h"
 #include "ratingjob.h"
+#include "addgamejob.h"
+#include "categorylistjob.h"
+#include "editgamejob.h"
+#include "licensejob.h"
 
 #include <core/directoryprovider.h>
 
@@ -269,6 +273,26 @@ GameUploadJob* ServiceProvider::uploadGame( const QString& id, const QString& pa
 RatingJob* ServiceProvider::setRating( const QString& id, uint rate )
 {
     return new RatingJob( &d->provider, id, rate );
+}
+
+AddGameJob* ServiceProvider::addGame( const QString& gameName, const QString& categoryId )
+{
+    return new AddGameJob( &d->provider, categoryId, gameName);
+}
+
+CategoryListJob* ServiceProvider::fetchCategories()
+{
+    return new CategoryListJob(&d->provider);
+}
+
+EditGameJob* ServiceProvider::editGame( const QString& id )
+{
+    return new EditGameJob(&d->provider, id);
+}
+
+LicenseJob* ServiceProvider::fetchLicenses()
+{
+    return new LicenseJob(&d->provider);
 }
 
 #include "serviceprovider.moc"
