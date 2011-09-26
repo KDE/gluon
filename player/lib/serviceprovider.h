@@ -43,6 +43,7 @@ namespace GluonPlayer
     class CategoryListJob;
     class EditGameJob;
     class LicenseJob;
+    class GameDetailsJob;
 
     /**
      * \brief Provides Open Collaboration Services
@@ -216,6 +217,15 @@ namespace GluonPlayer
              * monitor to find out the result of the operation
              */
             GluonPlayer::LicenseJob* fetchLicenses();
+
+            /**
+             * Use to fetch details about a particular game from the OCS server
+             *
+             * @param id ID of the game you want details about
+             * @return a GameDetailListJob object which the caller must
+             * monitor to find out the result of the operation
+             */
+            GluonPlayer::GameDetailsJob* fetchOneGame( const QString& id );
 
         private Q_SLOTS:
             void providersUpdated();

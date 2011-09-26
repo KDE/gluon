@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,39 +18,42 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H
-#define GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H
+#ifndef GLUON_PLAYER_GAMEDETAILSJOB_H
+#define GLUON_PLAYER_GAMEDETAILSJOB_H
 
-#include "abstractjob.h"
+#include "gamedetailitem.h"
+#include "abstractsocialservicesjob.h"
+
+#include <QtCore/QList>
 
 namespace Attica
 {
     class Provider;
+    class BaseJob;
 }
-
-//TODO: Documentation
 
 namespace GluonPlayer
 {
-    class AbstractSocialServicesJob : public AbstractJob
+    class GameDetailsJob : public AbstractSocialServicesJob
     {
             Q_OBJECT
-
         public:
-            AbstractSocialServicesJob( Attica::Provider* provider );
+            explicit GameDetailsJob( Attica::Provider* provider, const QString& id,  QObject* parent = 0 );
+            virtual ~GameDetailsJob();
 
-        protected:
-            virtual void startImplementation();
-            Attica::Provider* provider();
+            virtual QVariant data();
 
         protected Q_SLOTS:
-            virtual void startSocialService() = 0;
+           virtual void startSocialService();
+
+        private Q_SLOTS:
+            void processFetchedGameDetails( Attica::BaseJob* job );
 
         private:
             class Private;
             Private* const d;
     };
-
 }
 
-#endif // GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H
+#endif // GLUON_PLAYER_GAMEDETAILSJOB_H
+

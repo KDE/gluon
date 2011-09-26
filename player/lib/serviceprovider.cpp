@@ -30,6 +30,7 @@
 #include "categorylistjob.h"
 #include "editgamejob.h"
 #include "licensejob.h"
+#include "gamedetailsjob.h"
 
 #include <core/directoryprovider.h>
 
@@ -293,6 +294,11 @@ EditGameJob* ServiceProvider::editGame( const QString& id )
 LicenseJob* ServiceProvider::fetchLicenses()
 {
     return new LicenseJob(&d->provider);
+}
+
+GameDetailsJob* ServiceProvider::fetchOneGame( const QString& id )
+{
+    return new GameDetailsJob(&d->provider, id);
 }
 
 #include "serviceprovider.moc"
