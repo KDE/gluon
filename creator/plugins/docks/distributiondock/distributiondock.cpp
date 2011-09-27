@@ -28,26 +28,29 @@
 #include <player/lib/editgamejob.h>
 #include <player/lib/gamedetaillistjob.h>
 #include <player/lib/licensejob.h>
+#include <player/lib/gamedetailsjob.h>
 
 #include <KDE/KLocalizedString>
 
 #include <QtGui/QPushButton>
 #include <QtCore/QStateMachine>
 #include <QtCore/QHistoryState>
-#include <QDebug>
 
 using namespace GluonCreator;
 
 class DistributionDock::DistributionDockPrivate
 {
     public:
-        DistributionDockPrivate() { }
+        DistributionDockPrivate()
+        {
+            editGameJob = 0;
+        }
 
         QString currentGameId;
         QWidget widget;
         Ui::DistributionDock ui;
         QStringList categoryIds;
-        GluonPlayer::EditGame* editGameProvider;
+        GluonPlayer::EditGameJob* editGameJob;
         QStateMachine machine;
         QStringList licenseIds;
 
@@ -68,7 +71,6 @@ DistributionDock::DistributionDock( const QString& title, QWidget* parent, Qt::W
 {
     setObjectName( "Distribution Dock" );
 
-    d->editGameProvider = 0;
     d->ui.setupUi( &d->widget );
 
     initGuiStates();
@@ -99,10 +101,9 @@ void DistributionDock::updateUiFromGameProject()
     }
     else
     {
-        qDebug() << "FETCH " << id;
-        GluonPlayer::GameDetail* gameDetail = GluonPlayer::ServiceProvider::instance()->fetchOneGame( id );
-        connect( gameDetail, SIGNAL( gameDetailsFetched( GluonPlayer::GameDetailItem* ) ),
-                 SLOT( gameDetailsFetched( GluonPlayer::GameDetailItem* ) ) );
+        GluonPlayer::GameDetailsJob* gameDetailsJob = GluonPlayer::ServiceProvider::instance()->fetchOneGame( id );
+        connect( gameDetailsJob, SIGNAL( succeeded() ), SLOT( gameDetailsFetched() ) ) ;
+        gameDetailsJob->start();
     }
 }
 
@@ -115,29 +116,33 @@ void DistributionDock::createOrUpdateGame()
 {
     if( d->ui.idEdit->text().isEmpty() )
     {
-        GluonPlayer::NewGame* newGameProvider = GluonPlayer::ServiceProvider::instance()->addNewGame(
-                d->ui.gameNameEdit->text(), d->categoryIds.at( d->ui.categoryList->currentIndex() ) );
-        connect( newGameProvider, SIGNAL( finished( QString ) ), SLOT( newGameUploadFinished( QString ) ) );
-        connect( newGameProvider, SIGNAL( failed() ), SLOT( newGameUploadFailed() ) );
+        GluonPlayer::AddGameJob* addGameJob = GluonPlayer::ServiceProvider::instance()->addGame(
+                    d->ui.gameNameEdit->text(), d->categoryIds.at( d->ui.categoryList->currentIndex() ) );
+        connect( addGameJob, SIGNAL( succeeded() ), SLOT( newGameUploadFinished() ) );
+        connect( addGameJob, SIGNAL( failed() ), SLOT( newGameUploadFailed() ) );
+        addGameJob->start();
     }
     else
     {
-        if( !d->editGameProvider )
-            initEditGameProvider();
+        d->editGameJob = GluonPlayer::ServiceProvider::instance()->editGame(
+                                  d->ui.idEdit->text() );
+        connect( d->editGameJob, SIGNAL( succeeded() ), SLOT( editGameFinished() ) );
+        connect( d->editGameJob, SIGNAL( failed() ), SLOT( editGameFailed() ) );
 
-        d->editGameProvider->setName( d->ui.gameNameEdit->text() );
-        d->editGameProvider->setCategory( d->categoryIds.at( d->ui.categoryList->currentIndex() ) );
-        d->editGameProvider->setChangelog( d->ui.changelogEdit->toPlainText() );
-        d->editGameProvider->setDescription( d->ui.descriptionEdit->toPlainText() );
-        d->editGameProvider->setHomepage( d->ui.homepageEdit->text() );
-        d->editGameProvider->setVersion( d->ui.versionEdit->text() );
-        d->editGameProvider->setLicense( d->licenseIds.at( d->ui.licenseList->currentIndex() ) );
-        d->editGameProvider->startEditionUpload();
+        d->editGameJob->setName( d->ui.gameNameEdit->text() );
+        d->editGameJob->setCategory( d->categoryIds.at( d->ui.categoryList->currentIndex() ) );
+        d->editGameJob->setChangelog( d->ui.changelogEdit->toPlainText() );
+        d->editGameJob->setDescription( d->ui.descriptionEdit->toPlainText() );
+        d->editGameJob->setHomepage( d->ui.homepageEdit->text() );
+        d->editGameJob->setVersion( d->ui.versionEdit->text() );
+        d->editGameJob->setLicense( d->licenseIds.at( d->ui.licenseList->currentIndex() ) );
+        d->editGameJob->start();
     }
 }
 
-void DistributionDock::newGameUploadFinished( const QString& id )
+void DistributionDock::newGameUploadFinished( )
 {
+    QString id = qobject_cast<GluonPlayer::AddGameJob*>( sender() )->data().toString();
     d->ui.idEdit->setText( id );
     GluonEngine::Game::instance()->gameProject()->setProperty( "id", id );
     updateUiFromGameProject();
@@ -149,32 +154,33 @@ void DistributionDock::newGameUploadFailed()
     emit gameUploadFinished();  //TODO: Separate for failed
 }
 
-void DistributionDock::editGameFinished( const QString& id )
+void DistributionDock::editGameFinished( )
 {
     emit gameUploadFinished();
 }
 
-void DistributionDock::editGameFailed( const QString& id )
+void DistributionDock::editGameFailed( )
 {
     emit gameUploadFinished();  //TODO: Separate for failed
 }
 
 void DistributionDock::updateCategories()
 {
-    GluonPlayer::Category* provider = GluonPlayer::ServiceProvider::instance()->fetchCategories();
-
-    connect( provider, SIGNAL( categoriesFetched( QList<GluonPlayer::CategoryItem*> ) ),
-             SLOT( categoriesFetched( QList<GluonPlayer::CategoryItem*> ) ) );
+    GluonPlayer::CategoryListJob* categoryListJob = GluonPlayer::ServiceProvider::instance()->fetchCategories();
+    connect( categoryListJob, SIGNAL( succeeded() ), SLOT( categoriesFetched() ) );
+    categoryListJob->start();
 }
 
-void DistributionDock::categoriesFetched( QList <GluonPlayer::CategoryItem*> categories )
+void DistributionDock::categoriesFetched()
 {
+    QList<GluonPlayer::CategoryItem*> categories =
+        qobject_cast<GluonPlayer::CategoryListJob*>( sender() )->data().value< QList<GluonPlayer::CategoryItem*> >();
     d->ui.categoryList->clear();
     d->categoryIds.clear();
 
     foreach( GluonPlayer::CategoryItem * category, categories )
     {
-        QString categoryString = category->categoryName();
+        QString categoryString = category->name();
 
         /*Maybe we should just store some IDs in a settings file?
         Or if we care we're gonna prefix each categ with Gluon, thats fine*/
@@ -197,19 +203,20 @@ void DistributionDock::loadCredentials()
     }
     else
     {
-        connect( provider, SIGNAL( providerInitialized() ), SLOT( loadCredentials() ) );
+        connect( provider, SIGNAL( initializationFinished() ), SLOT( loadCredentials() ) );
     }
 }
 
 void DistributionDock::initEditGameProvider()
 {
-    if( d->editGameProvider )
+    if( d->editGameJob )
         return;
 
-    d->editGameProvider = GluonPlayer::ServiceProvider::instance()->editGame(
+    d->editGameJob = GluonPlayer::ServiceProvider::instance()->editGame(
                               d->ui.idEdit->text() );
-    connect( d->editGameProvider, SIGNAL( finished( QString ) ), SLOT( editGameFinished( QString ) ) );
-    connect( d->editGameProvider, SIGNAL( failed( QString ) ), SLOT( editGameFailed( QString ) ) );
+    connect( d->editGameJob, SIGNAL( succeeded() ), SLOT( editGameFinished() ) );
+    connect( d->editGameJob, SIGNAL( failed() ), SLOT( editGameFailed() ) );
+    d->editGameJob->start();
 }
 
 void DistributionDock::initGuiStates()
@@ -267,7 +274,7 @@ void DistributionDock::initGuiStates()
     d->uploadingState->assignProperty( d->ui.gamePage, "enabled", false );
 
     d->loggedOutState->addTransition( d->ui.loginButton, SIGNAL( clicked() ), d->loggingInState );
-    d->loggingInState->addTransition( GluonPlayer::ServiceProvider::instance(), SIGNAL( loggedIn() ), d->loggedInState );
+    d->loggingInState->addTransition( GluonPlayer::ServiceProvider::instance(), SIGNAL( loginFinished() ), d->loggedInState );
     d->loggingInState->addTransition( GluonPlayer::ServiceProvider::instance(), SIGNAL( loginFailed() ), d->loggedOutState );
     d->fetchingState->addTransition( this, SIGNAL( switchToCreateMode() ), d->createState );
     d->fetchingState->addTransition( this, SIGNAL( switchToUpdateMode() ), d->updateState );
@@ -284,8 +291,10 @@ void DistributionDock::initGuiStates()
     d->machine.start();
 }
 
-void DistributionDock::gameDetailsFetched( GluonPlayer::GameDetailItem* gameDetails )
+void DistributionDock::gameDetailsFetched( )
 {
+    GluonPlayer::GameDetailItem* gameDetails =
+        qobject_cast<GluonPlayer::GameDetailsJob*>( sender() )->data().value<GluonPlayer::GameDetailItem*>();
     d->ui.categoryList->setCurrentIndex( d->categoryIds.indexOf( gameDetails->category() ) );
     d->ui.gameNameEdit->setText( gameDetails->gameName() );
     d->ui.versionEdit->setText( gameDetails->version() );
@@ -299,14 +308,15 @@ void DistributionDock::gameDetailsFetched( GluonPlayer::GameDetailItem* gameDeta
 
 void DistributionDock::updateLicenses()
 {
-    GluonPlayer::License* license = GluonPlayer::ServiceProvider::instance()->fetchLicenses();
-
-    connect( license, SIGNAL( licensesFetched( QList<GluonPlayer::LicenseItem*> ) ),
-             SLOT( licensesFetched( QList<GluonPlayer::LicenseItem*> ) ) );
+    GluonPlayer::LicenseJob* licenseJob = GluonPlayer::ServiceProvider::instance()->fetchLicenses();
+    connect( licenseJob, SIGNAL( succeeded() ), SLOT( licensesFetched() ) );
+    licenseJob->start();
 }
 
-void DistributionDock::licensesFetched( QList< GluonPlayer::LicenseItem* > licenses )
+void DistributionDock::licensesFetched()
 {
+    QList<GluonPlayer::LicenseItem*> licenses =
+        qobject_cast<GluonPlayer::LicenseJob*>( sender() )->data().value< QList<GluonPlayer::LicenseItem*> >();
     d->ui.licenseList->clear();
     d->licenseIds.clear();
 
@@ -316,5 +326,12 @@ void DistributionDock::licensesFetched( QList< GluonPlayer::LicenseItem* > licen
         d->ui.licenseList->addItem( license->licenseName() );
     }
 }
+
+//FIXME: Ideally these should not be needed.
+//But putting them in headers in player/lib doesn't work
+
+Q_DECLARE_METATYPE( QList<GluonPlayer::CategoryItem*> )
+Q_DECLARE_METATYPE( GluonPlayer::GameDetailItem* )
+Q_DECLARE_METATYPE( QList<GluonPlayer::LicenseItem*> )
 
 #include "distributiondock.moc"

@@ -47,17 +47,17 @@ namespace GluonCreator
             void updateUiFromGameProject();
             void doLogin();
             void createOrUpdateGame();
-            void newGameUploadFinished( const QString& id );
+            void newGameUploadFinished();
             void newGameUploadFailed();
-            void editGameFinished( const QString& id );
-            void editGameFailed( const QString& id );
+            void editGameFinished();
+            void editGameFailed();
             void updateCategories();
-            void categoriesFetched( QList<GluonPlayer::CategoryItem*> categories );
+            void categoriesFetched();
             void loadCredentials();
             void initEditGameProvider();
-            void gameDetailsFetched( GluonPlayer::GameDetailItem* gameDetails );
+            void gameDetailsFetched();
             void updateLicenses();
-            void licensesFetched( QList<GluonPlayer::LicenseItem*> licenses );
+            void licensesFetched(  );
 
         Q_SIGNALS:
             void switchToCreateMode();

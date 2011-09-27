@@ -242,7 +242,7 @@ namespace GluonPlayer
         Q_SIGNALS:
             /** Signal which is emitted when the OCS Provider is initialized
             */
-            void initializeFinished();
+            void initializationFinished();
 
             /** Signal which is emitted if the OCS Provider failed to initialize
             */

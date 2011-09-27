@@ -48,7 +48,7 @@ void AbstractSocialServicesJob::startImplementation()
     }
     else
     {
-        connect( GluonPlayer::ServiceProvider::instance(), SIGNAL( initializeFinished() ), SLOT( startSocialService() ) );
+        connect( GluonPlayer::ServiceProvider::instance(), SIGNAL( initializationFinished() ), SLOT( startSocialService() ) );
     }
 }
 

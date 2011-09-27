@@ -123,7 +123,7 @@ void ServiceProvider::loadCredentials()
         d->provider.loadCredentials( d->username, d->password );
     }
 
-    emit initializeFinished();
+    emit initializationFinished();
 }
 
 CommentsListJob* ServiceProvider::fetchCommentList( const QString& id, int page, int pageSize )
