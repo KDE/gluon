@@ -2,7 +2,6 @@
 Encoding=UTF-8
 
 Name=Distribution Dock
-Comment[x-test]=xxProvides a Distribution dock plugin.xx
 Icon=gluon
 
 Type=Service
