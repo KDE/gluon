@@ -19,11 +19,11 @@
 
 #include "extractor.h"
 
-#include <QDir>
-#include <QFile>
-#include <QStringList>
+#include <QtCore/QDir>
+#include <QtCore/QFile>
+#include <QtCore/QStringList>
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 Extractor::Extractor( const QString& sourceArchivePath, const QString& destinationDirectoryPath )
     : m_sourceArchivePath( sourceArchivePath ), m_destinationDirectoryPath( destinationDirectoryPath )

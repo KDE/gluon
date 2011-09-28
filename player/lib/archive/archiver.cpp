@@ -19,8 +19,8 @@
 
 #include "archiver.h"
 
-#include <QFileInfo>
-#include <QDir>
+#include <QtCore/QFileInfo>
+#include <QtCore/QDir>
 
 Archiver::Archiver( const QString& sourceDirectoryPath, const QString& destinationArchivePath )
     : m_sourceDirectoryPath( sourceDirectoryPath ), m_destinationArchivePath( destinationArchivePath )

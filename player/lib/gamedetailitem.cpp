@@ -19,7 +19,7 @@
 
 #include "gamedetailitem.h"
 
-#include <QStringList>
+#include <QtCore/QStringList>
 
 using namespace GluonPlayer;
 

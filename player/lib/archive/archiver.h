@@ -21,7 +21,8 @@
 #define ARCHIVER_H
 
 #include "gluon_player_export.h"
-#include <QStringList>
+
+#include <QtCore/QStringList>
 
 class GLUON_PLAYER_EXPORT Archiver
 {

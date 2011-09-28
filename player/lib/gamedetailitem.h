@@ -20,7 +20,7 @@
 #ifndef GLUONPLAYER_GAMEDETAILITEM_H
 #define GLUONPLAYER_GAMEDETAILITEM_H
 
-#include <QObject>
+#include <QtCore/QObject>
 
 namespace GluonPlayer
 {

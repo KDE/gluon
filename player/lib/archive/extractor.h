@@ -21,7 +21,8 @@
 #define EXTRACTOR_H
 
 #include "gluon_player_export.h"
-#include <QString>
+
+#include <QtCore/QString>
 
 class GLUON_PLAYER_EXPORT Extractor
 {

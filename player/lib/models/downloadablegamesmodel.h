@@ -20,7 +20,7 @@
 #ifndef GLUONPLAYER_DOWNLOADABLEGAMESMODEL_H
 #define GLUONPLAYER_DOWNLOADABLEGAMESMODEL_H
 
-#include <QSortFilterProxyModel>
+#include <QtGui/QSortFilterProxyModel>
 
 #include "lib/gluon_player_export.h"
 
