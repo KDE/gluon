@@ -25,6 +25,7 @@
 #include "abstractsocialservicesjob.h"
 
 #include <QtCore/QList>
+#include <QtCore/QMetaType>
 
 namespace Attica
 {
@@ -55,5 +56,6 @@ namespace GluonPlayer
     };
 }
 
-#endif // GLUON_PLAYER_GAMEDETAILLISTJOB_H
+Q_DECLARE_METATYPE( QList<GluonPlayer::GameDetailItem*> )
 
+#endif // GLUON_PLAYER_GAMEDETAILLISTJOB_H

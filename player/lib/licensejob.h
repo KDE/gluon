@@ -22,6 +22,8 @@
 
 #include "abstractsocialservicesjob.h"
 
+#include <QtCore/QMetaType>
+
 namespace Attica
 {
     class Provider;
@@ -69,5 +71,7 @@ namespace GluonPlayer
     };
 
 }
+
+Q_DECLARE_METATYPE( QList<GluonPlayer::LicenseItem*> )
 
 #endif // GLUONPLAYER_LICENSE_H

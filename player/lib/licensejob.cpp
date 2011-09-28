@@ -112,6 +112,4 @@ QVariant LicenseJob::data()
     return QVariant::fromValue(d->licenseList);
 }
 
-Q_DECLARE_METATYPE( QList<GluonPlayer::LicenseItem*> )
-
 #include "licensejob.moc"

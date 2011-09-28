@@ -327,11 +327,4 @@ void DistributionDock::licensesFetched()
     }
 }
 
-//FIXME: Ideally these should not be needed.
-//But putting them in headers in player/lib doesn't work
-
-Q_DECLARE_METATYPE( QList<GluonPlayer::CategoryItem*> )
-Q_DECLARE_METATYPE( GluonPlayer::GameDetailItem* )
-Q_DECLARE_METATYPE( QList<GluonPlayer::LicenseItem*> )
-
 #include "distributiondock.moc"

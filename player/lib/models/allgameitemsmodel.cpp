@@ -343,6 +343,4 @@ void AllGameItemsModel::ratingUploadFinished()
     fetchAndUpdateExistingGameItem( gameItemForId( job->data().toString() ) );
 }
 
-Q_DECLARE_METATYPE( QList<GluonPlayer::GameDetailItem*> )
-
 #include "allgameitemsmodel.moc"

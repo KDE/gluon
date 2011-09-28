@@ -99,6 +99,4 @@ QVariant GameDetailListJob::data()
     return QVariant::fromValue( d->gameDetailList );
 }
 
-Q_DECLARE_METATYPE( QList<GluonPlayer::GameDetailItem*> )
-
 #include "gamedetaillistjob.moc"
