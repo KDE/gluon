@@ -2,6 +2,9 @@
 Encoding=UTF-8
 
 Name=Distribution Dock
+Name[pt]=Área de Distribuição
+Name[uk]=Панель розповсюдження
+Name[x-test]=xxDistribution Dockxx
 Icon=gluon
 
 Type=Service
