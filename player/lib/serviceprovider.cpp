@@ -184,7 +184,7 @@ bool ServiceProvider::login( const QString& username, const QString& password )
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), SLOT( doLogin() ) );
+        connect( this, SIGNAL( initializationFinished() ), SLOT( doLogin() ) );
     }
 
     return true;
@@ -234,7 +234,7 @@ bool ServiceProvider::logout()
     }
     else
     {
-        connect( this, SIGNAL( providerInitialized() ), SLOT( doLogout() ) );
+        connect( this, SIGNAL( initializationFinished() ), SLOT( doLogout() ) );
     }
 
     return true;
