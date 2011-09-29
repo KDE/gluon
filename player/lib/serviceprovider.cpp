@@ -126,6 +126,7 @@ void ServiceProvider::loadCredentials()
     if (!d->provider.isValid())
     {
         qDebug() << "PROVIDER NOT VALID";
+        emit initializeFailed();
         return;
     }
 
