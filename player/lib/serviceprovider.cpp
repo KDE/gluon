@@ -110,6 +110,10 @@ void ServiceProvider::providersUpdated()
             loadCredentials();
         }
     }
+    else
+    {
+        emit initializeFailed();
+    }
 }
 
 void ServiceProvider::loadCredentials()
