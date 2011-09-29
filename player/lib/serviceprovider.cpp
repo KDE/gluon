@@ -40,6 +40,7 @@
 #include <attica/providermanager.h>
 
 #include <QtCore/QDir>
+#include <QtCore/QDebug>
 
 using namespace GluonPlayer;
 
@@ -115,6 +116,12 @@ void ServiceProvider::loadCredentials()
 {
     if( !d->ready )
     {
+        return;
+    }
+
+    if (!d->provider.isValid())
+    {
+        qDebug() << "PROVIDER NOT VALID";
         return;
     }
 
