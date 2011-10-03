@@ -195,6 +195,4 @@ void GameItemsModel::processFetchedGameList()
     emit downloadableCountChanged();
 }
 
-Q_DECLARE_METATYPE( QList<GluonPlayer::GameDetailItem*> )
-
 #include "gameitemsmodel.moc"

@@ -26,6 +26,11 @@
 #include "gamedownloadjob.h"
 #include "gameuploadjob.h"
 #include "ratingjob.h"
+#include "addgamejob.h"
+#include "categorylistjob.h"
+#include "editgamejob.h"
+#include "licensejob.h"
+#include "gamedetailsjob.h"
 
 #include <core/directoryprovider.h>
 
@@ -35,6 +40,7 @@
 #include <attica/providermanager.h>
 
 #include <QtCore/QDir>
+#include <QtCore/QDebug>
 
 using namespace GluonPlayer;
 
@@ -85,6 +91,7 @@ void ServiceProvider::init()
     {
         return;
     }
+
     connect( &d->manager, SIGNAL( defaultProvidersLoaded() ), SLOT( providersUpdated() ) );
     d->manager.loadDefaultProviders();
 }
@@ -94,6 +101,7 @@ void ServiceProvider::providersUpdated()
     if( !d->manager.providers().isEmpty() )
     {
         d->provider = d->manager.providerByUrl( QUrl( "https://api.opendesktop.org/v1/" ) );
+
         if( !d->provider.isValid() )
         {
             emit initializeFailed();
@@ -104,6 +112,10 @@ void ServiceProvider::providersUpdated()
             loadCredentials();
         }
     }
+    else
+    {
+        emit initializeFailed();
+    }
 }
 
 void ServiceProvider::loadCredentials()
@@ -113,29 +125,24 @@ void ServiceProvider::loadCredentials()
         return;
     }
 
+    if( !d->provider.isValid() )
+    {
+        qDebug() << "PROVIDER NOT VALID";
+        emit initializeFailed();
+        return;
+    }
+
     if( d->provider.hasCredentials() )
     {
         d->provider.loadCredentials( d->username, d->password );
     }
 
-    emit initializeFinished();
+    emit initializationFinished();
 }
 
 CommentsListJob* ServiceProvider::fetchCommentList( const QString& id, int page, int pageSize )
 {
-    CommentsListJob* commentListJob = new CommentsListJob( &d->provider, id, page, pageSize );
-    connect( this, SIGNAL( commentListFetchStarting() ), commentListJob, SIGNAL( commentListFetchStarting() ) );
-
-    if( d->ready )
-    {
-        emit commentListFetchStarting();
-    }
-    else
-    {
-        connect( this, SIGNAL( providerInitialized() ), commentListJob, SIGNAL( commentListFetchStarting() ) );
-    }
-
-    return commentListJob;
+    return new CommentsListJob( &d->provider, id, page, pageSize );
 }
 
 CommentUploadJob* ServiceProvider::uploadComment( const QString& id, const QString& parentId,
@@ -146,7 +153,14 @@ CommentUploadJob* ServiceProvider::uploadComment( const QString& id, const QStri
 
 bool ServiceProvider::hasCredentials() const
 {
-    return d->provider.hasCredentials();
+    if( d->provider.isValid() )
+    {
+        return d->provider.hasCredentials();
+    }
+    else
+    {
+        return false;
+    }
 }
 
 bool ServiceProvider::isLoggedIn() const
@@ -172,6 +186,7 @@ bool ServiceProvider::login( const QString& username, const QString& password )
     {
         connect( this, SIGNAL( providerInitialized() ), SLOT( doLogin() ) );
     }
+
     return true;
 }
 
@@ -252,10 +267,12 @@ GameDownloadJob* ServiceProvider::downloadGame( const QString& id )
 {
     QString path( "gluon/games" );
     QDir destinationDir( GluonCore::DirectoryProvider::instance()->dataDirectory() );
+
     if( !destinationDir.exists( path ) )
     {
         destinationDir.mkpath( path );
     }
+
     destinationDir.cd( path );
 
     return new GameDownloadJob( &d->provider, id, destinationDir.path() );
@@ -269,6 +286,31 @@ GameUploadJob* ServiceProvider::uploadGame( const QString& id, const QString& pa
 RatingJob* ServiceProvider::setRating( const QString& id, uint rate )
 {
     return new RatingJob( &d->provider, id, rate );
+}
+
+AddGameJob* ServiceProvider::addGame( const QString& gameName, const QString& categoryId )
+{
+    return new AddGameJob( &d->provider, categoryId, gameName );
+}
+
+CategoryListJob* ServiceProvider::fetchCategories()
+{
+    return new CategoryListJob( &d->provider );
+}
+
+EditGameJob* ServiceProvider::editGame( const QString& id )
+{
+    return new EditGameJob( &d->provider, id );
+}
+
+LicenseJob* ServiceProvider::fetchLicenses()
+{
+    return new LicenseJob( &d->provider );
+}
+
+GameDetailsJob* ServiceProvider::fetchOneGame( const QString& id )
+{
+    return new GameDetailsJob( &d->provider, id );
 }
 
 #include "serviceprovider.moc"

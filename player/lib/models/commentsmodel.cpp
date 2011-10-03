@@ -299,6 +299,4 @@ void CommentsModel::uploadCommentFinished()
     updateData();
 }
 
-Q_DECLARE_METATYPE( QList<GluonPlayer::CommentItem*> )
-
 #include "commentsmodel.moc"

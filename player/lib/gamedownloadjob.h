@@ -38,8 +38,8 @@ namespace GluonPlayer
             Q_OBJECT
 
         public:
-            GameDownloadJob( Attica::Provider* provider, const QString& id, const QString& fileName,
-                             const QString& destinationDir = QString(), QObject* parent = 0 );
+            GameDownloadJob( Attica::Provider* provider, const QString& id, const QString& destinationDir,
+                             QObject* parent = 0 );
             virtual ~GameDownloadJob();
 
             virtual QVariant data();
@@ -50,6 +50,7 @@ namespace GluonPlayer
         private Q_SLOTS:
             void processDownloadLink( Attica::BaseJob* baseJob );
             void downloadComplete( QNetworkReply* reply );
+            void updateDownloadProgress( qint64 bytesReceived, qint64 bytesTotal );
 
         private:
             class Private;

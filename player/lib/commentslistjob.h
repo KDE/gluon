@@ -22,7 +22,8 @@
 
 #include "abstractsocialservicesjob.h"
 
-#include <QList>
+#include <QtCore/QList>
+#include <QtCore/QMetaType>
 
 namespace Attica
 {
@@ -78,5 +79,7 @@ namespace GluonPlayer
     };
 
 }
+
+Q_DECLARE_METATYPE( QList<GluonPlayer::CommentItem*> )
 
 #endif // GLUONPLAYER_COMMENTSLISTJOB_H

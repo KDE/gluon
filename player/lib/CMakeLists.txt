@@ -23,14 +23,22 @@ set(libGluonPlayer_SRCS
     abstractjob.cpp
     abstractsocialservicesjob.cpp
     addgamejob.cpp
+
+    archive/archiver.cpp
+    archive/extractor.cpp
+
     atticamanager.cpp
     authentication.cpp
     categorylistjob.cpp
     commentslistjob.cpp
     commentuploadjob.cpp
+    editgamejob.cpp
+    gamedetailitem.cpp
+    gamedetailsjob.cpp
     gamedetaillistjob.cpp
     gamedownloadjob.cpp
     gameuploadjob.cpp
+    licensejob.cpp
     ratingjob.cpp
     serviceprovider.cpp
 

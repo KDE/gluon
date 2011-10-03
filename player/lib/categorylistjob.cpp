@@ -104,6 +104,4 @@ QVariant CategoryListJob::data()
     return QVariant::fromValue( d->categoryList );
 }
 
-Q_DECLARE_METATYPE( QList<GluonPlayer::CategoryItem*> )
-
 #include "categorylistjob.moc"

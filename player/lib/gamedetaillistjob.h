@@ -21,9 +21,11 @@
 #ifndef GLUON_PLAYER_GAMEDETAILLISTJOB_H
 #define GLUON_PLAYER_GAMEDETAILLISTJOB_H
 
+#include "gamedetailitem.h"
 #include "abstractsocialservicesjob.h"
 
 #include <QtCore/QList>
+#include <QtCore/QMetaType>
 
 namespace Attica
 {
@@ -33,44 +35,6 @@ namespace Attica
 
 namespace GluonPlayer
 {
-    class GameDetailItem : public QObject
-    {
-            Q_OBJECT
-            Q_ENUMS( Status )
-        public:
-            enum Status
-            {
-                Downloadable,
-                Installed,
-                Upgradable
-            };
-
-            GameDetailItem( const QString& gameName, const QString& gameDescription, const QString &version,
-                            const QString &category, const QString& homePage, const QString &license,
-                            const QString &changelog, const QString& projectDirName, const QString& projectFileName,
-                            const QStringList& screenshotUrls, int rating, GluonPlayer::GameDetailItem::Status status,
-                            const QString id, QObject* parent = 0 );
-            virtual ~GameDetailItem();
-
-            QString gameName() const;
-            QString gameDescription() const;
-            QString version() const;
-            QString category() const;
-            QString homePage() const;
-            QString license() const;
-            QString changelog() const;
-            QString projectDirName() const;
-            QString projectFileName() const;
-            QStringList screenshotUrls() const;
-            int rating() const;
-            Status status() const;
-            QString id() const;
-
-        private:
-            class Private;
-            Private* const d;
-    };
-
     class GameDetailListJob : public AbstractSocialServicesJob
     {
             Q_OBJECT
@@ -92,5 +56,6 @@ namespace GluonPlayer
     };
 }
 
-#endif // GLUON_PLAYER_GAMEDETAILLISTJOB_H
+Q_DECLARE_METATYPE( QList<GluonPlayer::GameDetailItem*> )
 
+#endif // GLUON_PLAYER_GAMEDETAILLISTJOB_H

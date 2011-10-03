@@ -21,7 +21,7 @@
 #ifndef GLUON_PLAYER_SERVICEPROVIDER_H
 #define GLUON_PLAYER_SERVICEPROVIDER_H
 
-#include "lib/gluon_player_export.h"
+#include "gluon_player_export.h"
 
 #include <core/singleton.h>
 
@@ -39,6 +39,11 @@ namespace GluonPlayer
     class CommentUploadJob;
     class GameUploadJob;
     class RatingJob;
+    class AddGameJob;
+    class CategoryListJob;
+    class EditGameJob;
+    class LicenseJob;
+    class GameDetailsJob;
 
     /**
      * \brief Provides Open Collaboration Services
@@ -176,6 +181,52 @@ namespace GluonPlayer
              */
             RatingJob* setRating( const QString& id, uint rate );
 
+            /**
+             * Add a new game to the OCS server.
+             *
+             * @param gameName Name of the new game
+             * @param gameCategory Category to which the new game belongs
+             *
+             * @return a AddGameJob object which the caller must
+             * monitor to find out the result of the operation
+             */
+            GluonPlayer::AddGameJob* addGame( const QString& gameName, const QString& categoryId );
+
+            /**
+             * Request list of categories from the OCS server
+             *
+             * @return a CategoryListJob object which the caller must
+             * monitor to find out the result of the operation
+             */
+            GluonPlayer::CategoryListJob* fetchCategories();
+
+            /**
+             * Edit an existing game on the server.
+             *
+             * @param id ID of the game
+             * @return a EditGameJob object which the caller can use to
+             * set new properties and then call its startEditionUpload() method
+             * to start the upload of the changes.
+             */
+            GluonPlayer::EditGameJob* editGame( const QString& id );
+
+            /**
+             * Request list of licenses from the OCS server
+             *
+             * @return a LicenseJob object which the caller must
+             * monitor to find out the result of the operation
+             */
+            GluonPlayer::LicenseJob* fetchLicenses();
+
+            /**
+             * Use to fetch details about a particular game from the OCS server
+             *
+             * @param id ID of the game you want details about
+             * @return a GameDetailListJob object which the caller must
+             * monitor to find out the result of the operation
+             */
+            GluonPlayer::GameDetailsJob* fetchOneGame( const QString& id );
+
         private Q_SLOTS:
             void providersUpdated();
             void checkLoginResult( Attica::BaseJob* baseJob );
@@ -191,7 +242,7 @@ namespace GluonPlayer
         Q_SIGNALS:
             /** Signal which is emitted when the OCS Provider is initialized
             */
-            void initializeFinished();
+            void initializationFinished();
 
             /** Signal which is emitted if the OCS Provider failed to initialize
             */

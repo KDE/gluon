@@ -74,6 +74,7 @@ set(GluonEngine_SRCS
     scene.cpp
     sceneprivate.cpp
     statistic.cpp
+    tasksstatistic.cpp
 
     game.cpp
     gameprivate.cpp
@@ -97,6 +98,7 @@ set(GluonEngine_HEADERS
     savable.h
     scene.h
     statistic.h
+    tasksstatistic.h
 
     game.h
     gluon_engine_export.h

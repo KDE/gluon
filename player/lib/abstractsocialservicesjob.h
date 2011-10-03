@@ -20,7 +20,7 @@
 #ifndef GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H
 #define GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H
 
-#include "lib/abstractjob.h"
+#include "abstractjob.h"
 
 namespace Attica
 {

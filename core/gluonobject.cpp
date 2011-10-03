@@ -346,14 +346,14 @@ GluonObject::fullyQualifiedName() const
     return name();
 }
 
-QString GluonObject::qualifiedName(GluonObject* localRoot) const
+QString GluonObject::qualifiedName(const GluonObject* localRoot) const
 {
     GluonObject* theParent = qobject_cast<GluonObject*>( parent() );
     if( theParent )
     {
         if( theParent == localRoot )
             return "";
-        return QString( "%1/%2" ).arg( theParent->fullyQualifiedName() ).arg( name() );
+        return QString( "%1/%2" ).arg( theParent->qualifiedName( localRoot ) ).arg( name() );
     }
     return name();
 }
@@ -730,6 +730,9 @@ GluonObject::findItemByNameInObject( QStringList qualifiedName, const GluonCore:
     //DEBUG_FUNC_NAME
     DEBUG_BLOCK
     GluonObject* foundChild = 0;
+
+    if( qualifiedName.isEmpty() )
+        return foundChild;
 
     QString lookingFor( qualifiedName[0] );
     qualifiedName.removeFirst();

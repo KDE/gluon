@@ -23,7 +23,7 @@
 #include <attica/postjob.h>
 #include <attica/comment.h>
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 using namespace GluonPlayer;
 

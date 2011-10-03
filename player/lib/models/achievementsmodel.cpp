@@ -99,33 +99,48 @@ QVariant AchievementsModel::data( const QModelIndex& index, int role ) const
     {
         case NameColumn:
             if( role == Qt::DisplayRole )
-                return d->achievementsManager->achievementName( index.row() );
-
+            {
+                if( d->achievementsManager->dependencySatisfied( index.row() ) )
+                    return d->achievementsManager->achievementName( index.row() );
+                else
+                    return tr("Unknown");
+            }
             if( role == Qt::DecorationRole )
-                return QIcon( d->projectDir + "/" + d->achievementsManager->achievementIcon( index.row() ) );
+                if( d->achievementsManager->dependencySatisfied( index.row() ) )
+                    return QIcon( d->projectDir + "/" + d->achievementsManager->achievementIcon( index.row() ) );
 
             break;
         case ProgressColumn:
             if( role == Qt::DisplayRole )
-                return QString("%1/%2").arg( d->achievementsManager->currentScore( index.row()) )
-                                       .arg( d->achievementsManager->minimumScore( index.row()) );
-
+            {
+                if( d->achievementsManager->dependencySatisfied( index.row() ) )
+                    return QString("%1/%2").arg( d->achievementsManager->currentScore( index.row()) )
+                                           .arg( d->achievementsManager->minimumScore( index.row()) );
+                else
+                    return "0/0";
+            }
             break;
         case AchievedColumn:
             if( role == Qt::DecorationRole )
             {
-                if( d->achievementsManager->achievementAchieved( index.row() ) )
+                if( d->achievementsManager->dependencySatisfied( index.row() )
+                        && d->achievementsManager->achievementAchieved( index.row() ) )
                     return qApp->style()->standardIcon( QStyle::SP_DialogYesButton );
                 else
                     return qApp->style()->standardIcon( QStyle::SP_DialogNoButton );
             }
             if( role == Qt::ToolTipRole )
-                return d->achievementsManager->achievementAchieved( index.row() ) ? tr("yes") : tr("no");
-
+            {
+                if( d->achievementsManager->dependencySatisfied( index.row() ) )
+                    return d->achievementsManager->achievementAchieved( index.row() ) ? tr("yes") : tr("no");
+                else
+                    return tr("no");
+            }
             break;
         default:
             return QVariant();
     }
+
     return QVariant();
 }
 
