@@ -72,7 +72,6 @@ void AbstractPrefabInstance::addChild(GluonCore::GluonObject* child)
         connect( this, SIGNAL(instanceStored()), instance, SLOT(parentStored()) );
     }
     GluonEngine::GameObject::addChild(child);
-    GluonEngine::GameObject::addChild(child);
 }
 
 void AbstractPrefabInstance::addChildAt(GluonCore::GluonObject* child, int position)
@@ -85,7 +84,6 @@ void AbstractPrefabInstance::addChildAt(GluonCore::GluonObject* child, int posit
         connect( this, SIGNAL(instanceReverted()), instance, SLOT(parentReverted()) );
         connect( this, SIGNAL(instanceStored()), instance, SLOT(parentStored()) );
     }
-    GluonEngine::GameObject::addChild(child);
     GluonCore::GluonObject::addChildAt(child, position);
 }
 
@@ -99,7 +97,6 @@ bool AbstractPrefabInstance::removeChild(GameObject* child)
         disconnect( this, SIGNAL(instanceReverted()), instance, SLOT(parentReverted()) );
         disconnect( this, SIGNAL(instanceStored()), instance, SLOT(parentStored()) );
     }
-    GluonEngine::GameObject::addChild(child);
     return GluonEngine::GameObject::removeChild(child);
 }
 
