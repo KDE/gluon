@@ -51,7 +51,7 @@ namespace GluonEngine
             GLUON_OBJECT( GluonEngine::PrefabInstance )
 
         public:
-            PrefabInstance( QObject* parent = 0 );
+            Q_INVOKABLE PrefabInstance( QObject* parent = 0 );
             virtual ~PrefabInstance();
 
             void setPrefabLink( Prefab* newPrefab );
