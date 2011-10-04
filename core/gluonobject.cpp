@@ -348,11 +348,12 @@ GluonObject::fullyQualifiedName() const
 
 QString GluonObject::qualifiedName(const GluonObject* localRoot) const
 {
+    if( localRoot == this )
+        return name();
+
     GluonObject* theParent = qobject_cast<GluonObject*>( parent() );
     if( theParent )
     {
-        if( theParent == localRoot )
-            return "";
         return QString( "%1/%2" ).arg( theParent->qualifiedName( localRoot ) ).arg( name() );
     }
     return name();

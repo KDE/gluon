@@ -127,11 +127,20 @@ void GluonObjectTest::testQualifiedName()
     gluonObject1.addChild(&gluonObject2);
     gluonObject2.addChild(&gluonObject3);
 
-    QCOMPARE(gluonObject1.qualifiedName(&gluonObject3), gluonObject1Name);
+    QCOMPARE(gluonObject1.qualifiedName(&gluonObject1), gluonObject1Name);
+    QCOMPARE(gluonObject2.qualifiedName(&gluonObject1),
+             gluonObject1Name + "/" + gluonObject2Name);
+    QCOMPARE(gluonObject2.qualifiedName(&gluonObject2), gluonObject2Name);
+    QCOMPARE(gluonObject3.qualifiedName(&gluonObject1),
+             gluonObject1Name + "/" + gluonObject2Name + "/" + gluonObject3Name);
+    QCOMPARE(gluonObject3.qualifiedName(&gluonObject2),
+             gluonObject2Name + "/" + gluonObject3Name);
+    QCOMPARE(gluonObject3.qualifiedName(&gluonObject3), gluonObject3Name);
+
+    // now with wrong local root
     QCOMPARE(gluonObject2.qualifiedName(&gluonObject3),
              gluonObject1Name + "/" + gluonObject2Name);
-    QCOMPARE(gluonObject3.qualifiedName(&gluonObject3),
-             gluonObject1Name + "/" + gluonObject2Name + "/" + gluonObject3Name);
+    QCOMPARE(gluonObject1.qualifiedName(&gluonObject3), gluonObject1Name);
 }
 
 void GluonObjectTest::testFullyQualifiedName()
