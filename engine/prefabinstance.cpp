@@ -94,7 +94,14 @@ void PrefabInstance::rebuildInstance()
     DEBUG_FUNC_NAME
     setInstantiationCompleted( false );
     // Clear all children out
-    qDeleteAll(children());
+    foreach( QObject* child, children() )
+    {
+        GluonCore::GluonObject* object = qobject_cast<GluonCore::GluonObject*>( child );
+        if( object )
+            removeChild( object );
+        else
+            child->deleteLater();
+    }
 
     Prefab::cloneObjectProperties(d->prefabLink->gameObject(), this);
 
@@ -109,6 +116,7 @@ void PrefabInstance::rebuildInstance()
             PrefabInstanceChild* newChild = new PrefabInstanceChild();
             addChild(newChild);
             newChild->cloneFromGameObject(childGobj);
+            DEBUG_TEXT2( "Completed copy of %1", newChild->name() )
         }
     }
 

@@ -154,10 +154,11 @@ void AbstractPrefabInstance::childNameChanged(const QString& oldName, const QStr
         return;
     if(oldName == newName)
         return;
-    // This ensures that children (in particular this means Components) don't get renamed in instances
-    GluonCore::GluonObject* from = qobject_cast<GluonCore::GluonObject*>( sender() );
-    if(from)
-        from->setName(oldName);
+    // TODO: Currently we can't say if the sender is already tracked by a prefab or if it's a new object
+//     // This ensures that children (in particular this means Components) don't get renamed in instances
+//     GluonCore::GluonObject* from = qobject_cast<GluonCore::GluonObject*>( sender() );
+//     if(from)
+//         from->setName(oldName);
 }
 
 void AbstractPrefabInstance::parentReverted()

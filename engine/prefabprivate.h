@@ -47,7 +47,7 @@ namespace GluonEngine
 
             void updateChildrenFromOther(GluonCore::GluonObject* updateThis, const GluonCore::GluonObject* updateFrom);
             void moveChildrenIntoPlace(GluonCore::GluonObject* updateThis, const GluonCore::GluonObject* updateFrom);
-            void removeAndAddChildren(GluonCore::GluonObject* updateThis, const GluonCore::GluonObject* updateFrom);
+            void addRemoveAndUpdateChildren(GluonCore::GluonObject* updateThis, const GluonCore::GluonObject* updateFrom);
     };
 }
 
