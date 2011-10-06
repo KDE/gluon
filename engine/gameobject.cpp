@@ -452,7 +452,7 @@ void
 GameObject::addChildAt( GluonCore::GluonObject* addThis, int index )
 {
     GameObject* gObj = qobject_cast< GluonEngine::GameObject* >(addThis);
-    if( !addThis || index >= d->children.count() )
+    if( !addThis || index > d->children.count() )
     {
         DEBUG_BLOCK
         DEBUG_TEXT( QString( "Fail-add! you're trying to add a NULL GameObject or specified an index that is out of range." ) )
