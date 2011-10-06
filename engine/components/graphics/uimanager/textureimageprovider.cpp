@@ -39,7 +39,7 @@ TextureImageProvider::~TextureImageProvider()
 
 QImage TextureImageProvider::requestImage( const QString& id, QSize* size, const QSize& requestedSize )
 {
-    GluonCore::GluonObject* obj = Game::instance()->gameProject()->findItemByName( id );
+    GluonCore::GluonObject* obj = Game::instance()->gameProject()->findGlobalItemByName( id );
     if( !obj )
         return GluonGraphics::Engine::instance()->texture( "default" )->image();
 

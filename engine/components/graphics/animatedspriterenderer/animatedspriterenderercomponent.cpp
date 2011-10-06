@@ -309,7 +309,7 @@ void AnimatedSpriteRendererComponent::setMaterial( GluonGraphics::MaterialInstan
 
 void AnimatedSpriteRendererComponent::setMaterial( const QString& path )
 {
-    setMaterial( qobject_cast<GluonGraphics::MaterialInstance*>( Game::instance()->gameProject()->findItemByName( path ) ) );
+    setMaterial( qobject_cast<GluonGraphics::MaterialInstance*>( Game::instance()->gameProject()->findGlobalItemByName( path ) ) );
 }
 
 int AnimatedSpriteRendererComponent::animation()

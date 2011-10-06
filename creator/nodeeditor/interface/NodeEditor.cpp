@@ -273,7 +273,7 @@ void NodeEditor::exportFromThisNode( GluonCore::GluonObject* o, QTextStream* fil
 
 void NodeEditor::exportCode( bool /* checked */ )
 {
-    if( GluonEngine::Game::instance()->gameProject()->findItemByName( "vn-" + GluonEngine::Game::instance()->currentScene()->name() ) == NULL )
+    if( GluonEngine::Game::instance()->gameProject()->findGlobalItemByName( "vn-" + GluonEngine::Game::instance()->currentScene()->name() ) == NULL )
     {
         GluonEngine::Asset* script = new GluonEngine::Asset();
         script->setName( "vn-" + GluonEngine::Game::instance()->currentScene()->name() );
