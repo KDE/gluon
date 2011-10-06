@@ -104,8 +104,7 @@ void PrefabPrivate::addRemoveAndUpdateChildren(GluonCore::GluonObject* updateThi
             continue;
 
         // Check if the child in the item we're updating still exists in the item we're updating from
-        QString qualifiedName = childObject->qualifiedName(gameObject);
-        GluonCore::GluonObject* otherChild = updateFrom->findItemByName(qualifiedName);
+        GluonCore::GluonObject* otherChild = updateFrom->findItemByName( childObject->name() );
         if(!otherChild)
         {
             // If we've not found the child, that means it was deleted, and we should remove it
@@ -114,6 +113,7 @@ void PrefabPrivate::addRemoveAndUpdateChildren(GluonCore::GluonObject* updateThi
             childObject->deleteLater();
 
             // Remove object with same name on all linked instances
+            QString qualifiedName = childObject->qualifiedName( gameObject );
             foreach(PrefabInstance* linkedInstance, instances)
             {
                 GluonCore::GluonObject* linkedChild = linkedInstance->findItemByName(qualifiedName);
@@ -135,11 +135,11 @@ void PrefabPrivate::addRemoveAndUpdateChildren(GluonCore::GluonObject* updateThi
             continue;
 
         // Check if the child in the item we're updating from exists in the item we're updating
-        GluonCore::GluonObject* otherChild = updateThis->findItemByName(childObject->name());
+        GluonCore::GluonObject* otherChild = updateThis->findItemByName( childObject->name() );
         if(!otherChild)
         {
+            DEBUG_TEXT2( "Adding new child named %1", childObject->name() )
             // Clone the new child... 
-            QString qualifiedName = childObject->qualifiedName(gameObject);
             GluonCore::GluonObject* clone = childObject->clone(updateThis);
 
             // - add object in same position on all linked instances
@@ -147,6 +147,9 @@ void PrefabPrivate::addRemoveAndUpdateChildren(GluonCore::GluonObject* updateThi
             {
                 GluonCore::GluonObject* linkedParent = linkedInstance->findItemByName( updateThis->qualifiedName( gameObject ) );
                 if( !linkedParent )
+                    continue;
+
+                if( linkedParent->child( childObject->name() ) )
                     continue;
 
                 if(qobject_cast<GameObject*>(clone))

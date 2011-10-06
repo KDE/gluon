@@ -40,7 +40,7 @@ namespace GluonEngine
             GLUON_OBJECT( GluonEngine::PrefabInstanceChild )
 
         public:
-            PrefabInstanceChild( QObject* parent = 0 );
+            Q_INVOKABLE PrefabInstanceChild( QObject* parent = 0 );
             virtual ~PrefabInstanceChild();
 
             /**
