@@ -288,7 +288,7 @@ Game::setCurrentScene( Scene* newCurrentScene )
 
 void Game::setCurrentScene( const QString& sceneName )
 {
-    Scene* scene = qobject_cast< GluonEngine::Scene* >( gameProject()->findItemByName( sceneName ) );
+    Scene* scene = qobject_cast< GluonEngine::Scene* >( gameProject()->findGlobalItemByName( sceneName ) );
     if( scene )
         setCurrentScene( scene );
 }

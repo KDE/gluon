@@ -400,7 +400,7 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int /*
         QList< GluonCore::GluonObject* > newChildren;
         foreach( const QString & item, newItems )
         {
-            GluonCore::GluonObject* itemObject = d->project->findItemByName( item );
+            GluonCore::GluonObject* itemObject = d->project->findGlobalItemByName( item );
             if( qobject_cast<GluonEngine::GameObject*>( itemObject ) )
             {
                 DEBUG_TEXT2("Dropped the object %1 on the project", itemObject->fullyQualifiedName())
@@ -438,7 +438,7 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int /*
         GluonCore::GluonObject* newParentObject = static_cast<GluonCore::GluonObject*>( parent.internalPointer() );
         if( newItems.count() > 0 )
         {
-            GluonCore::GluonObject* itemObject = d->project->findItemByName( newItems.at( 0 ) );
+            GluonCore::GluonObject* itemObject = d->project->findGlobalItemByName( newItems.at( 0 ) );
             // Dropped on existing parent
             if( itemObject->parent() == newParentObject )
                 return false;
@@ -450,7 +450,7 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int /*
         QList< GluonCore::GluonObject* > newChildren;
         foreach( const QString & item, newItems )
         {
-            GluonCore::GluonObject* itemObject = d->project->findItemByName( item );
+            GluonCore::GluonObject* itemObject = d->project->findGlobalItemByName( item );
             if( itemObject )
             {
                 // Update the view for the old parent (unfortunately we can't expect the items to
