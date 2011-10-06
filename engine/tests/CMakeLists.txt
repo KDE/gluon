@@ -20,4 +20,5 @@ GLUON_UNIT_TESTS(
     componenttest
     gameobjecttest
     statistictest
+    prefabtest
 )
