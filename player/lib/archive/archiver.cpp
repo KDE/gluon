@@ -43,7 +43,7 @@ void Archiver::addFilesInDir( QString path )
     if( dir.count() == 0 )
         return;         //FIXME: This ain't great, empty dirs will be skipped
 
-    foreach( QString file, dir.entryList( QDir::Files | QDir::Hidden ) )
+    foreach( const QString& file, dir.entryList( QDir::Files | QDir::Hidden ) )
     {
         if( !QFileInfo( dir.absoluteFilePath( file ) ).isDir() )
         {
@@ -52,7 +52,7 @@ void Archiver::addFilesInDir( QString path )
         }
     }
 
-    foreach( QString tdir, dir.entryList( QDir::Hidden | QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks ) )
+    foreach( const QString& tdir, dir.entryList( QDir::Hidden | QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks ) )
     {
         if( QFileInfo( dir.absoluteFilePath( tdir ) ).isDir() ) //QDir::Hidden includes even hidden non-dirs, so have to check
         {
@@ -79,7 +79,7 @@ void Archiver::writeArchiveToFile()
     stream << m_files.count();
 
     //Write headers into the stream
-    foreach( QString file, m_files )
+    foreach( const QString& file, m_files )
     {
         QFileInfo info( QDir( m_sourceParentDirectoryPath ).absoluteFilePath( file ) );
         stream << file;
@@ -87,7 +87,7 @@ void Archiver::writeArchiveToFile()
     }
 
     //Append actual file contents
-    foreach( QString filename, m_files )
+    foreach( const QString& filename, m_files )
     {
         QFile file( QDir( m_sourceParentDirectoryPath ).absoluteFilePath( filename ) );
         file.open( QIODevice::ReadOnly );
