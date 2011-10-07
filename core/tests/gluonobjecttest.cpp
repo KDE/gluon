@@ -131,13 +131,13 @@ void GluonObjectTest::testQualifiedName()
     QCOMPARE(gluonObject2.qualifiedName(&gluonObject1), gluonObject2Name);
     QCOMPARE(gluonObject2.qualifiedName(&gluonObject2), QString(""));
     QCOMPARE(gluonObject3.qualifiedName(&gluonObject1),
-             gluonObject2Name + "/" + gluonObject3Name);
+             gluonObject2Name + '/' + gluonObject3Name);
     QCOMPARE(gluonObject3.qualifiedName(&gluonObject2), gluonObject3Name);
     QCOMPARE(gluonObject3.qualifiedName(&gluonObject3), QString(""));
 
     // now with wrong local root
     QCOMPARE(gluonObject2.qualifiedName(&gluonObject3),
-             gluonObject1Name + "/" + gluonObject2Name);
+             gluonObject1Name + '/' + gluonObject2Name);
     QCOMPARE(gluonObject1.qualifiedName(&gluonObject3), gluonObject1Name);
 }
 
@@ -149,7 +149,7 @@ void GluonObjectTest::testFullyQualifiedName()
     GluonObject childObject(childObjectName);
     parentObject.addChild(&childObject);
     QCOMPARE(childObject.fullyQualifiedName(),
-             parentObjectName + "/" + childObjectName);
+             parentObjectName + '/' + childObjectName);
 }
 
 void GluonObjectTest::testNameToObjectName()
@@ -165,7 +165,7 @@ void GluonObjectTest::testSetProperty()
     QFETCH(QByteArray, propertyValue);
     gluonObject.setPropertyFromString(propertyName, propertyValue);
 
-    QString propertyString("\n" + propertyName + " " + propertyValue);
+    QString propertyString('\n' + propertyName + ' ' + propertyValue);
     QCOMPARE(gluonObject.stringFromProperty(propertyName, ""),
              propertyString);
 }

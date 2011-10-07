@@ -51,7 +51,7 @@ DirectoryProvider::DirectoryProvider( QObject* parent )
     , d( new DirectoryProviderPrivate )
 {
     d->userDataPath = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
-    d->userDataPath.chop( QString(QCoreApplication::organizationName() + "/" + QCoreApplication::applicationName()).size() );
+    d->userDataPath.chop( QString(QCoreApplication::organizationName() + '/' + QCoreApplication::applicationName()).size() );
     d->userDataPath.append( "gluon" );
 
     // Define standard dirs Gluon recommends
@@ -85,12 +85,12 @@ QString DirectoryProvider::installPrefix() const
 
 QString DirectoryProvider::dataDirectory() const
 {
-    return installPrefix() + "/" + GLUON_SHARE_INSTALL_DIR;
+    return installPrefix() + '/' + GLUON_SHARE_INSTALL_DIR;
 }
 
 QString DirectoryProvider::libDirectory() const
 {
-    return installPrefix() + "/" + GLUON_LIB_INSTALL_DIR;
+    return installPrefix() + '/' + GLUON_LIB_INSTALL_DIR;
 }
 
 QString DirectoryProvider::userDirectory( const QString& name )
