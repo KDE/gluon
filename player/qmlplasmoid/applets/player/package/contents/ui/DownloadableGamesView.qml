@@ -52,3 +52,4 @@ Item {
         anchors.bottom: downloadableGamesViewRoot.bottom
     }
 }
+
