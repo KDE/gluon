@@ -807,7 +807,7 @@ GluonObject::sanitizeReference( const QString& propName, const QString& propValu
             QString propertyName = propName;
             QString theReferencedName = propValue.mid( typeName.length() + 1, propValue.length() - ( typeName.length() + 2 ) );
 
-            GluonObject* theObject = root()->findItemByName( theReferencedName );
+            GluonObject* theObject = root()->findGlobalItemByName( theReferencedName );
 
             if( !theObject )
             {
