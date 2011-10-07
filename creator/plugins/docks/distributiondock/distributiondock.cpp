@@ -184,7 +184,7 @@ void DistributionDock::categoriesFetched()
 
         /*Maybe we should just store some IDs in a settings file?
         Or if we care we're gonna prefix each categ with Gluon, thats fine*/
-        if( categoryString.startsWith( "Gluon", Qt::CaseInsensitive ) )
+        if( categoryString.startsWith( QLatin1String("Gluon"), Qt::CaseInsensitive ) )
         {
             d->categoryIds.append( category->id() );
             d->ui.categoryList->addItem( categoryString );

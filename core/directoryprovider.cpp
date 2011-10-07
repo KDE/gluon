@@ -113,14 +113,14 @@ QStringList DirectoryProvider::pluginDirectoryPaths() const
     QString pluginDirectoryPath = QCoreApplication::applicationDirPath();
 
 #if defined(Q_OS_WIN)
-    if( pluginDirectoryPath.endsWith("/debug", Qt::CaseInsensitive) )
+    if( pluginDirectoryPath.endsWith(QLatin1String("/debug"), Qt::CaseInsensitive) )
         pluginDirectoryPath.chop(QByteArray("/debug").size());
 
-    else if( pluginDirectoryPath.endsWith("release", Qt::CaseInsensitive) )
+    else if( pluginDirectoryPath.endsWith(QLatin1String("release"), Qt::CaseInsensitive) )
         pluginDirectoryPath.chop(QByteArray("/release").size());
 
 #elif defined(Q_OS_MAC)
-    if( pluginDirectoryPath.endsWith("/MacOS") )
+    if( pluginDirectoryPath.endsWith(QLatin1String("/MacOS")) )
         pluginDirectoryPath.chop(QByteArray("/MacOS").size());
 
 #endif
