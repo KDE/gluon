@@ -130,7 +130,7 @@ void SceneDock::selectionChanged(const GluonCreator::SelectionManager::Selection
     if( selection.isEmpty() )
         d->view->clearSelection();
 
-    //TODO: Implement synchronisation between view's selection model and SelectionManager.
+    //TODO: Implement synchronization between view's selection model and SelectionManager.
 }
 
 void SceneDock::sceneChanged( GluonEngine::Scene* obj )
