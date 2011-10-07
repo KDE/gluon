@@ -93,7 +93,7 @@ void LicenseJob::processFetchedLicenses( Attica::BaseJob* job )
 
     if( licensesJob->metadata().error() == Attica::Metadata::NoError )
     {
-        foreach( Attica::License license, licensesJob->itemList() )
+        foreach( const Attica::License& license, licensesJob->itemList() )
         {
             LicenseItem* newLicense = new LicenseItem( QString::number( license.id() ), license.name(), license.url().toString(), this );
             d->licenseList.append( newLicense );
