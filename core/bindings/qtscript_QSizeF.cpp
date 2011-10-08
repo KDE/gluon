@@ -24,12 +24,10 @@
 #include <QtScript/QScriptValue>
 #include <QtCore/QStringList>
 #include <QtCore/QDebug>
-#include <qmetaobject.h>
-
-#include <qsize.h>
-#include <QVariant>
-#include <qdatastream.h>
-#include <qsize.h>
+#include <QtCore/QMetaObject>
+#include <QtCore/QSize>
+#include <QtCore/QVariant>
+#include <QtCore/QDataStream>
 
 static const char * const qtscript_QSizeF_function_names[] = {
     "QSizeF"

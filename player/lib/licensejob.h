@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_LICENSE_H
-#define GLUONPLAYER_LICENSE_H
+#ifndef GLUON_PLAYER_LICENSE_H
+#define GLUON_PLAYER_LICENSE_H
 
 #include "abstractsocialservicesjob.h"
 

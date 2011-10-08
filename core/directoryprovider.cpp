@@ -25,7 +25,6 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 #include <QtCore/QSettings>
-#include <QtCore/QCoreApplication>
 
 using namespace GluonCore;
 
