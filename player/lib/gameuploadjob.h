@@ -41,14 +41,22 @@ namespace GluonPlayer
             virtual ~GameUploadJob();
 
             virtual QVariant data();
+            void setApiKey(const QString &apiKey);
 
         protected Q_SLOTS:
             virtual void startSocialService();
 
         private Q_SLOTS:
             void uploadComplete( Attica::BaseJob* baseJob );
+            void uploadFileToDataServerDone( QNetworkReply* reply );
+            void updateDistributionServerWithDownloadUrlDone();
+            void updateDistributionServerWithDownloadUrlFailed();
 
         private:
+            void uploadFileToDataServer();
+            void uploadFileUsingAttica();
+            void updateDistributionServerWithDownloadUrl( const QString& url);
+
             class Private;
             Private* const d;
     };

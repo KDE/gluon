@@ -29,6 +29,8 @@
 #include <player/lib/gamedetaillistjob.h>
 #include <player/lib/licensejob.h>
 #include <player/lib/gamedetailsjob.h>
+#include <player/lib/gameuploadjob.h>
+#include <player/lib/archive/archiver.h>
 
 #include <KDE/KLocalizedString>
 
@@ -104,6 +106,8 @@ void DistributionDock::updateUiFromGameProject()
         GluonPlayer::GameDetailsJob* gameDetailsJob = GluonPlayer::ServiceProvider::instance()->fetchOneGame( id );
         connect( gameDetailsJob, SIGNAL( succeeded() ), SLOT( gameDetailsFetched() ) ) ;
         gameDetailsJob->start();
+
+        emit switchToUpdateMode();
     }
 }
 
@@ -117,7 +121,7 @@ void DistributionDock::createOrUpdateGame()
     if( d->ui.idEdit->text().isEmpty() )
     {
         GluonPlayer::AddGameJob* addGameJob = GluonPlayer::ServiceProvider::instance()->addGame(
-                    d->ui.gameNameEdit->text(), d->categoryIds.at( d->ui.categoryList->currentIndex() ) );
+                d->ui.gameNameEdit->text(), d->categoryIds.at( d->ui.categoryList->currentIndex() ) );
         connect( addGameJob, SIGNAL( succeeded() ), SLOT( newGameUploadFinished() ) );
         connect( addGameJob, SIGNAL( failed() ), SLOT( newGameUploadFailed() ) );
         addGameJob->start();
@@ -125,8 +129,7 @@ void DistributionDock::createOrUpdateGame()
     else
     {
         d->editGameJob = GluonPlayer::ServiceProvider::instance()->editGame(
-                                  d->ui.idEdit->text() );
-        connect( d->editGameJob, SIGNAL( succeeded() ), SLOT( editGameFinished() ) );
+                             d->ui.idEdit->text() );
         connect( d->editGameJob, SIGNAL( failed() ), SLOT( editGameFailed() ) );
 
         d->editGameJob->setName( d->ui.gameNameEdit->text() );
@@ -137,6 +140,8 @@ void DistributionDock::createOrUpdateGame()
         d->editGameJob->setVersion( d->ui.versionEdit->text() );
         d->editGameJob->setLicense( d->licenseIds.at( d->ui.licenseList->currentIndex() ) );
         d->editGameJob->start();
+
+        uploadGameArchive();
     }
 }
 
@@ -213,7 +218,7 @@ void DistributionDock::initEditGameProvider()
         return;
 
     d->editGameJob = GluonPlayer::ServiceProvider::instance()->editGame(
-                              d->ui.idEdit->text() );
+                         d->ui.idEdit->text() );
     connect( d->editGameJob, SIGNAL( succeeded() ), SLOT( editGameFinished() ) );
     connect( d->editGameJob, SIGNAL( failed() ), SLOT( editGameFailed() ) );
     d->editGameJob->start();
@@ -265,6 +270,7 @@ void DistributionDock::initGuiStates()
     d->createState->assignProperty( d->ui.basicGroupBox, "enabled", true );
     d->createState->assignProperty( d->ui.detailsGroupBox, "enabled", false );
     d->createState->assignProperty( d->ui.createUpdateButton, "text", i18n( "Create" ) );
+    d->createState->addTransition( this, SIGNAL( switchToUpdateMode() ), d->updateState );
 
     d->updateState->assignProperty( d->ui.basicGroupBox, "enabled", true );
     d->updateState->assignProperty( d->ui.detailsGroupBox, "enabled", true );
@@ -286,7 +292,7 @@ void DistributionDock::initGuiStates()
     connect( d->loggingInState, SIGNAL( entered() ), this, SLOT( doLogin() ) );
     connect( d->fetchingState, SIGNAL( entered() ), this, SLOT( updateUiFromGameProject() ) );
     connect( d->uploadingState, SIGNAL( entered() ), this, SLOT( createOrUpdateGame() ) );
-    connect( d->editingState, SIGNAL( entered() ), SLOT( initEditGameProvider() ) );
+    connect( d->updateState, SIGNAL( entered() ), SLOT( initEditGameProvider() ) );
 
     d->machine.start();
 }
@@ -325,6 +331,35 @@ void DistributionDock::licensesFetched()
         d->licenseIds.append( license->id() );
         d->ui.licenseList->addItem( license->licenseName() );
     }
+}
+
+QString DistributionDock::createArchive()
+{
+    const QString dirName = GluonEngine::Game::instance()->gameProject()->dirname().toLocalFile();
+    const QString gameName = GluonEngine::Game::instance()->gameProject()->name();
+    const QString archivePath = dirName + "/../" + gameName + ".gluonarchive";
+    Archiver archiver( dirName, archivePath );
+    archiver.start();
+
+    return archivePath;
+}
+
+void DistributionDock::uploadGameArchive()
+{
+    const QString id = d->ui.idEdit->text();
+    const QString apiKey = d->ui.apiKeyEdit->text();
+
+    if( id.isEmpty() || apiKey.isEmpty() )
+    {
+        return;
+    }
+
+    const QString archivePath = createArchive();
+    GluonPlayer::GameUploadJob* uploadJob = GluonPlayer::ServiceProvider::instance()->uploadGame( id, archivePath );
+    connect( uploadJob, SIGNAL( succeeded() ), SLOT( editGameFinished() ) );
+    connect( uploadJob, SIGNAL( failed() ), SLOT( editGameFailed() ) );
+    uploadJob->setApiKey( d->ui.apiKeyEdit->text() );
+    uploadJob->start();
 }
 
 #include "distributiondock.moc"
