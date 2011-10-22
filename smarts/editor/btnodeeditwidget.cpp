@@ -68,7 +68,7 @@ btNodeEditWidget::btNodeEditWidget(QWidget * parent)
     buttonLayout->addWidget(remove_button);
 
     mainLayout->addLayout(editLayout);
-    mainLayout->addWidget(properties);  
+    mainLayout->addWidget(properties);
     mainLayout->addWidget(propertyList);
     mainLayout->addLayout(buttonLayout);
 
@@ -78,7 +78,7 @@ btNodeEditWidget::btNodeEditWidget(QWidget * parent)
     connect(discriptionedit, SIGNAL(textChanged(QString)), this, SLOT(descriptionEdited(QString)));
     connect(add_button,SIGNAL(clicked()),this,SLOT(add_button_clicked()));
     connect(remove_button,SIGNAL(clicked()),this,SLOT(remove_button_clicked()));
-    
+
     delegate = new btQListDeletgate(this);
     propertyList->setItemDelegateForColumn(1, delegate);
 }
@@ -90,9 +90,9 @@ void btNodeEditWidget::connectSignals()
 
 void btNodeEditWidget::disconnectSignals(btTreeModel * currentBehaviorTree)
 {
-    if(currentBehaviorTree && model)
+    if (currentBehaviorTree && model)
         connect(model, SIGNAL(updatePropertyWidget()), currentBehaviorTree, SIGNAL(addRemoveBTNode()));
-    
+
     disconnect(nameedit, SIGNAL(textChanged(QString)), this, SLOT(nameEdited(QString)));
 }
 
@@ -119,18 +119,18 @@ void btNodeEditWidget::setSelectedNode(btNodeTypesModelNode* selectedNode)
     m_selectedNode = selectedNode;
 }
 
-void btNodeEditWidget::nameEdited(QString name){
+void btNodeEditWidget::nameEdited(QString name) {
     model->setName(name);
-    if(m_selectedNode){
+    if (m_selectedNode) {
         m_selectedNode->setName(name);
     }
 }
 
-void btNodeEditWidget::classnameEdited(QString classname){
+void btNodeEditWidget::classnameEdited(QString classname) {
     model->setClassname(classname);
 }
 
-void btNodeEditWidget::descriptionEdited(QString description){
+void btNodeEditWidget::descriptionEdited(QString description) {
     model->setDescription(description);
 }
 
@@ -141,7 +141,7 @@ void btNodeEditWidget::add_button_clicked()
 
 void btNodeEditWidget::remove_button_clicked()
 {
-    if(propertyList->currentIndex().isValid()){
+    if (propertyList->currentIndex().isValid()) {
         model->removeRows(propertyList->currentIndex().row(),1);
     }
 }

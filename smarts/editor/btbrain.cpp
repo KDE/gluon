@@ -32,9 +32,9 @@
 
 btBrain::btBrain(QObject *parent)
 {
-	qRegisterMetaType<btChildWeights>("btChildWeights");
-	qRegisterMetaType<btParallelConditions>("btParallelConditions");
-	
+    qRegisterMetaType<btChildWeights>("btChildWeights");
+    qRegisterMetaType<btParallelConditions>("btParallelConditions");
+
     btCompositeNode *compositeNode = new btCompositeNode();
     compositeNode->setName("Sequence");
     compositeNode->setDescription("A sequence of behaviors, launched in order (fails if one fails)");
@@ -46,19 +46,19 @@ btBrain::btBrain(QObject *parent)
     compositeNode->setDescription("A collection of behaviors which are launched in order, until one succeeds (only fails if all fails)");
     compositeNode->setClassName("[selector]");
     nodeTypes.append(compositeNode);
-	
-	compositeNode = new btCompositeNode();
+
+    compositeNode = new btCompositeNode();
     compositeNode->setName("Probability Selector");
     compositeNode->setDescription("A collection of behaviors which are launched due to a probability, until one succeeds (only fails if all fails)");
     compositeNode->setClassName("[probselector]");
-	compositeNode->setProperty("weights", QVariant("btChildWeights"));
-	nodeTypes.append(compositeNode);
-	
-	compositeNode = new btCompositeNode();
+    compositeNode->setProperty("weights", QVariant("btChildWeights"));
+    nodeTypes.append(compositeNode);
+
+    compositeNode = new btCompositeNode();
     compositeNode->setName("Parallel");
     compositeNode->setDescription("A collection of behaviors which are launched in parallel, and fails or succeeds according a set of conditions");
     compositeNode->setClassName("[parallel]");
-	compositeNode->setProperty("conditions", QVariant("btParallelConditions"));
+    compositeNode->setProperty("conditions", QVariant("btParallelConditions"));
     nodeTypes.append(compositeNode);
 }
 
@@ -66,7 +66,7 @@ btBrain::~btBrain()
 {
     qDeleteAll(nodeTypes);
     qDeleteAll(behaviorTrees);
-    
+
     behaviorTrees.clear();
     nodeTypes.clear();
 }
@@ -74,8 +74,8 @@ btBrain::~btBrain()
 btEditorNodeType *btBrain::findNodeTypeByName(QString name)
 {
     foreach(btNodeType *nodeType, nodeTypes)
-        if(nodeType->name() == name)
-            return qobject_cast<btEditorNodeType*>(nodeType);
+    if (nodeType->name() == name)
+        return qobject_cast<btEditorNodeType*>(nodeType);
     return 0;
 }
 
@@ -89,12 +89,12 @@ btTreeModel *btBrain::newBehaviorTree(QString treeName)
     btEditorNode *btRootNode = new btEditorNode(this->findNodeTypeByName("Sequence"));
     newTree->setRootNode(btRootNode);
     btRootNode->setParent(newTree);
-    
+
     // Add a real top level node, which should be a selector as per Alex' defintion of behavior trees
     btEditorNode *topNode = new btEditorNode(this->findNodeTypeByName("Selector"), btRootNode);
     topNode->setName(tr("Top Behavior"));
     topNode->setDescription(topNode->type()->description());
-    
+
     // Then add it to the list of referenced NodeTypes...
     btReferenceNode *newType = new btReferenceNode();
     newType->setName(newTree->name());
@@ -102,18 +102,18 @@ btTreeModel *btBrain::newBehaviorTree(QString treeName)
     newType->setNodeType(btNodeType::ReferenceNodeType);
     newType->setReferenceBehaviorTree(newTree);
     newType->setClassName("[reference]");
-    
+
     // add the new type to the brain
     addNodeType(newType);
 
-    // Finally inform those around us of this wonderful occurrence 
+    // Finally inform those around us of this wonderful occurrence
     emit behaviorTreeAdded(newTree);
     emit nodeTypeAdded(newType);
 
     return newTree;
 }
 
-btTreeModel *btBrain::newBehaviorTree(){
+btTreeModel *btBrain::newBehaviorTree() {
     return newBehaviorTree(tr("New Tree"));
 }
 
@@ -123,8 +123,12 @@ void btBrain::deleteBehaviorTree(btTreeModel *behaviorTree)
     delete behaviorTree;
 }
 
-void btBrain::setName(QString name) { m_name = name; }
-QString btBrain::name() const { return m_name; }
+void btBrain::setName(QString name) {
+    m_name = name;
+}
+QString btBrain::name() const {
+    return m_name;
+}
 
 void btBrain::addBehaviorTree(btTreeModel* newTree)
 {

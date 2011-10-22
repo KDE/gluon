@@ -34,51 +34,51 @@ btDecoratorNode::~btDecoratorNode()
 
 bool btDecoratorNode::run()
 {
-	return false;
+    return false;
 }
 
 void  btDecoratorNode::toDataXml(QXmlStreamWriter* xmlWriter)
 {
-	xmlWriter->writeStartElement("decorator");
-    
+    xmlWriter->writeStartElement("decorator");
+
     const QMetaObject * mo = this->metaObject();
-    
-    for(int i = 0; i < mo->propertyCount(); i++)
+
+    for (int i = 0; i < mo->propertyCount(); i++)
     {
         QMetaProperty moProperty = mo->property(i);
         QString propertyName = moProperty.name();
-        
-        if(propertyName == "objectName")
+
+        if (propertyName == "objectName")
         {
             continue;
         }
-        
-        if(propertyName == "name")
+
+        if (propertyName == "name")
         {
-			xmlWriter->writeAttribute("name", this->property(moProperty.name()).toString());
+            xmlWriter->writeAttribute("name", this->property(moProperty.name()).toString());
         }
-        else if(propertyName == "description")
+        else if (propertyName == "description")
         {
-			xmlWriter->writeAttribute("description", this->property(moProperty.name()).toString());
+            xmlWriter->writeAttribute("description", this->property(moProperty.name()).toString());
         }
-        else if(propertyName == "className")
+        else if (propertyName == "className")
         {
-			xmlWriter->writeAttribute("nodetype", this->property(moProperty.name()).toString());
+            xmlWriter->writeAttribute("nodetype", this->property(moProperty.name()).toString());
         }
     }
-    
-    for(int i = 0; i < this->dynamicPropertyNames().count(); i++)
+
+    for (int i = 0; i < this->dynamicPropertyNames().count(); i++)
     {
         QString propertyName(this->dynamicPropertyNames().at(i));
-		xmlWriter->writeStartElement("property");
-		
-		xmlWriter->writeAttribute("name", propertyName);
-		xmlWriter->writeAttribute("value", this->property(propertyName.toUtf8()).toString());
-		
-		xmlWriter->writeEndElement();    
-	}
-    
-	xmlWriter->writeEndElement(); //decorator
+        xmlWriter->writeStartElement("property");
+
+        xmlWriter->writeAttribute("name", propertyName);
+        xmlWriter->writeAttribute("value", this->property(propertyName.toUtf8()).toString());
+
+        xmlWriter->writeEndElement();
+    }
+
+    xmlWriter->writeEndElement(); //decorator
 }
 
 #include "btdecoratornode.moc"

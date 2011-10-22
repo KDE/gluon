@@ -36,7 +36,7 @@ nodeTypeFactory::nodeTypeFactory()
 nodeTypeFactory* nodeTypeFactory::instance()
 {
     static nodeTypeFactory * factoryInstance;
-    if(factoryInstance == NULL)
+    if (factoryInstance == NULL)
     {
         factoryInstance = new nodeTypeFactory();
     }
@@ -48,23 +48,23 @@ btEditorNodeType * nodeTypeFactory::newObject(QString typeCategory)
 {
     btEditorNodeType * newNode = 0;
 
-    if(typeCategory == "action")
+    if (typeCategory == "action")
     {
         newNode = new btActionNode(this);
     }
-    else if(typeCategory == "condition")
+    else if (typeCategory == "condition")
     {
         newNode = new btConditionNode();
     }
-    else if(typeCategory == "composite")
+    else if (typeCategory == "composite")
     {
         newNode = new btCompositeNode();
     }
-    else if(typeCategory == "decorator")
+    else if (typeCategory == "decorator")
     {
         newNode = new btDecoratorNode();
     }
-    else if(typeCategory == "reference")
+    else if (typeCategory == "reference")
     {
         newNode = new btDecoratorNode();
     }
@@ -79,7 +79,7 @@ btEditorNodeType * nodeTypeFactory::newObject(QString typeCategory)
 btEditorNodeType * nodeTypeFactory::newObject(btNodeType::nodeType type)
 {
     btEditorNodeType * newNode = 0;
-    switch(type)
+    switch (type)
     {
     case btNodeType::ActionNodeType:
         newNode = new btActionNode();

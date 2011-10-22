@@ -71,25 +71,25 @@ btNodeTypesModel::btNodeTypesModel(btBrain *brain, QObject* parent)
     btNodeTypesModelNode *node;
     foreach(btNodeType *nodeType, brain->nodeTypes)
     {
-        switch(nodeType->type())
+        switch (nodeType->type())
         {
-            case btNodeType::ActionNodeType:
-                node = new btNodeTypesModelNode(qobject_cast<btEditorNodeType*>(nodeType), nodeAction);
-                break;
-            case btNodeType::ConditionNodeType:
-                node = new btNodeTypesModelNode(qobject_cast<btEditorNodeType*>(nodeType), nodeCondition);
-                break;
-            case btNodeType::CompositeNodeType:
-                node = new btNodeTypesModelNode(qobject_cast<btEditorNodeType*>(nodeType), nodeComposite);
-                break;
-            case btNodeType::DecoratorNodeType:
-                node = new btNodeTypesModelNode(qobject_cast<btEditorNodeType*>(nodeType), nodeDecorator);
-                break;
-            case btNodeType::ReferenceNodeType:
-                node = new btNodeTypesModelNode(qobject_cast<btEditorNodeType*>(nodeType), nodeReference);
-                break;
-            default:
-                break;
+        case btNodeType::ActionNodeType:
+            node = new btNodeTypesModelNode(qobject_cast<btEditorNodeType*>(nodeType), nodeAction);
+            break;
+        case btNodeType::ConditionNodeType:
+            node = new btNodeTypesModelNode(qobject_cast<btEditorNodeType*>(nodeType), nodeCondition);
+            break;
+        case btNodeType::CompositeNodeType:
+            node = new btNodeTypesModelNode(qobject_cast<btEditorNodeType*>(nodeType), nodeComposite);
+            break;
+        case btNodeType::DecoratorNodeType:
+            node = new btNodeTypesModelNode(qobject_cast<btEditorNodeType*>(nodeType), nodeDecorator);
+            break;
+        case btNodeType::ReferenceNodeType:
+            node = new btNodeTypesModelNode(qobject_cast<btEditorNodeType*>(nodeType), nodeReference);
+            break;
+        default:
+            break;
         }
         node->setName(nodeType->name());
     }
@@ -104,30 +104,30 @@ void btNodeTypesModel::newBehaviorTreeTypeAdded(btEditorNodeType* newType)
 {
     btNodeTypesModelNode *node;
     QModelIndex parent;
-    switch(newType->type())
+    switch (newType->type())
     {
-        case btNodeType::ActionNodeType:
-            node = new btNodeTypesModelNode(newType, nodeAction);
-            parent = createIndex(nodeAction->row(), 0, node);
-            break;
-        case btNodeType::ConditionNodeType:
-            node = new btNodeTypesModelNode(newType, nodeCondition);
-            parent = createIndex(nodeCondition->row(), 0, node);
-            break;
-        case btNodeType::CompositeNodeType:
-            node = new btNodeTypesModelNode(newType, nodeComposite);
-            parent = createIndex(nodeComposite->row(), 0, node);
-            break;
-        case btNodeType::DecoratorNodeType:
-            node = new btNodeTypesModelNode(newType, nodeDecorator);
-            parent = createIndex(nodeDecorator->row(), 0, node);
-            break;
-        case btNodeType::ReferenceNodeType:
-            node = new btNodeTypesModelNode(newType, nodeReference);
-            parent = createIndex(nodeReference->row(), 0, node);
-            break;
-        default:
-            break;
+    case btNodeType::ActionNodeType:
+        node = new btNodeTypesModelNode(newType, nodeAction);
+        parent = createIndex(nodeAction->row(), 0, node);
+        break;
+    case btNodeType::ConditionNodeType:
+        node = new btNodeTypesModelNode(newType, nodeCondition);
+        parent = createIndex(nodeCondition->row(), 0, node);
+        break;
+    case btNodeType::CompositeNodeType:
+        node = new btNodeTypesModelNode(newType, nodeComposite);
+        parent = createIndex(nodeComposite->row(), 0, node);
+        break;
+    case btNodeType::DecoratorNodeType:
+        node = new btNodeTypesModelNode(newType, nodeDecorator);
+        parent = createIndex(nodeDecorator->row(), 0, node);
+        break;
+    case btNodeType::ReferenceNodeType:
+        node = new btNodeTypesModelNode(newType, nodeReference);
+        parent = createIndex(nodeReference->row(), 0, node);
+        break;
+    default:
+        break;
     }
     node->setName(newType->name());
     emit dataChanged(parent, parent);
@@ -147,26 +147,26 @@ QVariant btNodeTypesModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     btNodeTypesModelNode *node = static_cast<btNodeTypesModelNode*>(index.internalPointer());
-    if (role == Qt::DecorationRole){
+    if (role == Qt::DecorationRole) {
         btNodeType::nodeType type;
-        if(node->nodeType()->type() == btNodeType::UnusableNodeType){
+        if (node->nodeType()->type() == btNodeType::UnusableNodeType) {
             type = node->nodeType()->childType();
-        }else{
+        } else {
             type = node->nodeType()->type();
         }
-        switch(type){
-            case btNodeType::ReferenceNodeType:
+        switch (type) {
+        case btNodeType::ReferenceNodeType:
             return QIcon(":/images/reference.png");
-            case btNodeType::CompositeNodeType:
-                return QIcon(":/images/sequence.png");
-            case btNodeType::DecoratorNodeType:
-                return QIcon(":/images/decorator.png");
-            case btNodeType::ActionNodeType:
-                return QIcon(":/images/behavior.png");
-            case btNodeType::ConditionNodeType:
-                return QIcon(":/images/selector.png");
-            default:
-                break;
+        case btNodeType::CompositeNodeType:
+            return QIcon(":/images/sequence.png");
+        case btNodeType::DecoratorNodeType:
+            return QIcon(":/images/decorator.png");
+        case btNodeType::ActionNodeType:
+            return QIcon(":/images/behavior.png");
+        case btNodeType::ConditionNodeType:
+            return QIcon(":/images/selector.png");
+        default:
+            break;
         }
     }
 
@@ -180,25 +180,25 @@ Qt::ItemFlags btNodeTypesModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index);
     Qt::ItemFlags thisIndexFlags;
-    
+
     if (index.isValid())
     {
         btNodeTypesModelNode *node = static_cast<btNodeTypesModelNode*>(index.internalPointer());
-        if(node->nodeType()->type() != btNodeType::UnusableNodeType)
+        if (node->nodeType()->type() != btNodeType::UnusableNodeType)
             thisIndexFlags = Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | defaultFlags;
         else
             thisIndexFlags = Qt::ItemIsEnabled | Qt::ItemIsDropEnabled | defaultFlags;
     }
     else
         thisIndexFlags = Qt::ItemIsEnabled | Qt::ItemIsDropEnabled | defaultFlags;
-    
+
     return thisIndexFlags;
 }
 
 /*QModelIndex btNodeTypesModel::index(int row, int column, const QModelIndex &parent) const
 {
     btNodeTypesModelNode *parentNode;
-    
+
     if(!parent.isValid())
         parentNode = rootNode;
     else
@@ -215,7 +215,7 @@ Qt::ItemFlags btNodeTypesModel::flags(const QModelIndex &index) const
 
 btNodeTypesModelNode *btNodeTypesModel::nodeFromIndex(const QModelIndex &index) const
 {
-    if(index.isValid())
+    if (index.isValid())
         return static_cast<btNodeTypesModelNode*>(index.internalPointer());
     else
         return rootNode;
@@ -224,20 +224,20 @@ btNodeTypesModelNode *btNodeTypesModel::nodeFromIndex(const QModelIndex &index) 
 QModelIndex btNodeTypesModel::index(int row, int column, const QModelIndex &parent) const
 {
     // If we don't have a root node, we need to return an empty QModelIndex
-    if(!rootNode)
+    if (!rootNode)
         return QModelIndex();
 
     // We shouldn't allow for less-than-zero values for row and column...
-    if(row < 0 ||column < 0)
+    if (row < 0 ||column < 0)
         return QModelIndex();
 
     btNodeTypesModelNode *parentNode = nodeFromIndex(parent);
 
     // Don't allow for the creation of indexes for anything bigger than what exists
-    if(row >= parentNode->childCount() || column >= parentNode->columnCount())
+    if (row >= parentNode->childCount() || column >= parentNode->columnCount())
         return QModelIndex();
     //if(column == 0)
-        return createIndex(row, column, parentNode->child(row));
+    return createIndex(row, column, parentNode->child(row));
 
     //return createIndex(row, column, 0);
 }
@@ -246,15 +246,15 @@ QModelIndex btNodeTypesModel::index(int row, int column, const QModelIndex &pare
 
 QModelIndex btNodeTypesModel::parent(const QModelIndex &child) const
 {
-    if(!child.isValid())
+    if (!child.isValid())
         return QModelIndex();
 
     btNodeTypesModelNode *childNode = static_cast<btNodeTypesModelNode*>(child.internalPointer());
     btNodeTypesModelNode *parentNode = childNode->parent();
 
-	if(!parentNode)
-		return QModelIndex();
-	
+    if (!parentNode)
+        return QModelIndex();
+
     if (parentNode == rootNode)
         return QModelIndex();
 
@@ -286,7 +286,7 @@ btEditorNodeType *btNodeTypesModel::nodeTypeFromIndex(const QModelIndex &index) 
     /*if(index.isValid())
         return static_cast<btNodeType*>(nodeTypes.at(index.row()));
     else*/
-        return 0;
+    return 0;
 }
 
 Qt::DropActions btNodeTypesModel::supportedDropActions() const
@@ -306,13 +306,13 @@ QMimeData* btNodeTypesModel::mimeData(const QModelIndexList &indexes) const
     QMimeData *mimeData = new QMimeData();
     QByteArray encodedData;
     QDataStream stream(&encodedData, QIODevice::WriteOnly);
-    
+
     foreach(QModelIndex index, indexes)
     {
         if (index.isValid())
         {
             btNodeTypesModelNode *node = static_cast<btNodeTypesModelNode*>(index.internalPointer());
-            if(node->nodeType())
+            if (node->nodeType())
             {
                 stream << node->name();
                 stream << node->nodeType()->name();
@@ -327,9 +327,9 @@ bool btNodeTypesModel::insertRows(int row, int count, const QModelIndex &parent)
 {
     btNodeTypesModelNode* selectedNode = static_cast<btNodeTypesModelNode*>(parent.internalPointer());
 
-    if(selectedNode->parent() == 0){
+    if (selectedNode->parent() == 0) {
         QString nodeTypeName = "";
-        switch(selectedNode->nodeType()->childType()){
+        switch (selectedNode->nodeType()->childType()) {
         case btNodeType::ActionNodeType:
             nodeTypeName = tr("New Action Node");
             break;
@@ -355,7 +355,7 @@ bool btNodeTypesModel::insertRows(int row, int count, const QModelIndex &parent)
         beginInsertRows(parent, row, row);
         ///fixme check memory
         ///fixme change this HACK to something useful
-        if(count == 1){ ///ugly hack never do this, change when up to it
+        if (count == 1) { ///ugly hack never do this, change when up to it
             btEditorNodeType* insertedNode = new btEditorNodeType();
             insertedNode->setNodeType(selectedNode->nodeType()->childType());
             insertedNode->setName(nodeTypeName);

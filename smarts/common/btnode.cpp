@@ -27,18 +27,18 @@
 
 btNode::btNode(btNodeType *type, btNode *parent) : QObject(parent)
 {
-    
+
     this->m_type = type;
-    
-    if(type)
+
+    if (type)
     {
         m_type->setParentNode(this);
     }
-    
+
     this->m_parent = parent;
-    if(parent)
+    if (parent)
     {
-		parent->appendChild(this);
+        parent->appendChild(this);
     }
 }
 
@@ -48,36 +48,36 @@ btNode::~btNode()
 }
 
 bool btNode::runBehavior(btCharacter* self)
-{    
-/*if(m_type)
-    {
-        if(!m_type->run(self))
+{
+    /*if(m_type)
         {
-            return false;
+            if(!m_type->run(self))
+            {
+                return false;
+            }
         }
-    }
-    
-    return true;*/
-    
-    if(!self->continueThinking())
+
+        return true;*/
+
+    if (!self->continueThinking())
     {
         qDebug() << "character requested stopping";
         return false;
     }
-        
+
     return run(self);
 }
 
 bool btNode::run(btCharacter* self)
-{    
-    if(m_type)
+{
+    if (m_type)
     {
-        if(!m_type->run(self))
+        if (!m_type->run(self))
         {
             return false;
         }
     }
-    
+
     return true;
 }
 
@@ -108,16 +108,22 @@ int btNode::childCount() const
 
 btNode *btNode::parentNode()
 {
-	return m_parent;
+    return m_parent;
 }
 
-void btNode::setName(QString name) { m_name = name; }
-QString btNode::name() const { return m_name; }
+void btNode::setName(QString name) {
+    m_name = name;
+}
+QString btNode::name() const {
+    return m_name;
+}
 
-void btNode::setDescription(QString description) { m_description = description; }
+void btNode::setDescription(QString description) {
+    m_description = description;
+}
 QString btNode::description() const
 {
-    if(m_description.isEmpty())
+    if (m_description.isEmpty())
         return "";
     else
         return m_description;
@@ -129,11 +135,13 @@ void btNode::setType(btNodeType *type)
     m_type = type;
     m_type->setParentNode(this);
 }
-btNodeType *btNode::type() const { return m_type; }
+btNodeType *btNode::type() const {
+    return m_type;
+}
 
-/*void btNode::addDecorator(btNodeType* decorator) 
+/*void btNode::addDecorator(btNodeType* decorator)
 {
-    m_decorators.append(decorator); 
+    m_decorators.append(decorator);
     decorator->setParentNode(this);
 }
 void btNode::removeDecorator(btNodeType* decorator) { m_decorators.removeAll(decorator); }
@@ -141,7 +149,7 @@ int btNode::decoratorCount() const { return m_decorators.count(); }
 QList<btNodeType*> btNode::decorators() const { return m_decorators; }
 */
 void btNode::setParentNode(btNode* node)
-{    
+{
     m_parent = node;
     this->setParent(node);
 }
@@ -153,9 +161,9 @@ void btNode::doneParsingChildren()
 
 void btNode::removeChild(btNode* child)
 {
-    for (int i = 0; i < this->childCount(); i++) 
+    for (int i = 0; i < this->childCount(); i++)
     {
-        if(this->child(i) == child)
+        if (this->child(i) == child)
         {
             this->removeChild(i);
             break;
@@ -170,10 +178,10 @@ int btNode::columnCount() const
 
 int btNode::row() const
 {
-	if(m_parent)
+    if (m_parent)
         return m_parent->m_children.indexOf(const_cast<btNode*>(this));
-	
-	return 0;
+
+    return 0;
 }
 
 void btNode::insertChild(int pos, btNode* child)

@@ -52,10 +52,10 @@ public:
     Q_INVOKABLE btNodeType(QObject* parent = 0);
     ~btNodeType();
 
-    virtual void appendingChild(int index){};
-    virtual void removingChild(int index){};
-    virtual void childrenAdded(){};
-    
+    virtual void appendingChild(int index) {};
+    virtual void removingChild(int index) {};
+    virtual void childrenAdded() {};
+
     virtual void setName(QString name);
     virtual QString name() const;
     virtual void setDescription(QString description);
@@ -67,13 +67,13 @@ public:
     virtual btNodeType * copy();
     virtual QString className() const;
     virtual void setClassName(QString className);
-    
+
     void setPropertyDescription(QString propertyName, QString description);
     void setPropertyDescription(QString newPropertyName, QString oldPropertyName, QString description);
     void removePropertyDescription(QString propertyName);
     QString getPropertyDescription(QString propertyName);
     QHash<QString, QString> getPropertyDescriptions();
-    
+
     void setParentNode(btNode* node);
     /**
      * ParentNode() returns the node which contains the list of childnodes relevant to you.
@@ -82,7 +82,7 @@ public:
     btNode* parentNode();
 
 private:
-    
+
     QString m_name;
     QString m_description;
     QString m_className;

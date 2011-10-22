@@ -44,7 +44,7 @@ bteditor::bteditor(QWidget *parent) : KParts::MainWindow()
 {
     m_currentBehaviorTree = NULL;
     oldPropertyWidget = NULL;
-    
+
     setupUi(this);
     propertyWidget = new btPropertyWidget(this);
     propertyScrollArea->setWidget(propertyWidget);
@@ -71,19 +71,19 @@ bteditor::bteditor(QWidget *parent) : KParts::MainWindow()
     QAction* bteditDeleteNode = btEditorContextMenu->addAction(tr("Delete Node"));
 
     connect(
-            menuNewNode,SIGNAL(triggered(bool)),
-            this,SLOT(menuNewNodeTriggered())
-            );
+        menuNewNode,SIGNAL(triggered(bool)),
+        this,SLOT(menuNewNodeTriggered())
+    );
 
     connect(
-            menuDeleteNode,SIGNAL(triggered(bool)),
-            this,SLOT(menuDeleteNodeTriggered())
-            );
+        menuDeleteNode,SIGNAL(triggered(bool)),
+        this,SLOT(menuDeleteNodeTriggered())
+    );
 
     connect(
-            bteditDeleteNode,SIGNAL(triggered(bool)),
-            this,SLOT(bteditDeleteNodeTriggered())
-            );
+        bteditDeleteNode,SIGNAL(triggered(bool)),
+        this,SLOT(bteditDeleteNodeTriggered())
+    );
 
     setXMLFile( "gluon_bteditor.rc" );
     m_brain->newBehaviorTree();
@@ -97,15 +97,15 @@ void bteditor::setupActions()
     connect(
         actionNew_Tree, SIGNAL(triggered(bool)),
         this, SLOT(createNewBehaviorTree())
-        );
+    );
     connect(
         actionQuit, SIGNAL(triggered(bool)),
         qApp, SLOT(quit())
-        );
+    );
     connect(
         showBehaviorTreeList, SIGNAL(clicked(bool)),
         this, SLOT(showBehaviorTreeListCicked())
-        );
+    );
 }
 
 void bteditor::showBehaviorTree(btTreeModel* showThis)
@@ -116,15 +116,15 @@ void bteditor::showBehaviorTree(btTreeModel* showThis)
     connect(
         this->btEditor->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
         this, SLOT(editorSelectionChanged(QItemSelection,QItemSelection))
-        );
+    );
     this->currentBTNameLabel->setText(showThis->name());
-    
-    if(m_currentBehaviorTree)
+
+    if (m_currentBehaviorTree)
     {
         disconnect(m_currentBehaviorTree, SIGNAL(addRemoveBTNode()), propertyWidget, SLOT(dragDropUpdate()));
         disconnect(propertyWidget, SIGNAL(treeModelUpdate()), m_currentBehaviorTree, SLOT(updateTreeModel()));
         disconnect(m_currentBehaviorTree, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(updateView(const QModelIndex&, const QModelIndex&)));
-        
+
     }
     m_currentBehaviorTree = showThis; // keep track of behaviortree
     connect(m_currentBehaviorTree, SIGNAL(addRemoveBTNode()), propertyWidget, SLOT(dragDropUpdate()));
@@ -135,7 +135,7 @@ void bteditor::showBehaviorTree(btTreeModel* showThis)
 
 void bteditor::editorSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
-    btNode* selectedNode = static_cast<btNode*>(btEditor->selectionModel()->currentIndex().internalPointer());        
+    btNode* selectedNode = static_cast<btNode*>(btEditor->selectionModel()->currentIndex().internalPointer());
     showPropertiesFor(qobject_cast<btEditorNode*>(selectedNode));
 }
 
@@ -147,25 +147,25 @@ void bteditor::showPropertiesFor(btEditorNode* showFor)
         propertyScrollArea->setWidget(propertyWidget);
         connect(m_currentBehaviorTree, SIGNAL(addRemoveBTNode()), propertyWidget, SLOT(dragDropUpdate()));
     }*/
-    
-    if(oldPropertyWidget)
+
+    if (oldPropertyWidget)
     {
         delete oldPropertyWidget;
         oldPropertyWidget = NULL;
     }
 
-    if(propertyWidget)
+    if (propertyWidget)
     {
         oldPropertyWidget = qobject_cast<btPropertyWidget*>(propertyScrollArea->takeWidget());
         disconnect(m_currentBehaviorTree, SIGNAL(addRemoveBTNode()), propertyWidget, SLOT(dragDropUpdate()));
     }
-    
-    if(propertyWidget->node())
+
+    if (propertyWidget->node())
     {
         disconnect(propertyWidget->node(), SIGNAL(updatePropertyWidget(btEditorNode*)), this, SLOT(showFor(btEditorNode*)));
     }
-    
-    
+
+
     propertyWidget = new btPropertyWidget(this);
     propertyScrollArea->setWidget(propertyWidget);
     connect(m_currentBehaviorTree, SIGNAL(addRemoveBTNode()), propertyWidget, SLOT(dragDropUpdate()));
@@ -178,7 +178,7 @@ void bteditor::createNewBehaviorTree()
     wizard->show();
 }
 
-void bteditor::newBehaviorTreeCreated(QString name){
+void bteditor::newBehaviorTreeCreated(QString name) {
     m_brain->newBehaviorTree(name);
     nodeTypes->insertRows(0,0,availableNodes->selectionModel()->currentIndex());
 }
@@ -201,11 +201,11 @@ void bteditor::newBehaviorTreeAdded(btTreeModel* newTree)
 void bteditor::on_actionOpen_triggered()
 {
     fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                 "",
-                                                 tr("Behavior Trees (*.glbt *.xml)"));
+                                            "",
+                                            tr("Behavior Trees (*.glbt *.xml)"));
 
     QFile file(fileName);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         return;
     }
     QByteArray byteArray = file.readAll();
@@ -229,12 +229,12 @@ void bteditor::on_actionOpen_triggered()
 void bteditor::on_actionSave_As_triggered()
 {
     ///fixme does not return if it actually saved
-     fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
-                            "untitled.glbt",
-                            tr("Behavior Trees (*.glbt *.xml)"));
+    fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                                            "untitled.glbt",
+                                            tr("Behavior Trees (*.glbt *.xml)"));
 
 
-    if(!fileName.endsWith(".xml", Qt::CaseInsensitive))
+    if (!fileName.endsWith(".xml", Qt::CaseInsensitive))
         fileName += ".xml";
 
     QString fileContents = projectParser::instance()->serializeProject(this->m_brain);
@@ -248,9 +248,9 @@ void bteditor::on_actionSave_As_triggered()
 
 void bteditor::on_actionSave_triggered()
 {
-    if(fileName == ""){
+    if (fileName == "") {
         on_actionSave_As_triggered();
-    }else{
+    } else {
         QString fileContents = projectParser::instance()->serializeProject(this->m_brain);
 
         QFile file(fileName);
@@ -268,19 +268,19 @@ void bteditor::setBehaviorTree(int index)
     showBehaviorTree(m_brain->behaviorTrees[index]);
 }
 
-void bteditor::replaceBrain(){
+void bteditor::replaceBrain() {
     connect(
         m_brain, SIGNAL(nodeTypeAdded(btEditorNodeType*)),
         nodeTypes, SLOT(newBehaviorTreeTypeAdded(btEditorNodeType*))
-        );
+    );
     connect(
         m_brain, SIGNAL(behaviorTreeAdded(btTreeModel*)),
         this, SLOT(newBehaviorTreeAdded(btTreeModel*))
-        );
+    );
     connect(
         m_brain,SIGNAL(nodeTypeDeleted(int)),
         this,SLOT(nodeTypeDeleted(int))
-        );
+    );
     ///fixme add connection between nodeTypeDeleted and this
     this->availableNodes->setModel(nodeTypes);
     //new ModelTest(nodeTypes, this);
@@ -306,29 +306,29 @@ void bteditor::on_availableNodes_activated(QModelIndex index)
     //skal fixes for memstuff, tjekker ikke om det er en valid node
     btNodeTypesModelNode* selectedNode = static_cast<btNodeTypesModelNode*>(index.internalPointer());
 
-    if(selectedNode->nodeType()->className() == "[selector]" 
-       || selectedNode->nodeType()->className() == "[sequence]"
-       || selectedNode->nodeType()->className() == "[reference]"
-	   || selectedNode->nodeType()->className() == "[probselector]"
-	   || selectedNode->nodeType()->className() == "[parallel]")
+    if (selectedNode->nodeType()->className() == "[selector]"
+            || selectedNode->nodeType()->className() == "[sequence]"
+            || selectedNode->nodeType()->className() == "[reference]"
+            || selectedNode->nodeType()->className() == "[probselector]"
+            || selectedNode->nodeType()->className() == "[parallel]")
     {
         return;
     }
-    
+
     ///fixme ->parent()->parent() should be NULL not ->parent() change when crash
-    if(selectedNode->parent() != 0){
+    if (selectedNode->parent() != 0) {
         btnodemodel* btm =  new btnodemodel(qobject_cast<btEditorNodeType*>(selectedNode->nodeType()));
-        if(m_currentBehaviorTree)
+        if (m_currentBehaviorTree)
             connect(btm, SIGNAL(updatePropertyWidget()), m_currentBehaviorTree, SIGNAL(addRemoveBTNode()));
-        
+
         editWidget->disconnectSignals(m_currentBehaviorTree);
         editWidget->setModel(btm);
         editWidget->setSelectedNode(selectedNode);
         editWidget->connectSignals();
         editWidget->setWindowIcon(QIcon(":/images/sequence.png"));
-        if(editWidget->isHidden()){
+        if (editWidget->isHidden()) {
             editWidget->show();
-        }else{
+        } else {
             // bring to front, make active
             editWidget->activateWindow();
         }
@@ -337,13 +337,13 @@ void bteditor::on_availableNodes_activated(QModelIndex index)
 
 void bteditor::on_availableNodes_customContextMenuRequested(QPoint pos)
 {
-    if(availableNodes->indexAt(pos).isValid())
+    if (availableNodes->indexAt(pos).isValid())
     {
         btNodeTypesModelNode* selectedNode = static_cast<btNodeTypesModelNode*>(availableNodes->selectionModel()->currentIndex().internalPointer());
-        if(selectedNode->nodeType()->className() != "[selector]"
-		   && selectedNode->nodeType()->className() != "[sequence]"
-		   && selectedNode->nodeType()->className() != "[probselector]"
-		   && selectedNode->nodeType()->className() != "[parallel]")
+        if (selectedNode->nodeType()->className() != "[selector]"
+                && selectedNode->nodeType()->className() != "[sequence]"
+                && selectedNode->nodeType()->className() != "[probselector]"
+                && selectedNode->nodeType()->className() != "[parallel]")
         {
             treeContextMenu->exec(availableNodes->viewport()->mapToGlobal(pos));
         }
@@ -354,39 +354,39 @@ void bteditor::menuDeleteNodeTriggered()
 {
     btNodeTypesModelNode* selectedNode = static_cast<btNodeTypesModelNode*>(availableNodes->selectionModel()->currentIndex().internalPointer());
     ///fixme ->parent()->parent() should be NULL not ->parent() change when crash
-    if(selectedNode->parent() != 0)
+    if (selectedNode->parent() != 0)
     {
-        if(selectedNode->nodeType()->type() == btNodeType::ReferenceNodeType)
+        if (selectedNode->nodeType()->type() == btNodeType::ReferenceNodeType)
         {
-            if(m_brain->behaviorTrees.count() > 1)
+            if (m_brain->behaviorTrees.count() > 1)
             {
                 btEditorNodeType* refNode = m_brain->findNodeTypeByName(selectedNode->nodeType()->name());
-                for(int i = 0; i < m_brain->behaviorTrees.count(); i++)
+                for (int i = 0; i < m_brain->behaviorTrees.count(); i++)
                 {
-                    if(refNode->name() == m_brain->behaviorTrees[i]->name())
+                    if (refNode->name() == m_brain->behaviorTrees[i]->name())
                     {
-                        if(m_brain->behaviorTrees[i] == m_currentBehaviorTree)
+                        if (m_brain->behaviorTrees[i] == m_currentBehaviorTree)
                         {
-                            if(i == 0)
+                            if (i == 0)
                             {
                                 showBehaviorTree(m_brain->behaviorTrees[1]);
                             }
-                            else 
+                            else
                             {
                                 showBehaviorTree(m_brain->behaviorTrees[0]);
                             }
 
                         }
-                        
+
                         m_brain->deleteBehaviorTree(m_brain->behaviorTrees[i]);
                         break;
                     }
                 }
-                
+
                 m_brain->removeNodeType(selectedNode->nodeType() ,selectedNode->row());
             }
         }
-        else 
+        else
         {
             m_brain->removeNodeType(selectedNode->nodeType() ,selectedNode->row());
         }
@@ -396,12 +396,12 @@ void bteditor::menuDeleteNodeTriggered()
 void bteditor::menuNewNodeTriggered()
 {
     btNodeTypesModelNode* selectedNode = static_cast<btNodeTypesModelNode*>(availableNodes->selectionModel()->currentIndex().internalPointer());
-    if(selectedNode->nodeType()->childType() == btNodeType::ReferenceNodeType){
+    if (selectedNode->nodeType()->childType() == btNodeType::ReferenceNodeType) {
         wizard->show();
-    }else{
-    ///fixme ->parent()->parent() should be NULL not ->parent() change when crash
-    ///fixme memory, is it deleted in brain ?
-    //m_brain->addNodeType();
+    } else {
+        ///fixme ->parent()->parent() should be NULL not ->parent() change when crash
+        ///fixme memory, is it deleted in brain ?
+        //m_brain->addNodeType();
         nodeTypes->insertRows(0,1,availableNodes->selectionModel()->currentIndex());
     }
 
@@ -416,9 +416,9 @@ void bteditor::nodeTypeDeleted(int row)
 
 void bteditor::on_btEditor_customContextMenuRequested(QPoint pos)
 {
-    if(btEditor->indexAt(pos).isValid()){
+    if (btEditor->indexAt(pos).isValid()) {
         btNode* selectedNode = static_cast<btNode*>(btEditor->indexAt(pos).internalPointer());
-        if(selectedNode->parent()->parent() != 0){
+        if (selectedNode->parent()->parent() != 0) {
             btEditorContextMenu->exec(btEditor->viewport()->mapToGlobal(pos));
         }
     }
@@ -427,23 +427,23 @@ void bteditor::on_btEditor_customContextMenuRequested(QPoint pos)
 void bteditor::bteditDeleteNodeTriggered()
 {
     btNode* selectedNode = static_cast<btNode*>(btEditor->selectionModel()->currentIndex().internalPointer());
-    if(selectedNode->parent()->parent() != 0){
+    if (selectedNode->parent()->parent() != 0) {
         ///fixme check if memory is deallocated when removed from list ?
         m_currentBehaviorTree->removeRows(selectedNode->row(),1,btEditor->selectionModel()->currentIndex().parent());
     }
 }
-	
+
 void bteditor::on_actionNew_triggered()
 {
     int result = QMessageBox::question(this,
                                        tr("Save Project?"),
                                        tr("Do you want to save the current project?"),QMessageBox::Save,QMessageBox::Discard,QMessageBox::Cancel);
 
-    if(result == QMessageBox::Cancel){
+    if (result == QMessageBox::Cancel) {
         return;
     }
 
-    if(result == QMessageBox::Save){
+    if (result == QMessageBox::Save) {
         emit on_actionSave_triggered();
     }
 

@@ -31,7 +31,7 @@ btConditionNode::~btConditionNode()
 
 bool btConditionNode::run()
 {
-	return false;
+    return false;
 }
 
 #include "btconditionnode.moc"

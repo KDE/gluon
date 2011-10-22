@@ -31,7 +31,7 @@ btReferenceNode::~btReferenceNode()
 
 bool btReferenceNode::run()
 {
-	return false;
+    return false;
 }
 
 void btReferenceNode::setReferenceBehaviorTree(btTreeModel * treeModel)

@@ -39,23 +39,23 @@ btPropertyWidgetItem::btPropertyWidgetItem(QObject * parent, Qt::WindowFlags f)
 
 btPropertyWidgetItem::~btPropertyWidgetItem()
 {
-    if(qobject_cast<btEditorNodeType*>(editedObject))
+    if (qobject_cast<btEditorNodeType*>(editedObject))
     {
         btEditorNodeType * nodeType = qobject_cast<btEditorNodeType*>(editedObject);
-        
-        if(nodeType->metaObject()->indexOfProperty(propertyName.toUtf8()) > -1)
+
+        if (nodeType->metaObject()->indexOfProperty(propertyName.toUtf8()) > -1)
         {
             QLineEdit * lineEdit = qobject_cast<QLineEdit*>(editWidget);
-            
-            if(propertyName == "className")
+
+            if (propertyName == "className")
             {
                 disconnect(nodeType, SIGNAL(classNameChanged(QString)), lineEdit, SLOT(setText(QString)));
             }
-            else if(propertyName == "name")
+            else if (propertyName == "name")
             {
                 disconnect(nodeType, SIGNAL(nameChanged(QString)), lineEdit, SLOT(setText(QString)));
             }
-            else if(propertyName == "description")
+            else if (propertyName == "description")
             {
                 disconnect(nodeType, SIGNAL(descriptionChanged(QString)), lineEdit, SLOT(setText(QString)));
             }
@@ -78,103 +78,109 @@ void btPropertyWidgetItem::setEditProperty(QString propertyName, bool enabled)
 void btPropertyWidgetItem::setupPropertyWidget(bool enabled)
 {
     qRegisterMetaType<btChildWeights>("btChildWeights");
-	qRegisterMetaType<btParallelConditions>("btParallelConditions");
-	
-    if(!editedObject)
+    qRegisterMetaType<btParallelConditions>("btParallelConditions");
+
+    if (!editedObject)
         return;
-    
+
     QVariant value = editedObject->property(propertyName.toUtf8());
-    switch(value.type())
+    switch (value.type())
     {
-        case QVariant::String:
-            editWidget = createLineEdit(value, enabled);
-            break;
-        case QVariant::Int:
-            editWidget = createSpinBox(value, enabled);
-            break;
-        case QVariant::Double:
-            editWidget = createDoubleSpinBox(value, enabled);
-            break;
-        case QVariant::List:
-            editWidget = createList(value, enabled);
-            break;
-        case QVariant::UserType:
-			if(propertyName == "weights")
-			{
-				editWidget = createChildProbabilitiesList(propertyName, enabled);
-			}
-			else if(propertyName == "conditions")
-			{
-				editWidget = createParallelConditionsList(propertyName, enabled);
-			}
-            break;
-        default:
-            editWidget = new QLabel(this);
-            qobject_cast<QLabel*>(editWidget)->setText(tr("Unknown type (%1)").arg(value.toString()));
-            break;
+    case QVariant::String:
+        editWidget = createLineEdit(value, enabled);
+        break;
+    case QVariant::Int:
+        editWidget = createSpinBox(value, enabled);
+        break;
+    case QVariant::Double:
+        editWidget = createDoubleSpinBox(value, enabled);
+        break;
+    case QVariant::List:
+        editWidget = createList(value, enabled);
+        break;
+    case QVariant::UserType:
+        if (propertyName == "weights")
+        {
+            editWidget = createChildProbabilitiesList(propertyName, enabled);
+        }
+        else if (propertyName == "conditions")
+        {
+            editWidget = createParallelConditionsList(propertyName, enabled);
+        }
+        break;
+    default:
+        editWidget = new QLabel(this);
+        qobject_cast<QLabel*>(editWidget)->setText(tr("Unknown type (%1)").arg(value.toString()));
+        break;
     }
-    
+
     layout()->addWidget(editWidget);
 }
 
-void btPropertyWidgetItem::propertyChanged(QString value) { propertyChanged(QVariant(value)); }
-void btPropertyWidgetItem::propertyChanged(int value) { propertyChanged(QVariant(value)); }
-void btPropertyWidgetItem::propertyChanged(double value) { propertyChanged(QVariant(value)); }
+void btPropertyWidgetItem::propertyChanged(QString value) {
+    propertyChanged(QVariant(value));
+}
+void btPropertyWidgetItem::propertyChanged(int value) {
+    propertyChanged(QVariant(value));
+}
+void btPropertyWidgetItem::propertyChanged(double value) {
+    propertyChanged(QVariant(value));
+}
 void btPropertyWidgetItem::propertyChanged(QVariant value)
 {
-    if(!editedObject)
+    if (!editedObject)
         return;
-    
+
     editedObject->setProperty(propertyName.toUtf8(), value);
-    
+
     emit sendUpdateTreeModel();
 }
 
 void btPropertyWidgetItem::QVariantListItemRemoved(QListWidgetItem * item, int index)
 {
-    if(!editedObject || !item)
+    if (!editedObject || !item)
         return;
-    
+
     QVariant value = editedObject->property(propertyName.toUtf8());
     int typeId = QMetaType::type(editedObject->property(propertyName.toUtf8()).toString().toUtf8());
-    
+
     QVariantList list;
-    
-    if(!typeId)
+
+    if (!typeId)
     {
         typeId = value.type();
         list = qvariant_cast<QVariantList>(value);
     }
-    else 
+    else
     {
         list = qvariant_cast<QVariantList>(QVariant((QVariant::Type)typeId));
     }
-    
-    if(list.contains(item->text()))
+
+    if (list.contains(item->text()))
     {
         delete item;
         list.removeAt(index);
     }
-    
+
     editedObject->setProperty(propertyName.toUtf8(), list);
 }
 
 void btPropertyWidgetItem::QVariantListItemAdded(QListWidgetItem * item)
 {
-    if(!editedObject)
+    if (!editedObject)
         return;
-    
+
     QVariant value = editedObject->property(propertyName.toUtf8());
     int typeId = QMetaType::type(editedObject->property(propertyName.toUtf8()).toString().toUtf8());
-    
+
     QVariantList list;
-    
-    if(!typeId)
+
+    if (!typeId)
     {
         typeId = value.type();
         list = qvariant_cast<QVariantList>(value);
     }
-    else 
+    else
     {
         list = qvariant_cast<QVariantList>(QVariant((QVariant::Type)typeId));
     }
@@ -184,26 +190,26 @@ void btPropertyWidgetItem::QVariantListItemAdded(QListWidgetItem * item)
 
 void btPropertyWidgetItem::QVariantListItemChanged(QListWidgetItem * item, int index)
 {
-    if(!editedObject || index < 0)
+    if (!editedObject || index < 0)
         return;
-    
+
     QVariant value = editedObject->property(propertyName.toUtf8());
     int typeId = QMetaType::type(editedObject->property(propertyName.toUtf8()).toString().toUtf8());
-    
+
     QVariantList list;
-    
-    if(!typeId)
+
+    if (!typeId)
     {
         typeId = value.type();
         list = qvariant_cast<QVariantList>(value);
     }
-    else 
+    else
     {
         list = qvariant_cast<QVariantList>(QVariant((QVariant::Type)typeId));
     }
-    
+
     list.replace(index, item->text());
-    
+
     editedObject->setProperty(propertyName.toUtf8(), list);
 }
 
@@ -212,31 +218,31 @@ QWidget * btPropertyWidgetItem::createLineEdit(QVariant value, bool enabled)
     QLineEdit * widget = new QLineEdit(this);
     widget->setText(value.toString());
     widget->setEnabled(enabled);
-    
-    if(qobject_cast<btEditorNodeType*>(editedObject))
+
+    if (qobject_cast<btEditorNodeType*>(editedObject))
     {
         btEditorNodeType * nodeType = qobject_cast<btEditorNodeType*>(editedObject);
-        
-        if(nodeType->metaObject()->indexOfProperty(propertyName.toUtf8()) > -1)
+
+        if (nodeType->metaObject()->indexOfProperty(propertyName.toUtf8()) > -1)
         {
             QLineEdit * lineEdit = qobject_cast<QLineEdit*>(widget);
-            
-            if(propertyName == "className")
+
+            if (propertyName == "className")
             {
                 connect(nodeType, SIGNAL(classNameChanged(QString)), lineEdit, SLOT(setText(QString)));
             }
-            else if(propertyName == "name")
+            else if (propertyName == "name")
             {
                 connect(nodeType, SIGNAL(nameChanged(QString)), lineEdit, SLOT(setText(QString)));
             }
-            else if(propertyName == "description")
+            else if (propertyName == "description")
             {
                 connect(nodeType, SIGNAL(descriptionChanged(QString)), lineEdit, SLOT(setText(QString)));
             }
         }
     }
-    
-    
+
+
     connect(widget, SIGNAL(textChanged(QString)), this, SLOT(propertyChanged(QString)));
     return widget;
 }
@@ -252,7 +258,7 @@ QWidget * btPropertyWidgetItem::createSpinBox(QVariant value, bool enabled)
 }
 
 QWidget * btPropertyWidgetItem::createDoubleSpinBox(QVariant value, bool enabled)
-{    
+{
     QDoubleSpinBox * widget = new QDoubleSpinBox(this);
     widget->setValue(value.toDouble());
     widget->setEnabled(enabled);
@@ -266,16 +272,16 @@ QWidget * btPropertyWidgetItem::createList(QVariant value, bool enabled)
     connect(widget, SIGNAL(itemRemoved(QListWidgetItem*, int)), this, SLOT(QVariantListItemRemoved(QListWidgetItem*, int)));
     connect(widget, SIGNAL(itemAdded(QListWidgetItem*)), this, SLOT(QVariantListItemAdded(QListWidgetItem*)));
     connect(widget, SIGNAL(itemChanged(QListWidgetItem*, int)), this, SLOT(QVariantListItemChanged(QListWidgetItem*, int)));
-    
+
     QVariantList list = qvariant_cast<QVariantList>(value);
-    
-    for(int i = 0; i < list.count(); i++)
+
+    for (int i = 0; i < list.count(); i++)
     {
         QListWidgetItem * item = new QListWidgetItem(list.at(i).toString());
         item->setFlags(widget->returnItemFlags());
         widget->addItem(item);
     }
-    
+
     widget->setEnabled(enabled);
     return widget;
 }
@@ -288,19 +294,19 @@ const QString btPropertyWidgetItem::getPropertyType(QString propertyName)
 QWidget * btPropertyWidgetItem::createChildProbabilitiesList(QString propertyName ,bool enabled)
 {
     btChildListWidget* widget = new btChildListWidget(this);
-    
+
     widget->setChildProbabilites(propertyName, editedObject, enabled);
-    
+
     return widget;
 }
 
 QWidget * btPropertyWidgetItem::createParallelConditionsList(QString propertyName, bool enabled)
 {
-	btParallelConditionsWidget * widget = new btParallelConditionsWidget(this);
-	
-	widget->setParallelConditions(propertyName, editedObject, enabled);
-	
-	return widget;
+    btParallelConditionsWidget * widget = new btParallelConditionsWidget(this);
+
+    widget->setParallelConditions(propertyName, editedObject, enabled);
+
+    return widget;
 }
 
 #include "btpropertywidgetitem.moc"

@@ -32,7 +32,7 @@ btCompositeNode::~btCompositeNode()
 
 bool btCompositeNode::run()
 {
-	return false;
+    return false;
 }
 
 #include "btcompositenode.moc"

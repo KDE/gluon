@@ -32,7 +32,9 @@ public:
     ~btCharacter();
     void stopThinking();
     void startThinking();
-    void hello(){qDebug() << "btCharacter hello";}
+    void hello() {
+        qDebug() << "btCharacter hello";
+    }
     bool continueThinking();
 private:
     bool think;

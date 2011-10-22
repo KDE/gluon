@@ -32,7 +32,7 @@
 #include "btglobal.h"
 
 btTreeModel::btTreeModel(QObject* parent, btBrain* containingBrain)
-    : QAbstractItemModel(parent)
+        : QAbstractItemModel(parent)
 {
     m_rootNode = new btEditorNode();
     brain = containingBrain;
@@ -60,29 +60,29 @@ btEditorNode * btTreeModel::rootNode() const
 QModelIndex btTreeModel::index(int row, int column, const QModelIndex &parent) const
 {
     // If we don't have a root node, we need to return an empty QModelIndex
-    if(!m_rootNode)
+    if (!m_rootNode)
         return QModelIndex();
-    
+
     // We shouldn't allow for less-than-zero values for row and column...
-    if(row < 0 ||column < 0)
+    if (row < 0 ||column < 0)
         return QModelIndex();
-    
+
     btEditorNode *parentNode = nodeFromIndex(parent);
-    
+
     // Don't allow for the creation of indexes for anything bigger than what exists
-    if(row >= parentNode->childCount() || column >= parentNode->columnCount())
+    if (row >= parentNode->childCount() || column >= parentNode->columnCount())
     {
         return QModelIndex();
     }
     //if(column == 0)
-        return createIndex(row, column, parentNode->child(row));
-    
+    return createIndex(row, column, parentNode->child(row));
+
     //return createIndex(row, column, 0);
 }
 
 btEditorNode *btTreeModel::nodeFromIndex(const QModelIndex &index) const
 {
-    if(index.isValid())
+    if (index.isValid())
         return static_cast<btEditorNode*>(index.internalPointer());
     else
         return m_rootNode;
@@ -91,7 +91,7 @@ btEditorNode *btTreeModel::nodeFromIndex(const QModelIndex &index) const
 int btTreeModel::rowCount(const QModelIndex &parent) const
 {
     btEditorNode *parentNode = nodeFromIndex(parent);
-    if(!parentNode)
+    if (!parentNode)
         return 0;
     return parentNode->childCount();
 }
@@ -105,34 +105,34 @@ int btTreeModel::columnCount(const QModelIndex &parent) const
 QModelIndex btTreeModel::parent(const QModelIndex &child) const
 {
     btEditorNode *node = nodeFromIndex(child);
-    if(!node)
+    if (!node)
         return QModelIndex();
 
     btEditorNode *parentNode = qobject_cast<btEditorNode*>(node->parent());
-    if(!parentNode)
+    if (!parentNode)
         return QModelIndex();
 
-	if(parentNode == m_rootNode)
-		return QModelIndex();
+    if (parentNode == m_rootNode)
+        return QModelIndex();
 
     return createIndex(parentNode->row(), 0, parentNode);
 }
 
 QVariant btTreeModel::data(const QModelIndex &index, int role) const
 {
-    if(!index.isValid())
+    if (!index.isValid())
         return QVariant();
-    
+
     btEditorNode *node = nodeFromIndex(index);
-    if(!node)
+    if (!node)
         return QVariant();
-    
+
     // icon stuff
-    if (role == Qt::DecorationRole){
-        if(index.column() == 0){
+    if (role == Qt::DecorationRole) {
+        if (index.column() == 0) {
             btEditorNodeType::nodeType type;
             type = node->type()->type();
-            switch(type){
+            switch (type) {
             case btNodeType::ReferenceNodeType:
                 return QIcon(":/images/reference.png");
             case btNodeType::CompositeNodeType:
@@ -150,25 +150,25 @@ QVariant btTreeModel::data(const QModelIndex &index, int role) const
     }
     //icon stuff
 
-    if(role == Qt::DisplayRole)
+    if (role == Qt::DisplayRole)
     {
-        if(index.column() == 2){
+        if (index.column() == 2) {
             return node->type()->name();
         }
         return node->data(index.column());
     }
-    else if(role == Qt::ToolTipRole)
+    else if (role == Qt::ToolTipRole)
     {
         QString tip;
         tip = "<html>";
         tip += tr("Decorators: %1").arg(node->decoratorCount());
         tip += "<table>";
-        
-        for(int i = 0; i < node->decoratorCount(); i++)
+
+        for (int i = 0; i < node->decoratorCount(); i++)
         {
             tip += "<tr><td>" + node->decorators().at(i)->name() + "</td><td>" + node->decorators().at(i)->description() + "</td></tr>";
         }
-            
+
         tip += "</table>";
         tip += "</html>";
         return tip;
@@ -179,9 +179,9 @@ QVariant btTreeModel::data(const QModelIndex &index, int role) const
 
 bool btTreeModel::setData ( const QModelIndex & index, const QVariant & value, int role )
 {
-    if(index == QModelIndex())
+    if (index == QModelIndex())
         return false;
-    
+
     emit dataChanged(index, index);
     return true;
 }
@@ -189,9 +189,9 @@ bool btTreeModel::setData ( const QModelIndex & index, const QVariant & value, i
 QVariant btTreeModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     Q_UNUSED(orientation);
-    if(role == Qt::DisplayRole)
+    if (role == Qt::DisplayRole)
         return m_rootNode->headerData(section);
-    
+
     return QVariant();
 }
 
@@ -199,12 +199,12 @@ Qt::ItemFlags btTreeModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index);
     Qt::ItemFlags thisIndexFlags;
-    
+
     if (index.isValid())
         thisIndexFlags = Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | defaultFlags;
     //else
-        //thisIndexFlags = Qt::ItemIsEnabled | Qt::ItemIsDropEnabled | defaultFlags;
-    
+    //thisIndexFlags = Qt::ItemIsEnabled | Qt::ItemIsDropEnabled | defaultFlags;
+
     return thisIndexFlags;
 }
 
@@ -218,42 +218,42 @@ QStringList btTreeModel::mimeTypes() const
 bool btTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
     qRegisterMetaType<btChildWeights>("btChildWeights");
-	qRegisterMetaType<btParallelConditions>("btParallelConditions");
-    
-    if(action == Qt::IgnoreAction)
+    qRegisterMetaType<btParallelConditions>("btParallelConditions");
+
+    if (action == Qt::IgnoreAction)
         return true;
-    
-    if(!data->hasFormat("application/bt.nodetype"))
+
+    if (!data->hasFormat("application/bt.nodetype"))
         return false;
-    
-    if(column > 0)
+
+    if (column > 0)
         return false;
-    
+
     // We only do the parent thing here - we accept no drops in empty space at all
-    if(!parent.isValid())
+    if (!parent.isValid())
         return false;
-    
+
     btEditorNode* parentNode = static_cast<btEditorNode*>(parent.internalPointer());
-    
+
     // We do not allow dropping on Actions and References
-    if(/* parentNode->type()->type() == btNodeType::ActionNodeType    ||
+    if (/* parentNode->type()->type() == btNodeType::ActionNodeType    ||
         parentNode->type()->type() == btNodeType::ReferenceNodeType ||*/
-       parentNode->type()->type() == btNodeType::ConditionNodeType )
+        parentNode->type()->type() == btNodeType::ConditionNodeType )
     {
         emit dataChanged(parent, parent);
         return false;
     }
-    
-    if(action == Qt::MoveAction)
-    {   
+
+    if (action == Qt::MoveAction)
+    {
         moving = true;
-        
+
         QByteArray encodedData = data->data("application/bt.nodetype");
         QDataStream stream(&encodedData, QIODevice::ReadOnly);
         btEditorNode * node = NULL;
         btEditorNode* oldParentNode = NULL;
-        
-        while(!stream.atEnd())
+
+        while (!stream.atEnd())
         {
             quint64 nodeMemAdress;
             stream >> nodeMemAdress;
@@ -261,52 +261,52 @@ bool btTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int
             stream >> nodeMemAdress;
             oldParentNode = reinterpret_cast<btEditorNode*>(nodeMemAdress);
         }
-        
-        if(node)
+
+        if (node)
         {
-            if(row == -1 && column  == -1)
-            {                            
-				if(oldParentNode->type()->className() == "[parallel]")
-				{
-					btParallelConditions list = oldParentNode->type()->property("conditions").value<btParallelConditions>();
-					list.parallelConditions.removeAt(oldParentNode->children().indexOf(node));
-					
-					QVariant v;
-					v.setValue(list);
-					parentNode->type()->setProperty("conditions", v);
-				}
+            if (row == -1 && column  == -1)
+            {
+                if (oldParentNode->type()->className() == "[parallel]")
+                {
+                    btParallelConditions list = oldParentNode->type()->property("conditions").value<btParallelConditions>();
+                    list.parallelConditions.removeAt(oldParentNode->children().indexOf(node));
+
+                    QVariant v;
+                    v.setValue(list);
+                    parentNode->type()->setProperty("conditions", v);
+                }
                 oldParentNode->removeChild(node);
                 parentNode->appendChild(node);
             }
-            else 
+            else
             {
-                if(oldParentNode != parentNode)
+                if (oldParentNode != parentNode)
                 {
                     oldParentNode->removeChild(node);
                     foreach(const QString &name, parentNode->type()->dynamicPropertyNames())
                     {
-                        if(parentNode->type()->property(name.toUtf8()).type() == QVariant::UserType && name == "weights")
+                        if (parentNode->type()->property(name.toUtf8()).type() == QVariant::UserType && name == "weights")
                         {
                             node->type()->setProperty("probability", 0.5);
                         }
-						else if (parentNode->type()->property(name.toUtf8()).type() == QVariant::UserType && name == "conditions")
-						{
-							btParallelConditions list = parentNode->type()->property(name.toUtf8()).value<btParallelConditions>();
-							list.parallelConditions.append(1.0);
-							
-							QVariant v;
-							v.setValue(list);
-							parentNode->type()->setProperty(name.toUtf8(), v);
-						}
+                        else if (parentNode->type()->property(name.toUtf8()).type() == QVariant::UserType && name == "conditions")
+                        {
+                            btParallelConditions list = parentNode->type()->property(name.toUtf8()).value<btParallelConditions>();
+                            list.parallelConditions.append(1.0);
+
+                            QVariant v;
+                            v.setValue(list);
+                            parentNode->type()->setProperty(name.toUtf8(), v);
+                        }
                     }
                 }
                 else
                 {
                     foreach(const QString &name, parentNode->type()->dynamicPropertyNames())
                     {
-                        if(parentNode->type()->property(name.toUtf8()).type() == QVariant::UserType && name == "weights")
+                        if (parentNode->type()->property(name.toUtf8()).type() == QVariant::UserType && name == "weights")
                         {
-                            if(parentNode->children().indexOf(node) > -1)
+                            if (parentNode->children().indexOf(node) > -1)
                             {
                                 btChildWeights list = parentNode->type()->property(name.toUtf8()).value<btChildWeights>();
                                 node->type()->setProperty("probability", list.childWeightList[parentNode->children().indexOf(node)].toDouble());
@@ -315,29 +315,29 @@ bool btTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int
                         }
                     }
                     parentNode->removeChild(node);
-                    
+
                 }
-                
+
                 parentNode->insertChild(row, node);
             }
-            
+
             this->reset();
             emit dataChanged(parent, parent);
-            
+
             return true;
         }
         else
         {
             return false;
         }
-        
+
     }
-    
+
     QByteArray encodedData = data->data("application/bt.nodetype");
     QDataStream stream(&encodedData, QIODevice::ReadOnly);
     QHash<QString,QString> nodeTypes;
-    
-    while(!stream.atEnd())
+
+    while (!stream.atEnd())
     {
         QString nodeType;
         QString btType;
@@ -345,8 +345,8 @@ bool btTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int
         stream >> btType;
         nodeTypes.insert(nodeType, btType);
     }
-    
-    
+
+
     int rows = 0;
     QList<btNodeType*> theNodeTypes;
     QHashIterator<QString, QString> i(nodeTypes);
@@ -355,71 +355,71 @@ bool btTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int
         i.next();
         btEditorNodeType* brainNodeType = qobject_cast<btEditorNodeType*>(brain->findNodeTypeByName(i.value()));
         btNodeType *theNodeType = brainNodeType->copy();
-        
+
         ((btEditorNodeType*)theNodeType)->initProperties();
         ((btEditorNodeType*)theNodeType)->connectChangeProperty(brainNodeType);
-        
+
         theNodeType->setName(i.key());
         theNodeType->setParent(this);
         theNodeTypes.append(theNodeType);
-        if(theNodeType->type() != btNodeType::DecoratorNodeType)
+        if (theNodeType->type() != btNodeType::DecoratorNodeType)
             ++rows;
     }
 
     // Yes, this is kinda nasty - but we may well be dropping decorators, which are not true children
-    if(rows > 0)
+    if (rows > 0)
         beginInsertRows(parent, parentNode->childCount(), parentNode->childCount() + rows - 1);
-    
+
     foreach(btNodeType* theNodeType, theNodeTypes)
     {
         // Figure out whether the dropped item is a special case (decorators are added to the parent item directly, rather than added as children)
-        if(theNodeType->type() == btNodeType::DecoratorNodeType)
+        if (theNodeType->type() == btNodeType::DecoratorNodeType)
         {
             parentNode->addDecorator(qobject_cast<btDecoratorNode*>(theNodeType));
         }
         else
         {
-            if(theNodeType->type() == btNodeType::ReferenceNodeType)
+            if (theNodeType->type() == btNodeType::ReferenceNodeType)
             {
                 btReferenceNode * referenceNodeType = qobject_cast<btReferenceNode*>(brain->findNodeTypeByName(theNodeType->name()));
                 btReferenceNode * newRefNode = qobject_cast<btReferenceNode*>(theNodeType);
                 newRefNode->setReferenceBehaviorTree(referenceNodeType->referenceBehaviorTree());
             }
-            
+
             btEditorNode *newChild = new btEditorNode(theNodeType, parentNode);
             newChild->setName(tr("New %1").arg(theNodeType->name()));
             newChild->setDescription(theNodeType->description());
-            
+
             foreach(const QString &name, parentNode->type()->dynamicPropertyNames())
             {
-                if(parentNode->type()->property(name.toUtf8()).type() == QVariant::UserType)
+                if (parentNode->type()->property(name.toUtf8()).type() == QVariant::UserType)
                 {
-					if(name == "weights")
-					{
-						btChildWeights cw = parentNode->type()->property(name.toUtf8()).value<btChildWeights>();
-						cw.childWeightList.append(0.5);
-						QVariant v;
-						v.setValue(cw);
-						parentNode->type()->setProperty(name.toUtf8(), v);
-						emit addRemoveBTNode();
-						break;
-					}
-					else if (name == "conditions")
-					{
-						btParallelConditions pc = parentNode->type()->property(name.toUtf8()).value<btParallelConditions>();
-						pc.parallelConditions.append(1.0);
-						QVariant v;
-						v.setValue(pc);
-						parentNode->type()->setProperty(name.toUtf8(), v);
-						emit addRemoveBTNode();
-						break;
-					}
+                    if (name == "weights")
+                    {
+                        btChildWeights cw = parentNode->type()->property(name.toUtf8()).value<btChildWeights>();
+                        cw.childWeightList.append(0.5);
+                        QVariant v;
+                        v.setValue(cw);
+                        parentNode->type()->setProperty(name.toUtf8(), v);
+                        emit addRemoveBTNode();
+                        break;
+                    }
+                    else if (name == "conditions")
+                    {
+                        btParallelConditions pc = parentNode->type()->property(name.toUtf8()).value<btParallelConditions>();
+                        pc.parallelConditions.append(1.0);
+                        QVariant v;
+                        v.setValue(pc);
+                        parentNode->type()->setProperty(name.toUtf8(), v);
+                        emit addRemoveBTNode();
+                        break;
+                    }
                 }
             }
         }
     }
-    
-    if(rows > 0)
+
+    if (rows > 0)
         endInsertRows();
     else
     {
@@ -431,28 +431,32 @@ bool btTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int
 }
 
 bool btTreeModel::removeRows(int position, int rows, const QModelIndex &parent)
- {      
-     btEditorNode* parentNode = static_cast<btEditorNode*>(parent.internalPointer());
-     
-     if(parentNode == NULL)
-         return false;
+{
+    btEditorNode* parentNode = static_cast<btEditorNode*>(parent.internalPointer());
 
-     if(!moving)
-     {
-         beginRemoveRows(parent, position, position+rows-1);
-         parentNode->removeChild(position);
-         endRemoveRows();
-         return true;
-     }
-     else 
-     {
-         moving = false;
-         return false;
-     }
- }
+    if (parentNode == NULL)
+        return false;
 
-void btTreeModel::setName(QString name) { m_name = name; }
-QString btTreeModel::name() const { return m_name; }
+    if (!moving)
+    {
+        beginRemoveRows(parent, position, position+rows-1);
+        parentNode->removeChild(position);
+        endRemoveRows();
+        return true;
+    }
+    else
+    {
+        moving = false;
+        return false;
+    }
+}
+
+void btTreeModel::setName(QString name) {
+    m_name = name;
+}
+QString btTreeModel::name() const {
+    return m_name;
+}
 
 void btTreeModel::setDescription(QString description)
 {
@@ -479,21 +483,21 @@ QMimeData* btTreeModel::mimeData(const QModelIndexList &indexes) const
     QMimeData *mimeData = new QMimeData();
     QByteArray encodedData;
     QDataStream stream(&encodedData, QIODevice::WriteOnly);
-    
+
     foreach(QModelIndex index, indexes)
     {
         if (index.isValid())
-        {            
+        {
             btEditorNode * node = nodeFromIndex(index);
-            if(node)
-            {       
+            if (node)
+            {
                 quint64 nodeMemAdress = reinterpret_cast<quint64>(node);
                 stream <<  nodeMemAdress;
-                
+
                 nodeMemAdress = reinterpret_cast<quint64>(node->parent());
                 stream << nodeMemAdress;
             }
-        }        
+        }
     }
     mimeData->setData("application/bt.nodetype", encodedData);
     return mimeData;

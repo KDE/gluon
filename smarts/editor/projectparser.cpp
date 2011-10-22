@@ -41,7 +41,7 @@ projectParser::projectParser()
 projectParser* projectParser::instance()
 {
     static projectParser* projectParserInstance;
-    if(projectParserInstance == 0)
+    if (projectParserInstance == 0)
     {
         projectParserInstance = new projectParser();
     }
@@ -54,25 +54,25 @@ btBrain* projectParser::parseProject(QString xmlData)
     btBrain * brain = new btBrain();
 
     QDomDocument xmlDocument("data");
-    if(xmlDocument.setContent(xmlData))
+    if (xmlDocument.setContent(xmlData))
     {
         QDomElement rootNode = xmlDocument.documentElement();
         QDomNamedNodeMap rootNodeAttributes = rootNode.attributes();
-        
+
         brain->setName(rootNodeAttributes.namedItem("name").nodeValue());
-        
+
         QDomNode nodeTypes = rootNode.namedItem("nodetypes");
         QDomNode behaviorTrees = rootNode.namedItem("behaviortrees");
 
-        if(!nodeTypes.isNull())
+        if (!nodeTypes.isNull())
         {
             parseNodeTypes(nodeTypes, brain);
         }
 
-        if(!behaviorTrees.isNull())
+        if (!behaviorTrees.isNull())
         {
             //first parsing every root node of the behavior trees
-            for(int i = 0; i < behaviorTrees.childNodes().count(); i++)
+            for (int i = 0; i < behaviorTrees.childNodes().count(); i++)
             {
                 QDomNode currentNode = behaviorTrees.childNodes().at(i);
                 QDomNamedNodeMap nodeAttributes = currentNode.attributes();
@@ -117,8 +117,8 @@ void projectParser::parseNodeTypes(QDomNode xNode, btBrain * brain)
         newNode->setName(nodeTypeAttributes.namedItem("name").nodeValue());
         newNode->setDescription(nodeTypeAttributes.namedItem("description").nodeValue());
         newNode->setClassName(nodeTypeAttributes.namedItem("className").nodeValue());
-		
-        for(int j = 0; j < currentNodeType.childNodes().count(); j++)
+
+        for (int j = 0; j < currentNodeType.childNodes().count(); j++)
         {
             QDomNode currentProperty = currentNodeType.childNodes().at(j);
             QDomNamedNodeMap propertyAttributes = currentProperty.attributes();
@@ -133,14 +133,14 @@ void projectParser::parseNodeTypes(QDomNode xNode, btBrain * brain)
 void projectParser::parseBehaviorTrees(QDomNode xNode, btEditorNode * node ,btBrain * brain)
 {
     qRegisterMetaType<btChildWeights>("btChildWeights");
-	qRegisterMetaType<btParallelConditions>("btParallelConditions");
-    
-    for(int i = 0; i < xNode.childNodes().count(); i++)
+    qRegisterMetaType<btParallelConditions>("btParallelConditions");
+
+    for (int i = 0; i < xNode.childNodes().count(); i++)
     {
         QDomNode currentNode = xNode.childNodes().at(i);
         QDomNamedNodeMap nodeAttributes = currentNode.attributes();
 
-        if(!nodeAttributes.namedItem("uid").isNull())
+        if (!nodeAttributes.namedItem("uid").isNull())
         {
             btEditorNode* rootNode = behaviorTreesList[nodeAttributes.namedItem("uid").nodeValue().toInt()]->rootNode();
             btEditorNode* copyNode = new btEditorNode( rootNode->type()->copy());
@@ -154,83 +154,83 @@ void projectParser::parseBehaviorTrees(QDomNode xNode, btEditorNode * node ,btBr
         }
         else
         {
-            if(currentNode.nodeName() == "property")
-            {                    
+            if (currentNode.nodeName() == "property")
+            {
                 btNodeType* nodeType = node->type()->copy();
-                if(nodeAttributes.namedItem("name").nodeValue() == "reference")
+                if (nodeAttributes.namedItem("name").nodeValue() == "reference")
                 {
                     btReferenceNode * btRefNode = qobject_cast<btReferenceNode*>(nodeType);
                     btRefNode->setReferenceBehaviorTree(behaviorTreesList[nodeAttributes.namedItem("value").nodeValue().toInt()]);
-                    
-                    if(currentNode.hasChildNodes())
+
+                    if (currentNode.hasChildNodes())
                     {
-                        for(int i = 0; i < currentNode.childNodes().count(); i++)
+                        for (int i = 0; i < currentNode.childNodes().count(); i++)
                         {
                             parseBehaviorTrees(currentNode, node, brain);
                         }
                     }
                 }
-                
+
                 int typeId = QMetaType::type(nodeType->property(nodeAttributes.namedItem("name").nodeValue().toUtf8()).toString().toUtf8());
                 QVariant dataType;
-                
-                if(typeId == QVariant::List)
-                {                    
+
+                if (typeId == QVariant::List)
+                {
                     QVariantList list =  qvariant_cast<QVariantList>(QVariant((QVariant::Type)typeId));
-                    
-                    for(int i = 0; i < currentNode.childNodes().count(); i++)
+
+                    for (int i = 0; i < currentNode.childNodes().count(); i++)
                     {
                         QDomNamedNodeMap attributes = currentNode.childNodes().at(i).attributes();
-                                                   
-                        if(!attributes.namedItem("value").isNull())
-                                list.append(attributes.namedItem("value").nodeValue());
+
+                        if (!attributes.namedItem("value").isNull())
+                            list.append(attributes.namedItem("value").nodeValue());
                     }
-                    
+
                     dataType = list;
                 }
-                else if(typeId == QMetaType::type("btChildWeights"))
+                else if (typeId == QMetaType::type("btChildWeights"))
                 {
                     btChildWeights list;
-                    
-                    if(currentNode.hasChildNodes())
+
+                    if (currentNode.hasChildNodes())
                     {
-                        for(int i = 0; i < currentNode.childNodes().count(); i++)
+                        for (int i = 0; i < currentNode.childNodes().count(); i++)
                         {
                             QDomNamedNodeMap attributes = currentNode.childNodes().at(i).attributes();
-                            
-                            if(!attributes.namedItem("editorvalue").isNull())
+
+                            if (!attributes.namedItem("editorvalue").isNull())
                                 list.childWeightList.append(attributes.namedItem("editorvalue").nodeValue().toDouble());
                         }
                     }
-                    
+
                     dataType.setValue(list);
                 }
-				else if (typeId == QMetaType::type("btParallelConditions"))
-				{
-					btParallelConditions list;
-                    
-                    if(currentNode.hasChildNodes())
+                else if (typeId == QMetaType::type("btParallelConditions"))
+                {
+                    btParallelConditions list;
+
+                    if (currentNode.hasChildNodes())
                     {
-                        for(int i = 0; i < currentNode.childNodes().count(); i++)
+                        for (int i = 0; i < currentNode.childNodes().count(); i++)
                         {
                             QDomNamedNodeMap attributes = currentNode.childNodes().at(i).attributes();
-                            
-                            if(!attributes.namedItem("editorvalue").isNull())
+
+                            if (!attributes.namedItem("editorvalue").isNull())
                                 list.parallelConditions.append(attributes.namedItem("editorvalue").nodeValue().toDouble());
                         }
                     }
-                    
+
                     dataType.setValue(list);
-				}
-                else 
+                }
+                else
                 {
                     dataType = nodeAttributes.namedItem("value").nodeValue();
-                    
-                    if(dataType != "[Child Weights]")
+
+                    if (dataType != "[Child Weights]")
                         dataType.convert((QVariant::Type)typeId);
                 }
-                
-                
+
+
                 nodeType->setProperty(nodeAttributes.namedItem("name").nodeValue().toUtf8(), dataType);
                 nodeType->setPropertyDescription(nodeAttributes.namedItem("name").nodeValue().toUtf8(), nodeAttributes.namedItem("description").nodeValue());
                 node->setType(nodeType);
@@ -239,18 +239,18 @@ void projectParser::parseBehaviorTrees(QDomNode xNode, btEditorNode * node ,btBr
 
             btEditorNode *  newBTNode = new btEditorNode();
             btEditorNodeType * brainNodeType = NULL;
-            
-            if(!nodeAttributes.namedItem("nodetype").isNull())
+
+            if (!nodeAttributes.namedItem("nodetype").isNull())
             {
-                for(int k = 0; k < brain->nodeTypes.count(); k++)
+                for (int k = 0; k < brain->nodeTypes.count(); k++)
                 {
-                    if(brain->nodeTypes[k]->className() == nodeAttributes.namedItem("nodetype").nodeValue())
+                    if (brain->nodeTypes[k]->className() == nodeAttributes.namedItem("nodetype").nodeValue())
                     {
                         newBTNode->setType(brain->nodeTypes[k]->copy());
                         brainNodeType = qobject_cast<btEditorNodeType*>(brain->nodeTypes[k]);
                         break;
                     }
-                    else if(nodeAttributes.namedItem("nodetype").nodeValue() == "[reference]")
+                    else if (nodeAttributes.namedItem("nodetype").nodeValue() == "[reference]")
                     {
                         newBTNode->setType(new btReferenceNode());
                         break;
@@ -258,29 +258,29 @@ void projectParser::parseBehaviorTrees(QDomNode xNode, btEditorNode * node ,btBr
                 }
             }
 
-            if(!nodeAttributes.namedItem("name").isNull())
+            if (!nodeAttributes.namedItem("name").isNull())
             {
                 newBTNode->setName(nodeAttributes.namedItem("name").nodeValue());
             }
-            if(!nodeAttributes.namedItem("description").isNull())
+            if (!nodeAttributes.namedItem("description").isNull())
             {
                 newBTNode->setDescription(nodeAttributes.namedItem("description").nodeValue());
             }
-            
-            if(currentNode.hasChildNodes())
+
+            if (currentNode.hasChildNodes())
             {
                 parseBehaviorTrees(currentNode, newBTNode, brain);
             }
-            
+
             qobject_cast<btEditorNodeType*>(newBTNode->type())->connectChangeProperty(brainNodeType);
 
-            if(newBTNode->type()->type() == btEditorNodeType::DecoratorNodeType)
+            if (newBTNode->type()->type() == btEditorNodeType::DecoratorNodeType)
             {
                 node->addDecorator(qobject_cast<btDecoratorNode*>(newBTNode->type()));
                 delete newBTNode;
                 continue;
             }
-            
+
             newBTNode->setParentNode(node);
             node->appendChild(newBTNode);
         }
@@ -289,43 +289,43 @@ void projectParser::parseBehaviorTrees(QDomNode xNode, btEditorNode * node ,btBr
 
 const QString projectParser::serializeProject(btBrain * brain)
 {
-	QString xmlData = "";
-	QXmlStreamWriter* xmlWriter = new QXmlStreamWriter(&xmlData);
-	xmlWriter->setAutoFormatting(true);
-	
-	xmlWriter->writeStartDocument("1.0");
-	
-	xmlWriter->writeStartElement("project");
-	xmlWriter->writeAttribute("name", brain->name());
-	
-	xmlWriter->writeStartElement("nodetypes");
-	
-	for (int i = 4; i < brain->nodeTypes.count(); i++) 
-	{
-		brain->nodeTypes[i]->toNodeTypeXml(xmlWriter);
-	}
-	
-	xmlWriter->writeEndElement(); //nodetypes
-	
-	xmlWriter->writeStartElement("behaviortrees");
-	for(int i = 0; i < brain->behaviorTrees.count(); i++)
+    QString xmlData = "";
+    QXmlStreamWriter* xmlWriter = new QXmlStreamWriter(&xmlData);
+    xmlWriter->setAutoFormatting(true);
+
+    xmlWriter->writeStartDocument("1.0");
+
+    xmlWriter->writeStartElement("project");
+    xmlWriter->writeAttribute("name", brain->name());
+
+    xmlWriter->writeStartElement("nodetypes");
+
+    for (int i = 4; i < brain->nodeTypes.count(); i++)
     {
-		xmlWriter->writeStartElement("behaviortree")		;
-        xmlWriter->writeAttribute("name", brain->behaviorTrees[i]->name());
-		xmlWriter->writeAttribute("description", brain->behaviorTrees[i]->description());
-		xmlWriter->writeAttribute("uid", QVariant(i).toString());
-		
-		qobject_cast<btEditorNode*>(brain->behaviorTrees[i]->rootNode()->child(0))->toXml(xmlWriter, brain->behaviorTrees);
-        
-		xmlWriter->writeEndElement();
+        brain->nodeTypes[i]->toNodeTypeXml(xmlWriter);
     }
-	xmlWriter->writeEndElement(); //behaviortrees
-	
-	xmlWriter->writeEndElement(); //project
-	
-	xmlWriter->writeEndDocument();
-	
-	return xmlData;
+
+    xmlWriter->writeEndElement(); //nodetypes
+
+    xmlWriter->writeStartElement("behaviortrees");
+    for (int i = 0; i < brain->behaviorTrees.count(); i++)
+    {
+        xmlWriter->writeStartElement("behaviortree")		;
+        xmlWriter->writeAttribute("name", brain->behaviorTrees[i]->name());
+        xmlWriter->writeAttribute("description", brain->behaviorTrees[i]->description());
+        xmlWriter->writeAttribute("uid", QVariant(i).toString());
+
+        qobject_cast<btEditorNode*>(brain->behaviorTrees[i]->rootNode()->child(0))->toXml(xmlWriter, brain->behaviorTrees);
+
+        xmlWriter->writeEndElement();
+    }
+    xmlWriter->writeEndElement(); //behaviortrees
+
+    xmlWriter->writeEndElement(); //project
+
+    xmlWriter->writeEndDocument();
+
+    return xmlData;
 }
 
 #include "projectparser.moc"

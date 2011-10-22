@@ -26,8 +26,8 @@
 #include "btnodeeditwidget.h"
 
 NewTreeWizard::NewTreeWizard(QWidget *parent)
-    : QWizard(parent)
- {
+        : QWizard(parent)
+{
     addPage(new IntroPage);
     addPage(new NamePage);
     //addPage(new NodeTypePage);
@@ -49,7 +49,7 @@ void NewTreeWizard::accept()
 }
 
 IntroPage::IntroPage(QWidget *parent)
-    : QWizardPage(parent)
+        : QWizardPage(parent)
 {
     setTitle(tr("Introduction"));
 
@@ -63,7 +63,7 @@ IntroPage::IntroPage(QWidget *parent)
 }
 
 NamePage::NamePage(QWidget *parent)
-    : QWizardPage(parent)
+        : QWizardPage(parent)
 {
     setTitle(tr("Choose Name for Behavior Tree"));
 
@@ -85,7 +85,7 @@ NamePage::NamePage(QWidget *parent)
 }
 
 NodeTypePage::NodeTypePage(QWidget *parent)
-    : QWizardPage(parent)
+        : QWizardPage(parent)
 {
     setTitle(tr("Add Node Types"));
 

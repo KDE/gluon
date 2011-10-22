@@ -31,16 +31,26 @@ btNodeType::~btNodeType()
 {
 }
 
-void btNodeType::setName(QString name) { m_name = name; }
-QString btNodeType::name() const { return m_name; }
+void btNodeType::setName(QString name) {
+    m_name = name;
+}
+QString btNodeType::name() const {
+    return m_name;
+}
 
-void btNodeType::setDescription(QString description) { m_description = description; }
-QString btNodeType::description() const { return m_description; }
+void btNodeType::setDescription(QString description) {
+    m_description = description;
+}
+QString btNodeType::description() const {
+    return m_description;
+}
 
-void btNodeType::setNodeType(nodeType type){m_type = type;}
+void btNodeType::setNodeType(nodeType type) {
+    m_type = type;
+}
 btNodeType::nodeType btNodeType::type() const
 {
-    if(m_type)
+    if (m_type)
         return m_type;
     else
         return UnusableNodeType;
@@ -84,9 +94,9 @@ void btNodeType::setPropertyDescription(QString propertyName, QString descriptio
 
 QString btNodeType::getPropertyDescription(QString propertyName)
 {
-    if(m_propertiesDescriptions.contains(propertyName))
+    if (m_propertiesDescriptions.contains(propertyName))
         return m_propertiesDescriptions[propertyName];
-    
+
     return "";
 }
 
@@ -98,7 +108,7 @@ void btNodeType::setPropertyDescription(QString newPropertyName, QString oldProp
 
 void btNodeType::removePropertyDescription(QString propertyName)
 {
-    if(m_propertiesDescriptions.contains(propertyName))
+    if (m_propertiesDescriptions.contains(propertyName))
         m_propertiesDescriptions.remove(propertyName);
 }
 

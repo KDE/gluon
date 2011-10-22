@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2009 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2009 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (c) 2009 Morten Justesen <morten.justesen@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -35,9 +36,9 @@ QColor ColorGen::nextColor()
 {
     QColor color(0,0,0,0);
 
-    if(hue >= 255){
+    if (hue >= 255) {
         sat += step;
-        if(sat >= 255){
+        if (sat >= 255) {
             sat = 0;
         }
         hue = 0;

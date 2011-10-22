@@ -24,7 +24,7 @@
 #include <QVariant>
 #include "../lib/btlib_export.h"
 
-struct BT_LIB_EXPORT btChildWeights 
+struct BT_LIB_EXPORT btChildWeights
 {
     QVariantList childWeightList;
 };

@@ -26,7 +26,7 @@ btNodeTypesModelNode::btNodeTypesModelNode(btEditorNodeType *data, btNodeTypesMo
 {
     this->nodeData = data;
     this->parentNode = parent;
-    if(parentNode)
+    if (parentNode)
         parentNode->appendChild(this);
 }
 
@@ -52,7 +52,7 @@ int btNodeTypesModelNode::childCount() const
 
 int btNodeTypesModelNode::row() const
 {
-    if(parentNode)
+    if (parentNode)
         return parentNode->children.indexOf(const_cast<btNodeTypesModelNode*>(this));
     return 0;
 }
@@ -64,19 +64,19 @@ int btNodeTypesModelNode::columnCount() const
 
 QVariant btNodeTypesModelNode::data(int column) const
 {
-    switch(column)
+    switch (column)
     {
-        case 0:
-            return m_name;
-            break;
-        case 1:
-            return nodeData->type();
-            break;
-        default:
-            return m_name;
-            break;
+    case 0:
+        return m_name;
+        break;
+    case 1:
+        return nodeData->type();
+        break;
+    default:
+        return m_name;
+        break;
     }
-    
+
 }
 
 btNodeTypesModelNode *btNodeTypesModelNode::parent()
@@ -90,8 +90,16 @@ void btNodeTypesModelNode::deleteChild(int row)
     qDebug("btNodeTypesModelNode::deleteChild");
 }
 
-btEditorNodeType *btNodeTypesModelNode::nodeType() const { return nodeData; }
-void btNodeTypesModelNode::setNodeType(btEditorNodeType *nodeType) { nodeData = nodeType; }
+btEditorNodeType *btNodeTypesModelNode::nodeType() const {
+    return nodeData;
+}
+void btNodeTypesModelNode::setNodeType(btEditorNodeType *nodeType) {
+    nodeData = nodeType;
+}
 
-void btNodeTypesModelNode::setName(QString name) { m_name = name; }
-QString btNodeTypesModelNode::name() const { return m_name; }
+void btNodeTypesModelNode::setName(QString name) {
+    m_name = name;
+}
+QString btNodeTypesModelNode::name() const {
+    return m_name;
+}

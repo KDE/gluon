@@ -51,13 +51,13 @@ btPropertyWidget::~btPropertyWidget()
 void btPropertyWidget::appendToPropertyView (QGridLayout * layout, qint32 &row, QObject * object, QString name, QString description, bool enabled, QVariant options)
 {
     ++row;
-    
+
     QLabel * nameLabel = new QLabel(this);
     nameLabel->setText(name);
     nameLabel->setToolTip(description);
     layout->addWidget(nameLabel, row, 0);
     nameLabel->setAlignment(Qt::AlignTop);
-    
+
     btPropertyWidgetItem * editWidget = new btPropertyWidgetItem(this);
     connect(editWidget,SIGNAL(sendUpdateTreeModel()), this, SLOT(updateTreeModel()));
     editWidget->setEditObject(object);
@@ -69,24 +69,24 @@ void btPropertyWidget::appendMetaObjectToPropertyView (QGridLayout * layout, qin
 {
     QString propertyName, propertyDescription;
     QVariant propertyValue;
-    
+
     const QMetaObject *metaobject = object->metaObject();
-    
+
     int count = metaobject->propertyCount();
     for (int i=0; i<count; ++i)
     {
         QMetaProperty metaproperty = metaobject->property(i);
         propertyName = metaproperty.name();
-        if(propertyName == "objectName")
+        if (propertyName == "objectName")
             continue;
-        
+
         propertyValue = object->property(propertyName.toUtf8());
         propertyDescription = getPropertyDescription(object, propertyName);
         appendToPropertyView(layout, row, object, propertyName, propertyDescription, enabled);
     }
-    
+
     foreach(QByteArray name, object->dynamicPropertyNames())
-    {        
+    {
         propertyName = QString(name);
         propertyValue = object->property(name);
         propertyDescription = getPropertyDescription(object, propertyName);;
@@ -102,11 +102,11 @@ void btPropertyWidget::appendObjectToPropertyView (QGridLayout * layout, qint32 
     titleLabel->setToolTip(node->description());
     titleLabel->setStyleSheet("background-color: " + colorgen->nextColor().name());
     layout->addWidget(titleLabel, row, 0, 1, 2);
- 
+
     // Add a new property line for each property in the object's metaobject...
     QObject *object = node;
     appendMetaObjectToPropertyView(layout, row, object, enabled);
-    
+
 }
 
 void btPropertyWidget::appendComponentToPropertyView (QGridLayout * layout, qint32 &row, btEditorNodeType * node, bool enabled)
@@ -115,50 +115,50 @@ void btPropertyWidget::appendComponentToPropertyView (QGridLayout * layout, qint
     QLabel * titleLabel = new QLabel(this);
 
     titleLabel->setStyleSheet("background-color: " + colorgen->nextColor().name());
-    if(QString(node->metaObject()->className()) == "btDecoratorNode")
-    {        
+    if (QString(node->metaObject()->className()) == "btDecoratorNode")
+    {
         titleLabel->setText(node->name());
         titleLabel->setToolTip(node->description());
-        
+
         QHBoxLayout * hLayout = new QHBoxLayout();
         hLayout->addWidget(titleLabel);
-        
+
         QToolButton * showMenuButton = new QToolButton(this);
-        
+
         QMenu * buttonMenu = new QMenu(showMenuButton);
-        
+
         btEditorNode* parent = qobject_cast<btEditorNode*>(node->parentNode());
-        
-        if(parent->decorators().indexOf(node) > 0)
+
+        if (parent->decorators().indexOf(node) > 0)
         {
             QAction* upAction = new QAction(buttonMenu);
-            upAction->setText("Move up");            
+            upAction->setText("Move up");
             connect(upAction, SIGNAL(triggered()), node, SLOT(moveUpAction()));
             buttonMenu->addAction(upAction);
         }
-        
-        if(parent->decorators().indexOf(node) < parent->decoratorCount()-1)
+
+        if (parent->decorators().indexOf(node) < parent->decoratorCount()-1)
         {
             QAction* downAction = new QAction(buttonMenu);
-            downAction->setText("Move down");            
+            downAction->setText("Move down");
             connect(downAction, SIGNAL(triggered()), node, SLOT(moveDownAction()));
             buttonMenu->addAction(downAction);
         }
-        
+
         QAction * removeAction = new QAction(buttonMenu);
-        removeAction->setText("Remove");        
+        removeAction->setText("Remove");
         connect(removeAction, SIGNAL(triggered()), node, SLOT(removeActionTriggered()));
-        
+
         QAction * sep = buttonMenu->addSeparator();
         sep->setParent(this);
         buttonMenu->addAction(removeAction);
-        
+
         showMenuButton->setText("Menu");
         showMenuButton->setMenu(buttonMenu);
         showMenuButton->setPopupMode(QToolButton::InstantPopup);
-        
-        hLayout->addWidget(showMenuButton); 
-        
+
+        hLayout->addWidget(showMenuButton);
+
         layout->addLayout(hLayout, row, 0,1,2);
     }
     else
@@ -166,7 +166,7 @@ void btPropertyWidget::appendComponentToPropertyView (QGridLayout * layout, qint
         titleLabel->setText(node->name());
         layout->addWidget(titleLabel, row, 0, 1, 2);
     }
-    
+
     // Add a new property line for each property in the object's metaobject...
     QObject *object = node;
     appendMetaObjectToPropertyView(layout, row, object, enabled);
@@ -176,72 +176,72 @@ void btPropertyWidget::setupPropertyView()
 {
     qDeleteAll(this->children());
     delete colorgen;
-    
+
     colorgen = new ColorGen(0,70,30);
-    
+
     QGridLayout * propertyLayout = new QGridLayout(this);
     propertyLayout->setMargin(0);
     propertyLayout->setSpacing(0);
-    
+
     qint32 row = 0;
 
     // First add yourself...
     appendObjectToPropertyView(propertyLayout, row, this->node(), true);
-    
+
     // Then add all the decorators...
-    for(int i = 0; i < this->node()->decoratorCount(); i++)
+    for (int i = 0; i < this->node()->decoratorCount(); i++)
     {
         appendComponentToPropertyView(propertyLayout, row, qobject_cast<btEditorNodeType*>(this->node()->decorators()[i]), false);
     }
-    
+
     // Finally, add the node's nodeType
     appendComponentToPropertyView(propertyLayout, row, qobject_cast<btEditorNodeType*>(node()->type()), false);
-    
+
     // Add spacery type stuffs...
     QWidget * containerWidget = new QWidget(this);
     containerWidget->setLayout(propertyLayout);
-    
+
     QVBoxLayout * containerLayout = new QVBoxLayout(this);
     containerLayout->addWidget(containerWidget);
     containerLayout->addStretch();
     containerLayout->setSpacing(0);
     containerLayout->setMargin(0);
-    
-    
+
+
     this->setLayout(containerLayout);
 }
 
-btEditorNode * btPropertyWidget::node() const 
-{ 
-    return m_node; 
+btEditorNode * btPropertyWidget::node() const
+{
+    return m_node;
 }
 
 void btPropertyWidget::setNode(btEditorNode * node)
-{        
+{
     /*if(m_node)
     {
         disconnect(m_node, SIGNAL(updatePropertyWidget()), this, SLOT(dragDropUpdate()));
     }*/
-    
+
     m_node = node;
     //connect(m_node, SIGNAL(updatePropertyWidget()), this, SLOT(dragDropUpdate()));
-    setupPropertyView(); 
+    setupPropertyView();
 }
 
 QString btPropertyWidget::getPropertyDescription(QObject *object, QString propertyName)
 {
     btEditorNodeType * node = qobject_cast<btEditorNodeType*>(object);
-    
-    if(node == NULL)
+
+    if (node == NULL)
         return "";
-    
+
     return node->getPropertyDescription(propertyName);
 }
 
 void btPropertyWidget::dragDropUpdate()
 {
-    if(m_node != NULL)
-    {        
+    if (m_node != NULL)
+    {
         setupPropertyView();
     }
 }
