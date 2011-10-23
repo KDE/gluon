@@ -18,4 +18,5 @@ GLUON_UNIT_TESTS(
     # Source files without the extension
     soundtest
     enginetest
+    playertest
 )

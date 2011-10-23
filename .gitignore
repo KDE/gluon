@@ -3,6 +3,7 @@
 *.so
 *.o
 *.a
+.svn/
 build
 release-build
 Doxyfile

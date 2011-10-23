@@ -202,10 +202,8 @@ Engine::createItem( const QString& meshName )
 
     Item* newItem = new Item( this );
 
-    AbstractMesh* mesh = d->object<AbstractMesh>( "Mesh", meshName );
-    if(!mesh) {
-        mesh = d->createObject<SpriteMesh>( "Mesh", meshName );
-    }
+    AbstractMesh* mesh = d->createObject<SpriteMesh>( "Mesh", meshName );
+    mesh->initialize();
     newItem->setMesh( mesh );
 
     d->items << newItem;

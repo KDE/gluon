@@ -42,7 +42,7 @@ Prefab::Prefab( const Prefab& other, QObject* parent )
 
 Prefab::~Prefab()
 {
-    delete( d );
+    delete d;
 }
 
 QString Prefab::contentsToGDL()
@@ -69,7 +69,6 @@ PrefabInstance* Prefab::createInstance()
         instance->setPrefabLink( this );
         instance->initialize();
     }
-    d->instances.append(instance);
     return instance;
 }
 

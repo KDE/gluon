@@ -37,17 +37,54 @@ namespace GluonCore
             GLUON_SINGLETON( DirectoryProvider )
 
         public:
+
+            /**
+             * Returns a directory location which is the prefix for other
+             * installation locations, like data, library, user and the like.
+             * The method will ensure that the installation happens by cmake or
+             * other installation methods, like Windows Installer. It will
+             * pick up the proper path prefix accordingly.
+             *
+             * @return  The installation prefix
+             */
             QString installPrefix() const;
 
+            /**
+             * Returns the directory location where the project data is installed
+             * to, and can also be stored.
+             *
+             * @return  The data directory location
+             */
             QString dataDirectory() const;
 
+            /**
+             * Returns the directory location where the libraries are installed
+             * to.
+             *
+             * @return  The library directory location
+             */
             QString libDirectory() const;
 
+            /**
+             * Returns the desired user directory location inside the location where
+             * persistent application data can be stored. The method will ensure
+             * that the path is created properly, if it is a new location.
+             *
+             * @param name  The identifier of the desired directory location
+             * @return      The desired user directory location
+             */
             QString userDirectory( const QString& name );
 
+            /**
+             * Returns the directory locations where plugins can be found.
+             *
+             * @return  The list of the plugin directory locations
+             */
+            QStringList pluginDirectoryPaths() const;
+
         private:
-            QString m_userDataPath;
-            QHash<QString, QString> m_userDirs;
+            class DirectoryProviderPrivate;
+            DirectoryProviderPrivate *const d;
     };
 
 }

@@ -255,10 +255,11 @@ namespace GluonCore
             QString fullyQualifiedName() const;
 
             /**
-             * The qualified name of the object, from the local root and upwards.
+             * The qualified name of the object, from the local root and upwards,
+             * not including the name of the local root object.
              * @see fullyQualifiedName
              */
-            QString qualifiedName(GluonObject* localRoot) const;
+            QString qualifiedName(const GluonObject* localRoot) const;
 
             /**
              * Used by GluonObjectFactory when requesting an object which supports a specific
@@ -321,12 +322,23 @@ namespace GluonCore
             /**
              * Attempt to locate an object by the specified qualified name, starting the search from
              * the object is called on. To search the full tree, for example for use with
-             * fullyQualifiedName, call this function on the object returned by root()
+             * fullyQualifiedName, use the findGlobalItemByName function.
              *
              * @param   qualifiedName   The path (with object names separated by the "/" symbol) to the object, relative to the object this function is called on
              * @return  The object if found, or null if not
+             * @see findGlobalItemByName
              */
             Q_INVOKABLE GluonObject* findItemByName( QString qualifiedName ) const;
+
+            /**
+             * Attempt to locate an object by the specified fully qualified name. If you don't have the
+             * fully qualified name, use findItemByName.
+             *
+             * @param fullyQualifiedName The path (with object names separated by the "/" symbol) to the object, starting with the root object
+             * @return The object if found, or null if not
+             * @see findItemByName
+             */
+            Q_INVOKABLE GluonObject* findGlobalItemByName( QString fullyQualifiedName );
 
             /**
              * Get the top-most GluonObject in the object hierarchy

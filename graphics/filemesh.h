@@ -40,7 +40,7 @@ namespace GluonGraphics
              *
              * \param file The file to load the data from.
              */
-            FileMesh( const QString& file, QObject* parent = 0 );
+            explicit FileMesh( const QString& file, QObject* parent = 0 );
             virtual ~FileMesh();
 
             QString file() const;

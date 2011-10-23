@@ -51,7 +51,7 @@ namespace GluonCore
             {
                 DEBUG_BLOCK
 
-                int typeID = qRegisterMetaType<T*>( T::staticMetaObject.className() + '*' );
+                int typeID = qRegisterMetaType<T*>( );
                 //Workaround Qt bug http://bugreports.qt.nokia.com/browse/QTBUG-2393
                 //Register each class with his class name without the namespace too.
                 QString name( QString( T::staticMetaObject.className() ).split( "::" ).at( 1 ) );

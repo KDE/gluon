@@ -185,7 +185,7 @@ void ParticleRendererComponent::setMaterial( GluonGraphics::MaterialInstance* ma
 
 void ParticleRendererComponent::setMaterial( const QString& path )
 {
-    setMaterial( qobject_cast<GluonGraphics::MaterialInstance*>( Game::instance()->gameProject()->findItemByName( path ) ) );
+    setMaterial( qobject_cast<GluonGraphics::MaterialInstance*>( Game::instance()->gameProject()->findGlobalItemByName( path ) ) );
 }
 
 int cameraVelocityScale()

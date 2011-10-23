@@ -18,12 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_PLAYER_GAMECONTENTJOB_H
-#define GLUON_PLAYER_GAMECONTENTJOB_H
+#ifndef GLUON_PLAYER_GAMEDETAILSJOB_H
+#define GLUON_PLAYER_GAMEDETAILSJOB_H
 
-#include "abstractjob.h"
+#include "gamedetailitem.h"
+#include "abstractsocialservicesjob.h"
 
-class QNetworkReply;
+#include <QtCore/QList>
+#include <QtCore/QMetaType>
 
 namespace Attica
 {
@@ -33,37 +35,27 @@ namespace Attica
 
 namespace GluonPlayer
 {
-    class GameContentJob : public AbstractJob
+    class GameDetailsJob : public AbstractSocialServicesJob
     {
-        Q_OBJECT
-    public:
-        GameContentJob(Attica::Provider* provider, const QString& id, const QString& fileName,
-                             const QString& destinationDir = QString(), QObject* parent = 0);
-        virtual ~GameContentJob();
+            Q_OBJECT
+        public:
+            explicit GameDetailsJob( Attica::Provider* provider, const QString& id,  QObject* parent = 0 );
+            virtual ~GameDetailsJob();
 
-        virtual void start();
+            virtual QVariant data();
 
-    Q_SIGNALS:
-        void downloadStarting();
-        void downloadFinished();
-        void downloadFailed();
+        protected Q_SLOTS:
+           virtual void startSocialService();
 
-        void uploadStarting();
-        void uploadFinished();
-        void uploadFailed();
+        private Q_SLOTS:
+            void processFetchedGameDetails( Attica::BaseJob* job );
 
-    private Q_SLOTS:
-        void startDownload();
-        void processDownloadLink(Attica::BaseJob* baseJob);
-        void downloadComplete(QNetworkReply *reply);
-
-        void startUpload();
-        void uploadComplete(Attica::BaseJob* baseJob);
-
-    private:
-        class Private;
-        Private* const d;
+        private:
+            class Private;
+            Private* const d;
     };
 }
 
-#endif // GLUON_PLAYER_GAMECONTENTJOB_H
+Q_DECLARE_METATYPE( GluonPlayer::GameDetailItem* )
+
+#endif // GLUON_PLAYER_GAMEDETAILSJOB_H

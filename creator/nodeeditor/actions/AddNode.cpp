@@ -55,7 +55,7 @@ void AddNodeAction::executePress( QPointF pos )
     else if( pos.x() > _graphDocument->width() ) return;
     else if( pos.y() > _graphDocument->height() ) return;
 
-    qDebug() << "Emitindo o addnode";
+    qDebug() << "Emitting the addnode";
     emit addNode( i18n( "untitled" ), QPointF( pos.x(), pos.y() ) );
 }
 

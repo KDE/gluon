@@ -191,7 +191,7 @@ void MeshRendererComponent::setMaterial( GluonGraphics::MaterialInstance* materi
 
 void MeshRendererComponent::setMaterial( const QString& path )
 {
-    setMaterial( qobject_cast<GluonGraphics::MaterialInstance*>( Game::instance()->gameProject()->findItemByName( path ) ) );
+    setMaterial( qobject_cast<GluonGraphics::MaterialInstance*>( Game::instance()->gameProject()->findGlobalItemByName( path ) ) );
 }
 
 Q_EXPORT_PLUGIN2( gluon_component_meshrenderer, GluonEngine::MeshRendererComponent );

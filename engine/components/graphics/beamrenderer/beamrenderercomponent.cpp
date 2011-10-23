@@ -189,7 +189,7 @@ void BeamRendererComponent::setBaseMaterial( GluonGraphics::MaterialInstance* ma
 
 void BeamRendererComponent::setBaseMaterial( const QString& path )
 {
-    setBaseMaterial( qobject_cast<GluonGraphics::MaterialInstance*>( Game::instance()->gameProject()->findItemByName( path ) ) );
+    setBaseMaterial( qobject_cast<GluonGraphics::MaterialInstance*>( Game::instance()->gameProject()->findGlobalItemByName( path ) ) );
 }
 
 GluonGraphics::MaterialInstance*
@@ -209,7 +209,7 @@ void BeamRendererComponent::setBeamMaterial( GluonGraphics::MaterialInstance* ma
 
 void BeamRendererComponent::setBeamMaterial( const QString& path )
 {
-    setBeamMaterial( qobject_cast<GluonGraphics::MaterialInstance*>( Game::instance()->gameProject()->findItemByName( path ) ) );
+    setBeamMaterial( qobject_cast<GluonGraphics::MaterialInstance*>( Game::instance()->gameProject()->findGlobalItemByName( path ) ) );
 }
 
 GluonGraphics::MaterialInstance*
@@ -229,7 +229,7 @@ void BeamRendererComponent::setTipMaterial( GluonGraphics::MaterialInstance* mat
 
 void BeamRendererComponent::setTipMaterial( const QString& path )
 {
-    setTipMaterial( qobject_cast<GluonGraphics::MaterialInstance*>( Game::instance()->gameProject()->findItemByName( path ) ) );
+    setTipMaterial( qobject_cast<GluonGraphics::MaterialInstance*>( Game::instance()->gameProject()->findGlobalItemByName( path ) ) );
 }
 
 void BeamRendererComponent::Private::loadMaterial( GluonGraphics::MaterialInstance* material )

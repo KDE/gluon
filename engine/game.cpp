@@ -23,8 +23,10 @@
 #include "scene.h"
 #include "gameobject.h"
 #include "gameproject.h"
+#include "achievementsmanager.h"
 
 #include <core/debughelper.h>
+#include <core/directoryprovider.h>
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QThread>
@@ -240,6 +242,12 @@ void Game::stopAll()
 void Game::cleanupAll()
 {
     d->currentScene->sceneContents()->cleanup();
+    // Save the achievements in an extra file for the player application
+    AchievementsManager achievementsManager;
+    achievementsManager.readFromProject(d->gameProject->achievements());
+    QString saveDirectory = GluonCore::DirectoryProvider::instance()->userDirectory("data");
+    saveDirectory.append( '/' + d->gameProject->userName() + '/' + d->gameProject->name() );
+    achievementsManager.save(saveDirectory);
     emit cleaned();
 }
 
@@ -280,7 +288,7 @@ Game::setCurrentScene( Scene* newCurrentScene )
 
 void Game::setCurrentScene( const QString& sceneName )
 {
-    Scene* scene = qobject_cast< GluonEngine::Scene* >( gameProject()->findItemByName( sceneName ) );
+    Scene* scene = qobject_cast< GluonEngine::Scene* >( gameProject()->findGlobalItemByName( sceneName ) );
     if( scene )
         setCurrentScene( scene );
 }

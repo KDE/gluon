@@ -21,9 +21,11 @@
 #ifndef GLUON_PLAYER_GAMEDETAILLISTJOB_H
 #define GLUON_PLAYER_GAMEDETAILLISTJOB_H
 
-#include "abstractjob.h"
+#include "gamedetailitem.h"
+#include "abstractsocialservicesjob.h"
 
 #include <QtCore/QList>
+#include <QtCore/QMetaType>
 
 namespace Attica
 {
@@ -33,61 +35,27 @@ namespace Attica
 
 namespace GluonPlayer
 {
-class GameDetailItem : public QObject
-{
-        Q_OBJECT
-        Q_ENUMS (Status)
-    public:
-        enum Status {
-            Downloadable,
-            Installed,
-            Upgradable
-        };
+    class GameDetailListJob : public AbstractSocialServicesJob
+    {
+            Q_OBJECT
+        public:
+            explicit GameDetailListJob( Attica::Provider* provider, QObject* parent = 0 );
+            virtual ~GameDetailListJob();
 
-        GameDetailItem(const QString& gameName, const QString& gameDescription,
-                        const QString& projectDirName, const QString& projectFileName,
-                        const QStringList& screenshotUrls, GluonPlayer::GameDetailItem::Status status,
-                        const QString id, QObject* parent = 0);
-        virtual ~GameDetailItem();
+            virtual QVariant data();
 
-        QString gameName() const;
-        QString gameDescription() const;
-        QString projectDirName() const;
-        QString projectFileName() const;
-        QStringList screenshotUrls() const;
-        Status status() const;
-        QString id() const;
+        protected Q_SLOTS:
+           virtual void startSocialService();
 
-    private:
-        class Private;
-        Private* const d;
-};
+        private Q_SLOTS:
+            void processFetchedGameList( Attica::BaseJob* job );
 
-class GameDetailListJob : public AbstractJob
-{
-        Q_OBJECT
-    public:
-        explicit GameDetailListJob(Attica::Provider* provider, QObject* parent = 0);
-        virtual ~GameDetailListJob();
-
-        virtual void start();
-
-        QList<GameDetailItem*> gameDetailList() const;
-
-    Q_SIGNALS:
-        void gameDetailListFetchStarting();
-        void gameDetailListFetchFinished(QList<GameDetailItem*> comments);
-        void gameDetailListFetchFailed();
-
-    private Q_SLOTS:
-        void fetchGameList();
-        void processFetchedGameList(Attica::BaseJob* job);
-
-    private:
-        class Private;
-        Private* const d;
+        private:
+            class Private;
+            Private* const d;
     };
 }
 
-#endif // GLUON_PLAYER_GAMEDETAILLISTJOB_H
+Q_DECLARE_METATYPE( QList<GluonPlayer::GameDetailItem*> )
 
+#endif // GLUON_PLAYER_GAMEDETAILLISTJOB_H

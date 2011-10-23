@@ -24,14 +24,19 @@
 
 #include <QtCore/QAbstractTableModel>
 
+namespace GluonEngine
+{
+    class ProjectMetaData;
+}
+
 namespace GluonPlayer
 {
     class GLUON_PLAYER_EXPORT AchievementsModel : public QAbstractTableModel
     {
             Q_OBJECT
 
-    public:
-            AchievementsModel( QObject* parent = 0 );
+        public:
+            AchievementsModel( GluonEngine::ProjectMetaData* metaData, const QString& userName, QObject* parent = 0 );
             virtual ~AchievementsModel();
 
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
@@ -39,9 +44,16 @@ namespace GluonPlayer
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 
+            enum Column
+            {
+                NameColumn,
+                ProgressColumn,
+                AchievedColumn
+            };
+
         private:
             class AchievementsModelPrivate;
-            AchievementsModelPrivate* d;
+            AchievementsModelPrivate* const d;
     };
 }
 

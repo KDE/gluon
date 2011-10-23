@@ -21,22 +21,37 @@ set(GLUON_PLAYER_INCLUDES
 
 set(libGluonPlayer_SRCS
     abstractjob.cpp
+    abstractsocialservicesjob.cpp
     addgamejob.cpp
+
+    archive/archiver.cpp
+    archive/extractor.cpp
+
     atticamanager.cpp
     authentication.cpp
     categorylistjob.cpp
-    commentlistjob.cpp
-    gamecontentjob.cpp
+    commentslistjob.cpp
+    commentuploadjob.cpp
+    editgamejob.cpp
+    gamedetailitem.cpp
+    gamedetailsjob.cpp
     gamedetaillistjob.cpp
+    gamedownloadjob.cpp
+    gameuploadjob.cpp
+    licensejob.cpp
     ratingjob.cpp
     serviceprovider.cpp
 
     models/achievementsmodel.cpp
-    models/gameviewitem.cpp
-    models/gameitemsmodel.cpp
+    models/allgameitemsmodel.cpp
     models/commentitemsmodel.cpp
     models/commentsmodel.cpp
+    models/downloadablegamesmodel.cpp
+    models/gameitem.cpp
+    models/gameitemsmodel.cpp
+    models/gameviewitem.cpp
     models/highscoresmodel.cpp
+    models/installedgamesmodel.cpp
 )
 
 qt4_automoc(${libGluonPlayer_SRCS})

@@ -53,7 +53,7 @@ ScriptEngine::ScriptEngine( QObject* parent )
 
 ScriptEngine::~ScriptEngine()
 {
-    delete( d );
+    delete d;
 }
 
 QScriptEngine* ScriptEngine::scriptEngine()
@@ -88,7 +88,7 @@ QScriptEngine* ScriptEngine::scriptEngine()
             {
                 qobject_cast<GluonCore::GluonObject*>( obj )->registerOnScriptEngine( d->engine );;
             }
-            delete( obj );
+            delete obj;
         }
     }
     return d->engine;
@@ -98,7 +98,7 @@ void ScriptEngine::resetEngine()
 {
     if( d->engine )
     {
-        delete( d->engine );
+        delete d->engine;
         d->engine = 0;
     }
 }

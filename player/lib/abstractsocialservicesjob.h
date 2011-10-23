@@ -1,9 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2000 Stephan Kulow <coolo@kde.org>
-                       David Faure <faure@kde.org>
- * Copyright (C) 2006 Kevin Ottens <ervin@kde.org>
- * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
+ * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,43 +17,39 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef ABSTRACTJOB_P_H
-#define ABSTRACTJOB_P_H
+#ifndef GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H
+#define GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H
 
 #include "abstractjob.h"
 
-#include <QtCore/QMap>
-
-class QTimer;
-class QEventLoop;
-
-class AbstractJobPrivate
+namespace Attica
 {
-public:
-    AbstractJobPrivate();
-    ~AbstractJobPrivate();
+    class Provider;
+}
 
-    int error;
-    QString errorText;
-    AbstractJob::Unit progressUnit;
-    QMap<AbstractJob::Unit, qulonglong> processedAmount;
-    QMap<AbstractJob::Unit, qulonglong> totalAmount;
-    unsigned long percentage;
-    bool suspended;
-    AbstractJob::Capabilities capabilities;
-    QTimer *speedTimer;
-    bool isAutoDelete;
-    QEventLoop *eventLoop;
+//TODO: Documentation
 
+namespace GluonPlayer
+{
+    class AbstractSocialServicesJob : public AbstractJob
+    {
+            Q_OBJECT
 
-    static bool _k_abstractjobUnitEnumRegistered;
+        public:
+            AbstractSocialServicesJob( Attica::Provider* provider );
 
-    bool isFinished;
+        protected:
+            virtual void startImplementation();
+            Attica::Provider* provider();
 
-public Q_SLOTS:
+        protected Q_SLOTS:
+            virtual void startSocialService() = 0;
 
-    void _k_speedTimeout();
+        private:
+            class Private;
+            Private* const d;
+    };
 
-};
+}
 
-#endif
+#endif // GLUONPLAYER_ABSTRACTSOCIALSERVICESJOB_H

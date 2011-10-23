@@ -19,37 +19,42 @@
 
 #include "gameviewitem.h"
 
+#include <engine/projectmetadata.h>
+
 using namespace GluonPlayer;
 
 class GameViewItem::Private
 {
     public:
-    Private()
+    Private() : metaData(0)
     {
     }
 
-    QString m_gameName;
-    QString m_gameDescription;
-    QString m_projectDirName;
-    QString m_projectFileName;
-    QStringList m_screenshotUrls;
-    Status m_status;
-    QString m_id;
+    GluonEngine::ProjectMetaData* metaData;
+    QStringList screenshotUrls;
+    Status status;
 };
 
-GameViewItem::GameViewItem( const QString& gameName, const QString& gameDescription,
-                            const QString& projectDirName, const QString& projectFileName, const Status& status,
-                            const QString& id, QObject* parent )
+GameViewItem::GameViewItem( const QString& projectFilePath, const Status& status, QObject* parent )
     : QObject( parent )
     , d( new Private )
 {
-    d->m_gameName = gameName;
-    d->m_gameDescription = gameDescription;
-    d->m_projectDirName = projectDirName;
-    d->m_projectFileName = projectFileName;
-    d->m_status = status;
-    d->m_id = id;
+    d->metaData = new GluonEngine::ProjectMetaData(this);
+    d->metaData->setProjectFilePath(projectFilePath);
+    d->metaData->load();
+    d->status = status;
 }
+
+GameViewItem::GameViewItem( const QString& projectName, const QString& projectDescription,
+                            const QString& projectFilePath, const Status& status,
+                            const QString& projectId, QObject* parent )
+    : QObject( parent )
+    , d( new Private )
+{
+    d->metaData = new GluonEngine::ProjectMetaData( projectFilePath, projectName, projectDescription, projectId, this );
+    d->status = status;
+}
+
 
 GameViewItem::GameViewItem( const GameViewItem& /* other */, QObject* parent )
     : QObject( parent )
@@ -61,39 +66,44 @@ GameViewItem::~GameViewItem()
 {
 }
 
-QString GameViewItem::gameName() const
+QString GameViewItem::projectName() const
 {
-    return d->m_gameName;
+    return d->metaData->projectName();
 }
 
-QString GameViewItem::gameDescription() const
+QString GameViewItem::projectDescription() const
 {
-    return d->m_gameDescription;
+    return d->metaData->projectDescription();
 }
 
-QString GameViewItem::projectDirName() const
+QString GameViewItem::projectDirPath() const
 {
-    return d->m_projectDirName;
+    return d->metaData->projectDir();
 }
 
-QString GameViewItem::projectFileName() const
+QString GameViewItem::projectFilePath() const
 {
-    return d->m_projectFileName;
+    return d->metaData->projectFilePath();
 }
 
 QStringList GameViewItem::screenshotUrls() const
 {
-    return d->m_screenshotUrls;
+    return d->screenshotUrls;
 }
 
 GameViewItem::Status GameViewItem::status() const
 {
-    return d->m_status;
+    return d->status;
 }
 
-QString GameViewItem::id() const
+QString GameViewItem::projectId() const
 {
-    return d->m_id;
+    return d->metaData->projectId();
+}
+
+GluonEngine::ProjectMetaData* GameViewItem::metaData()
+{
+    return d->metaData;
 }
 
 #include "gameviewitem.moc"

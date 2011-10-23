@@ -20,6 +20,7 @@
 #include "achievementsmanager.h"
 
 #include "achievement.h"
+#include "assets/graphics/texture/textureasset.h"
 
 #include <core/gluonobject.h>
 #include <core/directoryprovider.h>
@@ -113,6 +114,12 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
         GluonCore::GluonObject* object = new GluonCore::GluonObject(this);
         object->setProperty( "path", achievement->fullyQualifiedName() );
         object->setProperty( "name", achievement->name() );
+        if( achievement->icon() )
+            object->setProperty( "icon", achievement->icon()->file().toLocalFile() );
+        object->setProperty( "minimumScore", achievement->minimumScore() );
+        object->setProperty( "currentScore", achievement->currentScore() );
+        object->setProperty( "hasDependency", achievement->hasDependency() );
+        object->setProperty( "dependencySatisfied", achievement->dependencySatisfied() );
         object->setProperty( "achieved", achievement->achieved() );
     }
 }
@@ -125,7 +132,12 @@ void AchievementsManager::makeTemplate()
     {
         GluonCore::GluonObject* object = qobject_cast<GluonCore::GluonObject*>( i.next() );
         if( object )
+        {
+            object->setProperty( "currentScore", 0 );
+            if( object->property( "hasDependency" ).toBool() )
+                object->setProperty( "dependencySatisfied", false );
             object->setProperty( "achieved", false );
+        }
     }
 }
 
@@ -144,6 +156,30 @@ QString AchievementsManager::achievementName( int index ) const
 {
     Q_ASSERT_X( index >= 0 && index < achievementsCount(), Q_FUNC_INFO, "index out of range in list of achievements" );
     return children().at(index)->property("name").toString();
+}
+
+QString AchievementsManager::achievementIcon( int index ) const
+{
+    Q_ASSERT_X( index >= 0 && index < achievementsCount(), Q_FUNC_INFO, "index out of range in list of achievements" );
+    return children().at(index)->property( "icon" ).toString();
+}
+
+qlonglong AchievementsManager::minimumScore( int index ) const
+{
+    Q_ASSERT_X( index >= 0 && index < achievementsCount(), Q_FUNC_INFO, "index out of range in list of achievements" );
+    return children().at(index)->property( "minimumScore" ).toLongLong();
+}
+
+qlonglong AchievementsManager::currentScore( int index ) const
+{
+    Q_ASSERT_X( index >= 0 && index < achievementsCount(), Q_FUNC_INFO, "index out of range in list of achievements" );
+    return children().at(index)->property( "currentScore" ).toLongLong();
+}
+
+bool AchievementsManager::dependencySatisfied( int index ) const
+{
+    Q_ASSERT_X( index >= 0 && index < achievementsCount(), Q_FUNC_INFO, "index out of range in list of achievements" );
+    return children()[index]->property( "dependencySatisfied" ).toBool();
 }
 
 bool AchievementsManager::achievementAchieved( int index ) const

@@ -79,13 +79,6 @@ namespace GluonEngine
              */
             void setValue( qlonglong value );
 
-        public Q_SLOTS:
-            /**
-            * Force initialize() to open a new database connection.
-            */
-            void invalidate();
-
-        protected:
             /** Returns the current array */
             QList<qlonglong> array() const;
 
@@ -96,6 +89,13 @@ namespace GluonEngine
              */
             void setArray( const QList<qlonglong>& list );
 
+        public Q_SLOTS:
+            /**
+            * Force initialize() to open a new database connection.
+            */
+            void invalidate();
+
+        protected:
             /** Append value to the array */
             void arrayAppend( qlonglong value );
 

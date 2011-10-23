@@ -24,23 +24,28 @@
 
 class GluonObjectTest : public QObject
 {
-	Q_OBJECT
-public:
-    GluonObjectTest();
-    virtual ~GluonObjectTest();
+        Q_OBJECT
 
-private Q_SLOTS:
-    void testAddChild();
-    void testChildAt();
-    void testChildByName();
-    void testName();
-    void testSupportedMimeTypes();
-    void testRemoveChild();
-    void testMetaInfo();
-    void testHasMetaInfo();
-    void testShouldSerializeChildren();
-    void testqualifiedname();
-    void testfullyqualifiedname();
+    public:
+        GluonObjectTest();
+        virtual ~GluonObjectTest();
+
+    private Q_SLOTS:
+        void testAddChild();
+        void testAddChildAt();
+        void testChildAt();
+        void testChildByName();
+        void testName();
+        void testSupportedMimeTypes();
+        void testRemoveChild();
+        void testMetaInfo();
+        void testHasMetaInfo();
+        void testShouldSerializeChildren();
+        void testQualifiedName();
+        void testFullyQualifiedName();
+        void testNameToObjectName();
+        void testSetProperty();
+        void testSetProperty_data();
 };
 
 #endif // GLUON_CORE_GLUONOBJECTTEST_H

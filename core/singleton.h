@@ -126,7 +126,11 @@ namespace GluonCore
              *
              * Cleans up the mutex so we do not accidentally leak it.
              */
-            virtual ~Singleton() { }
+            virtual ~Singleton()
+            {
+                delete sm_mutex;
+                sm_mutex = 0;
+            }
             
         private:
 

@@ -322,7 +322,7 @@ bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int
             GluonEngine::GameProject* project = GluonEngine::Game::instance()->gameProject();
             foreach( const QString & name, names )
             {
-                GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>( project->findItemByName( name ) );
+                GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>( project->findGlobalItemByName( name ) );
                 if( gobj )
                     objects.append( gobj );
             }

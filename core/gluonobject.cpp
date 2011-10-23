@@ -346,14 +346,18 @@ GluonObject::fullyQualifiedName() const
     return name();
 }
 
-QString GluonObject::qualifiedName(GluonObject* localRoot) const
+QString GluonObject::qualifiedName(const GluonObject* localRoot) const
 {
+    if( localRoot == this )
+        return "";
+
     GluonObject* theParent = qobject_cast<GluonObject*>( parent() );
     if( theParent )
     {
-        if( theParent == localRoot )
-            return "";
-        return QString( "%1/%2" ).arg( theParent->fullyQualifiedName() ).arg( name() );
+        if( localRoot == theParent )
+            return name();
+
+        return QString( "%1/%2" ).arg( theParent->qualifiedName( localRoot ) ).arg( name() );
     }
     return name();
 }
@@ -364,9 +368,17 @@ GluonObject::findItemByName( QString qualifiedName ) const
     /*DEBUG_BLOCK
     DEBUG_TEXT(QString("Looking up %1").arg(qualifiedName))*/
     QStringList names = qualifiedName.split( '/' );
-    if( names.at( 0 ) == name() )
-        names.removeFirst();
     return findItemByNameInObject( names, this );
+}
+
+GluonObject*
+GluonObject::findGlobalItemByName( QString fullyQualifiedName )
+{
+    QStringList names = fullyQualifiedName.split( '/' );
+    if( !names.isEmpty() )
+        names.removeFirst();
+
+    return findItemByNameInObject( names, root() );
 }
 
 GluonObject*
@@ -731,6 +743,9 @@ GluonObject::findItemByNameInObject( QStringList qualifiedName, const GluonCore:
     DEBUG_BLOCK
     GluonObject* foundChild = 0;
 
+    if( qualifiedName.isEmpty() )
+        return foundChild;
+
     QString lookingFor( qualifiedName[0] );
     qualifiedName.removeFirst();
 
@@ -792,7 +807,7 @@ GluonObject::sanitizeReference( const QString& propName, const QString& propValu
             QString propertyName = propName;
             QString theReferencedName = propValue.mid( typeName.length() + 1, propValue.length() - ( typeName.length() + 2 ) );
 
-            GluonObject* theObject = root()->findItemByName( theReferencedName );
+            GluonObject* theObject = root()->findGlobalItemByName( theReferencedName );
 
             if( !theObject )
             {

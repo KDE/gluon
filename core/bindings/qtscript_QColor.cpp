@@ -28,7 +28,6 @@
 #include <QtCore/QMetaObject>
 #include <QtCore/QVariant>
 #include <QtCore/QDataStream>
-#include <QtCore/QStringList>
 
 static const char* const qtscript_QColor_function_names[] =
 {
