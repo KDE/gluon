@@ -4,9 +4,9 @@ find_package(Qt4 REQUIRED)
 find_package(KDE4 REQUIRED)
 
 
-add_definitions(-DMAKE_BT_LIB)
+add_definitions(-DMAKE_BT_LIB ${KDE4_DEFINITIONS})
  
-include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/../common/)
+include_directories(${QT_INCLUDES} ${KDE4_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/../common/)
 
 set(bteditor_SRCS
     btavailablenodestreeview.cpp
