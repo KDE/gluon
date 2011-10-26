@@ -2,8 +2,14 @@
 Encoding=UTF-8
 
 Name=bteditor
+Name[sv]=BT-editor
+Name[uk]=bteditor
+Name[x-test]=xxbteditorxx
 
 Comment=Provides a Behavior Tree Editor for Gluon Creator
+Comment[sv]=Tillhandahåller en editor av beteendeträd för Gluon Creator
+Comment[uk]=Забезпечує роботу редактора дерева поведінки у Gluon Creator
+Comment[x-test]=xxProvides a Behavior Tree Editor for Gluon Creatorxx
 
 Icon=gluon
 
