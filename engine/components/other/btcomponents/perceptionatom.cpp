@@ -65,7 +65,7 @@ void PerceptionAtom::setPerceptionInfo(GluonEngine::PerceptionInfo* info)
 
 qreal PerceptionAtom::precision() const
 {
-	d->atom->precision();
+	return d->atom->precision();
 }
 
 void PerceptionAtom::setPrecision(qreal precision)
