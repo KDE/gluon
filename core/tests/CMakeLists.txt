@@ -20,7 +20,7 @@ GLUON_UNIT_TESTS(
     "gluoncore"             # modulename argument
 
     # Source files without the extension
-    gdlhandlertest
+    #gdlhandlertest
     gluonobjecttest
     metainfotest
 )

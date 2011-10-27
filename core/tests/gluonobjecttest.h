@@ -40,12 +40,9 @@ class GluonObjectTest : public QObject
         void testRemoveChild();
         void testMetaInfo();
         void testHasMetaInfo();
-        void testShouldSerializeChildren();
         void testQualifiedName();
         void testFullyQualifiedName();
         void testNameToObjectName();
-        void testSetProperty();
-        void testSetProperty_data();
 };
 
 #endif // GLUON_CORE_GLUONOBJECTTEST_H
