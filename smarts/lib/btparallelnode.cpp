@@ -105,6 +105,7 @@ btNode::status btParallelNode::conditionsFulfilled()
 {
 	btNode::status fulfilled = Succeeded;
     bool terminate = false;
+    Q_UNUSED(terminate)
 	for (int i = 0; i < this->childCount(); i++)
 	{
 		if(m_runningNodesStatus->value(i) == btNode::Running && m_runningNodesStatus->value(i) != m_conditionStatus->value(i))

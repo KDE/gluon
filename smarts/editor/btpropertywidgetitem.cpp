@@ -31,6 +31,9 @@
 
 btPropertyWidgetItem::btPropertyWidgetItem(QObject * parent, Qt::WindowFlags f)
 {
+    Q_UNUSED(parent)
+    Q_UNUSED(f)
+
     QGridLayout * layout = new QGridLayout(this);
     layout->setSpacing(0);
     layout->setMargin(0);
@@ -288,6 +291,7 @@ QWidget * btPropertyWidgetItem::createList(QVariant value, bool enabled)
 
 const QString btPropertyWidgetItem::getPropertyType(QString propertyName)
 {
+    Q_UNUSED(propertyName)
     return "";
 }
 

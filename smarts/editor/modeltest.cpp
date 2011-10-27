@@ -181,6 +181,7 @@ void ModelTest::hasIndex()
 
     int rows = model->rowCount();
     int columns = model->columnCount();
+    Q_UNUSED(columns)
 
     // check out of bounds
     Q_ASSERT(model->hasIndex(rows, columns) == false);
@@ -205,6 +206,7 @@ void ModelTest::index()
 
     int rows = model->rowCount();
     int columns = model->columnCount();
+    Q_UNUSED(columns)
 
     if (rows == 0)
         return;
@@ -415,6 +417,7 @@ void ModelTest::data()
     QVariant textAlignmentVariant = model->data(model->index(0, 0), Qt::TextAlignmentRole);
     if (textAlignmentVariant.isValid()) {
         int alignment = textAlignmentVariant.toInt();
+        Q_UNUSED(alignment)
         Q_ASSERT(alignment == (alignment & (Qt::AlignHorizontal_Mask | Qt::AlignVertical_Mask)));
     }
 
@@ -433,6 +436,7 @@ void ModelTest::data()
     QVariant checkStateVariant = model->data(model->index(0, 0), Qt::CheckStateRole);
     if (checkStateVariant.isValid()) {
         int state = checkStateVariant.toInt();
+        Q_UNUSED(state)
         Q_ASSERT(state == Qt::Unchecked ||
                  state == Qt::PartiallyChecked ||
                  state == Qt::Checked);
@@ -462,6 +466,9 @@ void ModelTest::rowsAboutToBeInserted(const QModelIndex &parent, int start, int 
  */
 void ModelTest::rowsInserted(const QModelIndex & parent, int start, int end)
 {
+    Q_UNUSED(parent)
+    Q_UNUSED(start)
+    Q_UNUSED(end)
     Changing c = insert.pop();
     Q_ASSERT(c.parent == parent);
     Q_ASSERT(c.oldSize + (end - start + 1) == model->rowCount(parent));

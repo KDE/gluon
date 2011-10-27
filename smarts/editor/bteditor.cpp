@@ -42,6 +42,7 @@
 
 bteditor::bteditor(QWidget *parent) : KParts::MainWindow()
 {
+    Q_UNUSED(parent)
     m_currentBehaviorTree = NULL;
     oldPropertyWidget = NULL;
 
@@ -135,6 +136,8 @@ void bteditor::showBehaviorTree(btTreeModel* showThis)
 
 void bteditor::editorSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
+    Q_UNUSED(selected)
+    Q_UNUSED(deselected)
     btNode* selectedNode = static_cast<btNode*>(btEditor->selectionModel()->currentIndex().internalPointer());
     showPropertiesFor(qobject_cast<btEditorNode*>(selectedNode));
 }
@@ -467,6 +470,7 @@ void bteditor::on_actionNew_Tree_triggered()
 
 void bteditor::updateView(const QModelIndex& one, const QModelIndex& two)
 {
+    Q_UNUSED(two)
     this->btEditor->scrollTo(one);
 }
 

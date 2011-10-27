@@ -33,6 +33,7 @@
 
 btNodeEditWidget::btNodeEditWidget(QWidget * parent)
 {
+    Q_UNUSED(parent)
     model = 0;
     m_selectedNode = 0;
     mainLayout      = new QVBoxLayout(this);

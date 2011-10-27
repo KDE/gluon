@@ -32,11 +32,13 @@ btnodemodel::btnodemodel(btEditorNodeType * nodetype,QObject *parent)
 
 int btnodemodel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return node->dynamicPropertyNames().count();
 }
 
 int btnodemodel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return 3;
 }
 

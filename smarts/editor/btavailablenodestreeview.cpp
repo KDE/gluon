@@ -28,6 +28,7 @@
 
 btAvailableNodesTreeView::btAvailableNodesTreeView(QWidget* parent)
 {
+    Q_UNUSED(parent)
     setDragEnabled(true);
 }
 

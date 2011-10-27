@@ -38,6 +38,7 @@
 
 btPropertyWidget::btPropertyWidget(QObject * parent)
 {
+    Q_UNUSED(parent)
     colorgen = NULL;
     m_node = NULL;
 }
@@ -50,6 +51,7 @@ btPropertyWidget::~btPropertyWidget()
 
 void btPropertyWidget::appendToPropertyView (QGridLayout * layout, qint32 &row, QObject * object, QString name, QString description, bool enabled, QVariant options)
 {
+    Q_UNUSED(options)
     ++row;
 
     QLabel * nameLabel = new QLabel(this);

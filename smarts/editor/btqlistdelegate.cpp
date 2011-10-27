@@ -31,6 +31,7 @@ btQListDeletgate::btQListDeletgate(QObject *parent)
 
 QWidget *btQListDeletgate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    Q_UNUSED(option)
     //qRegisterMetaType<btChildWeights>("btChildWeights");
 	//qRegisterMetaType<btParallelConditions>("btParallelConditions");
     

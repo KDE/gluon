@@ -302,6 +302,7 @@ void btCharacter::stopParallelExecution(btNode * currentNode, QStack<btNode*>* p
 	while(!nodeStacksForTermination->empty())
     {		
         int counter = m_currentNodeStackQueue.count();
+        Q_UNUSED(counter)
 		
         QPair<QStack<btNode*>*, QStack<btNode*>*> terminationPair = nodeStacksForTermination->pop();
 		

@@ -24,6 +24,7 @@
 
 btTreeEditor::btTreeEditor(QWidget *parent)
 {
+    Q_UNUSED(parent)
     setAcceptDrops(true);
     setDragEnabled(true);
 }
