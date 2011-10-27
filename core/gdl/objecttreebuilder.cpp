@@ -25,6 +25,7 @@
 
 #include <core/gluonobject.h>
 #include <core/gluonobjectfactory.h>
+#include <core/debughelper.h>
 
 #include <core/gdl/gdllexer.h>
 #include <core/gdl/gdlparser.h>
@@ -42,24 +43,37 @@ using namespace GluonCore;
 class ObjectTreeBuilder::Private
 {
     public:
+        struct Reference
+        {
+            GluonObject* object;
+            QString property;
+            QString type;
+            QString path;
+        };
+
         Private() : currentObject(0) { }
-        
+
         QString textForToken(Lexer::Token token);
         QString stripQuotes(const QString& input);
-        
+
         Lexer* lexer;
         QString content;
 
-        QList<GluonCore::GluonObject*> objects;
-        GluonCore::GluonObject* currentObject;
+        QList<GluonObject*> objects;
+        GluonObject* currentObject;
+        GluonObject* project;
+        QString currentPropertyName;
         QVariant currentPropertyValue;
+
+        QList<Reference> references;
 };
 
-ObjectTreeBuilder::ObjectTreeBuilder(Lexer* lexer, const QString& content)
+ObjectTreeBuilder::ObjectTreeBuilder(Lexer* lexer, const QString& content, GluonObject* project)
     : d(new Private)
 {
     d->lexer = lexer;
     d->content = content;
+    d->project = project;
 }
 
 ObjectTreeBuilder::~ObjectTreeBuilder()
@@ -67,14 +81,57 @@ ObjectTreeBuilder::~ObjectTreeBuilder()
 
 }
 
-QList< GluonCore::GluonObject* > ObjectTreeBuilder::objects()
+QList< GluonObject* > ObjectTreeBuilder::objects()
 {
     return d->objects;
+}
+
+void ObjectTreeBuilder::visitStart(StartAst* node)
+{
+    DefaultVisitor::visitStart(node);
+
+    //Post-process references
+    foreach( const Private::Reference& ref, d->references )
+    {
+        GluonObject* target = 0;
+        foreach( GluonObject* object, d->objects )
+        {
+            target = object->findItemByName( ref.path );
+            if( target )
+                break;
+        }
+
+        if( !target )
+        {
+            ref.object->debug("Warning: Invalid reference for property %1", ref.property);
+            continue;
+        }
+
+        ref.object->setProperty( ref.property.toUtf8(), GluonCore::GluonObjectFactory::instance()->wrapObject( ref.type, target ) );
+    }
+
+    //Allow subclasses to do their own post-processing as well
+    foreach( GluonCore::GluonObject* object, d->objects )
+    {
+        object->sanitize();
+    }
 }
 
 void ObjectTreeBuilder::visitObject(GDL::ObjectAst* node)
 {
     GluonObject* newObject = GluonObjectFactory::instance()->instantiateObjectByName(d->textForToken(d->lexer->token(node->type)));
+
+    if( !d->project )
+    {
+        d->project = newObject;
+    }
+    else
+    {
+        newObject->setGameProject( d->project );
+    }
+
+
+    newObject->setName( d->stripQuotes( d->textForToken( d->lexer->token( node->name ) ) ) );
 
     if(d->currentObject)
     {
@@ -87,7 +144,7 @@ void ObjectTreeBuilder::visitObject(GDL::ObjectAst* node)
 
     GluonObject* parent = d->currentObject;
     d->currentObject = newObject;
-    
+
     GDL::DefaultVisitor::visitObject(node);
 
     d->currentObject = parent;
@@ -100,12 +157,15 @@ void ObjectTreeBuilder::visitProperty(GDL::PropertyAst* node)
         qFatal("Cannot set properties on non-existing object");
         return;
     }
-    
+
+    d->currentPropertyName = d->textForToken(d->lexer->token(node->propertyName));
+
     GDL::DefaultVisitor::visitProperty(node);
 
-    QString propertyName = d->textForToken(d->lexer->token(node->propertyName));
-
-    d->currentObject->setProperty(propertyName.toUtf8(), d->currentPropertyValue);
+    if(!d->currentPropertyValue.isNull())
+    {
+        d->currentObject->setProperty(d->currentPropertyName.toUtf8(), d->currentPropertyValue);
+    }
 }
 
 void ObjectTreeBuilder::visitBoolean_type(GDL::Boolean_typeAst* node)
@@ -232,12 +292,18 @@ void ObjectTreeBuilder::visitSize2d_type(GDL::Size2d_typeAst* node)
 
 void ObjectTreeBuilder::visitObject_type(GDL::Object_typeAst* node)
 {
-    
+    QString type = d->textForToken( d->lexer->token( node->type ) );
+    QString reference = d->stripQuotes( d->textForToken( d->lexer->token( node->value ) ) );
+
+    Private::Reference ref = { d->currentObject, d->currentPropertyName, type, reference };
+    d->references.append( ref );
+
+    d->currentPropertyValue = QVariant();
 }
 
 void ObjectTreeBuilder::visitList_type(GDL::List_typeAst* node)
 {
-
+    qDebug("TODO: Implement list type");
 }
 
 QString ObjectTreeBuilder::Private::textForToken(KDevPG::Token token)
@@ -254,5 +320,3 @@ QString ObjectTreeBuilder::Private::stripQuotes(const QString& input)
         retval = retval.remove(retval.size() - 1, 1);
     return retval;
 }
-
-
