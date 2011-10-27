@@ -53,6 +53,7 @@ set(GluonCore_SRCS
     metainfo.cpp
     referencecounter.cpp
     scriptengine.cpp
+    gdlserializer.cpp
 
     bindings/com_trolltech_qt_gui_init.cpp
     bindings/qtscript_QColor.cpp
@@ -66,11 +67,11 @@ set(GluonCore_SRCS
     gdl/gdlparser.cpp
     gdl/gdlvisitor.cpp
     gdl/gdldefaultvisitor.cpp
+    gdl/objecttreebuilder.cpp
 )
 
 set(GluonCore_HEADERS
     debughelper.h
-    gdlhandler.h
     gluon_core_export.h
     gluonobject.h
     gluonobjectfactory.h
@@ -80,6 +81,7 @@ set(GluonCore_HEADERS
     referencecounter.h
     scriptengine.h
     singleton.h
+    gdlserializer.h
 
     ${CMAKE_CURRENT_BINARY_DIR}/gluon_global.h
 )
