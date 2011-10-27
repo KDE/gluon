@@ -110,12 +110,6 @@ void GluonObjectTest::testHasMetaInfo()
     QCOMPARE(gluonObject.hasMetaInfo(), true);
 }
 
-void GluonObjectTest::testShouldSerializeChildren()
-{
-    GluonObject gluonObject;
-    QCOMPARE(gluonObject.shouldSerializeChildren(), true);
-}
-
 void GluonObjectTest::testQualifiedName()
 {
     QString gluonObject1Name = "GluonObject1";
@@ -156,44 +150,6 @@ void GluonObjectTest::testNameToObjectName()
 {
     GluonObject gluonObject;
     QCOMPARE(gluonObject.nameToObjectName("@_Gluon Object1&"), QString("_GluonObject1"));
-}
-
-void GluonObjectTest::testSetProperty()
-{
-    GluonObject gluonObject;
-    QFETCH(QByteArray, propertyName);
-    QFETCH(QByteArray, propertyValue);
-    gluonObject.setPropertyFromString(propertyName, propertyValue);
-
-    QString propertyString('\n' + propertyName + ' ' + propertyValue);
-    QCOMPARE(gluonObject.stringFromProperty(propertyName, ""),
-             propertyString);
-}
-
-void GluonObjectTest::testSetProperty_data()
-{
-    QTest::addColumn<QByteArray>("propertyName");
-    QTest::addColumn<QByteArray>("propertyValue");
-
-    QHash<QByteArray, QByteArray> hash;
-    hash["Int"] = "int(-1)";
-    hash["UInt"] = "uint(1)";
-    hash["Long"] = "longlong(1)";
-    hash["Bool"] = "bool(true)";
-    hash["Float"] = "float(1.1)";
-    hash["Color"] = "rgba(1;2;3;4)";
-    hash["String"] = "string(Gluon)";
-    hash["Size2D"] = "size2d(1;2)";
-    hash["Vector2D"] = "vector2d(1;2)";
-    hash["Vector3D"] = "vector3d(1;2;3)";
-    hash["Vector4D"] = "vector4d(1;2;3;4)";
-    hash["Quaternion"] = "quaternion(1;2;3;4)";
-
-    QHashIterator<QByteArray, QByteArray> i(hash);
-    while (i.hasNext()) {
-        i.next();
-        QTest::newRow(i.key().constData()) << i.key() << i.value();
-    }
 }
 
 QTEST_MAIN(GluonObjectTest)
