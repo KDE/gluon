@@ -19,12 +19,10 @@
 
 #include "statisticsasset.h"
 
-#include <engine/statistic.h>
-#include <engine/tasksstatistic.h>
-#include <engine/multiscorestatistic.h>
-#include <core/gdlhandler.h>
-
 #include <QtGui/QAction>
+
+#include <core/gdlserializer.h>
+#include <engine/statistic.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, StatisticsAsset )
 
@@ -75,27 +73,11 @@ const QStringList StatisticsAsset::supportedMimeTypes() const
 
 QString StatisticsAsset::contentsToGDL()
 {
-    /* Due to a bug in GDL, it can't handle more than one top level
-     * item. This workaround creates a temporary object which takes
-     * the statistics as children.
-     * TODO: remove as soon as the GDL bug is fixed
-     */
-    GluonCore::GluonObject object;
-    object.setName( "temporaryObject" );
-    foreach( QObject* child, children() )
-    {
-        AbstractStatistic* obj = qobject_cast<AbstractStatistic*>(child);
-        if( obj )
-            obj->setParent(&object);
-    }
-    QString result = GluonCore::GDLHandler::instance()->toGDL(&object);
-    foreach( QObject* child, object.children() )
-    {
-        AbstractStatistic* obj = qobject_cast<AbstractStatistic*>(child);
-        if( obj )
-            obj->setParent(this);
-    }
-    return result;
+    QByteArray data;
+    if( !GluonCore::GDLSerializer::instance()->serialize( GluonCore::GluonObjectList() << this, data ) )
+        return QString();
+
+    return QString( data );
 }
 
 const QList< AssetTemplate* > StatisticsAsset::templates()
@@ -112,12 +94,6 @@ QList< QAction* > StatisticsAsset::actions()
 
 void StatisticsAsset::setFile(const QUrl& newFile)
 {
-    /* This function will extract the statistic instances
-     * from the file only the first time. If it would read
-     * the file every time this function is called, it would
-     * add the same instance multiple times. If I try do delete
-     * all statistics before, gluon creator crashes.
-     */
     GluonEngine::Asset::setFile(newFile);
     foreach( QObject* child, children() )
     {
@@ -125,18 +101,17 @@ void StatisticsAsset::setFile(const QUrl& newFile)
         if( statistic )
             return;
     }
-    QList<GluonCore::GluonObject*> list = GluonCore::GDLHandler::instance()->parseGDL(file(), 0);
-    if( list.isEmpty() )
+
+    GluonCore::GluonObjectList list;
+    if( !GluonCore::GDLSerializer::instance()->read( file(), list ) )
         return;
 
-    GluonCore::GluonObject* tmpObj = list.at(0);
-    foreach( QObject* child, tmpObj->children() )
+    foreach( GluonCore::GluonObject* object, list )
     {
         AbstractStatistic* statistic = qobject_cast<AbstractStatistic*>(child);
         if( statistic )
             statistic->setParent(this);
     }
-    delete tmpObj;
 }
 
 void StatisticsAsset::createStatistic()

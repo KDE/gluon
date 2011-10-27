@@ -27,7 +27,7 @@
 #include "game.h"
 
 #include <core/metainfo.h>
-#include <core/gdlhandler.h>
+#include <core/gdlserializer.h>
 
 #include <QtGui/QAction>
 
@@ -83,7 +83,11 @@ void Scene::resetScene()
 QString
 Scene::contentsToGDL()
 {
-    return GluonCore::GDLHandler::instance()->toGDL( sceneContents() );
+    QByteArray data;
+    if( !GluonCore::GDLSerializer::instance()->serialize( GluonCore::GluonObjectList() << sceneContents(), data ) )
+        return QString();
+
+    return QString( data );
 }
 
 GameObject*

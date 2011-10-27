@@ -28,7 +28,7 @@
 #include "achievementsmanager.h"
 #include "projectmetadata.h"
 
-#include <core/gdlhandler.h>
+#include <core/gdlserializer.h>
 #include <core/scriptengine.h>
 #include <core/debughelper.h>
 #include <core/directoryprovider.h>
@@ -77,22 +77,13 @@ GameProject::removeChild( GluonObject* child )
 }
 
 bool
-GameProject::saveToFile() const
+GameProject::saveToFile()
 {
     // Run through everything first and save each of the saveable assets
     GameProjectPrivate::saveChildren( this );
 
-    // Eventually, save self
-    QFile projectFile( filename().toLocalFile() );
-    if( !projectFile.open( QIODevice::WriteOnly ) )
+    if( !GluonCore::GDLSerializer::instance()->write( filename(), GluonCore::GluonObjectList() << this ) )
         return false;
-
-    QList<const GluonObject*> thisProject;
-    thisProject.append( this );
-
-    QTextStream projectWriter( &projectFile );
-    projectWriter << GluonCore::GDLHandler::instance()->serializeGDL( thisProject ) << endl;
-    projectFile.close();
 
     QString projectDir = filename().toLocalFile().section( '/', 0, -2 );
     // Recreate the various icon files if we have an icon file available
@@ -175,20 +166,8 @@ GameProject::loadFromFile()
     QDir::setCurrent( QFileInfo( filename().toLocalFile() ).canonicalPath() );
     setFilename( filename().toLocalFile() );
 
-    DEBUG_TEXT2( "Loading project from %1",QFileInfo( filename().toLocalFile() ).fileName() )
-    QFile projectFile( QFileInfo( filename().toLocalFile() ).fileName() );
-    if( !projectFile.open( QIODevice::ReadOnly ) )
-        return false;
-
-    QTextStream projectReader( &projectFile );
-    QString fileContents = projectReader.readAll();
-    projectFile.close();
-
-    if( fileContents.isEmpty() )
-        return false;
-
-    QList<GluonObject*> objectList = GluonCore::GDLHandler::instance()->parseGDL( filename().toLocalFile(), parent() );
-    if( objectList.count() > 0 )
+    QList<GluonObject*> objectList;
+    if( GluonCore::GDLSerializer::instance()->read( filename(), objectList ) )
     {
         if( objectList.at(0)->metaObject() )
         {

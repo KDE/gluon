@@ -23,7 +23,7 @@
 #include <engine/gameproject.h>
 
 #include <core/gluonobject.h>
-#include <core/gdlhandler.h>
+#include <core/gdlserializer.h>
 #include <core/gluon_global.h>
 
 #include <QtCore/QDebug>
@@ -126,10 +126,9 @@ void HighScoresModel::loadData()
     gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
     gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
 
-    if( QFile::exists( gluonDir.absoluteFilePath( "highscores.gdl" ) ) )
-        d->m_rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "highscores.gdl" ) ).at( 0 );
-    else
-        qDebug() << "File does not exist: " << gluonDir.absoluteFilePath( "highscores.gdl" );
+    GluonCore::GluonObjectList list;
+    if( GluonCore::GDLSerializer::instance()->read( gluonDir.absoluteFilePath( "highscores.gdl" ), list ) )
+        d->m_rootNode = list.at( 0 );
 }
 
 void HighScoresModel::saveData()
@@ -140,19 +139,7 @@ void HighScoresModel::saveData()
     gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
     QString filename = gluonDir.absoluteFilePath( "highscores.gdl" );
 
-    QFile dataFile( filename );
-    if( !dataFile.open( QIODevice::WriteOnly ) )
-    {
-        qDebug() << "Cannot open the high scores file!";
-        return;
-    }
-
-    QList<const GluonObject*> highScores;
-    highScores.append( d->m_rootNode );
-    QTextStream dataWriter( &dataFile );
-    dataWriter << GluonCore::GDLHandler::instance()->serializeGDL( highScores );
-    dataFile.close();
-    qDebug() << "Saved!";
+    GluonCore::GDLSerializer::instance()->write( QUrl( filename ), GluonCore::GluonObjectList() << d->m_rootNode );
 }
 
 #include "highscoresmodel.moc"

@@ -20,7 +20,7 @@
 #include "prefab.h"
 #include "prefabprivate.h"
 #include "prefabinstance.h"
-#include <core/gdlhandler.h>
+#include <core/gdlserializer.h>
 
 #include <QtCore/QMetaProperty>
 
@@ -47,7 +47,15 @@ Prefab::~Prefab()
 
 QString Prefab::contentsToGDL()
 {
-    return GluonCore::GDLHandler::instance()->toGDL( gameObject() );
+    QByteArray out;
+
+    QList< GluonObject* > obj;
+    obj.append( gameObject() );
+
+    if( !GluonCore::GDLSerializer::instance()->serialize( obj, out ) )
+        return QString();
+
+    return QString( out );
 }
 
 PrefabInstance* Prefab::createInstance( GameObject* attachTo )

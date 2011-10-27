@@ -19,7 +19,7 @@
 
 #include "projectmetadata.h"
 
-#include <core/gdlhandler.h>
+#include <core/gdlserializer.h>
 
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
@@ -112,18 +112,8 @@ void ProjectMetaData::save()
     if( d->projectFilePath.isEmpty() )
         return;
 
-    const QString gdlString = GluonCore::GDLHandler::instance()->toGDL( qobject_cast<GluonCore::GluonObject*>( this ) );
-    const QString saveDirectory = projectDir() + "/game.gluonmeta";
-    QFile file( saveDirectory );
-    if( !file.open(QIODevice::WriteOnly) )
-    {
-        qWarning() << "Could not save meta data to" << file.fileName();
+    if( !GluonCore::GDLSerializer::instance()->write( projectDir() + "/game.gluonmeta", GluonCore::GluonObjectList() << this ) )
         return;
-    }
-
-    QTextStream stream( &file );
-    stream << gdlString;
-    file.close();
 }
 
 void ProjectMetaData::load()
@@ -131,12 +121,11 @@ void ProjectMetaData::load()
     if( d->projectFilePath.isEmpty() )
         return;
 
-    const QString saveDirectory = projectDir() + "/game.gluonmeta";
-    QList<GluonCore::GluonObject*> gdlList = GluonCore::GDLHandler::instance()->parseGDL(saveDirectory);
-    if( gdlList.isEmpty() )
+    GluonCore::GluonObjectList gdlList;
+    if( !GluonCore::GDLSerializer::instance()->read( projectDir() + "/game.gluonmeta", gdlList ) )
         return;
 
-    ProjectMetaData* object = qobject_cast<ProjectMetaData*>(gdlList[0]);
+    ProjectMetaData* object = qobject_cast<ProjectMetaData*>( gdlList[0] );
     if( object )
     {
         setProjectName( object->projectName() );
