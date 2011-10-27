@@ -179,6 +179,8 @@ QVariant btTreeModel::data(const QModelIndex &index, int role) const
 
 bool btTreeModel::setData ( const QModelIndex & index, const QVariant & value, int role )
 {
+    Q_UNUSED(value)
+    Q_UNUSED(role)
     if (index == QModelIndex())
         return false;
 

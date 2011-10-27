@@ -22,6 +22,7 @@
 
 btActionNode::btActionNode(QObject* parent)
 {
+    Q_UNUSED(parent)
     setNodeType(btNodeType::ActionNodeType);
 }
 

@@ -153,6 +153,7 @@ void btEditorNodeType::toNodeTypeXml(QXmlStreamWriter* xmlWriter)
 
 void btEditorNodeType::toDataXml(QXmlStreamWriter* xmlWriter)
 {
+    Q_UNUSED(xmlWriter)
 }
 
 void btEditorNodeType::initProperties()
@@ -410,6 +411,7 @@ void btEditorNodeType::changeClassName(QString className)
 
 void btEditorNodeType::changeCondition(bool state)
 {
+    Q_UNUSED(state)
     qRegisterMetaType<btParallelConditions>("btParallelConditions");
 
     QRadioButton * radioButton = qobject_cast<QRadioButton*>(QObject::sender());

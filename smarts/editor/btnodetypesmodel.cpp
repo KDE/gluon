@@ -283,6 +283,7 @@ int btNodeTypesModel::columnCount(const QModelIndex &index) const
 
 btEditorNodeType *btNodeTypesModel::nodeTypeFromIndex(const QModelIndex &index) const
 {
+    Q_UNUSED(index)
     /*if(index.isValid())
         return static_cast<btNodeType*>(nodeTypes.at(index.row()));
     else*/
