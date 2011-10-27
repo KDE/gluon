@@ -1,6 +1,5 @@
 
 set(gluonexamples_core_gdlparser_SRCS
-    objecttreebuilder.cpp
     debugvisitor.cpp
     main.cpp
 )
