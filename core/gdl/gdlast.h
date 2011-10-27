@@ -23,19 +23,18 @@ struct  AstNode
         List_typeKind = 1003,
         Long_long_typeKind = 1004,
         ObjectKind = 1005,
-        Object_listKind = 1006,
-        Object_typeKind = 1007,
-        PropertyKind = 1008,
-        Quaternion_typeKind = 1009,
-        Rgba_typeKind = 1010,
-        Size2d_typeKind = 1011,
-        StartKind = 1012,
-        String_typeKind = 1013,
-        Unsigned_int_typeKind = 1014,
-        Url_typeKind = 1015,
-        Vector2d_typeKind = 1016,
-        Vector3d_typeKind = 1017,
-        Vector4d_typeKind = 1018,
+        Object_typeKind = 1006,
+        PropertyKind = 1007,
+        Quaternion_typeKind = 1008,
+        Rgba_typeKind = 1009,
+        Size2d_typeKind = 1010,
+        StartKind = 1011,
+        String_typeKind = 1012,
+        Unsigned_int_typeKind = 1013,
+        Url_typeKind = 1014,
+        Vector2d_typeKind = 1015,
+        Vector3d_typeKind = 1016,
+        Vector4d_typeKind = 1017,
         AST_NODE_KIND_COUNT
     };
 
@@ -88,13 +87,6 @@ struct  ObjectAst: public AstNode
     qint64 type;
     qint64 name;
     const KDevPG::ListNode<PropertyAst *> *propertiesSequence;
-    const KDevPG::ListNode<Object_listAst *> *objectsSequence;
-};
-
-struct  Object_listAst: public AstNode
-{
-    enum { KIND = Object_listKind };
-
     const KDevPG::ListNode<ObjectAst *> *objectsSequence;
 };
 
@@ -160,7 +152,7 @@ struct  StartAst: public AstNode
 {
     enum { KIND = StartKind };
 
-    Object_listAst *list;
+    const KDevPG::ListNode<ObjectAst *> *objectsSequence;
 };
 
 struct  String_typeAst: public AstNode

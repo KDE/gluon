@@ -4,11 +4,12 @@
 %token LBRACE, RBRACE, LARROW, RARROW, LPAREN, RPAREN, SEMICOLON, TRUE_VALUE, FALSE_VALUE, NUMBER, IDENTIFIER, VALUE, MULTILINE_VALUE ;
 
 -- Types
-%token BOOLEAN, INTEGER, UNSIGNED_INT, LONG_LONG, FLOAT, STRING, RGBA, 
+%token BOOLEAN, INTEGER, UNSIGNED_INT, LONG_LONG, FLOAT, STRING, RGBA,
        VECTOR_TWOD, VECTOR_THREED, VECTOR_FOURD, QUATERNION, SIZE_TWOD, LIST, URL ;
 
 %lexer_bits_header "QtCore/QDebug"
 %parser_bits_header "QtCore/QDebug"
+%parser_bits_header "gdltokentext.h"
 
 %input_encoding "utf32"
 %input_stream "KDevPG::QUtf8ToUcs4Iterator"
@@ -56,9 +57,11 @@
 
     "\""[.^"\""]*"\""                   VALUE ;
 
-    "#"[.^\r\n]+                        [: /* Comment, ignore */ :] ;
+    "#"[.^\r]+                          [: /* Comment, ignore */ :] ;
 
-    [\ \t\r\n]+                         [: /* Whitespace, ignore */ :] ;
+    [\ \t\r]+                           [: /* Whitespace, ignore */ :] ;
+
+    "\n"                                [: locationTable()->newline(lxCURR_IDX); :] ;
 ;
 
     BOOLEAN LPAREN ( value=TRUE_VALUE | value=FALSE_VALUE ) RPAREN
@@ -137,23 +140,23 @@
 -> property ;
 
     LBRACE type=IDENTIFIER LPAREN name=VALUE RPAREN
-    ( #properties=property | #objects=object_list )*
+    ( #properties=property | #objects=object )*
     RBRACE
 -> object ;
 
     #objects=object+
--> object_list ;
-
-    list=object_list
 -> start;
 
 [:
 void GDL::Parser::expectedSymbol(int /*expectedSymbol*/, const QString& name)
 {
-  qDebug() << "Expected: " << name;
+    //qDebug() << "Error when parsing rule" << name;
 }
-void GDL::Parser::expectedToken(int /*expected*/, qint64 /*where*/, const QString& name)
+void GDL::Parser::expectedToken(int actual, qint64 /*expected*/, const QString& name)
 {
-  qDebug() << "Expected token: " << name;
+    qint64 line = 0, col = 0;
+    tokenStream->locationTable()->positionAt( tokenStream->curr().begin, &line, &col );
+    qDebug() << "Parse Error on line" << line + 1;
+    qDebug() << "Expected token" << name << "but got token" << GDL::tokenText( actual );
 }
 :]

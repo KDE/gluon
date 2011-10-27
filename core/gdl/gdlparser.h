@@ -123,7 +123,6 @@ public:
     bool parseList_type(List_typeAst **yynode);
     bool parseLong_long_type(Long_long_typeAst **yynode);
     bool parseObject(ObjectAst **yynode);
-    bool parseObject_list(Object_listAst **yynode);
     bool parseObject_type(Object_typeAst **yynode);
     bool parseProperty(PropertyAst **yynode);
     bool parseQuaternion_type(Quaternion_typeAst **yynode);

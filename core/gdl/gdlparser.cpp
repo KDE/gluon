@@ -4,21 +4,25 @@
 #include "gdlparser.h"
 #include "gdlast.h"
 #include "QtCore/QDebug"
+#include "gdltokentext.h"
 
 
-# 11 "/home/ahiemstra-work/Projects/KDE/gluon/core/gdl/gdlparser.cpp"
-# 149 "/home/ahiemstra-work/Projects/KDE/gluon/core/gdl/gdl.g" 1
+# 12 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdlparser.cpp"
+# 149 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
   
 void GDL::Parser::expectedSymbol(int /*expectedSymbol*/, const QString& name)
 {
-  qDebug() << "Expected: " << name;
+    //qDebug() << "Error when parsing rule" << name;
 }
-void GDL::Parser::expectedToken(int /*expected*/, qint64 /*where*/, const QString& name)
+void GDL::Parser::expectedToken(int actual, qint64 /*expected*/, const QString& name)
 {
-  qDebug() << "Expected token: " << name;
+    qint64 line = 0, col = 0;
+    tokenStream->locationTable()->positionAt( tokenStream->curr().begin, &line, &col );
+    qDebug() << "Parse Error on line" << line + 1;
+    qDebug() << "Expected token" << name << "but got token" << GDL::tokenText( actual );
 }
  
-# 21 "/home/ahiemstra-work/Projects/KDE/gluon/core/gdl/gdlparser.cpp" 2
+# 25 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdlparser.cpp" 2
 
 namespace GDL
 {
@@ -510,10 +514,10 @@ bool Parser::parseObject(ObjectAst **yynode)
             }
             else if (yytoken == Token_LBRACE)
             {
-                Object_listAst *__node_1 = 0;
-                if (!parseObject_list(&__node_1))
+                ObjectAst *__node_1 = 0;
+                if (!parseObject(&__node_1))
                 {
-                    expectedSymbol(AstNode::Object_listKind, "object_list");
+                    expectedSymbol(AstNode::ObjectKind, "object");
                     return false;
                 }
                 (*yynode)->objectsSequence = snoc((*yynode)->objectsSequence, __node_1, memoryPool);
@@ -531,37 +535,6 @@ bool Parser::parseObject(ObjectAst **yynode)
         }
         yylex();
 
-    }
-    else
-    {
-        return false;
-    }
-
-    (*yynode)->endToken = tokenStream->index() - 2;
-
-    return true;
-}
-
-bool Parser::parseObject_list(Object_listAst **yynode)
-{
-    *yynode = create<Object_listAst>();
-
-    (*yynode)->startToken = tokenStream->index() - 1;
-
-    if (yytoken == Token_LBRACE)
-    {
-        do
-        {
-            ObjectAst *__node_2 = 0;
-            if (!parseObject(&__node_2))
-            {
-                expectedSymbol(AstNode::ObjectKind, "object");
-                return false;
-            }
-            (*yynode)->objectsSequence = snoc((*yynode)->objectsSequence, __node_2, memoryPool);
-
-        }
-        while (yytoken == Token_LBRACE);
     }
     else
     {
@@ -643,167 +616,167 @@ bool Parser::parseProperty(PropertyAst **yynode)
 
         if (yytoken == Token_BOOLEAN)
         {
-            Boolean_typeAst *__node_3 = 0;
-            if (!parseBoolean_type(&__node_3))
+            Boolean_typeAst *__node_2 = 0;
+            if (!parseBoolean_type(&__node_2))
             {
                 expectedSymbol(AstNode::Boolean_typeKind, "boolean_type");
                 return false;
             }
-            (*yynode)->boolean_type = __node_3;
+            (*yynode)->boolean_type = __node_2;
 
         }
         else if (yytoken == Token_INTEGER)
         {
-            Integer_typeAst *__node_4 = 0;
-            if (!parseInteger_type(&__node_4))
+            Integer_typeAst *__node_3 = 0;
+            if (!parseInteger_type(&__node_3))
             {
                 expectedSymbol(AstNode::Integer_typeKind, "integer_type");
                 return false;
             }
-            (*yynode)->integer_type = __node_4;
+            (*yynode)->integer_type = __node_3;
 
         }
         else if (yytoken == Token_UNSIGNED_INT)
         {
-            Unsigned_int_typeAst *__node_5 = 0;
-            if (!parseUnsigned_int_type(&__node_5))
+            Unsigned_int_typeAst *__node_4 = 0;
+            if (!parseUnsigned_int_type(&__node_4))
             {
                 expectedSymbol(AstNode::Unsigned_int_typeKind, "unsigned_int_type");
                 return false;
             }
-            (*yynode)->unsigned_int_type = __node_5;
+            (*yynode)->unsigned_int_type = __node_4;
 
         }
         else if (yytoken == Token_LONG_LONG)
         {
-            Long_long_typeAst *__node_6 = 0;
-            if (!parseLong_long_type(&__node_6))
+            Long_long_typeAst *__node_5 = 0;
+            if (!parseLong_long_type(&__node_5))
             {
                 expectedSymbol(AstNode::Long_long_typeKind, "long_long_type");
                 return false;
             }
-            (*yynode)->long_long_type = __node_6;
+            (*yynode)->long_long_type = __node_5;
 
         }
         else if (yytoken == Token_FLOAT)
         {
-            Float_typeAst *__node_7 = 0;
-            if (!parseFloat_type(&__node_7))
+            Float_typeAst *__node_6 = 0;
+            if (!parseFloat_type(&__node_6))
             {
                 expectedSymbol(AstNode::Float_typeKind, "float_type");
                 return false;
             }
-            (*yynode)->float_type = __node_7;
+            (*yynode)->float_type = __node_6;
 
         }
         else if (yytoken == Token_STRING)
         {
-            String_typeAst *__node_8 = 0;
-            if (!parseString_type(&__node_8))
+            String_typeAst *__node_7 = 0;
+            if (!parseString_type(&__node_7))
             {
                 expectedSymbol(AstNode::String_typeKind, "string_type");
                 return false;
             }
-            (*yynode)->string_type = __node_8;
+            (*yynode)->string_type = __node_7;
 
         }
         else if (yytoken == Token_RGBA)
         {
-            Rgba_typeAst *__node_9 = 0;
-            if (!parseRgba_type(&__node_9))
+            Rgba_typeAst *__node_8 = 0;
+            if (!parseRgba_type(&__node_8))
             {
                 expectedSymbol(AstNode::Rgba_typeKind, "rgba_type");
                 return false;
             }
-            (*yynode)->rgba_type = __node_9;
+            (*yynode)->rgba_type = __node_8;
 
         }
         else if (yytoken == Token_VECTOR_TWOD)
         {
-            Vector2d_typeAst *__node_10 = 0;
-            if (!parseVector2d_type(&__node_10))
+            Vector2d_typeAst *__node_9 = 0;
+            if (!parseVector2d_type(&__node_9))
             {
                 expectedSymbol(AstNode::Vector2d_typeKind, "vector2d_type");
                 return false;
             }
-            (*yynode)->vector2d_type = __node_10;
+            (*yynode)->vector2d_type = __node_9;
 
         }
         else if (yytoken == Token_VECTOR_THREED)
         {
-            Vector3d_typeAst *__node_11 = 0;
-            if (!parseVector3d_type(&__node_11))
+            Vector3d_typeAst *__node_10 = 0;
+            if (!parseVector3d_type(&__node_10))
             {
                 expectedSymbol(AstNode::Vector3d_typeKind, "vector3d_type");
                 return false;
             }
-            (*yynode)->vector3d_type = __node_11;
+            (*yynode)->vector3d_type = __node_10;
 
         }
         else if (yytoken == Token_VECTOR_FOURD)
         {
-            Vector4d_typeAst *__node_12 = 0;
-            if (!parseVector4d_type(&__node_12))
+            Vector4d_typeAst *__node_11 = 0;
+            if (!parseVector4d_type(&__node_11))
             {
                 expectedSymbol(AstNode::Vector4d_typeKind, "vector4d_type");
                 return false;
             }
-            (*yynode)->vector4d_type = __node_12;
+            (*yynode)->vector4d_type = __node_11;
 
         }
         else if (yytoken == Token_QUATERNION)
         {
-            Quaternion_typeAst *__node_13 = 0;
-            if (!parseQuaternion_type(&__node_13))
+            Quaternion_typeAst *__node_12 = 0;
+            if (!parseQuaternion_type(&__node_12))
             {
                 expectedSymbol(AstNode::Quaternion_typeKind, "quaternion_type");
                 return false;
             }
-            (*yynode)->quaternion_type = __node_13;
+            (*yynode)->quaternion_type = __node_12;
 
         }
         else if (yytoken == Token_SIZE_TWOD)
         {
-            Size2d_typeAst *__node_14 = 0;
-            if (!parseSize2d_type(&__node_14))
+            Size2d_typeAst *__node_13 = 0;
+            if (!parseSize2d_type(&__node_13))
             {
                 expectedSymbol(AstNode::Size2d_typeKind, "size2d_type");
                 return false;
             }
-            (*yynode)->size2d_type = __node_14;
+            (*yynode)->size2d_type = __node_13;
 
         }
         else if (yytoken == Token_LIST)
         {
-            List_typeAst *__node_15 = 0;
-            if (!parseList_type(&__node_15))
+            List_typeAst *__node_14 = 0;
+            if (!parseList_type(&__node_14))
             {
                 expectedSymbol(AstNode::List_typeKind, "list_type");
                 return false;
             }
-            (*yynode)->list_type = __node_15;
+            (*yynode)->list_type = __node_14;
 
         }
         else if (yytoken == Token_URL)
         {
-            Url_typeAst *__node_16 = 0;
-            if (!parseUrl_type(&__node_16))
+            Url_typeAst *__node_15 = 0;
+            if (!parseUrl_type(&__node_15))
             {
                 expectedSymbol(AstNode::Url_typeKind, "url_type");
                 return false;
             }
-            (*yynode)->url_type = __node_16;
+            (*yynode)->url_type = __node_15;
 
         }
         else if (yytoken == Token_IDENTIFIER)
         {
-            Object_typeAst *__node_17 = 0;
-            if (!parseObject_type(&__node_17))
+            Object_typeAst *__node_16 = 0;
+            if (!parseObject_type(&__node_16))
             {
                 expectedSymbol(AstNode::Object_typeKind, "object_type");
                 return false;
             }
-            (*yynode)->object_type = __node_17;
+            (*yynode)->object_type = __node_16;
 
         }
         else
@@ -1088,14 +1061,18 @@ bool Parser::parseStart(StartAst **yynode)
 
     if (yytoken == Token_LBRACE)
     {
-        Object_listAst *__node_18 = 0;
-        if (!parseObject_list(&__node_18))
+        do
         {
-            expectedSymbol(AstNode::Object_listKind, "object_list");
-            return false;
-        }
-        (*yynode)->list = __node_18;
+            ObjectAst *__node_17 = 0;
+            if (!parseObject(&__node_17))
+            {
+                expectedSymbol(AstNode::ObjectKind, "object");
+                return false;
+            }
+            (*yynode)->objectsSequence = snoc((*yynode)->objectsSequence, __node_17, memoryPool);
 
+        }
+        while (yytoken == Token_LBRACE);
         if (Token_EOF != yytoken)
         {
             return false;
