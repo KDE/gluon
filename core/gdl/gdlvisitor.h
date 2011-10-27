@@ -20,7 +20,6 @@ public:
     virtual void visitList_type(List_typeAst *) {}
     virtual void visitLong_long_type(Long_long_typeAst *) {}
     virtual void visitObject(ObjectAst *) {}
-    virtual void visitObject_list(Object_listAst *) {}
     virtual void visitObject_type(Object_typeAst *) {}
     virtual void visitProperty(PropertyAst *) {}
     virtual void visitQuaternion_type(Quaternion_typeAst *) {}

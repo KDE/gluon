@@ -30,9 +30,6 @@ void Visitor::visitNode(AstNode *node)
         case AstNode::ObjectKind:
             visitObject(reinterpret_cast<ObjectAst*>(node));
             break;
-        case AstNode::Object_listKind:
-            visitObject_list(reinterpret_cast<Object_listAst*>(node));
-            break;
         case AstNode::Object_typeKind:
             visitObject_type(reinterpret_cast<Object_typeAst*>(node));
             break;

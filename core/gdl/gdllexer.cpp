@@ -59,71 +59,81 @@ _state_0:
     {
         if (chr < 48)
         {
-            if (chr < 35)
+            if (chr < 34)
             {
-                if (chr < 32)
+                if (chr < 13)
                 {
-                    if (chr < 13)
+                    if (chr < 10)
                     {
-                        if (chr == 9 || chr == 10)
+                        if (chr == 9)
                             goto _state_1;
                         else
                             goto _end;
                     }
                     else
+                    {
+                        if (chr == 10)
+                            goto _state_90;
+                        else
+                            goto _end;
+                    }
+                }
+                else
+                {
+                    if (chr < 32)
                     {
                         if (chr == 13)
                             goto _state_1;
                         else
                             goto _end;
                     }
-                }
-                else
-                {
-                    if (chr < 34)
+                    else
                     {
                         if (chr == 32)
                             goto _state_1;
                         else
                             goto _end;
                     }
-                    else
-                    {
-                        goto _state_5;
-                    }
                 }
             }
             else
             {
-                if (chr < 41)
+                if (chr < 40)
                 {
-                    if (chr < 40)
+                    if (chr < 35)
+                    {
+                        goto _state_5;
+                    }
+                    else
                     {
                         if (chr == 35)
                             goto _state_3;
                         else
                             goto _end;
                     }
-                    else
-                    {
-                        goto _state_85;
-                    }
                 }
                 else
                 {
-                    if (chr < 45)
+                    if (chr < 41)
                     {
-                        if (chr == 41)
-                            goto _state_84;
-                        else
-                            goto _end;
+                        goto _state_85;
                     }
                     else
                     {
-                        if (chr < 47)
-                            goto _state_7;
+                        if (chr < 45)
+                        {
+                            if (chr == 41)
+                                goto _state_84;
+                            else
+                                goto _end;
+                        }
                         else
-                            goto _end;
+                        {
+                            if (chr < 47)
+                                goto _state_7;
+                            else
+                                goto _end;
+                        }
                     }
                 }
             }
@@ -336,7 +346,7 @@ _state_1:
     lxNEXT_CHR(chr);
     if (chr < 13)
     {
-        if (chr == 9 || chr == 10)
+        if (chr == 9)
             goto _state_1;
         else
             goto _end;
@@ -362,49 +372,29 @@ _state_2:
     lpos = lxCURR_POS;
     lstate = 27;
     lxNEXT_CHR(chr);
-    if (chr < 11)
+    if (chr < 14)
     {
-        if (chr < 10)
+        if (chr < 13)
             goto _state_2;
         else
             goto _end;
     }
     else
     {
-        if (chr < 14)
-        {
-            if (chr < 13)
-                goto _state_2;
-            else
-                goto _end;
-        }
-        else
-        {
-            goto _state_2;
-        }
+        goto _state_2;
     }
 _state_3:
     lxNEXT_CHR(chr);
-    if (chr < 11)
+    if (chr < 14)
     {
-        if (chr < 10)
+        if (chr < 13)
             goto _state_2;
         else
             goto _end;
     }
     else
     {
-        if (chr < 14)
-        {
-            if (chr < 13)
-                goto _state_2;
-            else
-                goto _end;
-        }
-        else
-        {
-            goto _state_2;
-        }
+        goto _state_2;
     }
 _state_4:
     lpos = lxCURR_POS;
@@ -3567,6 +3557,11 @@ _state_89:
     lstate = 1;
     lxNEXT_CHR(chr);
     goto _end;
+_state_90:
+    lpos = lxCURR_POS;
+    lstate = 29;
+    lxNEXT_CHR(chr);
+    goto _end;
 _end:
     plain() = lpos;
     switch (lstate)
@@ -3684,19 +3679,28 @@ _fail:
     }
     case 27:
     {
-# 3689 "/home/ahiemstra-work/Projects/KDE/gluon/core/gdl/gdllexer.cpp"
-# 59 "/home/ahiemstra-work/Projects/KDE/gluon/core/gdl/gdl.g" 1
+# 3684 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
+# 60 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
                                            /* Comment, ignore */ 
-# 3690 "/home/ahiemstra-work/Projects/KDE/gluon/core/gdl/gdllexer.cpp" 2
+# 3685 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
 
         lxSKIP
     }
     case 28:
     {
-# 3698 "/home/ahiemstra-work/Projects/KDE/gluon/core/gdl/gdllexer.cpp"
-# 61 "/home/ahiemstra-work/Projects/KDE/gluon/core/gdl/gdl.g" 1
+# 3693 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
+# 62 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
                                            /* Whitespace, ignore */ 
-# 3699 "/home/ahiemstra-work/Projects/KDE/gluon/core/gdl/gdllexer.cpp" 2
+# 3694 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
+
+        lxSKIP
+    }
+    case 29:
+    {
+# 3702 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
+# 64 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
+                                           locationTable()->newline(lxCURR_IDX); 
+# 3703 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
 
         lxSKIP
     }

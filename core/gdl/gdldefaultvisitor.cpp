@@ -40,20 +40,6 @@ void DefaultVisitor::visitObject(ObjectAst *node)
     }
     if (node->objectsSequence)
     {
-        const KDevPG::ListNode<Object_listAst*> *__it = node->objectsSequence->front(), *__end = __it;
-        do
-        {
-            visitNode(__it->element);
-            __it = __it->next;
-        }
-        while (__it != __end);
-    }
-}
-
-void DefaultVisitor::visitObject_list(Object_listAst *node)
-{
-    if (node->objectsSequence)
-    {
         const KDevPG::ListNode<ObjectAst*> *__it = node->objectsSequence->front(), *__end = __it;
         do
         {
@@ -101,7 +87,16 @@ void DefaultVisitor::visitSize2d_type(Size2d_typeAst *)
 
 void DefaultVisitor::visitStart(StartAst *node)
 {
-    visitNode(node->list);
+    if (node->objectsSequence)
+    {
+        const KDevPG::ListNode<ObjectAst*> *__it = node->objectsSequence->front(), *__end = __it;
+        do
+        {
+            visitNode(__it->element);
+            __it = __it->next;
+        }
+        while (__it != __end);
+    }
 }
 
 void DefaultVisitor::visitString_type(String_typeAst *)

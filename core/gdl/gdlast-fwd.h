@@ -13,7 +13,6 @@ struct Integer_typeAst;
 struct List_typeAst;
 struct Long_long_typeAst;
 struct ObjectAst;
-struct Object_listAst;
 struct Object_typeAst;
 struct PropertyAst;
 struct Quaternion_typeAst;
