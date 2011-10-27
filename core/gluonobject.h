@@ -63,6 +63,11 @@ Q_DECLARE_METATYPE(GluonCore::GluonObject*)
     virtual void registerOnScriptEngine(QScriptEngine* engine) const;\
     private:
 
+namespace GDL
+{
+    class ObjectTreeBuilder;
+}
+
 namespace GluonCore
 {
     class MetaInfo;
@@ -307,13 +312,6 @@ namespace GluonCore
              */
             Q_INVOKABLE bool hasMetaInfo() const;
 
-            virtual bool shouldSerializeChildren() const;
-
-            virtual void setPropertyFromString( const QString& propertyName, const QString& propertyValue );
-            virtual QString stringFromProperty( const QString& propertyName, const QString& indentChars ) const;
-
-            virtual void sanitize();
-
             /*
             * QObject hierarchy helper functions.
             */
@@ -449,13 +447,32 @@ namespace GluonCore
              */
             virtual void populateMetaInfo( MetaInfo* /* info */ ) { }
 
+            /**
+             * Should the children of this object be serialized?
+             *
+             * Override this method to prevent the GDL serializer from serializing children of
+             * this object, in case you want to handle them in a special way.
+             */
+            virtual bool shouldSerializeChildren() const;
+
+            /**
+             * Cleanup the object after parsing it from GDL.
+             *
+             * Override this method to clean up after the object has been created by the parser.
+             */
+            virtual void sanitize();
+
+            friend class GDL::ObjectTreeBuilder;
+            //friend GDL::ObjectTreeWriter::writeObject();
+
         private:
             Q_DISABLE_COPY( GluonObject )
-            void sanitizeReference( const QString& propName, const QString& propValue );
 
             class Private;
             Private* const d;
     };
+
+    typedef QList< GluonObject* > GluonObjectList;
 }
 
 Q_DECLARE_METATYPE( GluonCore::GluonObject* )

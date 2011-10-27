@@ -123,20 +123,4 @@ Component::setGameObject( GameObject* newGameObject )
     d->gameObject = newGameObject;
 }
 
-QString
-Component::stringFromProperty( const QString& propertyName, const QString& indentChars ) const
-{
-    DEBUG_FUNC_NAME
-    QMetaProperty prop = metaObject()->property( metaObject()->indexOfProperty( propertyName.toUtf8() ) );
-    if( QString( prop.typeName() ) == QString( "GluonEngine::Asset*" ) )
-    {
-        GluonEngine::Asset* asset = prop.read( this ).value<GluonEngine::Asset*>();
-        if( asset )
-        {
-            return QString( "\n%1%2 GluonEngine::Asset(%3)" ).arg( indentChars, propertyName, asset->fullyQualifiedName() );
-        }
-    }
-    return GluonCore::GluonObject::stringFromProperty( propertyName, indentChars );
-}
-
 #include "component.moc"
