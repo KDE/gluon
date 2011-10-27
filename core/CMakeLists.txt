@@ -46,7 +46,6 @@ add_subdirectory(examples)
 set(GluonCore_SRCS
     directoryprovider.cpp
     debughelper.cpp
-    gdlhandler.cpp
     gluonobject.cpp
     gluonobjectfactory.cpp
     messagehandler.cpp
