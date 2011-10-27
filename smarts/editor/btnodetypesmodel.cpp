@@ -68,7 +68,7 @@ btNodeTypesModel::btNodeTypesModel(btBrain *brain, QObject* parent)
     nodeReferenceType->setChildType(btNodeType::ReferenceNodeType);
     nodeReference->setNodeType(nodeReferenceType);
     rootNode->appendChild(nodeReference);
-    btNodeTypesModelNode *node;
+    btNodeTypesModelNode *node = 0;
     foreach(btNodeType *nodeType, brain->nodeTypes)
     {
         switch (nodeType->type())
@@ -102,7 +102,7 @@ btNodeTypesModel::~btNodeTypesModel()
 
 void btNodeTypesModel::newBehaviorTreeTypeAdded(btEditorNodeType* newType)
 {
-    btNodeTypesModelNode *node;
+    btNodeTypesModelNode *node = 0; 
     QModelIndex parent;
     switch (newType->type())
     {
