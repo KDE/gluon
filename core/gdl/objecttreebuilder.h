@@ -37,15 +37,28 @@ namespace GDL
 {
     class Lexer;
     class Parser;
-    
+
+    /**
+     * \brief Create a tree of objects from a GDL AST
+     *
+     * This class is a visitor for a GDL AST that will create
+     * objects and set the properties of those objects based on
+     * the information in the AST.
+     */
     class ObjectTreeBuilder : public DefaultVisitor
     {
         public:
-            ObjectTreeBuilder(GDL::Lexer* lexer, const QString& content);
+            /**
+             * Constructor.
+             *
+             * \param lexer The lexer that was used to create the AST.
+             */
+            ObjectTreeBuilder(GDL::Lexer* lexer, const QString& content, GluonCore::GluonObject* project = 0);
             virtual ~ObjectTreeBuilder();
 
             QList<GluonCore::GluonObject*> objects();
 
+            virtual void visitStart(StartAst* node);
             virtual void visitObject(ObjectAst* node);
             virtual void visitList_type(List_typeAst* node);
             virtual void visitBoolean_type(Boolean_typeAst* node);
