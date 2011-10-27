@@ -24,7 +24,7 @@
 #include "game.h"
 
 #include <core/debughelper.h>
-#include <core/gdlhandler.h>
+#include <core/gdlserializer.h>
 
 #include <QtCore/QUrl>
 #include <QtCore/QFile>
@@ -73,10 +73,10 @@ ScenePrivate::loadContents( const QUrl& file )
         sceneContents = 0;
     }
 
-    QList<GluonCore::GluonObject*> theContents = GluonCore::GDLHandler::instance()->parseGDL( file, q );
+    GluonCore::GluonObjectList objects;
+    if( GluonCore::GDLSerializer::instance()->read( file, objects ) )
+        sceneContents = qobject_cast<GluonEngine::GameObject*>( objects.at( 0 ) );
 
-    if( theContents.count() > 0 )
-        sceneContents = qobject_cast<GluonEngine::GameObject*>( theContents.at( 0 ) );
     if( !sceneContents )
         sceneContents = new GluonEngine::GameObject( q );
 

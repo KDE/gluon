@@ -23,7 +23,7 @@
 #include "backendcapabilities.h"
 #include "glheaders.h"
 
-#include <core/gdlhandler.h>
+#include <core/gdlserializer.h>
 
 #include <QtOpenGL/QGLShaderProgram>
 #include <QtCore/QDebug>
@@ -83,8 +83,8 @@ bool Material::load( const QUrl& url )
     if( !url.isValid() )
         return false;
 
-    QList<GluonObject*> objects = GluonCore::GDLHandler::instance()->parseGDL( url, this );
-    if( objects.count() <= 0 )
+    GluonCore::GluonObjectList objects;
+    if( !GluonCore::GDLSerializer::instance()->read( url, objects ) )
         return false;
 
     GluonCore::GluonObject* obj = objects.at( 0 );

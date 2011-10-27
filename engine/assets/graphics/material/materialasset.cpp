@@ -23,8 +23,6 @@
 #include <graphics/materialinstance.h>
 #include <graphics/engine.h>
 
-#include <core/gdlhandler.h>
-
 #include <QtGui/QAction>
 
 REGISTER_OBJECTTYPE( GluonEngine, MaterialAsset )

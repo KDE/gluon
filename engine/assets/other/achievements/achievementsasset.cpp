@@ -21,7 +21,7 @@
 
 #include "achievement.h"
 
-#include <core/gdlhandler.h>
+#include <core/gdlserializer.h>
 
 #include <QtGui/QAction>
 
@@ -64,33 +64,19 @@ const QStringList AchievementsAsset::supportedMimeTypes() const
 
 QString AchievementsAsset::contentsToGDL()
 {
-    /* Due to a bug in GDL, it can't handle more than one top level
-     * item. This workaround creates a temporary object which takes
-     * the achievements as children.
-     * TODO: remove as soon as the GDL bug is fixed
-     */
-    GluonCore::GluonObject object;
-    object.setName( "temporaryObjectAchievements" );
-
-    QObjectList childList = children();
-    QMutableListIterator<QObject*> i( childList );
-    while( i.hasNext() )
+    GluonCore::GluonObjectList objects;
+    foreach( QObject* object, children() )
     {
-        Achievement* achievement = qobject_cast<Achievement*>( i.next() );
-        if( achievement )
-            achievement->setParent( &object );
+        GluonCore::GluonObject* gobj = qobject_cast< GluonCore::GluonObject* >( object );
+        if( gobj )
+            objects.append( gobj );
     }
-    QString result = GluonCore::GDLHandler::instance()->toGDL(&object);
 
-    QObjectList objectChildList = object.children();
-    QMutableListIterator<QObject*> j( objectChildList );
-    while( j.hasNext() )
-    {
-        Achievement* achievement = qobject_cast<Achievement*>( j.next() );
-        if( achievement )
-            achievement->setParent( this );
-    }
-    return result;
+    QByteArray data;
+    if( !GluonCore::GDLSerializer::instance()->serialize( objects, data ) )
+        return QString();
+
+    return QString( data );
 }
 
 const QList< AssetTemplate* > AchievementsAsset::templates()
@@ -115,30 +101,23 @@ void AchievementsAsset::setFile(const QUrl& newFile)
      */
     GluonEngine::Asset::setFile( newFile );
 
-    QObjectList childList = children();
-    QMutableListIterator<QObject*> i( childList );
-    while( i.hasNext() )
+    foreach( QObject* object, children() )
     {
-        Achievement* achievement = qobject_cast<Achievement*>( i.next() );
+        Achievement* achievement = qobject_cast<Achievement*>( object );
         if( achievement )
             return;
     }
 
-    QList<GluonCore::GluonObject*> list = GluonCore::GDLHandler::instance()->parseGDL( file(), 0 );
-    if( list.isEmpty() )
+    GluonCore::GluonObjectList list;
+    if( !GluonCore::GDLSerializer::instance()->read( file(), list ) )
         return;
 
-    GluonCore::GluonObject* tmpObj = list.at(0);
-
-    QObjectList tmpObjChildList = tmpObj->children();
-    QMutableListIterator<QObject*> j( tmpObjChildList );
-    while( j.hasNext() )
+    foreach( GluonCore::GluonObject* gobj, list )
     {
-        Achievement* achievement = qobject_cast<Achievement*>( j.next() );
+        Achievement* achievement = qobject_cast<Achievement*>( gobj );
         if( achievement )
             achievement->setParent( this );
     }
-    delete tmpObj;
 }
 
 void AchievementsAsset::createAchievement()

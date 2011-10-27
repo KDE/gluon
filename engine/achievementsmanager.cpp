@@ -23,7 +23,7 @@
 
 #include <core/gluonobject.h>
 #include <core/directoryprovider.h>
-#include <core/gdlhandler.h>
+#include <core/gdlserializer.h>
 
 #include <QtCore/QDir>
 #include <QtCore/QTextStream>
@@ -42,36 +42,16 @@ AchievementsManager::~AchievementsManager()
 
 void AchievementsManager::save( const QString& directory )
 {
-    GluonCore::GluonObject tmpObject;
-    QObjectList childList = children();
-    QMutableListIterator<QObject*> i( childList );
-    while( i.hasNext() )
+    GluonCore::GluonObjectList objects;
+    foreach( QObject* object, children() )
     {
-        GluonCore::GluonObject* object = qobject_cast<GluonCore::GluonObject*>( i.next() );
-        if( object )
-            object->setParent( &tmpObject );
+        GluonCore::GluonObject* gobj = qobject_cast<GluonCore::GluonObject*>( object );
+        if( gobj )
+            objects.append( gobj );
     }
-    QString gdlData = GluonCore::GDLHandler::instance()->toGDL( &tmpObject );
-    QDir::home().mkpath( directory );
-    QFile file( directory + "/achievementscache.gdl" );
-    if( !file.open( QIODevice::WriteOnly ) )
-    {
-        qWarning() << "Could not open file" << file.fileName();
+
+    if( !GluonCore::GDLSerializer::instance()->write( QUrl( directory + "/achievementscache.gdl" ), objects ) )
         return;
-    }
-
-    QTextStream stream( &file );
-    stream << gdlData;
-    file.close();
-
-    QObjectList tmpChildList = tmpObject.children();
-    QMutableListIterator<QObject*> j( tmpChildList );
-    while( j.hasNext() )
-    {
-        GluonCore::GluonObject* gluonObject = qobject_cast<GluonCore::GluonObject*>( j.next() );
-        if( gluonObject )
-            gluonObject->setParent( this );
-    }
 }
 
 void AchievementsManager::load( const QString& directory )
@@ -84,18 +64,15 @@ void AchievementsManager::load( const QString& directory )
     }
 
     QDir::home().mkpath(directory);
-    QList<GluonCore::GluonObject*> objectList = GluonCore::GDLHandler::instance()->parseGDL( directory + "/achievementscache.gdl" );
-    if( objectList.isEmpty() )
+
+    GluonCore::GluonObjectList objectList;
+    if( !GluonCore::GDLSerializer::instance()->read( QUrl( directory + "/achievementscache.gdl" ), objectList ) )
         return;
 
-    GluonCore::GluonObject* tmpObject = objectList[0];
-    foreach( QObject* object, tmpObject->children() )
+    foreach( GluonCore::GluonObject* object, objectList )
     {
-        GluonCore::GluonObject* gluonObject = qobject_cast<GluonCore::GluonObject*>(object);
-        if( gluonObject )
-            gluonObject->setParent(this);
+        object->setParent(this);
     }
-    delete tmpObject;
 }
 
 void AchievementsManager::readFromProject( const QList< Achievement* >& achievements )

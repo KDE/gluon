@@ -141,7 +141,7 @@ namespace GluonEngine
             virtual void addChild( GluonObject* child );
             virtual bool removeChild( GluonObject* child );
 
-            bool saveToFile() const;
+            bool saveToFile();
             void traverseChildren(GluonObject* gluonObject);
             bool loadFromFile();
             bool loadFromFile( QUrl fileUrl );

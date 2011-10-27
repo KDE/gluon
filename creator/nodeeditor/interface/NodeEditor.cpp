@@ -47,7 +47,7 @@
 #include "AlignAction.h"
 
 #include <core/gluonobject.h>
-#include <core/gdlhandler.h>
+#include <core/gdlserializer.h>
 
 // KDE Related Includes
 #include <KDE/KActionCollection>
@@ -307,8 +307,7 @@ void NodeEditor::saveStateGDL()
 {
     if( !_skipSaving )
     {
-        QFile stateFile( QFileInfo( GluonEngine::Game::instance()->gameProject()->filename().toLocalFile() ).dir().absolutePath() + "/Assets/visualnodes-" + GluonEngine::Game::instance()->currentScene()->name() + ".gdl" );
-        QList<const GluonCore::GluonObject*> objects;
+        QList<GluonCore::GluonObject*> objects;
         GluonCore::GluonObject* nodelist = new GluonCore::GluonObject( "Nodes" );
         GluonCore::GluonObject* edgelist = new GluonCore::GluonObject( "Edges" );
         objects.append( nodelist );
@@ -332,17 +331,21 @@ void NodeEditor::saveStateGDL()
             edge->setProperty( "fromNode", e->fromNode() );
             edge->setProperty( "toNode", e->toNode() );
         }
+
         if( !QDir( QFileInfo( GluonEngine::Game::instance()->gameProject()->filename().toLocalFile() ).dir().absolutePath() + "/Assets" ).exists() ) QDir( QFileInfo( GluonEngine::Game::instance()->gameProject()->filename().toLocalFile() ).dir().absolutePath() ).mkdir( "Assets" );
-        if( !stateFile.open( QIODevice::WriteOnly ) ) return;
-        QTextStream filewrite( &stateFile );
-        filewrite << GluonCore::GDLHandler::instance()->serializeGDL( objects );
-        stateFile.close();
+
+        QString file = QFileInfo( GluonEngine::Game::instance()->gameProject()->filename().toLocalFile() ).dir().absolutePath() + "/Assets/visualnodes-" + GluonEngine::Game::instance()->currentScene()->name() + ".gdl";
+
+        GluonCore::GDLSerializer::instance()->write( QUrl( file ), objects );
     }
 }
 
 void NodeEditor::loadStateGDL()
 {
-    QList<GluonCore::GluonObject*> rootlist = GluonCore::GDLHandler::instance()->parseGDL( QFileInfo( GluonEngine::Game::instance()->gameProject()->filename().toLocalFile() ).dir().absolutePath() + "/Assets/visualnodes-" + GluonEngine::Game::instance()->currentScene()->name() + ".gdl" );
+    QList<GluonCore::GluonObject*> rootlist;
+    if( !GluonCore::GDLSerializer::instance()->read( QFileInfo( GluonEngine::Game::instance()->gameProject()->filename().toLocalFile() ).dir().absolutePath() + "/Assets/visualnodes-" + GluonEngine::Game::instance()->currentScene()->name() + ".gdl", rootlist ) )
+        return;
+
     foreach( QObject * n, rootlist.first()->children() )
     {
         _graph->addNode( n->objectName(), QPoint( n->property( "Nodex" ).toInt(), n->property( "Nodey" ).toInt() ), n->property( "NodeType" ).toString() );
@@ -412,7 +415,10 @@ void NodeEditor::setupLists()
 
 void NodeEditor::addCustomTypes( KComboBox* bigList )
 {
-    QList<GluonCore::GluonObject*> noderootlist = GluonCore::GDLHandler::instance()->parseGDL( KGlobal::dirs()->locate( "data", "nodetypes.gdl" ) );
+    QList<GluonCore::GluonObject*> noderootlist;
+    if( !GluonCore::GDLSerializer::instance()->read( KGlobal::dirs()->locate( "data", "nodetypes.gdl" ), noderootlist ) )
+        return;
+
     QMap<QString, QVariant> propertlist;
     foreach( QObject * n, noderootlist.first()->children() )
     {

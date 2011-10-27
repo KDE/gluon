@@ -25,7 +25,7 @@
 #include <engine/gameproject.h>
 
 #include <core/gluonobject.h>
-#include <core/gdlhandler.h>
+#include <core/gdlserializer.h>
 #include <core/gluon_global.h>
 
 #include <attica/listjob.h>
@@ -185,11 +185,11 @@ void CommentItemsModel::loadData()
     gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
     gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
 
-    if( QFile::exists( gluonDir.absoluteFilePath( "comments.gdl" ) ) )
-        d->m_rootNode = GluonCore::GDLHandler::instance()->parseGDL( gluonDir.absoluteFilePath( "comments.gdl" ) ).at( 0 );
-    else
-        qDebug() << "File does not exist: " << gluonDir.absoluteFilePath( "comments.gdl" );
+    GluonCore::GluonObjectList list;
+    if( !GluonCore::GDLSerializer::instance()->read( QUrl( gluonDir.absoluteFilePath( "comments.gdl" ) ), list ) )
+        return;
 
+    d->m_rootNode = list.at( 0 );
     treeTraversal( d->m_rootNode );
     qSort( d->m_nodes.begin(), d->m_nodes.end(), dateTimeLessThan );
 }
@@ -202,14 +202,7 @@ void CommentItemsModel::saveData()
     gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
     QString filename = gluonDir.absoluteFilePath( "comments.gdl" );
 
-    QFile dataFile( filename );
-    if( !dataFile.open( QIODevice::WriteOnly ) )
-        qDebug() << "Cannot open the comments file!";
-
-    QTextStream dataWriter( &dataFile );
-    dataWriter << GluonCore::GDLHandler::instance()->serializeGDL( QList<const GluonCore::GluonObject*>() << d->m_rootNode );
-    dataFile.close();
-    qDebug() << "Saved";
+    GluonCore::GDLSerializer::instance()->write( QUrl( filename ), GluonCore::GluonObjectList() << d->m_rootNode );
 }
 
 CommentItemsModel::~CommentItemsModel()
