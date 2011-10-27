@@ -133,6 +133,8 @@ void btEditorNodeType::toNodeTypeXml(QXmlStreamWriter* xmlWriter)
     case btNodeType::UnusableNodeType:
         xmlWriter->writeAttribute("category", "unusable");
         break;
+    default:
+        break;
     }
 
     for (int i = 0; i < this->dynamicPropertyNames().count(); i++)
