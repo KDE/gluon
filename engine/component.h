@@ -202,16 +202,6 @@ namespace GluonEngine
              */
             void sanitize();
 
-            /**
-             * Adapted function which special cases access to properties with the
-             * type GluonEngine::Asset* - used by GDLHandler.
-             *
-             * @param   propertyName    The name of the property you wish to get in GDL property string form
-             * @param   indentChars     The characters used for indenting the string
-             * @return  The GDL representation of the property
-             */
-            virtual QString stringFromProperty( const QString& propertyName, const QString& indentChars ) const;
-
         private:
             ComponentPrivate* const d;
     };
