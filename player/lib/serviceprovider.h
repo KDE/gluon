@@ -256,13 +256,6 @@ namespace GluonPlayer
             */
             void loginFailed();
 
-            void gameDetailListFetchStarting();
-            void commentListFetchStarting();
-            void commentListUploadStarting();
-            void gameContentDownloadStarting();
-            void gameContentUploadStarting();
-            void ratingUploadStarting();
-
         private:
             ~ServiceProvider();
 
