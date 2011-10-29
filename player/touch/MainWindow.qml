@@ -27,7 +27,7 @@ Rectangle {
    function login() {
        if (lgn.providerInitialized) {
            console.log("Provider have been already initialized!");
-           authentication.login(lgn.username, lgn.password);
+           serviceProvider.login(lgn.username, lgn.password);
            mainview.loggedIn = true;
            mainview.statepoint = "home";
        } else {

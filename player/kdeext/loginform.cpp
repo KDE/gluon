@@ -19,7 +19,7 @@
 
 #include "loginform.h"
 
-#include <player/lib/authentication.h>
+#include <player/lib/serviceprovider.h>
 
 #include <KDE/KLocale>
 #include <KDE/KLocalizedString>
@@ -67,11 +67,10 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
     setLayout( m_contentLayout );
 
     connect( m_loginButton, SIGNAL( clicked() ), SLOT( doLogin() ) );
-    connect( GluonPlayer::Authentication::instance(), SIGNAL( initialized() ), SLOT( initDone() ) );
-    connect( GluonPlayer::Authentication::instance(), SIGNAL( initFailed() ), SLOT( initFailed() ) );
-    connect( GluonPlayer::Authentication::instance(), SIGNAL( loggedIn() ), SLOT( loginDone() ) );
-    connect( GluonPlayer::Authentication::instance(), SIGNAL( loggedOut() ), SLOT( logoutDone() ) );
-    connect( GluonPlayer::Authentication::instance(), SIGNAL( loginFailed() ), SLOT( loginFailed() ) );
+    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL( initializationFinished() ), SLOT( initDone() ) );
+    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL( initializeFailed() ), SLOT( initFailed() ) );
+    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL( loginFinished() ), SLOT( loginDone() ) );
+    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL( loginFailed() ), SLOT( loginFailed() ) );
 
     initialize();
 }
@@ -82,7 +81,7 @@ LoginForm::~LoginForm()
 
 void LoginForm::initialize()
 {
-    GluonPlayer::Authentication::instance()->init();
+    GluonPlayer::ServiceProvider::instance()->init();
 }
 
 void LoginForm::initDone()
@@ -111,7 +110,7 @@ void LoginForm::doLogin()
 
     m_loginButton->setEnabled( false );
     m_usernameFeedbackLabel->setText( i18n( "Logging in" ) );
-    GluonPlayer::Authentication::instance()->login( m_usernameEdit->text(), m_passwordEdit->text() );
+    GluonPlayer::ServiceProvider::instance()->login( m_usernameEdit->text(), m_passwordEdit->text() );
     // Note: the login result should be checked
 }
 
@@ -122,14 +121,15 @@ void LoginForm::doLogout()
 
     m_loginButton->setEnabled( false );
     m_usernameFeedbackLabel->setText( i18n( "Logging out" ) );
-    GluonPlayer::Authentication::instance()->logout( );
+    if (GluonPlayer::ServiceProvider::instance()->logout())
+        logoutDone();
     // Note: the login result should be checked
 }
 
 void LoginForm::loginDone()
 {
     m_usernameFeedbackLabel->setText(
-        i18nc( "Logged in as <user name>", "Logged in as %1", GluonPlayer::Authentication::instance()->username() ) );
+        i18nc( "Logged in as <user name>", "Logged in as %1", GluonPlayer::ServiceProvider::instance()->username() ) );
     m_loginButton->setEnabled( true );
     m_loginButton->setText( i18n( "Logout" ) );
     m_loggedIn = true;
@@ -159,6 +159,6 @@ void LoginForm::loginFailed()
 
 void LoginForm::loadCredentials()
 {
-    m_usernameEdit->setText( GluonPlayer::Authentication::instance()->username() );
-    m_passwordEdit->setText( GluonPlayer::Authentication::instance()->password() );
+    m_usernameEdit->setText( GluonPlayer::ServiceProvider::instance()->username() );
+    m_passwordEdit->setText( GluonPlayer::ServiceProvider::instance()->password() );
 }

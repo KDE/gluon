@@ -28,7 +28,6 @@ set(libGluonPlayer_SRCS
     archive/extractor.cpp
 
     atticamanager.cpp
-    authentication.cpp
     categorylistjob.cpp
     commentslistjob.cpp
     commentuploadjob.cpp
@@ -84,7 +83,6 @@ install(
 
 install(FILES
     atticamanager.h
-    authentication.h
 
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/player/lib
     COMPONENT gluonplayer

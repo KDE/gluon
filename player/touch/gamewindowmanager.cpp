@@ -23,7 +23,7 @@
 #include "lib/models/gameviewitem.h"
 #include "lib/models/gameitemsmodel.h"
 #include "lib/models/commentitemsmodel.h"
-#include "lib/authentication.h"
+#include "lib/serviceprovider.h"
 
 #include <input/inputmanager.h>
 #include <engine/scene.h>
@@ -48,7 +48,7 @@ class GameWindowManager::GameWindowManagerPrivate
             , achievementsModel(0)
             , gameItemsModel(new GluonPlayer::GameItemsModel())
             , commentItemsModel(0)
-            , auth(0)
+            , serviceProvider(0)
             , declarativeView(new QDeclarativeView(stackedWidget))
             , renderWidget(new GluonGraphics::RenderWidget(stackedWidget))
             , ctxt(0)
@@ -73,7 +73,7 @@ class GameWindowManager::GameWindowManagerPrivate
         GluonPlayer::AchievementsModel* achievementsModel;
         GluonPlayer::GameItemsModel* gameItemsModel;
         GluonPlayer::CommentItemsModel* commentItemsModel;
-        GluonPlayer::Authentication* auth;
+        GluonPlayer::ServiceProvider* serviceProvider;
 
         QDeclarativeView* declarativeView;
         GluonGraphics::RenderWidget* renderWidget;
@@ -86,11 +86,11 @@ GameWindowManager::GameWindowManager( const QString& /* filename */ )
     : QObject()
     , d( new GameWindowManagerPrivate )
 {
-    d->auth = GluonPlayer::Authentication::instance();
+    d->serviceProvider = GluonPlayer::ServiceProvider::instance();
     d->renderWidget->initializeGL();
 
     d->ctxt = d->declarativeView->rootContext();
-    d->ctxt->setContextProperty( "authentication", d->auth );
+    d->ctxt->setContextProperty( "serviceProvider", d->serviceProvider );
     d->ctxt->setContextProperty( "achievementsModel", d->achievementsModel );
     d->ctxt->setContextProperty( "gameItemsModel", d->gameItemsModel );
     d->ctxt->setContextProperty( "commentItemsModel", d->commentItemsModel );
@@ -104,7 +104,7 @@ GameWindowManager::GameWindowManager( const QString& /* filename */ )
 
     d->rootObj = d->declarativeView->rootObject();
     d->login = d->rootObj->findChild<QObject*>( "login" );
-    QObject::connect( d->auth, SIGNAL( initialized() ), d->login, SLOT( providerSet() ) );
+    QObject::connect( d->serviceProvider, SIGNAL( initializationFinished() ), d->login, SLOT( providerSet() ) );
 
     d->stackedWidget->addWidget( d->declarativeView );
     d->stackedWidget->addWidget( d->renderWidget );
