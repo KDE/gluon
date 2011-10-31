@@ -45,10 +45,11 @@ namespace GluonCore
              *
              * \param url The url of a file to read from.
              * \param objects A list that will be cleared and populated with objects.
+             * \param project The project the objects will belong to. If null, the first created object will be used.
              *
              * \return True when successful, false if any error occured.
              */
-            bool read( const QUrl& url, GluonObjectList& objects );
+            bool read( const QUrl& url, GluonObjectList& objects, GluonObject* project = 0 );
 
             /**
              * Write a list of GluonObjects to a file.
@@ -65,10 +66,11 @@ namespace GluonCore
              *
              * \param data The data to parse.
              * \param objects A list that will be cleared and populated with objects.
+             * \param project The project the objects will belong to. If null, the first created object will be used.
              *
              * \return True when successful, false if any error occured.
              */
-            bool parse( const QByteArray& data, GluonObjectList& objects );
+            bool parse( const QByteArray& data, GluonObjectList& objects, GluonObject* project = 0 );
 
             /**
              * Serialize a list of objects into GDL.

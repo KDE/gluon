@@ -33,8 +33,11 @@ using namespace GluonCore;
 
 GLUON_DEFINE_SINGLETON( GDLSerializer )
 
-bool GDLSerializer::read(const QUrl& url, GluonObjectList& objects)
+bool GDLSerializer::read(const QUrl& url, GluonObjectList& objects, GluonObject* project)
 {
+//     DEBUG_BLOCK
+//     DEBUG_TEXT2( "Attempting to parse %1", url.toLocalFile() );
+
     QFile file( url.toLocalFile() );
     if( !file.open( QIODevice::ReadOnly | QIODevice::Text ) )
     {
@@ -46,14 +49,23 @@ bool GDLSerializer::read(const QUrl& url, GluonObjectList& objects)
     QByteArray data = file.readAll();
     file.close();
 
+    bool result = false;
     if( data.size() > 0 )
     {
-        return parse( data, objects );
+        result = parse( data, objects, project );
+        if( !result )
+        {
+            DEBUG_BLOCK
+            DEBUG_TEXT2( "Parse error when parsing %1", url.toLocalFile() );
+        }
     }
     else
     {
-        return false;
+        DEBUG_BLOCK
+        DEBUG_TEXT2( "Unable to read from file %1", url.toLocalFile() );
     }
+
+    return result;
 }
 
 bool GDLSerializer::write(const QUrl& url, const GluonObjectList& objects)
@@ -61,7 +73,7 @@ bool GDLSerializer::write(const QUrl& url, const GluonObjectList& objects)
     return false;
 }
 
-bool GDLSerializer::parse(const QByteArray& data, GluonObjectList& objects)
+bool GDLSerializer::parse(const QByteArray& data, GluonObjectList& objects, GluonObject* project)
 {
     KDevPG::QUtf8ToUcs4Iterator itr(data);
 
@@ -81,10 +93,10 @@ bool GDLSerializer::parse(const QByteArray& data, GluonObjectList& objects)
         return false;
     }
 
-    GDL::ObjectTreeBuilder builder( &lexer, data );
+    GDL::ObjectTreeBuilder builder( &lexer, data, project );
     builder.visitStart(ast);
 
-    if( objects.count() > 0 )
+    if( builder.objects().count() > 0 )
     {
         objects = builder.objects();
     }
