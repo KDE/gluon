@@ -1,5 +1,5 @@
-{ GluonEngine::ProjectMetaData(GluonObject)
-    projectName string(Apocalypse)
-    projectFilePath string(/usr/share/gluon/games/apocalypse.gluon/game.gluonproject)
-    projectId string(141902)
+{ GluonEngine::ProjectMetaData("GluonObject")
+    projectName string("Apocalypse")
+    projectFilePath string("/usr/share/gluon/games/apocalypse.gluon/game.gluonproject")
+    projectId string("141902")
 }

@@ -1,113 +1,113 @@
-{ GluonEngine::GameProject(Invaders)
-    description string(Invaders Game)
-    entryPoint GluonEngine::Scene(Invaders/Scenes/Menu)
-    id string(128637)
-    { GluonCore::GluonObject(Scenes)
-        { GluonEngine::Scene(Menu)
-            file url(scenes/menu.gluonscene)
+{ GluonEngine::GameProject("Invaders")
+    description string("Invaders Game")
+    entryPoint GluonEngine::Scene("Invaders/Scenes/Menu")
+    id string("128637")
+    { GluonCore::GluonObject("Scenes")
+        { GluonEngine::Scene("Menu")
+            file url("scenes/menu.gluonscene")
         }
-        { GluonEngine::Scene(Game)
-            file url(scenes/game.gluonscene)
+        { GluonEngine::Scene("Game")
+            file url("scenes/game.gluonscene")
             paused bool(false)
             enemies float(28)
             lives float(5)
         }
     }
-    { GluonCore::GluonObject(Assets)
-        { GluonCore::GluonObject(Interface)
-            { GluonEngine::UiAsset(Menu Interface)
-                file url(assets/interface/menu_interface.qml)
+    { GluonCore::GluonObject("Assets")
+        { GluonCore::GluonObject("Interface")
+            { GluonEngine::UiAsset("Menu Interface")
+                file url("assets/interface/menu_interface.qml")
             }
-            { GluonEngine::UiAsset(Game Interface)
-                file url(assets/interface/game_interface.qml)
-            }
-        }
-        { GluonCore::GluonObject(Scripts)
-            { GluonEngine::ScriptingAsset(Player)
-                file url(assets/scripts/player.js)
-            }
-            { GluonEngine::ScriptingAsset(Enemy)
-                file url(assets/scripts/enemy.js)
-            }
-            { GluonEngine::ScriptingAsset(Controller)
-                file url(assets/scripts/controller.js)
-            }
-            { GluonEngine::ScriptingAsset(Bullet)
-                file url(assets/scripts/bullet.js)
+            { GluonEngine::UiAsset("Game Interface")
+                file url("assets/interface/game_interface.qml")
             }
         }
-        { GluonCore::GluonObject(Sounds)
-            { GluonEngine::SoundAsset(Menu Music)
-                file url(assets/sounds/menu_music.ogg)
-                description string(The Whip Theme - Extended Version)
+        { GluonCore::GluonObject("Scripts")
+            { GluonEngine::ScriptingAsset("Player")
+                file url("assets/scripts/player.js")
             }
-            { GluonEngine::SoundAsset(Game Muisc)
-                file url(assets/sounds/game_music.ogg)
-                description string(Harmful or Fatal)
+            { GluonEngine::ScriptingAsset("Enemy")
+                file url("assets/scripts/enemy.js")
             }
-            { GluonEngine::SoundAsset(Fire)
-                file url(assets/sounds/fire.ogg)
+            { GluonEngine::ScriptingAsset("Controller")
+                file url("assets/scripts/controller.js")
             }
-            { GluonEngine::SoundAsset(Explode)
-                file url(assets/sounds/explode.ogg)
+            { GluonEngine::ScriptingAsset("Bullet")
+                file url("assets/scripts/bullet.js")
             }
         }
-        { GluonCore::GluonObject(Textures)
-            { GluonEngine::TextureAsset(Enemy)
-                file url(assets/textures/enemy.png)
+        { GluonCore::GluonObject("Sounds")
+            { GluonEngine::SoundAsset("Menu Music")
+                file url("assets/sounds/menu_music.ogg")
+                description string("The Whip Theme - Extended Version")
             }
-            { GluonEngine::TextureAsset(Background)
-                file url(assets/textures/background.png)
+            { GluonEngine::SoundAsset("Game Muisc")
+                file url("assets/sounds/game_music.ogg")
+                description string("Harmful or Fatal")
             }
-            { GluonEngine::TextureAsset(Icon)
-                file url(assets/textures/icon.png)
+            { GluonEngine::SoundAsset("Fire")
+                file url("assets/sounds/fire.ogg")
             }
-            { GluonEngine::TextureAsset(Spaceship Reflection)
-                file url(assets/textures/spaceship_reflection.png)
-            }
-            { GluonEngine::TextureAsset(Spaceship)
-                file url(assets/textures/spaceship.png)
+            { GluonEngine::SoundAsset("Explode")
+                file url("assets/sounds/explode.ogg")
             }
         }
-        { GluonEngine::MaterialAsset(Main Material)
-            file url(assets/main_material.gml)
-            { GluonGraphics::MaterialInstance(Icon)
-                materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset(Invaders/Assets/Textures/Icon)
+        { GluonCore::GluonObject("Textures")
+            { GluonEngine::TextureAsset("Enemy")
+                file url("assets/textures/enemy.png")
             }
-            { GluonGraphics::MaterialInstance(Player)
-                materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset(Invaders/Assets/Textures/Spaceship)
+            { GluonEngine::TextureAsset("Background")
+                file url("assets/textures/background.png")
             }
-            { GluonGraphics::MaterialInstance(Player Reflection)
-                materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset(Invaders/Assets/Textures/Spaceship Reflection)
+            { GluonEngine::TextureAsset("Icon")
+                file url("assets/textures/icon.png")
             }
-            { GluonGraphics::MaterialInstance(Enemy)
-                materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset(Invaders/Assets/Textures/Enemy)
+            { GluonEngine::TextureAsset("Spaceship Reflection")
+                file url("assets/textures/spaceship_reflection.png")
             }
-            { GluonGraphics::MaterialInstance(Enemy_Fade)
-                materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset(Invaders/Assets/Textures/Enemy)
+            { GluonEngine::TextureAsset("Spaceship")
+                file url("assets/textures/spaceship.png")
             }
-            { GluonGraphics::MaterialInstance(Bullet)
+        }
+        { GluonEngine::MaterialAsset("Main Material")
+            file url("assets/main_material.gml")
+            { GluonGraphics::MaterialInstance("Icon")
+                materialColor rgba(255;255;255;255)
+                texture0 GluonEngine::TextureAsset("Invaders/Assets/Textures/Icon")
+            }
+            { GluonGraphics::MaterialInstance("Player")
+                materialColor rgba(255;255;255;255)
+                texture0 GluonEngine::TextureAsset("Invaders/Assets/Textures/Spaceship")
+            }
+            { GluonGraphics::MaterialInstance("Player Reflection")
+                materialColor rgba(255;255;255;255)
+                texture0 GluonEngine::TextureAsset("Invaders/Assets/Textures/Spaceship Reflection")
+            }
+            { GluonGraphics::MaterialInstance("Enemy")
+                materialColor rgba(255;255;255;255)
+                texture0 GluonEngine::TextureAsset("Invaders/Assets/Textures/Enemy")
+            }
+            { GluonGraphics::MaterialInstance("Enemy_Fade")
+                materialColor rgba(255;255;255;255)
+                texture0 GluonEngine::TextureAsset("Invaders/Assets/Textures/Enemy")
+            }
+            { GluonGraphics::MaterialInstance("Bullet")
                 materialColor rgba(255;0;0;255)
-                texture0 GluonEngine::TextureAsset(Invaders/Assets/Textures/Enemy)
+                texture0 GluonEngine::TextureAsset("Invaders/Assets/Textures/Enemy")
             }
-            { GluonGraphics::MaterialInstance(Background)
+            { GluonGraphics::MaterialInstance("Background")
                 materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset(Invaders/Assets/Textures/Background)
+                texture0 GluonEngine::TextureAsset("Invaders/Assets/Textures/Background")
             }
         }
-        { GluonEngine::MaterialAsset(Render Target Material)
-            file url(assets/render_target_material.gml)
-            { GluonGraphics::MaterialInstance(Main)
+        { GluonEngine::MaterialAsset("Render Target Material")
+            file url("assets/render_target_material.gml")
+            { GluonGraphics::MaterialInstance("Main")
                 materialColor rgba(255;255;255;255)
                 texture0 uint(2)
             }
         }
     }
-    { GluonCore::GluonObject(Prefabs)
+    { GluonCore::GluonObject("Prefabs")
     }
 }

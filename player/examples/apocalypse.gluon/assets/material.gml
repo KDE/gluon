@@ -1,6 +1,6 @@
-{ GluonCore::GluonObject(Material)
+{ GluonCore::GluonObject("Material")
     #Vertex shader source
-    vertexShader string(<<<
+    vertexShader string("
         uniform mat4 modelMatrix;
         uniform mat4 viewMatrix;
         uniform mat4 projectionMatrix;
@@ -18,10 +18,10 @@
             out_color = color;
             out_uv0 = uv0;
         }
-    <<<)
+    ")
 
     #Fragment shader source
-    fragmentShader string(<<<
+    fragmentShader string("
         uniform sampler2D texture0;
         uniform mediump vec4 materialColor;
         uniform highp vec4 textureParameters;
@@ -35,9 +35,8 @@
             mediump vec4 texColor = texture2D(texture0, realUV);
             mediump vec4 color = out_color * materialColor * texColor;
             gl_FragColor = color;
-            /*vec4(color.r, color.g, color.b, 1.0);*/
         }
-    <<<)
+    ")
 
     #Uniform property descriptions
     #Note that the uniform "modelViewProj" from the vertex shader
@@ -46,5 +45,6 @@
     #Uniform 1 from the Fragment shader
     texture0 int(0)
     #Uniform 2 from the Fragment shader
-    materialColor color(255;255;255;255)
+    materialColor rgba(255;255;255;255)
+
 }
