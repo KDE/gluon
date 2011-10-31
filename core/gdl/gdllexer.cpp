@@ -372,29 +372,49 @@ _state_2:
     lpos = lxCURR_POS;
     lstate = 27;
     lxNEXT_CHR(chr);
-    if (chr < 14)
+    if (chr < 11)
     {
-        if (chr < 13)
+        if (chr < 10)
             goto _state_2;
         else
             goto _end;
     }
     else
     {
-        goto _state_2;
+        if (chr < 14)
+        {
+            if (chr < 13)
+                goto _state_2;
+            else
+                goto _end;
+        }
+        else
+        {
+            goto _state_2;
+        }
     }
 _state_3:
     lxNEXT_CHR(chr);
-    if (chr < 14)
+    if (chr < 11)
     {
-        if (chr < 13)
+        if (chr < 10)
             goto _state_2;
         else
             goto _end;
     }
     else
     {
-        goto _state_2;
+        if (chr < 14)
+        {
+            if (chr < 13)
+                goto _state_2;
+            else
+                goto _end;
+        }
+        else
+        {
+            goto _state_2;
+        }
     }
 _state_4:
     lpos = lxCURR_POS;
@@ -3679,28 +3699,28 @@ _fail:
     }
     case 27:
     {
-# 3684 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
+# 3704 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
 # 60 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
                                            /* Comment, ignore */ 
-# 3685 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
+# 3705 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
 
         lxSKIP
     }
     case 28:
     {
-# 3693 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
+# 3713 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
 # 62 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
                                            /* Whitespace, ignore */ 
-# 3694 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
+# 3714 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
 
         lxSKIP
     }
     case 29:
     {
-# 3702 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
+# 3722 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
 # 64 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
                                            locationTable()->newline(lxCURR_IDX); 
-# 3703 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
+# 3723 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
 
         lxSKIP
     }
