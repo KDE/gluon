@@ -103,8 +103,13 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
 
         if( !target )
         {
-            ref.object->debug("Warning: Invalid reference for property %1", ref.property);
-            continue;
+            target = d->project->findItemByName( ref.path );
+
+            if( !target )
+            {
+                ref.object->debug("Warning: Invalid reference for property %1", ref.property);
+                continue;
+            }
         }
 
         ref.object->setProperty( ref.property.toUtf8(), GluonCore::GluonObjectFactory::instance()->wrapObject( ref.type, target ) );
@@ -119,7 +124,12 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
 
 void ObjectTreeBuilder::visitObject(GDL::ObjectAst* node)
 {
-    GluonObject* newObject = GluonObjectFactory::instance()->instantiateObjectByName(d->textForToken(d->lexer->token(node->type)));
+    QString type = d->textForToken(d->lexer->token(node->type));
+    GluonObject* newObject = GluonObjectFactory::instance()->instantiateObjectByName( type );
+    if( !newObject )
+    {
+        return;
+    }
 
     if( !d->project )
     {
@@ -200,14 +210,14 @@ void ObjectTreeBuilder::visitFloat_type(GDL::Float_typeAst* node)
 
 void ObjectTreeBuilder::visitString_type(GDL::String_typeAst* node)
 {
-    Lexer::Token stringToken = d->lexer->token(node->value);
-    d->currentPropertyValue = QVariant::fromValue<QString>(d->textForToken(stringToken));
+    QString stringValue = d->stripQuotes( d->textForToken( d->lexer->token(node->value) ) );
+    d->currentPropertyValue = QVariant::fromValue<QString>( stringValue );
 }
 
 void ObjectTreeBuilder::visitUrl_type(GDL::Url_typeAst* node)
 {
-    Lexer::Token urlToken = d->lexer->token(node->path);
-    d->currentPropertyValue = QVariant::fromValue<QUrl>(QUrl(d->textForToken(urlToken)));
+    QString stringValue = d->stripQuotes( d->textForToken( d->lexer->token( node->path ) ) );
+    d->currentPropertyValue = QVariant::fromValue<QUrl>(QUrl( stringValue ) );
 }
 
 void ObjectTreeBuilder::visitRgba_type(GDL::Rgba_typeAst* node)
