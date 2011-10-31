@@ -74,12 +74,13 @@ ScenePrivate::loadContents( const QUrl& file )
     }
 
     GluonCore::GluonObjectList objects;
-    if( GluonCore::GDLSerializer::instance()->read( file, objects ) )
-        sceneContents = qobject_cast<GluonEngine::GameObject*>( objects.at( 0 ) );
+    if( GluonCore::GDLSerializer::instance()->read( file, objects, q->gameProject() ) )
+        sceneContents = qobject_cast< GameObject*>( objects.at( 0 ) );
 
     if( !sceneContents )
-        sceneContents = new GluonEngine::GameObject( q );
+        sceneContents = new GluonEngine::GameObject();
 
+    sceneContents->setParent( q );
     sceneContents->sanitize();
     sceneContentsLoaded = true;
     q->savableDirty = false;
