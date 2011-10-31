@@ -57,7 +57,7 @@
 
     "\""[.^"\""]*"\""                   VALUE ;
 
-    "#"[.^\r]+                          [: /* Comment, ignore */ :] ;
+    "#"[.^\r\n]+                        [: /* Comment, ignore */ :] ;
 
     [\ \t\r]+                           [: /* Whitespace, ignore */ :] ;
 
@@ -116,7 +116,7 @@
         | type=QUATERNION
         | type=SIZE_TWOD
         | type=URL )
-    RARROW value=VALUE
+    RARROW LPAREN ( #values=VALUE | #numbers=NUMBER | #identifiers=IDENTIFIER | #bools=TRUE_VALUE | #bools=FALSE_VALUE | SEMICOLON )* RPAREN
 -> list_type ;
 
     type=IDENTIFIER LPAREN value=VALUE RPAREN

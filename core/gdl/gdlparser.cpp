@@ -211,7 +211,6 @@ bool Parser::parseList_type(List_typeAst **yynode)
     (*yynode)->type = -1;
     (*yynode)->type = -1;
     (*yynode)->type = -1;
-    (*yynode)->value = -1;
 
     if (yytoken == Token_LIST)
     {
@@ -383,12 +382,95 @@ bool Parser::parseList_type(List_typeAst **yynode)
         }
         yylex();
 
-        if (yytoken != Token_VALUE)
+        if (yytoken != Token_LPAREN)
         {
-            expectedToken(yytoken, Token_VALUE, "VALUE");
+            expectedToken(yytoken, Token_LPAREN, "LPAREN");
             return false;
         }
-        (*yynode)->value = tokenStream->index() - 1;
+        yylex();
+
+        while (yytoken == Token_FALSE_VALUE
+               || yytoken == Token_IDENTIFIER
+               || yytoken == Token_NUMBER
+               || yytoken == Token_SEMICOLON
+               || yytoken == Token_TRUE_VALUE
+               || yytoken == Token_VALUE)
+        {
+            if (yytoken == Token_VALUE)
+            {
+                if (yytoken != Token_VALUE)
+                {
+                    expectedToken(yytoken, Token_VALUE, "VALUE");
+                    return false;
+                }
+                (*yynode)->valuesSequence = snoc((*yynode)->valuesSequence, tokenStream->index() - 1, memoryPool);
+                yylex();
+
+            }
+            else if (yytoken == Token_NUMBER)
+            {
+                if (yytoken != Token_NUMBER)
+                {
+                    expectedToken(yytoken, Token_NUMBER, "NUMBER");
+                    return false;
+                }
+                (*yynode)->numbersSequence = snoc((*yynode)->numbersSequence, tokenStream->index() - 1, memoryPool);
+                yylex();
+
+            }
+            else if (yytoken == Token_IDENTIFIER)
+            {
+                if (yytoken != Token_IDENTIFIER)
+                {
+                    expectedToken(yytoken, Token_IDENTIFIER, "IDENTIFIER");
+                    return false;
+                }
+                (*yynode)->identifiersSequence = snoc((*yynode)->identifiersSequence, tokenStream->index() - 1, memoryPool);
+                yylex();
+
+            }
+            else if (yytoken == Token_TRUE_VALUE)
+            {
+                if (yytoken != Token_TRUE_VALUE)
+                {
+                    expectedToken(yytoken, Token_TRUE_VALUE, "TRUE_VALUE");
+                    return false;
+                }
+                (*yynode)->boolsSequence = snoc((*yynode)->boolsSequence, tokenStream->index() - 1, memoryPool);
+                yylex();
+
+            }
+            else if (yytoken == Token_FALSE_VALUE)
+            {
+                if (yytoken != Token_FALSE_VALUE)
+                {
+                    expectedToken(yytoken, Token_FALSE_VALUE, "FALSE_VALUE");
+                    return false;
+                }
+                (*yynode)->boolsSequence = snoc((*yynode)->boolsSequence, tokenStream->index() - 1, memoryPool);
+                yylex();
+
+            }
+            else if (yytoken == Token_SEMICOLON)
+            {
+                if (yytoken != Token_SEMICOLON)
+                {
+                    expectedToken(yytoken, Token_SEMICOLON, "SEMICOLON");
+                    return false;
+                }
+                yylex();
+
+            }
+            else
+            {
+                return false;
+            }
+        }
+        if (yytoken != Token_RPAREN)
+        {
+            expectedToken(yytoken, Token_RPAREN, "RPAREN");
+            return false;
+        }
         yylex();
 
     }

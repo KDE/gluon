@@ -70,7 +70,10 @@ struct  List_typeAst: public AstNode
     enum { KIND = List_typeKind };
 
     qint64 type;
-    qint64 value;
+    const KDevPG::ListNode<qint64 > *valuesSequence;
+    const KDevPG::ListNode<qint64 > *numbersSequence;
+    const KDevPG::ListNode<qint64 > *identifiersSequence;
+    const KDevPG::ListNode<qint64 > *boolsSequence;
 };
 
 struct  Long_long_typeAst: public AstNode
