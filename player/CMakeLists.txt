@@ -24,9 +24,9 @@ if(LIBATTICA_FOUND)
 
     find_package(Qt4)
     if(QT_QTDECLARATIVE_FOUND)
-        add_subdirectory(touch)
+        add_subdirectory(handset)
     else(QT_QTDECLARATIVE_FOUND)
-        message(WARNING "Qt installation lacks Qt Declarative - disabling touch based player")
+        message(WARNING "Qt installation lacks Qt Declarative - disabling handset based player")
     endif(QT_QTDECLARATIVE_FOUND)
 
     if(WITH_KDE)
