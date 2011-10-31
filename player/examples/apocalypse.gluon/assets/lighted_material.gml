@@ -1,5 +1,5 @@
-{ GluonCore::GluonObject(Material)    
-    vertexShader string(<<<
+{ GluonCore::GluonObject("Material")
+    vertexShader string("
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
@@ -20,9 +20,9 @@ void main()
     out_color = color;
     out_uv0 = uv0;
 }
-    <<<)
+    ")
 
-    fragmentShader string(<<<
+    fragmentShader string("
 uniform sampler2D texture0;
 uniform vec4 textureParameters;
 
@@ -70,6 +70,6 @@ void main()
 
     gl_FragColor = finalColor;
 }
-    <<<)
+    ")
 
 }

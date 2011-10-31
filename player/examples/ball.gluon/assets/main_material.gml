@@ -1,7 +1,7 @@
-{ GluonCore::GluonObject(Material)
-    languageVersion string(1.20)
+{ GluonCore::GluonObject("Material")
+    languageVersion string("1.20")
 
-    vertexShader string(<<<#version 120
+    vertexShader string("#version 120
 
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
@@ -20,9 +20,9 @@ void main()
     out_color = color;
     out_uv0 = uv0;
 }
-<<<)
+")
 
-    fragmentShader string(<<<#version 120
+    fragmentShader string("#version 120
 
 uniform sampler2D texture0;
 uniform vec4 materialColor;
@@ -39,8 +39,8 @@ void main()
         discard;
     gl_FragColor = color;
 }
-<<<)
+")
 
     texture0 int(0)
-    materialColor color(255;255;255;255)
+    materialColor rgba(255;255;255;255)
 }

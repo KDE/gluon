@@ -1,110 +1,110 @@
-{ GluonEngine::GameProject(Apocalypse)
-    entryPoint GluonEngine::Scene(Apocalypse/Scenes/Menu)
-    id string(141902)
-    { GluonCore::GluonObject(Scenes)
-        { GluonEngine::Scene(Level 1)
-            file url(scenes/level_1.gluonscene)
+{ GluonEngine::GameProject("Apocalypse")
+    entryPoint GluonEngine::Scene("Apocalypse/Scenes/Menu")
+    id string("141902")
+    { GluonCore::GluonObject("Scenes")
+        { GluonEngine::Scene("Level 1")
+            file url("scenes/level_1.gluonscene")
         }
-        { GluonEngine::Scene(Menu)
-            file url(scenes/menu.gluonscene)
+        { GluonEngine::Scene("Menu")
+            file url("scenes/menu.gluonscene")
         }
     }
-    { GluonCore::GluonObject(Assets)
-        { GluonCore::GluonObject(Scripts)
-            { GluonEngine::ScriptingAsset(Crosshair)
-                file url(assets/scripts/crosshair.js)
+    { GluonCore::GluonObject("Assets")
+        { GluonCore::GluonObject("Scripts")
+            { GluonEngine::ScriptingAsset("Crosshair")
+                file url("assets/scripts/crosshair.js")
             }
-            { GluonEngine::ScriptingAsset(Player)
-                file url(assets/scripts/player.js)
+            { GluonEngine::ScriptingAsset("Player")
+                file url("assets/scripts/player.js")
             }
-            { GluonEngine::ScriptingAsset(Bullet)
-                file url(assets/scripts/bullet.js)
+            { GluonEngine::ScriptingAsset("Bullet")
+                file url("assets/scripts/bullet.js")
             }
-            { GluonEngine::ScriptingAsset(Zombie)
-                file url(assets/scripts/zombie.js)
+            { GluonEngine::ScriptingAsset("Zombie")
+                file url("assets/scripts/zombie.js")
             }
-            { GluonEngine::ScriptingAsset(Controller)
-                file url(assets/scripts/controller.js)
-            }
-        }
-        { GluonCore::GluonObject(Textures)
-            { GluonEngine::TextureAsset(goblin_lumberjack_green)
-                file url(assets/textures/goblin_lumberjack_green.png)
-            }
-            { GluonEngine::TextureAsset(Background)
-                file url(assets/textures/background.jpg)
-            }
-            { GluonEngine::TextureAsset(Crosshair)
-                file url(assets/textures/crosshair.png)
-            }
-            { GluonEngine::TextureAsset(GoblinSnipped)
-                file url(assets/textures/goblinsnipped.png)
-            }
-            { GluonEngine::TextureAsset(Bullet)
-                file url(assets/textures/bullet.png)
+            { GluonEngine::ScriptingAsset("Controller")
+                file url("assets/scripts/controller.js")
             }
         }
-        { GluonEngine::MaterialAsset(Animated Sprite)
-            file url(assets/animated_sprite.gml)
-            { GluonGraphics::MaterialInstance(Player)
+        { GluonCore::GluonObject("Textures")
+            { GluonEngine::TextureAsset("goblin_lumberjack_green")
+                file url("assets/textures/goblin_lumberjack_green.png")
+            }
+            { GluonEngine::TextureAsset("Background")
+                file url("assets/textures/background.jpg")
+            }
+            { GluonEngine::TextureAsset("Crosshair")
+                file url("assets/textures/crosshair.png")
+            }
+            { GluonEngine::TextureAsset("GoblinSnipped")
+                file url("assets/textures/goblinsnipped.png")
+            }
+            { GluonEngine::TextureAsset("Bullet")
+                file url("assets/textures/bullet.png")
+            }
+        }
+        { GluonEngine::MaterialAsset("Animated Sprite")
+            file url("assets/animated_sprite.gml")
+            { GluonGraphics::MaterialInstance("Player")
                 materialColor rgba(255;255;255;255)
                 frame vector4d(0;0;0.02;0.09)
-                texture0 GluonEngine::TextureAsset(Apocalypse/Assets/Textures/goblin_lumberjack_green)
+                texture0 GluonEngine::TextureAsset("Apocalypse/Assets/Textures/goblin_lumberjack_green")
             }
-            { GluonGraphics::MaterialInstance(Zombie)
+            { GluonGraphics::MaterialInstance("Zombie")
                 materialColor rgba(255;255;255;255)
                 frame vector4d(0.105263;0;0.0263158;0.125)
-                texture0 GluonEngine::TextureAsset(Apocalypse/Assets/Textures/goblin_lumberjack_green)
+                texture0 GluonEngine::TextureAsset("Apocalypse/Assets/Textures/goblin_lumberjack_green")
             }
         }
-        { GluonEngine::MaterialAsset(RenderTarget)
-            file url(assets/rendertarget.gml)
-            { GluonGraphics::MaterialInstance(Main)
+        { GluonEngine::MaterialAsset("RenderTarget")
+            file url("assets/rendertarget.gml")
+            { GluonGraphics::MaterialInstance("Main")
                 materialColor rgba(255;255;255;255)
                 texture0 uint(12)
                 saturation float(1)
             }
         }
-        { GluonCore::GluonObject(Sounds)
-            { GluonEngine::SoundAsset(Menu Music)
-                file url(assets/sounds/menu_music.ogg)
+        { GluonCore::GluonObject("Sounds")
+            { GluonEngine::SoundAsset("Menu Music")
+                file url("assets/sounds/menu_music.ogg")
             }
-            { GluonEngine::SoundAsset(Game Music)
-                file url(assets/sounds/game_music.ogg)
+            { GluonEngine::SoundAsset("Game Music")
+                file url("assets/sounds/game_music.ogg")
             }
-            { GluonEngine::SoundAsset(Gunfire)
-                file url(assets/sounds/gunfire.wav)
+            { GluonEngine::SoundAsset("Gunfire")
+                file url("assets/sounds/gunfire.wav")
             }
         }
-        { GluonEngine::MaterialAsset(Material)
-            file url(assets/material.gml)
-            { GluonGraphics::MaterialInstance(Background)
+        { GluonEngine::MaterialAsset("Material")
+            file url("assets/material.gml")
+            { GluonGraphics::MaterialInstance("Background")
                 materialColor rgba(255;255;255;255)
                 textureParameters vector4d(0;0;2;2)
-                texture0 GluonEngine::TextureAsset(Apocalypse/Assets/Textures/Background)
+                texture0 GluonEngine::TextureAsset("Apocalypse/Assets/Textures/Background")
             }
-            { GluonGraphics::MaterialInstance(Crosshair)
+            { GluonGraphics::MaterialInstance("Crosshair")
                 materialColor rgba(255;0;0;255)
                 textureParameters vector4d(0;0;1;1)
-                texture0 GluonEngine::TextureAsset(Apocalypse/Assets/Textures/Crosshair)
+                texture0 GluonEngine::TextureAsset("Apocalypse/Assets/Textures/Crosshair")
             }
-            { GluonGraphics::MaterialInstance(Bullet)
+            { GluonGraphics::MaterialInstance("Bullet")
                 materialColor rgba(255;255;255;255)
                 textureParameters vector4d(0;0;1;1)
-                texture0 GluonEngine::TextureAsset(Apocalypse/Assets/Textures/Bullet)
+                texture0 GluonEngine::TextureAsset("Apocalypse/Assets/Textures/Bullet")
             }
         }
-        { GluonCore::GluonObject(Interface)
-            { GluonEngine::UiAsset(Main Menu)
-                file url(assets/interface/main_menu.qml)
+        { GluonCore::GluonObject("Interface")
+            { GluonEngine::UiAsset("Main Menu")
+                file url("assets/interface/main_menu.qml")
             }
-            { GluonEngine::UiAsset(Game Interface)
-                file url(assets/interface/game_interface.qml)
+            { GluonEngine::UiAsset("Game Interface")
+                file url("assets/interface/game_interface.qml")
             }
         }
-        { GluonEngine::MaterialAsset(Lighted Material)
-            file url(assets/lighted_material.gml)
-            { GluonGraphics::MaterialInstance(Background)
+        { GluonEngine::MaterialAsset("Lighted Material")
+            file url("assets/lighted_material.gml")
+            { GluonGraphics::MaterialInstance("Background")
                 materialColor rgba(255;255;255;255)
                 diffuseColor rgba(255;255;255;255)
                 ambientColor rgba(0;0;0;255)
@@ -117,7 +117,7 @@
                 lightAttenuation vector3d(0;0;3)
                 textureParameters vector4d(0;0;2;2)
                 saturation float(1)
-                texture0 GluonEngine::TextureAsset(Apocalypse/Assets/Textures/Background)
+                texture0 GluonEngine::TextureAsset("Apocalypse/Assets/Textures/Background")
             }
         }
     }
