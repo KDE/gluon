@@ -37,8 +37,7 @@ if(LIBATTICA_FOUND)
             add_subdirectory(desktop)
 
             if(BUILD_PLASMOID)
-                add_subdirectory(plasmoid)
-                add_subdirectory(qmlplasmoid)
+                add_subdirectory(active)
             endif(BUILD_PLASMOID)
         else(KDE4_FOUND)
             message(STATUS "WITH_KDE is enabled but KDE libraries are not found - not building the KDE players or the Plasmoid")
@@ -52,7 +51,6 @@ endif(LIBATTICA_FOUND)
 
 add_subdirectory(icons)
 set(PLAYER_ICONS_INSTALLED TRUE)
-add_subdirectory(qt)
 
 if(INSTALL_EXAMPLES)
     add_subdirectory(examples)
