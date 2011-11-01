@@ -23,6 +23,7 @@ option(BUILD_GLUON_PLAYER_FREMANTLE "Build Gluon Player for Fremantle" OFF)
 option(BUILD_GLUON_PLAYER_PLASMOID "Build Gluon Player for Plasma Desktop" OFF)
 option(BUILD_GLUON_CREATOR "Build Gluon Creator Application" ON)
 option(BUILD_GLUON_CREATOR_VCS "Build Version Control System support for the Gluon Creator" OFF)
+option(BUILD_GLUON_TOOLS "Build Gluon Tools" ON)
 option(BUILD_GLUON_TESTS "Build Unit Tests for the Gluon libraries and applications" ON)
 option(INSTALL_EXAMPLES "Install the game examples for Gluon Player" ON)
 
@@ -129,6 +130,11 @@ endif()
 if(BUILD_GLUON_CREATOR)
     add_subdirectory(creator)
 endif(BUILD_GLUON_CREATOR)
+
+###### Gluon Tools ######
+if(BUILD_GLUON_TOOLS)
+    add_subdirectory(tools)
+endif(BUILD_GLUON_TOOLS)
 
 message(STATUS)
 message(STATUS "========== Gluon Build Information ==========")

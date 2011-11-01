@@ -66,9 +66,6 @@ else(LIBATTICA_FOUND)
     message(WARNING "Building libGluonPlayer without Attica support!")
 endif(LIBATTICA_FOUND)
 
-add_subdirectory(icons)
-set(PLAYER_ICONS_INSTALLED TRUE)
-
 if(INSTALL_EXAMPLES)
     add_subdirectory(examples)
 endif(INSTALL_EXAMPLES)
