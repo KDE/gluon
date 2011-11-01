@@ -2,16 +2,16 @@ cmake_minimum_required(VERSION 2.8)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${GLUON_INPUT_INCLUDES})
 
+qt4_generate_moc(main.cpp ${CMAKE_CURRENT_BINARY_DIR}/main.moc)
+
 set(kdeplayer_SRCS
     main.cpp
-    mainwindow.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/main.moc
 )
 
 if(APPLE)
 	kde4_add_executable(gluon_kdeplayer MACOSX_BUNDLE ${kdeplayer_SRCS})
 	#MACOSX_BUNDLE_INFO_STRING
-	#MACOSX_BUNDLE_ICON_FILE
-	#MACOSX_BUNDLE_GUI_IDENTIFIER
 	set(MACOSX_BUNDLE_LONG_VERSION_STRING ${GLUON_VERSION_STRING})
 	set(MACOSX_BUNDLE_BUNDLE_NAME GluonPlayer)
 	set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
@@ -42,9 +42,7 @@ if(APPLE)
 	)
 
 	set_target_properties(gluon_kdeplayer PROPERTIES OUTPUT_NAME GluonPlayer)
-
 else()
-	kde4_add_app_icon(kdeplayer_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../icons/*/apps/gluon-player.png")
 	kde4_add_executable(gluon_kdeplayer ${kdeplayer_SRCS})
 endif()
 target_link_libraries(gluon_kdeplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_INPUT_LIBS} ${KDE4_KIO_LIBS})
@@ -53,9 +51,4 @@ if(NOT APPLE)
     install(TARGETS gluon_kdeplayer
             DESTINATION ${BIN_INSTALL_DIR}
             COMPONENT gluonkdeplayer)
-
-    install(FILES gluon_kdeplayer.desktop
-            DESTINATION ${SHARE_INSTALL_DIR}/applications
-            COMPONENT gluonkdeplayer)
-
 endif()

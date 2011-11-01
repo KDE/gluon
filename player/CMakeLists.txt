@@ -33,7 +33,6 @@ if(LIBATTICA_FOUND)
         find_package(KDE4)
         if(KDE4_FOUND)
             include_directories(${KDE4_INCLUDES})
-            add_subdirectory(kde)
             add_subdirectory(desktop)
 
             if(BUILD_PLASMOID)
