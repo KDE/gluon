@@ -2,12 +2,13 @@ cmake_minimum_required(VERSION 2.8)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_INPUT_INCLUDES} ${GLUON_GRAPHICS_INCLUDES})
 
-qt4_generate_moc(main.cpp ${CMAKE_CURRENT_BINARY_DIR}/main.moc)
-
 set(qtplayer_SRCS
     main.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/main.moc
+    mainwindow.cpp
 )
+
+
+qt4_automoc(${qtplayer_SRCS})
 
 if(APPLE)
     add_executable(gluon_qtplayer MACOSX_BUNDLE ${qtplayer_SRCS})
@@ -51,4 +52,16 @@ if(NOT APPLE)
         DESTINATION ${BIN_INSTALL_DIR}
         COMPONENT gluonqtplayer
     )
+
+    install(FILES
+        gluon_qtplayer.desktop
+
+        DESTINATION ${SHARE_INSTALL_DIR}/applications
+        COMPONENT gluonqtplayer
+    )
+
+    if(NOT PLAYER_ICONS_INSTALLED)
+        add_subdirectory(../icons icons)
+        set(PLAYER_ICONS_INSTALLED TRUE)
+    endif()
 endif()

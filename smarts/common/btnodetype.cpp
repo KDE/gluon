@@ -24,7 +24,6 @@
 
 btNodeType::btNodeType(QObject * parent)
 {
-    Q_UNUSED(parent)
     m_parent = NULL;
 }
 
@@ -59,7 +58,6 @@ btNodeType::nodeType btNodeType::type() const
 
 bool btNodeType::run(btCharacter *self)
 {
-    Q_UNUSED(self)
     return false;
 }
 
