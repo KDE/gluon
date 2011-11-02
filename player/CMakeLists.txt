@@ -24,7 +24,7 @@ if(LIBATTICA_FOUND)
 
     find_package(Qt4)
     if(QT_QTDECLARATIVE_FOUND)
-        add_subdirectory(handset)
+        add_subdirectory(fremantle)
     else(QT_QTDECLARATIVE_FOUND)
         message(WARNING "Qt installation lacks Qt Declarative - disabling handset based player")
     endif(QT_QTDECLARATIVE_FOUND)
