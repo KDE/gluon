@@ -4,20 +4,20 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GL
 
 qt4_generate_moc(main.cpp ${CMAKE_CURRENT_BINARY_DIR}/main.moc)
 
-set(qtplayer_SRCS
+set(viewer_SRCS
     main.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/main.moc
 )
 
 if(APPLE)
-    add_executable(gluon_qtplayer MACOSX_BUNDLE ${qtplayer_SRCS})
+    add_executable(gluonviewer MACOSX_BUNDLE ${viewer_SRCS})
 
     set(MACOSX_BUNDLE_LONG_VERSION_STRING ${GLUON_VERSION_STRING})
     set(MACOSX_BUNDLE_BUNDLE_NAME GluonPlayer)
     set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
     set(MACOSX_BUNDLE_BUNDLE_VERSION ${GLUON_VERSION_STRING})
 
-    add_custom_command(TARGET gluon_qtplayer
+    add_custom_command(TARGET gluonviewer
         COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/Frameworks/
         COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/core/$(CONFIGURATION)/GluonCore.framework ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/Frameworks/
         COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/audio/$(CONFIGURATION)/GluonAudio.framework ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/Frameworks/
@@ -38,17 +38,17 @@ if(APPLE)
 
         COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/engine/components/other/spherecollision/$(CONFIGURATION)/libgluon_component_spherecollision.dylib ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/PlugIns/
     )
-    set_target_properties(gluon_qtplayer PROPERTIES OUTPUT_NAME GluonPlayer)
+    set_target_properties(gluonviewer PROPERTIES OUTPUT_NAME GluonPlayer)
 else()
-    add_executable(gluon_qtplayer ${qtplayer_SRCS})
+    add_executable(gluonviewer ${viewer_SRCS})
 endif()
-target_link_libraries(gluon_qtplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_INPUT_LIBS})
+target_link_libraries(gluonviewer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_INPUT_LIBS})
 
 if(NOT APPLE)
     install(TARGETS
-        gluon_qtplayer
+        gluonviewer
 
         DESTINATION ${BIN_INSTALL_DIR}
-        COMPONENT gluonqtplayer
+        COMPONENT gluonviewer
     )
 endif()
