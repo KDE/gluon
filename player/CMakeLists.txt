@@ -68,7 +68,6 @@ endif(LIBATTICA_FOUND)
 
 add_subdirectory(icons)
 set(PLAYER_ICONS_INSTALLED TRUE)
-add_subdirectory(qt)
 
 if(INSTALL_EXAMPLES)
     add_subdirectory(examples)
