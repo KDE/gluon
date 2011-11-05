@@ -287,10 +287,13 @@ void UiManagerComponent::update( int elapsedMilliseconds )
     {
         d->updateFunction.call( d->scriptItem, QScriptValueList() << elapsedMilliseconds );
         if( d->scriptEngine->uncaughtException().isValid() )
+        {
             // This needs to be mapped...
             debug( QString( "%1: %2" )
                    .arg( d->scriptEngine->uncaughtException().toString() )
                    .arg( d->scriptEngine->uncaughtExceptionBacktrace().join( " " ) ) );
+            d->updateFunction = QScriptValue();
+        }
     }
 }
 
