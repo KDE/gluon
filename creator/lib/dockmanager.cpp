@@ -23,6 +23,7 @@
 #include <KDE/KXmlGuiWindow>
 
 #include <QtGui/QDockWidget>
+#include <QtGui/QAction>
 
 using namespace GluonCreator;
 
@@ -30,8 +31,14 @@ class DockManager::DockManagerPrivate
 {
     public:
         QList<QDockWidget*> docks;
+        QList<QAction*> dockVisibilityActions;
         KXmlGuiWindow* mainWindow;
 };
+
+bool sortActions( QAction* first, QAction* second )
+{
+    return first->text() < second->text();
+}
 
 GLUON_DEFINE_SINGLETON( DockManager )
 
@@ -41,6 +48,9 @@ void DockManager::addDock( QDockWidget* dock, Qt::DockWidgetArea area, Qt::Orien
     {
         d->mainWindow->addDockWidget( area, dock, orient );
         d->docks.append( dock );
+        d->dockVisibilityActions.append( dock->toggleViewAction() );
+
+        updateDockActions();
     }
 }
 
@@ -50,6 +60,9 @@ void DockManager::removeDock( QDockWidget* dock )
     {
         d->mainWindow->removeDockWidget( dock );
         d->docks.removeOne( dock );
+        d->dockVisibilityActions.removeOne( dock->toggleViewAction() );
+
+        updateDockActions();
     }
 }
 
@@ -84,6 +97,16 @@ KXmlGuiWindow* DockManager::mainWindow()
 void DockManager::setMainWindow( KXmlGuiWindow* window )
 {
     d->mainWindow = window;
+}
+
+void DockManager::updateDockActions()
+{
+    if( d->mainWindow )
+    {
+        d->mainWindow->unplugActionList( "dock_visibility_actions" );
+        qSort( d->dockVisibilityActions.begin(), d->dockVisibilityActions.end(), sortActions );
+        d->mainWindow->plugActionList( "dock_visibility_actions", d->dockVisibilityActions );
+    }
 }
 
 DockManager::DockManager( QObject* parent )

@@ -45,17 +45,12 @@ void DockPlugin::load( KXmlGuiWindow* mainWindow )
     mainWindow->insertChildClient( this );
 
     m_dock = createDock( mainWindow );
-
-    actionCollection()->addAction( QString( "show%1Action" ).arg( m_dock->objectName() ), m_dock->toggleViewAction() );
-
-    QString xml = QString( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kpartgui name=\"gluoncreator_dockplugin_%1\" version=\"1\">" ).arg( m_dock->objectName() );
-    xml += QString( "<MenuBar><Menu name=\"settings\"><Menu name=\"docks\"><Action name=\"show%1Action\" /></Menu></Menu></MenuBar></kpartgui>" ).arg( m_dock->objectName() );
-    setXML( xml );
 }
 
-void DockPlugin::unload( KXmlGuiWindow* /* mainWindow */ )
+void DockPlugin::unload( KXmlGuiWindow* mainWindow )
 {
+
     DockManager::instance()->removeDock( m_dock );
-    actionCollection()->removeAction( actionCollection()->action( QString( "show%1Action" ).arg( m_dock->objectName() ) ) );
+
     parentClient()->removeChildClient( this );
 }
