@@ -49,15 +49,13 @@
 
         <Menu name="tools">
             <text>&amp;Tools</text>
-            <Menu name="versionControlSystem">
-                <text>&amp;Version Control System</text>
-            </Menu>
             <DefineGroup name="tools_operations" />
         </Menu>
 
         <Menu name="settings">
             <Menu name="docks">
                 <text>&amp;Docks</text>
+                <ActionList name="dock_visibility_actions" />
             </Menu>
             <Action name="lock_layout" />
             <DefineGroup name="configure_merge" />

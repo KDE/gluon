@@ -25,6 +25,7 @@
 
 #include <core/singleton.h>
 
+class QAction;
 class QDockWidget;
 class KXmlGuiWindow;
 
@@ -44,6 +45,7 @@ namespace GluonCreator
         public Q_SLOTS:
             void setDocksEnabled( bool enabled );
             void setDocksLocked( bool locked );
+            void updateDockActions();
 
         private:
             ~DockManager();
