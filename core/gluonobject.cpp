@@ -405,7 +405,7 @@ void GluonObject::addChildAt(GluonObject* child, int position)
     }
 
     // Then add the new object
-    addChild(child);
+    GluonObject::addChild(child);
 
     // Finally add the existing objects
     QList<QObject*>::iterator i;
