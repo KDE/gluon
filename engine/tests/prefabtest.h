@@ -47,6 +47,7 @@ class PrefabTest : public QObject
         void testRemoveApply();
         void testAddRevert();
         void testAddApply();
+        void testInstances();
 
     private:
         GluonEngine::GameObject* m_parent;

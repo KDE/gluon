@@ -328,7 +328,7 @@ namespace GluonCore
              * @return  The object if found, or null if not
              * @see findGlobalItemByName
              */
-            Q_INVOKABLE GluonObject* findItemByName( QString qualifiedName ) const;
+            Q_INVOKABLE GluonObject* findItemByName( QString qualifiedName );
 
             /**
              * Attempt to locate an object by the specified fully qualified name. If you don't have the

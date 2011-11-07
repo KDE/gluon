@@ -363,10 +363,14 @@ QString GluonObject::qualifiedName(const GluonObject* localRoot) const
 }
 
 GluonCore::GluonObject*
-GluonObject::findItemByName( QString qualifiedName ) const
+GluonObject::findItemByName( QString qualifiedName )
 {
     /*DEBUG_BLOCK
     DEBUG_TEXT(QString("Looking up %1").arg(qualifiedName))*/
+    // As object->qualifiedName( object ) returns ""...
+    if( qualifiedName.isEmpty() )
+        return static_cast<GluonCore::GluonObject*>( this );
+
     QStringList names = qualifiedName.split( '/' );
     return findItemByNameInObject( names, this );
 }

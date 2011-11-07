@@ -67,6 +67,7 @@ PrefabInstance* Prefab::createInstance()
     {
         instance = new PrefabInstance();
         instance->setPrefabLink( this );
+        instance->rebuildInstance();
         instance->initialize();
     }
     return instance;
@@ -141,7 +142,7 @@ void Prefab::setPreCacheSize(int newPreCacheSize)
     d->preCacheSize = newPreCacheSize;
 }
 
-void Prefab::updateFromInstance(const GluonEngine::PrefabInstance* updateFrom)
+void Prefab::updateFromInstance(GluonEngine::PrefabInstance* updateFrom)
 {
     // TODO implement :P
     d->updateChildrenFromOther(d->gameObject, updateFrom);

@@ -129,7 +129,7 @@ namespace GluonEngine
              * discarding changes to the children that are deleted, and new objects and components
              * are added to the children where appropriate.
              */
-            void updateFromInstance( const GluonEngine::PrefabInstance* updateFrom );
+            void updateFromInstance( GluonEngine::PrefabInstance* updateFrom );
         private:
             PrefabPrivate* d;
     };

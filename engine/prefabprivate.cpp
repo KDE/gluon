@@ -51,7 +51,7 @@ PrefabPrivate::~PrefabPrivate()
     delete gameObject;
 }
 
-void PrefabPrivate::updateChildrenFromOther(GluonCore::GluonObject* updateThis, const GluonCore::GluonObject* updateFrom)
+void PrefabPrivate::updateChildrenFromOther(GluonCore::GluonObject* updateThis, GluonCore::GluonObject* updateFrom)
 {
     // Firstly, we have to ensure the children are in the right place (otherwise the next bit might
     // not function correctly)
@@ -60,7 +60,7 @@ void PrefabPrivate::updateChildrenFromOther(GluonCore::GluonObject* updateThis, 
 
 }
 
-void PrefabPrivate::moveChildrenIntoPlace(GluonCore::GluonObject* updateThis, const GluonCore::GluonObject* updateFrom)
+void PrefabPrivate::moveChildrenIntoPlace(GluonCore::GluonObject* updateThis, GluonCore::GluonObject* updateFrom)
 {
     // Go through all children recursively on "updateFrom" and...
     foreach(QObject* child, updateFrom->children())
@@ -92,7 +92,7 @@ void PrefabPrivate::moveChildrenIntoPlace(GluonCore::GluonObject* updateThis, co
     }
 }
 
-void PrefabPrivate::addRemoveAndUpdateChildren(GluonCore::GluonObject* updateThis, const GluonCore::GluonObject* updateFrom)
+void PrefabPrivate::addRemoveAndUpdateChildren(GluonCore::GluonObject* updateThis, GluonCore::GluonObject* updateFrom)
 {
     DEBUG_FUNC_NAME
     // Go through all children on "updateThis" and remove all objects which no longer
@@ -180,6 +180,11 @@ void PrefabPrivate::addRemoveAndUpdateChildren(GluonCore::GluonObject* updateThi
 
     // Properties of the prefab classes should not be copied
     propertyNameList.removeAll( "prefabLink" );
+
+    // Don't change the name of the top level object. They may differ between the
+    // instances, as you can have multiple instances with the same parent.
+    if( updateThis == gameObject )
+        propertyNameList.removeAll( "name" );
 
     QMap<PrefabInstance*, GluonCore::GluonObject*> linkedObjectMap;
     QString updateThisName = updateThis->qualifiedName( gameObject );

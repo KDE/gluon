@@ -76,11 +76,13 @@ void PrefabTest::testInit()
     GameObject* gameObject = m_prefab->gameObject();
     QVERIFY( gameObject );
     QCOMPARE( gameObject->name(), QString("Root Object") );
+    QCOMPARE( gameObject->parent(), m_prefab );
     QCOMPARE( gameObject->childCount(), 1 );
     QCOMPARE( gameObject->childGameObject(0)->name(), QString("Node Object") );
     QCOMPARE( gameObject->childGameObject(0)->childCount(), 0 );
 
     QCOMPARE( m_instance->name(), QString("Root Object") );
+    QCOMPARE( m_instance->parent(), m_parent );
     QCOMPARE( m_instance->childCount(), 1 );
     QCOMPARE( m_instance->childGameObject(0)->name(), QString("Node Object") );
     QCOMPARE( m_instance->childGameObject(0)->childCount(), 0 );
@@ -195,6 +197,28 @@ void PrefabTest::testAddApply()
     QCOMPARE( m_instance->childGameObject(1)->name(), QString("New Child 2") );
     QCOMPARE( m_instance->childGameObject(0)->childCount(), 1 );
     QCOMPARE( m_instance->childGameObject(0)->childGameObject(0)->name(), QString("New Child 1") );
+}
+
+void PrefabTest::testInstances()
+{
+    PrefabInstance* instance = m_prefab->createInstance( m_parent );
+    QCOMPARE( m_parent->childCount(), 2 );
+    QCOMPARE( instance->prefabLink(), m_prefab );
+    QCOMPARE( m_prefab->instances().count(), 2 );
+    QCOMPARE( m_instance->parent(), instance->parent() );
+    QVERIFY( m_instance->name() != instance->name() );
+    QCOMPARE( instance->childCount(), 1 );
+    QCOMPARE( instance->childGameObject(0)->name(), QString("Node Object") );
+    QCOMPARE( instance->childGameObject(0)->childCount(), 0 );
+
+    m_instance->setPosition( 10, 10, 10 );
+    m_instance->storeChanges();
+    instance->setScale( 15, 15, 16 );
+    instance->storeChanges();
+
+    QCOMPARE( m_instance->position(), QVector3D( 10, 10, 10 ) );
+    QCOMPARE( instance->position(), QVector3D( 10, 10, 10 ) );
+    QCOMPARE( m_instance->scale(), QVector3D( 15, 15, 16 ) );
 }
 
 QTEST_MAIN( PrefabTest )
