@@ -53,7 +53,7 @@ namespace GluonPlayer
 
         private:
             class AchievementsModelPrivate;
-            AchievementsModelPrivate* d;
+            AchievementsModelPrivate* const d;
     };
 }
 

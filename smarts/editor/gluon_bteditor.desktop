@@ -1,0 +1,36 @@
+[Desktop Entry]
+Encoding=UTF-8
+
+Name=bteditor
+Name[es]=bteditor
+Name[pt]=bteditor
+Name[pt_BR]=bteditor
+Name[sv]=BT-editor
+Name[uk]=bteditor
+Name[x-test]=xxbteditorxx
+
+Comment=Provides a Behavior Tree Editor for Gluon Creator
+Comment[es]=Proporciona un editor del árbol de comportamiento para Gluon Creator
+Comment[pt]=Oferece um editor da árvore de comportamento do Criador do Gluon
+Comment[pt_BR]=Fornece um editor de árvore do comportamento para o criador do Gluon
+Comment[sv]=Tillhandahåller en editor av beteendeträd för Gluon Creator
+Comment[uk]=Забезпечує роботу редактора дерева поведінки у Gluon Creator
+Comment[x-test]=xxProvides a Behavior Tree Editor for Gluon Creatorxx
+
+Icon=gluon
+
+Type=Service
+MimeType=application/javascript;
+X-KDE-ServiceTypes=KParts/MainWindow
+
+X-KDE-Library=bteditor
+X-KDE-GluonCreatorPluginVersion=1
+X-KDE-PluginInfo-Author=
+X-KDE-PluginInfo-Email=
+X-KDE-PluginInfo-Name=
+X-KDE-PluginInfo-Version=
+X-KDE-PluginInfo-Website=http://gluon.tuxfamily.org
+X-KDE-PluginInfo-Category=Editor
+X-KDE-PluginInfo-Depends=
+X-KDE-PluginInfo-License=GPL
+X-KDE-PluginInfo-EnabledByDefault=true

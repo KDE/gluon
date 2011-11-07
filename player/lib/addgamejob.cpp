@@ -67,6 +67,7 @@ void AddGameJob::addGameComplete( Attica::BaseJob* baseJob )
 
     if( job->metadata().error() == Attica::Metadata::NoError )
     {
+        d->id = job->result().id();
         emitSucceeded();
     }
     else

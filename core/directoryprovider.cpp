@@ -25,7 +25,6 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 #include <QtCore/QSettings>
-#include <QtCore/QCoreApplication>
 
 using namespace GluonCore;
 
@@ -51,7 +50,7 @@ DirectoryProvider::DirectoryProvider( QObject* parent )
     , d( new DirectoryProviderPrivate )
 {
     d->userDataPath = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
-    d->userDataPath.chop( QString(QCoreApplication::organizationName() + "/" + QCoreApplication::applicationName()).size() );
+    d->userDataPath.chop( QString(QCoreApplication::organizationName() + '/' + QCoreApplication::applicationName()).size() );
     d->userDataPath.append( "gluon" );
 
     // Define standard dirs Gluon recommends
@@ -85,12 +84,12 @@ QString DirectoryProvider::installPrefix() const
 
 QString DirectoryProvider::dataDirectory() const
 {
-    return installPrefix() + "/" + GLUON_SHARE_INSTALL_DIR;
+    return installPrefix() + '/' + GLUON_SHARE_INSTALL_DIR;
 }
 
 QString DirectoryProvider::libDirectory() const
 {
-    return installPrefix() + "/" + GLUON_LIB_INSTALL_DIR;
+    return installPrefix() + '/' + GLUON_LIB_INSTALL_DIR;
 }
 
 QString DirectoryProvider::userDirectory( const QString& name )
@@ -113,14 +112,14 @@ QStringList DirectoryProvider::pluginDirectoryPaths() const
     QString pluginDirectoryPath = QCoreApplication::applicationDirPath();
 
 #if defined(Q_OS_WIN)
-    if( pluginDirectoryPath.endsWith("/debug", Qt::CaseInsensitive) )
+    if( pluginDirectoryPath.endsWith(QLatin1String("/debug"), Qt::CaseInsensitive) )
         pluginDirectoryPath.chop(QByteArray("/debug").size());
 
-    else if( pluginDirectoryPath.endsWith("release", Qt::CaseInsensitive) )
+    else if( pluginDirectoryPath.endsWith(QLatin1String("release"), Qt::CaseInsensitive) )
         pluginDirectoryPath.chop(QByteArray("/release").size());
 
 #elif defined(Q_OS_MAC)
-    if( pluginDirectoryPath.endsWith("/MacOS") )
+    if( pluginDirectoryPath.endsWith(QLatin1String("/MacOS")) )
         pluginDirectoryPath.chop(QByteArray("/MacOS").size());
 
 #endif

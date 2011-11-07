@@ -57,7 +57,9 @@ namespace GluonCreator
             void initEditGameProvider();
             void gameDetailsFetched();
             void updateLicenses();
-            void licensesFetched(  );
+            void licensesFetched();
+            QString createArchive( );
+            void uploadGameArchive();
 
         Q_SIGNALS:
             void switchToCreateMode();

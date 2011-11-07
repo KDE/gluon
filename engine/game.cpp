@@ -246,7 +246,7 @@ void Game::cleanupAll()
     AchievementsManager achievementsManager;
     achievementsManager.readFromProject(d->gameProject->achievements());
     QString saveDirectory = GluonCore::DirectoryProvider::instance()->userDirectory("data");
-    saveDirectory.append( "/" + d->gameProject->userName() + "/" + d->gameProject->name() );
+    saveDirectory.append( '/' + d->gameProject->userName() + '/' + d->gameProject->name() );
     achievementsManager.save(saveDirectory);
     emit cleaned();
 }

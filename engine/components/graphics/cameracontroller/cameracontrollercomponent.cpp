@@ -85,7 +85,7 @@ CameraControllerComponent::~CameraControllerComponent()
 
 QString CameraControllerComponent::category() const
 {
-    return QString( "Graphics" );
+    return QString( "Graphics " );
 }
 
 void CameraControllerComponent::initialize()

@@ -29,6 +29,7 @@ namespace Attica
 {
     class Provider;
     class BaseJob;
+    class Metadata;
 }
 
 namespace GluonPlayer
@@ -143,6 +144,18 @@ namespace GluonPlayer
             QString password() const;
 
             /**
+             * Register a new user
+             *
+             * @param username Username that the user desires
+             * @param password Password that the user desires
+             * @param mail e-mail address of the user
+             * @param firstName First name of the user
+             * @param lastName Last name of the user
+             */
+            void registerAccount( const QString& username, const QString& password, const QString& mail,
+                          const QString& firstName, const QString& lastName );
+
+            /**
              * Fetch a list of games available on the OCS server
              * @return a GameDetailListJob object which the caller must
              * monitor to find out the result of the operation
@@ -233,6 +246,7 @@ namespace GluonPlayer
             void loadCredentials();
             void doLogin();
             void doLogout();
+            void onRegisterAccountFinished( Attica::BaseJob* job );
 
         public Q_SLOTS:
             /** Call to initialize the OCS Provider
@@ -256,15 +270,17 @@ namespace GluonPlayer
             */
             void loginFailed();
 
-            void gameDetailListFetchStarting();
-            void commentListFetchStarting();
-            void commentListUploadStarting();
-            void gameContentDownloadStarting();
-            void gameContentUploadStarting();
-            void ratingUploadStarting();
+            /** Signal which is emitted when the registration completed
+            */
+            void registrationFinished();
+
+            /** Signal which is emitted when the registration failed
+            */
+            void registrationFailed();
 
         private:
             ~ServiceProvider();
+            void showRegisterError( const Attica::Metadata& metadata );
 
             class Private;
             Private* const d;
@@ -272,3 +288,4 @@ namespace GluonPlayer
 }
 
 #endif  // GLUON_PLAYER_SERVICEPROVIDER_H
+

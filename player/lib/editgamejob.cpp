@@ -40,10 +40,14 @@ class EditGameJob::Private
         QString changelog;
         QString license;
         QString homepage;
+        QString downloadType;
+        QString downloadPrice;
+        QString downloadLink;
+        QString downloadName;
 };
 
 EditGameJob::EditGameJob( Attica::Provider* provider, const QString& id, QObject* parent )
-    : AbstractSocialServicesJob(provider), d( new Private() )
+    : AbstractSocialServicesJob( provider ), d( new Private() )
 {
     d->provider = provider;
     d->id = id;
@@ -75,7 +79,7 @@ void EditGameJob::processFetchedGameDetails( Attica::BaseJob* job )
     if( contentJob->metadata().error() == Attica::Metadata::NoError )
     {
         d->existingContent = contentJob->result();
-        fetchedExistingGame( d->id );
+        emit fetchedExistingGame( d->id );
     }
     else
     {
@@ -117,6 +121,7 @@ void EditGameJob::setCategory( const QString& categoryId )
 {
     //TODO: Check that category is Gluon
     d->category = categoryId;
+    applyCategory();
 }
 
 void EditGameJob::setChangelog( const QString& changelog )
@@ -152,6 +157,39 @@ void EditGameJob::setVersion( const QString& version )
 void EditGameJob::setHomepage( const QString& homepage )
 {
     d->homepage = homepage;
+    applyHomepage();
+}
+
+void EditGameJob::setDownloadType( const QString& downloadType )
+{
+    d->downloadType = downloadType;
+    applyDownloadType();
+}
+
+void EditGameJob::setDownloadPrice( const QString& downloadPrice )
+{
+    d->downloadPrice = downloadPrice;
+    applyDownloadPrice();
+}
+
+void EditGameJob::setDownloadLink( const QString& downloadLink )
+{
+    d->downloadLink = downloadLink;
+    applyDownloadLink();
+}
+
+void EditGameJob::setDownloadName( const QString& downloadName )
+{
+    d->downloadName = downloadName;
+    applyDownloadName();
+}
+
+void EditGameJob::applyCategory()
+{
+    if( d->existingContent.isValid() )
+        d->existingContent.addAttribute( "typeid", d->category );
+    else
+        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyCategory()) );
 }
 
 void EditGameJob::applyChangelog()
@@ -197,9 +235,44 @@ void EditGameJob::applyVersion()
 void EditGameJob::applyHomepage()
 {
     if( d->existingContent.isValid() )
+    {
         d->existingContent.addAttribute( "homepage", d->homepage );
+        d->existingContent.addAttribute( "homepagetype", "500" );
+    }
     else
         connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyHomepage() ) );
+}
+
+void EditGameJob::applyDownloadType()
+{
+    if( d->existingContent.isValid() )
+        d->existingContent.addAttribute( "downloadtyp1", d->downloadType );
+    else
+        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyDownloadType() ) );
+}
+
+void EditGameJob::applyDownloadPrice()
+{
+    if( d->existingContent.isValid() )
+        d->existingContent.addAttribute( "downloadprice1", d->downloadPrice );
+    else
+        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyDownloadPrice() ) );
+}
+
+void EditGameJob::applyDownloadLink()
+{
+    if( d->existingContent.isValid() )
+        d->existingContent.addAttribute( "downloadlink1", d->downloadLink );
+    else
+        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyDownloadLink() ) );
+}
+
+void EditGameJob::applyDownloadName()
+{
+    if( d->existingContent.isValid() )
+        d->existingContent.addAttribute( "downloadname1", d->downloadName );
+    else
+        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyDownloadName() ) );
 }
 
 QVariant EditGameJob::data()

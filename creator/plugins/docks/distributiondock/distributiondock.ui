@@ -128,6 +128,13 @@
                   </property>
                  </widget>
                 </item>
+                <item>
+                 <widget class="QLabel" name="label_11">
+                  <property name="text">
+                   <string>API Key</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
               <item>
@@ -144,6 +151,9 @@
                 </item>
                 <item>
                  <widget class="QLineEdit" name="gameNameEdit"/>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="apiKeyEdit"/>
                 </item>
                </layout>
               </item>
@@ -242,6 +252,22 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>usernameEdit</tabstop>
+  <tabstop>passwordEdit</tabstop>
+  <tabstop>loginButton</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>idEdit</tabstop>
+  <tabstop>categoryList</tabstop>
+  <tabstop>gameNameEdit</tabstop>
+  <tabstop>apiKeyEdit</tabstop>
+  <tabstop>versionEdit</tabstop>
+  <tabstop>homepageEdit</tabstop>
+  <tabstop>licenseList</tabstop>
+  <tabstop>descriptionEdit</tabstop>
+  <tabstop>changelogEdit</tabstop>
+  <tabstop>createUpdateButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

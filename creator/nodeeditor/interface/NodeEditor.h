@@ -39,7 +39,7 @@
 #include <QtGui/QUndoCommand>
 #include <QtCore/QTextStream>
 
-#include "gluoncreator_nodeeditor_export.h"
+#include "../gluoncreator_nodeeditor_export.h"
 
 class KPushButton;
 class GraphVisualEditor;

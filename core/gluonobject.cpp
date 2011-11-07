@@ -405,7 +405,7 @@ void GluonObject::addChildAt(GluonObject* child, int position)
     }
 
     // Then add the new object
-    addChild(child);
+    GluonObject::addChild(child);
 
     // Finally add the existing objects
     QList<QObject*>::iterator i;
@@ -807,7 +807,7 @@ GluonObject::sanitizeReference( const QString& propName, const QString& propValu
             QString propertyName = propName;
             QString theReferencedName = propValue.mid( typeName.length() + 1, propValue.length() - ( typeName.length() + 2 ) );
 
-            GluonObject* theObject = root()->findItemByName( theReferencedName );
+            GluonObject* theObject = root()->findGlobalItemByName( theReferencedName );
 
             if( !theObject )
             {

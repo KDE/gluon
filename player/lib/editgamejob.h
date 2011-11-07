@@ -47,6 +47,10 @@ namespace GluonPlayer
             void setChangelog( const QString& changelog );
             void setLicense( const QString& licenseId );
             void setHomepage( const QString& homepage );
+            void setDownloadType( const QString& downloadType );
+            void setDownloadPrice( const QString& downloadPrice );
+            void setDownloadLink( const QString& downloadLink );
+            void setDownloadName( const QString& downloadName );
 
         Q_SIGNALS:
             void fetchedExistingGame( const QString& id );
@@ -63,9 +67,14 @@ namespace GluonPlayer
             void applyName();
             void applyVersion();
             void applyDescription();
+            void applyCategory();
             void applyChangelog();
             void applyLicense();
             void applyHomepage();
+            void applyDownloadType();
+            void applyDownloadPrice();
+            void applyDownloadLink();
+            void applyDownloadName();
 
         private:
             class Private;

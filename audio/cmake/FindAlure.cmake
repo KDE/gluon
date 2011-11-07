@@ -12,6 +12,12 @@
 #  For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 #
 
+
+if (ALURE_LIBRARY AND ALURE_INCLUDE_DIR)
+  # Already in cache, be silent
+  set(ALURE_FOUND TRUE)
+endif (ALURE_LIBRARY AND ALURE_INCLUDE_DIR)
+
 find_path(ALURE_INCLUDE_DIR
     NAMES
       alure.h

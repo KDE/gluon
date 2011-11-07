@@ -31,6 +31,15 @@ set(GLUON_GRAPHICS_INCLUDES
     CACHE INTERNAL "Includes required for Gluon Graphics"
 )
 
+if(WIN32)
+	include_directories(${GLEE_INCLUDE_DIR})
+	set(GLUON_GRAPHICS_INCLUDES
+		${GLUON_GRAPHICS_INCLUDES}
+		${GLEE_INCLUDE_DIR}
+		CACHE INTERNAL "Includes required for Gluon Graphics"
+	)
+endif(WIN32)
+
 if(ASSIMP_FOUND)
     include_directories(${ASSIMP_INCLUDE_DIR})
     set(GLUON_GRAPHICS_INCLUDES

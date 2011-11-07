@@ -54,7 +54,7 @@ AchievementsModel::AchievementsModel( GluonEngine::ProjectMetaData* metaData, co
     {
         d->projectDir = metaData->projectDir();
         QString achievementsDirectory = GluonCore::DirectoryProvider::instance()->userDirectory("data");
-        achievementsDirectory.append( "/" + userName + "/" + metaData->projectName() );
+        achievementsDirectory.append( '/' + userName + '/' + metaData->projectName() );
         d->achievementsManager->load( achievementsDirectory );
         qDebug() << "Achievements count:" << d->achievementsManager->achievementsCount();
         if( d->achievementsManager->achievementsCount() == 0 )
@@ -107,7 +107,7 @@ QVariant AchievementsModel::data( const QModelIndex& index, int role ) const
             }
             if( role == Qt::DecorationRole )
                 if( d->achievementsManager->dependencySatisfied( index.row() ) )
-                    return QIcon( d->projectDir + "/" + d->achievementsManager->achievementIcon( index.row() ) );
+                    return QIcon( d->projectDir + '/' + d->achievementsManager->achievementIcon( index.row() ) );
 
             break;
         case ProgressColumn:
