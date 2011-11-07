@@ -29,6 +29,8 @@
 #include <engine/component.h>
 #include <engine/gameproject.h>
 #include <engine/game.h>
+#include <engine/prefab.h>
+#include <engine/prefabinstance.h>
 
 #include <KDE/KLocalizedString>
 
@@ -257,90 +259,107 @@ bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int
     if( action == Qt::IgnoreAction )
         return false;
 
+    GluonEngine::GameObject* gobj = 0;
     if( parent.isValid() )
+        gobj = qobject_cast<GluonEngine::GameObject*>( ( QObject* )parent.internalPointer() );
+
+    if( !gobj )
     {
-        GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>( ( QObject* )parent.internalPointer() );
+        gobj = d->root;
+    }
 
-        if( !gobj )
+    foreach( const QString & something, data->formats() )
+    {
+        DEBUG_TEXT( QString( "Dropped mimetype %1 on object %2" ).arg( something ).arg( gobj->fullyQualifiedName() ) )
+    }
+
+    if( data->hasFormat( "application/gluon.engine.GluonEngine::Prefab" ) )
+    {
+        QByteArray encodedData = data->data( "application/gluon.engine.GluonEngine::Prefab" );
+        QDataStream stream( &encodedData, QIODevice::ReadOnly );
+        QStringList newItems;
+
+        while( !stream.atEnd() )
         {
-            gobj = d->root;
+            QString text;
+            stream >> text;
+            newItems << text;
+        }
+        foreach( const QString & text, newItems )
+        {
+            DEBUG_TEXT2( "Creating instance for %1", text )
+            GluonEngine::Prefab* prefab = qobject_cast<GluonEngine::Prefab*>( d->root->findGlobalItemByName( text ) );
+            if( !prefab )
+                continue;
+
+            GluonEngine::PrefabInstance* instance = prefab->createInstance();
+            if( row == -1 )
+            {
+                beginInsertRows( parent, gobj->childCount(), gobj->childCount() );
+                gobj->addChild( instance );
+                endInsertRows();
+            }
+            else
+            {
+                beginInsertRows( parent, row, row );
+                gobj->addChildAt( instance, row );
+                endInsertRows();
+            }
+            instance->setName( prefab->name() );
+            //ObjectManager::instance()->createNewComponent( text, gobj );
+        }
+    }
+
+    if( data->hasFormat( "application/gluon.text.componentclass" ) )
+    {
+        QByteArray encodedData = data->data( "application/gluon.text.componentclass" );
+        QDataStream stream( &encodedData, QIODevice::ReadOnly );
+        QStringList newItems;
+        int rows = 0;
+
+        while( !stream.atEnd() )
+        {
+            QString text;
+            stream >> text;
+            newItems << text;
+            ++rows;
+        }
+        foreach( const QString & text, newItems )
+        {
+            DEBUG_TEXT2( "Adding component of class %1", text )
+            ObjectManager::instance()->createNewComponent( text, gobj );
+        }
+    }
+
+    if( data->hasFormat( "application/gluon.object.gameobject" ) )
+    {
+        QList<GluonEngine::GameObject*> objects;
+
+        QString dataString = data->data( "application/gluon.object.gameobject" );
+        QStringList names = dataString.split( ';' );
+        DEBUG_TEXT2( "Dropped names %1 on Scene Model", dataString )
+
+        GluonEngine::GameProject* project = GluonEngine::Game::instance()->gameProject();
+        foreach( const QString & name, names )
+        {
+            GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>( project->findGlobalItemByName( name ) );
+            if( gobj )
+                objects.append( gobj );
         }
 
-        foreach( const QString & something, data->formats() )
+        foreach( GluonEngine::GameObject * item, objects )
         {
-            DEBUG_TEXT( QString( "Dropped mimetype %1 on object %2" ).arg( something ).arg( gobj->fullyQualifiedName() ) )
+            // Update the view for the old parent (unfortunately we can't expect the items to
+            // all be from the same parent, so we have to do it here)
+            GluonEngine::GameObject* oldParentObject = qobject_cast< GluonEngine::GameObject* >( item->parentGameObject() );
+            QModelIndex oldParent = createIndex( d->rowIndex( oldParentObject ), 0, oldParentObject );
+            int oldRow = d->rowIndex( item );
+            beginRemoveRows( oldParent, oldRow, oldRow );
+            oldParentObject->removeChild( item );
+            endRemoveRows();
         }
 
-        if( data->hasFormat( "application/gluon.engine.GluonEngine::Prefab" ) )
-        {
-            QByteArray encodedData = data->data( "application/gluon.engine.GluonEngine::Prefab" );
-            QDataStream stream( &encodedData, QIODevice::ReadOnly );
-            QStringList newItems;
-
-            while( !stream.atEnd() )
-            {
-                QString text;
-                stream >> text;
-                newItems << text;
-            }
-            foreach( const QString & text, newItems )
-            {
-                DEBUG_TEXT2( "Creating instance for %1", text )
-                //ObjectManager::instance()->createNewComponent( text, gobj );
-            }
-        }
-
-        if( data->hasFormat( "application/gluon.text.componentclass" ) )
-        {
-            QByteArray encodedData = data->data( "application/gluon.text.componentclass" );
-            QDataStream stream( &encodedData, QIODevice::ReadOnly );
-            QStringList newItems;
-            int rows = 0;
-
-            while( !stream.atEnd() )
-            {
-                QString text;
-                stream >> text;
-                newItems << text;
-                ++rows;
-            }
-            foreach( const QString & text, newItems )
-            {
-                DEBUG_TEXT2( "Adding component of class %1", text )
-                ObjectManager::instance()->createNewComponent( text, gobj );
-            }
-        }
-
-        if( data->hasFormat( "application/gluon.object.gameobject" ) )
-        {
-            QList<GluonEngine::GameObject*> objects;
-
-            QString dataString = data->data( "application/gluon.object.gameobject" );
-            QStringList names = dataString.split( ';' );
-            DEBUG_TEXT2( "Dropped names %1 on Scene Model", dataString )
-
-            GluonEngine::GameProject* project = GluonEngine::Game::instance()->gameProject();
-            foreach( const QString & name, names )
-            {
-                GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>( project->findGlobalItemByName( name ) );
-                if( gobj )
-                    objects.append( gobj );
-            }
-
-            foreach( GluonEngine::GameObject * item, objects )
-            {
-                // Update the view for the old parent (unfortunately we can't expect the items to
-                // all be from the same parent, so we have to do it here)
-                GluonEngine::GameObject* oldParentObject = qobject_cast< GluonEngine::GameObject* >( item->parentGameObject() );
-                QModelIndex oldParent = createIndex( d->rowIndex( oldParentObject ), 0, oldParentObject );
-                int oldRow = d->rowIndex( item );
-                beginRemoveRows( oldParent, oldRow, oldRow );
-                oldParentObject->removeChild( item );
-                endRemoveRows();
-            }
-
-            insertRows( row, objects, parent );
-        }
+        insertRows( row, objects, parent );
     }
 
     return true;
