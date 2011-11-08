@@ -183,19 +183,15 @@ void PerceptionInfo::setScript(GluonEngine::Asset* asset)
 
 QVariant PerceptionInfo::getAdjustedValue(qreal precision)
 {
-	if(d->getAdjustedValueFunc.isFunction())
+    if(d->getAdjustedValueFunc.isFunction())
     {
         d->getAdjustedValueFunc.call(QScriptValue(), QScriptValueList() << precision);
         if (d->engine.uncaughtException().isValid())
-        {
             debug(QString("%1: %2").arg(d->engine.uncaughtException().toString()).arg(d->engine.uncaughtExceptionBacktrace().join(" ")));
-			return QVariant();
-        }
         else
-		{
-			return this->property(QString("adjustedValue").toUtf8());
-		}
+            return this->property(QString("adjustedValue").toUtf8());
     }
+    return QVariant();
 }
 
 #include "perceptioninfo.moc"

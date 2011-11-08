@@ -96,6 +96,7 @@ Character::update(int elapsedMilliseconds)
 bool
 Character::think()
 {
+    bool thoughtSuccessful = false;
     //debug(QString("Thinking..."));
     QString debugText;
     if (tree())
@@ -104,6 +105,7 @@ Character::think()
         {
             d->self->think();
             debugText += "Thinking!";
+            thoughtSuccessful = true;
         }
         else
             debugText += "Thinking not possible - behavoirTree not set!";
@@ -111,6 +113,7 @@ Character::think()
     else
         debugText += "Thinking not possible - no tree!";
     //debug(debugText);
+    return thoughtSuccessful;
 }
 
 void
