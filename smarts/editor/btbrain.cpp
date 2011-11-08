@@ -91,7 +91,7 @@ btTreeModel *btBrain::newBehaviorTree(QString treeName)
     newTree->setRootNode(btRootNode);
     btRootNode->setParent(newTree);
 
-    // Add a real top level node, which should be a selector as per Alex' defintion of behavior trees
+    // Add a real top level node, which should be a selector as per Alex' definition of behavior trees
     btEditorNode *topNode = new btEditorNode(this->findNodeTypeByName("Selector"), btRootNode);
     topNode->setName(tr("Top Behavior"));
     topNode->setDescription(topNode->type()->description());

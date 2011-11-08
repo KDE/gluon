@@ -53,11 +53,11 @@ private:
     QGridLayout     *editLayout;
     QLabel          *name;
     QLabel          *classname;
-    QLabel          *discription;
+    QLabel          *description;
     QLabel          *properties;
     QLineEdit       *nameedit;
     QLineEdit       *classnameedit;
-    QLineEdit       *discriptionedit;
+    QLineEdit       *descriptionedit;
     QTableView      *propertyList;
     QPushButton     *remove_button;
     QPushButton     *add_button;

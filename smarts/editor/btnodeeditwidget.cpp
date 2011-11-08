@@ -42,7 +42,7 @@ btNodeEditWidget::btNodeEditWidget(QWidget * parent)
 
     name            = new QLabel(tr("Name"));
     classname       = new QLabel(tr("Classname"));
-    discription     = new QLabel(tr("Discription"));
+    description     = new QLabel(tr("Discription"));
     properties      = new QLabel(tr("Properties"));
 
     QRegExp re("[A-Za-z]{1,1}[A-Za-z0-9_]{0,}");
@@ -50,7 +50,7 @@ btNodeEditWidget::btNodeEditWidget(QWidget * parent)
     nameedit        = new QLineEdit();
     classnameedit   = new QLineEdit();
     classnameedit->setValidator(v);
-    discriptionedit = new QLineEdit();
+    descriptionedit = new QLineEdit();
 
     add_button      = new QPushButton(tr("Add Property"));
     remove_button   = new QPushButton(tr("Remove Property"));
@@ -61,8 +61,8 @@ btNodeEditWidget::btNodeEditWidget(QWidget * parent)
     editLayout->addWidget(nameedit,0,1);
     editLayout->addWidget(classname,0,2);
     editLayout->addWidget(classnameedit,0,3);
-    editLayout->addWidget(discription,1,0);
-    editLayout->addWidget(discriptionedit,1,1,1,3);
+    editLayout->addWidget(description,1,0);
+    editLayout->addWidget(descriptionedit,1,1,1,3);
 
     buttonLayout->addStretch();
     buttonLayout->addWidget(add_button);
@@ -76,7 +76,7 @@ btNodeEditWidget::btNodeEditWidget(QWidget * parent)
     connectSignals();
 
     connect(classnameedit, SIGNAL(textChanged(QString)), this, SLOT(classnameEdited(QString)));
-    connect(discriptionedit, SIGNAL(textChanged(QString)), this, SLOT(descriptionEdited(QString)));
+    connect(descriptionedit, SIGNAL(textChanged(QString)), this, SLOT(descriptionEdited(QString)));
     connect(add_button,SIGNAL(clicked()),this,SLOT(add_button_clicked()));
     connect(remove_button,SIGNAL(clicked()),this,SLOT(remove_button_clicked()));
 
@@ -112,7 +112,7 @@ void btNodeEditWidget::setModel(btnodemodel* btmodel)
 
     nameedit->setText(model->name());
     classnameedit->setText(model->classname());
-    discriptionedit->setText(model->description());
+    descriptionedit->setText(model->description());
 }
 
 void btNodeEditWidget::setSelectedNode(btNodeTypesModelNode* selectedNode)
