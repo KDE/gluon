@@ -42,7 +42,7 @@ class BT_LIB_EXPORT btBrain : public QObject
     Q_PROPERTY(QList<btPerceptionInfo*> perceptionInfos READ perceptionInfos WRITE setPerceptionInfos)
     
 public:
-    btBrain(QString data, QString file);
+    btBrain(QString data, QString file, QObject* parent = 0);
     ~btBrain();
     
     btNode* getBehaviorTree(int index);

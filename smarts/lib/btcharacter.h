@@ -46,7 +46,7 @@ class BT_LIB_EXPORT btCharacter : public QObject
     Q_PROPERTY(QQuaternion orientation READ orientation WRITE setOrientation)
     
     public:
-        btCharacter();
+        btCharacter(QObject* parent = 0);
         ~btCharacter();
         
         void setBehaviorTree(btNode* behaviorTree);

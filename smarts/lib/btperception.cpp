@@ -25,10 +25,10 @@ class btPerception::btPerceptionPrivate
 {
     public:
         btPerceptionPrivate()
+            : character(0)
+            , knowledgePrecision(0)
+            , perceptionLimit(0)
         {
-            character = 0;
-            knowledgePrecision = 0;
-            perceptionLimit = 0;
         }
         ~btPerceptionPrivate() {}
         
@@ -41,8 +41,8 @@ class btPerception::btPerceptionPrivate
 
 btPerception::btPerception(QObject* parent)
     : QObject(parent)
+    , d(new btPerceptionPrivate())
 {
-    d = new btPerceptionPrivate();
     d->character = qobject_cast<btCharacter*>(parent);
 }
 

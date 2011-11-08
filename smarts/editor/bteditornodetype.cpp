@@ -30,7 +30,8 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QRadioButton>
 
-btEditorNodeType::btEditorNodeType(QObject * parent) : btNodeType(parent)
+btEditorNodeType::btEditorNodeType(QObject * parent)
+    : btNodeType(parent)
 {
     setNodeType(btNodeType::UnusableNodeType);
 }

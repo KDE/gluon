@@ -26,15 +26,16 @@
 #include <QtCore/QFileInfo>
 #include <sys/stat.h>
 
-btCharacter::btCharacter()
+btCharacter::btCharacter(QObject* parent)
+    : QObject(parent)
+    , m_thinksBeforeSaving(10)
+    , m_thinksDone(0)
+    , m_behaviortree(0)
+    , m_position(QVector3D())
+    , m_orientation(QQuaternion())
+    , m_perception(new btPerception(this))
 {
 	m_nodesStatusQueue.enqueue(btNode::None);
-    m_perception = new btPerception(this);
-    m_position = QVector3D();
-    m_orientation = QQuaternion();
-    m_behaviortree = 0;
-	m_thinksBeforeSaving = 10;
-	m_thinksDone = 0;
 }
 
 btCharacter::~btCharacter()

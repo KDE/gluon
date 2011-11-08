@@ -24,9 +24,9 @@ class btPerceptionAtom::btPerceptionAtomPrivate
 {
     public:
         btPerceptionAtomPrivate()
+            : perceptionInfo(0)
+            , precision(0)
         {
-            perceptionInfo = 0;
-            precision = 0;
         }
         ~btPerceptionAtomPrivate() {}
         
@@ -38,8 +38,8 @@ class btPerceptionAtom::btPerceptionAtomPrivate
 
 btPerceptionAtom::btPerceptionAtom(QObject* parent)
     : QObject(parent)
+    , d(new btPerceptionAtomPrivate())
 {
-    d = new btPerceptionAtomPrivate();
 }
 
 btPerceptionAtom::~btPerceptionAtom()

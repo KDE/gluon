@@ -29,7 +29,8 @@
 
 #include <QtXml>
 
-btEditorNode::btEditorNode(btNodeType *type, btNode *parent) : btNode(type, parent)
+btEditorNode::btEditorNode(btNodeType *type, btNode *parent)
+    : btNode(type, parent)
 {
 }
 

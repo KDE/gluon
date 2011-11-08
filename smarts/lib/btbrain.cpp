@@ -25,7 +25,8 @@
 
 #include <QtCore/QDebug>
 
-btBrain::btBrain(QString data, QString file)
+btBrain::btBrain(QString data, QString file, QObject* parent)
+    : QObject(parent)
 {
 	m_file = file;
 	

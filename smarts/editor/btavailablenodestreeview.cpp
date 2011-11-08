@@ -27,8 +27,8 @@
 #include <QMessageBox>
 
 btAvailableNodesTreeView::btAvailableNodesTreeView(QWidget* parent)
+    : QTreeView(parent)
 {
-    Q_UNUSED(parent)
     setDragEnabled(true);
 }
 

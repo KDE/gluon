@@ -29,9 +29,10 @@
 #include "btnode.h"
 #include "bteditornodetype.h"
 
-btChildListWidget::btChildListWidget(QWidget * parent) : QWidget(parent)
+btChildListWidget::btChildListWidget(QWidget * parent)
+    : QWidget(parent)
+    , childLayout(new QVBoxLayout(this))
 {
-    childLayout = new QVBoxLayout(this);
 }
 
 btChildListWidget::~btChildListWidget()
