@@ -7,24 +7,20 @@ include_directories(
     ${GLUON_INPUT_INCLUDES}
 )
 
-set(qmlplayer_SRCS
+set(fremantle_SRCS
     gamewindowmanager.cpp
     main.cpp
 )
 
-SET(GLUON_QMLPLAYER_RCCS
-    gluon_qmlplayer.qrc
-)
-
 # generate rules for building source files from the resources
-QT4_ADD_RESOURCES(GLUON_QMLPLAYER_RCC_SRCS
-    gluon_qmlplayer.qrc
+QT4_ADD_RESOURCES(GLUONPLAYER-FREMANTLE_RCC_SRCS
+    gluonplayer-fremantle.qrc
 )
 
-qt4_automoc(${qmlplayer_SRCS})
+qt4_automoc(${fremantle_SRCS})
 
 if(APPLE)
-    add_executable(gluon_qmlplayer MACOSX_BUNDLE ${qmlplayer_SRCS})
+    add_executable(gluonplayer-fremantle MACOSX_BUNDLE ${fremantle_SRCS})
     #MACOSX_BUNDLE_INFO_STRING
     #MACOSX_BUNDLE_ICON_FILE
     #MACOSX_BUNDLE_GUI_IDENTIFIER
@@ -34,7 +30,7 @@ if(APPLE)
     set(MACOSX_BUNDLE_BUNDLE_VERSION ${GLUON_VERSION_STRING})
     #MACOSX_BUNDLE_COPYRIGHT
 
-    add_custom_command(TARGET gluon_qmlplayer
+    add_custom_command(TARGET gluonplayer-fremantle
         COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/Frameworks/
         COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/core/$(CONFIGURATION)/GluonCore.framework ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/Frameworks/
         COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/audio/$(CONFIGURATION)/GluonAudio.framework ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/Frameworks/
@@ -56,28 +52,28 @@ if(APPLE)
         COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/engine/components/other/spherecollision/$(CONFIGURATION)/libgluon_component_spherecollision.dylib ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/PlugIns/
     )
 
-    set_target_properties(gluon_qmlplayer PROPERTIES OUTPUT_NAME GluonPlayer)
+set_target_properties(gluonplayer-fremantle PROPERTIES OUTPUT_NAME GluonPlayerFremantle)
 
 else()
-    add_executable(gluon_qmlplayer ${qmlplayer_SRCS} ${GLUON_QMLPLAYER_RCC_SRCS})
+    add_executable(gluonplayer-fremantle ${fremantle_SRCS} ${GLUONPLAYER-FREMANTLE_RCC_SRCS})
 endif()
-target_link_libraries(gluon_qmlplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS} ${QT_QTDECLARATIVE_LIBRARY})
+target_link_libraries(gluonplayer-fremantle ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS} ${QT_QTDECLARATIVE_LIBRARY})
 
 set(GLUON_DECLARATIVE_LIBS
-    GluonPlayer
+    GluonPlayerFremantle
     ${GLUON_CORE_LIBS}
     ${QT_QTDECLARATIVE_LIBRARY}
     CACHE PATHS "Libraries required for Gluon Player (QML version)"
 )
 
 if(NOT APPLE)
-    install(TARGETS gluon_qmlplayer
+    install(TARGETS gluonplayer-fremantle
             DESTINATION ${BIN_INSTALL_DIR}
-            COMPONENT gluontouchplayer)
+            COMPONENT gluonplayerfremantle)
 
-    install(FILES gluon_qmlplayer.desktop
+    install(FILES gluonplayer-fremantle.desktop
             DESTINATION ${SHARE_INSTALL_DIR}/applications
-            COMPONENT gluontouchplayer)
+            COMPONENT gluonplayerfremantle)
 
     if(NOT PLAYER_ICONS_INSTALLED)
         set(PLAYER_ICONS_INSTALLED TRUE)

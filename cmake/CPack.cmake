@@ -10,7 +10,7 @@ set(CPACK_COMPONENTS_ALL
     gluonengine
     gluonplayer
     gluonqtplayer
-    gluontouchplayer
+    gluonplayerfremantle
     gluonqtextplayer
     gluonkdeplayer
     gluonplayerdesktop
@@ -94,15 +94,15 @@ set(CPACK_COMPONENT_GLUONQTPLAYER_DEPENDS gluonplayer)
 set(CPACK_COMPONENT_GLUONQTPLAYER_GROUP "GLUONPLAYERS")
 set(CPACK_COMPONENT_GLUONQTPLAYER_INSTALL_TYPES Minimal Full)
 
-# Touch Player
-set(CPACK_COMPONENT_GLUONTOUCHPLAYER_DISPLAY_NAME "Gluon Touch Player Application")
-set(CPACK_COMPONENT_GLUONTOUCHPLAYER_DESCRIPTION
-    "Gluon Touch Player Application mostly meant for Maemo, Meego, handset,
-    tablet, mobile platforms by using plain Qt/QML solution"
+# Fremantle Player
+set(CPACK_COMPONENT_GLUONPLAYERFREMANTLE_DISPLAY_NAME "Gluon Player Application for Fremantle")
+set(CPACK_COMPONENT_GLUONPLAYERFREMANTLE_DESCRIPTION
+    "Gluon Player Application mostly meant for Maemo5/Fremantle using plain QML
+    solution",
 )
-set(CPACK_COMPONENT_GLUONTOUCHPLAYER_DEPENDS gluonplayer)
-set(CPACK_COMPONENT_GLUONTOUCHPLAYER_GROUP "GLUONPLAYERS")
-set(CPACK_COMPONENT_GLUONTOUCHPLAYER_INSTALL_TYPES Full)
+set(CPACK_COMPONENT_GLUONPLAYERFREMANTLE_DEPENDS gluonplayer)
+set(CPACK_COMPONENT_GLUONPLAYERFREMANTLE_GROUP "GLUONPLAYERS")
+set(CPACK_COMPONENT_GLUONPLAYERFREMANTLE_INSTALL_TYPES Full)
 
 # KDE Player
 set(CPACK_COMPONENT_GLUONKDEPLAYER_DISPLAY_NAME "Gluon KDE Player Application")

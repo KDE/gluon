@@ -17,8 +17,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef GLUONKDEPLAYER_GAMEWINDOWMANAGER_H
-#define GLUONKDEPLAYER_GAMEWINDOWMANAGER_H
+#ifndef GLUON_PLAYER_FREMANTLE_GAMEWINDOWMANAGER_H
+#define GLUON_PLAYER_FREMANTLE_GAMEWINDOWMANAGER_H
 
 #include "lib/models/achievementsmodel.h"
 #include "lib/models/gameitemsmodel.h"
@@ -82,5 +82,5 @@ namespace GluonQMLPlayer
     };
 }
 
-#endif // GLUONKDEPLAYER_MAINWINDOW_H
+#endif // GLUON_PLAYER_FREMANTLE_MAINWINDOW_H
 

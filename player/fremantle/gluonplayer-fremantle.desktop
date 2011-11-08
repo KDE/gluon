@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Gluon Player (QML)
+Name=Gluon Player
 Name[de]=Gluon-Player (QML)
 Name[es]=Gluon Player (sólo QML)
 Name[et]=Gluoni mängija (QML)
@@ -21,7 +21,7 @@ GenericName[pt_BR]=Lançador do jogo
 GenericName[sv]=Startprogram för spel
 GenericName[uk]=Засіб запуску гри
 GenericName[x-test]=xxGame Launcherxx
-Exec=gluon_qmlplayer
+Exec=gluonplayer-fremantle
 Icon=gluon-player
 Type=Application
 Categories=Qt;KDE;Game;
