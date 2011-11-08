@@ -32,7 +32,7 @@ int main( int argc, char* argv[] )
     player->setVolume( 0.9 );  //between 0 and 1
 
     // qDebug() << "Playing sound "<< player->currentDuration() << "seconds.";
-    QObject::connect( player, SIGNAL( finished() ), &app, SLOT( quit() ) );
+    QObject::connect( player, SIGNAL(finished()), &app, SLOT(quit()) );
     player->play();
 
     app.exec();

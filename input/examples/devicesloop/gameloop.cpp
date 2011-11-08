@@ -26,7 +26,7 @@
 GameLoop::GameLoop( QList<InputDevice*> inputList )
     : m_inputList( inputList )
 {
-    connect( this, SIGNAL( startGameLoop() ), SLOT( gameLoop() ), Qt::QueuedConnection );
+    connect( this, SIGNAL(startGameLoop()), SLOT(gameLoop()), Qt::QueuedConnection );
 }
 
 void GameLoop::run()

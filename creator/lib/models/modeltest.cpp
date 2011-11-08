@@ -30,44 +30,44 @@ ModelTest::ModelTest( QAbstractItemModel* _model, QObject* parent ) : QObject( p
 {
     Q_ASSERT( model );
 
-    connect( model, SIGNAL( columnsAboutToBeInserted( const QModelIndex&, int, int ) ),
-             SLOT( runAllTests() ) );
-    connect( model, SIGNAL( columnsAboutToBeRemoved( const QModelIndex&, int, int ) ),
-             SLOT( runAllTests() ) );
-    connect( model, SIGNAL( columnsInserted( const QModelIndex&, int, int ) ),
-             SLOT( runAllTests() ) );
-    connect( model, SIGNAL( columnsRemoved( const QModelIndex&, int, int ) ),
-             SLOT( runAllTests() ) );
-    connect( model, SIGNAL( dataChanged( const QModelIndex&, const QModelIndex& ) ),
-             SLOT( runAllTests() ) );
-    connect( model, SIGNAL( headerDataChanged( Qt::Orientation, int, int ) ),
-             SLOT( runAllTests() ) );
-    connect( model, SIGNAL( layoutAboutToBeChanged() ), SLOT( runAllTests() ) );
-    connect( model, SIGNAL( layoutChanged() ), SLOT( runAllTests() ) );
-    connect( model, SIGNAL( modelReset() ), SLOT( runAllTests() ) );
-    connect( model, SIGNAL( rowsAboutToBeInserted( const QModelIndex&, int, int ) ),
-             SLOT( runAllTests() ) );
-    connect( model, SIGNAL( rowsAboutToBeRemoved( const QModelIndex&, int, int ) ),
-             SLOT( runAllTests() ) );
-    connect( model, SIGNAL( rowsInserted( const QModelIndex&, int, int ) ),
-             SLOT( runAllTests() ) );
-    connect( model, SIGNAL( rowsRemoved( const QModelIndex&, int, int ) ),
-             SLOT( runAllTests() ) );
+    connect( model, SIGNAL(columnsAboutToBeInserted(QModelIndex,int,int)),
+             SLOT(runAllTests()) );
+    connect( model, SIGNAL(columnsAboutToBeRemoved(QModelIndex,int,int)),
+             SLOT(runAllTests()) );
+    connect( model, SIGNAL(columnsInserted(QModelIndex,int,int)),
+             SLOT(runAllTests()) );
+    connect( model, SIGNAL(columnsRemoved(QModelIndex,int,int)),
+             SLOT(runAllTests()) );
+    connect( model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+             SLOT(runAllTests()) );
+    connect( model, SIGNAL(headerDataChanged(Qt::Orientation,int,int)),
+             SLOT(runAllTests()) );
+    connect( model, SIGNAL(layoutAboutToBeChanged()), SLOT(runAllTests()) );
+    connect( model, SIGNAL(layoutChanged()), SLOT(runAllTests()) );
+    connect( model, SIGNAL(modelReset()), SLOT(runAllTests()) );
+    connect( model, SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),
+             SLOT(runAllTests()) );
+    connect( model, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
+             SLOT(runAllTests()) );
+    connect( model, SIGNAL(rowsInserted(QModelIndex,int,int)),
+             SLOT(runAllTests()) );
+    connect( model, SIGNAL(rowsRemoved(QModelIndex,int,int)),
+             SLOT(runAllTests()) );
 
     // Special checks for inserting/removing
-    connect( model, SIGNAL( layoutAboutToBeChanged() ),
-             SLOT( layoutAboutToBeChanged() ) );
-    connect( model, SIGNAL( layoutChanged() ),
-             SLOT( layoutChanged() ) );
+    connect( model, SIGNAL(layoutAboutToBeChanged()),
+             SLOT(layoutAboutToBeChanged()) );
+    connect( model, SIGNAL(layoutChanged()),
+             SLOT(layoutChanged()) );
 
-    connect( model, SIGNAL( rowsAboutToBeInserted( const QModelIndex&, int, int ) ),
-             SLOT( rowsAboutToBeInserted( const QModelIndex&, int, int ) ) );
-    connect( model, SIGNAL( rowsAboutToBeRemoved( const QModelIndex&, int, int ) ),
-             SLOT( rowsAboutToBeRemoved( const QModelIndex&, int, int ) ) );
-    connect( model, SIGNAL( rowsInserted( const QModelIndex&, int, int ) ),
-             SLOT( rowsInserted( const QModelIndex&, int, int ) ) );
-    connect( model, SIGNAL( rowsRemoved( const QModelIndex&, int, int ) ),
-             SLOT( rowsRemoved( const QModelIndex&, int, int ) ) );
+    connect( model, SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),
+             SLOT(rowsAboutToBeInserted(QModelIndex,int,int)) );
+    connect( model, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
+             SLOT(rowsAboutToBeRemoved(QModelIndex,int,int)) );
+    connect( model, SIGNAL(rowsInserted(QModelIndex,int,int)),
+             SLOT(rowsInserted(QModelIndex,int,int)) );
+    connect( model, SIGNAL(rowsRemoved(QModelIndex,int,int)),
+             SLOT(rowsRemoved(QModelIndex,int,int)) );
 
     runAllTests();
 }

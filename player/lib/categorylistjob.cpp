@@ -75,7 +75,7 @@ CategoryListJob::~CategoryListJob()
 void CategoryListJob::startSocialService()
 {
     Attica::ListJob<Attica::Category> *job = provider()->requestCategories();
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedCategoryList( Attica::BaseJob* ) ) );
+    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedCategoryList(Attica::BaseJob*)) );
     job->start();
 }
 

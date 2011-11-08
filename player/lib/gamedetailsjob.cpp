@@ -54,7 +54,7 @@ GameDetailsJob::~GameDetailsJob()
 void GameDetailsJob::startSocialService()
 {
     Attica::ItemJob<Attica::Content> *job = provider()->requestContent (d->id);
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGameDetails( Attica::BaseJob* ) ) );
+    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedGameDetails(Attica::BaseJob*)) );
     job->start();
 }
 

@@ -55,13 +55,13 @@ QSizeFPropertyWidgetItem::QSizeFPropertyWidgetItem( QWidget* parent, Qt::WindowF
     d->height->setPrefix( tr( "Height: " ) );
     d->height->setRange( -FLT_MAX, FLT_MAX );
     layout->addWidget( d->height );
-    connect( d->height, SIGNAL( valueChanged( double ) ), SLOT( heightValueChanged( double ) ) );
+    connect( d->height, SIGNAL(valueChanged(double)), SLOT(heightValueChanged(double)) );
 
     d->width = new QDoubleSpinBox( this );
     d->width->setPrefix( tr( "Width: " ) );
     d->width->setRange( -FLT_MAX, FLT_MAX );
     layout->addWidget( d->width );
-    connect( d->width, SIGNAL( valueChanged( double ) ), SLOT( widthValueChanged( double ) ) );
+    connect( d->width, SIGNAL(valueChanged(double)), SLOT(widthValueChanged(double)) );
 
     setEditWidget( widget );
 }

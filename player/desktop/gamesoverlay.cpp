@@ -43,8 +43,8 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
 
     m_model->appendPair( qMakePair( i18n( "Installed" ), new KIcon( "applications-games" ) ) );
     m_gamesView->setItemDelegate( m_gamesDelegate );
-    connect( m_gamesDelegate, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
-    connect( m_gamesDelegate, SIGNAL( gameSelected( QModelIndex ) ), SLOT( showGameDetails( QModelIndex ) ) );
+    connect( m_gamesDelegate, SIGNAL(gameToPlaySelected(QModelIndex)), SIGNAL(gameToPlaySelected(QModelIndex)) );
+    connect( m_gamesDelegate, SIGNAL(gameSelected(QModelIndex)), SLOT(showGameDetails(QModelIndex)) );
     m_gamesView->setModel( m_gameItemsModel );
     m_stackedWidget->addWidget( m_gamesView );
 
@@ -61,8 +61,8 @@ GamesOverlay::GamesOverlay( QWidget* parent, Qt::WindowFlags wFlags )
     m_gridLayout->setColumnStretch( 1, 3 );
     setLayout( m_gridLayout );
 
-    connect( m_view->selectionModel(), SIGNAL( currentChanged( const QModelIndex&, const QModelIndex& ) ),
-             SLOT( selectionChanged( const QModelIndex&, const QModelIndex& ) ) );
+    connect( m_view->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+             SLOT(selectionChanged(QModelIndex,QModelIndex)) );
 }
 
 GamesOverlay::~GamesOverlay()
@@ -103,5 +103,5 @@ void GamesOverlay::showGameDetails( const QModelIndex& index )
     m_gameDetailsOverlay = new GameDetailsOverlay( m_gameItemsModel->installedGameInfo( index.row())->metaData(), userName, this );
     m_stackedWidget->addWidget( m_gameDetailsOverlay );
     m_stackedWidget->setCurrentIndex( m_stackedWidget->count() - 1 );
-    connect( m_gameDetailsOverlay, SIGNAL( back() ), SLOT( backToGames() ) );
+    connect( m_gameDetailsOverlay, SIGNAL(back()), SLOT(backToGames()) );
 }

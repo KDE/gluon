@@ -98,7 +98,7 @@ QList<QWidget*> CommentItemsViewDelegate::createItemWidgets() const
     list << replyButton;
     setBlockedEventTypes( replyButton, QList<QEvent::Type>() << QEvent::MouseButtonPress
                           << QEvent::MouseButtonRelease << QEvent::MouseButtonDblClick );
-    connect( replyButton, SIGNAL( clicked() ), SLOT( slotReplyClicked() ) );
+    connect( replyButton, SIGNAL(clicked()), SLOT(slotReplyClicked()) );
 
     return list;
 }

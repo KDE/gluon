@@ -183,8 +183,8 @@ void UiManagerComponent::initialize()
     if( !d->scene )
     {
         d->scene = new RenderableScene( );
-        connect( d->scene, SIGNAL( sceneRectChanged( const QRectF& ) ),
-                 this, SLOT( resizeQmlItem( const QRectF& ) ) );
+        connect( d->scene, SIGNAL(sceneRectChanged(QRectF)),
+                 this, SLOT(resizeQmlItem(QRectF)) );
     }
 
     if( d->ui )
@@ -325,7 +325,7 @@ void UiManagerComponent::setUi( UiAsset* ui )
     if( d->ui )
         d->ui->ref();
 
-    connect( ui, SIGNAL( dataChanged() ), this, SLOT( reload() ) );
+    connect( ui, SIGNAL(dataChanged()), this, SLOT(reload()) );
 }
 
 UiAsset* UiManagerComponent::ui() const

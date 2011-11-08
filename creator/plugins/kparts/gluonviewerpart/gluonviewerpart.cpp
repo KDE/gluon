@@ -64,9 +64,9 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* /* parentWidget */, QOb
 
     setWidget( d->widget );
 
-    connect( GluonGraphics::Engine::instance(), SIGNAL( currentViewportChanging( Viewport* ) ),
-             SLOT( newViewport( Viewport* ) ) );
-    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), d->widget, SLOT( updateGL() ) );
+    connect( GluonGraphics::Engine::instance(), SIGNAL(currentViewportChanging(Viewport*)),
+             SLOT(newViewport(Viewport*)) );
+    connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), d->widget, SLOT(updateGL()) );
 
     newViewport( GluonGraphics::Engine::instance()->currentViewport() );
 
@@ -83,19 +83,19 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* /* parentWidget */, QOb
     KAction* solid = new KAction( KIcon( "draw-polyline" ), i18nc( "Draw type", "Solid" ), actionCollection() );
     solid->setCheckable( true );
     solid->setChecked( true );
-    connect( solid, SIGNAL( triggered( bool ) ), SLOT( setSolid() ) );
+    connect( solid, SIGNAL(triggered(bool)), SLOT(setSolid()) );
     group->addAction( solid );
     actionCollection()->addAction( "toggleSolidAction", solid );
 
     KAction* wire = new KAction( KIcon( "draw-line" ), i18n( "Wireframe" ), actionCollection() );
     wire->setCheckable( true );
-    connect( wire, SIGNAL( triggered( bool ) ), SLOT( setWireframe() ) );
+    connect( wire, SIGNAL(triggered(bool)), SLOT(setWireframe()) );
     group->addAction( wire );
     actionCollection()->addAction( "toggleWireframeAction", wire );
 
     KAction* points = new KAction( KIcon( "edit-node" ), i18n( "Points" ), actionCollection() );
     points->setCheckable( true );
-    connect( points, SIGNAL( triggered( bool ) ), SLOT( setPoints() ) );
+    connect( points, SIGNAL(triggered(bool)), SLOT(setPoints()) );
     group->addAction( points );
     actionCollection()->addAction( "togglePointsAction", points );
 
@@ -121,7 +121,7 @@ bool GluonCreator::GluonViewerPart::openFile()
 
     if( d->autoplay )
     {
-        QTimer::singleShot( 100, this, SLOT( startGame() ) );
+        QTimer::singleShot( 100, this, SLOT(startGame()) );
     }
 
     return true;
@@ -150,8 +150,8 @@ void GluonViewerPart::setPoints()
 
 void GluonViewerPart::newViewport( Viewport* viewport )
 {
-    disconnect( GluonGraphics::Engine::instance()->currentViewport(), 0, this, SLOT( redraw() ) );
-    connect( viewport, SIGNAL( viewportSizeChanged( int, int, int, int ) ), SLOT( redraw() ) );
+    disconnect( GluonGraphics::Engine::instance()->currentViewport(), 0, this, SLOT(redraw()) );
+    connect( viewport, SIGNAL(viewportSizeChanged(int,int,int,int)), SLOT(redraw()) );
 }
 
 void GluonViewerPart::redraw()

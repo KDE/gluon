@@ -315,8 +315,8 @@ void btEditorNodeType::changeProperty(QString propertyName, QVariant value)
 
 void btEditorNodeType::disconnectChangeProperty()
 {
-    disconnect(m_sender, SIGNAL(propertyChanged(QString, QVariant)), this, SLOT(changeProperty(QString, QVariant)));
-    disconnect(m_sender, SIGNAL(propertyDescriptionChanged(QString, QString, QString)), this, SLOT(changePropertyDescription(QString,QString, QString)));
+    disconnect(m_sender, SIGNAL(propertyChanged(QString,QVariant)), this, SLOT(changeProperty(QString,QVariant)));
+    disconnect(m_sender, SIGNAL(propertyDescriptionChanged(QString,QString,QString)), this, SLOT(changePropertyDescription(QString,QString,QString)));
     disconnect(m_sender, SIGNAL(nameChanged(QString)), this, SLOT(changeName(QString)));
     disconnect(m_sender, SIGNAL(descriptionChanged(QString)), this, SLOT(changeDescription(QString)));
     disconnect(m_sender, SIGNAL(classNameChanged(QString)), this, SLOT(changeClassName(QString)));
@@ -325,8 +325,8 @@ void btEditorNodeType::disconnectChangeProperty()
 void btEditorNodeType::connectChangeProperty(btEditorNodeType* sender)
 {
     m_sender = sender;
-    connect(m_sender, SIGNAL(propertyChanged(QString, QVariant)), this, SLOT(changeProperty(QString, QVariant)));
-    connect(m_sender, SIGNAL(propertyDescriptionChanged(QString, QString, QString)), this, SLOT(changePropertyDescription(QString,QString, QString)));
+    connect(m_sender, SIGNAL(propertyChanged(QString,QVariant)), this, SLOT(changeProperty(QString,QVariant)));
+    connect(m_sender, SIGNAL(propertyDescriptionChanged(QString,QString,QString)), this, SLOT(changePropertyDescription(QString,QString,QString)));
     connect(m_sender, SIGNAL(nameChanged(QString)), this, SLOT(changeName(QString)));
     connect(m_sender, SIGNAL(descriptionChanged(QString)), this, SLOT(changeDescription(QString)));
     connect(m_sender, SIGNAL(classNameChanged(QString)), this, SLOT(changeClassName(QString)));

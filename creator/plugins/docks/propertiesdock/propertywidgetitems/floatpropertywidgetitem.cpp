@@ -35,7 +35,7 @@ FloatPropertyWidgetItem::FloatPropertyWidgetItem( QWidget* parent, Qt::WindowFla
     spinBox->setMinimum( FLT_MIN );
     spinBox->setMaximum( FLT_MAX );
     setEditWidget( spinBox );
-    connect( editWidget(), SIGNAL( valueChanged( double ) ), SLOT( floatValueChanged( double ) ) );
+    connect( editWidget(), SIGNAL(valueChanged(double)), SLOT(floatValueChanged(double)) );
 }
 
 FloatPropertyWidgetItem::~FloatPropertyWidgetItem()

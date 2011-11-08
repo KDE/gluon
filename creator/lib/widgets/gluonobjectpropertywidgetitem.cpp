@@ -84,14 +84,14 @@ GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem( const QString& typ
     d->currentValue = new QPushButton( this );
     d->currentValue->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
     base->addWidget( d->currentValue );
-    connect( d->currentValue, SIGNAL( clicked( bool ) ), SLOT( browseForItems() ) );
+    connect( d->currentValue, SIGNAL(clicked(bool)), SLOT(browseForItems()) );
 
     d->editButton = new QToolButton( this );
     d->editButton->setIcon( KIcon( "document-edit" ) );
     d->editButton->setText( i18nc( "Edit/preview currently selected object", "Edit" ) );
     d->editButton->setToolTip( i18n( "Edit/preview currently selected object" ) );
     base->addWidget( d->editButton );
-    connect( d->editButton, SIGNAL( clicked( bool ) ), SLOT( openInEditor() ) );
+    connect( d->editButton, SIGNAL(clicked(bool)), SLOT(openInEditor()) );
 
     QWidget* local = new QWidget( parent );
     local->setLayout( base );

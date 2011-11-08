@@ -28,7 +28,7 @@ AlignAction::AlignAction( const QString& tooltip, AlignAction::Orientation o, QW
     : KAction( KIcon(), tooltip, parent )
 {
     m_orientation = o;
-    connect( this, SIGNAL( triggered() ), this, SLOT( align() ) );
+    connect( this, SIGNAL(triggered()), this, SLOT(align()) );
     kDebug() << " Align Action Created!";
     switch( o )
     {

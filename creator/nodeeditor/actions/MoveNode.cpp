@@ -86,7 +86,7 @@ void MoveNodeAction::executePress( QPointF pos )
     {
         _startPos = QPointF( _svgFrom->parentItem()->mapToScene( _svgFrom->x() + ( _svgFrom->boundingRect().width() / 2 ), _svgFrom->y() + ( _svgFrom->boundingRect().height() / 2 ) ) );
     }
-    connect( this, SIGNAL( addEdge( Node*, Node*, QGraphicsSvgItem*, QGraphicsSvgItem* ) ), _graph, SLOT( addEdge( Node*, Node*, QGraphicsSvgItem*, QGraphicsSvgItem* ) ) );
+    connect( this, SIGNAL(addEdge(Node*,Node*,QGraphicsSvgItem*,QGraphicsSvgItem*)), _graph, SLOT(addEdge(Node*,Node*,QGraphicsSvgItem*,QGraphicsSvgItem*)) );
 }
 
 void MoveNodeAction::executeMove( QPointF pos )

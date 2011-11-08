@@ -63,6 +63,6 @@ void AddNodeAction::setActiveGraph( Graph* graph )
 {
     if( _graph ) disconnect( this, 0, _graph, 0 );
     _graph = graph;
-    connect( this, SIGNAL( addNode( QString, QPointF ) ), _graph, SLOT( addNode( QString, QPointF ) ) );
+    connect( this, SIGNAL(addNode(QString,QPointF)), _graph, SLOT(addNode(QString,QPointF)) );
 }
 

@@ -132,7 +132,7 @@ void CommentsViewItem::layoutWidgets()
     m_replyButton = new Plasma::IconWidget( this );
     m_replyButton->setVisible( false );
     m_replyButton->setIcon( KIcon( "edit-undo" ) );
-    connect( m_replyButton, SIGNAL( activated() ), SIGNAL( replyClicked() ) );
+    connect( m_replyButton, SIGNAL(activated()), SIGNAL(replyClicked()) );
 
     m_layout->addItem( m_title, 0, 0 );
     m_layout->addItem( m_author, 0, 1 );

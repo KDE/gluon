@@ -46,7 +46,7 @@ IntVectorPropertyWidgetItem::IntVectorPropertyWidgetItem( QWidget* parent, Qt::W
 
     addButton = new QToolButton( centralWidget );
     addButton->setIcon( KIcon( "list-add" ) );
-    connect( addButton, SIGNAL( clicked( bool ) ), SLOT( addItem() ) );
+    connect( addButton, SIGNAL(clicked(bool)), SLOT(addItem()) );
     layout->addWidget( addButton, 0, 0 );
 
     countLabel = new QLabel( centralWidget );
@@ -143,12 +143,12 @@ void IntVectorPropertyWidgetItem::addItem( int value )
 
     QToolButton* removeButton = new QToolButton( listItems );
     removeButton->setIcon( KIcon( "list-remove" ) );
-    connect( removeButton, SIGNAL( clicked( bool ) ), SLOT( removeClicked() ) );
+    connect( removeButton, SIGNAL(clicked(bool)), SLOT(removeClicked()) );
     containerLayout->addWidget( removeButton );
 
     QSpinBox* editorSpin = new QSpinBox( listItems );
     editorSpin->setValue( value );
-    connect( editorSpin, SIGNAL( valueChanged( int ) ), SLOT( spinValueChanged( int ) ) );
+    connect( editorSpin, SIGNAL(valueChanged(int)), SLOT(spinValueChanged(int)) );
     containerLayout->addWidget( editorSpin );
 
     listItems->layout()->addWidget( container );

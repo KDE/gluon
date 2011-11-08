@@ -54,7 +54,7 @@ MessageDock::MessageDock( const QString& title, QWidget* parent, Qt::WindowFlags
     d->view->addItem( new QListWidgetItem( i18n( "Welcome to Gluon Creator %1", GluonCore::Global::versionString() ), d->view ) );
     d->view->setSelectionMode( QAbstractItemView::ExtendedSelection );
 
-    connect( GluonEngine::Game::instance(), SIGNAL( showDebug( const QString& ) ), SLOT( showDebug( const QString& ) ) );
+    connect( GluonEngine::Game::instance(), SIGNAL(showDebug(QString)), SLOT(showDebug(QString)) );
 
     QWidget* widget = new QWidget( this );
     QVBoxLayout* layout = new QVBoxLayout();
@@ -65,20 +65,20 @@ MessageDock::MessageDock( const QString& title, QWidget* parent, Qt::WindowFlags
     KToolBar* toolBar = new KToolBar( this );
     toolBar->setIconDimensions( 16 );
 
-    QAction* selectAll = toolBar->addAction( KIcon( "edit-select-all" ), i18n( "Select All" ), this, SLOT( selectAll() ) );
+    QAction* selectAll = toolBar->addAction( KIcon( "edit-select-all" ), i18n( "Select All" ), this, SLOT(selectAll()) );
     d->view->addAction( selectAll );
 
-    QAction* copy = toolBar->addAction( KIcon( "edit-copy" ), i18n( "Copy" ), this, SLOT( copy() ) );
+    QAction* copy = toolBar->addAction( KIcon( "edit-copy" ), i18n( "Copy" ), this, SLOT(copy()) );
     d->view->addAction( copy );
 
     KAction* separator = new KAction( d->view );
     separator->setSeparator( true );
     d->view->addAction( separator );
 
-    QAction* clearSelection = toolBar->addAction( KIcon( "edit-clear-list" ), i18n( "Clear Selection" ), this, SLOT( clearSelection() ) );
+    QAction* clearSelection = toolBar->addAction( KIcon( "edit-clear-list" ), i18n( "Clear Selection" ), this, SLOT(clearSelection()) );
     d->view->addAction( clearSelection );
 
-    QAction* clearAll = toolBar->addAction( KIcon( "edit-clear" ), i18n( "Clear All" ), d->view, SLOT( clear() ) );
+    QAction* clearAll = toolBar->addAction( KIcon( "edit-clear" ), i18n( "Clear All" ), d->view, SLOT(clear()) );
     d->view->addAction( clearAll );
 
     layout->addWidget( toolBar );

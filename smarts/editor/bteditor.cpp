@@ -124,13 +124,13 @@ void bteditor::showBehaviorTree(btTreeModel* showThis)
     {
         disconnect(m_currentBehaviorTree, SIGNAL(addRemoveBTNode()), propertyWidget, SLOT(dragDropUpdate()));
         disconnect(propertyWidget, SIGNAL(treeModelUpdate()), m_currentBehaviorTree, SLOT(updateTreeModel()));
-        disconnect(m_currentBehaviorTree, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(updateView(const QModelIndex&, const QModelIndex&)));
+        disconnect(m_currentBehaviorTree, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateView(QModelIndex,QModelIndex)));
 
     }
     m_currentBehaviorTree = showThis; // keep track of behaviortree
     connect(m_currentBehaviorTree, SIGNAL(addRemoveBTNode()), propertyWidget, SLOT(dragDropUpdate()));
     connect(propertyWidget, SIGNAL(treeModelUpdate()), m_currentBehaviorTree, SLOT(updateTreeModel()));
-    connect(m_currentBehaviorTree, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(updateView(const QModelIndex&, const QModelIndex&)));
+    connect(m_currentBehaviorTree, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateView(QModelIndex,QModelIndex)));
 
 }
 

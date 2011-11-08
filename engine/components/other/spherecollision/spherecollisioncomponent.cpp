@@ -78,7 +78,7 @@ void SphereCollisionComponent::start()
     {
         if( component->enabled() && component->gameObject()->enabled() )
         {
-            connect( component, SIGNAL( destroyed( QObject* ) ), SLOT( componentDestroyed( QObject* ) ) );
+            connect( component, SIGNAL(destroyed(QObject*)), SLOT(componentDestroyed(QObject*)) );
             static_cast<SphereCollisionComponent*>( component )->addComponent( this );
         }
         else
@@ -201,7 +201,7 @@ void SphereCollisionComponent::addComponent( SphereCollisionComponent* comp )
         if( !d->collisionComponents.contains( comp ) )
         {
             d->collisionComponents.append( comp );
-            connect( comp, SIGNAL( destroyed( QObject* ) ), this, SLOT( componentDestroyed( QObject* ) ) );
+            connect( comp, SIGNAL(destroyed(QObject*)), this, SLOT(componentDestroyed(QObject*)) );
         }
     }
 }

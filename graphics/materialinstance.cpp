@@ -71,7 +71,7 @@ MaterialInstance::MaterialInstance( QObject* parent )
       d( new MaterialInstancePrivate )
 {
     qRegisterMetaType<GluonGraphics::Texture*>( "GluonGraphics::Texture*" );
-    connect( Engine::instance(), SIGNAL( activeCameraChanging( Camera* ) ), this, SLOT( setActiveCamera( Camera* ) ) );
+    connect( Engine::instance(), SIGNAL(activeCameraChanging(Camera*)), this, SLOT(setActiveCamera(Camera*)) );
 }
 
 MaterialInstance::~MaterialInstance()

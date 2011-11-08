@@ -32,8 +32,8 @@ AbstractAction::AbstractAction( GraphScene* scene, QObject* parent )
     _graph = 0;
     _graphScene = scene;
 
-    connect( this, SIGNAL( triggered() ),
-             this, SLOT( sendExecuteBit() ) );
+    connect( this, SIGNAL(triggered()),
+             this, SLOT(sendExecuteBit()) );
 }
 
 

@@ -81,7 +81,7 @@ void AbstractStatistic::initialize()
 
     if( d->userName.isEmpty() )
         d->userName = p->userName();
-    connect(p, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(invalidate()) );
+    connect(p, SIGNAL(nameChanged(QString,QString)), this, SLOT(invalidate()) );
     d->database = DatabaseManager::instance()->openStatisticDatabase(path, d->userName, gameName);
     if( d->database.isEmpty() )
         return;

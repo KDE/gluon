@@ -78,10 +78,10 @@ NodeEditor::NodeEditor() :  QWidget()
     _skipNextUpdate = false;
     _isGameObject = false;
     _isGameComponent = false;
-    connect( GluonEngine::Game::instance(), SIGNAL( currentSceneChanged( GluonEngine::Scene* ) ), SLOT( readTheScene() ) );
-    connect( GluonCreator::HistoryManager::instance(), SIGNAL( historyChanged( const QUndoCommand* ) ), SLOT( updateNodesFromModel( const QUndoCommand* ) ) );
-    connect( GluonCreator::ObjectManager::instance(), SIGNAL( newGameObject( GluonEngine::GameObject* ) ), SLOT( markAsGameObject() ) );
-    connect( GluonCreator::ObjectManager::instance(), SIGNAL( newComponent( GluonEngine::Component* ) ), SLOT( markAsGameComponent() ) );
+    connect( GluonEngine::Game::instance(), SIGNAL(currentSceneChanged(GluonEngine::Scene*)), SLOT(readTheScene()) );
+    connect( GluonCreator::HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SLOT(updateNodesFromModel(const QUndoCommand*)) );
+    connect( GluonCreator::ObjectManager::instance(), SIGNAL(newGameObject(GluonEngine::GameObject*)), SLOT(markAsGameObject()) );
+    connect( GluonCreator::ObjectManager::instance(), SIGNAL(newComponent(GluonEngine::Component*)), SLOT(markAsGameComponent()) );
 }
 
 GraphDocument* NodeEditor::activeDocument() const
@@ -437,10 +437,10 @@ void NodeEditor::setupActions()
     _actionButtons->addWidget( _exportCode );
     _widgetTypeBar->setVisible( false );
     qobject_cast<AddTypedNodeAction*>( ac->action( "add_typed_node" ) )->widgetTypeChanged( _widgetType->currentText() );
-    connect( ac->action( "add_typed_node" ), SIGNAL( changed() ), this, SLOT( toggleWidgetTypeShown() ) );
-    connect( ac->action( "delete_action" ), SIGNAL( deleteSceneItem( QString, QString ) ), this, SLOT( deleteThisSceneObject( QString, QString ) ) );
-    connect( _widgetType, SIGNAL( currentIndexChanged( QString ) ), ac->action( "add_typed_node" ), SLOT( widgetTypeChanged( QString ) ) );
-    connect( _exportCode, SIGNAL( clicked( bool ) ), this, SLOT( exportCode( bool ) ) );
+    connect( ac->action( "add_typed_node" ), SIGNAL(changed()), this, SLOT(toggleWidgetTypeShown()) );
+    connect( ac->action( "delete_action" ), SIGNAL(deleteSceneItem(QString,QString)), this, SLOT(deleteThisSceneObject(QString,QString)) );
+    connect( _widgetType, SIGNAL(currentIndexChanged(QString)), ac->action( "add_typed_node" ), SLOT(widgetTypeChanged(QString)) );
+    connect( _exportCode, SIGNAL(clicked(bool)), this, SLOT(exportCode(bool)) );
     ac->action( "move_node" )->trigger();
 }
 
@@ -471,7 +471,7 @@ void NodeEditor::setActiveGraphDocument( GraphDocument* d )
 
 void NodeEditor::setActiveGraph( Graph* g )
 {
-    disconnect( SIGNAL( saveStateGDL() ) );
+    disconnect( SIGNAL(saveStateGDL()) );
     foreach( QAction * action, ac->actions() )
     {
         if( AbstractAction* absAction = qobject_cast<AbstractAction*> ( action ) )
@@ -480,7 +480,7 @@ void NodeEditor::setActiveGraph( Graph* g )
     _graphVisualEditor->setActiveGraph( g );
     _graph = g;
     g->setKCB( _widgetType );
-    connect( g, SIGNAL( changed() ), SLOT( saveStateGDL() ) );
+    connect( g, SIGNAL(changed()), SLOT(saveStateGDL()) );
 }
 
 Graph* NodeEditor::graph() const

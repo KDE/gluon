@@ -98,7 +98,7 @@ QList< QAction* > Scene::actions()
 {
     QList<QAction*> actions;
     QAction* setEntryPoint = new QAction( "Set as entry point", this );
-    connect( setEntryPoint, SIGNAL( triggered( bool ) ), this, SLOT( setEntryPoint() ) );
+    connect( setEntryPoint, SIGNAL(triggered(bool)), this, SLOT(setEntryPoint()) );
     actions.append( setEntryPoint );
     return actions;
 }

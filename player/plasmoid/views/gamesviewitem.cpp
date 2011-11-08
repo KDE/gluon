@@ -64,13 +64,13 @@ void GamesViewItem::layoutWidgets()
     m_playButton = new Plasma::IconWidget( this );
     m_playButton->setIcon( KIcon( "media-playback-start" ) );
     m_playButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
-    connect( m_playButton, SIGNAL( activated() ), SLOT( playGameActivated() ) );
+    connect( m_playButton, SIGNAL(activated()), SLOT(playGameActivated()) );
 
     //Commented out for 0.7.1 release, as it doesn't work
     /*m_installButton = new Plasma::IconWidget( this );
     m_installButton->setIcon( KIcon( "kget" ));
     m_installButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
-    connect( m_installButton, SIGNAL( activated()), SLOT(installGame()));*/
+    connect( m_installButton, SIGNAL(activated()), SLOT(installGame()));*/
 
     m_layout->addItem( m_preview, 0, 0, 2, 1 );
     m_layout->addItem( m_gameName, 0, 1 );

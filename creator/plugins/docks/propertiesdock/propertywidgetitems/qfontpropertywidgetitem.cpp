@@ -31,7 +31,7 @@ QFontPropertyWidgetItem::QFontPropertyWidgetItem( QWidget* parent, Qt::WindowFla
     : PropertyWidgetItem( parent, f )
 {
     KFontRequester* theFontReq = new KFontRequester( this );
-    connect( theFontReq, SIGNAL( fontSelected( const QFont& ) ), this, SLOT( fontChanged( const QFont& ) ) );
+    connect( theFontReq, SIGNAL(fontSelected(QFont)), this, SLOT(fontChanged(QFont)) );
     setEditWidget( theFontReq );
 }
 

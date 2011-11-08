@@ -30,7 +30,7 @@
 GameLoop::GameLoop( Keyboard* keyb )
 {
     keyboard = keyb;
-    connect( this, SIGNAL( startGameLoop() ), SLOT( gameLoop() ), Qt::QueuedConnection );
+    connect( this, SIGNAL(startGameLoop()), SLOT(gameLoop()), Qt::QueuedConnection );
 }
 
 void GameLoop::run()

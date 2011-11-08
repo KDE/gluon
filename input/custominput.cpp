@@ -45,7 +45,7 @@ void CustomInput::setButton( const QString& name, InputDevice* input, int keyCod
         qDebug() << "Cannot find keyCode for this input...";
         return;
     }
-    connect( input, SIGNAL( eventSent( InputEvent* ) ), SLOT( inputEvent( InputEvent* ) ) );
+    connect( input, SIGNAL(eventSent(InputEvent*)), SLOT(inputEvent(InputEvent*)) );
     d->m_buttons.insert( name, qMakePair( input, keyCode ) );
 
 }
@@ -64,7 +64,7 @@ void CustomInput::setAbsAxis( const QString& name, InputDevice* input, int axis 
         return;
     }
     d->m_absAxis.insert( name, qMakePair( input, axis ) );
-    connect( input, SIGNAL( eventSent( InputEvent* ) ), SLOT( inputEvent( InputEvent* ) ) );
+    connect( input, SIGNAL(eventSent(InputEvent*)), SLOT(inputEvent(InputEvent*)) );
 }
 
 void CustomInput::setRelAxis( const QString& name, InputDevice* input, int axis )
@@ -75,7 +75,7 @@ void CustomInput::setRelAxis( const QString& name, InputDevice* input, int axis 
         return;
     }
     d->m_absAxis.insert( name, qMakePair( input, axis ) );
-    connect( input, SIGNAL( eventSent( InputEvent* ) ), SLOT( inputEvent( InputEvent* ) ) );
+    connect( input, SIGNAL(eventSent(InputEvent*)), SLOT(inputEvent(InputEvent*)) );
 
 }
 
@@ -83,7 +83,7 @@ void CustomInput::remButton( const QString& name )
 {
     if( d->m_buttons.contains( name ) )
     {
-        disconnect( d->m_buttons[name].first, SIGNAL( eventSent( InputEvent* ) ), this, SLOT( inputEvent( InputEvent* ) ) );
+        disconnect( d->m_buttons[name].first, SIGNAL(eventSent(InputEvent*)), this, SLOT(inputEvent(InputEvent*)) );
         d->m_buttons.remove( name );
     }
 }
@@ -92,7 +92,7 @@ void CustomInput::remAbsAxis( const QString& name )
 {
     if( d->m_absAxis.contains( name ) )
     {
-        disconnect( d->m_buttons[name].first, SIGNAL( eventSent( InputEvent* ) ), this,  SLOT( inputEvent( InputEvent* ) ) );
+        disconnect( d->m_buttons[name].first, SIGNAL(eventSent(InputEvent*)), this,  SLOT(inputEvent(InputEvent*)) );
         d->m_absAxis.remove( name );
     }
 }
@@ -101,7 +101,7 @@ void CustomInput::remRelAxis( const QString& name )
 {
     if( d->m_relAxis.contains( name ) )
     {
-        disconnect( d->m_buttons[name].first, SIGNAL( eventSent( InputEvent* ) ), this, SLOT( inputEvent( InputEvent* ) ) );
+        disconnect( d->m_buttons[name].first, SIGNAL(eventSent(InputEvent*)), this, SLOT(inputEvent(InputEvent*)) );
         d->m_relAxis.remove( name );
     }
 }

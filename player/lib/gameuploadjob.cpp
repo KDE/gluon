@@ -124,7 +124,7 @@ void GameUploadJob::uploadFileUsingAttica()
 
     QFileInfo fileInfo( d->fileName );
     Attica::PostJob* job = provider()->setDownloadFile( d->id, fileInfo.fileName(), contents );
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( uploadComplete( Attica::BaseJob* ) ) );
+    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(uploadComplete(Attica::BaseJob*)) );
     job->start();
 }
 

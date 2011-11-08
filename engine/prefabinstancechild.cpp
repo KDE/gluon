@@ -122,43 +122,43 @@ void PrefabInstanceChild::resetProperties()
 
 void PrefabInstanceChild::addChild(GameObject* child)
 {
-    connect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    connect(child, SIGNAL(nameChanged(QString,QString)), this, SLOT(childNameChanged(QString,QString)));
     GluonEngine::GameObject::addChild(child);
 }
 
 void PrefabInstanceChild::addChild(GluonCore::GluonObject* child)
 {
-    connect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    connect(child, SIGNAL(nameChanged(QString,QString)), this, SLOT(childNameChanged(QString,QString)));
     GluonEngine::GameObject::addChild(child);
 }
 
 void PrefabInstanceChild::addChildAt(GluonCore::GluonObject* child, int position)
 {
-    connect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    connect(child, SIGNAL(nameChanged(QString,QString)), this, SLOT(childNameChanged(QString,QString)));
     GluonCore::GluonObject::addChildAt(child, position);
 }
 
 bool PrefabInstanceChild::removeChild(GameObject* child)
 {
-    disconnect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    disconnect(child, SIGNAL(nameChanged(QString,QString)), this, SLOT(childNameChanged(QString,QString)));
     return GluonEngine::GameObject::removeChild(child);
 }
 
 bool PrefabInstanceChild::removeChild(GluonCore::GluonObject* child)
 {
-    disconnect(child, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    disconnect(child, SIGNAL(nameChanged(QString,QString)), this, SLOT(childNameChanged(QString,QString)));
     return GluonEngine::GameObject::removeChild(child);
 }
 
 void PrefabInstanceChild::addComponent(Component* addThis)
 {
-    connect(addThis, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    connect(addThis, SIGNAL(nameChanged(QString,QString)), this, SLOT(childNameChanged(QString,QString)));
     GluonEngine::GameObject::addComponent(addThis);
 }
 
 bool PrefabInstanceChild::removeComponent(Component* removeThis)
 {
-    connect(removeThis, SIGNAL(nameChanged(const QString&, const QString&)), this, SLOT(childNameChanged(const QString&, const QString&)));
+    connect(removeThis, SIGNAL(nameChanged(QString,QString)), this, SLOT(childNameChanged(QString,QString)));
     return GluonEngine::GameObject::removeComponent(removeThis);
 }
 

@@ -57,7 +57,7 @@ LoginForm::LoginForm( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     m_contentLayout->addItem( m_passwordEdit );
     m_contentLayout->addItem( m_loginButton );
 
-    connect( m_loginButton, SIGNAL( clicked() ), SLOT( doLogin() ) );
+    connect( m_loginButton, SIGNAL(clicked()), SLOT(doLogin()) );
 
     GluonPlayer::ServiceProvider *serviceProvider = GluonPlayer::ServiceProvider::instance();
     connect(serviceProvider, SIGNAL(providerInitialized()), SLOT(initDone()));

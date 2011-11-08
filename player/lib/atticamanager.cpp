@@ -32,7 +32,7 @@ GLUON_DEFINE_SINGLETON( AtticaManager )
 AtticaManager::AtticaManager( QObject* parent )
     : GluonCore::Singleton< GluonPlayer::AtticaManager >( parent )
 {
-    connect( &m_manager, SIGNAL( defaultProvidersLoaded() ), SLOT( providersUpdated() ) );
+    connect( &m_manager, SIGNAL(defaultProvidersLoaded()), SLOT(providersUpdated()) );
     m_manager.loadDefaultProviders();
 }
 
@@ -82,7 +82,7 @@ bool AtticaManager::downloadGame( const QString& id )
     }
     else
     {
-        connect( this, SIGNAL( gotProvider() ), SLOT( requestContent() ) );
+        connect( this, SIGNAL(gotProvider()), SLOT(requestContent()) );
     }
 
     return true;
@@ -93,7 +93,7 @@ void AtticaManager::requestContent()
     if( isProviderValid() )
     {
         Attica::ItemJob<Attica::Content> *job = provider().requestContent( m_currentId );
-        connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGameDetails( Attica::BaseJob* ) ) );
+        connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedGameDetails(Attica::BaseJob*)) );
         job->start();
     }
     else

@@ -138,7 +138,7 @@ void ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex index, QMenu* m
                     QList<QAction*> actions = asset->actions();
                     foreach( QAction * action, actions )
                     {
-                        connect( action, SIGNAL( triggered( bool ) ), model, SIGNAL( layoutChanged() ) );
+                        connect( action, SIGNAL(triggered(bool)), model, SIGNAL(layoutChanged()) );
                         menu->addAction( action );
                     }
                 }
@@ -153,7 +153,7 @@ void ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex index, QMenu* m
                 menu->addSeparator();
 
                 action = new QAction( KIcon( "edit-delete" ), i18n( "Delete \"%1\"...", object->name() ), q );
-                connect( action, SIGNAL( triggered() ), q, SLOT( deleteActionTriggered() ) );
+                connect( action, SIGNAL(triggered()), q, SLOT(deleteActionTriggered()) );
                 menu->addAction( action );
             }
         }
@@ -177,12 +177,12 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     d->view->setAcceptDrops( true );
     d->view->setContextMenuPolicy( Qt::CustomContextMenu );
     d->view->setEditTriggers( QAbstractItemView::NoEditTriggers );
-    connect( d->view, SIGNAL( customContextMenuRequested( const QPoint& ) ), SLOT( showContextMenuRequested( const QPoint& ) ) );
-    connect( d->view->selectionModel(), SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ), SLOT( selectionChanged( QItemSelection, QItemSelection ) ) );
+    connect( d->view, SIGNAL(customContextMenuRequested(QPoint)), SLOT(showContextMenuRequested(QPoint)) );
+    connect( d->view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(selectionChanged(QItemSelection,QItemSelection)) );
 
     d->model->setProject( GluonEngine::Game::instance()->gameProject() );
-    connect( GluonEngine::Game::instance(), SIGNAL( currentProjectChanged( GluonEngine::GameProject* ) ), SLOT( currentProjectChanged( GluonEngine::GameProject* ) ) );
-    connect( d->view, SIGNAL( doubleClicked( QModelIndex ) ), SLOT( activated( QModelIndex ) ) );
+    connect( GluonEngine::Game::instance(), SIGNAL(currentProjectChanged(GluonEngine::GameProject*)), SLOT(currentProjectChanged(GluonEngine::GameProject*)) );
+    connect( d->view, SIGNAL(doubleClicked(QModelIndex)), SLOT(activated(QModelIndex)) );
 
     QWidget* widget = new QWidget( this );
     QVBoxLayout* layout = new QVBoxLayout();
@@ -204,8 +204,8 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
 
     d->toolBar->insertWidget( 0, menuButton );
 
-    d->newMenu->addAction( KIcon( "folder" ), i18n( "New Folder" ), this, SLOT( createNewFolder() ) );
-    d->newMenu->addAction( KIcon( "document-new" ), i18n( "New Scene" ), this, SLOT( createNewScene() ) );
+    d->newMenu->addAction( KIcon( "folder" ), i18n( "New Folder" ), this, SLOT(createNewFolder()) );
+    d->newMenu->addAction( KIcon( "document-new" ), i18n( "New Scene" ), this, SLOT(createNewScene()) );
     d->newMenu->addSeparator();
 
     QHash< QString, QMenu* > menus;
@@ -226,7 +226,7 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
         }
 
         GluonEngine::AssetTemplate* item = itr.value();
-        QAction* action = menu->addAction( i18nc( "Add a new asset", "New %1", item->name ), this, SLOT( createNewAsset() ) );
+        QAction* action = menu->addAction( i18nc( "Add a new asset", "New %1", item->name ), this, SLOT(createNewAsset()) );
         action->setIcon( KIcon( d->assetIcons.value( item ) ) );
         action->setProperty( "newAssetClassname", item->parent()->metaObject()->className() );
         action->setProperty( "newAssetName", item->name );
@@ -235,9 +235,9 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     }
 
     d->newMenu->addSeparator();
-    d->newMenu->addAction( KIcon( "document-import" ), i18n( "Import Assets..." ), this, SLOT( importAssetsTriggered() ) );
+    d->newMenu->addAction( KIcon( "document-import" ), i18n( "Import Assets..." ), this, SLOT(importAssetsTriggered()) );
 
-    d->toolBar->addAction( KIcon( "edit-delete" ), i18nc( "Delete selected object from project", "Delete" ), this, SLOT( deleteActionTriggered() ) );
+    d->toolBar->addAction( KIcon( "edit-delete" ), i18nc( "Delete selected object from project", "Delete" ), this, SLOT(deleteActionTriggered()) );
 
     layout->addWidget( d->toolBar );
     layout->addWidget( d->view );
@@ -314,7 +314,7 @@ void ProjectDock::showContextMenuRequested( const QPoint& pos )
     QMenu menu( static_cast<GluonCore::GluonObject*>( index.internalPointer() )->name(), this );
     d->menuForObject( index, &menu );
     menu.exec( d->view->mapToGlobal( pos ) );
-    connect( &menu, SIGNAL( aboutToHide() ), SLOT( contextMenuHiding() ) );
+    connect( &menu, SIGNAL(aboutToHide()), SLOT(contextMenuHiding()) );
 }
 
 void ProjectDock::contextMenuHiding()

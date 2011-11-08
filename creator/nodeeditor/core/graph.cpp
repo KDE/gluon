@@ -116,7 +116,7 @@ Node* Graph::addNode( QString name )
     n->setName( name );
     _nodes.append( n );
     emit nodeCreated( n );
-    connect( n, SIGNAL( changed() ), this, SIGNAL( changed() ) );
+    connect( n, SIGNAL(changed()), this, SIGNAL(changed()) );
     return n;
 }
 
@@ -165,7 +165,7 @@ void Graph::addNode( QString name, QString type )
             node->addDynamicProperty( key, nodelist[key] );
         }
     }
-    connect( this, SIGNAL( forceUpdate() ), node, SIGNAL( changed() ) );
+    connect( this, SIGNAL(forceUpdate()), node, SIGNAL(changed()) );
     emit forceUpdate();
 }
 
@@ -209,7 +209,7 @@ void Graph::addNode( QString name, QPointF pos, QString type )
             node->addDynamicProperty( key, nodelist[key] );
         }
     }
-    connect( this, SIGNAL( forceUpdate() ), node, SIGNAL( changed() ) );
+    connect( this, SIGNAL(forceUpdate()), node, SIGNAL(changed()) );
     emit forceUpdate();
 }
 
@@ -258,7 +258,7 @@ Edge* Graph::addEdge( Node* from, Node* to, QGraphicsSvgItem* cFrom, QGraphicsSv
     }*/
     _edges.append( e );
     emit edgeCreated( e );
-    connect( e, SIGNAL( changed() ), this, SIGNAL( changed() ) );
+    connect( e, SIGNAL(changed()), this, SIGNAL(changed()) );
     emit forceUpdate();
     return e;
 }

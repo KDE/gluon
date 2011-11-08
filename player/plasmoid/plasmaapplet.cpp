@@ -104,7 +104,7 @@ void PlasmaApplet::openProject()
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     m_renderer = new RenderWidget();
-    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), m_renderer, SLOT( updateGL() ) );
+    connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), m_renderer, SLOT(updateGL()) );
 
     GluonInput::InputManager::instance()->setFilteredObject( m_renderer );
 
@@ -155,8 +155,8 @@ void PlasmaApplet::showGames()
         m_gamesOverlay = new GamesOverlay( this );
         m_gamesOverlay->gamesView()->setModel( m_gameItemsModel );
         m_gamesOverlay->setGeometry( geometry() );
-        connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
-        connect( m_gamesOverlay, SIGNAL( gameSelected( QModelIndex ) ), SLOT( showGameDetails( QModelIndex ) ) );
+        connect( m_gamesOverlay, SIGNAL(gameToPlaySelected(QModelIndex)), SLOT(setProject(QModelIndex)) );
+        connect( m_gamesOverlay, SIGNAL(gameSelected(QModelIndex)), SLOT(showGameDetails(QModelIndex)) );
     }
 
     if( m_gameDetailsOverlay )
@@ -184,7 +184,7 @@ void PlasmaApplet::showGameDetails( const QModelIndex& index )
     m_layout->removeItem( m_gamesOverlay );
     m_gameDetailsOverlay->show();
     m_layout->addItem( m_gameDetailsOverlay );
-    connect( m_gameDetailsOverlay, SIGNAL( back() ), SLOT( showGames() ) );
+    connect( m_gameDetailsOverlay, SIGNAL(back()), SLOT(showGames()) );
 }
 
 void PlasmaApplet::resizeEvent( QGraphicsSceneResizeEvent* event )

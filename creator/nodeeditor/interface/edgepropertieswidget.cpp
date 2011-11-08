@@ -51,13 +51,13 @@ void EdgePropertiesWidget::setEdge( Edge* e, QPointF pos )
     activateWindow();
     raise();
 
-    connect( _edge,      SIGNAL( changed() ),         this, SLOT( reflectAttributes() ) );
+    connect( _edge,      SIGNAL(changed()),         this, SLOT(reflectAttributes()) );
 
-    connect( _value,     SIGNAL( textChanged( QString ) ),   _edge, SLOT( setValue( QString ) ) );
-    connect( _name,      SIGNAL( textChanged( QString ) ),   _edge, SLOT( setName( QString ) ) );
-    connect( _width,     SIGNAL( valueChanged( double ) ),    _edge, SLOT( setWidth( double ) ) );
-    connect( _showName,  SIGNAL( toggled( bool ) ),          _edge, SLOT( hideName( bool ) ) );
-    connect( _showValue, SIGNAL( toggled( bool ) ),          _edge, SLOT( hideValue( bool ) ) );
+    connect( _value,     SIGNAL(textChanged(QString)),   _edge, SLOT(setValue(QString)) );
+    connect( _name,      SIGNAL(textChanged(QString)),   _edge, SLOT(setName(QString)) );
+    connect( _width,     SIGNAL(valueChanged(double)),    _edge, SLOT(setWidth(double)) );
+    connect( _showName,  SIGNAL(toggled(bool)),          _edge, SLOT(hideName(bool)) );
+    connect( _showValue, SIGNAL(toggled(bool)),          _edge, SLOT(hideValue(bool)) );
 
     reflectAttributes();
 }
@@ -114,11 +114,11 @@ void EdgePropertiesWidget::on__addProperty_clicked()
 
 void EdgePropertiesWidget::disconnectEdge()
 {
-    disconnect( _edge,      SIGNAL( changed() ),         this, SLOT( reflectAttributes() ) );
+    disconnect( _edge,      SIGNAL(changed()),         this, SLOT(reflectAttributes()) );
 
-    disconnect( _value,     SIGNAL( textChanged( QString ) ),   _edge, SLOT( setValue( QString ) ) );
-    disconnect( _name,      SIGNAL( textChanged( QString ) ),   _edge, SLOT( setName( QString ) ) );
-    disconnect( _width,     SIGNAL( valueChanged( double ) ),    _edge, SLOT( setWidth( double ) ) );
-    disconnect( _showName,  SIGNAL( toggled( bool ) ),          _edge, SLOT( hideName( bool ) ) );
-    disconnect( _showValue, SIGNAL( toggled( bool ) ),          _edge, SLOT( hideValue( bool ) ) );
+    disconnect( _value,     SIGNAL(textChanged(QString)),   _edge, SLOT(setValue(QString)) );
+    disconnect( _name,      SIGNAL(textChanged(QString)),   _edge, SLOT(setName(QString)) );
+    disconnect( _width,     SIGNAL(valueChanged(double)),    _edge, SLOT(setWidth(double)) );
+    disconnect( _showName,  SIGNAL(toggled(bool)),          _edge, SLOT(hideName(bool)) );
+    disconnect( _showValue, SIGNAL(toggled(bool)),          _edge, SLOT(hideValue(bool)) );
 }

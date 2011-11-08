@@ -63,8 +63,8 @@ OrientedEdgeItem::~OrientedEdgeItem()
 
 void OrientedEdgeItem::connectSignals()
 {
-    connect( _edge, SIGNAL( changed() ), this, SLOT( updatePos() ) );
-    connect( _edge, SIGNAL( removed() ), this, SLOT( remove() ) );
+    connect( _edge, SIGNAL(changed()), this, SLOT(updatePos()) );
+    connect( _edge, SIGNAL(removed()), this, SLOT(remove()) );
 }
 
 QPolygonF OrientedEdgeItem::createArrow( const QPointF& Pos1, const QPointF& Pos2 ) const

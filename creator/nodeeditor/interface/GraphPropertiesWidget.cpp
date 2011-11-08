@@ -57,27 +57,27 @@ GraphPropertiesWidget::GraphPropertiesWidget( Graph* g, QWidget* parent )
     _editWidget->setVisible( _activateGraph->isChecked() );
 
     GraphDocument* gDocument = qobject_cast<GraphDocument*>( g->parent() );
-    connect( this, SIGNAL( addGraph( QString ) ), gDocument, SLOT( addGraph( QString ) ) );
-    connect( this, SIGNAL( removeGraph() ), g, SLOT( remove() ) );
+    connect( this, SIGNAL(addGraph(QString)), gDocument, SLOT(addGraph(QString)) );
+    connect( this, SIGNAL(removeGraph()), g, SLOT(remove()) );
 
-    connect( _graphEdgeColor, SIGNAL( activated( QColor ) ), this, SLOT( setEdgeDefaultColor( QColor ) ) );
-    connect( _graphNodeColor, SIGNAL( activated( QColor ) ), this, SLOT( setNodeDefaultColor( QColor ) ) );
+    connect( _graphEdgeColor, SIGNAL(activated(QColor)), this, SLOT(setEdgeDefaultColor(QColor)) );
+    connect( _graphNodeColor, SIGNAL(activated(QColor)), this, SLOT(setNodeDefaultColor(QColor)) );
 
-    connect( this, SIGNAL( edgeColorsChanged( QString ) ),      g, SLOT( setEdgesColor( QString ) ) );
-    connect( this, SIGNAL( nodeColorsChanged( QString ) ),      g, SLOT( setNodesColor( QString ) ) );
-    connect( this, SIGNAL( edgeDefaultColorSetted( QString ) ), g, SLOT( setEdgeDefaultColor( QString ) ) );
-    connect( this, SIGNAL( nodeDefaultColorSetted( QString ) ), g, SLOT( setNodeDefaultColor( QString ) ) );
+    connect( this, SIGNAL(edgeColorsChanged(QString)),      g, SLOT(setEdgesColor(QString)) );
+    connect( this, SIGNAL(nodeColorsChanged(QString)),      g, SLOT(setNodesColor(QString)) );
+    connect( this, SIGNAL(edgeDefaultColorSetted(QString)), g, SLOT(setEdgeDefaultColor(QString)) );
+    connect( this, SIGNAL(nodeDefaultColorSetted(QString)), g, SLOT(setNodeDefaultColor(QString)) );
 
 
-    connect( _showEdgeNames,  SIGNAL( toggled( bool ) ), g, SLOT( setEdgeNameVisibility( bool ) ) );
-    connect( _showEdgeValues, SIGNAL( toggled( bool ) ), g, SLOT( setEdgeValueVisibility( bool ) ) );
-    connect( _showNodeNames,  SIGNAL( toggled( bool ) ), g, SLOT( setNodeNameVisibility( bool ) ) );
-    connect( _showNodeValues, SIGNAL( toggled( bool ) ), g, SLOT( setNodeValueVisibility( bool ) ) );
+    connect( _showEdgeNames,  SIGNAL(toggled(bool)), g, SLOT(setEdgeNameVisibility(bool)) );
+    connect( _showEdgeValues, SIGNAL(toggled(bool)), g, SLOT(setEdgeValueVisibility(bool)) );
+    connect( _showNodeNames,  SIGNAL(toggled(bool)), g, SLOT(setNodeNameVisibility(bool)) );
+    connect( _showNodeValues, SIGNAL(toggled(bool)), g, SLOT(setNodeValueVisibility(bool)) );
 
-    connect( _graphName,      SIGNAL( textChanged( QString ) ), g, SLOT( setName( QString ) ) );
+    connect( _graphName,      SIGNAL(textChanged(QString)), g, SLOT(setName(QString)) );
 
-    connect( _graphOriented, SIGNAL( toggled( bool ) ), g, SLOT( setDirected( bool ) ) );
-    connect( _graphAutomate, SIGNAL( toggled( bool ) ), g, SLOT( setAutomate( bool ) ) );
+    connect( _graphOriented, SIGNAL(toggled(bool)), g, SLOT(setDirected(bool)) );
+    connect( _graphAutomate, SIGNAL(toggled(bool)), g, SLOT(setAutomate(bool)) );
 
 }
 

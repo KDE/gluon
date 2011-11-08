@@ -39,7 +39,7 @@ GameDetailsOverlay::GameDetailsOverlay( QString gameId, QGraphicsItem* parent, Q
     m_backButton = new Plasma::IconWidget( KIcon( "go-previous-view" ), i18nc( "Back to the previous view", "Back" ), this );
     m_backButton->setOrientation( Qt::Horizontal );
     m_backButton->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
-    connect( m_backButton, SIGNAL( activated() ), SIGNAL( back() ) );
+    connect( m_backButton, SIGNAL(activated()), SIGNAL(back()) );
 
     m_highScoresModel = new GluonPlayer::HighScoresModel( gameId );
     m_highScoresView = new HighScoresView( this );

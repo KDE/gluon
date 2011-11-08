@@ -45,12 +45,12 @@ GameDetailsOverlay::GameDetailsOverlay( GluonEngine::ProjectMetaData* metaData, 
     m_backButton->setIcon( KIcon( "go-previous-view" ) );
     m_backButton->setText( i18nc( "Back to the previous view", "Back" ) );
     m_backButton->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
-    connect( m_backButton, SIGNAL( clicked() ), SIGNAL( back() ) );
+    connect( m_backButton, SIGNAL(clicked()), SIGNAL(back()) );
 
     m_highScoresView->setModel( m_highScoresModel );
     m_achievementsView->setModel( m_achievementsModel );
     m_commentsView->setItemDelegate( m_commentsDelegate );
-    connect( m_commentsDelegate, SIGNAL( commentReplyClicked( QModelIndex ) ), SLOT( showReplyForm( QModelIndex ) ) );
+    connect( m_commentsDelegate, SIGNAL(commentReplyClicked(QModelIndex)), SLOT(showReplyForm(QModelIndex)) );
     m_commentsView->setModel( m_commentsModel );
 
     QGridLayout* gl = new QGridLayout( m_commentWidget );
@@ -68,7 +68,7 @@ GameDetailsOverlay::GameDetailsOverlay( GluonEngine::ProjectMetaData* metaData, 
     setContentsMargins( 10, 15, 10, 15 );
     setLayout( m_contentLayout );
 
-    connect( m_commentsModel, SIGNAL( addCommentFailed() ), SLOT( commentFailed() ) );
+    connect( m_commentsModel, SIGNAL(addCommentFailed()), SLOT(commentFailed()) );
 }
 
 GameDetailsOverlay::~GameDetailsOverlay()
@@ -95,9 +95,9 @@ void GameDetailsOverlay::cancelNewComment( )
 void GameDetailsOverlay::showReplyForm( const QModelIndex& index )
 {
     m_newCommentForm->setParentIndex( index );
-    connect( m_newCommentForm, SIGNAL( accepted( QModelIndex, QString, QString ) ),
-             SLOT( addNewComment( QModelIndex, QString, QString ) ) );
-    connect( m_newCommentForm, SIGNAL( canceled() ), SLOT( cancelNewComment() ) );
+    connect( m_newCommentForm, SIGNAL(accepted(QModelIndex,QString,QString)),
+             SLOT(addNewComment(QModelIndex,QString,QString)) );
+    connect( m_newCommentForm, SIGNAL(canceled()), SLOT(cancelNewComment()) );
 
     m_newCommentForm->setVisible( true );
 }

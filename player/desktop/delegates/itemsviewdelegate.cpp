@@ -67,19 +67,19 @@ QList<QWidget*> ItemsViewDelegate::createItemWidgets() const
     ItemsViewDelegate* delegate = const_cast<ItemsViewDelegate*>( this );
     gameName->installEventFilter( delegate );
     list << gameName;
-    connect( gameName, SIGNAL( mouseReleased() ), SLOT( selectGameClicked() ) );
+    connect( gameName, SIGNAL(mouseReleased()), SLOT(selectGameClicked()) );
 
     GameTextLabel* gameDescription = new GameTextLabel();
     gameDescription->setOpenExternalLinks( true );
     list << gameDescription;
-    connect( gameDescription, SIGNAL( mouseReleased() ), SLOT( selectGameClicked() ) );
+    connect( gameDescription, SIGNAL(mouseReleased()), SLOT(selectGameClicked()) );
 
     KPushButton* playButton = new KPushButton();
     playButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
     list << playButton;
     setBlockedEventTypes( playButton, QList<QEvent::Type>() << QEvent::MouseButtonPress
                           << QEvent::MouseButtonRelease << QEvent::MouseButtonDblClick );
-    connect( playButton, SIGNAL( clicked() ), SLOT( slotPlayClicked() ) );
+    connect( playButton, SIGNAL(clicked()), SLOT(slotPlayClicked()) );
 
     return list;
 }

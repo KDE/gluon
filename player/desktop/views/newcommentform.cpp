@@ -31,10 +31,10 @@ NewCommentForm::NewCommentForm( QWidget* parent, Qt::WindowFlags wFlags )
     QGridLayout* layout = new QGridLayout( this );
 
     m_okButton->setText( i18n( "OK" ) );
-    connect( m_okButton, SIGNAL( clicked() ), SLOT( validateAndSubmit() ) );
+    connect( m_okButton, SIGNAL(clicked()), SLOT(validateAndSubmit()) );
 
     m_cancelButton->setText( i18n( "Cancel" ) );
-    connect( m_cancelButton, SIGNAL( clicked() ), SIGNAL( canceled() ) );
+    connect( m_cancelButton, SIGNAL(clicked()), SIGNAL(canceled()) );
 
     layout->addWidget( m_okButton );
     layout->addWidget( m_cancelButton );

@@ -36,17 +36,17 @@ Edge::Edge( Graph* parent, Node* from, Node* to, QGraphicsSvgItem* cFrom, QGraph
 
     if( from == to )
     {
-        connect( from, SIGNAL( changed() ), this, SIGNAL( changed() ) );
+        connect( from, SIGNAL(changed()), this, SIGNAL(changed()) );
         from -> addSelfEdge( this );
     }
     else
     {
-        connect( from, SIGNAL( changed() ), this, SIGNAL( changed() ) );
+        connect( from, SIGNAL(changed()), this, SIGNAL(changed()) );
         from -> addOutEdge( this );
-        connect( to, SIGNAL( changed() ), this, SIGNAL( changed() ) );
+        connect( to, SIGNAL(changed()), this, SIGNAL(changed()) );
         to -> addInEdge( this );
     }
-    connect( parent, SIGNAL( complexityChanged( bool ) ), this, SIGNAL( changed() ) );
+    connect( parent, SIGNAL(complexityChanged(bool)), this, SIGNAL(changed()) );
 
     _relativeIndex = _to -> edges( _from ).size();
     _showName = true;

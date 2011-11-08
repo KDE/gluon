@@ -57,18 +57,18 @@ void NodePropertiesWidget::setNode( NodeItem* n, QPointF pos )
 
     reflectAttributes();
 
-    connect( _node, SIGNAL( changed() ), this, SLOT( reflectAttributes() ) );
-    connect( _node->parent(), SIGNAL( automateChanged( bool ) ), this, SLOT( updateAutomateAttributes( bool ) ) );
+    connect( _node, SIGNAL(changed()), this, SLOT(reflectAttributes()) );
+    connect( _node->parent(), SIGNAL(automateChanged(bool)), this, SLOT(updateAutomateAttributes(bool)) );
 
-    connect( _showName,     SIGNAL( toggled( bool ) ),          _node, SLOT( hideName( bool ) ) );
-    connect( _showValue,    SIGNAL( toggled( bool ) ),          _node, SLOT( hideValue( bool ) ) );
-    connect( _begin,        SIGNAL( toggled( bool ) ),          _node, SLOT( setBegin( bool ) ) );
-    connect( _end,          SIGNAL( toggled( bool ) ),          _node, SLOT( setEnd( bool ) ) );
-    connect( _name,         SIGNAL( textChanged( QString ) ),   _node, SLOT( setName( QString ) ) );
-    connect( _value,        SIGNAL( textChanged( QString ) ),   _node, SLOT( setValue( QString ) ) );
-    connect( _x,            SIGNAL( valueChanged( int ) ),      _node, SLOT( setX( int ) ) );
-    connect( _y,            SIGNAL( valueChanged( int ) ),      _node, SLOT( setY( int ) ) );
-    connect( _width,        SIGNAL( valueChanged( double ) ),   _node, SLOT( setWidth( double ) ) );
+    connect( _showName,     SIGNAL(toggled(bool)),          _node, SLOT(hideName(bool)) );
+    connect( _showValue,    SIGNAL(toggled(bool)),          _node, SLOT(hideValue(bool)) );
+    connect( _begin,        SIGNAL(toggled(bool)),          _node, SLOT(setBegin(bool)) );
+    connect( _end,          SIGNAL(toggled(bool)),          _node, SLOT(setEnd(bool)) );
+    connect( _name,         SIGNAL(textChanged(QString)),   _node, SLOT(setName(QString)) );
+    connect( _value,        SIGNAL(textChanged(QString)),   _node, SLOT(setValue(QString)) );
+    connect( _x,            SIGNAL(valueChanged(int)),      _node, SLOT(setX(int)) );
+    connect( _y,            SIGNAL(valueChanged(int)),      _node, SLOT(setY(int)) );
+    connect( _width,        SIGNAL(valueChanged(double)),   _node, SLOT(setWidth(double)) );
 
     GraphPropertiesModel* model = new GraphPropertiesModel();
     model->setDataSource( _node );
@@ -163,18 +163,18 @@ void NodePropertiesWidget::on__addProperty_clicked()
 void NodePropertiesWidget::disconnectNode( Node* n )
 {
 
-    disconnect( n, SIGNAL( changed() ), this, SLOT( reflectAttributes() ) );
-    disconnect( n->parent(), SIGNAL( automateChanged( bool ) ), this, SLOT( updateAutomateAttributes( bool ) ) );
+    disconnect( n, SIGNAL(changed()), this, SLOT(reflectAttributes()) );
+    disconnect( n->parent(), SIGNAL(automateChanged(bool)), this, SLOT(updateAutomateAttributes(bool)) );
 
-    disconnect( _showName,     SIGNAL( toggled( bool ) ),          n, SLOT( hideName( bool ) ) );
-    disconnect( _showValue,    SIGNAL( toggled( bool ) ),          n, SLOT( hideValue( bool ) ) );
-    disconnect( _begin,        SIGNAL( toggled( bool ) ),          n, SLOT( setBegin( bool ) ) );
-    disconnect( _end,          SIGNAL( toggled( bool ) ),          n, SLOT( setEnd( bool ) ) );
-    disconnect( _name,         SIGNAL( textChanged( QString ) ),   n, SLOT( setName( QString ) ) );
-    disconnect( _value,        SIGNAL( textChanged( QString ) ),   n, SLOT( setValue( QString ) ) );
-    disconnect( _x,            SIGNAL( valueChanged( int ) ),      n, SLOT( setX( int ) ) );
-    disconnect( _y,            SIGNAL( valueChanged( int ) ),      n, SLOT( setY( int ) ) );
-    disconnect( _width,        SIGNAL( valueChanged( double ) ),   n, SLOT( setWidth( double ) ) );
+    disconnect( _showName,     SIGNAL(toggled(bool)),          n, SLOT(hideName(bool)) );
+    disconnect( _showValue,    SIGNAL(toggled(bool)),          n, SLOT(hideValue(bool)) );
+    disconnect( _begin,        SIGNAL(toggled(bool)),          n, SLOT(setBegin(bool)) );
+    disconnect( _end,          SIGNAL(toggled(bool)),          n, SLOT(setEnd(bool)) );
+    disconnect( _name,         SIGNAL(textChanged(QString)),   n, SLOT(setName(QString)) );
+    disconnect( _value,        SIGNAL(textChanged(QString)),   n, SLOT(setValue(QString)) );
+    disconnect( _x,            SIGNAL(valueChanged(int)),      n, SLOT(setX(int)) );
+    disconnect( _y,            SIGNAL(valueChanged(int)),      n, SLOT(setY(int)) );
+    disconnect( _width,        SIGNAL(valueChanged(double)),   n, SLOT(setWidth(double)) );
 
 }
 

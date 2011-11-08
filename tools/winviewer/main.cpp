@@ -44,7 +44,7 @@ class Player : public QObject
             m_renderWidget->installEventFilter(this);
             m_renderWidget->setFocus();
 
-            connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), m_renderWidget, SLOT( updateGL() ) );
+            connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), m_renderWidget, SLOT(updateGL()) );
 
             GluonInput::InputManager::instance()->setFilteredObject( m_renderWidget );
             QTimer::singleShot(100, this, SLOT(startGame()));

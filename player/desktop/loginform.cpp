@@ -66,11 +66,11 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
     //     m_contentLayout->addWidget( m_usernameFeedbackLabel, 5, 0, 1, 2 );
     setLayout( m_contentLayout );
 
-    connect( m_loginButton, SIGNAL( clicked() ), SLOT( doLogin() ) );
-    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL( initializationFinished() ), SLOT( initDone() ) );
-    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL( initializeFailed() ), SLOT( initFailed() ) );
-    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL( loginFinished() ), SLOT( loginDone() ) );
-    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL( loginFailed() ), SLOT( loginFailed() ) );
+    connect( m_loginButton, SIGNAL(clicked()), SLOT(doLogin()) );
+    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(initializationFinished()), SLOT(initDone()) );
+    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(initializeFailed()), SLOT(initFailed()) );
+    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFinished()), SLOT(loginDone()) );
+    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFailed()), SLOT(loginFailed()) );
 
     initialize();
 }

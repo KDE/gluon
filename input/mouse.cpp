@@ -33,7 +33,7 @@ Mouse::Mouse( InputThread* inputThread, QObject* parent )
     d->sensibility = 1;
 
     if( inputThread )
-        connect( inputThread, SIGNAL( relAxisMoved( int, int ) ), SLOT( mouseMoved( int, int ) ), Qt::DirectConnection );
+        connect( inputThread, SIGNAL(relAxisMoved(int,int)), SLOT(mouseMoved(int,int)), Qt::DirectConnection );
 }
 
 Mouse::Mouse( const Mouse& other, InputThread* inputThread, QObject* parent )

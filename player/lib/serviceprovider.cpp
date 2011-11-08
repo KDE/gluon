@@ -92,7 +92,7 @@ void ServiceProvider::init()
         return;
     }
 
-    connect( &d->manager, SIGNAL( defaultProvidersLoaded() ), SLOT( providersUpdated() ) );
+    connect( &d->manager, SIGNAL(defaultProvidersLoaded()), SLOT(providersUpdated()) );
     d->manager.loadDefaultProviders();
 }
 
@@ -184,7 +184,7 @@ bool ServiceProvider::login( const QString& username, const QString& password )
     }
     else
     {
-        connect( this, SIGNAL( initializationFinished() ), SLOT( doLogin() ) );
+        connect( this, SIGNAL(initializationFinished()), SLOT(doLogin()) );
     }
 
     return true;
@@ -193,7 +193,7 @@ bool ServiceProvider::login( const QString& username, const QString& password )
 void ServiceProvider::doLogin()
 {
     Attica::PostJob* job = d->provider.checkLogin( d->username, d->password );
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( checkLoginResult( Attica::BaseJob* ) ) );
+    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(checkLoginResult(Attica::BaseJob*)) );
     job->start();
 }
 
@@ -234,7 +234,7 @@ bool ServiceProvider::logout()
     }
     else
     {
-        connect( this, SIGNAL( initializationFinished() ), SLOT( doLogout() ) );
+        connect( this, SIGNAL(initializationFinished()), SLOT(doLogout()) );
     }
 
     return true;
@@ -264,7 +264,7 @@ void ServiceProvider::registerAccount( const QString& username, const QString& p
     if( isReady() )
     {
         Attica::PostJob *registerJob = d->provider.registerAccount( username, password, mail, firstName, lastName );
-        connect( registerJob, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( onRegisterAccountFinished( Attica::BaseJob* ) ) );
+        connect( registerJob, SIGNAL(finished(Attica::BaseJob*)), SLOT(onRegisterAccountFinished(Attica::BaseJob*)) );
         registerJob->start();
     }
 }

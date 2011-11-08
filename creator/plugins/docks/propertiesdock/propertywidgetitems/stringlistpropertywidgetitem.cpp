@@ -47,7 +47,7 @@ StringListPropertyWidgetItem::StringListPropertyWidgetItem( QWidget* parent, Qt:
 
     addButton = new QToolButton( centralWidget );
     addButton->setIcon( KIcon( "list-add" ) );
-    connect( addButton, SIGNAL( clicked( bool ) ), SLOT( addItem() ) );
+    connect( addButton, SIGNAL(clicked(bool)), SLOT(addItem()) );
     layout->addWidget( addButton, 0, 0 );
 
     countLabel = new QLabel( centralWidget );
@@ -148,12 +148,12 @@ void StringListPropertyWidgetItem::addItem( QString value )
 
     QToolButton* removeButton = new QToolButton( listItems );
     removeButton->setIcon( KIcon( "list-remove" ) );
-    connect( removeButton, SIGNAL( clicked( bool ) ), SLOT( removeClicked() ) );
+    connect( removeButton, SIGNAL(clicked(bool)), SLOT(removeClicked()) );
     containerLayout->addWidget( removeButton );
 
     KLineEdit* editorLE = new KLineEdit( listItems );
     editorLE->setText( value );
-    connect( editorLE, SIGNAL( valueChanged( int ) ), SLOT( leValueHasChanged( QString ) ) );
+    connect( editorLE, SIGNAL(valueChanged(int)), SLOT(leValueHasChanged(QString)) );
     containerLayout->addWidget( editorLE );
 
     listItems->layout()->addWidget( container );

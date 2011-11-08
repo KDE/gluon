@@ -30,7 +30,7 @@ BoolPropertyWidgetItem::BoolPropertyWidgetItem( QWidget* parent, Qt::WindowFlags
     : PropertyWidgetItem( parent, f )
 {
     setEditWidget( new QCheckBox( this ) );
-    connect( editWidget(), SIGNAL( toggled( bool ) ), SLOT( toggled( bool ) ) );
+    connect( editWidget(), SIGNAL(toggled(bool)), SLOT(toggled(bool)) );
 }
 
 BoolPropertyWidgetItem::~BoolPropertyWidgetItem()

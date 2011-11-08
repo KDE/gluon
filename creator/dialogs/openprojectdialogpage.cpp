@@ -60,8 +60,8 @@ OpenProjectDialogPage::OpenProjectDialogPage()
     setIcon( KIcon( "document-open" ) );
 
     d->fileWidget = new KFileWidget( KUrl( "kfiledialog:///OpenDialog" ), widget() );
-    connect( d->fileWidget, SIGNAL( fileHighlighted( KUrl ) ),
-             SLOT( projectSelected( KUrl ) ) );
+    connect( d->fileWidget, SIGNAL(fileHighlighted(KUrl)),
+             SLOT(projectSelected(KUrl)) );
 
     d->fileWidget->setOperationMode( KFileWidget::Opening );
     d->fileWidget->setFilter( QString( "*%1|Gluon Project Files" ).arg( GluonEngine::projectFilename ) );

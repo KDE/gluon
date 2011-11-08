@@ -33,8 +33,8 @@ GamesOverlay::GamesOverlay( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     , m_gamesView( new GamesView( this ) )
     , m_loginForm( new LoginForm( this ) )
 {
-    connect( m_gamesView, SIGNAL( gameToPlaySelected( QModelIndex ) ), SIGNAL( gameToPlaySelected( QModelIndex ) ) );
-    connect( m_gamesView, SIGNAL( gameSelected( QModelIndex ) ), SIGNAL( gameSelected( QModelIndex ) ) );
+    connect( m_gamesView, SIGNAL(gameToPlaySelected(QModelIndex)), SIGNAL(gameToPlaySelected(QModelIndex)) );
+    connect( m_gamesView, SIGNAL(gameSelected(QModelIndex)), SIGNAL(gameSelected(QModelIndex)) );
     m_tabBar->addTab( KIcon( "applications-games" ), i18n( "Installed" ), m_gamesView );
 
     Plasma::Label* m_tempLabel = new Plasma::Label( this );

@@ -130,7 +130,7 @@ EnumPropertyWidgetItem::setEditObject( QObject* editThis )
     GluonCreator::PropertyWidgetItem::setEditObject( editThis );
     d->editObject = editThis;
     d->setupComboBox();
-    connect( d->comboBox, SIGNAL( currentIndexChanged( int ) ), SLOT( indexChanged( int ) ) );
+    connect( d->comboBox, SIGNAL(currentIndexChanged(int)), SLOT(indexChanged(int)) );
 }
 
 void

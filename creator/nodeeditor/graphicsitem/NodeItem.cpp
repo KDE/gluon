@@ -41,8 +41,8 @@ NodeItem::NodeItem( Node* n ) : QGraphicsSvgItem( 0 )
     _colorizer = new QGraphicsColorizeEffect( this );
     _font = QFont( "Helvetica [Cronyx]", 18 );
 
-    connect( n, SIGNAL( changed() ), this, SLOT( setupNode() ) );
-    connect( n, SIGNAL( removed() ), this, SLOT( deleteLater() ) );
+    connect( n, SIGNAL(changed()), this, SLOT(setupNode()) );
+    connect( n, SIGNAL(removed()), this, SLOT(deleteLater()) );
 
     setupNode();
     setZValue( 1 );

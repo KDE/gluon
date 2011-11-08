@@ -420,7 +420,7 @@ Engine::setViewport( Viewport* viewport )
     emit currentViewportChanging( viewport );
     d->objectMutex.lock();
     d->viewport = viewport;
-    connect( d->viewport, SIGNAL( viewportSizeChanged( int, int, int, int ) ), this, SLOT( viewportSizeChanged( int, int, int, int ) ) );
+    connect( d->viewport, SIGNAL(viewportSizeChanged(int,int,int,int)), this, SLOT(viewportSizeChanged(int,int,int,int)) );
     d->objectMutex.unlock();
 }
 
@@ -428,7 +428,7 @@ Engine::Engine( QObject* parent )
     : GluonCore::Singleton< GluonGraphics::Engine >( parent ), d( new EnginePrivate() )
 {
     setViewport( new Viewport() );
-    connect( this, SIGNAL( activeCameraChanging( Camera* ) ), d->viewport, SLOT( update() ) );
+    connect( this, SIGNAL(activeCameraChanging(Camera*)), d->viewport, SLOT(update()) );
 }
 
 Engine::~Engine()

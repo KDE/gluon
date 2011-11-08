@@ -108,6 +108,6 @@ void AddEdgeAction::setActiveGraph( Graph* graph )
 {
     if( _graph ) disconnect( this, 0, _graph, 0 );
     _graph = graph;
-    connect( this, SIGNAL( addEdge( Node*, Node* ) ), _graph, SLOT( addEdge( Node*, Node* ) ) );
+    connect( this, SIGNAL(addEdge(Node*,Node*)), _graph, SLOT(addEdge(Node*,Node*)) );
 }
 

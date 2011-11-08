@@ -183,7 +183,7 @@ void AbstractJob::emitSpeed( unsigned long value )
     if( !d->speedTimer )
     {
         d->speedTimer = new QTimer( this );
-        connect( d->speedTimer, SIGNAL( timeout() ), SLOT( _k_speedTimeout() ) );
+        connect( d->speedTimer, SIGNAL(timeout()), SLOT(_k_speedTimeout()) );
     }
 
     emit speed( value );

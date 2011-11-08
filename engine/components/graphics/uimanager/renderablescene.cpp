@@ -58,10 +58,10 @@ class RenderableScene::RenderableScenePrivate
 
         void newViewport( Viewport* viewport )
         {
-            q->disconnect( Engine::instance()->currentViewport(), SIGNAL( viewportSizeChanged( int, int, int, int ) ),
-                           q, SLOT( viewportSizeChanged( int, int, int, int ) ) );
-            q->connect( viewport, SIGNAL( viewportSizeChanged( int, int, int, int ) ),
-                        q, SLOT( viewportSizeChanged( int, int, int, int ) ) );
+            q->disconnect( Engine::instance()->currentViewport(), SIGNAL(viewportSizeChanged(int,int,int,int)),
+                           q, SLOT(viewportSizeChanged(int,int,int,int)) );
+            q->connect( viewport, SIGNAL(viewportSizeChanged(int,int,int,int)),
+                        q, SLOT(viewportSizeChanged(int,int,int,int)) );
         }
 
         void viewportSizeChanged( int left, int bottom, int width, int height )
@@ -84,15 +84,15 @@ RenderableScene::RenderableScene( QObject* parent )
     : QGraphicsScene( parent )
     , d( new RenderableScenePrivate( this ) )
 {
-    connect( this, SIGNAL( changed( QList<QRectF> ) ), this, SLOT( repaintNeeded() ) );
-    connect( this, SIGNAL( sceneRectChanged( QRectF ) ), this, SLOT( repaintNeeded() ) );
-    connect( d->target, SIGNAL( framebufferChanged() ), this, SLOT( repaintNeeded() ) );
+    connect( this, SIGNAL(changed(QList<QRectF>)), this, SLOT(repaintNeeded()) );
+    connect( this, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(repaintNeeded()) );
+    connect( d->target, SIGNAL(framebufferChanged()), this, SLOT(repaintNeeded()) );
 
-    connect( Engine::instance(), SIGNAL( currentViewportChanging( Viewport* ) ),
-             this, SLOT( newViewport( Viewport* ) ) );
-    connect( Engine::instance()->currentViewport(), SIGNAL( viewportSizeChanged( int, int, int, int ) ),
-             this, SLOT( viewportSizeChanged( int, int, int, int ) ) );
-    connect( GluonInput::InputManager::instance(), SIGNAL( eventFiltered( QEvent* ) ), SLOT( deliverEvent( QEvent* ) ) );
+    connect( Engine::instance(), SIGNAL(currentViewportChanging(Viewport*)),
+             this, SLOT(newViewport(Viewport*)) );
+    connect( Engine::instance()->currentViewport(), SIGNAL(viewportSizeChanged(int,int,int,int)),
+             this, SLOT(viewportSizeChanged(int,int,int,int)) );
+    connect( GluonInput::InputManager::instance(), SIGNAL(eventFiltered(QEvent*)), SLOT(deliverEvent(QEvent*)) );
 
     Engine::instance()->addRenderTarget( d->target, 0 );
 }

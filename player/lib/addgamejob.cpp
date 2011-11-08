@@ -57,7 +57,7 @@ void AddGameJob::startSocialService()
     content.setName( d->gameName );
 
     Attica::ItemPostJob<Attica::Content> *job = provider()->addNewContent( category, content );
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( addGameComplete( Attica::BaseJob* ) ) );
+    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(addGameComplete(Attica::BaseJob*)) );
     job->start();
 }
 

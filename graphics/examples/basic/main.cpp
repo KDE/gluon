@@ -62,6 +62,6 @@ int main( int argc, char* argv[] )
     mat.translate( 3.f, 3.f );
     item->setTransform( mat );
 
-    QTimer::singleShot( 0, widget, SLOT( updateGL() ) );
+    QTimer::singleShot( 0, widget, SLOT(updateGL()) );
     return app.exec();
 }

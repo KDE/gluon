@@ -87,7 +87,7 @@ QRealPropertyWidgetItem::setEditProperty( const QString& value )
 
     }
 
-    connect( editWidget(), SIGNAL( valueChanged( double ) ), SLOT( qrealValueChanged( double ) ) );
+    connect( editWidget(), SIGNAL(valueChanged(double)), SLOT(qrealValueChanged(double)) );
     GluonCreator::PropertyWidgetItem::setEditProperty( value );
 }
 

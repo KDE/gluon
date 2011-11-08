@@ -87,7 +87,7 @@ bool KALPhonon::setCategory( Phonon::Category category )
     }
 
     d->category = category;
-    connect( d->phononOutput, SIGNAL( outputDeviceChanged( Phonon::AudioOutputDevice ) ), this, SLOT( setDevice( Phonon::AudioOutputDevice ) ) );
+    connect( d->phononOutput, SIGNAL(outputDeviceChanged(Phonon::AudioOutputDevice)), this, SLOT(setDevice(Phonon::AudioOutputDevice)) );
 
     return true;
 }

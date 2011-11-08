@@ -87,51 +87,51 @@ MainWindow::~MainWindow( )
 
 void MainWindow::setupActions()
 {
-    KStandardAction::quit( this, SLOT( close() ), actionCollection() );
-    KStandardAction::showMenubar( menuBar(), SLOT( setVisible( bool ) ), actionCollection() );
-    KStandardAction::showStatusbar( statusBar(), SLOT( setVisible( bool ) ), actionCollection() );
+    KStandardAction::quit( this, SLOT(close()), actionCollection() );
+    KStandardAction::showMenubar( menuBar(), SLOT(setVisible(bool)), actionCollection() );
+    KStandardAction::showStatusbar( statusBar(), SLOT(setVisible(bool)), actionCollection() );
     setStandardToolBarMenuEnabled( true );
     createStandardStatusBarAction();
 
-    KStandardAction::keyBindings( this, SLOT( optionsConfigureKeys() ), actionCollection() ); // options_configure_keybinding
-    KStandardAction::configureToolbars( this, SLOT( optionsConfigureToolbars() ), actionCollection() ); // options_configure_toolbars
+    KStandardAction::keyBindings( this, SLOT(optionsConfigureKeys()), actionCollection() ); // options_configure_keybinding
+    KStandardAction::configureToolbars( this, SLOT(optionsConfigureToolbars()), actionCollection() ); // options_configure_toolbars
 
-    m_recentFiles = KStandardAction::openRecent( this, SLOT( openProject( KUrl ) ), actionCollection() );
+    m_recentFiles = KStandardAction::openRecent( this, SLOT(openProject(KUrl)), actionCollection() );
     // d->recentFiles->loadEntries( KGlobal::config()->group( "Recent Files" ) );
 
     KAction* login = new KAction( KIcon( "im-user" ), i18n( "Login" ), actionCollection() );
     actionCollection()->addAction( "community_login", login );
-    connect( login, SIGNAL( triggered( bool ) ), SLOT( mLogin() ) );
+    connect( login, SIGNAL(triggered(bool)), SLOT(mLogin()) );
 
     KAction* logout = new KAction( KIcon( "media-playback-start" ), i18n( "Logout" ), actionCollection() );
     actionCollection()->addAction( "community_logout", logout );
-    connect( logout, SIGNAL( triggered( bool ) ), SLOT( mLogout() ) );
+    connect( logout, SIGNAL(triggered(bool)), SLOT(mLogout()) );
 
     KAction* details = new KAction( KIcon( "media-playback-start" ), i18n( "Details" ), actionCollection() );
     actionCollection()->addAction( "community_details", details );
-    connect( details, SIGNAL( triggered( bool ) ), SLOT( mDetails() ) );
+    connect( details, SIGNAL(triggered(bool)), SLOT(mDetails()) );
 
     KAction* registration = new KAction( KIcon( "list-add-user" ), i18n( "Registration" ), actionCollection() );
     actionCollection()->addAction( "community_registration", registration );
-    connect( registration, SIGNAL( triggered( bool ) ), SLOT( mRegistration() ) );
+    connect( registration, SIGNAL(triggered(bool)), SLOT(mRegistration()) );
 
     KAction* forgottenPassword = new KAction( KIcon( "help-hint" ), i18n( "Forgotten password" ), actionCollection() );
     actionCollection()->addAction( "community_forgotten_password", forgottenPassword );
-    connect( forgottenPassword, SIGNAL( triggered( bool ) ), SLOT( mForgottenPassword() ) );
+    connect( forgottenPassword, SIGNAL(triggered(bool)), SLOT(mForgottenPassword()) );
 
     KAction* play = new KAction( KIcon( "media-playback-start" ), i18n( "Play Game" ), actionCollection() );
     actionCollection()->addAction( "game_play", play );
-    connect( play, SIGNAL( triggered( bool ) ), SLOT( openProject() ) );
+    connect( play, SIGNAL(triggered(bool)), SLOT(openProject()) );
 
     KAction* pause = new KAction( KIcon( "media-playback-pause" ), i18n( "Pause Game" ), actionCollection() );
     actionCollection()->addAction( "game_pause", pause );
-    connect( pause, SIGNAL( triggered( bool ) ), SLOT( pauseGame() ) );
+    connect( pause, SIGNAL(triggered(bool)), SLOT(pauseGame()) );
 
     KAction* stop = new KAction( KIcon( "media-playback-stop" ), i18n( "Stop Game" ), actionCollection() );
     actionCollection()->addAction( "game_stop", stop );
-    connect( stop, SIGNAL( triggered( bool ) ), SLOT( stopGame() ) );
+    connect( stop, SIGNAL(triggered(bool)), SLOT(stopGame()) );
 
-    KStandardAction::quit( kapp, SLOT( quit() ), actionCollection() );
+    KStandardAction::quit( kapp, SLOT(quit()), actionCollection() );
 }
 
 void MainWindow::startGame( )
@@ -272,7 +272,7 @@ void MainWindow::resizeEvent( QResizeEvent* event )
 void MainWindow::showGames()
 {
     m_gamesOverlay->setGeometry( geometry() );
-    connect( m_gamesOverlay, SIGNAL( gameToPlaySelected( QModelIndex ) ), SLOT( setProject( QModelIndex ) ) );
+    connect( m_gamesOverlay, SIGNAL(gameToPlaySelected(QModelIndex)), SLOT(setProject(QModelIndex)) );
 }
 
 void MainWindow::setProject( const QModelIndex& index )
@@ -299,12 +299,12 @@ void MainWindow::openProject()
     d->widget = new GluonGraphics::RenderWidget( this );
     setCentralWidget( d->widget );
 
-    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), d->widget, SLOT( updateGL() ) );
-    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), SLOT( countFrames( int ) ) );
-    connect( GluonEngine::Game::instance(), SIGNAL( updated( int ) ), SLOT( updateTitle( int ) ) );
+    connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), d->widget, SLOT(updateGL()) );
+    connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), SLOT(countFrames(int)) );
+    connect( GluonEngine::Game::instance(), SIGNAL(updated(int)), SLOT(updateTitle(int)) );
 
     GluonInput::InputManager::instance()->setFilteredObject( d->widget );
-    QTimer::singleShot( 1000, this, SLOT( startGame() ) );
+    QTimer::singleShot( 1000, this, SLOT(startGame()) );
 }
 
 void MainWindow::activated( QModelIndex index )

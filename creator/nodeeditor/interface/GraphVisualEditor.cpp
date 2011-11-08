@@ -101,7 +101,7 @@ void GraphVisualEditor::setActiveGraph( Graph* g )
 {
     _graph = g;
     _scene->setActiveGraph( g );
-    connect( _graph, SIGNAL( iAmDisappoint() ), this, SLOT( displaySadnessSlot() ) );
+    connect( _graph, SIGNAL(iAmDisappoint()), this, SLOT(displaySadnessSlot()) );
 }
 
 GraphScene* GraphVisualEditor::scene() const

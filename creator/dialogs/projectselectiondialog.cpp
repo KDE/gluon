@@ -84,8 +84,8 @@ ProjectSelectionDialog::ProjectSelectionDialog( QWidget* parent, Qt::WFlags flag
 
     restoreDialogSize( KGlobal::config()->group( "ProjectSelectionDialog" ) );
 
-    connect( npdp, SIGNAL( validationFinished( bool ) ), SLOT( enableButtonOk( bool ) ) );
-    connect( this, SIGNAL( okClicked() ), SLOT( okClicked() ) );
+    connect( npdp, SIGNAL(validationFinished(bool)), SLOT(enableButtonOk(bool)) );
+    connect( this, SIGNAL(okClicked()), SLOT(okClicked()) );
 }
 
 ProjectSelectionDialog::~ProjectSelectionDialog()
@@ -106,14 +106,14 @@ void ProjectSelectionDialog::addPage( KPageWidgetItem* item, ProjectSelectionDia
         case OpenProjectPage:
         {
             DEBUG_TEXT( "Open" )
-            connect( item, SIGNAL( projectRequested( QString ) ),
-                     SLOT( projectRequested( QString ) ) );
+            connect( item, SIGNAL(projectRequested(QString)),
+                     SLOT(projectRequested(QString)) );
             break;
         }
         case RecentProjectPage:
             DEBUG_TEXT( "Recent" )
-            connect( item, SIGNAL( projectRequested( QString ) ),
-                     SLOT( projectRequested( QString ) ) );
+            connect( item, SIGNAL(projectRequested(QString)),
+                     SLOT(projectRequested(QString)) );
             break;
         default:
             DEBUG_TEXT( "Unknown Project Page" )

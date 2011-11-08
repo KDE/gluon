@@ -60,14 +60,14 @@ void ScriptingComponent::setScript( GluonEngine::ScriptingAsset* newAsset )
 {
     if( d->scriptingAsset )
     {
-        disconnect( d->scriptingAsset, SIGNAL( dataChanged() ), this, SLOT( scriptAssetUpdated() ) );
+        disconnect( d->scriptingAsset, SIGNAL(dataChanged()), this, SLOT(scriptAssetUpdated()) );
         d->scriptingAsset->deref();
     }
 
     d->scriptingAsset = newAsset;
     if( d->scriptingAsset )
     {
-        connect( newAsset, SIGNAL( dataChanged() ), SLOT( scriptAssetUpdated() ) );
+        connect( newAsset, SIGNAL(dataChanged()), SLOT(scriptAssetUpdated()) );
         d->scriptingAsset->ref();
     }
 }

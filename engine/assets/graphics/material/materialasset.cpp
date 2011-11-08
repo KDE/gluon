@@ -49,7 +49,7 @@ MaterialAsset::MaterialAsset( QObject* parent )
     , d( new MaterialAssetPrivate )
 {
     QAction* newInstance = new QAction( "New instance", 0 );
-    connect( newInstance, SIGNAL( triggered( bool ) ), SLOT( createInstance() ) );
+    connect( newInstance, SIGNAL(triggered(bool)), SLOT(createInstance()) );
     d->actions.append( newInstance );
 }
 

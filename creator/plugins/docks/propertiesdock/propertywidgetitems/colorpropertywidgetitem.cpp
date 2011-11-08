@@ -43,7 +43,7 @@ ColorPropertyWidgetItem::ColorPropertyWidgetItem( QWidget* parent, Qt::WindowFla
     d = new ColorPropertyWidgetItemPrivate;
 
     d->button = new KColorButton( this );
-    connect( d->button, SIGNAL( changed( const QColor& ) ), this, SLOT( colorValuechanged( const QColor& ) ) );
+    connect( d->button, SIGNAL(changed(QColor)), this, SLOT(colorValuechanged(QColor)) );
     setEditWidget( d->button );
 }
 

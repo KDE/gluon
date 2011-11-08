@@ -83,7 +83,7 @@ LicenseJob::~LicenseJob()
 void LicenseJob::startSocialService()
 {
     Attica::ListJob<Attica::License> *job = provider()->requestLicenses();
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedLicenses( Attica::BaseJob* ) ) );
+    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedLicenses(Attica::BaseJob*)) );
     job->start();
 }
 

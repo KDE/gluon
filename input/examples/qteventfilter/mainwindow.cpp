@@ -93,8 +93,8 @@ void MainWindow::setupUi()
 
     GluonInput::InputManager* im = GluonInput::InputManager::instance();
     im->setFilteredObject( m_textEdit );
-    connect( im, SIGNAL( keyPressed( int ) ), SLOT( mKeyPressed( int ) ) );
-    connect( im, SIGNAL( keyReleased( int ) ), SLOT( mKeyReleased( int ) ) );
+    connect( im, SIGNAL(keyPressed(int)), SLOT(mKeyPressed(int)) );
+    connect( im, SIGNAL(keyReleased(int)), SLOT(mKeyReleased(int)) );
     return;
 }
 
@@ -111,16 +111,16 @@ void MainWindow::createActions()
     quitAct = new QAction( QIcon( ":/images/quit.png" ), tr( "&Quit" ), this );
     quitAct->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
     quitAct->setStatusTip( tr( "Exit the application" ) );
-    connect( quitAct, SIGNAL( triggered() ), SLOT( close() ) );
+    connect( quitAct, SIGNAL(triggered()), SLOT(close()) );
 
     // Help related actions
     aboutAct = new QAction( tr( "&About" ), this );
     aboutAct->setStatusTip( tr( "Show the Gluon Tutorial 4 Application About box" ) );
-    connect( aboutAct, SIGNAL( triggered() ), SLOT( mAbout() ) );
+    connect( aboutAct, SIGNAL(triggered()), SLOT(mAbout()) );
 
     aboutQtAct = new QAction( tr( "About &Qt" ), this );
     aboutQtAct->setStatusTip( tr( "Show the Qt library's About box" ) );
-    connect( aboutQtAct, SIGNAL( triggered() ), qApp, SLOT( aboutQt() ) );
+    connect( aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()) );
 }
 
 void MainWindow::createMenus()

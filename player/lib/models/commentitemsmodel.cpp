@@ -81,7 +81,7 @@ void CommentItemsModel::updateData()
     }
     else
     {
-        connect( AtticaManager::instance(), SIGNAL( gotProvider() ), SLOT( providersUpdated() ) );
+        connect( AtticaManager::instance(), SIGNAL(gotProvider()), SLOT(providersUpdated()) );
     }
 }
 
@@ -92,7 +92,7 @@ void CommentItemsModel::providersUpdated()
         Attica::ListJob<Attica::Comment> *job =
             AtticaManager::instance()->provider().requestComments( Attica::Comment::ContentComment,
                     d->m_gameId, "0", 0, 100 );
-        connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedComments( Attica::BaseJob* ) ) );
+        connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedComments(Attica::BaseJob*)) );
         job->start();
     }
     else
@@ -305,7 +305,7 @@ void CommentItemsModel::uploadComment( const QModelIndex& parentIndex, const QSt
         AtticaManager::instance()->provider().addNewComment( Attica::Comment::ContentComment,
                 d->m_gameId, "0", parentNode->name(), subject,
                 message );
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( addCommentFinished( Attica::BaseJob* ) ) );
+    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(addCommentFinished(Attica::BaseJob*)) );
     job->start();
 }
 

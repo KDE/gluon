@@ -61,7 +61,7 @@ RatingJob::~RatingJob()
 void RatingJob::startSocialService()
 {
     Attica::PostJob* job = provider()->voteForContent( d->id, d->rating );
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( ratingUploadComplete( Attica::BaseJob* ) ) );
+    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(ratingUploadComplete(Attica::BaseJob*)) );
     job->start();
 }
 

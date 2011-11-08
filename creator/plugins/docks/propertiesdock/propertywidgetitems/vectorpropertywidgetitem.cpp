@@ -59,25 +59,25 @@ VectorPropertyWidgetItem::VectorPropertyWidgetItem( QWidget* parent, Qt::WindowF
     d->x->setPrefix( "X: " );
     d->x->setRange( -FLT_MAX, FLT_MAX );
     layout->addWidget( d->x );
-    connect( d->x, SIGNAL( valueChanged( double ) ), SLOT( editValueChanged() ) );
+    connect( d->x, SIGNAL(valueChanged(double)), SLOT(editValueChanged()) );
 
     d->y = new QDoubleSpinBox( this );
     d->y->setPrefix( "Y: " );
     d->y->setRange( -FLT_MAX, FLT_MAX );
     layout->addWidget( d->y );
-    connect( d->y, SIGNAL( valueChanged( double ) ), SLOT( editValueChanged() ) );
+    connect( d->y, SIGNAL(valueChanged(double)), SLOT(editValueChanged()) );
 
     d->z = new QDoubleSpinBox( this );
     d->z->setPrefix( "Z: " );
     d->z->setRange( -FLT_MAX, FLT_MAX );
     layout->addWidget( d->z );
-    connect( d->z, SIGNAL( valueChanged( double ) ), SLOT( editValueChanged() ) );
+    connect( d->z, SIGNAL(valueChanged(double)), SLOT(editValueChanged()) );
 
     d->w = new QDoubleSpinBox( this );
     d->w->setPrefix( "W: " );
     d->w->setRange( -FLT_MAX, FLT_MAX );
     layout->addWidget( d->w );
-    connect( d->w, SIGNAL( valueChanged( double ) ), SLOT( editValueChanged() ) );
+    connect( d->w, SIGNAL(valueChanged(double)), SLOT(editValueChanged()) );
 
     setEditWidget( base );
 }

@@ -87,7 +87,7 @@ PropertyWidgetItemNewCustomProperty::PropertyWidgetItemNewCustomProperty( QWidge
     layout->addWidget( frame );
 
     QPushButton* okButton = new QPushButton( ki18n( "Add Property" ).toString(), this );
-    connect( okButton, SIGNAL( clicked( bool ) ), this, SLOT( createPropertyClicked() ) );
+    connect( okButton, SIGNAL(clicked(bool)), this, SLOT(createPropertyClicked()) );
     layout->addWidget( okButton );
 
     setLayout( layout );

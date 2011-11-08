@@ -57,7 +57,7 @@ void CommentUploadJob::startSocialService()
     //Attica uses some weird stuff called id2 which can be "0" for our uses
     Attica::PostJob* job = provider()->addNewComment( Attica::Comment::ContentComment, d->id, "0", d->parentId,
                            d->subject, d->message );
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( uploadCommentFinished( Attica::BaseJob* ) ) );
+    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(uploadCommentFinished(Attica::BaseJob*)) );
     job->start();
 }
 

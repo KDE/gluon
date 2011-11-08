@@ -32,7 +32,7 @@ QUrlPropertyWidgetItem::QUrlPropertyWidgetItem( QWidget* parent, Qt::WindowFlags
 {
     KLineEdit* input = new KLineEdit( this );
     //input->setInputMask("");
-    connect( input, SIGNAL( editingFinished() ), this, SLOT( urlValueChanged() ) );
+    connect( input, SIGNAL(editingFinished()), this, SLOT(urlValueChanged()) );
     setEditWidget( input );
 }
 

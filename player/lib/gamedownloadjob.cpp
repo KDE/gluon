@@ -58,7 +58,7 @@ GameDownloadJob::~GameDownloadJob()
 void GameDownloadJob::startSocialService()
 {
     Attica::ItemJob<Attica::DownloadItem> *job = provider()->downloadLink( d->id );
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processDownloadLink( Attica::BaseJob* ) ) );
+    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processDownloadLink(Attica::BaseJob*)) );
     job->start();
 }
 
@@ -76,9 +76,9 @@ void GameDownloadJob::processDownloadLink( Attica::BaseJob* baseJob )
     }
 
     QNetworkAccessManager* manager = new QNetworkAccessManager( this );
-    connect( manager, SIGNAL( finished( QNetworkReply* ) ), SLOT( downloadComplete( QNetworkReply* ) ) );
+    connect( manager, SIGNAL(finished(QNetworkReply*)), SLOT(downloadComplete(QNetworkReply*)) );
     QNetworkReply* reply = manager->get( QNetworkRequest( item.url() ) );
-    connect( reply, SIGNAL( downloadProgress(qint64,qint64)), SLOT(updateDownloadProgress(qint64,qint64)) );
+    connect( reply, SIGNAL(downloadProgress(qint64,qint64)), SLOT(updateDownloadProgress(qint64,qint64)) );
 }
 
 void GameDownloadJob::downloadComplete( QNetworkReply* reply )

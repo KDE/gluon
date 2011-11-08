@@ -103,8 +103,8 @@ VcsCommitDialog::VcsCommitDialog( KDevelop::IPlugin* plugin, QWidget* parent )
     files->resizeColumnToContents( 0 );
     files->resizeColumnToContents( 1 );
     currMessage->selectAll();
-    // connect(this, SIGNAL( okClicked() ), SLOT( ok() ) );
-    // connect(this, SIGNAL( cancelClicked() ), SLOT( cancel() ) );
+    // connect(this, SIGNAL(okClicked()), SLOT(ok()) );
+    // connect(this, SIGNAL(cancelClicked()), SLOT(cancel()) );
 }
 
 VcsCommitDialog::VcsCommitDialog( QWidget* parent )
@@ -120,8 +120,8 @@ VcsCommitDialog::VcsCommitDialog( QWidget* parent )
     files->resizeColumnToContents( 0 );
     files->resizeColumnToContents( 1 );
     currMessage->selectAll();
-    // connect(this, SIGNAL( okClicked() ), SLOT( ok() ) );
-    // connect(this, SIGNAL( cancelClicked() ), SLOT( cancel() ) );
+    // connect(this, SIGNAL(okClicked()), SLOT(ok()) );
+    // connect(this, SIGNAL(cancelClicked()), SLOT(cancel()) );
 }
 
 VcsCommitDialog::~VcsCommitDialog()
@@ -234,7 +234,7 @@ void VcsCommitDialog::setCommitCandidatesAndShow( const KUrl& url )
                                                 KDevelop::VcsRevision::createSpecialRevision( KDevelop::VcsRevision::Base ),
                                                 KDevelop::VcsRevision::createSpecialRevision( KDevelop::VcsRevision::Working ) );
 
-        connect( job, SIGNAL( finished( KJob* ) ), SLOT( commitDiffJobFinished( KJob* ) ) );
+        connect( job, SIGNAL(finished(KJob*)), SLOT(commitDiffJobFinished(KJob*)) );
         job->exec();
     }
 
@@ -383,7 +383,7 @@ void VcsCommitDialog::setupUi()
     gridLayout->addWidget( label3, 1, 0, 1, 1 );
 
     retranslateUi();
-    QObject::connect( lastMessages, SIGNAL( activated( QString ) ), currMessage, SLOT( setPlainText( QString ) ) );
+    QObject::connect( lastMessages, SIGNAL(activated(QString)), currMessage, SLOT(setPlainText(QString)) );
 
     QMetaObject::connectSlotsByName( this );
 }

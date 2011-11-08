@@ -68,8 +68,8 @@ SceneDock::SceneDock( const QString& title, QWidget* parent, Qt::WindowFlags fla
     if( GluonEngine::Game::instance()->currentScene() )
         d->model->setRootGameObject( GluonEngine::Game::instance()->currentScene()->sceneContents() );
 
-    connect( GluonEngine::Game::instance(), SIGNAL( currentSceneChanged( GluonEngine::Scene* ) ), SLOT( sceneChanged( GluonEngine::Scene* ) ) );
-    connect( GluonEngine::Game::instance(), SIGNAL( updated( int ) ), d->model, SIGNAL( layoutChanged() ) );
+    connect( GluonEngine::Game::instance(), SIGNAL(currentSceneChanged(GluonEngine::Scene*)), SLOT(sceneChanged(GluonEngine::Scene*)) );
+    connect( GluonEngine::Game::instance(), SIGNAL(updated(int)), d->model, SIGNAL(layoutChanged()) );
 
     d->view->setModel( d->model );
     d->view->setHeaderHidden( true );
@@ -79,8 +79,8 @@ SceneDock::SceneDock( const QString& title, QWidget* parent, Qt::WindowFlags fla
     d->view->setDragDropMode( QAbstractItemView::DragDrop );
     d->view->setSelectionMode( QAbstractItemView::ExtendedSelection );
     d->view->setContextMenuPolicy( Qt::ActionsContextMenu );
-    connect( d->view->selectionModel(), SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ), SLOT( selectionChanged( QItemSelection, QItemSelection ) ) );
-    connect( SelectionManager::instance(), SIGNAL( selectionChanged( SelectionManager::SelectionList ) ), SLOT(  selectionChanged( SelectionManager::SelectionList ) ) );
+    connect( d->view->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(selectionChanged(QItemSelection,QItemSelection)) );
+    connect( SelectionManager::instance(), SIGNAL(selectionChanged(SelectionManager::SelectionList)), SLOT(selectionChanged(SelectionManager::SelectionList)) );
 
     QWidget* widget = new QWidget( this );
     QVBoxLayout* layout = new QVBoxLayout();
@@ -91,14 +91,14 @@ SceneDock::SceneDock( const QString& title, QWidget* parent, Qt::WindowFlags fla
     KToolBar* toolBar = new KToolBar( this );
     toolBar->setIconDimensions( 16 );
 
-    QAction* newGameObject = toolBar->addAction( KIcon( "document-new" ), i18n( "New Game Object" ), this, SLOT( newGameObjectAction() ) );
+    QAction* newGameObject = toolBar->addAction( KIcon( "document-new" ), i18n( "New Game Object" ), this, SLOT(newGameObjectAction()) );
     d->view->addAction( newGameObject );
 
     KAction* separator = new KAction( d->view );
     separator->setSeparator( true );
     d->view->addAction( separator );
 
-    QAction* deleteAction = toolBar->addAction( KIcon( "edit-delete" ), i18n( "Delete" ), this, SLOT( deleteSelection() ) );
+    QAction* deleteAction = toolBar->addAction( KIcon( "edit-delete" ), i18n( "Delete" ), this, SLOT(deleteSelection()) );
     d->view->addAction( deleteAction );
 
     layout->addWidget( toolBar );

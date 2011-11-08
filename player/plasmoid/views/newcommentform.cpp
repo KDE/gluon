@@ -44,11 +44,11 @@ NewCommentForm::NewCommentForm( QGraphicsItem* parent, Qt::WindowFlags wFlags )
 
     m_okButton = new Plasma::PushButton( this );
     m_okButton->setText( i18n( "OK" ) );
-    connect( m_okButton, SIGNAL( clicked() ), SLOT( validateAndSubmit() ) );
+    connect( m_okButton, SIGNAL(clicked()), SLOT(validateAndSubmit()) );
 
     m_cancelButton = new Plasma::PushButton( this );
     m_cancelButton->setText( i18n( "Cancel" ) );
-    connect( m_cancelButton, SIGNAL( clicked() ), SIGNAL( canceled() ) );
+    connect( m_cancelButton, SIGNAL(clicked()), SIGNAL(canceled()) );
 
     layout->addItem( m_titleEdit );
     layout->addItem( m_bodyEdit );

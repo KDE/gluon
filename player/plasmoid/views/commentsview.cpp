@@ -47,7 +47,7 @@ CommentsView::CommentsView( QGraphicsItem* parent, Qt::WindowFlags wFlags )
 void CommentsView::setModel( QAbstractItemModel* model )
 {
     AbstractItemView::setModel( model );
-    connect( model, SIGNAL( modelReset() ), SLOT( reloadComments() ) );
+    connect( model, SIGNAL(modelReset()), SLOT(reloadComments()) );
 
     m_rootWidget = new QGraphicsWidget( m_commentsFrame );
     for( int i = 0; i < m_model->rowCount(); ++i )
@@ -65,7 +65,7 @@ CommentsViewItem* CommentsView::addComment( const QModelIndex& index, QGraphicsW
     item->setModelIndex( index );
     item->setAcceptHoverEvents( true );
     item->installEventFilter( this );
-    connect( item, SIGNAL( replyClicked() ), SLOT( showReply() ) );
+    connect( item, SIGNAL(replyClicked()), SLOT(showReply()) );
     item->setRowInLayout( m_commentsLayout->count() );
     m_commentsLayout->addItem( item );
 
@@ -101,9 +101,9 @@ void CommentsView::showReply()
     form->setParentIndex( parentItem->modelIndex() );
     form->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum );
 
-    connect( form, SIGNAL( accepted( QModelIndex, QString, QString ) ),
-             SLOT( addNewUserComment( QModelIndex, QString, QString ) ) );
-    connect( form, SIGNAL( canceled() ), SLOT( cancelNewComment() ) );
+    connect( form, SIGNAL(accepted(QModelIndex,QString,QString)),
+             SLOT(addNewUserComment(QModelIndex,QString,QString)) );
+    connect( form, SIGNAL(canceled()), SLOT(cancelNewComment()) );
 }
 
 void CommentsView::removeComments()
@@ -139,7 +139,7 @@ void CommentsView::addNewUserComment( QModelIndex parentIndex, QString title, QS
 {
     GluonPlayer::CommentsModel* model = static_cast<GluonPlayer::CommentsModel*>( m_model );
     model->uploadComment( parentIndex, title, body );
-    connect( model, SIGNAL( addCommentFailed() ), SLOT( showComments() ) );
+    connect( model, SIGNAL(addCommentFailed()), SLOT(showComments()) );
     sender()->deleteLater();
 }
 

@@ -76,7 +76,7 @@ void AddTypedNodeAction::setActiveGraph( Graph* graph )
 {
     if( _graph ) disconnect( this, 0, _graph, 0 );
     _graph = graph;
-    connect( this, SIGNAL( addNode( QString, QPointF, QString ) ), _graph, SLOT( addNode( QString, QPointF, QString ) ) );
-    connect( this, SIGNAL( iAmDisappoint() ), _graph, SIGNAL( iAmDisappoint() ) );
+    connect( this, SIGNAL(addNode(QString,QPointF,QString)), _graph, SLOT(addNode(QString,QPointF,QString)) );
+    connect( this, SIGNAL(iAmDisappoint()), _graph, SIGNAL(iAmDisappoint()) );
 }
 

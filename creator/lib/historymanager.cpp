@@ -73,9 +73,9 @@ void HistoryManager::setClean()
 HistoryManager::HistoryManager( QObject* parent )
     : GluonCore::Singleton< GluonCreator::HistoryManager >( parent ), d( new HistoryManagerPrivate )
 {
-    connect( d->stack, SIGNAL( canRedoChanged( bool ) ), SIGNAL( canRedoChanged( bool ) ) );
-    connect( d->stack, SIGNAL( canUndoChanged( bool ) ), SIGNAL( canUndoChanged( bool ) ) );
-    connect( d->stack, SIGNAL( cleanChanged( bool ) ), SIGNAL( cleanChanged( bool ) ) );
+    connect( d->stack, SIGNAL(canRedoChanged(bool)), SIGNAL(canRedoChanged(bool)) );
+    connect( d->stack, SIGNAL(canUndoChanged(bool)), SIGNAL(canUndoChanged(bool)) );
+    connect( d->stack, SIGNAL(cleanChanged(bool)), SIGNAL(cleanChanged(bool)) );
 }
 
 HistoryManager::~HistoryManager()

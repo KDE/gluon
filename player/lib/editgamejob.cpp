@@ -68,7 +68,7 @@ void EditGameJob::startSocialService()
 void EditGameJob::startFetchingExistingGame()
 {
     Attica::ItemJob<Attica::Content> *job = d->provider->requestContent( d->id );
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGameDetails( Attica::BaseJob* ) ) );
+    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedGameDetails(Attica::BaseJob*)) );
     job->start();
 }
 
@@ -91,7 +91,7 @@ void EditGameJob::startEditionUpload()
 {
     if( !d->existingContent.isValid() )
     {
-        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( startEditionUpload() ) );
+        connect( this, SIGNAL(fetchedExistingGame(QString)), SLOT(startEditionUpload()) );
         return;
     }
 
@@ -99,7 +99,7 @@ void EditGameJob::startEditionUpload()
     category.setId( d->category.isEmpty() ? "4440" : d->category );
 
     Attica::ItemPostJob<Attica::Content> *job = d->provider->editContent( category, d->id, d->existingContent );
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( editingComplete( Attica::BaseJob* ) ) );
+    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(editingComplete(Attica::BaseJob*)) );
     job->start();
 }
 
@@ -189,7 +189,7 @@ void EditGameJob::applyCategory()
     if( d->existingContent.isValid() )
         d->existingContent.addAttribute( "typeid", d->category );
     else
-        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyCategory()) );
+        connect( this, SIGNAL(fetchedExistingGame(QString)), SLOT(applyCategory()) );
 }
 
 void EditGameJob::applyChangelog()
@@ -197,7 +197,7 @@ void EditGameJob::applyChangelog()
     if( d->existingContent.isValid() )
         d->existingContent.addAttribute( "changelog", d->changelog );
     else
-        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyChangelog() ) );
+        connect( this, SIGNAL(fetchedExistingGame(QString)), SLOT(applyChangelog()) );
 }
 
 void EditGameJob::applyDescription()
@@ -205,7 +205,7 @@ void EditGameJob::applyDescription()
     if( d->existingContent.isValid() )
         d->existingContent.addAttribute( "description", d->description );
     else
-        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyDescription() ) );
+        connect( this, SIGNAL(fetchedExistingGame(QString)), SLOT(applyDescription()) );
 }
 
 void EditGameJob::applyLicense()
@@ -213,7 +213,7 @@ void EditGameJob::applyLicense()
     if( d->existingContent.isValid() )
         d->existingContent.addAttribute( "licensetype", d->license );
     else
-        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyLicense() ) );
+        connect( this, SIGNAL(fetchedExistingGame(QString)), SLOT(applyLicense()) );
 }
 
 void EditGameJob::applyName()
@@ -221,7 +221,7 @@ void EditGameJob::applyName()
     if( d->existingContent.isValid() )
         d->existingContent.setName( d->name );
     else
-        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyName() ) );
+        connect( this, SIGNAL(fetchedExistingGame(QString)), SLOT(applyName()) );
 }
 
 void EditGameJob::applyVersion()
@@ -229,7 +229,7 @@ void EditGameJob::applyVersion()
     if( d->existingContent.isValid() )
         d->existingContent.addAttribute( "version", d->version );
     else
-        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyVersion() ) );
+        connect( this, SIGNAL(fetchedExistingGame(QString)), SLOT(applyVersion()) );
 }
 
 void EditGameJob::applyHomepage()
@@ -240,7 +240,7 @@ void EditGameJob::applyHomepage()
         d->existingContent.addAttribute( "homepagetype", "500" );
     }
     else
-        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyHomepage() ) );
+        connect( this, SIGNAL(fetchedExistingGame(QString)), SLOT(applyHomepage()) );
 }
 
 void EditGameJob::applyDownloadType()
@@ -248,7 +248,7 @@ void EditGameJob::applyDownloadType()
     if( d->existingContent.isValid() )
         d->existingContent.addAttribute( "downloadtyp1", d->downloadType );
     else
-        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyDownloadType() ) );
+        connect( this, SIGNAL(fetchedExistingGame(QString)), SLOT(applyDownloadType()) );
 }
 
 void EditGameJob::applyDownloadPrice()
@@ -256,7 +256,7 @@ void EditGameJob::applyDownloadPrice()
     if( d->existingContent.isValid() )
         d->existingContent.addAttribute( "downloadprice1", d->downloadPrice );
     else
-        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyDownloadPrice() ) );
+        connect( this, SIGNAL(fetchedExistingGame(QString)), SLOT(applyDownloadPrice()) );
 }
 
 void EditGameJob::applyDownloadLink()
@@ -264,7 +264,7 @@ void EditGameJob::applyDownloadLink()
     if( d->existingContent.isValid() )
         d->existingContent.addAttribute( "downloadlink1", d->downloadLink );
     else
-        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyDownloadLink() ) );
+        connect( this, SIGNAL(fetchedExistingGame(QString)), SLOT(applyDownloadLink()) );
 }
 
 void EditGameJob::applyDownloadName()
@@ -272,7 +272,7 @@ void EditGameJob::applyDownloadName()
     if( d->existingContent.isValid() )
         d->existingContent.addAttribute( "downloadname1", d->downloadName );
     else
-        connect( this, SIGNAL( fetchedExistingGame( QString ) ), SLOT( applyDownloadName() ) );
+        connect( this, SIGNAL(fetchedExistingGame(QString)), SLOT(applyDownloadName()) );
 }
 
 QVariant EditGameJob::data()

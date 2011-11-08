@@ -94,8 +94,8 @@ NewProjectDialogPage::NewProjectDialogPage()
     d->locationValidLabel = new KSqueezedTextLabel( box );
     boxLayout->addRow( QString(), d->locationValidLabel );
 
-    connect( d->name, SIGNAL( textEdited( const QString& ) ), SLOT( validateByProjectName() ) );
-    connect( d->location->lineEdit(), SIGNAL( textEdited( const QString& ) ), SLOT( validateByProjectLocation() ) );
+    connect( d->name, SIGNAL(textEdited(QString)), SLOT(validateByProjectName()) );
+    connect( d->location->lineEdit(), SIGNAL(textEdited(QString)), SLOT(validateByProjectLocation()) );
 
     validateData();
 }

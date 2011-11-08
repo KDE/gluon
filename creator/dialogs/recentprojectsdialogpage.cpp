@@ -60,8 +60,8 @@ RecentProjectsDialogPage::RecentProjectsDialogPage()
     setIcon( KIcon( "document-open-recent" ) );
 
     d->widget = new QListWidget( widget() );
-    connect( d->widget, SIGNAL( doubleClicked( QModelIndex ) ),
-             SLOT( projectDoubleClicked( QModelIndex ) ) );
+    connect( d->widget, SIGNAL(doubleClicked(QModelIndex)),
+             SLOT(projectDoubleClicked(QModelIndex)) );
 
     QVBoxLayout* layout = new QVBoxLayout( widget() );
     widget()->setLayout( layout );

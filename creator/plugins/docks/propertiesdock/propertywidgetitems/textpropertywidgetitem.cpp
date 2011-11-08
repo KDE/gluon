@@ -30,7 +30,7 @@ using namespace GluonCreator;
 TextPropertyWidgetItem::TextPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f ): PropertyWidgetItem( parent, f )
 {
     setEditWidget( new KLineEdit( this ) );
-    connect( editWidget(), SIGNAL( textEdited( QString ) ), SLOT( textEdited( QString ) ) );
+    connect( editWidget(), SIGNAL(textEdited(QString)), SLOT(textEdited(QString)) );
 }
 
 TextPropertyWidgetItem::~TextPropertyWidgetItem()

@@ -74,15 +74,15 @@ VcsLogWidget::VcsLogWidget( const KUrl& url, KDevelop::VcsJob* job, QWidget* par
     header->setResizeMode( 3, QHeaderView::Stretch );
     header->setResizeMode( 4, QHeaderView::ResizeToContents );
 
-    connect( m_eventView, SIGNAL( clicked( const QModelIndex& ) ),
-             SLOT( eventViewClicked( const QModelIndex& ) ) );
-    connect( m_eventView->selectionModel(), SIGNAL( currentRowChanged( QModelIndex, QModelIndex ) ),
-             SLOT( currentRowChanged( QModelIndex, QModelIndex ) ) );
-    connect( m_eventView, SIGNAL( customContextMenuRequested( const QPoint& ) ),
-             SLOT( eventViewCustomContextMenuRequested( const QPoint& ) ) );
+    connect( m_eventView, SIGNAL(clicked(QModelIndex)),
+             SLOT(eventViewClicked(QModelIndex)) );
+    connect( m_eventView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
+             SLOT(currentRowChanged(QModelIndex,QModelIndex)) );
+    connect( m_eventView, SIGNAL(customContextMenuRequested(QPoint)),
+             SLOT(eventViewCustomContextMenuRequested(QPoint)) );
 
-    connect( m_job, SIGNAL( resultsReady( KDevelop::VcsJob* ) ),
-             SLOT( jobReceivedResults( KDevelop::VcsJob* ) ) );
+    connect( m_job, SIGNAL(resultsReady(KDevelop::VcsJob*)),
+             SLOT(jobReceivedResults(KDevelop::VcsJob*)) );
     // KDevelop::ICore::self()->runController()->registerJob( m_job );
 }
 
@@ -104,10 +104,10 @@ void VcsLogWidget::eventViewCustomContextMenuRequested( const QPoint& point )
     KMenu menu( m_eventView );
 
     QAction* action = menu.addAction( i18n( "Diff to previous revision" ) );
-    QObject::connect( action, SIGNAL( triggered( bool ) ), SLOT( diffToPrevious() ) );
+    QObject::connect( action, SIGNAL(triggered(bool)), SLOT(diffToPrevious()) );
 
     action = menu.addAction( i18n( "Diff between revisions" ) );
-    QObject::connect( action, SIGNAL( triggered( bool ) ), SLOT( diffRevisions() ) );
+    QObject::connect( action, SIGNAL(triggered(bool)), SLOT(diffRevisions()) );
     action->setEnabled( m_eventView->selectionModel()->selectedRows().size() >= 2 );
 
     menu.exec( m_eventView->viewport()->mapToGlobal( point ) );
@@ -168,7 +168,7 @@ void VcsLogWidget::diffToPrevious()
             widget->setRevisions( prev, ev.revision() );
             KDialog* dlg = new KDialog( this );
 
-            widget->connect( widget, SIGNAL( destroyed( QObject* ) ), dlg, SLOT( deleteLater() ) );
+            widget->connect( widget, SIGNAL(destroyed(QObject*)), dlg, SLOT(deleteLater()) );
 
             dlg->setCaption( i18n( "Difference To Previous" ) );
             dlg->setButtons( KDialog::Ok );

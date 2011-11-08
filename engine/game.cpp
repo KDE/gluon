@@ -297,7 +297,7 @@ void Game::resetCurrentScene()
 {
     if( d->currentScene )
     {
-        QTimer::singleShot( 0, d->currentScene, SLOT( resetScene() ) );
+        QTimer::singleShot( 0, d->currentScene, SLOT(resetScene()) );
     }
 }
 
@@ -319,7 +319,7 @@ Game::setGameProject( GluonEngine::GameProject* newGameProject )
             stopAll();
             cleanupAll();
         }
-        disconnect( d->gameProject, SIGNAL( showDebug( const QString& ) ), this, SIGNAL( showDebug( const QString& ) ) );
+        disconnect( d->gameProject, SIGNAL(showDebug(QString)), this, SIGNAL(showDebug(QString)) );
     }
 
     d->gameProject = newGameProject;
@@ -327,7 +327,7 @@ Game::setGameProject( GluonEngine::GameProject* newGameProject )
     if( !d->gameProject )
         return;
 
-    connect( d->gameProject, SIGNAL( showDebug( const QString& ) ), SIGNAL( showDebug( const QString& ) ) );
+    connect( d->gameProject, SIGNAL(showDebug(QString)), SIGNAL(showDebug(QString)) );
 
     if( !d->gameProject->entryPoint() )
     {
@@ -367,7 +367,7 @@ GameObject* Game::clone( GameObject* obj )
         QList<const GluonCore::GluonObject*> objects = d->listAllChildren( objClone );
         foreach( const GluonCore::GluonObject * child, objects )
         {
-            connect( child, SIGNAL( showDebug( const QString& ) ), SIGNAL( showDebug( const QString& ) ) );
+            connect( child, SIGNAL(showDebug(QString)), SIGNAL(showDebug(QString)) );
         }
         return objClone;
     }

@@ -27,7 +27,7 @@ Joystick::Joystick( InputThread* inputThread, QObject* parent )
     : InputDevice( inputThread, parent )
     , d( new JoystickPrivate )
 {
-    connect( inputThread, SIGNAL( absAxisMoved( int, int ) ), SLOT( joystickMoved( int, int ) ), Qt::DirectConnection );
+    connect( inputThread, SIGNAL(absAxisMoved(int,int)), SLOT(joystickMoved(int,int)), Qt::DirectConnection );
 }
 
 Joystick::Joystick( const Joystick& other, InputThread* inputThread, QObject* parent )

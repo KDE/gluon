@@ -65,13 +65,13 @@ GameProject::addChild( GluonObject* child )
 {
     GluonCore::GluonObject::addChild( child );
 
-    connect( child, SIGNAL( showDebug( const QString& ) ), Game::instance(), SIGNAL( showDebug( const QString& ) ) );
+    connect( child, SIGNAL(showDebug(QString)), Game::instance(), SIGNAL(showDebug(QString)) );
 }
 
 bool
 GameProject::removeChild( GluonObject* child )
 {
-    disconnect( child, SIGNAL( showDebug( const QString& ) ), Game::instance(), SIGNAL( showDebug( const QString& ) ) );
+    disconnect( child, SIGNAL(showDebug(QString)), Game::instance(), SIGNAL(showDebug(QString)) );
 
     return GluonCore::GluonObject::removeChild( child );
 }

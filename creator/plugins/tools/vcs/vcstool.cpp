@@ -87,7 +87,7 @@ VcsTool::VcsTool( const QString& title, QWidget* parent, Qt::WindowFlags flags )
     setWindowTitle( title );
     setObjectName( "VcsTool" );
     setupActions( );
-    connect( GluonEngine::Game::instance(), SIGNAL( currentProjectChanged( GluonEngine::GameProject* ) ), SLOT( currentProjectChanged( GluonEngine::GameProject* ) ) );
+    connect( GluonEngine::Game::instance(), SIGNAL(currentProjectChanged(GluonEngine::GameProject*)), SLOT(currentProjectChanged(GluonEngine::GameProject*)) );
 }
 
 VcsTool::~VcsTool()
@@ -99,27 +99,27 @@ void VcsTool::setupActions()
     KAction* vcsToolCommit = new KAction( KIcon( "svn-commit" ), i18n( "Commit" ), this );
     vcsToolCommit->setObjectName( "VcsToolCommit" );
     insertAction( 0, vcsToolCommit );
-    connect( vcsToolCommit, SIGNAL( triggered( bool ) ), SLOT( commit() ) );
+    connect( vcsToolCommit, SIGNAL(triggered(bool)), SLOT(commit()) );
 
     KAction* vcsToolDiff = new KAction( i18n( "Diff" ), this );
     vcsToolDiff->setObjectName( "VcsToolDiff" );
     insertAction( 0, vcsToolDiff );
-    connect( vcsToolDiff, SIGNAL( triggered( bool ) ), SLOT( diff() ) );
+    connect( vcsToolDiff, SIGNAL(triggered(bool)), SLOT(diff()) );
 
     KAction* vcsToolLog = new KAction( KIcon( "view-history" ), i18n( "Log" ), this );
     vcsToolLog->setObjectName( "VcsToolLog" );
     insertAction( 0, vcsToolLog );
-    connect( vcsToolLog, SIGNAL( triggered( bool ) ), SLOT( log() ) );
+    connect( vcsToolLog, SIGNAL(triggered(bool)), SLOT(log()) );
 
     KAction* vcsToolPush = new KAction( KIcon( "arrow-up-double" ), i18n( "Push" ), this );
     vcsToolPush->setObjectName( "VcsToolPush" );
     insertAction( 0, vcsToolPush );
-    connect( vcsToolPush, SIGNAL( triggered( bool ) ), SLOT( push() ) );
+    connect( vcsToolPush, SIGNAL(triggered(bool)), SLOT(push()) );
 
     KAction* vcsToolPull = new KAction( KIcon( "arrow-down-double" ), i18n( "Pull" ), this );
     vcsToolPull->setObjectName( "VcsToolPull" );
     insertAction( 0, vcsToolPull );
-    connect( vcsToolPull, SIGNAL( triggered( bool ) ), SLOT( pull() ) );
+    connect( vcsToolPull, SIGNAL(triggered(bool)), SLOT(pull()) );
 }
 
 void VcsTool::commit()
@@ -131,8 +131,8 @@ void VcsTool::commit()
     VcsCommitDialog* vcsCommitWidget = new VcsCommitDialog();
     dialog->setMainWidget( vcsCommitWidget );
     dialog->show();
-    connect( dialog, SIGNAL( okClicked() ), dialog, SLOT( ok() ) );
-    connect( dialog, SIGNAL( cancelClicked() ), dialog, SLOT( cancel() ) );
+    connect( dialog, SIGNAL(okClicked()), dialog, SLOT(ok()) );
+    connect( dialog, SIGNAL(cancelClicked()), dialog, SLOT(cancel()) );
 }
 
 void VcsTool::diff()
@@ -144,8 +144,8 @@ void VcsTool::diff()
     VcsDiffWidget* vcsDiffWidget = new VcsDiffWidget( 0, 0 );
     dialog->setMainWidget( vcsDiffWidget );
     dialog->show();
-    connect( dialog, SIGNAL( okClicked() ), dialog, SLOT( ok() ) );
-    connect( dialog, SIGNAL( cancelClicked() ), dialog, SLOT( cancel() ) );
+    connect( dialog, SIGNAL(okClicked()), dialog, SLOT(ok()) );
+    connect( dialog, SIGNAL(cancelClicked()), dialog, SLOT(cancel()) );
 }
 
 void VcsTool::log()
@@ -157,8 +157,8 @@ void VcsTool::log()
     VcsLogWidget* vcsLogWidget = new VcsLogWidget( KUrl(), 0, 0 );
     dialog->setMainWidget( vcsLogWidget );
     dialog->show();
-    connect( dialog, SIGNAL( okClicked() ), dialog, SLOT( ok() ) );
-    connect( dialog, SIGNAL( cancelClicked() ), dialog, SLOT( cancel() ) );
+    connect( dialog, SIGNAL(okClicked()), dialog, SLOT(ok()) );
+    connect( dialog, SIGNAL(cancelClicked()), dialog, SLOT(cancel()) );
 }
 
 void VcsTool::push()

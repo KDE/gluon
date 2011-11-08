@@ -83,11 +83,11 @@ void IntPropertyWidgetItem::setEditProperty( const QString& propertyName )
     if( editObject()->property( propertyName.toUtf8() ).typeName() == QString( "uint" ) )
     {
         spinBox->setMinimum( 3 );
-        connect( spinBox, SIGNAL( valueChanged( int ) ), this, SLOT( uintValueChanged( int ) ) );
+        connect( spinBox, SIGNAL(valueChanged(int)), this, SLOT(uintValueChanged(int)) );
     }
     else
     {
-        connect( spinBox, SIGNAL( valueChanged( int ) ), this, SLOT( intValueChanged( int ) ) );
+        connect( spinBox, SIGNAL(valueChanged(int)), this, SLOT(intValueChanged(int)) );
     }
 
     GluonCore::GluonObject* object = qobject_cast<GluonCore::GluonObject*>( editObject() );

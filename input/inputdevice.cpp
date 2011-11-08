@@ -44,7 +44,7 @@ InputDevice::InputDevice( InputThread* inputThread, QObject* parent )
         d->inputThread = inputThread;
         d->inputThread->setParent( this );
 
-        connect( inputThread, SIGNAL( buttonStateChanged( int, int ) ), SLOT( buttonStateChanged( int, int ) ), Qt::DirectConnection );
+        connect( inputThread, SIGNAL(buttonStateChanged(int,int)), SLOT(buttonStateChanged(int,int)), Qt::DirectConnection );
     }
 }
 

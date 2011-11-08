@@ -104,12 +104,12 @@ GameWindowManager::GameWindowManager( const QString& /* filename */ )
 
     d->rootObj = d->declarativeView->rootObject();
     d->login = d->rootObj->findChild<QObject*>( "login" );
-    QObject::connect( d->serviceProvider, SIGNAL( initializationFinished() ), d->login, SLOT( providerSet() ) );
+    QObject::connect( d->serviceProvider, SIGNAL(initializationFinished()), d->login, SLOT(providerSet()) );
 
     d->stackedWidget->addWidget( d->declarativeView );
     d->stackedWidget->addWidget( d->renderWidget );
     d->stackedWidget->setCurrentIndex( 0 );
-    connect( QApplication::instance(), SIGNAL( lastWindowClosed() ), GluonEngine::Game::instance(), SLOT( stopGame() ) );
+    connect( QApplication::instance(), SIGNAL(lastWindowClosed()), GluonEngine::Game::instance(), SLOT(stopGame()) );
 }
 
 GameWindowManager::~GameWindowManager( )
@@ -184,12 +184,12 @@ void GameWindowManager::openProject()
         return;
     }
 
-    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), d->renderWidget, SLOT( updateGL() ) );
-    connect( GluonEngine::Game::instance(), SIGNAL( painted( int ) ), SLOT( countFrames( int ) ) );
-    connect( GluonEngine::Game::instance(), SIGNAL( updated( int ) ), SLOT( updateTitle( int ) ) );
+    connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), d->renderWidget, SLOT(updateGL()) );
+    connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), SLOT(countFrames(int)) );
+    connect( GluonEngine::Game::instance(), SIGNAL(updated(int)), SLOT(updateTitle(int)) );
 
     GluonInput::InputManager::instance()->setFilteredObject( d->renderWidget );
-    QTimer::singleShot( 1000, this, SLOT( startGame() ) );
+    QTimer::singleShot( 1000, this, SLOT(startGame()) );
 }
 
 void GameWindowManager::activated( QModelIndex index )

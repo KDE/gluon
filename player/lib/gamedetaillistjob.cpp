@@ -64,7 +64,7 @@ void GameDetailListJob::startSocialService()
     }
 
     Attica::ListJob<Attica::Content> *job = provider()->searchContents( categories );
-    connect( job, SIGNAL( finished( Attica::BaseJob* ) ), SLOT( processFetchedGameList( Attica::BaseJob* ) ) );
+    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedGameList(Attica::BaseJob*)) );
     job->start();
 }
 

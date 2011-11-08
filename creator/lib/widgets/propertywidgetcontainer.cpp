@@ -84,13 +84,13 @@ namespace GluonCreator
                 expander = new QToolButton( titleWidget );
                 expander->setAutoRaise( true );
                 expander->setArrowType( Qt::DownArrow );
-                connect( expander, SIGNAL( clicked( bool ) ), parent, SLOT( toggleExpanded() ) );
+                connect( expander, SIGNAL(clicked(bool)), parent, SLOT(toggleExpanded()) );
                 titleLayout->addWidget( expander );
 
                 enabler = new QCheckBox( titleWidget );
                 enabler->setText( title );
                 enabler->setChecked( enabled );
-                connect( enabler, SIGNAL( toggled( bool ) ), parent, SLOT( setEnabled( bool ) ) );
+                connect( enabler, SIGNAL(toggled(bool)), parent, SLOT(setEnabled(bool)) );
                 titleLayout->addWidget( enabler );
 
                 menuButton = new QToolButton( titleWidget );
@@ -170,9 +170,9 @@ PropertyWidgetContainer::~PropertyWidgetContainer()
 void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
 {
     if( d->object )
-        disconnect( d->object, SIGNAL( destroyed( QObject* ) ), this, SLOT( objectDeleted( QObject* ) ) );
+        disconnect( d->object, SIGNAL(destroyed(QObject*)), this, SLOT(objectDeleted(QObject*)) );
     d->object = theObject;
-    connect( d->object, SIGNAL( destroyed( QObject* ) ), SLOT( objectDeleted( QObject* ) ) );
+    connect( d->object, SIGNAL(destroyed(QObject*)), SLOT(objectDeleted(QObject*)) );
 
     QString classname( theObject->metaObject()->className() );
     classname = classname.right( classname.length() - classname.lastIndexOf( ':' ) - 1 );
@@ -182,7 +182,7 @@ void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
         setEnabled( theObject->property( "enabled" ).value<bool>() );
     if( !theObject->property( "expanded" ).isNull() )
         setExpanded( theObject->property( "expanded" ).value<bool>() );
-    connect( this, SIGNAL( propertyChanged( QObject*, QString, QVariant, QVariant ) ), parentWidget(), SIGNAL( propertyChanged( QObject*, QString, QVariant, QVariant ) ) );
+    connect( this, SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)), parentWidget(), SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)) );
 
     // Create a set of Prefab controls if we're editing a Prefab instance (or one of its children)
     if( qobject_cast<GluonEngine::PrefabInstance*>( theObject ) || qobject_cast<GluonEngine::PrefabInstanceChild*>( theObject ) )
@@ -213,7 +213,7 @@ void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
     // Set up us the menu...
     QAction* customPropAction = new QAction( this );
     customPropAction->setText( i18n( "Add Custom Property..." ) );
-    connect( customPropAction, SIGNAL( triggered( bool ) ), this, SLOT( addPropertyTriggered() ) );
+    connect( customPropAction, SIGNAL(triggered(bool)), this, SLOT(addPropertyTriggered()) );
     d->menu->addAction( customPropAction );
     d->menu->addSeparator();
     if( classname != QString( "GameObject" ) )
@@ -221,11 +221,11 @@ void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
         // Don't show moving up and down stuff for the GameObject
         QAction* upAction = new QAction( this );
         upAction->setText( i18n( "Move Up" ) );
-        connect( upAction, SIGNAL( triggered( bool ) ), this, SLOT( upTriggered() ) );
+        connect( upAction, SIGNAL(triggered(bool)), this, SLOT(upTriggered()) );
         d->menu->addAction( upAction );
         QAction* downAction = new QAction( this );
         downAction->setText( i18n( "Move Down" ) );
-        connect( downAction, SIGNAL( triggered( bool ) ), this, SLOT( downTriggered() ) );
+        connect( downAction, SIGNAL(triggered(bool)), this, SLOT(downTriggered()) );
         d->menu->addAction( downAction );
         d->menu->addSeparator();
     }
@@ -233,7 +233,7 @@ void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
     {
         QAction* delAction = new QAction( this );
         delAction->setText( i18n( "Delete" ) );
-        connect( delAction, SIGNAL( triggered( bool ) ), this, SLOT( delTriggered() ) );
+        connect( delAction, SIGNAL(triggered(bool)), this, SLOT(delTriggered()) );
         d->menu->addAction( delAction );
     }
 
@@ -305,7 +305,7 @@ PropertyWidgetContainer::delTriggered()
 void PropertyWidgetContainer::addPropertyTriggered()
 {
     d->newCustomProp = new PropertyWidgetItemNewCustomProperty( this );
-    connect( d->newCustomProp, SIGNAL( propertyCreated( GluonCore::GluonObject*, QString ) ), this, SLOT( propertyCreated( GluonCore::GluonObject*, QString ) ) );
+    connect( d->newCustomProp, SIGNAL(propertyCreated(GluonCore::GluonObject*,QString)), this, SLOT(propertyCreated(GluonCore::GluonObject*,QString)) );
     d->newCustomProp->createProperty( d->object );
 }
 
@@ -492,7 +492,7 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::addPropertyItem( QStrin
     item->setMinimumWidth( 150 );
     item->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Fixed );
     // Yeah, looks a bit funny, but this makes it possible to connect to either the pwi container... or the pwi view ;)
-    connect( item, SIGNAL( propertyChanged( QObject*, QString, QVariant, QVariant ) ), parent, SIGNAL( propertyChanged( QObject*, QString, QVariant, QVariant ) ) );
+    connect( item, SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)), parent, SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)) );
 
     int row = containerLayout->rowCount();
     containerLayout->addWidget( nameLabel, row, 0 );

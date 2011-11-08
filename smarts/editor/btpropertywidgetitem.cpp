@@ -276,9 +276,9 @@ QWidget * btPropertyWidgetItem::createDoubleSpinBox(QVariant value, bool enabled
 QWidget * btPropertyWidgetItem::createList(QVariant value, bool enabled)
 {
     btQVariantListWidget * widget = new btQVariantListWidget(this);
-    connect(widget, SIGNAL(itemRemoved(QListWidgetItem*, int)), this, SLOT(QVariantListItemRemoved(QListWidgetItem*, int)));
+    connect(widget, SIGNAL(itemRemoved(QListWidgetItem*,int)), this, SLOT(QVariantListItemRemoved(QListWidgetItem*,int)));
     connect(widget, SIGNAL(itemAdded(QListWidgetItem*)), this, SLOT(QVariantListItemAdded(QListWidgetItem*)));
-    connect(widget, SIGNAL(itemChanged(QListWidgetItem*, int)), this, SLOT(QVariantListItemChanged(QListWidgetItem*, int)));
+    connect(widget, SIGNAL(itemChanged(QListWidgetItem*,int)), this, SLOT(QVariantListItemChanged(QListWidgetItem*,int)));
 
     QVariantList list = qvariant_cast<QVariantList>(value);
 

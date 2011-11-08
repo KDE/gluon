@@ -419,14 +419,14 @@ void GluonObject::addChild( GluonObject* child )
     if( parent )
     {
         parent->removeChild( child );
-        disconnect( child, SIGNAL( showDebug( const QString& ) ), parent, SIGNAL( showDebug( const QString& ) ) );
+        disconnect( child, SIGNAL(showDebug(QString)), parent, SIGNAL(showDebug(QString)) );
     }
 
     child->setParent( this );
 
     //Make sure to update the child's name to avoid name conflicts.
     child->setName( child->name() );
-    connect( child, SIGNAL( showDebug( const QString& ) ), SIGNAL( showDebug( const QString& ) ) );
+    connect( child, SIGNAL(showDebug(QString)), SIGNAL(showDebug(QString)) );
 }
 
 GluonObject* GluonObject::child( int index ) const

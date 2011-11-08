@@ -47,9 +47,9 @@ PropertiesDock::PropertiesDock( const QString& title, QWidget* parent, Qt::Windo
 
     setWidget( d->widget );
 
-    connect( SelectionManager::instance(), SIGNAL( selectionChanged( SelectionManager::SelectionList ) ), SLOT( selectionChanged( SelectionManager::SelectionList ) ) );
-    connect( d->widget, SIGNAL( propertyChanged( QObject*, QString, QVariant, QVariant ) ), SLOT( propertyChanged( QObject*, QString, QVariant, QVariant ) ) );
-    connect( ObjectManager::instance(), SIGNAL( newComponent( GluonEngine::Component* ) ), SLOT( newComponent( GluonEngine::Component* ) ) );
+    connect( SelectionManager::instance(), SIGNAL(selectionChanged(SelectionManager::SelectionList)), SLOT(selectionChanged(SelectionManager::SelectionList)) );
+    connect( d->widget, SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)), SLOT(propertyChanged(QObject*,QString,QVariant,QVariant)) );
+    connect( ObjectManager::instance(), SIGNAL(newComponent(GluonEngine::Component*)), SLOT(newComponent(GluonEngine::Component*)) );
 }
 
 PropertiesDock::~PropertiesDock()

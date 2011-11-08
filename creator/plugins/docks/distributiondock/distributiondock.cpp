@@ -104,7 +104,7 @@ void DistributionDock::updateUiFromGameProject()
     else
     {
         GluonPlayer::GameDetailsJob* gameDetailsJob = GluonPlayer::ServiceProvider::instance()->fetchOneGame( id );
-        connect( gameDetailsJob, SIGNAL( succeeded() ), SLOT( gameDetailsFetched() ) ) ;
+        connect( gameDetailsJob, SIGNAL(succeeded()), SLOT(gameDetailsFetched()) ) ;
         gameDetailsJob->start();
 
         emit switchToUpdateMode();
@@ -122,15 +122,15 @@ void DistributionDock::createOrUpdateGame()
     {
         GluonPlayer::AddGameJob* addGameJob = GluonPlayer::ServiceProvider::instance()->addGame(
                 d->ui.gameNameEdit->text(), d->categoryIds.at( d->ui.categoryList->currentIndex() ) );
-        connect( addGameJob, SIGNAL( succeeded() ), SLOT( newGameUploadFinished() ) );
-        connect( addGameJob, SIGNAL( failed() ), SLOT( newGameUploadFailed() ) );
+        connect( addGameJob, SIGNAL(succeeded()), SLOT(newGameUploadFinished()) );
+        connect( addGameJob, SIGNAL(failed()), SLOT(newGameUploadFailed()) );
         addGameJob->start();
     }
     else
     {
         d->editGameJob = GluonPlayer::ServiceProvider::instance()->editGame(
                              d->ui.idEdit->text() );
-        connect( d->editGameJob, SIGNAL( failed() ), SLOT( editGameFailed() ) );
+        connect( d->editGameJob, SIGNAL(failed()), SLOT(editGameFailed()) );
 
         d->editGameJob->setName( d->ui.gameNameEdit->text() );
         d->editGameJob->setCategory( d->categoryIds.at( d->ui.categoryList->currentIndex() ) );
@@ -172,7 +172,7 @@ void DistributionDock::editGameFailed( )
 void DistributionDock::updateCategories()
 {
     GluonPlayer::CategoryListJob* categoryListJob = GluonPlayer::ServiceProvider::instance()->fetchCategories();
-    connect( categoryListJob, SIGNAL( succeeded() ), SLOT( categoriesFetched() ) );
+    connect( categoryListJob, SIGNAL(succeeded()), SLOT(categoriesFetched()) );
     categoryListJob->start();
 }
 
@@ -208,7 +208,7 @@ void DistributionDock::loadCredentials()
     }
     else
     {
-        connect( provider, SIGNAL( initializationFinished() ), SLOT( loadCredentials() ) );
+        connect( provider, SIGNAL(initializationFinished()), SLOT(loadCredentials()) );
     }
 }
 
@@ -219,8 +219,8 @@ void DistributionDock::initEditGameProvider()
 
     d->editGameJob = GluonPlayer::ServiceProvider::instance()->editGame(
                          d->ui.idEdit->text() );
-    connect( d->editGameJob, SIGNAL( succeeded() ), SLOT( editGameFinished() ) );
-    connect( d->editGameJob, SIGNAL( failed() ), SLOT( editGameFailed() ) );
+    connect( d->editGameJob, SIGNAL(succeeded()), SLOT(editGameFinished()) );
+    connect( d->editGameJob, SIGNAL(failed()), SLOT(editGameFailed()) );
     d->editGameJob->start();
 }
 
@@ -270,7 +270,7 @@ void DistributionDock::initGuiStates()
     d->createState->assignProperty( d->ui.basicGroupBox, "enabled", true );
     d->createState->assignProperty( d->ui.detailsGroupBox, "enabled", false );
     d->createState->assignProperty( d->ui.createUpdateButton, "text", i18n( "Create" ) );
-    d->createState->addTransition( this, SIGNAL( switchToUpdateMode() ), d->updateState );
+    d->createState->addTransition( this, SIGNAL(switchToUpdateMode()), d->updateState );
 
     d->updateState->assignProperty( d->ui.basicGroupBox, "enabled", true );
     d->updateState->assignProperty( d->ui.detailsGroupBox, "enabled", true );
@@ -279,20 +279,20 @@ void DistributionDock::initGuiStates()
     d->uploadingState->assignProperty( d->ui.createUpdateButton, "text", i18n( "Uploading" ) );
     d->uploadingState->assignProperty( d->ui.gamePage, "enabled", false );
 
-    d->loggedOutState->addTransition( d->ui.loginButton, SIGNAL( clicked() ), d->loggingInState );
-    d->loggingInState->addTransition( GluonPlayer::ServiceProvider::instance(), SIGNAL( loginFinished() ), d->loggedInState );
-    d->loggingInState->addTransition( GluonPlayer::ServiceProvider::instance(), SIGNAL( loginFailed() ), d->loggedOutState );
-    d->fetchingState->addTransition( this, SIGNAL( switchToCreateMode() ), d->createState );
-    d->fetchingState->addTransition( this, SIGNAL( switchToUpdateMode() ), d->updateState );
-    d->editingState->addTransition( d->ui.createUpdateButton, SIGNAL( clicked() ), d->uploadingState );
-    d->editingState->addTransition( GluonEngine::Game::instance(), SIGNAL( currentProjectChanged( GluonEngine::GameProject* ) ),
+    d->loggedOutState->addTransition( d->ui.loginButton, SIGNAL(clicked()), d->loggingInState );
+    d->loggingInState->addTransition( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFinished()), d->loggedInState );
+    d->loggingInState->addTransition( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFailed()), d->loggedOutState );
+    d->fetchingState->addTransition( this, SIGNAL(switchToCreateMode()), d->createState );
+    d->fetchingState->addTransition( this, SIGNAL(switchToUpdateMode()), d->updateState );
+    d->editingState->addTransition( d->ui.createUpdateButton, SIGNAL(clicked()), d->uploadingState );
+    d->editingState->addTransition( GluonEngine::Game::instance(), SIGNAL(currentProjectChanged(GluonEngine::GameProject*)),
                                     d->fetchingState );
-    d->uploadingState->addTransition( this, SIGNAL( gameUploadFinished() ), d->uploadFinishedState );
+    d->uploadingState->addTransition( this, SIGNAL(gameUploadFinished()), d->uploadFinishedState );
 
-    connect( d->loggingInState, SIGNAL( entered() ), this, SLOT( doLogin() ) );
-    connect( d->fetchingState, SIGNAL( entered() ), this, SLOT( updateUiFromGameProject() ) );
-    connect( d->uploadingState, SIGNAL( entered() ), this, SLOT( createOrUpdateGame() ) );
-    connect( d->updateState, SIGNAL( entered() ), SLOT( initEditGameProvider() ) );
+    connect( d->loggingInState, SIGNAL(entered()), this, SLOT(doLogin()) );
+    connect( d->fetchingState, SIGNAL(entered()), this, SLOT(updateUiFromGameProject()) );
+    connect( d->uploadingState, SIGNAL(entered()), this, SLOT(createOrUpdateGame()) );
+    connect( d->updateState, SIGNAL(entered()), SLOT(initEditGameProvider()) );
 
     d->machine.start();
 }
@@ -315,7 +315,7 @@ void DistributionDock::gameDetailsFetched( )
 void DistributionDock::updateLicenses()
 {
     GluonPlayer::LicenseJob* licenseJob = GluonPlayer::ServiceProvider::instance()->fetchLicenses();
-    connect( licenseJob, SIGNAL( succeeded() ), SLOT( licensesFetched() ) );
+    connect( licenseJob, SIGNAL(succeeded()), SLOT(licensesFetched()) );
     licenseJob->start();
 }
 
@@ -356,8 +356,8 @@ void DistributionDock::uploadGameArchive()
 
     const QString archivePath = createArchive();
     GluonPlayer::GameUploadJob* uploadJob = GluonPlayer::ServiceProvider::instance()->uploadGame( id, archivePath );
-    connect( uploadJob, SIGNAL( succeeded() ), SLOT( editGameFinished() ) );
-    connect( uploadJob, SIGNAL( failed() ), SLOT( editGameFailed() ) );
+    connect( uploadJob, SIGNAL(succeeded()), SLOT(editGameFinished()) );
+    connect( uploadJob, SIGNAL(failed()), SLOT(editGameFailed()) );
     uploadJob->setApiKey( d->ui.apiKeyEdit->text() );
     uploadJob->start();
 }

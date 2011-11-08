@@ -35,7 +35,7 @@ ConfigDialog::ConfigDialog( QWidget* parent, const QString& name, KConfigSkeleto
     m_plugins->addPlugins( plugins, KPluginSelector::ReadConfigFile, i18n( "Others" ), QString() );
 
     addPage( m_plugins, i18n( "Plugins" ), "gluon" );
-    connect( m_plugins, SIGNAL( changed( bool ) ), SLOT( enableButtonApply( bool ) ) );
+    connect( m_plugins, SIGNAL(changed(bool)), SLOT(enableButtonApply(bool)) );
 }
 
 ConfigDialog::~ConfigDialog()

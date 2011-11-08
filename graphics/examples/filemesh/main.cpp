@@ -71,6 +71,6 @@ int main( int argc, char* argv[] )
     matrix.rotate(-45.f, 0.f, 1.f, 0.f);
     item->setTransform(matrix);
 
-    QTimer::singleShot( 0, widget, SLOT( updateGL() ) );
+    QTimer::singleShot( 0, widget, SLOT(updateGL()) );
     return app.exec();
 }
