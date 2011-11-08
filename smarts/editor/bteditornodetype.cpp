@@ -344,11 +344,11 @@ void btEditorNodeType::emitPropertyDescriptionChangedSignal(QString propertyName
 
 void btEditorNodeType::changePropertyDescription(QString propertyName, QString oldPropertyName , QString description)
 {
-    if (propertyName == "" && description == "")
+    if (propertyName.isEmpty() && description.isEmpty())
     {
         removePropertyDescription(oldPropertyName);
     }
-    else if (oldPropertyName == "")
+    else if (oldPropertyName.isEmpty())
     {
         setPropertyDescription(propertyName, description);
     }

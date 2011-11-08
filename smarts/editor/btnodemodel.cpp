@@ -122,7 +122,7 @@ bool btnodemodel::setData(const QModelIndex &index, const QVariant &value, int r
         QString newName = value.toString();
         QString oldName = node->dynamicPropertyNames().at(index.row());
 
-        if (newName != "" && newName != oldName)
+        if (!newName.isEmpty() && newName != oldName)
         {
             switch (index.column())
             {

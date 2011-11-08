@@ -251,7 +251,7 @@ void bteditor::on_actionSave_As_triggered()
 
 void bteditor::on_actionSave_triggered()
 {
-    if (fileName == "") {
+    if (fileName.isEmpty()) {
         on_actionSave_As_triggered();
     } else {
         QString fileContents = projectParser::instance()->serializeProject(this->m_brain);
