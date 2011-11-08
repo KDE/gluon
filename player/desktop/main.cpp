@@ -28,7 +28,7 @@
 
 int main( int argc, char** argv )
 {
-    KAboutData aboutData( "gluonplayer-desktop", "plasma_applet_gluonplayer",
+    KAboutData aboutData( "gluonplayer-desktop", 0,
                           ki18n( "Gluon Desktop Player" ), GLUON_VERSION_STRING.toUtf8(),
                           ki18n( "KDE Desktop Player for Gluon games." ),
                           KAboutData::License_LGPL_V2,
