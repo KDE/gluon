@@ -87,7 +87,7 @@ void btPropertyWidget::appendMetaObjectToPropertyView (QGridLayout * layout, qin
         appendToPropertyView(layout, row, object, propertyName, propertyDescription, enabled);
     }
 
-    foreach(QByteArray name, object->dynamicPropertyNames())
+    foreach(const QByteArray& name, object->dynamicPropertyNames())
     {
         propertyName = QString(name);
         propertyValue = object->property(name);
