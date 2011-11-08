@@ -6,7 +6,7 @@ include_directories(
     ${GLUON_INPUT_INCLUDES}
 )
 
-set(kdeextplayer_SRCS
+set(desktop_SRCS
     gamesoverlay.cpp
     gamedetailsoverlay.cpp
     loginform.cpp
@@ -24,17 +24,17 @@ set(kdeextplayer_SRCS
 )
 
 if(APPLE)
-	kde4_add_executable(gluon_kdeextplayer MACOSX_BUNDLE ${kdeextplayer_SRCS})
-	#MACOSX_BUNDLE_INFO_STRING
-	#MACOSX_BUNDLE_ICON_FILE
-	#MACOSX_BUNDLE_GUI_IDENTIFIER
+	kde4_add_executable(gluonplayer-desktop MACOSX_BUNDLE ${desktop_SRCS})
+    #MACOSX_BUNDLE_INFO_STRING
+    #MACOSX_BUNDLE_ICON_FILE
+    #MACOSX_BUNDLE_GUI_IDENTIFIER
 	set(MACOSX_BUNDLE_LONG_VERSION_STRING ${GLUON_VERSION_STRING})
 	set(MACOSX_BUNDLE_BUNDLE_NAME GluonPlayer)
 	set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
 	set(MACOSX_BUNDLE_BUNDLE_VERSION ${GLUON_VERSION_STRING})
 	#MACOSX_BUNDLE_COPYRIGHT
 
-	add_custom_command(TARGET gluon_kdeextplayer
+	add_custom_command(TARGET gluonplayer-desktop
 		COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/Frameworks/
 		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/core/$(CONFIGURATION)/GluonCore.framework ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/Frameworks/
 		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/audio/$(CONFIGURATION)/GluonAudio.framework ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/Frameworks/
@@ -56,24 +56,24 @@ if(APPLE)
 		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/engine/components/other/spherecollision/$(CONFIGURATION)/libgluon_component_spherecollision.dylib ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/PlugIns/
 	)
 
-	set_target_properties(gluon_kdeextplayer PROPERTIES OUTPUT_NAME GluonPlayer)
+	set_target_properties(gluonplayer-desktop PROPERTIES OUTPUT_NAME GluonPlayerDesktop)
 
 else()
-	kde4_add_app_icon(kdeextplayer_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../icons/*/apps/gluon-player.png")
-	kde4_add_executable(gluon_kdeextplayer ${kdeextplayer_SRCS})
+	kde4_add_app_icon(desktop_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../icons/*/apps/gluon-player.png")
+	kde4_add_executable(gluonplayer-desktop ${desktop_SRCS})
 endif()
-target_link_libraries(gluon_kdeextplayer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS} ${KDE4_KIO_LIBS})
+target_link_libraries(gluonplayer-desktop ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS} ${KDE4_KIO_LIBS})
 
 if(NOT APPLE)
-    install(TARGETS gluon_kdeextplayer
+    install(TARGETS gluonplayer-desktop
             DESTINATION ${BIN_INSTALL_DIR}
-            COMPONENT gluonkdeextplayer)
+            COMPONENT gluonplayerdesktop)
 
-    install(FILES ui/gluon_kdeextplayerui.rc
-            DESTINATION ${DATA_INSTALL_DIR}/gluon_kdeextplayer
-            COMPONENT gluonkdeextplayer)
+    install(FILES ui/gluonplayer-desktopui.rc
+            DESTINATION ${DATA_INSTALL_DIR}/gluonplayer-desktop
+            COMPONENT gluonplayerdesktop)
 
-    install(FILES gluon_kdeextplayer.desktop
+    install(FILES gluonplayer-desktop.desktop
             DESTINATION ${SHARE_INSTALL_DIR}/applications
-            COMPONENT gluonkdeextplayer)
+            COMPONENT gluonplayerdesktop)
 endif()

@@ -28,17 +28,17 @@
 
 int main( int argc, char** argv )
 {
-    KAboutData aboutData( "gluon_kdeextplayer", "plasma_applet_gluonplayer",
-                          ki18n( "KDE Extended Player" ), GLUON_VERSION_STRING.toUtf8(),
-                          ki18n( "KDE Frontend Player for Gluon games." ),
+    KAboutData aboutData( "gluonplayer-desktop", "plasma_applet_gluonplayer",
+                          ki18n( "Gluon Desktop Player" ), GLUON_VERSION_STRING.toUtf8(),
+                          ki18n( "KDE Desktop Player for Gluon games." ),
                           KAboutData::License_LGPL_V2,
                           ki18n( "Copyright 2010 Laszlo Papp" ),
                           KLocalizedString(),
                           "???"
                         );
 
-    aboutData.setProgramIconName( "KDEEXTPlayer" );
-    aboutData.addAuthor( ki18n( "Laszlo Papp" ), ki18n( "KDE Extended Player" ), "" );
+    aboutData.setProgramIconName( "Desktop Player" );
+    aboutData.addAuthor( ki18n( "Laszlo Papp" ), ki18n( "KDE Desktop Player" ), "" );
     aboutData.setProductName( "gluon/gluonplayer" );
 
     KCmdLineArgs::init( argc, argv, &aboutData );

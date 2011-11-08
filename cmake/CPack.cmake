@@ -13,7 +13,7 @@ set(CPACK_COMPONENTS_ALL
     gluontouchplayer
     gluonqtextplayer
     gluonkdeplayer
-    gluonkdeextplayer
+    gluonplayerdesktop
     gluonplasmoidplayer
     gluoncreator
 )
@@ -113,14 +113,15 @@ set(CPACK_COMPONENT_GLUONKDEPLAYER_DEPENDS gluonplayer)
 set(CPACK_COMPONENT_GLUONKDEPLAYER_GROUP "GLUONPLAYERS")
 set(CPACK_COMPONENT_GLUONKDEPLAYER_INSTALL_TYPES Full)
 
-# KDE Ext. Player
-set(CPACK_COMPONENT_GLUONKDEEXTPLAYER_DISPLAY_NAME "Gluon KDE Ext. Player Application")
-set(CPACK_COMPONENT_GLUONKDEEXTPLAYER_DESCRIPTION
-    "Gluon KDE Ext. Player Application is a full-fledged and powerful KDE Desktop Player"
+# Desktop Player
+set(CPACK_COMPONENT_GLUONPLAYERDESKTOP_DISPLAY_NAME "Gluon Desktop Player Application")
+set(CPACK_COMPONENT_GLUONPLAYERDESKTOP_DESCRIPTION
+    "Gluon Desktop Player Application is a full-fledged and powerful Gluon
+    Player for Desktop using the KDE technology"
 )
-set(CPACK_COMPONENT_GLUONKDEEXTPLAYER_DEPENDS gluonplayer)
-set(CPACK_COMPONENT_GLUONKDEEXTPLAYER_GROUP "GLUONPLAYERS")
-set(CPACK_COMPONENT_GLUONKDEEXTPLAYER_INSTALL_TYPES Full)
+set(CPACK_COMPONENT_GLUONPLAYERDESKTOP_DEPENDS gluonplayer)
+set(CPACK_COMPONENT_GLUONPLAYERDESKTOP_GROUP "GLUONPLAYERS")
+set(CPACK_COMPONENT_GLUONPLAYERDESKTOP_INSTALL_TYPES Full)
 
 # Plasmoid Player
 set(CPACK_COMPONENT_GLUONPLASMOIDPLAYER_DISPLAY_NAME "Gluon Plasmoid Player Application")
