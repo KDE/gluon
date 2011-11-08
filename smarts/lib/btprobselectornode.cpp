@@ -28,7 +28,8 @@ REGISTER_NODETYPE(btProbSelectorNode)
 #include <QHash>
 #include <cmath>
 
-btProbSelectorNode::btProbSelectorNode()
+btProbSelectorNode::btProbSelectorNode(QObject* parent)
+    : btNode(parent)
 {
     qsrand(QDateTime::currentDateTime().toTime_t());
 }

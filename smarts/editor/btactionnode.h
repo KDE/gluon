@@ -31,7 +31,7 @@ public:
 	btActionNode(QObject* parent = 0);	
 	~btActionNode();
 	
-	bool run();
+	bool run(btCharacter* character);
 };
 
 #endif

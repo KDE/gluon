@@ -57,7 +57,7 @@ public:
 		None
 	};
 	
-	Q_INVOKABLE btNode();
+	Q_INVOKABLE btNode(QObject* parent = 0);
 	~btNode();
 	
 	void setName(QString name);

@@ -28,10 +28,10 @@ class btConditionNode : public btEditorNodeType
 	Q_OBJECT
 		
 public:
-	btConditionNode();	
+	btConditionNode(QObject* parent = 0);	
 	~btConditionNode();
 	
-	bool run();
+	bool run(btCharacter* character);
 };
 
 #endif

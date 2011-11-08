@@ -34,7 +34,7 @@ class btEditorNodeType : public btNodeType
 public:
 
 
-    btEditorNodeType(QObject * parent = NULL);
+    btEditorNodeType(QObject * parent = 0);
     
     void appendingChild(int index);
     void removingChild(int index);

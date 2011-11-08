@@ -28,10 +28,10 @@ class btCompositeNode : public btEditorNodeType
 	Q_OBJECT
 	
 public:
-	btCompositeNode();	
+	btCompositeNode(QObject* parent = 0);	
 	~btCompositeNode();
 	
-	bool run();
+	bool run(btCharacter* character);
 };
 
 #endif

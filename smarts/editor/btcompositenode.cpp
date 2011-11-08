@@ -20,7 +20,8 @@
 
 #include "btcompositenode.h"
 
-btCompositeNode::btCompositeNode()
+btCompositeNode::btCompositeNode(QObject* parent)
+    : btEditorNodeType(parent)
 {
     setNodeType(btNodeType::CompositeNodeType);
 }
@@ -30,8 +31,9 @@ btCompositeNode::~btCompositeNode()
 {
 }
 
-bool btCompositeNode::run()
+bool btCompositeNode::run(btCharacter* character)
 {
+    Q_UNUSED(character)
     return false;
 }
 

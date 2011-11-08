@@ -31,6 +31,7 @@
 
 
 btBrain::btBrain(QObject *parent)
+    : QObject(parent)
 {
     qRegisterMetaType<btChildWeights>("btChildWeights");
     qRegisterMetaType<btParallelConditions>("btParallelConditions");

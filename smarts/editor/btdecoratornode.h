@@ -30,10 +30,10 @@ class btDecoratorNode : public btEditorNodeType
 	Q_OBJECT
 	
 public:
-	btDecoratorNode();	
+	btDecoratorNode(QObject* parent = 0);
 	~btDecoratorNode();
 	
-	bool run();
+	bool run(btCharacter* character);
     
     void toDataXml(QXmlStreamWriter* xmlWriter);
 };

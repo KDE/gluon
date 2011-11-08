@@ -31,7 +31,7 @@ class BT_LIB_EXPORT btProbSelectorNode : public btNode
     Q_OBJECT
     
 public:
-    Q_INVOKABLE btProbSelectorNode();
+    Q_INVOKABLE btProbSelectorNode(QObject* parent = 0);
 	~btProbSelectorNode();
 	
 	btNode::status run(btCharacter *self);

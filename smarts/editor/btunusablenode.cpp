@@ -20,7 +20,8 @@
 
 #include "btunusablenode.h"
 
-btUnusableNode::btUnusableNode()
+btUnusableNode::btUnusableNode(QObject* parent)
+    : btEditorNodeType(parent)
 {
     setNodeType(btNodeType::UnusableNodeType);
 }
@@ -29,8 +30,9 @@ btUnusableNode::~btUnusableNode()
 {
 }
 
-bool btUnusableNode::run()
+bool btUnusableNode::run(btCharacter* character)
 {
+    Q_UNUSED(character)
     return false;
 }
 

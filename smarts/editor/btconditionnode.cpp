@@ -20,7 +20,8 @@
 
 #include "btconditionnode.h"
 
-btConditionNode::btConditionNode()
+btConditionNode::btConditionNode(QObject* parent)
+    : btEditorNodeType(parent)
 {
     setNodeType(btNodeType::ConditionNodeType);
 }
@@ -29,8 +30,9 @@ btConditionNode::~btConditionNode()
 {
 }
 
-bool btConditionNode::run()
+bool btConditionNode::run(btCharacter* character)
 {
+    Q_UNUSED(character)
     return false;
 }
 

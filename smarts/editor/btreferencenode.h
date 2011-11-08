@@ -29,10 +29,10 @@ class btReferenceNode :public btEditorNodeType
     Q_OBJECT
 
 public:
-    btReferenceNode();
+    btReferenceNode(QObject* parent = 0);
     ~btReferenceNode();
 
-    bool run();
+    bool run(btCharacter* character);
 
     btTreeModel * referenceBehaviorTree();
     void setReferenceBehaviorTree(btTreeModel * treeModel);

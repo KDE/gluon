@@ -21,8 +21,8 @@
 #include "btactionnode.h"
 
 btActionNode::btActionNode(QObject* parent)
+    : btEditorNodeType(parent)
 {
-    Q_UNUSED(parent)
     setNodeType(btNodeType::ActionNodeType);
 }
 
@@ -30,8 +30,9 @@ btActionNode::~btActionNode()
 {
 }
 
-bool btActionNode::run()
+bool btActionNode::run(btCharacter* character)
 {
+    Q_UNUSED(character)
     return false;
 }
 

@@ -33,7 +33,7 @@ class btParallelNode : public btNode
     Q_OBJECT
 	
 public:
-    Q_INVOKABLE btParallelNode();
+    Q_INVOKABLE btParallelNode(QObject* parent = 0);
 	~btParallelNode();
 	
 	btNode::status run(btCharacter *self);

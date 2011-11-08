@@ -22,14 +22,15 @@
 
 #include <QtCore/QDebug>
 
-btNode::btNode()
+btNode::btNode(QObject* parent)
+    : QObject(parent)
+    , m_name("")
+    , m_description("")
+    , m_className("")
+    , m_type(btNode::UnusableNodeType)
+    , m_currentChildIndex(0)
+    , m_currentChildStatus(btNode::None)
 {
-	m_name = "";
-	m_description = "";
-	m_className = "";
-	m_type = btNode::UnusableNodeType;
-	m_currentChildStatus = btNode::None;
-	m_currentChildIndex = 0;
 }
 
 btNode::~btNode()

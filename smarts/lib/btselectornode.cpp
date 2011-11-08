@@ -22,7 +22,8 @@
 
 #include "btcharacter.h"
 
-btSelectorNode::btSelectorNode()
+btSelectorNode::btSelectorNode(QObject* parent)
+    : btNode(parent)
 {
 }
 

@@ -23,7 +23,8 @@
 #include "btnode.h"
 #include "btcharacter.h"
 
-btSequenceNode::btSequenceNode()
+btSequenceNode::btSequenceNode(QObject* parent)
+    : btNode(parent)
 {
 }
 

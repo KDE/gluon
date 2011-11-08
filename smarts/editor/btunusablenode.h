@@ -28,10 +28,10 @@ class btUnusableNode : public btEditorNodeType
 	Q_OBJECT
 		
 public:
-	btUnusableNode();	
+	btUnusableNode(QObject* parent = 0);	
 	~btUnusableNode();
 	
-	bool run();
+	bool run(btCharacter* character);
 };
 
 #endif

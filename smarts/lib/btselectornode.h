@@ -33,7 +33,7 @@ class BT_LIB_EXPORT btSelectorNode : public btNode
     Q_OBJECT
     
 public:
-    Q_INVOKABLE btSelectorNode();
+    Q_INVOKABLE btSelectorNode(QObject* parent = 0);
 	status run(btCharacter *self);
 };
 

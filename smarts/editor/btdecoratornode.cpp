@@ -23,7 +23,8 @@
 
 #include <QtXml>
 
-btDecoratorNode::btDecoratorNode()
+btDecoratorNode::btDecoratorNode(QObject* parent)
+    : btEditorNodeType(parent)
 {
     setNodeType(btNodeType::DecoratorNodeType);
 }
@@ -32,8 +33,9 @@ btDecoratorNode::~btDecoratorNode()
 {
 }
 
-bool btDecoratorNode::run()
+bool btDecoratorNode::run(btCharacter* character)
 {
+    Q_UNUSED(character)
     return false;
 }
 

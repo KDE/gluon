@@ -20,7 +20,8 @@
 
 #include "btreferencenode.h"
 
-btReferenceNode::btReferenceNode()
+btReferenceNode::btReferenceNode(QObject* parent)
+    : btEditorNodeType(parent)
 {
     setNodeType(btNodeType::ReferenceNodeType);
 }
@@ -29,8 +30,9 @@ btReferenceNode::~btReferenceNode()
 {
 }
 
-bool btReferenceNode::run()
+bool btReferenceNode::run(btCharacter* character)
 {
+    Q_UNUSED(character)
     return false;
 }
 
