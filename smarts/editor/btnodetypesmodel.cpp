@@ -18,14 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QMimeData>
+#include "btnodetypesmodel.h"
 #include "bteditornodetype.h"
 #include "btnodetypesmodelnode.h"
-#include "btnodetypesmodel.h"
 #include "btbrain.h"
-#include <qmessagebox.h>
-#include <QDebug>
-#include <QIcon>
+
+#include <QtGui/QMessageBox>
+#include <QtGui/QIcon>
+#include <QtCore/QDebug>
+#include <QtCore/QMimeData>
 
 btNodeTypesModel::btNodeTypesModel(btBrain *brain, QObject* parent)
         :QAbstractItemModel(parent)

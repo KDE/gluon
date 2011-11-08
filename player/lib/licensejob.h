@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_PLAYER_LICENSE_H
-#define GLUON_PLAYER_LICENSE_H
+#ifndef GLUON_PLAYER_LICENSEJOB_H
+#define GLUON_PLAYER_LICENSEJOB_H
 
 #include "abstractsocialservicesjob.h"
 
@@ -74,4 +74,4 @@ namespace GluonPlayer
 
 Q_DECLARE_METATYPE( QList<GluonPlayer::LicenseItem*> )
 
-#endif // GLUONPLAYER_LICENSE_H
+#endif // GLUONPLAYER_LICENSEJOB_H

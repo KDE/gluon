@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BRAIN_H
-#define BRAIN_H
+#ifndef CHARACTER_H
+#define CHARACTER_H
 
 #include "engine/component.h"
 #include "smarts/lib/btbrain.h"
@@ -84,4 +84,4 @@ namespace GluonEngine
 Q_DECLARE_METATYPE(GluonEngine::Character)
 Q_DECLARE_METATYPE(GluonEngine::Character*)
 
-#endif // BRAIN_H
+#endif // CHARACTER_H

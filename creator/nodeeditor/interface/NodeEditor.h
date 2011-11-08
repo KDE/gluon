@@ -19,8 +19,8 @@
      Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef SUI_MAINWINDOW_H
-#define SUI_MAINWINDOW_H
+#ifndef SUI_NODEEDITOR_H
+#define SUI_NODEEDITOR_H
 
 #include "lib/historymanager.h"
 

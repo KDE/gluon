@@ -20,7 +20,7 @@
 
 #include "btnewtreewizard.h"
 
-#include <QtGui>
+#include <QtGui/QWizard>
 #include <QDebug>
 #include "bteditor.h"
 #include "btnodeeditwidget.h"

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef _BTCOMPOSITNODE_H_
-#define _BTCOMPOSITNODE_H_
+#ifndef BTCOMPOSITNODE_H
+#define BTCOMPOSITNODE_H
 
 #include "bteditornodetype.h"
 

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef STATNODE_H
-#define STATNODE_H
+#ifndef PROBNODE_H
+#define PROBNODE_H
 
 #include "btlib_export.h"
 
@@ -35,4 +35,4 @@ struct BT_LIB_EXPORT ProbNode
     bool visited;
 };
 
-#endif // STATNODE_H
+#endif // PROBNODE_H

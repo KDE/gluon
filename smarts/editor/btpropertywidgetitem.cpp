@@ -21,13 +21,17 @@
 #include "btpropertywidgetitem.h"
 
 #include "btglobal.h"
-#include <QtGui>
 
 #include "btqvariantlistwidget.h"
 #include "btchildlistwidget.h"
 #include "bteditornode.h"
 #include "bteditornodetype.h"
 #include "btparallelconditionswidget.h"
+
+#include <QtGui/QListWidgetItem>
+#include <QtGui/QLabel>
+#include <QtGui/QSpinBox>
+#include <QtGui/QLineEdit>
 
 btPropertyWidgetItem::btPropertyWidgetItem(QObject * parent, Qt::WindowFlags f)
 {

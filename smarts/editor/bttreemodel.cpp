@@ -18,18 +18,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QMimeData>
 #include "bttreemodel.h"
+
 #include "bteditornode.h"
 #include "bteditornodetype.h"
-#include <qmessagebox.h>
 #include "btbrain.h"
 #include "btdecoratornode.h"
-#include <QDebug>
-#include <QIcon>
 #include "btreferencenode.h"
-#include <QtGui/QTreeView>
 #include "btglobal.h"
+
+#include <QtGui/QIcon>
+#include <QtGui/QMessageBox>
+#include <QtGui/QTreeView>
+#include <QtCore/QMimeData>
+#include <QtCore/QDebug>
 
 btTreeModel::btTreeModel(QObject* parent, btBrain* containingBrain)
         : QAbstractItemModel(parent)

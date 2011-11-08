@@ -19,9 +19,10 @@
  */
 
 #include "btdecoratornode.h"
+
 #include "projectparser.h"
 
-#include <QtXml>
+#include <QtCore/QXmlStreamWriter>
 
 btDecoratorNode::btDecoratorNode(QObject* parent)
     : btEditorNodeType(parent)

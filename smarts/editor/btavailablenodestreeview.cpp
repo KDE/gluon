@@ -18,13 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QApplication>
-#include <QMimeData>
-#include <QtGui/qevent.h>
 #include "btavailablenodestreeview.h"
+
 #include "bteditornodetype.h"
 #include "bteditornode.h"
-#include <QMessageBox>
+
+#include <QtGui/QApplication>
+#include <QtGui/QMessageBox>
+#include <QtCore/QEvent>
+#include <QtCore/QMimeData>
 
 btAvailableNodesTreeView::btAvailableNodesTreeView(QWidget* parent)
     : QTreeView(parent)

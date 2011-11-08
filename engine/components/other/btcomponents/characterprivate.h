@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BRAINPRIVATE_H
-#define BRAINPRIVATE_H
+#ifndef CHARACTERPRIVATE_H
+#define CHARACTERPRIVATE_H
 
 #include <QtCore/QSharedData>
 
@@ -43,4 +43,4 @@ namespace GluonEngine
     };
 }
 
-#endif // BRAINPRIVATE_H
+#endif // CHARACTERPRIVATE_H

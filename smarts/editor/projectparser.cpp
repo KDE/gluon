@@ -20,9 +20,6 @@
 
 #include "projectparser.h"
 
-#include <QtXml>
-#include <QtCore/QDebug>
-
 #include "btbrain.h"
 #include "btcompositenode.h"
 #include "nodetypefactory.h"
@@ -32,6 +29,12 @@
 #include "btreferencenode.h"
 #include "btdecoratornode.h"
 #include "btglobal.h"
+
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
+#include <QtXml/QDomNode>
+#include <QtCore/QXmlStreamWriter>
+#include <QtCore/QDebug>
 
 projectParser::projectParser()
 {

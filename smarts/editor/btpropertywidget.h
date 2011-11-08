@@ -22,6 +22,7 @@
 #define BTPROPERTYWIDGET_H
 
 #include <QtGui/QWidget>
+#include <QtCore/QVariant>
 class btEditorNode;
 class btEditorNodeType;
 class QGridLayout;

@@ -18,6 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "btpropertywidget.h"
+
+#include "btpropertywidgetitem.h"
+#include "bteditornode.h"
+#include "bteditornodetype.h"
+#include "colorgen.h"
+
 #include <QBoxLayout>
 #include <QVariant>
 #include <QLabel>
@@ -29,12 +36,6 @@
 #include <QDebug>
 #include <QMenu>
 #include <QAction>
-
-#include "btpropertywidget.h"
-#include "btpropertywidgetitem.h"
-#include "bteditornode.h"
-#include "bteditornodetype.h"
-#include "colorgen.h"
 
 btPropertyWidget::btPropertyWidget(QObject * parent)
 {

@@ -27,7 +27,7 @@
 #include "btdecoratornode.h"
 #include "btglobal.h"
 
-#include <QtXml>
+#include <QtCore/QXmlStreamWriter>
 
 btEditorNode::btEditorNode(btNodeType *type, btNode *parent)
     : btNode(type, parent)

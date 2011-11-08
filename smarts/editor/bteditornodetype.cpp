@@ -25,10 +25,10 @@
 #include "nodetypefactory.h"
 #include "bteditornode.h"
 
-#include <QtCore/QDebug>
-#include <QtXml>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QRadioButton>
+#include <QtCore/QDebug>
+#include <QtCore/QXmlStreamWriter>
 
 btEditorNodeType::btEditorNodeType(QObject * parent)
     : btNodeType(parent)

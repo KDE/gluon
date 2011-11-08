@@ -17,6 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "character.h"
+
 #include <QtCore/QVariant>
 #include <QtCore/QMetaProperty>
 
@@ -32,7 +34,6 @@
 #include "smarts/lib/btperceptionviewcone.h"
 
 #include "btcharacterscriptable.h"
-#include "character.h"
 #include "characterprivate.h"
 #include "tree.h"
 #include "btnodescriptable.h"

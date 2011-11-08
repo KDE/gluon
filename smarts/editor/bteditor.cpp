@@ -18,12 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
-#include <QMessageBox>
-#include <QFileDialog>
-#include <QFile>
-
 #include "bteditor.h"
+
 #include "btbrain.h"
 #include "bttreemodel.h"
 #include "btnodetypesmodel.h"
@@ -39,6 +35,10 @@
 #include "btnodetype.h"
 #include "bteditornodetype.h"
 #include "btnewtreewizard.h"
+
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QFile>
 
 bteditor::bteditor(QWidget *parent) : KParts::MainWindow()
 {

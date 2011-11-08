@@ -18,11 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QString>
-#include <QVariant>
 #include "btnode.h"
+
 #include "btnodetype.h"
 #include "btcharacter.h"
+
+#include <QtCore/QString>
+#include <QtCore/QVariant>
 #include <QtCore/QDebug>
 
 btNode::btNode(btNodeType *type, btNode *parent) : QObject(parent)
