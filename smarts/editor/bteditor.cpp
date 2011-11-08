@@ -237,7 +237,7 @@ void bteditor::on_actionSave_As_triggered()
                                             tr("Behavior Trees (*.glbt *.xml)"));
 
 
-    if (!fileName.endsWith(".xml", Qt::CaseInsensitive))
+    if (!fileName.endsWith(QLatin1String(".xml"), Qt::CaseInsensitive))
         fileName += ".xml";
 
     QString fileContents = projectParser::instance()->serializeProject(this->m_brain);
