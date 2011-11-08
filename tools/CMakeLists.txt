@@ -1,1 +1,6 @@
-add_subdirectory(viewer)
+if(BUILD_GLUON_TOOLS)
+    add_subdirectory(viewer)
+    add_subdirectory(winviewer)
+endif()
+
+
