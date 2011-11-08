@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Gluon Player (QML)
+Name=Gluon Player
 Name[de]=Gluon-Player (QML)
 Name[es]=Gluon Player (sólo QML)
 Name[et]=Gluoni mängija (QML)
@@ -19,7 +19,7 @@ X-Plasma-MainScript=ui/main.qml
 X-Plasma-DefaultSize=300,300
 X-KDE-PluginInfo-Author=Shantanu Tushar
 X-KDE-PluginInfo-Email=jhahoneyk@gmail.com
-X-KDE-PluginInfo-Name=org.kde.gluonplayer-qml
+X-KDE-PluginInfo-Name=org.kde.gluonplayer-active
 X-KDE-PluginInfo-Version=1.0
 X-KDE-PluginInfo-Website=http://gluon.gamingfreedom.org/
 X-KDE-PluginInfo-Category=Fun and Games
