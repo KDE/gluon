@@ -21,8 +21,8 @@
 #ifndef BTNODE_H
 #define BTNODE_H
 
-#include <QObject>
-#include <QList>
+#include <QtCore/QObject>
+#include <QtCore/QList>
 
 #include "../lib/btlib_export.h"
 
@@ -38,7 +38,7 @@ class BT_LIB_EXPORT btNode : public QObject
     Q_PROPERTY(QString description READ description WRITE setDescription);
 
 public:
-    btNode(btNodeType *type = 0, btNode *parent = 0);
+    explicit btNode(btNodeType *type = 0, btNode *parent = 0);
     ~btNode();
 
     bool runBehavior(btCharacter *self);

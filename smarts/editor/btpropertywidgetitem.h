@@ -34,7 +34,7 @@ class btPropertyWidgetItem : public QWidget
 Q_OBJECT;
 
 public:
-    btPropertyWidgetItem(QObject * parent = 0, Qt::WindowFlags f = 0);
+    explicit btPropertyWidgetItem(QObject * parent = 0, Qt::WindowFlags f = 0);
     ~btPropertyWidgetItem();
     
     void setEditObject(QObject * editThis);

@@ -31,7 +31,7 @@ class btNodeTypesModel : public QAbstractItemModel
 {
 Q_OBJECT
 public:
-    btNodeTypesModel(btBrain *brain, QObject *parent = 0);
+    explicit btNodeTypesModel(btBrain *brain, QObject *parent = 0);
     ~btNodeTypesModel();
 
     QMimeData* mimeData(const QModelIndexList &indexes) const;

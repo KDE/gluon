@@ -35,7 +35,7 @@ class btnodemodel : public QAbstractTableModel
     Q_PROPERTY(QString classname READ classname WRITE setClassname)
 
 public:
-    btnodemodel(btEditorNodeType * nodetype,QObject *parent = 0);
+    explicit btnodemodel(btEditorNodeType * nodetype,QObject *parent = 0);
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role) const;

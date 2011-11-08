@@ -34,7 +34,7 @@ class btEditorNode : public btNode
     
 public:    
     
-    btEditorNode(btNodeType *type = 0, btNode *parent = 0);
+    explicit btEditorNode(btNodeType *type = 0, btNode *parent = 0);
     ~btEditorNode();
     
     void toXml(QXmlStreamWriter* xmlWriter, QList<btTreeModel *> behaviorTrees);

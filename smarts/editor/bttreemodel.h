@@ -34,7 +34,7 @@ class btTreeModel : public QAbstractItemModel
     Q_PROPERTY(QString description READ description WRITE setDescription)
 
 public:
-    btTreeModel(QObject *parent = 0, btBrain* containingBrain = 0);
+    explicit btTreeModel(QObject *parent = 0, btBrain* containingBrain = 0);
     ~btTreeModel();
 
     void setRootNode(btEditorNode *newRoot);

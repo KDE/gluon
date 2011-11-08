@@ -29,7 +29,7 @@ class btEditorNodeType;
 class btNodeTypesModelNode
 {
 public:
-    btNodeTypesModelNode(btEditorNodeType *data = 0, btNodeTypesModelNode *parent = 0);
+    explicit btNodeTypesModelNode(btEditorNodeType *data = 0, btNodeTypesModelNode *parent = 0);
     ~btNodeTypesModelNode();
 
     void appendChild(btNodeTypesModelNode *child);
