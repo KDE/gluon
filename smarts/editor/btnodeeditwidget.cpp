@@ -42,7 +42,7 @@ btNodeEditWidget::btNodeEditWidget(QWidget * parent)
 
     name            = new QLabel(tr("Name"));
     classname       = new QLabel(tr("Classname"));
-    description     = new QLabel(tr("Discription"));
+    description     = new QLabel(tr("Description"));
     properties      = new QLabel(tr("Properties"));
 
     QRegExp re("[A-Za-z]{1,1}[A-Za-z0-9_]{0,}");

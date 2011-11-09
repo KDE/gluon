@@ -18,9 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "btqlistdelegate.h"
 
 #include "btglobal.h"
-#include "btqlistdelegate.h"
 
 #include <QtGui/QComboBox>
 //#include <QMetaType>

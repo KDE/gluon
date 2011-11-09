@@ -32,7 +32,7 @@ class btQVariantListWidget : public QWidget
 {
     Q_OBJECT
 public:
-    btQVariantListWidget(bool enabled, QWidget * parent = 0);
+    explicit btQVariantListWidget(bool enabled, QWidget * parent = 0);
     ~btQVariantListWidget();
     void setupActions();
     void addItem(QListWidgetItem * item);

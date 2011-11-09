@@ -17,19 +17,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "btAsset.h"
+
+#include "smarts/lib/btbrain.h"
+
+#include "btAssetprivate.h"
+#include "tree.h"
+
 #include <QtCore/QVariant>
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QMap>
 #include <QtCore/QDebug>
 #include <QtCore/QStringList>
-
-#include "smarts/lib/btbrain.h"
-
-#include "btAsset.h"
-#include "btAssetprivate.h"
-#include "tree.h"
-
 
 Q_DECLARE_METATYPE(btNode*)
 
