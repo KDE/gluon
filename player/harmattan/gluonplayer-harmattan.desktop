@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Gluon Player
+Name[x-test]=xxGluon Playerxx
+GenericName=Game Launcher
+GenericName[x-test]=xxGame Launcherxx
+Exec=gluonplayer-harmattan
+Icon=gluon-player
+Type=Application
+Categories=Qt;KDE;Game;
+Terminal=false
