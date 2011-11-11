@@ -27,7 +27,7 @@ int main( int argc, char** argv )
     app.setOrganizationName( "KDE Gluon" );
     app.setApplicationName( "Gluon Harmattan Player" );
 
-    GluonQMLPlayer::GameWindowManager gameWindowManager;
+    GluonHarmattanPlayer::GameWindowManager gameWindowManager;
     gameWindowManager.show();
 
     return app.exec();

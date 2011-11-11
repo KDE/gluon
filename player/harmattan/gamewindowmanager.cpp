@@ -38,7 +38,7 @@
 #include <QtCore/QTimer>
 #include <QtCore/QDebug>
 
-using namespace GluonQMLPlayer;
+using namespace GluonHarmattanPlayer;
 
 class GameWindowManager::GameWindowManagerPrivate
 {
