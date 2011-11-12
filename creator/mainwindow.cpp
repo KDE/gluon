@@ -20,21 +20,9 @@
 
 #include "mainwindow.h"
 
-#include "lib/plugin.h"
-#include "lib/pluginmanager.h"
-#include "lib/objectmanager.h"
-#include "lib/historymanager.h"
-#include "lib/selectionmanager.h"
-#include "lib/dockmanager.h"
-#include "lib/filemanager.h"
-#include "lib/widgets/filearea.h"
-
-#include "gluoncreatorsettings.h"
-#include "dialogs/configdialog.h"
-
-#include <engine/game.h>
-#include <engine/gameproject.h>
-#include <engine/scene.h>
+#include <QtCore/QVariantList>
+#include <QtCore/QFileInfo>
+#include <QtCore/QTimer>
 
 #include <KDE/KFileDialog>
 #include <KDE/KStandardAction>
@@ -48,19 +36,28 @@
 #include <KDE/KParts/PartManager>
 #include <KDE/KMenuBar>
 
-#include <QtCore/QVariantList>
-#include <QtCore/QFileInfo>
-#include <QtCore/QTimer>
+#include <engine/game.h>
+#include <engine/gameproject.h>
+#include <engine/scene.h>
+
+#include "lib/plugin.h"
+#include "lib/pluginmanager.h"
+#include "lib/objectmanager.h"
+#include "lib/historymanager.h"
+#include "lib/selectionmanager.h"
+#include "lib/dockmanager.h"
+#include "lib/filemanager.h"
+#include "lib/widgets/filearea.h"
+
+#include "gluoncreatorsettings.h"
+#include "dialogs/projectselectiondialog.h"
+#include "dialogs/configdialog.h"
 
 using namespace GluonCreator;
 
-class MainWindow::MainWindowPrivate
+class MainWindow::Private
 {
     public:
-        MainWindowPrivate()
-        {
-        }
-
         bool modified;
         QString fileName;
         KRecentFilesAction* recentFiles;
@@ -69,9 +66,8 @@ class MainWindow::MainWindowPrivate
         FileArea* mainArea;
 };
 
-MainWindow::MainWindow( const QString& fileName )
-    : KParts::MainWindow()
-    , d( new MainWindowPrivate )
+MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlags flags )
+    : KParts::MainWindow( parent, flags ), d( new Private )
 {
     d->modified = false;
 
@@ -80,7 +76,6 @@ MainWindow::MainWindow( const QString& fileName )
     DockManager::instance()->setMainWindow( this );
 
     FileManager::instance()->initialize( this );
-    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( createGUI( KParts::Part* ) ) );
     connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( partChanged( KParts::Part* ) ) );
     connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), DockManager::instance(), SLOT(updateDockActions()) );
 
@@ -102,7 +97,6 @@ MainWindow::MainWindow( const QString& fileName )
 
     d->projectDialog = new ProjectSelectionDialog( this );
     d->projectDialog->setModal( true );
-    d->projectDialog->raise( );
     connect( d->projectDialog, SIGNAL( accepted() ), SLOT( projectDialogAccepted() ) );
 
     DockManager::instance()->setDocksEnabled( false );
@@ -139,7 +133,7 @@ void MainWindow::closeEvent( QCloseEvent* event )
     QWidget::closeEvent( event );
 }
 
-void MainWindow::openProject( KUrl url )
+void MainWindow::openProject( const KUrl& url )
 {
     openProject( url.path() );
 }
@@ -418,12 +412,10 @@ void MainWindow::projectDialogAccepted()
     openProject( d->projectDialog->fileName() );
 }
 
-void MainWindow::initializeGame()
-{
-}
-
 void MainWindow::partChanged( KParts::Part* part )
 {
+    createGUI( part );
+
     if( part == FileManager::instance()->part( "view" ) )
     {
         QTimer::singleShot( 100, GluonEngine::Game::instance(), SLOT( drawAll() ) );

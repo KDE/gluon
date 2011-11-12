@@ -1,7 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
- * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,14 +17,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_CREATOR_MAINWINDOW_H
-#define GLUON_CREATOR_MAINWINDOW_H
-
-#include "dialogs/projectselectiondialog.h"
+#ifndef GLUONCREATOR_MAINWINDOW_H
+#define GLUONCREATOR_MAINWINDOW_H
 
 #include <KDE/KParts/MainWindow>
-#include <KDE/KUrl>
 
+class KUrl;
 class KRecentFilesAction;
 namespace GluonCreator
 {
@@ -35,14 +32,14 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            MainWindow( const QString& fileName = "" );
+            MainWindow( const QString& fileName = QString(), QWidget* parent = 0, Qt::WindowFlags flags = 0 );
             ~MainWindow();
 
             virtual bool queryClose();
             virtual void closeEvent( QCloseEvent* event );
 
         public slots:
-            void openProject( KUrl url );
+            void openProject( const KUrl& url );
             void openProject( const QString& fileName );
             void saveProject();
             void saveProject( const QString& fileName );
@@ -62,16 +59,14 @@ namespace GluonCreator
             void showOpenProjectDialog();
             void projectDialogAccepted();
 
-            void initializeGame();
-
             void partChanged( KParts::Part* part );
 
         private:
             void setupActions();
 
-            class MainWindowPrivate;
-            MainWindowPrivate* const d;
+            class Private;
+            Private* const d;
     };
 }
 
-#endif // GLUON_CREATOR_MAINWINDOW_H
+#endif // GLUONCREATOR_MAINWINDOW_H
