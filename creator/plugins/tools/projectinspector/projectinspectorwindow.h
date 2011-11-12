@@ -33,6 +33,8 @@ namespace GluonCreator
             explicit ProjectInspectorWindow(QWidget* parent = 0, Qt::WindowFlags f = 0);
             virtual ~ProjectInspectorWindow();
 
+            virtual QSize sizeHint() const;
+
         public Q_SLOTS:
             void activated( const QModelIndex& index );
 

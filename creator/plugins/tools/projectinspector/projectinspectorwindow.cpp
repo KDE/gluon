@@ -22,6 +22,8 @@
 
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QTreeView>
+#include <QtGui/QDesktopWidget>
+#include <QtGui/QApplication>
 
 #include <engine/game.h>
 
@@ -56,6 +58,14 @@ ProjectInspectorWindow::ProjectInspectorWindow( QWidget* parent, Qt::WindowFlags
 ProjectInspectorWindow::~ProjectInspectorWindow()
 {
 
+}
+
+QSize ProjectInspectorWindow::sizeHint() const
+{
+    int width = QApplication::desktop()->screenGeometry().width() / 2;
+    int height = QApplication::desktop()->screenGeometry().height();
+
+    return QSize( width, height );
 }
 
 void ProjectInspectorWindow::activated(const QModelIndex& index)
