@@ -17,23 +17,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_CREATOR_OBJECTINSPECTORPLUGIN_H
-#define GLUON_CREATOR_OBJECTINSPECTORPLUGIN_H
+#ifndef GLUONCREATOR_PROJECTINSPECTORPLUGIN_H
+#define GLUONCREATOR_PROJECTINSPECTORPLUGIN_H
 
-#include <plugin.h>
+#include <creator/lib/toolplugin.h>
 
-namespace Gluon
+namespace GluonCreator
 {
 
-    namespace Creator
+    class ProjectInspectorPlugin : public GluonCreator::ToolPlugin
     {
+        Q_OBJECT
+        public:
+            ProjectInspectorPlugin( QObject* parent, const QList<QVariant>& params );
+            ~ProjectInspectorPlugin();
 
-        class ObjectInspectorPlugin : public Gluon::Creator::Plugin
-        {
-        };
+        public Q_SLOTS:
+            void showWindow();
 
-    }
+        protected:
+            void initialize();
 
+        private:
+            class Private;
+            const QScopedPointer< Private > d;
+    };
 }
 
-#endif // GLUON_CREATOR_OBJECTINSPECTORPLUGIN_H
+#endif // GLUON_CREATOR_PROJECTINSPECTORPLUGIN_H

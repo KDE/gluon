@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,7 +17,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "objectinspectorplugin.h"
 
-using namespace Gluon::Creator;
+#ifndef GLUONCREATOR_PROJECTINSPECTORWINDOW_H
+#define GLUONCREATOR_PROJECTINSPECTORWINDOW_H
 
+#include <QtGui/QDialog>
+
+class QModelIndex;
+namespace GluonCreator
+{
+    class ProjectInspectorWindow : public QDialog
+    {
+        Q_OBJECT
+        public:
+            explicit ProjectInspectorWindow(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            virtual ~ProjectInspectorWindow();
+
+        public Q_SLOTS:
+            void activated( const QModelIndex& index );
+
+        private:
+            class Private;
+            const QScopedPointer< Private > d;
+    };
+}
+
+#endif // GLUONCREATOR_PROJECTINSPECTORWINDOW_H
