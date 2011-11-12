@@ -51,6 +51,7 @@ target_link_libraries(gluoncreator ${GLUON_CREATOR_LIBS} ${KDE4_KUTILS_LIBS} ${K
 install(TARGETS gluoncreator DESTINATION ${BIN_INSTALL_DIR})
 install(FILES
     ui/gluoncreatorui.rc
+    icons/gluon-creator-splash.png
 
     DESTINATION ${DATA_INSTALL_DIR}/gluoncreator
     COMPONENT gluoncreator
