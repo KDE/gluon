@@ -21,14 +21,13 @@
 
 #include <core/gluonobject.h>
 
-#include <typeinfo>
-
-using namespace Gluon::Creator;
+using namespace GluonCreator;
 
 QObjectTreeModel::QObjectTreeModel( QObject* root, QObject* parent ): QAbstractItemModel( parent )
 {
-    m_root = new QObject( this );
-    root->setParent( m_root );
+    m_root = root;
+    //new QObject( this );
+    //root->setParent( m_root );
 }
 
 QVariant QObjectTreeModel::data( const QModelIndex& index, int role ) const
@@ -40,27 +39,16 @@ QVariant QObjectTreeModel::data( const QModelIndex& index, int role ) const
         return QVariant();
 
     QObject* item = static_cast<QObject*>( index.internalPointer() );
+    GluonCore::GluonObject* gobj = qobject_cast<GluonCore::GluonObject*>( item );
+    if( gobj )
+        return gobj->name();
 
-    switch( index.column() )
-    {
-        case 0:
-        {
-            Gluon::GluonObject* gobj = qobject_cast<Gluon::GluonObject*>( item );
-            if( gobj ) return gobj->name();
-            return item->objectName();
-            break;
-        }
-        case 1:
-            return item->metaObject()->className();
-            break;
-        default:
-            return QVariant();
-    }
+    return item->objectName();
 }
 
 int QObjectTreeModel::columnCount( const QModelIndex& ) const
 {
-    return 2;
+    return 1;
 }
 
 int QObjectTreeModel::rowCount( const QModelIndex& parent ) const
@@ -110,23 +98,8 @@ QModelIndex QObjectTreeModel::index( int row, int column, const QModelIndex& par
         return QModelIndex();
 }
 
-QVariant QObjectTreeModel::headerData( int section, Qt::Orientation orientation, int role ) const
+QVariant QObjectTreeModel::headerData( int /*section*/, Qt::Orientation /*orientation*/, int /*role*/ ) const
 {
-    if( orientation == Qt::Horizontal && role == Qt::DisplayRole )
-    {
-        switch( section )
-        {
-            case 0:
-                return QVariant( "Name" );
-                break;
-            case 1:
-                return QVariant( "Type" );
-                break;
-            default:
-                return QVariant();
-        }
-    }
-
     return QVariant();
 }
 
