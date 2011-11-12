@@ -114,6 +114,7 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
         GluonCore::GluonObject* object = new GluonCore::GluonObject(this);
         object->setProperty( "path", achievement->fullyQualifiedName() );
         object->setProperty( "name", achievement->name() );
+        object->setProperty( "description", achievement->property("description") );
         if( achievement->icon() )
             object->setProperty( "icon", achievement->icon()->file().toLocalFile() );
         object->setProperty( "minimumScore", achievement->minimumScore() );
@@ -156,6 +157,12 @@ QString AchievementsManager::achievementName( int index ) const
 {
     Q_ASSERT_X( index >= 0 && index < achievementsCount(), Q_FUNC_INFO, "index out of range in list of achievements" );
     return children().at(index)->property("name").toString();
+}
+
+QString AchievementsManager::achievementDescription ( int index) const
+{
+    Q_ASSERT_X( index >= 0 && index < achievementsCount(), Q_FUNC_INFO, "index out of range in list of achievements" );
+    return children().at(index)->property( "description" ).toString();
 }
 
 QString AchievementsManager::achievementIcon( int index ) const

@@ -98,6 +98,14 @@ namespace GluonEngine
             QString achievementName( int index ) const;
 
             /**
+             * Get the description of the achievement at index. Index must be a valid index
+             * position, i.e. between 0 and achievementsCount()-1.
+             * @param index A valid index
+             * @return The description of the chosen achievement
+             */
+            QString achievementDescription( int index ) const;
+
+            /**
              * Get the icon of the achievement. Index must be a valid index
              * position, i.e. between 0 and achievementsCount()-1.
              * @param index A valid index

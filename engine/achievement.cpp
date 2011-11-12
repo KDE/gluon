@@ -225,7 +225,7 @@ bool Achievement::achieved() const
 
     d->statistic->initialize();
 
-    if( currentScore() >= d->minimumScore )
+    if( currentScore() >= d->minimumScore && dependencySatisfied() )
         return true;
 
     return false;

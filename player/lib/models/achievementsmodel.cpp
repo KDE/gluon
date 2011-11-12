@@ -152,4 +152,22 @@ QVariant AchievementsModel::headerData( int section, Qt::Orientation orientation
     return d->headerList.at(section);
 }
 
+Qt::ItemFlags AchievementsModel::flags(const QModelIndex& index) const
+{
+    if( d->achievementsManager->achievementAchieved(index.row()) )
+        return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+
+    return Qt::ItemIsSelectable;
+}
+
+const GluonEngine::AchievementsManager* AchievementsModel::achievementsManager() const
+{
+    return d->achievementsManager;
+}
+
+QString AchievementsModel::projectDir() const
+{
+    return d->projectDir;
+}
+
 #include "achievementsmodel.moc"

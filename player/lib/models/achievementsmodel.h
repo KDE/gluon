@@ -27,6 +27,7 @@
 namespace GluonEngine
 {
     class ProjectMetaData;
+    class AchievementsManager;
 }
 
 namespace GluonPlayer
@@ -43,6 +44,10 @@ namespace GluonPlayer
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+            virtual Qt::ItemFlags flags( const QModelIndex& index ) const;
+
+            const GluonEngine::AchievementsManager* achievementsManager() const;
+            QString projectDir() const;
 
             enum Column
             {
