@@ -21,8 +21,7 @@
 
 #include <unistd.h>
 
-#include <QtGui/QSplashScreen>
-
+#include <KDE/KSplashScreen>
 #include <KDE/KApplication>
 #include <KDE/KAboutData>
 #include <KDE/KCmdLineArgs>
@@ -45,21 +44,12 @@ int main( int argc, char** argv )
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
     //Create and show a splashscreen
-    QPixmap splashImage( KGlobal::dirs()->locate( "appdata", "gluon-creator-splash.png" ) );
-    QSplashScreen splash( splashImage );
+    KSplashScreen splash( QPixmap( KGlobal::dirs()->locate( "appdata", "gluon-creator-splash.png" ) ) );
     splash.show();
     app.processEvents();
 
     //Create the main window
-    GluonCreator::MainWindow* window;
-    if( args->count() )
-    {
-        window = new GluonCreator::MainWindow( args->arg( 0 ) );
-    }
-    else
-    {
-        window = new GluonCreator::MainWindow();
-    }
+    GluonCreator::MainWindow* window = new GluonCreator::MainWindow( args->count() > 0 ? args->arg( 0 ) : QString() );
 
     //Dirty hack to make the splashscreen at least visible.
     sleep( 1 );
