@@ -97,26 +97,21 @@ ProjectSelectionDialog::~ProjectSelectionDialog()
 
 void ProjectSelectionDialog::addPage( KPageWidgetItem* item, ProjectSelectionDialog::ProjectPage page )
 {
-    DEBUG_FUNC_NAME
     switch( page )
     {
         case NewProjectPage:
-            DEBUG_TEXT( "New" )
             break;
         case OpenProjectPage:
         {
-            DEBUG_TEXT( "Open" )
             connect( item, SIGNAL( projectRequested( QString ) ),
                      SLOT( projectRequested( QString ) ) );
             break;
         }
         case RecentProjectPage:
-            DEBUG_TEXT( "Recent" )
             connect( item, SIGNAL( projectRequested( QString ) ),
                      SLOT( projectRequested( QString ) ) );
             break;
         default:
-            DEBUG_TEXT( "Unknown Project Page" )
             break;
     };
 
