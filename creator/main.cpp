@@ -1,7 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
- * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
+ * Copyright (c) 2010-2011 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,46 +19,38 @@
 
 #include "mainwindow.h"
 
-#include <core/gluon_global.h>
+#include <unistd.h>
 
-#include <engine/gluon_engine_metatypes.h>
+#include <QtGui/QSplashScreen>
 
 #include <KDE/KApplication>
 #include <KDE/KAboutData>
 #include <KDE/KCmdLineArgs>
+#include <KDE/KStandardDirs>
+
+#include <core/gluon_global.h>
+
+#include "aboutdata.h"
 
 int main( int argc, char** argv )
 {
-    KAboutData aboutData( "gluoncreator", NULL,
-                          ki18n( "Gluon Creator" ), QString( "%1 (%2)" ).arg( GLUON_VERSION_STRING ).arg( GLUON_VERSION_NAME ).toUtf8(),
-                          ki18n( "A game creation environment" ),
-                          KAboutData::License_LGPL_V2,
-                          ki18n( "Copyright 2009-2010 by multiple contributors." ),
-                          KLocalizedString(),
-                          "http://gluon.gamingfreedom.org"
-                        );
-    aboutData.setProgramIconName( "gluon_creator" );
-    aboutData.addAuthor( ki18n( "Arjen Hiemstra" ), ki18n( "Gluon Core, Gluon Graphics, Gluon Engine, Gluon Creator" ), "" );
-    aboutData.addAuthor( ki18n( "Dan Leinir Tuthra Jensen" ), ki18n( "Gluon Core, Gluon Engine, Gluon Creator" ), "" );
-    aboutData.addAuthor( ki18n( "Sacha Schutz" ), ki18n( "Gluon Graphics,Gluon Audio,Gluon Input" ), "" );
-    aboutData.addAuthor( ki18n( "Guillaume Martres" ), ki18n( "Gluon Audio, Gluon Graphics" ), "" );
-    aboutData.addAuthor( ki18n( "Kim Jung Nissen" ), ki18n( "Gluon Input, Mac compatibility" ), "" );
-    aboutData.addAuthor( ki18n( "Rivo Laks" ), ki18n( "Gluon Graphics through KGLLIB" ), "" );
-    aboutData.addAuthor( ki18n( "Laszlo Papp" ), ki18n( "Gluon Creator, Input, Player, Mobile support" ), "" );
-    aboutData.setProductName( "gluon/gluoncreator" );
-
+    KAboutData aboutData = GluonCreator::aboutData();
 
     KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineOptions options;
-    options.add( "+file", ki18n( "GDL file to open" ) );
+    options.add( "+project", ki18n( "Project to open" ) );
     KCmdLineArgs::addCmdLineOptions( options );
 
     KApplication app;
-
-
-
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
+    //Create and show a splashscreen
+    QPixmap splashImage( KGlobal::dirs()->locate( "appdata", "gluon-creator-splash.png" ) );
+    QSplashScreen splash( splashImage );
+    splash.show();
+    app.processEvents();
+
+    //Create the main window
     GluonCreator::MainWindow* window;
     if( args->count() )
     {
@@ -69,7 +60,12 @@ int main( int argc, char** argv )
     {
         window = new GluonCreator::MainWindow();
     }
+
+    //Dirty hack to make the splashscreen at least visible.
+    sleep( 1 );
+
     window->show();
+    splash.finish( window );
 
     app.exec();
 }
