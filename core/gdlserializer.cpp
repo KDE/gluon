@@ -28,6 +28,7 @@
 #include "gdl/gdlparser.h"
 #include "gdl/gdllexer.h"
 #include "gdl/objecttreebuilder.h"
+#include "gdl/writer.h"
 
 using namespace GluonCore;
 
@@ -35,9 +36,6 @@ GLUON_DEFINE_SINGLETON( GDLSerializer )
 
 bool GDLSerializer::read(const QUrl& url, GluonObjectList& objects, GluonObject* project)
 {
-//     DEBUG_BLOCK
-//     DEBUG_TEXT2( "Attempting to parse %1", url.toLocalFile() );
-
     QFile file( url.toLocalFile() );
     if( !file.open( QIODevice::ReadOnly | QIODevice::Text ) )
     {
@@ -70,7 +68,19 @@ bool GDLSerializer::read(const QUrl& url, GluonObjectList& objects, GluonObject*
 
 bool GDLSerializer::write(const QUrl& url, const GluonObjectList& objects)
 {
-    return false;
+    QFile file( url.toLocalFile() );
+    if( !file.open( QIODevice::WriteOnly ) )
+        return false;
+
+    return write( &file, objects );
+}
+
+bool GDLSerializer::write(QIODevice* device, const GluonObjectList& objects)
+{
+    GDL::Writer writer;
+    writer.write( objects, device );
+
+    return true;
 }
 
 bool GDLSerializer::parse(const QByteArray& data, GluonObjectList& objects, GluonObject* project)
@@ -106,11 +116,6 @@ bool GDLSerializer::parse(const QByteArray& data, GluonObjectList& objects, Gluo
     }
 
     return true;
-}
-
-bool GDLSerializer::serialize(const GluonObjectList& objects, QByteArray& data)
-{
-    return false;
 }
 
 GDLSerializer::GDLSerializer(QObject* parent): Singleton< GluonCore::GDLSerializer >(parent)
