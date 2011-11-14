@@ -99,7 +99,6 @@ GluonObjectFactory::instantiateObjectByMimetype( const QString& objectMimeType )
 QVariant
 GluonObjectFactory::wrapObject( const QVariant& original, GluonObject* newValue )
 {
-    DEBUG_BLOCK
     QString type = original.typeName();
 
     if( type.endsWith( '*' ) ) //Remove the * from the type
@@ -113,15 +112,12 @@ GluonObjectFactory::wrapObject( const QVariant& original, GluonObject* newValue 
         return obj->toVariant( newValue );
     }
 
-    DEBUG_TEXT2( "Warning: Type %1 not found.", type )
-
     return QVariant();
 }
 
 QVariant
 GluonObjectFactory::wrapObject( const QString& type, GluonObject* newValue )
 {
-    DEBUG_BLOCK
     QString typeName = type;
     if( type.endsWith( '*' ) )
         typeName = type.left( type.length() - 1 );
@@ -131,8 +127,6 @@ GluonObjectFactory::wrapObject( const QString& type, GluonObject* newValue )
         QScopedPointer<GluonObject> obj( instantiateObjectByName( typeName ) );
         return obj->toVariant( newValue );
     }
-
-    DEBUG_TEXT2( "Warning: Type %1 not found.", typeName )
 
     return QVariant();
 }
@@ -150,9 +144,6 @@ GluonObjectFactory::wrappedObject( const QVariant& wrappedObject )
         QScopedPointer<GluonObject> obj( instantiateObjectByName( typeName ) );
         return obj->fromVariant( wrappedObject );
     }
-
-    DEBUG_BLOCK
-    DEBUG_TEXT2( "Warning: Type %1 not found.", typeName)
 
     return 0;
 }
