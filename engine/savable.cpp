@@ -72,8 +72,7 @@ bool Savable::saveToFile( GluonCore::GluonObject* object )
         return false;
     }
 
-    QTextStream fileWriter( savableFile );
-    fileWriter << savableObject->contentsToGDL() << endl;
+    savableObject->writeContents( savableFile );
     savableFile->close();
 
     delete savableFile;
