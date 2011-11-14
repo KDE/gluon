@@ -25,6 +25,8 @@
 
 #include <QtCore/QString>
 
+class QIODevice;
+
 namespace GluonCore
 {
     class GluonObject;
@@ -61,13 +63,13 @@ namespace GluonEngine
             static bool saveToFile( GluonCore::GluonObject* object );
 
             /**
-             * Serialise the contents of the asset to GDL. This function should
-             * be implemented in a way which returns the GDL for what the asset
-             * contains.
+             * Write the contents of the Asset to a device. This
+             * will be called by saveToFile() and should be reimplemented
+             * to write the actual data for the Asset.
              *
-             * @return The serialised contents of the asset
+             * \param device The device to write to.
              */
-            virtual QString contentsToGDL() = 0;
+            virtual void writeContents( QIODevice* device ) = 0;
 
             /**
              * Set this to true any time you do anything to the asset which would
