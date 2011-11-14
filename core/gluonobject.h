@@ -66,6 +66,7 @@ Q_DECLARE_METATYPE(GluonCore::GluonObject*)
 namespace GDL
 {
     class ObjectTreeBuilder;
+    class Writer;
 }
 
 namespace GluonCore
@@ -475,7 +476,7 @@ namespace GluonCore
             virtual void sanitize();
 
             friend class GDL::ObjectTreeBuilder;
-            //friend GDL::ObjectTreeWriter::writeObject();
+            friend class GDL::Writer;
 
         private:
             Q_DISABLE_COPY( GluonObject )
