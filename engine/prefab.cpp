@@ -45,19 +45,6 @@ Prefab::~Prefab()
     delete d;
 }
 
-QString Prefab::contentsToGDL()
-{
-    QByteArray out;
-
-    QList< GluonObject* > obj;
-    obj.append( gameObject() );
-
-    if( !GluonCore::GDLSerializer::instance()->serialize( obj, out ) )
-        return QString();
-
-    return QString( out );
-}
-
 PrefabInstance* Prefab::createInstance( GameObject* attachTo )
 {
     PrefabInstance* instance = createInstance();
@@ -148,6 +135,11 @@ int Prefab::preCacheSize() const
 void Prefab::setPreCacheSize(int newPreCacheSize)
 {
     d->preCacheSize = newPreCacheSize;
+}
+
+void Prefab::writeContents(QIODevice* device)
+{
+    GluonCore::GDLSerializer::instance()->write( device, GluonCore::GluonObjectList() << gameObject() );
 }
 
 void Prefab::updateFromInstance(const GluonEngine::PrefabInstance* updateFrom)

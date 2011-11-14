@@ -48,8 +48,10 @@ namespace GluonEngine
 
             virtual const QStringList supportedMimeTypes() const;
 
-            /** Reimplemented from Savable::contentsToGDL() */
-            virtual QString contentsToGDL();
+            /**
+             * Reimplemented from Savable::writeContents()
+             */
+            virtual void writeContents(QIODevice* device);
 
             /** Reimplemented from Asset::templates() */
             virtual const QList<AssetTemplate*> templates();
@@ -59,6 +61,8 @@ namespace GluonEngine
 
             /** Creates the statistics from the file at startup */
             virtual void setFile( const QUrl& newFile );
+
+            virtual bool shouldSerializeChildren() const;
 
         public Q_SLOTS:
             /**

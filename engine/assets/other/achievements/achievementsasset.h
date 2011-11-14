@@ -50,8 +50,10 @@ namespace GluonEngine
             /** Reimplemented from GluonCore::GluonObject::supportedMimeTypes() */
             virtual const QStringList supportedMimeTypes() const;
 
-            /** Reimplemented from Savable::contentsToGDL() */
-            virtual QString contentsToGDL();
+            /**
+             * Reimplemented from Savable::writeContents()
+             */
+            virtual void writeContents(QIODevice* device);
 
             /** Reimplemented from Asset::templates() */
             virtual const QList<AssetTemplate*> templates();
