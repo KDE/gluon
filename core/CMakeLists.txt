@@ -85,21 +85,6 @@ set(GluonCore_HEADERS
     ${CMAKE_CURRENT_BINARY_DIR}/gluon_global.h
 )
 
-set(GluonCore_GDL_HEADERS
-    gdl/gdlparser.h
-    gdl/gdllexer.h
-    gdl/gdldefaultvisitor.h
-    gdl/gdlvisitor.h
-    gdl/gdlast.h
-    gdl/gdlast-fwd.h
-    gdl/kdev-pg-list.h
-    gdl/kdev-pg-allocator.h
-    gdl/kdev-pg-char-sets.h
-    gdl/kdev-pg-token-stream.h
-    gdl/kdev-pg-memory-pool.h
-    gdl/kdev-pg-location-table.h
-)
-
 qt4_automoc(${GluonCore_SRCS})
 
 if(APPLE)
@@ -144,11 +129,6 @@ install(TARGETS GluonCore
 
 install(FILES ${GluonCore_HEADERS}
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/core
-    COMPONENT gluoncore
-)
-
-install(FILES ${GluonCore_GDL_HEADERS}
-    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/core/gdl
     COMPONENT gluoncore
 )
 
