@@ -62,6 +62,16 @@ namespace GluonCore
             bool write( const QUrl& url, const GluonObjectList& objects );
 
             /**
+             * Write a list of GluonObjects to a device.
+             * 
+             * \param device The device to write to.
+             * \param objects A list of objects to write to the device.
+             *
+             * \return True if successful, false if any error occured.
+             */
+            bool write( QIODevice* device, const GluonObjectList& objects );
+
+            /**
              * Parse a string to a list of objects.
              *
              * \param data The data to parse.
@@ -71,16 +81,6 @@ namespace GluonCore
              * \return True when successful, false if any error occured.
              */
             bool parse( const QByteArray& data, GluonObjectList& objects, GluonObject* project = 0 );
-
-            /**
-             * Serialize a list of objects into GDL.
-             *
-             * \param objects A list of objects to serialize.
-             * \param data A byte array that will be filled with serialized data.
-             *
-             * \return True when successful, false if any error occured.
-             */
-            bool serialize( const GluonObjectList& objects, QByteArray& data );
     };
 
 }
