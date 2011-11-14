@@ -67,6 +67,7 @@ set(GluonCore_SRCS
     gdl/gdlvisitor.cpp
     gdl/gdldefaultvisitor.cpp
     gdl/objecttreebuilder.cpp
+    gdl/writer.cpp
 )
 
 set(GluonCore_HEADERS
