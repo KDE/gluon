@@ -38,7 +38,7 @@ namespace GluonEngine
      * adding or removing GameObjects or Components) are propagated to the instances of the Prefab,
      * though this will only happen in the case where those properties are not changed in the
      * instances.
-     * 
+     *
      * Note that changes to the stored GameObject hierarchy (specifically removal of GameObjects)
      * will be propagated even though there are changes to the properties of those GameObjects in
      * the instance. As this is a destructive action, please take care when performing that action.
@@ -63,14 +63,6 @@ namespace GluonEngine
             Q_INVOKABLE Prefab( QObject* parent = 0 );
             Prefab( const Prefab& other, QObject* parent = 0 );
             virtual ~Prefab();
-
-            /**
-             * Return a GDL representation of the scene's contents (that is, the GluonObject
-             * hierarchy which makes up the scene tree)
-             *
-             * @return  A GDL representation of the scene tree
-             */
-            virtual QString contentsToGDL();
 
             /**
              * Create an instance of this Prefab, and attach the Instance as a child of the passed
@@ -102,6 +94,11 @@ namespace GluonEngine
             int additionalCacheSize() const;
             void setAdditionalCacheSize(int newAdditionalCacheSize);
 
+            /**
+             * Reimplemented from Savable::writeContents()
+             */
+            virtual void writeContents(QIODevice* device);
+
             static void cloneObjectProperties(const QObject* cloneFrom, QObject* setPropertiesOn);
         protected:
             friend class PrefabInstance;
@@ -121,10 +118,10 @@ namespace GluonEngine
              * Update the GameObject stored in this Prefab to conform to the structure represented
              * by the passed instance. This will cause all linked instances to also be updated, in
              * the following manner:
-             * 
+             *
              * If there are property changes, all properties that do not have local changes are
              * updated with the new values.
-             * 
+             *
              * If there are structural changes, they are propagated to the linked objects,
              * discarding changes to the children that are deleted, and new objects and components
              * are added to the children where appropriate.

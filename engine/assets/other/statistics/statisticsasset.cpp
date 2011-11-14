@@ -71,13 +71,16 @@ const QStringList StatisticsAsset::supportedMimeTypes() const
     return mimeTypes;
 }
 
-QString StatisticsAsset::contentsToGDL()
+void StatisticsAsset::writeContents(QIODevice* device)
 {
-    QByteArray data;
-    if( !GluonCore::GDLSerializer::instance()->serialize( GluonCore::GluonObjectList() << this, data ) )
-        return QString();
-
-    return QString( data );
+    GluonCore::GluonObjectList objects;
+    foreach( QObject* child, children() )
+    {
+        Statistic* statistic = qobject_cast<Statistic*>(child);
+        if( statistic )
+            objects.append( statistic );
+    }
+    GluonCore::GDLSerializer::instance()->write( device, objects );
 }
 
 const QList< AssetTemplate* > StatisticsAsset::templates()
@@ -138,6 +141,11 @@ void StatisticsAsset::createMultiScoreStatistic()
 void StatisticsAsset::populateMetaInfo(GluonCore::MetaInfo* info)
 {
     info->setDefaultExtension( "gluonstatistics" );
+}
+
+bool StatisticsAsset::shouldSerializeChildren() const
+{
+    return false;
 }
 
 Q_EXPORT_PLUGIN2( gluon_asset_statistics, GluonEngine::StatisticsAsset )

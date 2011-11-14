@@ -62,7 +62,7 @@ const QStringList AchievementsAsset::supportedMimeTypes() const
     return mimeTypes;
 }
 
-QString AchievementsAsset::contentsToGDL()
+void AchievementsAsset::writeContents(QIODevice* device)
 {
     GluonCore::GluonObjectList objects;
     foreach( QObject* object, children() )
@@ -72,11 +72,7 @@ QString AchievementsAsset::contentsToGDL()
             objects.append( gobj );
     }
 
-    QByteArray data;
-    if( !GluonCore::GDLSerializer::instance()->serialize( objects, data ) )
-        return QString();
-
-    return QString( data );
+    GluonCore::GDLSerializer::instance()->write( device, objects );
 }
 
 const QList< AssetTemplate* > AchievementsAsset::templates()

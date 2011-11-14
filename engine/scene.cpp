@@ -80,14 +80,9 @@ void Scene::resetScene()
     }
 }
 
-QString
-Scene::contentsToGDL()
+void Scene::writeContents(QIODevice* device)
 {
-    QByteArray data;
-    if( !GluonCore::GDLSerializer::instance()->serialize( GluonCore::GluonObjectList() << sceneContents(), data ) )
-        return QString();
-
-    return QString( data );
+    GluonCore::GDLSerializer::instance()->write( device, GluonCore::GluonObjectList() << sceneContents() );
 }
 
 GameObject*

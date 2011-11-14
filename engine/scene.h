@@ -69,12 +69,11 @@ namespace GluonEngine
             virtual void setName( const QString& newName );
 
             /**
-             * Return a GDL representation of the scene's contents (that is, the GluonObject
-             * hierarchy which makes up the scene tree)
+             * Write the contents of this scene to a device.
              *
-             * @return  A GDL representation of the scene tree
+             * Reimplemented from Savable::writeContents()
              */
-            virtual QString contentsToGDL();
+            virtual void writeContents(QIODevice* device);
 
             /**
              * Return a reference to the scene tree itself (meaning the GluonObject hierarchy
