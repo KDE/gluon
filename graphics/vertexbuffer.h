@@ -107,20 +107,27 @@ namespace GluonGraphics
              * - READ_ modes are for data that is read from OpenGL for processing in the application.
              * - COPY_ modes are for data that is read from OpenGL and should be used by OpenGL for
              *   vertex processing and drawing.
+             *
+             * Note that when using OpenGLES 2 the READ and COPY modes are unavailable.
              */
             enum BufferDataMode
             {
                 BM_STATIC_DRAW = GL_STATIC_DRAW,  ///<
+                BM_DYNAMIC_DRAW = GL_DYNAMIC_DRAW, ///<
+                BM_STREAM_DRAW = GL_STREAM_DRAW,  ///<
+
+#ifndef GLUON_GRAPHICS_GLES
+
                 BM_STATIC_READ = GL_STATIC_READ,  ///<
                 BM_STATIC_COPY = GL_STATIC_COPY,  ///<
 
-                BM_DYNAMIC_DRAW = GL_DYNAMIC_DRAW, ///<
                 BM_DYNAMIC_READ = GL_DYNAMIC_READ, ///<
                 BM_DYNAMIC_COPY = GL_DYNAMIC_COPY, ///<
 
-                BM_STREAM_DRAW = GL_STREAM_DRAW,  ///<
                 BM_STREAM_READ = GL_STREAM_READ,  ///<
                 BM_STREAM_COPY = GL_STREAM_COPY,  ///<
+
+#endif
             };
 
             /**
