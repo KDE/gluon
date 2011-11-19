@@ -19,9 +19,15 @@
  * Boston, MA 02110-1301, USA.
  */
 
-
-
 #include "objecttreebuilder.h"
+
+#include <QtCore/QSizeF>
+#include <QtCore/QMetaProperty>
+#include <QtGui/QColor>
+#include <QtGui/QVector2D>
+#include <QtGui/QVector3D>
+#include <QtGui/QVector4D>
+#include <QtGui/QQuaternion>
 
 #include <core/gluonobject.h>
 #include <core/gluonobjectfactory.h>
@@ -29,13 +35,6 @@
 
 #include <core/gdl/gdllexer.h>
 #include <core/gdl/gdlparser.h>
-
-#include <QtCore/QSizeF>
-#include <QtGui/QColor>
-#include <QtGui/QVector2D>
-#include <QtGui/QVector3D>
-#include <QtGui/QVector4D>
-#include <QtGui/QQuaternion>
 
 using namespace GDL;
 using namespace GluonCore;
@@ -112,7 +111,16 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
             }
         }
 
-        ref.object->setProperty( ref.property.toUtf8(), GluonCore::GluonObjectFactory::instance()->wrapObject( ref.type, target ) );
+        QString type = ref.type;
+        int propertyIndex = ref.object->metaObject()->indexOfProperty( ref.property.toUtf8() );
+        if( propertyIndex != -1 )
+            type = ref.object->metaObject()->property( propertyIndex ).typeName();
+
+        if( !ref.object->setProperty( ref.property.toUtf8(), GluonCore::GluonObjectFactory::instance()->wrapObject( type, target ) ) )
+        {
+            if( propertyIndex != -1 )
+                ref.object->debug( QString("Warning: Could not set property %1 on object %2").arg(ref.property, ref.object->fullyQualifiedName()) );
+        }
     }
 
     //Allow subclasses to do their own post-processing as well
