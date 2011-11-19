@@ -53,7 +53,7 @@ btAsset::btAsset(const btAsset& other, QObject* parent)
 
 btAsset::~btAsset()
 {
-    delete(d);
+    delete d;
 }
 
 void
@@ -68,13 +68,13 @@ btAsset::setFile(const QUrl &newFile)
     QTextStream brainReader(brainFile);
     btBrain* newBrain = new btBrain(brainReader.readAll(), newFile.toLocalFile());
     brainFile->close();
-    delete(brainFile);
+    delete brainFile;
     
     if(!newBrain)
         return;
     
     debug(QString("Brain loaded, replacing old brain and creating %1 sub-btAssets").arg(newBrain->behaviorTreesCount()));
-    //delete(d->brain);
+    //delete d->brain;
     d->brain = newBrain;
     
     const QObjectList& oldChildren = children();
