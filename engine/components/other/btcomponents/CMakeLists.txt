@@ -28,7 +28,7 @@ if(GLUON_BUILD_ALL)
 endif()
 
 set_target_properties(gluon_plugin_asset_behaviortree PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_BTCOMPONENT_LIB)
-target_link_libraries(gluon_plugin_asset_behaviortree ${QT_QTCORE_LIBRARY} ${GLUON_CORE_LIBS} ${GLUON_ENGINE_LIBS} ${QT_QTSCRIPT_LIBRARY} btlib)
+target_link_libraries(gluon_plugin_asset_behaviortree GluonEngine)
 
 install(
     TARGETS
