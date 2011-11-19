@@ -80,6 +80,14 @@ endif()
 
 target_link_libraries(btlib ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY})
 
+set(GLUON_SMARTS_LIBS
+    btlib
+    ${QT_QTCORE_LIBRARY}
+    ${QT_QTGUI_LIBRARY}
+    ${QT_QTXML_LIBRARY}
+    CACHE INTERNAL "Libraries required for Gluon Smarts"
+)
+
 install(
   TARGETS btlib 
   DESTINATION ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}
