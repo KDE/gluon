@@ -101,18 +101,7 @@ GluonObjectFactory::wrapObject( const QVariant& original, GluonObject* newValue 
 {
     QString type = original.typeName();
 
-    if( type.endsWith( '*' ) ) //Remove the * from the type
-    {
-        type = type.left( type.length() - 1 );
-    }
-
-    if( m_objectTypes.contains( type ) )
-    {
-        QScopedPointer<GluonObject> obj( instantiateObjectByName( type ) );
-        return obj->toVariant( newValue );
-    }
-
-    return QVariant();
+    return wrapObject( type, newValue );
 }
 
 QVariant
@@ -127,6 +116,9 @@ GluonObjectFactory::wrapObject( const QString& type, GluonObject* newValue )
         QScopedPointer<GluonObject> obj( instantiateObjectByName( typeName ) );
         return obj->toVariant( newValue );
     }
+
+    DEBUG_FUNC_NAME
+    DEBUG_TEXT2( "Could not find type %1", type );
 
     return QVariant();
 }
