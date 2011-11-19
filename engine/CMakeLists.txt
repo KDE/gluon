@@ -47,9 +47,6 @@ set(GLUON_ENGINE_INCLUDES
     CACHE INTERNAL "Include files required for Gluon Engine"
 )
 
-add_subdirectory(assets)
-add_subdirectory(components)
-
 set(GluonEngine_SRCS
     abstractprefabinstance.cpp
     abstractstatistic.cpp
@@ -159,6 +156,9 @@ install(
     DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/engine
     COMPONENT gluonengine
 )
+
+add_subdirectory(assets)
+add_subdirectory(components)
 
 if(BUILD_GLUON_TESTS)
     add_subdirectory(tests)
