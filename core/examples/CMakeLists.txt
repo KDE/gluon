@@ -1,1 +1,1 @@
-add_subdirectory(gdlparser)
+#add_subdirectory(gdlparser)
