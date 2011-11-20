@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 2.6)
 
-include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${PROJECT_SOURCE_DIR} ${GLUON_ENGINE_INCLUDES} ${GLUON_CORE_INCLUDES} ${QT_QTSCRIPT_INCLUDES})
+if(NOT GLUON_BUILD_ALL)
+    find_package(GluonSmarts REQUIRED)
+endif()
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_SMARTS_INCLUDES})
 
 set(behaviorTreeComponent_SRCS
     btAssetprivate.cpp
@@ -24,11 +28,11 @@ qt4_automoc(${behaviorTreeComponent_SRCS})
 add_library(gluon_plugin_asset_behaviortree SHARED ${behaviorTreeComponent_SRCS})
 
 if(GLUON_BUILD_ALL)
-    add_dependencies(gluon_plugin_asset_behaviortree GluonEngine)
+    add_dependencies(gluon_plugin_asset_behaviortree GluonEngine GluonSmarts)
 endif()
 
-set_target_properties(gluon_plugin_asset_behaviortree PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_BTCOMPONENT_LIB)
-target_link_libraries(gluon_plugin_asset_behaviortree GluonEngine)
+set_target_properties(gluon_plugin_asset_behaviortree PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_COMPONENT_BTCOMPONENTS_LIB)
+target_link_libraries(gluon_plugin_asset_behaviortree GluonEngine ${GLUON_SMARTS_LIBS})
 
 install(
     TARGETS
