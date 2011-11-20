@@ -89,16 +89,18 @@ set(GLUON_SMARTS_LIBS
 )
 
 install(
-  TARGETS btlib 
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}
-  )
+    TARGETS btlib
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}
+    COMPONENT gluonsmarts
+)
 
 set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include/gluon/smarts)
 
 install(FILES
-${btlib_HEADERS}
-DESTINATION ${INCLUDE_INSTALL_DIR}/
-COMPONENT Devel)
+    ${btlib_HEADERS}
+    DESTINATION ${INCLUDE_INSTALL_DIR}
+    COMPONENT gluonsmarts
+)
 
 if(BUILD_GLUON_TESTS)
     enable_testing()
