@@ -2,7 +2,6 @@
 // WARNING! All changes made in this file will be lost!
 
 #include "gdllexer.h"
-#include "gdlparser.h"
 
 #include "QtCore/QDebug"
 
@@ -22,29 +21,28 @@ Lexer::~Lexer()
 
 #define lxCURR_POS (Iterator::plain())
 #define lxCURR_IDX (Iterator::plain() - Iterator::begin())
-#define lxCONTINUE {continueLexeme = true; return advance();}
+#define lxCONTINUE {continueLexeme = true; return read();}
 #define lxLENGTH (Iterator::plain() - Iterator::begin())
 #define lxBEGIN_POS (spos)
 #define lxBEGIN_IDX (spos - Iterator::begin())
-#define lxNAMED_TOKEN(token, X) KDevPG::Token& token(Base::next()); token.kind = ::GDL::Parser::Token_##X; token.begin = lxBEGIN_IDX; token.end = lxCURR_IDX - 1;
+#define lxNAMED_TOKEN(token, X) KDevPG::Token& token(Base::push()); token.kind = Token_##X; token.begin = lxBEGIN_IDX; token.end = lxCURR_IDX - 1;
 #define lxTOKEN(X) {lxNAMED_TOKEN(token, X);}
-#define lxDONE {return Base::advance();}
+#define lxDONE {return Base::read();}
 #define lxRETURN(X) {lxTOKEN(X); lxDONE}
+#define lxEOF {Base::Token& _t(Base::push()); _t.kind = Token_EOF;_t.begin = _t.end = Iterator::plain() - Iterator::begin();}
+#define lxFINISH {lxEOF lxDONE}
 #define yytoken (Base::back())
 #define lxFAIL {goto _fail;}
-#define lxSKIP {return advance();}
+#define lxSKIP {return read();}
 #define lxNEXT_CHR(chr) { if(!Iterator::hasNext()) goto _end; chr = Iterator::next(); }
 
-Lexer::Base::Token& Lexer::advance()
+Lexer::Base::Token& Lexer::read()
 {
     if (Base::index() < Base::size())
-        return Base::advance();
+        return Base::read();
     if (!Iterator::hasNext())
     {
-        Base::Token& _t(Base::advance());
-        _t.kind = Parser::Token_EOF;
-        _t.begin = _t.end = Iterator::plain() - Iterator::begin();
-        return _t;
+        lxFINISH
     }
     if (continueLexeme) continueLexeme = false;
     else spos = plain();
@@ -66,14 +64,14 @@ _state_0:
                     if (chr < 10)
                     {
                         if (chr == 9)
-                            goto _state_1;
+                            goto _state_7;
                         else
                             goto _end;
                     }
                     else
                     {
                         if (chr == 10)
-                            goto _state_90;
+                            goto _state_17;
                         else
                             goto _end;
                     }
@@ -83,14 +81,14 @@ _state_0:
                     if (chr < 32)
                     {
                         if (chr == 13)
-                            goto _state_1;
+                            goto _state_7;
                         else
                             goto _end;
                     }
                     else
                     {
                         if (chr == 32)
-                            goto _state_1;
+                            goto _state_7;
                         else
                             goto _end;
                     }
@@ -102,12 +100,12 @@ _state_0:
                 {
                     if (chr < 35)
                     {
-                        goto _state_5;
+                        goto _state_62;
                     }
                     else
                     {
                         if (chr == 35)
-                            goto _state_3;
+                            goto _state_83;
                         else
                             goto _end;
                     }
@@ -116,21 +114,21 @@ _state_0:
                 {
                     if (chr < 41)
                     {
-                        goto _state_85;
+                        goto _state_2;
                     }
                     else
                     {
                         if (chr < 45)
                         {
                             if (chr == 41)
-                                goto _state_84;
+                                goto _state_31;
                             else
                                 goto _end;
                         }
                         else
                         {
                             if (chr < 47)
-                                goto _state_7;
+                                goto _state_4;
                             else
                                 goto _end;
                         }
@@ -147,13 +145,13 @@ _state_0:
                     if (chr < 59)
                     {
                         if (chr < 58)
-                            goto _state_7;
+                            goto _state_4;
                         else
                             goto _end;
                     }
                     else
                     {
-                        goto _state_83;
+                        goto _state_77;
                     }
                 }
                 else
@@ -161,14 +159,14 @@ _state_0:
                     if (chr < 62)
                     {
                         if (chr == 60)
-                            goto _state_87;
+                            goto _state_6;
                         else
                             goto _end;
                     }
                     else
                     {
                         if (chr == 62)
-                            goto _state_86;
+                            goto _state_34;
                         else
                             goto _end;
                     }
@@ -180,29 +178,29 @@ _state_0:
                 {
                     if (chr < 70)
                     {
-                        goto _state_6;
+                        goto _state_23;
                     }
                     else
                     {
-                        goto _state_12;
+                        goto _state_66;
                     }
                 }
                 else
                 {
                     if (chr < 84)
                     {
-                        goto _state_6;
+                        goto _state_23;
                     }
                     else
                     {
                         if (chr < 85)
                         {
-                            goto _state_16;
+                            goto _state_41;
                         }
                         else
                         {
                             if (chr < 91)
-                                goto _state_6;
+                                goto _state_23;
                             else
                                 goto _end;
                         }
@@ -221,22 +219,22 @@ _state_0:
                 {
                     if (chr < 98)
                     {
-                        goto _state_6;
+                        goto _state_23;
                     }
                     else
                     {
-                        goto _state_82;
+                        goto _state_36;
                     }
                 }
                 else
                 {
                     if (chr < 102)
                     {
-                        goto _state_6;
+                        goto _state_23;
                     }
                     else
                     {
-                        goto _state_63;
+                        goto _state_48;
                     }
                 }
             }
@@ -246,28 +244,28 @@ _state_0:
                 {
                     if (chr < 105)
                     {
-                        goto _state_6;
+                        goto _state_23;
                     }
                     else
                     {
-                        goto _state_78;
+                        goto _state_14;
                     }
                 }
                 else
                 {
                     if (chr < 108)
                     {
-                        goto _state_6;
+                        goto _state_23;
                     }
                     else
                     {
                         if (chr < 109)
                         {
-                            goto _state_71;
+                            goto _state_38;
                         }
                         else
                         {
-                            goto _state_6;
+                            goto _state_23;
                         }
                     }
                 }
@@ -281,22 +279,22 @@ _state_0:
                 {
                     if (chr < 114)
                     {
-                        goto _state_36;
+                        goto _state_19;
                     }
                     else
                     {
-                        goto _state_52;
+                        goto _state_71;
                     }
                 }
                 else
                 {
                     if (chr < 116)
                     {
-                        goto _state_58;
+                        goto _state_18;
                     }
                     else
                     {
-                        goto _state_16;
+                        goto _state_41;
                     }
                 }
             }
@@ -306,32 +304,32 @@ _state_0:
                 {
                     if (chr < 118)
                     {
-                        goto _state_75;
+                        goto _state_1;
                     }
                     else
                     {
-                        goto _state_48;
+                        goto _state_54;
                     }
                 }
                 else
                 {
                     if (chr < 123)
                     {
-                        goto _state_6;
+                        goto _state_23;
                     }
                     else
                     {
                         if (chr < 125)
                         {
                             if (chr == 123)
-                                goto _state_89;
+                                goto _state_9;
                             else
                                 goto _end;
                         }
                         else
                         {
                             if (chr == 125)
-                                goto _state_88;
+                                goto _state_32;
                             else
                                 goto _end;
                         }
@@ -342,177 +340,126 @@ _state_0:
     }
 _state_1:
     lpos = lxCURR_POS;
-    lstate = 28;
+    lstate = 25;
     lxNEXT_CHR(chr);
-    if (chr < 13)
+    if (chr < 105)
     {
-        if (chr == 9)
-            goto _state_1;
-        else
-            goto _end;
-    }
-    else
-    {
-        if (chr < 32)
+        if (chr < 65)
         {
-            if (chr == 13)
-                goto _state_1;
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
-            if (chr == 32)
-                goto _state_1;
+            if (chr < 97)
+            {
+                if (chr < 91)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
             else
-                goto _end;
+            {
+                goto _state_23;
+            }
+        }
+    }
+    else
+    {
+        if (chr < 114)
+        {
+            if (chr < 106)
+            {
+                goto _state_29;
+            }
+            else
+            {
+                goto _state_23;
+            }
+        }
+        else
+        {
+            if (chr < 115)
+            {
+                goto _state_50;
+            }
+            else
+            {
+                if (chr < 123)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
         }
     }
 _state_2:
     lpos = lxCURR_POS;
-    lstate = 27;
-    lxNEXT_CHR(chr);
-    if (chr < 11)
-    {
-        if (chr < 10)
-            goto _state_2;
-        else
-            goto _end;
-    }
-    else
-    {
-        if (chr < 14)
-        {
-            if (chr < 13)
-                goto _state_2;
-            else
-                goto _end;
-        }
-        else
-        {
-            goto _state_2;
-        }
-    }
-_state_3:
-    lxNEXT_CHR(chr);
-    if (chr < 11)
-    {
-        if (chr < 10)
-            goto _state_2;
-        else
-            goto _end;
-    }
-    else
-    {
-        if (chr < 14)
-        {
-            if (chr < 13)
-                goto _state_2;
-            else
-                goto _end;
-        }
-        else
-        {
-            goto _state_2;
-        }
-    }
-_state_4:
-    lpos = lxCURR_POS;
-    lstate = 26;
+    lstate = 5;
     lxNEXT_CHR(chr);
     goto _end;
-_state_5:
-    lxNEXT_CHR(chr);
-    if (chr < 34)
-    {
-        goto _state_5;
-    }
-    else
-    {
-        if (chr < 35)
-        {
-            goto _state_4;
-        }
-        else
-        {
-            goto _state_5;
-        }
-    }
-_state_6:
+_state_3:
     lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
-    if (chr < 65)
+    if (chr < 97)
     {
-        if (chr >= 48 && chr < 59)
-            goto _state_6;
+        if (chr < 65)
+        {
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
+            else
+                goto _end;
+        }
         else
-            goto _end;
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
     }
     else
     {
-        if (chr < 97)
+        if (chr < 116)
         {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
+            goto _state_23;
         }
         else
         {
-            if (chr < 123)
-                goto _state_6;
+            if (chr < 117)
+            {
+                goto _state_40;
+            }
             else
-                goto _end;
+            {
+                if (chr < 123)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
         }
     }
-_state_7:
+_state_4:
     lpos = lxCURR_POS;
     lstate = 24;
     lxNEXT_CHR(chr);
     if (chr < 48)
     {
         if (chr == 46)
-            goto _state_7;
+            goto _state_4;
         else
             goto _end;
     }
     else
     {
         if (chr < 58)
-            goto _state_7;
+            goto _state_4;
         else
             goto _end;
     }
-_state_8:
-    lpos = lxCURR_POS;
-    lstate = 23;
-    lxNEXT_CHR(chr);
-    if (chr < 65)
-    {
-        if (chr >= 48 && chr < 59)
-            goto _state_6;
-        else
-            goto _end;
-    }
-    else
-    {
-        if (chr < 97)
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 123)
-                goto _state_6;
-            else
-                goto _end;
-        }
-    }
-_state_9:
+_state_5:
     lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
@@ -521,7 +468,7 @@ _state_9:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
@@ -529,11 +476,11 @@ _state_9:
         {
             if (chr < 69)
             {
-                goto _state_6;
+                goto _state_23;
             }
             else
             {
-                goto _state_8;
+                goto _state_60;
             }
         }
     }
@@ -544,81 +491,147 @@ _state_9:
             if (chr < 97)
             {
                 if (chr < 91)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
             else
             {
-                goto _state_6;
+                goto _state_23;
             }
         }
         else
         {
             if (chr < 102)
             {
-                goto _state_8;
+                goto _state_60;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
         }
     }
-_state_10:
+_state_6:
     lpos = lxCURR_POS;
-    lstate = 25;
+    lstate = 3;
     lxNEXT_CHR(chr);
-    if (chr < 84)
+    goto _end;
+_state_7:
+    lpos = lxCURR_POS;
+    lstate = 28;
+    lxNEXT_CHR(chr);
+    if (chr < 13)
     {
-        if (chr < 65)
+        if (chr == 9)
+            goto _state_7;
+        else
+            goto _end;
+    }
+    else
+    {
+        if (chr < 32)
         {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
+            if (chr == 13)
+                goto _state_7;
             else
                 goto _end;
         }
         else
         {
-            if (chr < 83)
+            if (chr == 32)
+                goto _state_7;
+            else
+                goto _end;
+        }
+    }
+_state_8:
+    lpos = lxCURR_POS;
+    lstate = 11;
+    lxNEXT_CHR(chr);
+    if (chr < 65)
+    {
+        if (chr >= 48 && chr < 59)
+            goto _state_23;
+        else
+            goto _end;
+    }
+    else
+    {
+        if (chr < 97)
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 123)
+                goto _state_23;
+            else
+                goto _end;
+        }
+    }
+_state_9:
+    lpos = lxCURR_POS;
+    lstate = 1;
+    lxNEXT_CHR(chr);
+    goto _end;
+_state_10:
+    lpos = lxCURR_POS;
+    lstate = 25;
+    lxNEXT_CHR(chr);
+    if (chr < 70)
+    {
+        if (chr < 65)
+        {
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 69)
             {
-                goto _state_6;
+                goto _state_23;
             }
             else
             {
-                goto _state_9;
+                goto _state_20;
             }
         }
     }
     else
     {
-        if (chr < 115)
+        if (chr < 101)
         {
             if (chr < 97)
             {
                 if (chr < 91)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
             else
             {
-                goto _state_6;
+                goto _state_23;
             }
         }
         else
         {
-            if (chr < 116)
+            if (chr < 102)
             {
-                goto _state_9;
+                goto _state_20;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -628,194 +641,12 @@ _state_11:
     lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
-    if (chr < 77)
-    {
-        if (chr < 65)
-        {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 76)
-            {
-                goto _state_6;
-            }
-            else
-            {
-                goto _state_10;
-            }
-        }
-    }
-    else
-    {
-        if (chr < 108)
-        {
-            if (chr < 97)
-            {
-                if (chr < 91)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-            else
-            {
-                goto _state_6;
-            }
-        }
-        else
-        {
-            if (chr < 109)
-            {
-                goto _state_10;
-            }
-            else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-        }
-    }
-_state_12:
-    lpos = lxCURR_POS;
-    lstate = 25;
-    lxNEXT_CHR(chr);
-    if (chr < 66)
-    {
-        if (chr < 65)
-        {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            goto _state_11;
-        }
-    }
-    else
-    {
-        if (chr < 97)
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 98)
-            {
-                goto _state_11;
-            }
-            else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-        }
-    }
-_state_13:
-    lpos = lxCURR_POS;
-    lstate = 22;
-    lxNEXT_CHR(chr);
-    if (chr < 65)
-    {
-        if (chr >= 48 && chr < 59)
-            goto _state_6;
-        else
-            goto _end;
-    }
-    else
-    {
-        if (chr < 97)
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 123)
-                goto _state_6;
-            else
-                goto _end;
-        }
-    }
-_state_14:
-    lpos = lxCURR_POS;
-    lstate = 25;
-    lxNEXT_CHR(chr);
-    if (chr < 70)
-    {
-        if (chr < 65)
-        {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 69)
-            {
-                goto _state_6;
-            }
-            else
-            {
-                goto _state_13;
-            }
-        }
-    }
-    else
-    {
-        if (chr < 101)
-        {
-            if (chr < 97)
-            {
-                if (chr < 91)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-            else
-            {
-                goto _state_6;
-            }
-        }
-        else
-        {
-            if (chr < 102)
-            {
-                goto _state_13;
-            }
-            else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-        }
-    }
-_state_15:
-    lpos = lxCURR_POS;
-    lstate = 25;
-    lxNEXT_CHR(chr);
     if (chr < 86)
     {
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
@@ -823,11 +654,11 @@ _state_15:
         {
             if (chr < 85)
             {
-                goto _state_6;
+                goto _state_23;
             }
             else
             {
-                goto _state_14;
+                goto _state_10;
             }
         }
     }
@@ -838,81 +669,218 @@ _state_15:
             if (chr < 97)
             {
                 if (chr < 91)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
             else
             {
-                goto _state_6;
+                goto _state_23;
             }
         }
         else
         {
             if (chr < 118)
             {
-                goto _state_14;
+                goto _state_10;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
+        }
+    }
+_state_12:
+    lpos = lxCURR_POS;
+    lstate = 9;
+    lxNEXT_CHR(chr);
+    if (chr < 65)
+    {
+        if (chr >= 48 && chr < 59)
+            goto _state_23;
+        else
+            goto _end;
+    }
+    else
+    {
+        if (chr < 97)
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 123)
+                goto _state_23;
+            else
+                goto _end;
+        }
+    }
+_state_13:
+    lpos = lxCURR_POS;
+    lstate = 25;
+    lxNEXT_CHR(chr);
+    if (chr < 84)
+    {
+        if (chr < 65)
+        {
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 83)
+            {
+                goto _state_23;
+            }
+            else
+            {
+                goto _state_5;
+            }
+        }
+    }
+    else
+    {
+        if (chr < 115)
+        {
+            if (chr < 97)
+            {
+                if (chr < 91)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+            else
+            {
+                goto _state_23;
+            }
+        }
+        else
+        {
+            if (chr < 116)
+            {
+                goto _state_5;
+            }
+            else
+            {
+                if (chr < 123)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+        }
+    }
+_state_14:
+    lpos = lxCURR_POS;
+    lstate = 25;
+    lxNEXT_CHR(chr);
+    if (chr < 97)
+    {
+        if (chr < 65)
+        {
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
+    }
+    else
+    {
+        if (chr < 110)
+        {
+            goto _state_23;
+        }
+        else
+        {
+            if (chr < 111)
+            {
+                goto _state_64;
+            }
+            else
+            {
+                if (chr < 123)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+        }
+    }
+_state_15:
+    lpos = lxCURR_POS;
+    lstate = 27;
+    lxNEXT_CHR(chr);
+    if (chr < 11)
+    {
+        if (chr < 10)
+            goto _state_15;
+        else
+            goto _end;
+    }
+    else
+    {
+        if (chr < 14)
+        {
+            if (chr < 13)
+                goto _state_15;
+            else
+                goto _end;
+        }
+        else
+        {
+            goto _state_15;
         }
     }
 _state_16:
     lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
-    if (chr < 83)
+    if (chr < 97)
     {
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
-            if (chr < 82)
-            {
-                goto _state_6;
-            }
+            if (chr < 91)
+                goto _state_23;
             else
-            {
-                goto _state_15;
-            }
+                goto _end;
         }
     }
     else
     {
-        if (chr < 114)
+        if (chr < 110)
         {
-            if (chr < 97)
-            {
-                if (chr < 91)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-            else
-            {
-                goto _state_6;
-            }
+            goto _state_23;
         }
         else
         {
-            if (chr < 115)
+            if (chr < 111)
             {
-                goto _state_15;
+                goto _state_85;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -920,69 +888,60 @@ _state_16:
     }
 _state_17:
     lpos = lxCURR_POS;
-    lstate = 21;
+    lstate = 29;
     lxNEXT_CHR(chr);
-    if (chr < 65)
-    {
-        if (chr >= 48 && chr < 59)
-            goto _state_6;
-        else
-            goto _end;
-    }
-    else
-    {
-        if (chr < 97)
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 123)
-                goto _state_6;
-            else
-                goto _end;
-        }
-    }
+    goto _end;
 _state_18:
     lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
-    if (chr < 97)
+    if (chr < 105)
     {
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
-            if (chr < 91)
-                goto _state_6;
+            if (chr < 97)
+            {
+                if (chr < 91)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
             else
-                goto _end;
+            {
+                goto _state_23;
+            }
         }
     }
     else
     {
-        if (chr < 108)
+        if (chr < 116)
         {
-            goto _state_6;
+            if (chr < 106)
+            {
+                goto _state_87;
+            }
+            else
+            {
+                goto _state_23;
+            }
         }
         else
         {
-            if (chr < 109)
+            if (chr < 117)
             {
-                goto _state_17;
+                goto _state_30;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -990,12 +949,54 @@ _state_18:
     }
 _state_19:
     lpos = lxCURR_POS;
-    lstate = 20;
+    lstate = 25;
+    lxNEXT_CHR(chr);
+    if (chr < 97)
+    {
+        if (chr < 65)
+        {
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
+    }
+    else
+    {
+        if (chr < 117)
+        {
+            goto _state_23;
+        }
+        else
+        {
+            if (chr < 118)
+            {
+                goto _state_84;
+            }
+            else
+            {
+                if (chr < 123)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+        }
+    }
+_state_20:
+    lpos = lxCURR_POS;
+    lstate = 22;
     lxNEXT_CHR(chr);
     if (chr < 65)
     {
         if (chr >= 48 && chr < 59)
-            goto _state_6;
+            goto _state_23;
         else
             goto _end;
     }
@@ -1004,58 +1005,16 @@ _state_19:
         if (chr < 97)
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 123)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
-        }
-    }
-_state_20:
-    lpos = lxCURR_POS;
-    lstate = 25;
-    lxNEXT_CHR(chr);
-    if (chr < 97)
-    {
-        if (chr < 65)
-        {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-    }
-    else
-    {
-        if (chr < 116)
-        {
-            goto _state_6;
-        }
-        else
-        {
-            if (chr < 117)
-            {
-                goto _state_19;
-            }
-            else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
         }
     }
 _state_21:
@@ -1067,34 +1026,34 @@ _state_21:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 115)
+        if (chr < 98)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 116)
+            if (chr < 99)
             {
-                goto _state_20;
+                goto _state_61;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -1102,12 +1061,12 @@ _state_21:
     }
 _state_22:
     lpos = lxCURR_POS;
-    lstate = 19;
+    lstate = 15;
     lxNEXT_CHR(chr);
     if (chr < 65)
     {
         if (chr >= 48 && chr < 59)
-            goto _state_6;
+            goto _state_23;
         else
             goto _end;
     }
@@ -1116,14 +1075,14 @@ _state_22:
         if (chr < 97)
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 123)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
@@ -1132,84 +1091,67 @@ _state_23:
     lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
-    if (chr < 97)
+    if (chr < 65)
     {
-        if (chr < 65)
-        {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
-            else
-                goto _end;
-        }
+        if (chr >= 48 && chr < 59)
+            goto _state_23;
         else
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
+            goto _end;
     }
     else
     {
-        if (chr < 100)
+        if (chr < 97)
         {
-            goto _state_6;
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
         }
         else
         {
-            if (chr < 101)
-            {
-                goto _state_22;
-            }
+            if (chr < 123)
+                goto _state_23;
             else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
+                goto _end;
         }
     }
 _state_24:
     lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
-    if (chr < 51)
+    if (chr < 97)
     {
-        if (chr < 50)
+        if (chr < 65)
         {
-            if (chr >= 48)
-                goto _state_6;
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
-            goto _state_23;
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
         }
     }
     else
     {
-        if (chr < 65)
+        if (chr < 105)
         {
-            if (chr < 59)
-                goto _state_6;
-            else
-                goto _end;
+            goto _state_23;
         }
         else
         {
-            if (chr < 97)
+            if (chr < 106)
             {
-                if (chr < 91)
-                    goto _state_6;
-                else
-                    goto _end;
+                goto _state_82;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -1224,34 +1166,34 @@ _state_25:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 101)
+        if (chr < 110)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 102)
+            if (chr < 111)
             {
                 goto _state_24;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -1266,61 +1208,40 @@ _state_26:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 122)
+        if (chr < 116)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr == 122)
-                goto _state_25;
+            if (chr < 117)
+            {
+                goto _state_35;
+            }
             else
-                goto _end;
+            {
+                if (chr < 123)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
         }
     }
 _state_27:
-    lpos = lxCURR_POS;
-    lstate = 18;
-    lxNEXT_CHR(chr);
-    if (chr < 65)
-    {
-        if (chr >= 48 && chr < 59)
-            goto _state_6;
-        else
-            goto _end;
-    }
-    else
-    {
-        if (chr < 97)
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 123)
-                goto _state_6;
-            else
-                goto _end;
-        }
-    }
-_state_28:
     lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
@@ -1329,37 +1250,65 @@ _state_28:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 110)
+        if (chr < 100)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 111)
+            if (chr < 101)
             {
-                goto _state_27;
+                goto _state_53;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
+        }
+    }
+_state_28:
+    lpos = lxCURR_POS;
+    lstate = 13;
+    lxNEXT_CHR(chr);
+    if (chr < 65)
+    {
+        if (chr >= 48 && chr < 59)
+            goto _state_23;
+        else
+            goto _end;
+    }
+    else
+    {
+        if (chr < 97)
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 123)
+                goto _state_23;
+            else
+                goto _end;
         }
     }
 _state_29:
@@ -1371,34 +1320,34 @@ _state_29:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 111)
+        if (chr < 110)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 112)
+            if (chr < 111)
             {
-                goto _state_28;
+                goto _state_3;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -1413,98 +1362,14 @@ _state_30:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-    }
-    else
-    {
-        if (chr < 105)
-        {
-            goto _state_6;
-        }
-        else
-        {
-            if (chr < 106)
-            {
-                goto _state_29;
-            }
-            else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-        }
-    }
-_state_31:
-    lpos = lxCURR_POS;
-    lstate = 25;
-    lxNEXT_CHR(chr);
-    if (chr < 97)
-    {
-        if (chr < 65)
-        {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-    }
-    else
-    {
-        if (chr < 110)
-        {
-            goto _state_6;
-        }
-        else
-        {
-            if (chr < 111)
-            {
-                goto _state_30;
-            }
-            else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-        }
-    }
-_state_32:
-    lpos = lxCURR_POS;
-    lstate = 25;
-    lxNEXT_CHR(chr);
-    if (chr < 97)
-    {
-        if (chr < 65)
-        {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
@@ -1513,23 +1378,33 @@ _state_32:
     {
         if (chr < 114)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
             if (chr < 115)
             {
-                goto _state_31;
+                goto _state_52;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
         }
     }
+_state_31:
+    lpos = lxCURR_POS;
+    lstate = 6;
+    lxNEXT_CHR(chr);
+    goto _end;
+_state_32:
+    lpos = lxCURR_POS;
+    lstate = 2;
+    lxNEXT_CHR(chr);
+    goto _end;
 _state_33:
     lpos = lxCURR_POS;
     lstate = 25;
@@ -1539,34 +1414,34 @@ _state_33:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 101)
+        if (chr < 99)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 102)
+            if (chr < 100)
             {
-                goto _state_32;
+                goto _state_26;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -1574,46 +1449,9 @@ _state_33:
     }
 _state_34:
     lpos = lxCURR_POS;
-    lstate = 25;
+    lstate = 4;
     lxNEXT_CHR(chr);
-    if (chr < 97)
-    {
-        if (chr < 65)
-        {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-    }
-    else
-    {
-        if (chr < 116)
-        {
-            goto _state_6;
-        }
-        else
-        {
-            if (chr < 117)
-            {
-                goto _state_33;
-            }
-            else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-        }
-    }
+    goto _end;
 _state_35:
     lpos = lxCURR_POS;
     lstate = 25;
@@ -1623,30 +1461,37 @@ _state_35:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 98)
+        if (chr < 111)
         {
-            goto _state_34;
+            goto _state_23;
         }
         else
         {
-            if (chr < 123)
-                goto _state_6;
+            if (chr < 112)
+            {
+                goto _state_44;
+            }
             else
-                goto _end;
+            {
+                if (chr < 123)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
         }
     }
 _state_36:
@@ -1658,34 +1503,34 @@ _state_36:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 117)
+        if (chr < 111)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 118)
+            if (chr < 112)
             {
-                goto _state_35;
+                goto _state_89;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -1693,34 +1538,6 @@ _state_36:
     }
 _state_37:
     lpos = lxCURR_POS;
-    lstate = 17;
-    lxNEXT_CHR(chr);
-    if (chr < 65)
-    {
-        if (chr >= 48 && chr < 59)
-            goto _state_6;
-        else
-            goto _end;
-    }
-    else
-    {
-        if (chr < 97)
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 123)
-                goto _state_6;
-            else
-                goto _end;
-        }
-    }
-_state_38:
-    lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
     if (chr < 97)
@@ -1728,34 +1545,90 @@ _state_38:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 100)
+        if (chr < 110)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 101)
+            if (chr < 111)
             {
-                goto _state_37;
+                goto _state_81;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+        }
+    }
+_state_38:
+    lpos = lxCURR_POS;
+    lstate = 25;
+    lxNEXT_CHR(chr);
+    if (chr < 105)
+    {
+        if (chr < 65)
+        {
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 97)
+            {
+                if (chr < 91)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+            else
+            {
+                goto _state_23;
+            }
+        }
+    }
+    else
+    {
+        if (chr < 111)
+        {
+            if (chr < 106)
+            {
+                goto _state_58;
+            }
+            else
+            {
+                goto _state_23;
+            }
+        }
+        else
+        {
+            if (chr < 112)
+            {
+                goto _state_68;
+            }
+            else
+            {
+                if (chr < 123)
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -1763,34 +1636,6 @@ _state_38:
     }
 _state_39:
     lpos = lxCURR_POS;
-    lstate = 16;
-    lxNEXT_CHR(chr);
-    if (chr < 65)
-    {
-        if (chr >= 48 && chr < 59)
-            goto _state_6;
-        else
-            goto _end;
-    }
-    else
-    {
-        if (chr < 97)
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 123)
-                goto _state_6;
-            else
-                goto _end;
-        }
-    }
-_state_40:
-    lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
     if (chr < 97)
@@ -1798,47 +1643,47 @@ _state_40:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 100)
+        if (chr < 108)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 101)
+            if (chr < 109)
             {
-                goto _state_39;
+                goto _state_43;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
         }
     }
-_state_41:
+_state_40:
     lpos = lxCURR_POS;
-    lstate = 15;
+    lstate = 10;
     lxNEXT_CHR(chr);
     if (chr < 65)
     {
         if (chr >= 48 && chr < 59)
-            goto _state_6;
+            goto _state_23;
         else
             goto _end;
     }
@@ -1847,16 +1692,72 @@ _state_41:
         if (chr < 97)
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 123)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
+        }
+    }
+_state_41:
+    lpos = lxCURR_POS;
+    lstate = 25;
+    lxNEXT_CHR(chr);
+    if (chr < 83)
+    {
+        if (chr < 65)
+        {
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 82)
+            {
+                goto _state_23;
+            }
+            else
+            {
+                goto _state_11;
+            }
+        }
+    }
+    else
+    {
+        if (chr < 114)
+        {
+            if (chr < 97)
+            {
+                if (chr < 91)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+            else
+            {
+                goto _state_23;
+            }
+        }
+        else
+        {
+            if (chr < 115)
+            {
+                goto _state_11;
+            }
+            else
+            {
+                if (chr < 123)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
         }
     }
 _state_42:
@@ -1868,34 +1769,34 @@ _state_42:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 100)
+        if (chr < 116)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 101)
+            if (chr < 117)
             {
-                goto _state_41;
+                goto _state_79;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -1905,56 +1806,39 @@ _state_43:
     lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
-    if (chr < 52)
+    if (chr < 97)
     {
-        if (chr < 50)
+        if (chr < 65)
         {
-            if (chr >= 48)
-                goto _state_6;
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
-            if (chr < 51)
-            {
-                goto _state_42;
-            }
+            if (chr < 91)
+                goto _state_23;
             else
-            {
-                goto _state_40;
-            }
+                goto _end;
         }
     }
     else
     {
-        if (chr < 65)
+        if (chr < 111)
         {
-            if (chr < 53)
-            {
-                goto _state_38;
-            }
-            else
-            {
-                if (chr < 59)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
+            goto _state_23;
         }
         else
         {
-            if (chr < 97)
+            if (chr < 112)
             {
-                if (chr < 91)
-                    goto _state_6;
-                else
-                    goto _end;
+                goto _state_37;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -1969,14 +1853,14 @@ _state_44:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
@@ -1985,18 +1869,18 @@ _state_44:
     {
         if (chr < 114)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
             if (chr < 115)
             {
-                goto _state_43;
+                goto _state_56;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -2011,34 +1895,34 @@ _state_45:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 111)
+        if (chr < 103)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 112)
+            if (chr < 104)
             {
-                goto _state_44;
+                goto _state_39;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -2053,34 +1937,34 @@ _state_46:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 116)
+        if (chr < 100)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 117)
+            if (chr < 101)
             {
-                goto _state_45;
+                goto _state_88;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -2095,37 +1979,30 @@ _state_47:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 99)
+        if (chr < 98)
         {
-            goto _state_6;
+            goto _state_42;
         }
         else
         {
-            if (chr < 100)
-            {
-                goto _state_46;
-            }
+            if (chr < 123)
+                goto _state_23;
             else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
+                goto _end;
         }
     }
 _state_48:
@@ -2137,34 +2014,48 @@ _state_48:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
-            if (chr < 91)
-                goto _state_6;
+            if (chr < 66)
+            {
+                goto _state_65;
+            }
             else
-                goto _end;
+            {
+                if (chr < 91)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
         }
     }
     else
     {
-        if (chr < 101)
+        if (chr < 108)
         {
-            goto _state_6;
+            if (chr < 98)
+            {
+                goto _state_65;
+            }
+            else
+            {
+                goto _state_23;
+            }
         }
         else
         {
-            if (chr < 102)
+            if (chr < 109)
             {
-                goto _state_47;
+                goto _state_51;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -2172,12 +2063,12 @@ _state_48:
     }
 _state_49:
     lpos = lxCURR_POS;
-    lstate = 14;
+    lstate = 8;
     lxNEXT_CHR(chr);
     if (chr < 65)
     {
         if (chr >= 48 && chr < 59)
-            goto _state_6;
+            goto _state_23;
         else
             goto _end;
     }
@@ -2186,14 +2077,14 @@ _state_49:
         if (chr < 97)
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 123)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
@@ -2207,30 +2098,37 @@ _state_50:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 98)
+        if (chr < 108)
         {
-            goto _state_49;
+            goto _state_23;
         }
         else
         {
-            if (chr < 123)
-                goto _state_6;
+            if (chr < 109)
+            {
+                goto _state_72;
+            }
             else
-                goto _end;
+            {
+                if (chr < 123)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
         }
     }
 _state_51:
@@ -2242,34 +2140,34 @@ _state_51:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 98)
+        if (chr < 111)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 99)
+            if (chr < 112)
             {
-                goto _state_50;
+                goto _state_47;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -2284,34 +2182,34 @@ _state_52:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 103)
+        if (chr < 105)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 104)
+            if (chr < 106)
             {
-                goto _state_51;
+                goto _state_16;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -2319,12 +2217,12 @@ _state_52:
     }
 _state_53:
     lpos = lxCURR_POS;
-    lstate = 13;
+    lstate = 19;
     lxNEXT_CHR(chr);
     if (chr < 65)
     {
         if (chr >= 48 && chr < 59)
-            goto _state_6;
+            goto _state_23;
         else
             goto _end;
     }
@@ -2333,14 +2231,14 @@ _state_53:
         if (chr < 97)
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 123)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
@@ -2354,34 +2252,34 @@ _state_54:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 103)
+        if (chr < 101)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 104)
+            if (chr < 102)
             {
-                goto _state_53;
+                goto _state_33;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -2389,194 +2287,12 @@ _state_54:
     }
 _state_55:
     lpos = lxCURR_POS;
-    lstate = 25;
-    lxNEXT_CHR(chr);
-    if (chr < 97)
-    {
-        if (chr < 65)
-        {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-    }
-    else
-    {
-        if (chr < 110)
-        {
-            goto _state_6;
-        }
-        else
-        {
-            if (chr < 111)
-            {
-                goto _state_54;
-            }
-            else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-        }
-    }
-_state_56:
-    lpos = lxCURR_POS;
-    lstate = 25;
-    lxNEXT_CHR(chr);
-    if (chr < 97)
-    {
-        if (chr < 65)
-        {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-    }
-    else
-    {
-        if (chr < 105)
-        {
-            goto _state_6;
-        }
-        else
-        {
-            if (chr < 106)
-            {
-                goto _state_55;
-            }
-            else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-        }
-    }
-_state_57:
-    lpos = lxCURR_POS;
-    lstate = 25;
-    lxNEXT_CHR(chr);
-    if (chr < 97)
-    {
-        if (chr < 65)
-        {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-    }
-    else
-    {
-        if (chr < 114)
-        {
-            goto _state_6;
-        }
-        else
-        {
-            if (chr < 115)
-            {
-                goto _state_56;
-            }
-            else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-        }
-    }
-_state_58:
-    lpos = lxCURR_POS;
-    lstate = 25;
-    lxNEXT_CHR(chr);
-    if (chr < 105)
-    {
-        if (chr < 65)
-        {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 97)
-            {
-                if (chr < 91)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-            else
-            {
-                goto _state_6;
-            }
-        }
-    }
-    else
-    {
-        if (chr < 116)
-        {
-            if (chr < 106)
-            {
-                goto _state_26;
-            }
-            else
-            {
-                goto _state_6;
-            }
-        }
-        else
-        {
-            if (chr < 117)
-            {
-                goto _state_57;
-            }
-            else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-        }
-    }
-_state_59:
-    lpos = lxCURR_POS;
-    lstate = 12;
+    lstate = 14;
     lxNEXT_CHR(chr);
     if (chr < 65)
     {
         if (chr >= 48 && chr < 59)
-            goto _state_6;
+            goto _state_23;
         else
             goto _end;
     }
@@ -2585,19 +2301,106 @@ _state_59:
         if (chr < 97)
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 123)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
-_state_60:
+_state_56:
+    lpos = lxCURR_POS;
+    lstate = 25;
+    lxNEXT_CHR(chr);
+    if (chr < 52)
+    {
+        if (chr < 50)
+        {
+            if (chr >= 48)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 51)
+            {
+                goto _state_74;
+            }
+            else
+            {
+                goto _state_67;
+            }
+        }
+    }
+    else
+    {
+        if (chr < 65)
+        {
+            if (chr < 53)
+            {
+                goto _state_46;
+            }
+            else
+            {
+                if (chr < 59)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+        }
+        else
+        {
+            if (chr < 97)
+            {
+                if (chr < 91)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+            else
+            {
+                if (chr < 123)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+        }
+    }
+_state_57:
+    lpos = lxCURR_POS;
+    lstate = 18;
+    lxNEXT_CHR(chr);
+    if (chr < 65)
+    {
+        if (chr >= 48 && chr < 59)
+            goto _state_23;
+        else
+            goto _end;
+    }
+    else
+    {
+        if (chr < 97)
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 123)
+                goto _state_23;
+            else
+                goto _end;
+        }
+    }
+_state_58:
     lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
@@ -2606,37 +2409,107 @@ _state_60:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 116)
+        if (chr < 115)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 117)
+            if (chr < 116)
             {
-                goto _state_59;
+                goto _state_70;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
+        }
+    }
+_state_59:
+    lpos = lxCURR_POS;
+    lstate = 25;
+    lxNEXT_CHR(chr);
+    if (chr < 97)
+    {
+        if (chr < 65)
+        {
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
+    }
+    else
+    {
+        if (chr < 101)
+        {
+            goto _state_23;
+        }
+        else
+        {
+            if (chr < 102)
+            {
+                goto _state_78;
+            }
+            else
+            {
+                if (chr < 123)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+        }
+    }
+_state_60:
+    lpos = lxCURR_POS;
+    lstate = 23;
+    lxNEXT_CHR(chr);
+    if (chr < 65)
+    {
+        if (chr >= 48 && chr < 59)
+            goto _state_23;
+        else
+            goto _end;
+    }
+    else
+    {
+        if (chr < 97)
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 123)
+                goto _state_23;
+            else
+                goto _end;
         }
     }
 _state_61:
@@ -2648,14 +2521,14 @@ _state_61:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
@@ -2664,56 +2537,31 @@ _state_61:
     {
         if (chr < 98)
         {
-            goto _state_60;
+            goto _state_55;
         }
         else
         {
             if (chr < 123)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
 _state_62:
-    lpos = lxCURR_POS;
-    lstate = 25;
     lxNEXT_CHR(chr);
-    if (chr < 97)
+    if (chr < 34)
     {
-        if (chr < 65)
-        {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
+        goto _state_62;
     }
     else
     {
-        if (chr < 111)
+        if (chr < 35)
         {
-            goto _state_6;
+            goto _state_76;
         }
         else
         {
-            if (chr < 112)
-            {
-                goto _state_61;
-            }
-            else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
+            goto _state_62;
         }
     }
 _state_63:
@@ -2725,82 +2573,40 @@ _state_63:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
-            if (chr < 66)
-            {
-                goto _state_11;
-            }
+            if (chr < 91)
+                goto _state_23;
             else
-            {
-                if (chr < 91)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
+                goto _end;
         }
     }
     else
     {
-        if (chr < 108)
+        if (chr < 114)
         {
-            if (chr < 98)
-            {
-                goto _state_11;
-            }
-            else
-            {
-                goto _state_6;
-            }
+            goto _state_23;
         }
         else
         {
-            if (chr < 109)
+            if (chr < 115)
             {
-                goto _state_62;
+                goto _state_25;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
         }
     }
 _state_64:
-    lpos = lxCURR_POS;
-    lstate = 11;
-    lxNEXT_CHR(chr);
-    if (chr < 65)
-    {
-        if (chr >= 48 && chr < 59)
-            goto _state_6;
-        else
-            goto _end;
-    }
-    else
-    {
-        if (chr < 97)
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 123)
-                goto _state_6;
-            else
-                goto _end;
-        }
-    }
-_state_65:
     lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
@@ -2809,34 +2615,90 @@ _state_65:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 103)
+        if (chr < 116)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 104)
+            if (chr < 117)
             {
-                goto _state_64;
+                goto _state_12;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+        }
+    }
+_state_65:
+    lpos = lxCURR_POS;
+    lstate = 25;
+    lxNEXT_CHR(chr);
+    if (chr < 77)
+    {
+        if (chr < 65)
+        {
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 76)
+            {
+                goto _state_23;
+            }
+            else
+            {
+                goto _state_13;
+            }
+        }
+    }
+    else
+    {
+        if (chr < 108)
+        {
+            if (chr < 97)
+            {
+                if (chr < 91)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+            else
+            {
+                goto _state_23;
+            }
+        }
+        else
+        {
+            if (chr < 109)
+            {
+                goto _state_13;
+            }
+            else
+            {
+                if (chr < 123)
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -2846,39 +2708,39 @@ _state_66:
     lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
-    if (chr < 97)
+    if (chr < 66)
     {
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
+            goto _state_65;
         }
     }
     else
     {
-        if (chr < 110)
+        if (chr < 97)
         {
-            goto _state_6;
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
         }
         else
         {
-            if (chr < 111)
+            if (chr < 98)
             {
                 goto _state_65;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -2893,34 +2755,34 @@ _state_67:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 111)
+        if (chr < 100)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 112)
+            if (chr < 101)
             {
-                goto _state_66;
+                goto _state_86;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -2935,34 +2797,34 @@ _state_68:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 108)
+        if (chr < 110)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 109)
+            if (chr < 111)
             {
-                goto _state_67;
+                goto _state_45;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -2977,34 +2839,34 @@ _state_69:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 103)
+        if (chr < 101)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 104)
+            if (chr < 102)
             {
-                goto _state_68;
+                goto _state_63;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -3019,34 +2881,34 @@ _state_70:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 110)
+        if (chr < 116)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 111)
+            if (chr < 117)
             {
-                goto _state_69;
+                goto _state_73;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -3056,53 +2918,39 @@ _state_71:
     lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
-    if (chr < 105)
+    if (chr < 97)
     {
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
-            if (chr < 97)
-            {
-                if (chr < 91)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
+            if (chr < 91)
+                goto _state_23;
             else
-            {
-                goto _state_6;
-            }
+                goto _end;
         }
     }
     else
     {
-        if (chr < 111)
+        if (chr < 103)
         {
-            if (chr < 106)
+            goto _state_23;
+        }
+        else
+        {
+            if (chr < 104)
             {
                 goto _state_21;
             }
             else
             {
-                goto _state_6;
-            }
-        }
-        else
-        {
-            if (chr < 112)
-            {
-                goto _state_70;
-            }
-            else
-            {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -3110,12 +2958,12 @@ _state_71:
     }
 _state_72:
     lpos = lxCURR_POS;
-    lstate = 10;
+    lstate = 21;
     lxNEXT_CHR(chr);
     if (chr < 65)
     {
         if (chr >= 48 && chr < 59)
-            goto _state_6;
+            goto _state_23;
         else
             goto _end;
     }
@@ -3124,58 +2972,44 @@ _state_72:
         if (chr < 97)
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 123)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
 _state_73:
     lpos = lxCURR_POS;
-    lstate = 25;
+    lstate = 20;
     lxNEXT_CHR(chr);
-    if (chr < 97)
+    if (chr < 65)
     {
-        if (chr < 65)
-        {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
-            else
-                goto _end;
-        }
+        if (chr >= 48 && chr < 59)
+            goto _state_23;
         else
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
+            goto _end;
     }
     else
     {
-        if (chr < 116)
+        if (chr < 97)
         {
-            goto _state_6;
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
         }
         else
         {
-            if (chr < 117)
-            {
-                goto _state_72;
-            }
+            if (chr < 123)
+                goto _state_23;
             else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
+                goto _end;
         }
     }
 _state_74:
@@ -3187,34 +3021,34 @@ _state_74:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 110)
+        if (chr < 100)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 111)
+            if (chr < 101)
             {
-                goto _state_73;
+                goto _state_22;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -3224,103 +3058,19 @@ _state_75:
     lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
-    if (chr < 105)
-    {
-        if (chr < 65)
-        {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 97)
-            {
-                if (chr < 91)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-            else
-            {
-                goto _state_6;
-            }
-        }
-    }
-    else
-    {
-        if (chr < 114)
-        {
-            if (chr < 106)
-            {
-                goto _state_74;
-            }
-            else
-            {
-                goto _state_6;
-            }
-        }
-        else
-        {
-            if (chr < 115)
-            {
-                goto _state_18;
-            }
-            else
-            {
-                if (chr < 123)
-                    goto _state_6;
-                else
-                    goto _end;
-            }
-        }
-    }
-_state_76:
-    lpos = lxCURR_POS;
-    lstate = 9;
-    lxNEXT_CHR(chr);
-    if (chr < 65)
-    {
-        if (chr >= 48 && chr < 59)
-            goto _state_6;
-        else
-            goto _end;
-    }
-    else
-    {
-        if (chr < 97)
-        {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
-        }
-        else
-        {
-            if (chr < 123)
-                goto _state_6;
-            else
-                goto _end;
-        }
-    }
-_state_77:
-    lpos = lxCURR_POS;
-    lstate = 25;
-    lxNEXT_CHR(chr);
     if (chr < 97)
     {
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
@@ -3329,60 +3079,73 @@ _state_77:
     {
         if (chr < 116)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
             if (chr < 117)
             {
-                goto _state_76;
+                goto _state_69;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
         }
     }
+_state_76:
+    lpos = lxCURR_POS;
+    lstate = 26;
+    lxNEXT_CHR(chr);
+    goto _end;
+_state_77:
+    lpos = lxCURR_POS;
+    lstate = 7;
+    lxNEXT_CHR(chr);
+    goto _end;
 _state_78:
     lpos = lxCURR_POS;
     lstate = 25;
     lxNEXT_CHR(chr);
-    if (chr < 97)
+    if (chr < 51)
     {
-        if (chr < 65)
+        if (chr < 50)
         {
-            if (chr >= 48 && chr < 59)
-                goto _state_6;
+            if (chr >= 48)
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
-            if (chr < 91)
-                goto _state_6;
-            else
-                goto _end;
+            goto _state_27;
         }
     }
     else
     {
-        if (chr < 110)
+        if (chr < 65)
         {
-            goto _state_6;
+            if (chr < 59)
+                goto _state_23;
+            else
+                goto _end;
         }
         else
         {
-            if (chr < 111)
+            if (chr < 97)
             {
-                goto _state_77;
+                if (chr < 91)
+                    goto _state_23;
+                else
+                    goto _end;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -3390,12 +3153,12 @@ _state_78:
     }
 _state_79:
     lpos = lxCURR_POS;
-    lstate = 8;
+    lstate = 12;
     lxNEXT_CHR(chr);
     if (chr < 65)
     {
         if (chr >= 48 && chr < 59)
-            goto _state_6;
+            goto _state_23;
         else
             goto _end;
     }
@@ -3404,14 +3167,14 @@ _state_79:
         if (chr < 97)
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 123)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
@@ -3425,14 +3188,14 @@ _state_80:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
@@ -3441,18 +3204,18 @@ _state_80:
     {
         if (chr < 108)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
             if (chr < 109)
             {
-                goto _state_79;
+                goto _state_49;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -3467,34 +3230,34 @@ _state_81:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
     }
     else
     {
-        if (chr < 111)
+        if (chr < 103)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
-            if (chr < 112)
+            if (chr < 104)
             {
-                goto _state_80;
+                goto _state_8;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
@@ -3509,14 +3272,14 @@ _state_82:
         if (chr < 65)
         {
             if (chr >= 48 && chr < 59)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
         else
         {
             if (chr < 91)
-                goto _state_6;
+                goto _state_23;
             else
                 goto _end;
         }
@@ -3525,63 +3288,298 @@ _state_82:
     {
         if (chr < 111)
         {
-            goto _state_6;
+            goto _state_23;
         }
         else
         {
             if (chr < 112)
             {
-                goto _state_81;
+                goto _state_90;
             }
             else
             {
                 if (chr < 123)
-                    goto _state_6;
+                    goto _state_23;
                 else
                     goto _end;
             }
         }
     }
 _state_83:
-    lpos = lxCURR_POS;
-    lstate = 7;
     lxNEXT_CHR(chr);
-    goto _end;
+    if (chr < 11)
+    {
+        if (chr < 10)
+            goto _state_15;
+        else
+            goto _end;
+    }
+    else
+    {
+        if (chr < 14)
+        {
+            if (chr < 13)
+                goto _state_15;
+            else
+                goto _end;
+        }
+        else
+        {
+            goto _state_15;
+        }
+    }
 _state_84:
     lpos = lxCURR_POS;
-    lstate = 6;
+    lstate = 25;
     lxNEXT_CHR(chr);
-    goto _end;
+    if (chr < 97)
+    {
+        if (chr < 65)
+        {
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
+    }
+    else
+    {
+        if (chr < 98)
+        {
+            goto _state_75;
+        }
+        else
+        {
+            if (chr < 123)
+                goto _state_23;
+            else
+                goto _end;
+        }
+    }
 _state_85:
     lpos = lxCURR_POS;
-    lstate = 5;
+    lstate = 25;
     lxNEXT_CHR(chr);
-    goto _end;
+    if (chr < 97)
+    {
+        if (chr < 65)
+        {
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
+    }
+    else
+    {
+        if (chr < 103)
+        {
+            goto _state_23;
+        }
+        else
+        {
+            if (chr < 104)
+            {
+                goto _state_28;
+            }
+            else
+            {
+                if (chr < 123)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+        }
+    }
 _state_86:
     lpos = lxCURR_POS;
-    lstate = 4;
+    lstate = 16;
     lxNEXT_CHR(chr);
-    goto _end;
+    if (chr < 65)
+    {
+        if (chr >= 48 && chr < 59)
+            goto _state_23;
+        else
+            goto _end;
+    }
+    else
+    {
+        if (chr < 97)
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 123)
+                goto _state_23;
+            else
+                goto _end;
+        }
+    }
 _state_87:
     lpos = lxCURR_POS;
-    lstate = 3;
+    lstate = 25;
     lxNEXT_CHR(chr);
-    goto _end;
+    if (chr < 97)
+    {
+        if (chr < 65)
+        {
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
+    }
+    else
+    {
+        if (chr < 122)
+        {
+            goto _state_23;
+        }
+        else
+        {
+            if (chr == 122)
+                goto _state_59;
+            else
+                goto _end;
+        }
+    }
 _state_88:
     lpos = lxCURR_POS;
-    lstate = 2;
+    lstate = 17;
     lxNEXT_CHR(chr);
-    goto _end;
+    if (chr < 65)
+    {
+        if (chr >= 48 && chr < 59)
+            goto _state_23;
+        else
+            goto _end;
+    }
+    else
+    {
+        if (chr < 97)
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 123)
+                goto _state_23;
+            else
+                goto _end;
+        }
+    }
 _state_89:
     lpos = lxCURR_POS;
-    lstate = 1;
+    lstate = 25;
     lxNEXT_CHR(chr);
-    goto _end;
+    if (chr < 97)
+    {
+        if (chr < 65)
+        {
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
+    }
+    else
+    {
+        if (chr < 111)
+        {
+            goto _state_23;
+        }
+        else
+        {
+            if (chr < 112)
+            {
+                goto _state_80;
+            }
+            else
+            {
+                if (chr < 123)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+        }
+    }
 _state_90:
     lpos = lxCURR_POS;
-    lstate = 29;
+    lstate = 25;
     lxNEXT_CHR(chr);
-    goto _end;
+    if (chr < 97)
+    {
+        if (chr < 65)
+        {
+            if (chr >= 48 && chr < 59)
+                goto _state_23;
+            else
+                goto _end;
+        }
+        else
+        {
+            if (chr < 91)
+                goto _state_23;
+            else
+                goto _end;
+        }
+    }
+    else
+    {
+        if (chr < 110)
+        {
+            goto _state_23;
+        }
+        else
+        {
+            if (chr < 111)
+            {
+                goto _state_57;
+            }
+            else
+            {
+                if (chr < 123)
+                    goto _state_23;
+                else
+                    goto _end;
+            }
+        }
+    }
 _end:
     plain() = lpos;
     switch (lstate)
@@ -3592,141 +3590,200 @@ _fail:
         {
             qDebug() << "error";
             exit(-1);
+            lxFINISH
         }
     case 1:
     {
         lxRETURN(LBRACE)
+
+        lxFINISH
     }
     case 2:
     {
         lxRETURN(RBRACE)
+
+        lxFINISH
     }
     case 3:
     {
         lxRETURN(LARROW)
+
+        lxFINISH
     }
     case 4:
     {
         lxRETURN(RARROW)
+
+        lxFINISH
     }
     case 5:
     {
         lxRETURN(LPAREN)
+
+        lxFINISH
     }
     case 6:
     {
         lxRETURN(RPAREN)
+
+        lxFINISH
     }
     case 7:
     {
         lxRETURN(SEMICOLON)
+
+        lxFINISH
     }
     case 8:
     {
         lxRETURN(BOOLEAN)
+
+        lxFINISH
     }
     case 9:
     {
         lxRETURN(INTEGER)
+
+        lxFINISH
     }
     case 10:
     {
         lxRETURN(UNSIGNED_INT)
+
+        lxFINISH
     }
     case 11:
     {
         lxRETURN(LONG_LONG)
+
+        lxFINISH
     }
     case 12:
     {
         lxRETURN(FLOAT)
+
+        lxFINISH
     }
     case 13:
     {
         lxRETURN(STRING)
+
+        lxFINISH
     }
     case 14:
     {
         lxRETURN(RGBA)
+
+        lxFINISH
     }
     case 15:
     {
         lxRETURN(VECTOR_TWOD)
+
+        lxFINISH
     }
     case 16:
     {
         lxRETURN(VECTOR_THREED)
+
+        lxFINISH
     }
     case 17:
     {
         lxRETURN(VECTOR_FOURD)
+
+        lxFINISH
     }
     case 18:
     {
         lxRETURN(QUATERNION)
+
+        lxFINISH
     }
     case 19:
     {
         lxRETURN(SIZE_TWOD)
+
+        lxFINISH
     }
     case 20:
     {
         lxRETURN(LIST)
+
+        lxFINISH
     }
     case 21:
     {
         lxRETURN(URL)
+
+        lxFINISH
     }
     case 22:
     {
         lxRETURN(TRUE_VALUE)
+
+        lxFINISH
     }
     case 23:
     {
         lxRETURN(FALSE_VALUE)
+
+        lxFINISH
     }
     case 24:
     {
         lxRETURN(NUMBER)
+
+        lxFINISH
     }
     case 25:
     {
         lxRETURN(IDENTIFIER)
+
+        lxFINISH
     }
     case 26:
     {
         lxRETURN(VALUE)
+
+        lxFINISH
     }
     case 27:
     {
-# 3704 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
+# 3755 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
 # 60 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
                                            /* Comment, ignore */ 
-# 3705 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
+# 3756 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
 
         lxSKIP
+
+        lxFINISH
     }
     case 28:
     {
-# 3713 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
+# 3766 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
 # 62 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
                                            /* Whitespace, ignore */ 
-# 3714 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
+# 3767 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
 
         lxSKIP
+
+        lxFINISH
     }
     case 29:
     {
-# 3722 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
+# 3777 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
 # 64 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
                                            locationTable()->newline(lxCURR_IDX); 
-# 3723 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
+# 3778 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
 
         lxSKIP
+
+        lxFINISH
     }
     }
     /* assert(false);*/
-    return Base::advance();
+    return Base::read();
 }
 
 #undef lxNEXT_CHR

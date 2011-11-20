@@ -132,7 +132,7 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
 
 void ObjectTreeBuilder::visitObject(GDL::ObjectAst* node)
 {
-    QString type = d->textForToken(d->lexer->token(node->type));
+    QString type = d->textForToken(d->lexer->at(node->type));
     GluonObject* newObject = GluonObjectFactory::instance()->instantiateObjectByName( type );
     if( !newObject )
     {
@@ -149,7 +149,7 @@ void ObjectTreeBuilder::visitObject(GDL::ObjectAst* node)
     }
 
 
-    newObject->setName( d->stripQuotes( d->textForToken( d->lexer->token( node->name ) ) ) );
+    newObject->setName( d->stripQuotes( d->textForToken( d->lexer->at( node->name ) ) ) );
 
     if(d->currentObject)
     {
@@ -176,7 +176,7 @@ void ObjectTreeBuilder::visitProperty(GDL::PropertyAst* node)
         return;
     }
 
-    d->currentPropertyName = d->textForToken(d->lexer->token(node->propertyName));
+    d->currentPropertyName = d->textForToken(d->lexer->at(node->propertyName));
 
     GDL::DefaultVisitor::visitProperty(node);
 
@@ -188,56 +188,56 @@ void ObjectTreeBuilder::visitProperty(GDL::PropertyAst* node)
 
 void ObjectTreeBuilder::visitBoolean_type(GDL::Boolean_typeAst* node)
 {
-    Lexer::Token boolToken = d->lexer->token(node->value);
+    Lexer::Token boolToken = d->lexer->at(node->value);
     d->currentPropertyValue = QVariant::fromValue<bool>(boolToken.kind == Parser::Token_TRUE_VALUE);
 }
 
 void ObjectTreeBuilder::visitInteger_type(GDL::Integer_typeAst* node)
 {
-    Lexer::Token intToken = d->lexer->token(node->value);
+    Lexer::Token intToken = d->lexer->at(node->value);
     d->currentPropertyValue = QVariant::fromValue<int>(d->textForToken(intToken).toInt());
 }
 
 void ObjectTreeBuilder::visitUnsigned_int_type(GDL::Unsigned_int_typeAst* node)
 {
-    Lexer::Token uintToken = d->lexer->token(node->value);
+    Lexer::Token uintToken = d->lexer->at(node->value);
     d->currentPropertyValue = QVariant::fromValue<uint>(d->textForToken(uintToken).toUInt());
 }
 
 void ObjectTreeBuilder::visitLong_long_type(GDL::Long_long_typeAst* node)
 {
-    Lexer::Token longToken = d->lexer->token(node->value);
+    Lexer::Token longToken = d->lexer->at(node->value);
     d->currentPropertyValue = QVariant::fromValue<qlonglong>(d->textForToken(longToken).toLongLong());
 }
 
 void ObjectTreeBuilder::visitFloat_type(GDL::Float_typeAst* node)
 {
-    Lexer::Token floatToken = d->lexer->token(node->value);
+    Lexer::Token floatToken = d->lexer->at(node->value);
     d->currentPropertyValue = QVariant::fromValue<float>(d->textForToken(floatToken).toFloat());
 }
 
 void ObjectTreeBuilder::visitString_type(GDL::String_typeAst* node)
 {
-    QString stringValue = d->stripQuotes( d->textForToken( d->lexer->token(node->value) ) );
+    QString stringValue = d->stripQuotes( d->textForToken( d->lexer->at(node->value) ) );
     d->currentPropertyValue = QVariant::fromValue<QString>( stringValue );
 }
 
 void ObjectTreeBuilder::visitUrl_type(GDL::Url_typeAst* node)
 {
-    QString stringValue = d->stripQuotes( d->textForToken( d->lexer->token( node->path ) ) );
+    QString stringValue = d->stripQuotes( d->textForToken( d->lexer->at( node->path ) ) );
     d->currentPropertyValue = QVariant::fromValue<QUrl>(QUrl( stringValue ) );
 }
 
 void ObjectTreeBuilder::visitRgba_type(GDL::Rgba_typeAst* node)
 {
     QColor color;
-    Lexer::Token token = d->lexer->token(node->r);
+    Lexer::Token token = d->lexer->at(node->r);
     color.setRed(d->textForToken(token).toInt());
-    token = d->lexer->token(node->g);
+    token = d->lexer->at(node->g);
     color.setGreen(d->textForToken(token).toInt());
-    token = d->lexer->token(node->b);
+    token = d->lexer->at(node->b);
     color.setBlue(d->textForToken(token).toInt());
-    token = d->lexer->token(node->a);
+    token = d->lexer->at(node->a);
     color.setAlpha(d->textForToken(token).toInt());
 
     d->currentPropertyValue = QVariant::fromValue<QColor>(color);
@@ -246,9 +246,9 @@ void ObjectTreeBuilder::visitRgba_type(GDL::Rgba_typeAst* node)
 void ObjectTreeBuilder::visitVector2d_type(GDL::Vector2d_typeAst* node)
 {
     QVector2D vector;
-    GDL::Lexer::Token token = d->lexer->token(node->x);
+    GDL::Lexer::Token token = d->lexer->at(node->x);
     vector.setX(d->textForToken(token).toFloat());
-    token = d->lexer->token(node->y);
+    token = d->lexer->at(node->y);
     vector.setY(d->textForToken(token).toFloat());
 
     d->currentPropertyValue = QVariant::fromValue<QVector2D>(vector);
@@ -257,11 +257,11 @@ void ObjectTreeBuilder::visitVector2d_type(GDL::Vector2d_typeAst* node)
 void ObjectTreeBuilder::visitVector3d_type(GDL::Vector3d_typeAst* node)
 {
     QVector3D vector;
-    GDL::Lexer::Token token = d->lexer->token(node->x);
+    GDL::Lexer::Token token = d->lexer->at(node->x);
     vector.setX(d->textForToken(token).toFloat());
-    token = d->lexer->token(node->y);
+    token = d->lexer->at(node->y);
     vector.setY(d->textForToken(token).toFloat());
-    token = d->lexer->token(node->z);
+    token = d->lexer->at(node->z);
     vector.setZ(d->textForToken(token).toFloat());
 
     d->currentPropertyValue = QVariant::fromValue<QVector3D>(vector);
@@ -270,13 +270,13 @@ void ObjectTreeBuilder::visitVector3d_type(GDL::Vector3d_typeAst* node)
 void ObjectTreeBuilder::visitVector4d_type(GDL::Vector4d_typeAst* node)
 {
     QVector4D vector;
-    GDL::Lexer::Token token = d->lexer->token(node->x);
+    GDL::Lexer::Token token = d->lexer->at(node->x);
     vector.setX(d->textForToken(token).toFloat());
-    token = d->lexer->token(node->y);
+    token = d->lexer->at(node->y);
     vector.setY(d->textForToken(token).toFloat());
-    token = d->lexer->token(node->z);
+    token = d->lexer->at(node->z);
     vector.setZ(d->textForToken(token).toFloat());
-    token = d->lexer->token(node->w);
+    token = d->lexer->at(node->w);
     vector.setW(d->textForToken(token).toFloat());
 
     d->currentPropertyValue = QVariant::fromValue<QVector4D>(vector);
@@ -285,13 +285,13 @@ void ObjectTreeBuilder::visitVector4d_type(GDL::Vector4d_typeAst* node)
 void ObjectTreeBuilder::visitQuaternion_type(GDL::Quaternion_typeAst* node)
 {
     QQuaternion quat;
-    GDL::Lexer::Token token = d->lexer->token(node->x);
+    GDL::Lexer::Token token = d->lexer->at(node->x);
     quat.setX(d->textForToken(token).toFloat());
-    token = d->lexer->token(node->y);
+    token = d->lexer->at(node->y);
     quat.setY(d->textForToken(token).toFloat());
-    token = d->lexer->token(node->z);
+    token = d->lexer->at(node->z);
     quat.setZ(d->textForToken(token).toFloat());
-    token = d->lexer->token(node->w);
+    token = d->lexer->at(node->w);
     quat.setScalar(d->textForToken(token).toFloat());
 
     d->currentPropertyValue = QVariant::fromValue<QQuaternion>(quat);
@@ -300,9 +300,9 @@ void ObjectTreeBuilder::visitQuaternion_type(GDL::Quaternion_typeAst* node)
 void ObjectTreeBuilder::visitSize2d_type(GDL::Size2d_typeAst* node)
 {
     QSizeF size;
-    GDL::Lexer::Token token = d->lexer->token(node->width);
+    GDL::Lexer::Token token = d->lexer->at(node->width);
     size.setWidth(d->textForToken(token).toFloat());
-    token = d->lexer->token(node->height);
+    token = d->lexer->at(node->height);
     size.setHeight(d->textForToken(token).toFloat());
 
     d->currentPropertyValue = QVariant::fromValue<QSizeF>(size);
@@ -310,8 +310,8 @@ void ObjectTreeBuilder::visitSize2d_type(GDL::Size2d_typeAst* node)
 
 void ObjectTreeBuilder::visitObject_type(GDL::Object_typeAst* node)
 {
-    QString type = d->textForToken( d->lexer->token( node->type ) );
-    QString reference = d->stripQuotes( d->textForToken( d->lexer->token( node->value ) ) );
+    QString type = d->textForToken( d->lexer->at( node->type ) );
+    QString reference = d->stripQuotes( d->textForToken( d->lexer->at( node->value ) ) );
 
     Private::Reference ref = { d->currentObject, d->currentPropertyName, type, reference };
     d->references.append( ref );

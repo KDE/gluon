@@ -27,6 +27,29 @@
 
 #include "kdev-pg-location-table.h"
 
+/* T& front() ✓
+ * T& back() ✓
+ * T& curr()                →   ?
+ * 
+ * T& advance()             →   read()
+ * qint64 tokenIndex()      →   delete
+ * qint64 index() ✓
+ * T& next()                →   push(), push(Token)
+ * int nextToken()          →   delete
+ * T& token(index)          →   at()
+ * ? more
+ * 
+ * rewind(index) ✓
+ * qint64 size() ✓
+ * reset() ✓
+ * free()                   →   clear()
+ * 
+ * locationTable() ✓
+ * 
+ * startPosition(index, line, column) ✓
+ * endPosition(index, line, column) ✓
+ */
+
 namespace KDevPG
 {
 
@@ -38,7 +61,7 @@ class Token {
 };
 
 /**
- * This class stores a stream of tokens and has an associated location table.
+ * Stores a stream of tokens and has an associated location table.
  * You can add tokens and traverse them (Java-style unidirectional iterator with random access).
  * Internal representation similar to a std::vector (capacity gets multiplied if it get exceeded).
  * @todo Fix inconsistencies in naming: advance vs. next vs. nextToken, token vs. nextToken
@@ -83,7 +106,7 @@ public:
    * @note It will not affect the location table.
    * @sa reset
    */
-  inline void free()
+  inline void clear()
   {
     mIndex = 0;
     mTokenCount = 0;
@@ -100,21 +123,9 @@ public:
   
   /**
    * The current position in the stream.
-   * @sa tokenIndex
    */
   inline qint64 index() const
   {
-    return mIndex;
-  }
-  
-  /**
-   * The index of the token returned by the last invocation of advance/nextToken.
-   * @sa index
-   */
-  inline qint64 tokenIndex() const
-  {
-    if( mIndex )
-      return mIndex - 1;
     return mIndex;
   }
   
@@ -130,7 +141,7 @@ public:
   /**
    * Returns the token at the specified position in the stream.
    */
-  inline T const &token(qint64 index) const
+  inline T const &at(qint64 index) const
   {
     return mTokenBuffer[index];
   }
@@ -138,27 +149,16 @@ public:
   /**
    * Returns the token at the specified position in the stream.
    */
-  inline T &token(qint64 index)
+  inline T &at(qint64 index)
   {
     return mTokenBuffer[index];
   }
   
   /**
-   * Returns the token kind at the next position and advances.fect the 
-   * @sa advance
-   */
-  inline int nextToken()
-  {
-    return mTokenBuffer[mIndex++].kind;
-  }
-  
-  /**
    * Pushes a new token to the stream.
-   * @warning This function does not affect the position!
-   * @return The new uninitialized token
-   * @sa advance
+   * @return The new uninitialized token (reference)
    */
-  inline T &next()
+  inline T &push()
   {
     if (mTokenCount == mTokenBufferSize)
     {
@@ -175,26 +175,19 @@ public:
   }
   
   /**
-   * Advances and returns the token at the current position.
-   * @sa nextToken
-   * @sa next
+   * Pushes the specified token to the stream.
+   * @return Reference to the inserted token
    */
-  inline T &advance()
+  inline T &push(const T& t)
   {
-    if (mIndex == mTokenCount)
-    {
-      if(mTokenCount++ == mTokenBufferSize)
-      {
-        if (mTokenBufferSize == 0)
-          mTokenBufferSize = 1024;
-        
-        mTokenBufferSize <<= 2;
-        
-        mTokenBuffer = reinterpret_cast<T*>
-        (::realloc(mTokenBuffer, mTokenBufferSize * sizeof(T)));
-      }
-    }
-    
+    return push() = t;
+  }
+  
+  /**
+   * Advances and returns the token at the current position.
+   */
+  inline T &read()
+  {
     return mTokenBuffer[mIndex++];
   }
   
@@ -243,7 +236,7 @@ public:
         *line = 0; *column = 0;
       }
     else
-      mLocationTable->positionAt(token(index).begin, line, column);
+      mLocationTable->positionAt(at(index).begin, line, column);
   }
   
   /**
@@ -256,7 +249,7 @@ public:
         *line = 0; *column = 0;
       }
     else
-      mLocationTable->positionAt(token(index).end, line, column);
+      mLocationTable->positionAt(at(index).end, line, column);
   }
 
 private:

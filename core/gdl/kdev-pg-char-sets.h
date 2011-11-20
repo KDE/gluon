@@ -36,43 +36,23 @@ using namespace std;
 #include <QtCore/QTextStream>
 #include <QtCore/QStringList>
 
-#define NC(...) __VA_ARGS__
+/**
+ * @FILE
+ * This file implements various iterator-classes providing character-set specific input streams.
+ * Each iterator-class has these members:
+ * @li Int: The type of the values returned by the stream
+ * @li InputInt: Type of the values in the underlying representation
+ * @li PlainIterator: InputInt*-like type used to reference underlying positions
+ * @li next(): returns the next value and advances the stream position
+ * @li hasNext(): checks if there are elements left
+ * @li plain(): returns the PlainIterator for the next position
+ * @li operator-(other): distance in the underlying representation between two of the iterators
+ * @li begin: returns the PlainIterator at the beginning of the stream
+ * @todo implement iterators for QIODevices, FILE and STL-streams, would need more abstraction: differentiate between input handling and decoding
+ */
 
 namespace KDevPG
 {
-
-template<typename T, typename U>
-struct _brutal_cast_impl
-{
-  static inline T exec(const U& x)
-  {
-    union tmp
-    {
-      T *t;
-      const U *u;
-      inline tmp(const U* u) : u(u) {}
-    };
-    return *tmp(&x).t;
-  }
-};
-
-template<typename T, typename U>
-struct _brutal_cast_impl<T&, U>
-{
-  static inline T& exec(const U& x)
-  {
-    return *_brutal_cast_impl<T*, const U*>::exec(&x);
-  }
-};
-
-/**
- * Cast anything
- * @warning This template is very brutal, it will cast anything without compiler warnings or errors (like strict-aliasing rule), unless you have an overloaded operator&, but you really should not have that.
- */
-template<typename T, typename U> inline T brutal_cast(const U& x)
-{
-  return _brutal_cast_impl<T, U>::exec(x);
-}
 
 enum CharEncoding
 {
@@ -185,7 +165,7 @@ struct Codec2Size<Ucs4>
 template<CharEncoding codec>
 inline typename Codec2Container<codec>::Result qString2Codec(const QString& str)
 {
-  static_assert(Codec2False<codec>::value, "Unknown codec");
+  //Q_ASSERT(Codec2False<codec>::value, "Unknown codec");
 }
 
 /// @todo check for invalid characters
@@ -238,7 +218,7 @@ public:
   typedef QString::const_iterator PlainIterator;
   QStringIterator(const QString& str) : _begin(str.begin()), iter(str.begin()), end(str.end())
   {
-    
+
   }
   quint16 next()
   {
@@ -271,7 +251,7 @@ public:
   typedef QByteArray::const_iterator PlainIterator;
   QByteArrayIterator(const QByteArray& str) : _begin(str.begin()), iter(str.begin()), end(str.end())
   {
-    
+
   }
   uchar next()
   {
@@ -288,7 +268,7 @@ public:
   PlainIterator& plain()
   {
     return iter;
-  }  
+  }
   PlainIterator& begin()
   {
     return _begin;
@@ -305,7 +285,7 @@ public:
   typedef InputInt const* PlainIterator;
   QUtf16ToUcs4Iterator(const QString& str) : raw(str.utf16()), _begin(str.utf16()), end(raw + str.size())
   {
-    
+
   }
   quint32 next()
   {
@@ -342,7 +322,7 @@ public:
   typedef InputInt const* PlainIterator;
   QUtf8ToUcs4Iterator(const QByteArray& qba) : _begin(reinterpret_cast<uchar const*>(qba.data())), ptr(_begin), end(ptr + qba.size())
   {
-    
+
   }
   PlainIterator& plain()
   {
@@ -352,7 +332,7 @@ public:
   {
     /*
     Algorithm:
-    
+
     Start:
       case chr < 128
         use it directly
@@ -364,13 +344,13 @@ public:
         (chr & 0x07) -> add next three
       default
         invalid
-        
+
     Add:
       condition: (next & 0xc0) == 0x80
       ret = (ret << 6) | (nextChr & 0x3f)
       QChar::isUnicodeNonCharacter -> invalid
     */
-    
+
     while(true)
     {
       retry:
@@ -431,14 +411,14 @@ public:
   typedef InputInt const* PlainIterator;
   QUtf8ToUcs2Iterator(const QByteArray& qba) : _begin(reinterpret_cast<uchar const*>(qba.data())), ptr(_begin), end(ptr + qba.size())
   {
-    
+
   }
   PlainIterator& plain()
   {
     return ptr;
   }
   quint16 next()
-  { 
+  {
     while(true)
     {
       retry:
@@ -499,7 +479,7 @@ public:
   typedef InputInt const* PlainIterator;
   QUtf8ToUtf16Iterator(const QByteArray& qba) : _begin(reinterpret_cast<uchar const*>(qba.data())), ptr(_begin), end(ptr + qba.size()), surrogate(0)
   {
-    
+
   }
   PlainIterator& plain()
   {
@@ -580,14 +560,14 @@ public:
   typedef InputInt const* PlainIterator;
   QUtf8ToAsciiIterator(const QByteArray& qba) : _begin(reinterpret_cast<uchar const*>(qba.data())), ptr(_begin), end(ptr + qba.size())
   {
-    
+
   }
   PlainIterator& plain()
   {
     return ptr;
   }
   Int next()
-  { 
+  {
     while(true)
     {
       uchar chr = *ptr;
@@ -614,6 +594,7 @@ public:
       }
       ++ptr;
       // ignore the error, jump back :-)
+      // TODO: error handling?
     }
   }
   bool hasNext()

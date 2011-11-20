@@ -94,7 +94,7 @@ bool GDLSerializer::parse(const QByteArray& data, GluonObjectList& objects, Gluo
     parser.setTokenStream(&lexer);
     parser.setMemoryPool(&mem);
 
-    while( lexer.advance().kind != GDL::Parser::Token_EOF );
+    while( lexer.read().kind != GDL::Parser::Token_EOF );
     parser.rewind(0);
 
     GDL::StartAst* ast;
