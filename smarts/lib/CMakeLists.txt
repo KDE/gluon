@@ -99,3 +99,9 @@ install(FILES
 ${btlib_HEADERS}
 DESTINATION ${INCLUDE_INSTALL_DIR}/
 COMPONENT Devel)
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+
