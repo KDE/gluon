@@ -8,7 +8,7 @@
 
 
 # 12 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdlparser.cpp"
-# 149 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
+# 150 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
   
 void GDL::Parser::expectedSymbol(int /*expectedSymbol*/, const QString& name)
 {
