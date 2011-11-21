@@ -18,15 +18,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <QtGui/QApplication>
 #include "bteditor.h"
-#include <QResource>
 
+#include <QtGui/QApplication>
 
 int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
+
     bteditor foo;
     foo.show();
+
     return app.exec();
 }
