@@ -8,7 +8,7 @@
 
 
 # 12 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdlparser.cpp"
-# 150 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
+# 156 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
   
 void GDL::Parser::expectedSymbol(int /*expectedSymbol*/, const QString& name)
 {
@@ -309,7 +309,7 @@ bool Parser::parseList_type(List_typeAst **yynode)
         {
             if (yytoken != Token_VECTOR_TWOD)
             {
-                expectedToken(yytoken, Token_VECTOR_TWOD, "VECTOR_TWOD");
+                expectedToken(yytoken, Token_VECTOR_TWOD, "Vector2D");
                 return false;
             }
             (*yynode)->type = tokenStream->index() - 1;
@@ -320,7 +320,7 @@ bool Parser::parseList_type(List_typeAst **yynode)
         {
             if (yytoken != Token_VECTOR_THREED)
             {
-                expectedToken(yytoken, Token_VECTOR_THREED, "VECTOR_THREED");
+                expectedToken(yytoken, Token_VECTOR_THREED, "Vector3D");
                 return false;
             }
             (*yynode)->type = tokenStream->index() - 1;
@@ -331,7 +331,7 @@ bool Parser::parseList_type(List_typeAst **yynode)
         {
             if (yytoken != Token_VECTOR_FOURD)
             {
-                expectedToken(yytoken, Token_VECTOR_FOURD, "VECTOR_FOURD");
+                expectedToken(yytoken, Token_VECTOR_FOURD, "Vector4D");
                 return false;
             }
             (*yynode)->type = tokenStream->index() - 1;
@@ -1329,7 +1329,7 @@ bool Parser::parseVector2d_type(Vector2d_typeAst **yynode)
     {
         if (yytoken != Token_VECTOR_TWOD)
         {
-            expectedToken(yytoken, Token_VECTOR_TWOD, "VECTOR_TWOD");
+            expectedToken(yytoken, Token_VECTOR_TWOD, "Vector2D");
             return false;
         }
         yylex();
@@ -1395,7 +1395,7 @@ bool Parser::parseVector3d_type(Vector3d_typeAst **yynode)
     {
         if (yytoken != Token_VECTOR_THREED)
         {
-            expectedToken(yytoken, Token_VECTOR_THREED, "VECTOR_THREED");
+            expectedToken(yytoken, Token_VECTOR_THREED, "Vector3D");
             return false;
         }
         yylex();
@@ -1477,7 +1477,7 @@ bool Parser::parseVector4d_type(Vector4d_typeAst **yynode)
     {
         if (yytoken != Token_VECTOR_FOURD)
         {
-            expectedToken(yytoken, Token_VECTOR_FOURD, "VECTOR_FOURD");
+            expectedToken(yytoken, Token_VECTOR_FOURD, "Vector4D");
             return false;
         }
         yylex();

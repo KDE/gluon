@@ -1,11 +1,11 @@
 %token_stream Lexer ;
 
 -- Base tokens
-%token LBRACE, RBRACE, LARROW, RARROW, LPAREN, RPAREN, SEMICOLON, TRUE_VALUE, FALSE_VALUE, NUMBER, IDENTIFIER, VALUE, MULTILINE_VALUE ;
+%token LBRACE, RBRACE, LARROW, RARROW, LPAREN, RPAREN, SEMICOLON, TRUE_VALUE, FALSE_VALUE, NUMBER, IDENTIFIER, VALUE ;
 
 -- Types
 %token BOOLEAN, INTEGER, UNSIGNED_INT, LONG_LONG, FLOAT, STRING, RGBA,
-       VECTOR_TWOD, VECTOR_THREED, VECTOR_FOURD, QUATERNION, SIZE_TWOD, LIST, URL ;
+       VECTOR_TWOD("Vector2D"), VECTOR_THREED("Vector3D"), VECTOR_FOURD("Vector4D"), QUATERNION, SIZE_TWOD, LIST, URL ;
 
 %lexer_bits_header "QtCore/QDebug"
 %parser_bits_header "QtCore/QDebug"
@@ -61,7 +61,13 @@
 
     [\ \t\r]+                           [: /* Whitespace, ignore */ :] ;
 
+    %fail                               [:
+    qint64 line = 0, col = 0;
+    locationTable()->positionAt( lxCURR_IDX, &line, &col );
+    qDebug() << "Tokenizer error on line" << line + 1; :]
+
     "\n"                                [: locationTable()->newline(lxCURR_IDX); :] ;
+
 ;
 
     BOOLEAN LPAREN ( value=TRUE_VALUE | value=FALSE_VALUE ) RPAREN

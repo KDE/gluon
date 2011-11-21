@@ -3588,8 +3588,14 @@ _end:
         goto _fail; // no warning about unused label
 _fail:
         {
-            qDebug() << "error";
-            exit(-1);
+# 3593 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
+# 64 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
+                                          
+    qint64 line = 0, col = 0;
+    locationTable()->positionAt( lxCURR_IDX, &line, &col );
+    qDebug() << "Tokenizer error on line" << line + 1; 
+# 3597 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
+
             lxFINISH
         }
     case 1:
@@ -3750,10 +3756,10 @@ _fail:
     }
     case 27:
     {
-# 3755 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
+# 3761 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
 # 60 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
                                            /* Comment, ignore */ 
-# 3756 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
+# 3762 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
 
         lxSKIP
 
@@ -3761,10 +3767,10 @@ _fail:
     }
     case 28:
     {
-# 3766 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
+# 3772 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
 # 62 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
                                            /* Whitespace, ignore */ 
-# 3767 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
+# 3773 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
 
         lxSKIP
 
@@ -3772,10 +3778,10 @@ _fail:
     }
     case 29:
     {
-# 3777 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
-# 64 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
+# 3783 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
+# 69 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
                                            locationTable()->newline(lxCURR_IDX); 
-# 3778 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
+# 3784 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
 
         lxSKIP
 
