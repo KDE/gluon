@@ -58,7 +58,6 @@ add_definitions(-DMAKE_BT_LIB)
 
 qt4_automoc(${btlib_SRCS})
 
-
 if(APPLE)
 	#add_executable(btlib ${btlib_SRCS} ${btlib_HEADERS})
 	add_library(btlib SHARED ${btlib_SRCS} ${btlib_HEADERS})#${btlib_UIS_H})
@@ -77,6 +76,8 @@ if(APPLE)
 else()
 	add_library(btlib SHARED ${btlib_SRCS} )#${btlib_UIS_H})
 endif()
+
+set_target_properties(btlib PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_SMARTS_LIB)
 
 target_link_libraries(btlib ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY})
 
