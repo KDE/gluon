@@ -34,8 +34,6 @@ QString  tokenText(int token)
         return "LONG_LONG";
     case TokenTypeWrapper::Token_LPAREN:
         return "LPAREN";
-    case TokenTypeWrapper::Token_MULTILINE_VALUE:
-        return "MULTILINE_VALUE";
     case TokenTypeWrapper::Token_NUMBER:
         return "NUMBER";
     case TokenTypeWrapper::Token_QUATERNION:
@@ -63,11 +61,11 @@ QString  tokenText(int token)
     case TokenTypeWrapper::Token_VALUE:
         return "VALUE";
     case TokenTypeWrapper::Token_VECTOR_FOURD:
-        return "VECTOR_FOURD";
+        return "Vector4D";
     case TokenTypeWrapper::Token_VECTOR_THREED:
-        return "VECTOR_THREED";
+        return "Vector3D";
     case TokenTypeWrapper::Token_VECTOR_TWOD:
-        return "VECTOR_TWOD";
+        return "Vector2D";
     default:
         return "unknown token";
     }
