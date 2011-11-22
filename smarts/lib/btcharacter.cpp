@@ -69,11 +69,6 @@ void btCharacter::setBehaviorTree(btNode* behaviorTree)
 	this->setFile(brain->getFile());
 }
 
-// For avoiding the build time warnings of gcc since the code looks fine
-// See the following report for further details:
-// https://bugreports.qt.nokia.com/browse/QTBUG-5915
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wstrict-overflow"
 void btCharacter::think()
 {
 	//local variables used in think
@@ -297,7 +292,6 @@ void btCharacter::think()
 		m_thinksDone++;
 	}
 }
-#pragma GCC diagnostic pop
 
 void btCharacter::stopParallelExecution(btNode * currentNode, QStack<btNode*>* parentStack)
 {    
