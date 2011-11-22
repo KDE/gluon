@@ -93,8 +93,8 @@ class BT_LIB_EXPORT btNode : public QObject
 
         virtual status run( btCharacter* self );
         virtual void childrenAdded() {};
-        virtual void appendingChild( int index ) {};
-        virtual void removingChild( int index ) {};
+        virtual void appendingChild( int index ) { Q_UNUSED(index) };
+        virtual void removingChild( int index ) { Q_UNUSED(index) };
 
     private:
         QString m_name;
