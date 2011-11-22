@@ -19,8 +19,6 @@ set(GluonSmarts_SRCS
     btperceptionviewcone.cpp
     btperceptioninfo.cpp
     btperceptionatom.cpp
-
-	#main.cpp
 )
 
 
@@ -44,13 +42,10 @@ set(GluonSmarts_HEADERS
     btperceptionatom.h
 )
 
-add_definitions(-DMAKE_BT_LIB)
-
 qt4_automoc(${GluonSmarts_SRCS})
 
 if(APPLE)
-    #add_executable(GluonSmarts ${GluonSmarts_SRCS} ${GluonSmarts_HEADERS})
-    add_library(GluonSmarts SHARED ${GluonSmarts_SRCS} ${GluonSmarts_HEADERS})#${GluonSmarts_UIS_H})
+    add_library(GluonSmarts SHARED ${GluonSmarts_SRCS} ${GluonSmarts_HEADERS})
 
     set_target_properties(GluonSmarts PROPERTIES FRAMEWORK TRUE)
 	set_target_properties(GluonSmarts PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
@@ -64,7 +59,7 @@ if(APPLE)
 	set(MACOSX_FRAMEWORK_IDENTIFIER SMARTS)
     set_target_properties(GluonSmarts PROPERTIES OUTPUT_NAME SMARTS)
 else()
-    add_library(GluonSmarts SHARED ${GluonSmarts_SRCS} )#${GluonSmarts_UIS_H})
+    add_library(GluonSmarts SHARED ${GluonSmarts_SRCS} )
 endif()
 
 set_target_properties(GluonSmarts PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_SMARTS_LIB)
