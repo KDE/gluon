@@ -23,6 +23,8 @@
 
 #include <core/gdlserializer.h>
 #include <engine/statistic.h>
+#include <engine/tasksstatistic.h>
+#include <engine/multiscorestatistic.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, StatisticsAsset )
 
@@ -111,7 +113,7 @@ void StatisticsAsset::setFile(const QUrl& newFile)
 
     foreach( GluonCore::GluonObject* object, list )
     {
-        AbstractStatistic* statistic = qobject_cast<AbstractStatistic*>(child);
+        AbstractStatistic* statistic = qobject_cast<AbstractStatistic*>(object);
         if( statistic )
             statistic->setParent(this);
     }

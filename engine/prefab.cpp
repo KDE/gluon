@@ -142,7 +142,7 @@ void Prefab::writeContents(QIODevice* device)
     GluonCore::GDLSerializer::instance()->write( device, GluonCore::GluonObjectList() << gameObject() );
 }
 
-void Prefab::updateFromInstance(const GluonEngine::PrefabInstance* updateFrom)
+void Prefab::updateFromInstance(GluonEngine::PrefabInstance* updateFrom)
 {
     // TODO implement :P
     d->updateChildrenFromOther(d->gameObject, updateFrom);

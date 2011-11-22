@@ -50,10 +50,6 @@ int main( int argc, char** argv )
 
     //Create the main window
     GluonCreator::MainWindow* window = new GluonCreator::MainWindow( args->count() > 0 ? args->arg( 0 ) : QString() );
-
-    //Dirty hack to make the splashscreen at least visible.
-    sleep( 1 );
-
     window->show();
     splash.finish( window );
 

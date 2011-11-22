@@ -95,14 +95,14 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
         GluonObject* target = 0;
         foreach( GluonObject* object, d->objects )
         {
-            target = object->findItemByName( ref.path );
+            target = object->findGlobalItemByName( ref.path );
             if( target )
                 break;
         }
 
         if( !target )
         {
-            target = d->project->findItemByName( ref.path );
+            target = d->project->findGlobalItemByName( ref.path );
 
             if( !target )
             {
