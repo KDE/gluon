@@ -10,7 +10,7 @@ indent-preprocessor
 indent-col1-comments
 
 #Bracket options
-brackets=break
+style=break
 
 #Padding options
 unpad-paren
