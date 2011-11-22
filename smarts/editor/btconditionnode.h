@@ -25,13 +25,13 @@
 
 class btConditionNode : public btEditorNodeType
 {
-	Q_OBJECT
-		
-public:
-	btConditionNode(QObject* parent = 0);	
-	~btConditionNode();
-	
-	bool run(btCharacter* character);
+        Q_OBJECT
+
+    public:
+        btConditionNode( QObject* parent = 0 );
+        ~btConditionNode();
+
+        bool run( btCharacter* character );
 };
 
 #endif

@@ -24,25 +24,25 @@
 
 class PlayerTest : public QObject
 {
-	Q_OBJECT
+        Q_OBJECT
 
-public:
-    PlayerTest();
-    virtual ~PlayerTest();
+    public:
+        PlayerTest();
+        virtual ~PlayerTest();
 
-private Q_SLOTS:
-    void testAppend();
-    void testInsert();
-    void testRemoveLast();
-    void testRemoveAt();
-    void testIsPlaying();
-    void testVolume();
-    void testIsLooping();
-    void testPlayNext();
-    void testPlayAt();
-    void testPause();
-    void testSeek();
-    void testStop();
+    private Q_SLOTS:
+        void testAppend();
+        void testInsert();
+        void testRemoveLast();
+        void testRemoveAt();
+        void testIsPlaying();
+        void testVolume();
+        void testIsLooping();
+        void testPlayNext();
+        void testPlayAt();
+        void testPause();
+        void testSeek();
+        void testStop();
 };
 
 #endif // GLUON_AUDIO_PLAYERTEST_H

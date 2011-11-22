@@ -25,13 +25,13 @@
 
 class btUnusableNode : public btEditorNodeType
 {
-	Q_OBJECT
-		
-public:
-	btUnusableNode(QObject* parent = 0);	
-	~btUnusableNode();
-	
-	bool run(btCharacter* character);
+        Q_OBJECT
+
+    public:
+        btUnusableNode( QObject* parent = 0 );
+        ~btUnusableNode();
+
+        bool run( btCharacter* character );
 };
 
 #endif

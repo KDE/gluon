@@ -23,7 +23,8 @@
 
 #include <QtCore/QAbstractItemModel>
 
-namespace GluonCore {
+namespace GluonCore
+{
     class GluonObject;
 }
 

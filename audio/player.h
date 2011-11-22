@@ -31,7 +31,7 @@ namespace GluonAudio
 {
     class GLUON_AUDIO_EXPORT Player : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
 
         public:
             /**
@@ -104,7 +104,7 @@ namespace GluonAudio
              *
              * @set volume(), Sound::setVolume()
              */
-            void setVolume(ALfloat volume = 1.0f);
+            void setVolume( ALfloat volume = 1.0f );
 
             /**
              * Returns true if the given sound was set to loop, false otherwise.
@@ -120,7 +120,7 @@ namespace GluonAudio
              *
              * @see isLooping(), Sound::setLoop()
              */
-            void setLoop(bool loop);
+            void setLoop( bool loop );
 
             /**
              * Returns the pitch currently applied of the given sound
@@ -135,7 +135,7 @@ namespace GluonAudio
              *
              * @see pitch(), Sound::setPitch()
              */
-            void setPitch(ALfloat pitch);
+            void setPitch( ALfloat pitch );
 
             QStringList files();
 
@@ -160,7 +160,7 @@ namespace GluonAudio
              *
              * @see play(), playNext()
              */
-            void playAt(int index);
+            void playAt( int index );
 
             /**
              * Pauses the playback.
@@ -173,7 +173,7 @@ namespace GluonAudio
              * @param ms The ms parameter is the time in milliseconds from the
              * start of the media.
              */
-            void seek(qint64 ms);
+            void seek( qint64 ms );
 
             /**
              * Stops the playback.

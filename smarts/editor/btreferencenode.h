@@ -24,21 +24,21 @@
 #include "bteditornodetype.h"
 #include "bttreemodel.h"
 
-class btReferenceNode :public btEditorNodeType
+class btReferenceNode : public btEditorNodeType
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    btReferenceNode(QObject* parent = 0);
-    ~btReferenceNode();
+    public:
+        btReferenceNode( QObject* parent = 0 );
+        ~btReferenceNode();
 
-    bool run(btCharacter* character);
+        bool run( btCharacter* character );
 
-    btTreeModel * referenceBehaviorTree();
-    void setReferenceBehaviorTree(btTreeModel * treeModel);
+        btTreeModel* referenceBehaviorTree();
+        void setReferenceBehaviorTree( btTreeModel* treeModel );
 
-private:
-    btTreeModel * m_reference;
+    private:
+        btTreeModel* m_reference;
 };
 
 #endif

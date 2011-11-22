@@ -73,7 +73,7 @@ namespace GluonEngine
              * attached to the GameObject)
              * @param gameObject The GameObject you wish to clone
              */
-            void cloneFromGameObject(GluonEngine::GameObject* gameObject);
+            void cloneFromGameObject( GluonEngine::GameObject* gameObject );
 
             /**
              * Reset all changes on the instance child and all the attached Components

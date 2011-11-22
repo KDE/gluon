@@ -27,24 +27,24 @@
 
 namespace GluonEngine
 {
-	class btPerceptionInfoScriptable;
-	
-	class PerceptionInfoPrivate : public QSharedData
-	{
-		public:
-			PerceptionInfoPrivate(QObject * parent = 0);
-			PerceptionInfoPrivate(const PerceptionInfoPrivate& other );
-			~PerceptionInfoPrivate();
-			
-			btPerceptionInfoScriptable * info;
-			QScriptEngine engine;
+    class btPerceptionInfoScriptable;
 
-			QScriptValue drawFunc;
-			QScriptValue updateFunc;
-			QScriptValue getAdjustedValueFunc;
+    class PerceptionInfoPrivate : public QSharedData
+    {
+        public:
+            PerceptionInfoPrivate( QObject* parent = 0 );
+            PerceptionInfoPrivate( const PerceptionInfoPrivate& other );
+            ~PerceptionInfoPrivate();
 
-			GluonEngine::Asset* script;
-	};
+            btPerceptionInfoScriptable* info;
+            QScriptEngine engine;
+
+            QScriptValue drawFunc;
+            QScriptValue updateFunc;
+            QScriptValue getAdjustedValueFunc;
+
+            GluonEngine::Asset* script;
+    };
 }
 
 #endif

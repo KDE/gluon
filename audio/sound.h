@@ -35,7 +35,8 @@ namespace GluonAudio
             Q_OBJECT
 
         public:
-            enum Status {
+            enum Status
+            {
                 INITIAL,
                 PLAYING,
                 PAUSED,
@@ -46,12 +47,12 @@ namespace GluonAudio
             * Constructs an empty, invalid Sound object
             * @see isValid, load
             */
-            explicit Sound(QObject *parent = 0);
+            explicit Sound( QObject* parent = 0 );
 
             /**
             * @param fileName the path of the file to play
             */
-            explicit Sound( const QString& fileName, QObject *parent = 0 );
+            explicit Sound( const QString& fileName, QObject* parent = 0 );
 
             /**
             * Destructor

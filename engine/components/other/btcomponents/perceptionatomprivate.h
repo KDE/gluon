@@ -26,18 +26,18 @@ class btPerceptionAtom;
 
 namespace GluonEngine
 {
-	class PerceptionInfo;
-	
-	class PerceptionAtomPrivate : public QSharedData
-	{
-		public:
-			PerceptionAtomPrivate();
-			PerceptionAtomPrivate(const PerceptionAtomPrivate& other );
-			~PerceptionAtomPrivate();
-			
-			btPerceptionAtom * atom;
-                        GluonEngine::PerceptionInfo * info;
-	};
+    class PerceptionInfo;
+
+    class PerceptionAtomPrivate : public QSharedData
+    {
+        public:
+            PerceptionAtomPrivate();
+            PerceptionAtomPrivate( const PerceptionAtomPrivate& other );
+            ~PerceptionAtomPrivate();
+
+            btPerceptionAtom* atom;
+            GluonEngine::PerceptionInfo* info;
+    };
 }
 
 #endif

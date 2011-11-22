@@ -40,7 +40,7 @@ namespace GluonCore
             ~ScriptEngine();
 
             class Private;
-            Private * const d;
+            Private* const d;
     };
 }
 

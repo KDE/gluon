@@ -30,76 +30,88 @@
 namespace KDevPG
 {
 
-class BlockType
-{
-public:
-  qint64 blockSize;
-  BlockType *chain;
-  char *data;
-  char *ptr;
-  char *end;
+    class BlockType
+    {
+        public:
+            qint64 blockSize;
+            BlockType* chain;
+            char* data;
+            char* ptr;
+            char* end;
 
-  inline void init(int block_size = 256)
-  {
-    blockSize = block_size;
-    chain = 0;
-    data = (char*) malloc(blockSize);
-    ptr = data;
-    end = data + block_size;
-  }
+            inline void init( int block_size = 256 )
+            {
+                blockSize = block_size;
+                chain = 0;
+                data = ( char* ) malloc( blockSize );
+                ptr = data;
+                end = data + block_size;
+            }
 
-  inline void init0(int block_size = 256)
-  {
-    init(block_size);
-    memset(data, '\0', block_size);
-  }
+            inline void init0( int block_size = 256 )
+            {
+                init( block_size );
+                memset( data, '\0', block_size );
+            }
 
-  inline void destroy()
-  {
-    if (chain) {
-      chain->destroy();
-      free(chain);
-    }
+            inline void destroy()
+            {
+                if( chain )
+                {
+                    chain->destroy();
+                    free( chain );
+                }
 
-    free(data);
-  }
+                free( data );
+            }
 
-  inline void *allocate(size_t size, BlockType **right_most)
-  {
-    if (end < ptr + size) {
-      //            assert( size < block_size );
+            inline void* allocate( size_t size, BlockType** right_most )
+            {
+                if( end < ptr + size )
+                {
+                    //            assert( size < block_size );
 
-      if (!chain) {
-        chain = (BlockType*) malloc(sizeof(BlockType));
-        chain->init0(blockSize << 2);
-      }
+                    if( !chain )
+                    {
+                        chain = ( BlockType* ) malloc( sizeof( BlockType ) );
+                        chain->init0( blockSize << 2 );
+                    }
 
-      return chain->allocate(size, right_most);
-    }
+                    return chain->allocate( size, right_most );
+                }
 
-    char *r = ptr;
-    ptr += size;
+                char* r = ptr;
+                ptr += size;
 
-    if (right_most)
-      *right_most = this;
+                if( right_most )
+                    *right_most = this;
 
-    return r;
-  }
+                return r;
+            }
 
-};
+    };
 
-class MemoryPool
-{
-public:
-  BlockType blk;
-  BlockType *rightMost;
+    class MemoryPool
+    {
+        public:
+            BlockType blk;
+            BlockType* rightMost;
 
-  inline MemoryPool() { blk.init0(); rightMost = &blk; }
-  inline ~MemoryPool() { blk.destroy(); }
+            inline MemoryPool()
+            {
+                blk.init0();
+                rightMost = &blk;
+            }
+            inline ~MemoryPool()
+            {
+                blk.destroy();
+            }
 
-  inline void *allocate(size_t size)
-  { return rightMost->allocate(size, &rightMost); }
-};
+            inline void* allocate( size_t size )
+            {
+                return rightMost->allocate( size, &rightMost );
+            }
+    };
 
 }
 

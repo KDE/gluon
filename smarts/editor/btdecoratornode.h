@@ -27,15 +27,15 @@ class QXmlStreamWriter;
 
 class btDecoratorNode : public btEditorNodeType
 {
-	Q_OBJECT
-	
-public:
-	btDecoratorNode(QObject* parent = 0);
-	~btDecoratorNode();
-	
-	bool run(btCharacter* character);
-    
-    void toDataXml(QXmlStreamWriter* xmlWriter);
+        Q_OBJECT
+
+    public:
+        btDecoratorNode( QObject* parent = 0 );
+        ~btDecoratorNode();
+
+        bool run( btCharacter* character );
+
+        void toDataXml( QXmlStreamWriter* xmlWriter );
 };
 
 #endif

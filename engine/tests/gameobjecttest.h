@@ -24,18 +24,18 @@
 
 class GameObjectTest : public QObject
 {
-	Q_OBJECT
+        Q_OBJECT
 
-public:
-    GameObjectTest();
-    virtual ~GameObjectTest();
+    public:
+        GameObjectTest();
+        virtual ~GameObjectTest();
 
-private Q_SLOTS:
-    void testDescription();
-    void testEnabled();
-    void testPosition();
-    void testScale();
-    void testOrientation();
+    private Q_SLOTS:
+        void testDescription();
+        void testEnabled();
+        void testPosition();
+        void testScale();
+        void testOrientation();
 };
 
 #endif // GLUON_ENGINE_GAMEOBJECTTEST_H

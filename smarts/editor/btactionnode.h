@@ -25,13 +25,13 @@
 
 class btActionNode : public btEditorNodeType
 {
-	Q_OBJECT
-	
-public:
-	btActionNode(QObject* parent = 0);	
-	~btActionNode();
-	
-	bool run(btCharacter* character);
+        Q_OBJECT
+
+    public:
+        btActionNode( QObject* parent = 0 );
+        ~btActionNode();
+
+        bool run( btCharacter* character );
 };
 
 #endif

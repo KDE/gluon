@@ -265,7 +265,7 @@ namespace GluonCore
              * not including the name of the local root object.
              * @see fullyQualifiedName
              */
-            QString qualifiedName(const GluonObject* localRoot) const;
+            QString qualifiedName( const GluonObject* localRoot ) const;
 
             /**
              * Used by GluonObjectFactory when requesting an object which supports a specific

@@ -53,7 +53,7 @@ namespace GluonEngine
             /**
              * Reimplemented from Savable::writeContents()
              */
-            virtual void writeContents(QIODevice* device);
+            virtual void writeContents( QIODevice* device );
 
             /** Reimplemented from Asset::templates() */
             virtual const QList<AssetTemplate*> templates();

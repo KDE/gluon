@@ -101,7 +101,7 @@ namespace GluonPlayer
             void uploadCommentFinished();
 
         private:
-            GluonCore::GluonObject* addComment( CommentItem *comment, GluonCore::GluonObject* parent );
+            GluonCore::GluonObject* addComment( CommentItem* comment, GluonCore::GluonObject* parent );
             void updateData();
             void loadData();
             void saveData();

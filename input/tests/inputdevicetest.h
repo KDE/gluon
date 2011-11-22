@@ -24,14 +24,14 @@
 
 class InputDeviceTest : public QObject
 {
-	Q_OBJECT
+        Q_OBJECT
 
-public:
-    InputDeviceTest();
-    virtual ~InputDeviceTest();
+    public:
+        InputDeviceTest();
+        virtual ~InputDeviceTest();
 
-private Q_SLOTS:
-    void testIsEnabled();
+    private Q_SLOTS:
+        void testIsEnabled();
 };
 
 #endif // GLUON_INPUT_INPUTDEVICETEST_H

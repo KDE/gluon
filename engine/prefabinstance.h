@@ -29,10 +29,10 @@ namespace GluonEngine
     /**
      * Prefab instances should be created in game logic by calling the
      * GluonEngine::Prefab::createInstance method rather than instantiating this class directly.
-     * 
+     *
      * However, should you for some reason wish to do so anyway, the correct workflow is to create
      * the instance, and then set the prefabLink property to the Instance in question.
-     * 
+     *
      * Note that this will bypass the caching methods in Prefab, which can be used to ensure
      * performant instancing, as it is able to pre-create a number of instances, and keep those
      * instances handy for recreation on destruction.

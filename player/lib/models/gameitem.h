@@ -50,9 +50,9 @@ namespace GluonPlayer
             virtual ~GameItem();
 
             QString gameName() const;
-            void setGameName( const QString &gameName );
+            void setGameName( const QString& gameName );
             QString gameDescription() const;
-            void setGameDescription( const QString &gameDescription );
+            void setGameDescription( const QString& gameDescription );
             int rating() const;
             void setRating( int rating );
             Status status() const;

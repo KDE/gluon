@@ -26,11 +26,11 @@
 struct BT_LIB_EXPORT ProbNode
 {
     ProbNode()
-	{
+    {
         probability = 0.5;
         visited = false;
     }
-	
+
     float probability;
     bool visited;
 };

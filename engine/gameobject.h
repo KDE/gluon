@@ -236,7 +236,7 @@ namespace GluonEngine
             Q_INVOKABLE QMatrix4x4 transform() const;
 
         protected Q_SLOTS:
-            void childDeleted(QObject* obj);
+            void childDeleted( QObject* obj );
 
         public Q_SLOTS:
             void setParentGameObject( GameObject* newParent );

@@ -59,7 +59,7 @@
 
 #define Gluon_lstat         ::lstat64
 #define Gluon_struct_stat   struct stat64
-#define Gluon_rename	    ::rename
+#define Gluon_rename        ::rename
 /* TODO: define for win32 */
 
 #else /* !_LFS64_LARGEFILE */
@@ -74,15 +74,15 @@
 #if defined __sun__
 #define Gluon_lstat         ::lstat
 #define Gluon_struct_stat   struct stat
-#define Gluon_rename	    ::rename
+#define Gluon_rename        ::rename
 
 #elif defined _WIN32 || defined _WIN64
 //#define KDE_lstat       kdewin32_lstat
-//#define Gluon_rename		kdewin32_rename
+//#define Gluon_rename      kdewin32_rename
 #else /* unix */
 #define Gluon_lstat         ::lstat
 #define Gluon_struct_stat   struct stat
-#define Gluon_rename	    ::rename
+#define Gluon_rename        ::rename
 #endif
 
 #endif
@@ -92,50 +92,50 @@ class QString;
 namespace GluonPlayer
 {
     /** replacement for ::access() to handle filenames in a platform independent way */
-    GLUON_PLAYER_EXPORT int access(const QString &path, int mode);
+    GLUON_PLAYER_EXPORT int access( const QString& path, int mode );
     /** replacement for ::rename() to handle pathnames in a platform independent way */
-    GLUON_PLAYER_EXPORT int rename(const QString &in, const QString &out);
+    GLUON_PLAYER_EXPORT int rename( const QString& in, const QString& out );
 #ifndef Q_WS_WIN
-    inline int access(const QString &path, int mode)
+    inline int access( const QString& path, int mode )
     {
-        return ::access( QFile::encodeName(path).constData(), mode );
+        return ::access( QFile::encodeName( path ).constData(), mode );
     }
-    inline int lstat(const QString &path, Gluon_struct_stat *buf)
+    inline int lstat( const QString& path, Gluon_struct_stat* buf )
     {
-        return Gluon_lstat( QFile::encodeName(path).constData(), buf );
+        return Gluon_lstat( QFile::encodeName( path ).constData(), buf );
     }
-    inline int rename(const QString &in, const QString &out)
+    inline int rename( const QString& in, const QString& out )
     {
-        return Gluon_rename( QFile::encodeName(in).constData(), QFile::encodeName(out).constData() );
+        return Gluon_rename( QFile::encodeName( in ).constData(), QFile::encodeName( out ).constData() );
     }
 #endif
-    bool checkAccess(const QString& pathname, int mode)
+    bool checkAccess( const QString& pathname, int mode )
     {
         int accessOK = access( pathname, mode );
-        if ( accessOK == 0 )
+        if( accessOK == 0 )
             return true;  // The file is accessible
 
         // In case of write the file would be created. Check, if the
         // user may write to the directory to create the file.
-        if ( (mode & W_OK) == 0 )
+        if( ( mode & W_OK ) == 0 )
             return false;   // Check for write access is not part of mode => bail out
 
-        if (!access( pathname, F_OK)) // if it already exists
+        if( !access( pathname, F_OK ) ) // if it already exists
             return false;
 
         //strip the filename (everything until '/' from the end
-        QString dirName(pathname);
-        int pos = dirName.lastIndexOf(QLatin1Char('/'));
-        if ( pos == -1 )
+        QString dirName( pathname );
+        int pos = dirName.lastIndexOf( QLatin1Char( '/' ) );
+        if( pos == -1 )
             return false;   // No path in argument. This is evil, we won't allow this
-        else if ( pos == 0 ) // don't turn e.g. /root into an empty string
+        else if( pos == 0 )  // don't turn e.g. /root into an empty string
             pos = 1;
 
-        dirName.truncate(pos); // strip everything starting from the last '/'
+        dirName.truncate( pos ); // strip everything starting from the last '/'
 
         accessOK = access( dirName, W_OK );
         // Is the accessed diretory writeable ?
-        if ( accessOK == 0 )
+        if( accessOK == 0 )
             return true;  // Yes
         else
             return false; // No

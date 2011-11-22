@@ -37,26 +37,26 @@ class bteditor;
 
 class TreeSelectorDialog : public QDialog
 {
-    Q_OBJECT
-public:
-    TreeSelectorDialog(bteditor* bte);
-    ~TreeSelectorDialog();
-    void updateModel(QList<btTreeModel *> behaviortrees);
-    void updateModel(btTreeModel * behaviortree);
-    void setupActions();
+        Q_OBJECT
+    public:
+        TreeSelectorDialog( bteditor* bte );
+        ~TreeSelectorDialog();
+        void updateModel( QList<btTreeModel*> behaviortrees );
+        void updateModel( btTreeModel* behaviortree );
+        void setupActions();
 
-public Q_SLOTS:
-    void chooseTree();
+    public Q_SLOTS:
+        void chooseTree();
 
-private:
-    QVBoxLayout*        mainLayout;
-    QHBoxLayout*        buttonLayout;
-    QListView*          treelist;
-    QPushButton*        cancel_button;
-    QPushButton*        ok_button;
-    QStringListModel*   model;
-    QStringList*        list;
-    bteditor*           bte;
+    private:
+        QVBoxLayout*        mainLayout;
+        QHBoxLayout*        buttonLayout;
+        QListView*          treelist;
+        QPushButton*        cancel_button;
+        QPushButton*        ok_button;
+        QStringListModel*   model;
+        QStringList*        list;
+        bteditor*           bte;
 };
 
 #endif // TREESELECTORDIALOG_H

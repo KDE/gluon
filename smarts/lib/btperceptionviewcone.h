@@ -26,7 +26,7 @@ struct btPerceptionViewcone
 {
     public:
         btPerceptionViewcone();
-        
+
         /**
          * The horizontal angle by which the view cone is offset from the character's orientation
          * Note: This should be between -180 and 180
@@ -65,7 +65,7 @@ struct btPerceptionViewcone
          * 0 is no precision at all, 1.0 is full precision
          */
         int position;
-        
+
 };
 
 #endif // BTPERCEPTIONVIEWCONE_H

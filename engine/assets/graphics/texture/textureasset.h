@@ -41,7 +41,7 @@ namespace GluonEngine
             Q_INVOKABLE TextureAsset( QObject* parent = 0 );
             virtual ~TextureAsset();
 
-//             virtual QIcon icon() const;
+            //             virtual QIcon icon() const;
 
             void load();
 

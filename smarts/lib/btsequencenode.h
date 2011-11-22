@@ -31,11 +31,11 @@ class btNode;
 
 class BT_LIB_EXPORT btSequenceNode : public btNode
 {
-    Q_OBJECT
-    
-public:
-    Q_INVOKABLE btSequenceNode(QObject* parent = 0);
-    status run(btCharacter *self);
+        Q_OBJECT
+
+    public:
+        Q_INVOKABLE btSequenceNode( QObject* parent = 0 );
+        status run( btCharacter* self );
 };
 
 #endif

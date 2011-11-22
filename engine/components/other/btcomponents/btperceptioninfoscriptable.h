@@ -25,15 +25,15 @@
 
 namespace GluonEngine
 {
-	class BTCOMPONENT_EXPORT btPerceptionInfoScriptable : public btPerceptionInfo
-	{
-		Q_OBJECT
-		public:
-			btPerceptionInfoScriptable(QObject* parent);
-			~btPerceptionInfoScriptable();
-			
-			virtual QVariant getAdjustedValue(qreal precision) const;
-	};
+    class BTCOMPONENT_EXPORT btPerceptionInfoScriptable : public btPerceptionInfo
+    {
+            Q_OBJECT
+        public:
+            btPerceptionInfoScriptable( QObject* parent );
+            ~btPerceptionInfoScriptable();
+
+            virtual QVariant getAdjustedValue( qreal precision ) const;
+    };
 }
 
 #endif

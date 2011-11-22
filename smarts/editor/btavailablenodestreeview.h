@@ -25,9 +25,9 @@
 
 class btAvailableNodesTreeView : public QTreeView
 {
-Q_OBJECT
-public:
-    btAvailableNodesTreeView(QWidget *parent = 0);
+        Q_OBJECT
+    public:
+        btAvailableNodesTreeView( QWidget* parent = 0 );
 };
 
 #endif // BTAVAILABLENODESTREEVIEW_H

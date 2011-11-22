@@ -57,7 +57,7 @@ namespace GluonCreator
             GluonEngine::GameObject* createNewGameObject();
             GluonEngine::Asset* createNewAsset( const QString& fileName, GluonCore::GluonObject* parent = 0, const QString& className = QString(), const QString& name = QString() );
             void createAssets( const QStringList& fileNames, GluonCore::GluonObject* = 0 );
-            void createObjectCommand(GluonGraphics::MaterialInstance* materialInstance);
+            void createObjectCommand( GluonGraphics::MaterialInstance* materialInstance );
 
             void deleteGameObject( GluonEngine::GameObject* object );
             void changeProperty( GluonCore::GluonObject* object, QString& property, QVariant& oldValue, QVariant& newValue );

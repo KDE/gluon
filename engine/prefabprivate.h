@@ -45,9 +45,9 @@ namespace GluonEngine
             int preCacheSize;
             int additionalCacheSize;
 
-            void updateChildrenFromOther(GluonCore::GluonObject* updateThis, GluonCore::GluonObject* updateFrom);
-            void moveChildrenIntoPlace(GluonCore::GluonObject* updateThis, GluonCore::GluonObject* updateFrom);
-            void addRemoveAndUpdateChildren(GluonCore::GluonObject* updateThis, GluonCore::GluonObject* updateFrom);
+            void updateChildrenFromOther( GluonCore::GluonObject* updateThis, GluonCore::GluonObject* updateFrom );
+            void moveChildrenIntoPlace( GluonCore::GluonObject* updateThis, GluonCore::GluonObject* updateFrom );
+            void addRemoveAndUpdateChildren( GluonCore::GluonObject* updateThis, GluonCore::GluonObject* updateFrom );
     };
 }
 

@@ -24,25 +24,25 @@
 
 class TouchInputComponentTest : public QObject
 {
-	Q_OBJECT
+        Q_OBJECT
 
-public:
-    TouchInputComponentTest();
-    virtual ~TouchInputComponentTest();
+    public:
+        TouchInputComponentTest();
+        virtual ~TouchInputComponentTest();
 
-private Q_SLOTS:
-    void testCategory();
+    private Q_SLOTS:
+        void testCategory();
 
-    void testIsActionHeld();
-    void testIsActionStarted();
-    void testIsActionStopped();
+        void testIsActionHeld();
+        void testIsActionStarted();
+        void testIsActionStopped();
 
-    void testInitialize();
-    void testStart();
-    void testUpdate();
-    void testStop();
+        void testInitialize();
+        void testStart();
+        void testUpdate();
+        void testStop();
 
-    void testTouchCode();
+        void testTouchCode();
 };
 
 #endif // GLUON_ENGINE_TOUCHINPUTCOMPONENTTEST_H

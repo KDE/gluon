@@ -24,24 +24,24 @@
 
 class MetaInfoTest : public QObject
 {
-	Q_OBJECT
+        Q_OBJECT
 
-public:
-    MetaInfoTest();
-    virtual ~MetaInfoTest();
+    public:
+        MetaInfoTest();
+        virtual ~MetaInfoTest();
 
-private Q_SLOTS:
-    void testHasPropertyRange();
-    void testPropertyRangeMin();
-    void testPropertyRangeMax();
-    void testRemovePropertyRange();
-    void testBoundRange();
-    void testHasPropertySteps();
-    void testPropertySteps();
-    void testRemovePropertySteps();
-    void testBoundSteps();
-    void testBoundRangeAndSteps();
-    void testDefaultExtension();
+    private Q_SLOTS:
+        void testHasPropertyRange();
+        void testPropertyRangeMin();
+        void testPropertyRangeMax();
+        void testRemovePropertyRange();
+        void testBoundRange();
+        void testHasPropertySteps();
+        void testPropertySteps();
+        void testRemovePropertySteps();
+        void testBoundSteps();
+        void testBoundRangeAndSteps();
+        void testDefaultExtension();
 };
 
 #endif // GLUON_CORE_METAINFOTEST_H

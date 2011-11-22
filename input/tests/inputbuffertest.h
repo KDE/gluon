@@ -24,14 +24,14 @@
 
 class InputBufferTest : public QObject
 {
-	Q_OBJECT
+        Q_OBJECT
 
-public:
-    InputBufferTest();
-    virtual ~InputBufferTest();
+    public:
+        InputBufferTest();
+        virtual ~InputBufferTest();
 
-private Q_SLOTS:
-    void testButtonState();
+    private Q_SLOTS:
+        void testButtonState();
 };
 
 #endif // GLUON_INPUT_INPUTBUFFERTEST_H

@@ -24,25 +24,25 @@
 
 class KeyboardInputComponentTest : public QObject
 {
-	Q_OBJECT
+        Q_OBJECT
 
-public:
-    KeyboardInputComponentTest();
-    virtual ~KeyboardInputComponentTest();
+    public:
+        KeyboardInputComponentTest();
+        virtual ~KeyboardInputComponentTest();
 
-private Q_SLOTS:
-    void testCategory();
+    private Q_SLOTS:
+        void testCategory();
 
-    void testIsActionHeld();
-    void testIsActionStarted();
-    void testIsActionStopped();
+        void testIsActionHeld();
+        void testIsActionStarted();
+        void testIsActionStopped();
 
-    void testInitialize();
-    void testStart();
-    void testUpdate();
-    void testStop();
+        void testInitialize();
+        void testStart();
+        void testUpdate();
+        void testStop();
 
-    void testKeyCode();
+        void testKeyCode();
 };
 
 #endif // GLUON_ENGINE_KEYBOARDINPUTCOMPONENTTEST_H

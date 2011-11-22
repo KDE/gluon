@@ -24,18 +24,18 @@
 
 class SoundListenerComponentTest : public QObject
 {
-	Q_OBJECT
+        Q_OBJECT
 
-public:
-    SoundListenerComponentTest();
-    virtual ~SoundListenerComponentTest();
+    public:
+        SoundListenerComponentTest();
+        virtual ~SoundListenerComponentTest();
 
-private Q_SLOTS:
-    void testCategory();
-    void testStart();
-    void testDraw();
-    void testActive();
-    void testEffectsEnabled();
+    private Q_SLOTS:
+        void testCategory();
+        void testStart();
+        void testDraw();
+        void testActive();
+        void testEffectsEnabled();
 };
 
 #endif // GLUON_ENGINE_SOUNDLISTENERCOMPONENTTEST_H

@@ -30,7 +30,7 @@ namespace GluonCreator
         public:
             explicit PropertyList( QWidget* parent = 0 );
             virtual ~PropertyList();
-            void setObject(QObject* object);
+            void setObject( QObject* object );
 
         private:
             class Private;

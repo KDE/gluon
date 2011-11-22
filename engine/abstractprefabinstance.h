@@ -87,7 +87,7 @@ namespace GluonEngine
             void instanceStored();
 
         protected Q_SLOTS:
-            void childNameChanged(const QString& oldName, const QString& newName);
+            void childNameChanged( const QString& oldName, const QString& newName );
             void parentReverted();
             void parentStored();
 

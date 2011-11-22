@@ -25,12 +25,12 @@
 class QUrl;
 class btcomponentstestapp : public QObject
 {
-Q_OBJECT
-public:
-    btcomponentstestapp();
-    virtual ~btcomponentstestapp();
-    
-    void run(QUrl gdlFile);
+        Q_OBJECT
+    public:
+        btcomponentstestapp();
+        virtual ~btcomponentstestapp();
+
+        void run( QUrl gdlFile );
 };
 
 #endif // btcomponents_testapp_H

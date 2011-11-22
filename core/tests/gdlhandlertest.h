@@ -43,12 +43,12 @@ class GDLHandlerTest : public QObject
     private:
         bool compareTrees( const QList<GluonObject*>& gluonObjectList1, const QList<GluonObject*>& gluonObjectList2 );
         template <typename T> QList<const T*> constListFromNonConst( const QList<T*>& x );
-        QList<GluonObject*> gluonObjectList( const QObjectList& objectList);
+        QList<GluonObject*> gluonObjectList( const QObjectList& objectList );
 
         bool ensureReversible( const QString& gdl );
-        bool ensureParsing( const QList<GluonObject*>& gluonObjectList, const QString& gdl);
-        bool ensureSerializing( const QList<GluonObject*>& gluonObjectList, const QString& gdl);
-        bool ensureCommenting( const QList<GluonObject *>& gluonObjectList, const QString& gdl);
+        bool ensureParsing( const QList<GluonObject*>& gluonObjectList, const QString& gdl );
+        bool ensureSerializing( const QList<GluonObject*>& gluonObjectList, const QString& gdl );
+        bool ensureCommenting( const QList<GluonObject*>& gluonObjectList, const QString& gdl );
 
     private Q_SLOTS:
         void testGDLSample();

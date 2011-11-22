@@ -36,8 +36,8 @@ namespace GluonCore
      */
     class GLUON_CORE_EXPORT GDLSerializer : public Singleton< GDLSerializer >
     {
-        Q_OBJECT
-        GLUON_SINGLETON( GDLSerializer )
+            Q_OBJECT
+            GLUON_SINGLETON( GDLSerializer )
 
         public:
             /**
@@ -63,7 +63,7 @@ namespace GluonCore
 
             /**
              * Write a list of GluonObjects to a device.
-             * 
+             *
              * \param device The device to write to.
              * \param objects A list of objects to write to the device.
              *

@@ -28,27 +28,27 @@
 namespace GluonEngine
 {
     class btAssetPrivate;
-    
+
     class BTCOMPONENT_EXPORT btAsset : public GluonEngine::Asset
     {
-        Q_OBJECT
-        GLUON_OBJECT(GluonEngine::btAsset)
-        Q_INTERFACES(GluonEngine::Asset)
-        
+            Q_OBJECT
+            GLUON_OBJECT( GluonEngine::btAsset )
+            Q_INTERFACES( GluonEngine::Asset )
+
         public:
-            btAsset(QObject *parent = 0);
-            btAsset(const btAsset& other, QObject* parent = 0);
+            btAsset( QObject* parent = 0 );
+            btAsset( const btAsset& other, QObject* parent = 0 );
             ~btAsset();
-            
-            virtual void setFile(const QUrl &newFile);
-	    virtual const QStringList supportedMimeTypes() const;
-            
+
+            virtual void setFile( const QUrl& newFile );
+            virtual const QStringList supportedMimeTypes() const;
+
         private:
             btAssetPrivate* d;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::btAsset)
-Q_DECLARE_METATYPE(GluonEngine::btAsset*)
+Q_DECLARE_METATYPE( GluonEngine::btAsset )
+Q_DECLARE_METATYPE( GluonEngine::btAsset* )
 
 #endif // BEHAVIORTREE_BTASSET_H

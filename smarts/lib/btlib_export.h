@@ -25,11 +25,11 @@
 #include <QtCore/qglobal.h>
 
 #ifndef BT_LIB_EXPORT
-    #if defined(MAKE_BT_LIB)
-    #  define BT_LIB_EXPORT Q_DECL_EXPORT
-    #else
-    #  define BT_LIB_EXPORT Q_DECL_IMPORT
-    #endif
+#if defined(MAKE_BT_LIB)
+#  define BT_LIB_EXPORT Q_DECL_EXPORT
+#else
+#  define BT_LIB_EXPORT Q_DECL_IMPORT
+#endif
 #endif
 
 # ifndef BT_LIB_EXPORT_DEPRECATED

@@ -24,17 +24,17 @@
 
 class ComponentTest : public QObject
 {
-	Q_OBJECT
+        Q_OBJECT
 
-public:
-    ComponentTest();
-    virtual ~ComponentTest();
+    public:
+        ComponentTest();
+        virtual ~ComponentTest();
 
-private Q_SLOTS:
-    void testCategory();
-    void testDescription();
-    void testEnabled();
-    void testGameObject();
+    private Q_SLOTS:
+        void testCategory();
+        void testDescription();
+        void testEnabled();
+        void testGameObject();
 };
 
 #endif // GLUON_ENGINE_GAMEOBJECTTEST_H

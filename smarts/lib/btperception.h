@@ -28,21 +28,21 @@
 #include "btperceptionviewcone.h"
 #include "btcharacter.h"
 
-Q_DECLARE_METATYPE(QList<btPerceptionViewcone*>);
-Q_DECLARE_METATYPE(QList<btPerceptionAtom*>);
+Q_DECLARE_METATYPE( QList<btPerceptionViewcone*> );
+Q_DECLARE_METATYPE( QList<btPerceptionAtom*> );
 
 class btPerception : public QObject
 {
-    Q_OBJECT
-    Q_PROPERTY(qreal knowledgePrecision READ knowledgePrecision WRITE setKnowledgePrecision)
-    Q_PROPERTY(qreal perceptionLimit READ perceptionLimit WRITE setPerceptionLimit)
-    Q_PROPERTY(QList<btPerceptionViewcone*> viewCones READ viewCones WRITE setViewCones)
-    // the list of perception atoms is not a property, as it is dynamically created when accessing individual pieces of information
-    
+        Q_OBJECT
+        Q_PROPERTY( qreal knowledgePrecision READ knowledgePrecision WRITE setKnowledgePrecision )
+        Q_PROPERTY( qreal perceptionLimit READ perceptionLimit WRITE setPerceptionLimit )
+        Q_PROPERTY( QList<btPerceptionViewcone*> viewCones READ viewCones WRITE setViewCones )
+        // the list of perception atoms is not a property, as it is dynamically created when accessing individual pieces of information
+
     public:
-        btPerception(QObject* parent = 0);
+        btPerception( QObject* parent = 0 );
         ~btPerception();
-        
+
         /**
          * How precise the knowledge of an item found inside the perception limit is, if it is not
          * inside a view cone. This defaults to 0, as the perception limit is normally used
@@ -52,23 +52,23 @@ class btPerception : public QObject
          * 0 is no precision at all, 1.0 is full precision
          */
         qreal knowledgePrecision() const;
-        void setKnowledgePrecision(const qreal& newKnowledgePrecision);
-        
+        void setKnowledgePrecision( const qreal& newKnowledgePrecision );
+
         /**
          * The limit of the character's perception. If left at 0, the limit will be the entire level.
          * Please note that this can potentially be very expensive, depending on level size.
          */
         qreal perceptionLimit() const;
-        void setPerceptionLimit(const qreal& newPerceptionLimit);
-        
+        void setPerceptionLimit( const qreal& newPerceptionLimit );
+
         QList<btPerceptionViewcone*> viewCones() const;
-        void setViewCones(const QList<btPerceptionViewcone*> newViewCones);
-		void addViewCone(btPerceptionViewcone * viewcone);
-        
+        void setViewCones( const QList<btPerceptionViewcone*> newViewCones );
+        void addViewCone( btPerceptionViewcone* viewcone );
+
         QList<btPerceptionAtom*> perceptionAtoms() const;
-        btPerceptionAtom* perceptionAtom(const QString& name) const;
-		void addPerceptionAtom(btPerceptionAtom * perceptionAtom);
-        
+        btPerceptionAtom* perceptionAtom( const QString& name ) const;
+        void addPerceptionAtom( btPerceptionAtom* perceptionAtom );
+
     private:
         class btPerceptionPrivate;
         btPerceptionPrivate* d;

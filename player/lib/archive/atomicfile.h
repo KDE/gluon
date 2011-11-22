@@ -35,7 +35,7 @@
  * The AtomicFile class has been made to write out changes to an existing
  * file atomically. This means that either <b>ALL</b> changes will be written
  * to the file, or <b>NO</b> changes have been written, and the original file
- * (if any) has been unchanged. This is useful if you have lots of 
+ * (if any) has been unchanged. This is useful if you have lots of
  * time-consuming processing to perform during which an interruption could
  * occur, or if any error in the file structure will cause the entire file
  * to be corrupt.
@@ -94,181 +94,181 @@
  */
 class GLUON_PLAYER_EXPORT AtomicFile : public QFile
 {
-public:
-    /**
-     * Default constructor.
-     */
-    AtomicFile();
+    public:
+        /**
+         * Default constructor.
+         */
+        AtomicFile();
 
-    /**
-     * Creates a new AtomicFile and sets the target file to @p filename.
-     *
-     * @param filename the path of the file
-     * @param componentData unused
-     */
-    explicit AtomicFile(const QString &filename);
+        /**
+         * Creates a new AtomicFile and sets the target file to @p filename.
+         *
+         * @param filename the path of the file
+         * @param componentData unused
+         */
+        explicit AtomicFile( const QString& filename );
 
-    /**
-     * Destructor.
-     * @note If the file has been opened but not yet finalized, the
-     * destructor will call finalize(). If you do not want the target file
-     * to be affected you need to call abort() before destroying the object.
-     **/
-    virtual ~AtomicFile();
+        /**
+         * Destructor.
+         * @note If the file has been opened but not yet finalized, the
+         * destructor will call finalize(). If you do not want the target file
+         * to be affected you need to call abort() before destroying the object.
+         **/
+        virtual ~AtomicFile();
 
-    /**
-     * @brief Set the target filename for the atomic file.
-     * You must use this to set the filename of the target file if you do
-     * not use the contructor that does so.
-     * @param filename Name of the target file.
-     */
-    void setFileName(const QString &filename);
+        /**
+         * @brief Set the target filename for the atomic file.
+         * You must use this to set the filename of the target file if you do
+         * not use the contructor that does so.
+         * @param filename Name of the target file.
+         */
+        void setFileName( const QString& filename );
 
-    /**
-     * @brief Returns the name of the target file.
-     * This function returns the name of the target file, or an empty
-     * QString if it has not yet been set.
-     * @returns The name of the target file.
-     */
-    QString fileName() const;
+        /**
+         * @brief Returns the name of the target file.
+         * This function returns the name of the target file, or an empty
+         * QString if it has not yet been set.
+         * @returns The name of the target file.
+         */
+        QString fileName() const;
 
-    /**
-     * @brief Returns the last error that occurred.
-     * Use this function to check for errors.
-     * @returns The last error that occurred, or QFile::NoError.
-     */
-    QFile::FileError error() const;
+        /**
+         * @brief Returns the last error that occurred.
+         * Use this function to check for errors.
+         * @returns The last error that occurred, or QFile::NoError.
+         */
+        QFile::FileError error() const;
 
-    /**
-     * @brief Returns a human-readable description of the last error.
-     * Use this function to get a human-readable description of the
-     * last error that occurred.
-     * @return A string describing the last error that occurred.
-     */
-    QString errorString() const;
+        /**
+         * @brief Returns a human-readable description of the last error.
+         * Use this function to get a human-readable description of the
+         * last error that occurred.
+         * @return A string describing the last error that occurred.
+         */
+        QString errorString() const;
 
-    /**
-     * @brief Open the atomic file.
-     * This function will open the atomic file by creating a temporary file to write
-     * to. It will also check to ensure that there are sufficient permissions to
-     * write to the target file.
-     *
-     * @param flags Sets the QIODevice::OpenMode. It should contain the write flag, otherwise you
-     * have a atomic file you cannot atomic to.
-     *
-     * @return true if successful, or false if an error has occurred.
-     */
-    virtual bool open(OpenMode flags = QIODevice::ReadWrite);
+        /**
+         * @brief Open the atomic file.
+         * This function will open the atomic file by creating a temporary file to write
+         * to. It will also check to ensure that there are sufficient permissions to
+         * write to the target file.
+         *
+         * @param flags Sets the QIODevice::OpenMode. It should contain the write flag, otherwise you
+         * have a atomic file you cannot atomic to.
+         *
+         * @return true if successful, or false if an error has occurred.
+         */
+        virtual bool open( OpenMode flags = QIODevice::ReadWrite );
 
-    /**
-     * @brief Discard changes without affecting the target file.
-     * This will discard all changes that have been made to this file.
-     * The target file will not be altered in any way.
-     **/
-    void abort();
+        /**
+         * @brief Discard changes without affecting the target file.
+         * This will discard all changes that have been made to this file.
+         * The target file will not be altered in any way.
+         **/
+        void abort();
 
-    /**
-     * @brief Finalize changes to the file.
-     * This will commit all the changes that have been made to the file.
-     * @return true if successful, or false if an error has occurred.
-     **/
-    bool finalize();
+        /**
+         * @brief Finalize changes to the file.
+         * This will commit all the changes that have been made to the file.
+         * @return true if successful, or false if an error has occurred.
+         **/
+        bool finalize();
 
-    /**
-     * @brief Static method to create a backup file before saving.
-     *
-     * If empty (the default), the backup will be in the same directory as @p filename.
-     * The backup type (simple, rcs, or numbered), extension string, and maximum
-     * number of backup files are read from the user's global configuration.
-     * Use simpleBackupFile() or numberedBackupFile() to force one of these
-     * specific backup styles.
-     * You can use this method even if you don't use AtomicFile.
-     * @param filename the file to backup
-     * @param backupDir optional directory where to atomic the backup file in.
-     * @return true if successful, or false if an error has occurred.
-     */
-    /* static bool backupFile( const QString& filename, */
-                            /* const QString& backupDir = QString() ); */
+        /**
+         * @brief Static method to create a backup file before saving.
+         *
+         * If empty (the default), the backup will be in the same directory as @p filename.
+         * The backup type (simple, rcs, or numbered), extension string, and maximum
+         * number of backup files are read from the user's global configuration.
+         * Use simpleBackupFile() or numberedBackupFile() to force one of these
+         * specific backup styles.
+         * You can use this method even if you don't use AtomicFile.
+         * @param filename the file to backup
+         * @param backupDir optional directory where to atomic the backup file in.
+         * @return true if successful, or false if an error has occurred.
+         */
+        /* static bool backupFile( const QString& filename, */
+        /* const QString& backupDir = QString() ); */
 
-    /**
-     * @brief Static method to create a backup file for a given filename.
-     *
-     * This function creates a backup file from the given filename.
-     * You can use this method even if you don't use AtomicFile.
-     * @param filename the file to backup
-     * @param backupDir optional directory where to atomic the backup file in.
-     * If empty (the default), the backup will be in the same directory as @p filename.
-     * @param backupExtension the extension to append to @p filename, "~" by default.
-     * @return true if successful, or false if an error has occurred.
-     */
-    static bool simpleBackupFile( const QString& filename,
-                                  const QString& backupDir = QString(),
-                                  const QString& backupExtension = QLatin1String( "~" ) );
+        /**
+         * @brief Static method to create a backup file for a given filename.
+         *
+         * This function creates a backup file from the given filename.
+         * You can use this method even if you don't use AtomicFile.
+         * @param filename the file to backup
+         * @param backupDir optional directory where to atomic the backup file in.
+         * If empty (the default), the backup will be in the same directory as @p filename.
+         * @param backupExtension the extension to append to @p filename, "~" by default.
+         * @return true if successful, or false if an error has occurred.
+         */
+        static bool simpleBackupFile( const QString& filename,
+                                      const QString& backupDir = QString(),
+                                      const QString& backupExtension = QLatin1String( "~" ) );
 
-    /**
-     * @brief Static method to create a backup file for a given filename.
-     *
-     * This function creates a series of numbered backup files from the
-     * given filename.
-     *
-     * The backup file names will be of the form:
-     *     \<name\>.\<number\>\<extension\>
-     * for instance
-     *     \verbatim chat.3.log \endverbatim
-     *
-     * The new backup file will be have the backup number 1.
-     * Each existing backup file will have its number incremented by 1.
-     * Any backup files with numbers greater than the maximum number
-     * permitted (@p maxBackups) will be removed.
-     * You can use this method even if you don't use AtomicFile.
-     *
-     * @param filename the file to backup
-     * @param backupDir optional directory where to atomic the backup file in.
-     * If empty (the default), the backup will be in the same directory as
-     * @p filename.
-     * @param backupExtension the extension to append to @p filename,
-     * which is "~" by default.  Do not use an extension containing digits.
-     * @param maxBackups the maximum number of backup files permitted.
-     * For best performance a small number (10) is recommended.
-     * @return true if successful, or false if an error has occurred.
-     */
-    static bool numberedBackupFile( const QString& filename,
-                                    const QString& backupDir = QString(),
-                                    const QString& backupExtension = QString::fromLatin1( "~" ),
-                                    const uint maxBackups = 10 );
+        /**
+         * @brief Static method to create a backup file for a given filename.
+         *
+         * This function creates a series of numbered backup files from the
+         * given filename.
+         *
+         * The backup file names will be of the form:
+         *     \<name\>.\<number\>\<extension\>
+         * for instance
+         *     \verbatim chat.3.log \endverbatim
+         *
+         * The new backup file will be have the backup number 1.
+         * Each existing backup file will have its number incremented by 1.
+         * Any backup files with numbers greater than the maximum number
+         * permitted (@p maxBackups) will be removed.
+         * You can use this method even if you don't use AtomicFile.
+         *
+         * @param filename the file to backup
+         * @param backupDir optional directory where to atomic the backup file in.
+         * If empty (the default), the backup will be in the same directory as
+         * @p filename.
+         * @param backupExtension the extension to append to @p filename,
+         * which is "~" by default.  Do not use an extension containing digits.
+         * @param maxBackups the maximum number of backup files permitted.
+         * For best performance a small number (10) is recommended.
+         * @return true if successful, or false if an error has occurred.
+         */
+        static bool numberedBackupFile( const QString& filename,
+                                        const QString& backupDir = QString(),
+                                        const QString& backupExtension = QString::fromLatin1( "~" ),
+                                        const uint maxBackups = 10 );
 
 
-    /**
-     * @brief Static method to create an rcs backup file for a given filename.
-     *
-     * This function creates a rcs-formatted backup file from the
-     * given filename.
-     *
-     * The backup file names will be of the form:
-     *     \<name\>,v
-     * for instance
-     *     \verbatim photo.jpg,v \endverbatim
-     *
-     * The new backup file will be in RCS format.
-     * Each existing backup file will be committed as a new revision.
-     * You can use this method even if you don't use AtomicFile.
-     *
-     * @param filename the file to backup
-     * @param backupDir optional directory where to  the backup file in.
-     * If empty (the default), the backup will be in the same directory as
-     * @p filename.
-     * @param backupMessage is the RCS commit message for this revision.
-     * @return true if successful, or false if an error has occurred.
-     */
-    // static bool rcsBackupFile( const QString& filename,
-                               // const QString& backupDir = QString(),
-                               // const QString& backupMessage = QString() );
+        /**
+         * @brief Static method to create an rcs backup file for a given filename.
+         *
+         * This function creates a rcs-formatted backup file from the
+         * given filename.
+         *
+         * The backup file names will be of the form:
+         *     \<name\>,v
+         * for instance
+         *     \verbatim photo.jpg,v \endverbatim
+         *
+         * The new backup file will be in RCS format.
+         * Each existing backup file will be committed as a new revision.
+         * You can use this method even if you don't use AtomicFile.
+         *
+         * @param filename the file to backup
+         * @param backupDir optional directory where to  the backup file in.
+         * If empty (the default), the backup will be in the same directory as
+         * @p filename.
+         * @param backupMessage is the RCS commit message for this revision.
+         * @return true if successful, or false if an error has occurred.
+         */
+        // static bool rcsBackupFile( const QString& filename,
+        // const QString& backupDir = QString(),
+        // const QString& backupMessage = QString() );
 
-private:
-    Q_DISABLE_COPY(AtomicFile)
+    private:
+        Q_DISABLE_COPY( AtomicFile )
 
-    class Private;
-    Private *const d;
+        class Private;
+        Private* const d;
 };
 
 #endif

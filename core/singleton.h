@@ -30,7 +30,7 @@
 #elif defined _MSC_VER && defined _WIN64
 #define __MEMBARRIER MemoryBarrier();
 #else
-#define __MEMBARRIER 
+#define __MEMBARRIER
 #endif
 
 /**
@@ -98,12 +98,13 @@ namespace GluonCore
              */
             static T* instance()
             {
-                if(!sm_guard) {
+                if( !sm_guard )
+                {
                     QMutex* mutex = mutexInstance();
                     mutex->lock();
                     if( !sm_instance )
                     {
-                        sm_instance = new T(QCoreApplication::instance());
+                        sm_instance = new T( QCoreApplication::instance() );
                     }
                     mutex->unlock();
                     __MEMBARRIER
@@ -131,15 +132,15 @@ namespace GluonCore
                 delete sm_mutex;
                 sm_mutex = 0;
             }
-            
+
         private:
 
             static QMutex* mutexInstance()
             {
-                if (!sm_mutex)
+                if( !sm_mutex )
                 {
-                    QMutex *mutex = new QMutex();
-                    if (!sm_mutex.testAndSetOrdered(0, mutex)) /* some other thread beat us to it */
+                    QMutex* mutex = new QMutex();
+                    if( !sm_mutex.testAndSetOrdered( 0, mutex ) ) /* some other thread beat us to it */
                         delete mutex;
                 }
                 return sm_mutex;
@@ -168,8 +169,8 @@ namespace GluonCore
 
 #define GLUON_SINGLETON(Type) \
     private:\
-        friend class GluonCore::Singleton<Type>;\
-        Type( QObject* parent );\
-        Q_DISABLE_COPY(Type)
+    friend class GluonCore::Singleton<Type>;\
+    Type( QObject* parent );\
+    Q_DISABLE_COPY(Type)
 
 #endif // GLUON_CORE_SINGLETON

@@ -32,24 +32,24 @@ class btEditorNodeType;
 
 class projectParser : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    static projectParser * instance();
+    public:
+        static projectParser* instance();
 
-    //parsing the xmldata, which is a QString which is contents of the xml file
-    btBrain* parseProject(QString xmlData);
-    //returning the btBrain serialized to a xml formatted QString
-    const QString serializeProject(btBrain * brain);
+        //parsing the xmldata, which is a QString which is contents of the xml file
+        btBrain* parseProject( QString xmlData );
+        //returning the btBrain serialized to a xml formatted QString
+        const QString serializeProject( btBrain* brain );
 
-private:
-    projectParser();
+    private:
+        projectParser();
 
-    int m_indentCount;
-    QHash<int, btTreeModel*> behaviorTreesList;
+        int m_indentCount;
+        QHash<int, btTreeModel*> behaviorTreesList;
 
-    void parseNodeTypes(QDomNode xNode, btBrain * brain);
-    void parseBehaviorTrees(QDomNode xNode, btEditorNode * node ,btBrain * brain);
+        void parseNodeTypes( QDomNode xNode, btBrain* brain );
+        void parseBehaviorTrees( QDomNode xNode, btEditorNode* node , btBrain* brain );
 };
 
 #endif

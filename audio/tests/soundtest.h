@@ -24,23 +24,23 @@
 
 class SoundTest : public QObject
 {
-	Q_OBJECT
+        Q_OBJECT
 
-public:
-    SoundTest();
-    virtual ~SoundTest();
+    public:
+        SoundTest();
+        virtual ~SoundTest();
 
-private Q_SLOTS:
-    void testConstructorMemberInit();
-    void testLoad();
-    void testLoadInvalidSource();
-    void testIsValid();
-    void testIsPlaying();
-    void testIsLooping();
-    void testPosition();
-    void testVolume();
-    void testPitch();
-    void testRadius();
+    private Q_SLOTS:
+        void testConstructorMemberInit();
+        void testLoad();
+        void testLoadInvalidSource();
+        void testIsValid();
+        void testIsPlaying();
+        void testIsLooping();
+        void testPosition();
+        void testVolume();
+        void testPitch();
+        void testRadius();
 };
 
 #endif // GLUON_AUDIO_SOUNDTEST_H

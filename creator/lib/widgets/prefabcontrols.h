@@ -35,7 +35,7 @@ namespace GluonCreator
 {
     class PrefabControls : public QWidget
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit PrefabControls( GluonEngine::AbstractPrefabInstance* instance, QWidget* parent = 0, Qt::WindowFlags f = 0 );
             virtual ~PrefabControls();

@@ -26,17 +26,17 @@
 
 class QVBoxLayout;
 
-class btChildListWidget : public QWidget 
+class btChildListWidget : public QWidget
 {
-    Q_OBJECT
-public:
-    btChildListWidget(QWidget * parent = 0);
-    ~btChildListWidget();
-    
-    void setChildProbabilites(QString propertyName, QObject * object, bool enabled);
-    
-private:
-    QVBoxLayout*        childLayout;    
+        Q_OBJECT
+    public:
+        btChildListWidget( QWidget* parent = 0 );
+        ~btChildListWidget();
+
+        void setChildProbabilites( QString propertyName, QObject* object, bool enabled );
+
+    private:
+        QVBoxLayout*        childLayout;
 };
 
 #endif

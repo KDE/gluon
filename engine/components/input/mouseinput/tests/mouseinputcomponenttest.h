@@ -24,25 +24,25 @@
 
 class MouseInputComponentTest : public QObject
 {
-	Q_OBJECT
+        Q_OBJECT
 
-public:
-    MouseInputComponentTest();
-    virtual ~MouseInputComponentTest();
+    public:
+        MouseInputComponentTest();
+        virtual ~MouseInputComponentTest();
 
-private Q_SLOTS:
-    void testCategory();
+    private Q_SLOTS:
+        void testCategory();
 
-    void testIsActionStarted();
-    void testIsActionStopped();
+        void testIsActionStarted();
+        void testIsActionStopped();
 
-    void testInitialize();
-    void testStart();
-    void testUpdate();
-    void testStop();
+        void testInitialize();
+        void testStart();
+        void testUpdate();
+        void testStop();
 
-    void testMouseButton();
-    void testMouseTrack();
+        void testMouseButton();
+        void testMouseTrack();
 };
 
 #endif // GLUON_ENGINE_MOUSEINPUTCOMPONENTTEST_H

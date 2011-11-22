@@ -25,7 +25,8 @@
 
 struct BT_LIB_EXPORT StatNode
 {
-    StatNode() {
+    StatNode()
+    {
         fail = 1;
         succes = 1;
         p = 0.5;

@@ -84,7 +84,7 @@ namespace GluonCore
 
         private:
             class DirectoryProviderPrivate;
-            DirectoryProviderPrivate *const d;
+            DirectoryProviderPrivate* const d;
     };
 
 }

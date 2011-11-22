@@ -30,50 +30,50 @@ class btNodeEditWidget;
 
 class NewTreeWizard : public QWizard
 {
-    Q_OBJECT
+        Q_OBJECT
 
     public:
-        NewTreeWizard(QWidget *parent = 0);
+        NewTreeWizard( QWidget* parent = 0 );
         void accept();
     Q_SIGNALS:
-        void behaviorTreeCreated(QString name);
+        void behaviorTreeCreated( QString name );
 };
 
 class IntroPage : public QWizardPage
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    IntroPage(QWidget *parent = 0);
+    public:
+        IntroPage( QWidget* parent = 0 );
 
-private:
-    QLabel *label;
+    private:
+        QLabel* label;
 };
 
 class NamePage : public QWizardPage
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    NamePage(QWidget *parent = 0);
+    public:
+        NamePage( QWidget* parent = 0 );
 
-private:
-    QLabel *label;
-    QLabel *nameLabel;
-    QLineEdit *nameEdit;
+    private:
+        QLabel* label;
+        QLabel* nameLabel;
+        QLineEdit* nameEdit;
 };
 
 class NodeTypePage : public QWizardPage
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    NodeTypePage(QWidget *parent = 0);
+    public:
+        NodeTypePage( QWidget* parent = 0 );
 
-private:
-    QLabel *label;
-    QLabel *nameLabel;
-    btNodeEditWidget *nodeEditor;
+    private:
+        QLabel* label;
+        QLabel* nameLabel;
+        btNodeEditWidget* nodeEditor;
 
 };
 

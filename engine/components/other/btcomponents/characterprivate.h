@@ -28,18 +28,18 @@ class btPerception;
 namespace GluonEngine
 {
     class Tree;
-    
+
     class CharacterPrivate : public QSharedData
     {
         public:
             CharacterPrivate();
-            CharacterPrivate(const CharacterPrivate &other);
+            CharacterPrivate( const CharacterPrivate& other );
             ~CharacterPrivate();
-            
+
             Tree* tree;
             bool autoThink;
-			btCharacterScriptable * self;
-			btPerception * perception;
+            btCharacterScriptable* self;
+            btPerception* perception;
     };
 }
 

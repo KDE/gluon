@@ -34,6 +34,6 @@ struct BT_LIB_EXPORT btParallelConditions
     QVariantList parallelConditions;
 };
 
-Q_DECLARE_METATYPE(btChildWeights)
-Q_DECLARE_METATYPE(btParallelConditions)
+Q_DECLARE_METATYPE( btChildWeights )
+Q_DECLARE_METATYPE( btParallelConditions )
 #endif

@@ -24,20 +24,20 @@
 
 class StatisticTest : public QObject
 {
-	Q_OBJECT
+        Q_OBJECT
 
-public:
-    StatisticTest();
-    virtual ~StatisticTest();
+    public:
+        StatisticTest();
+        virtual ~StatisticTest();
 
-private Q_SLOTS:
-    void testScore();
-    void testIncrease();
-    void testDecrease();
-    void testAdd();
-    void testSub();
-    void testReset();
-    void testCommitScore();
+    private Q_SLOTS:
+        void testScore();
+        void testIncrease();
+        void testDecrease();
+        void testAdd();
+        void testSub();
+        void testReset();
+        void testCommitScore();
 };
 
 #endif // GLUON_ENGINE_STATISTICTEST_H

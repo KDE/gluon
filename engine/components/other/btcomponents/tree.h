@@ -28,35 +28,35 @@ namespace GluonEngine
 {
     class btAsset;
     class TreePrivate;
-    
+
     class BTCOMPONENT_EXPORT Tree : public GluonEngine::Asset
     {
-        Q_OBJECT
-        GLUON_OBJECT(GluonEngine::Tree)
-        Q_INTERFACES(GluonEngine::Asset)
-        Q_PROPERTY(btNode* behaviorTree READ behaviorTree WRITE setBehaviorTree)
-        
+            Q_OBJECT
+            GLUON_OBJECT( GluonEngine::Tree )
+            Q_INTERFACES( GluonEngine::Asset )
+            Q_PROPERTY( btNode* behaviorTree READ behaviorTree WRITE setBehaviorTree )
+
         public:
             friend class GluonEngine::btAsset;
-            
-            Tree(QObject * parent = 0);
-            Tree(const Tree& other, QObject* parent = 0);
+
+            Tree( QObject* parent = 0 );
+            Tree( const Tree& other, QObject* parent = 0 );
             ~Tree();
-            
-            void setBehaviorTree(btNode* newBehaviorTree);
+
+            void setBehaviorTree( btNode* newBehaviorTree );
             btNode* behaviorTree() const;
-		
-			void setFile(QString file);
-			QString getFile();
+
+            void setFile( QString file );
+            QString getFile();
         Q_SIGNALS:
-            void treeChanged(Tree* newTree);
-            
+            void treeChanged( Tree* newTree );
+
         private:
             TreePrivate* d;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::Tree)
-Q_DECLARE_METATYPE(GluonEngine::Tree*)
+Q_DECLARE_METATYPE( GluonEngine::Tree )
+Q_DECLARE_METATYPE( GluonEngine::Tree* )
 
 #endif // BEHAVIORTREE_TREE_H

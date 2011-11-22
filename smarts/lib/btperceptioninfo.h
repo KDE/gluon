@@ -29,27 +29,27 @@ class btBrain;
 
 class btPerceptionInfo : public QObject
 {
-    Q_OBJECT
-    Q_PROPERTY(QVector3D position READ position WRITE setPosition NOTIFY positionUpdated)
-    Q_PROPERTY(qreal radius READ radius WRITE setRadius NOTIFY radiusUpdated)
-    
+        Q_OBJECT
+        Q_PROPERTY( QVector3D position READ position WRITE setPosition NOTIFY positionUpdated )
+        Q_PROPERTY( qreal radius READ radius WRITE setRadius NOTIFY radiusUpdated )
+
     public:
-        btPerceptionInfo(QObject* parent);
+        btPerceptionInfo( QObject* parent );
         ~btPerceptionInfo();
-        
+
         virtual QVector3D position() const;
-        virtual void setPosition(const QVector3D& newPosition);
-        
+        virtual void setPosition( const QVector3D& newPosition );
+
         virtual qreal radius() const;
-        virtual void setRadius(const qreal& newRadius);
-        
-        virtual QVariant getAdjustedValue(qreal precision) const = 0;
-        
+        virtual void setRadius( const qreal& newRadius );
+
+        virtual QVariant getAdjustedValue( qreal precision ) const = 0;
+
     Q_SIGNALS:
         void infoUpdated();
-        void positionUpdated(QVector3D);
-        void radiusUpdated(qreal);
-        
+        void positionUpdated( QVector3D );
+        void radiusUpdated( qreal );
+
     private:
         class btPerceptionInfoPrivate;
         btPerceptionInfoPrivate* d;

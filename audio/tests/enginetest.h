@@ -24,16 +24,16 @@
 
 class EngineTest : public QObject
 {
-	Q_OBJECT
+        Q_OBJECT
 
-public:
-    EngineTest();
-    virtual ~EngineTest();
+    public:
+        EngineTest();
+        virtual ~EngineTest();
 
-private Q_SLOTS:
-    void testBufferLength();
-    void testBuffersPerStream();
-    void testListenerPosition();
+    private Q_SLOTS:
+        void testBufferLength();
+        void testBuffersPerStream();
+        void testListenerPosition();
 };
 
 #endif // GLUON_AUDIO_ENGINETEST_H

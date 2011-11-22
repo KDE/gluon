@@ -26,17 +26,17 @@
 
 class QVBoxLayout;
 
-class btParallelConditionsWidget : public QWidget 
+class btParallelConditionsWidget : public QWidget
 {
-	Q_OBJECT
-public:
-	btParallelConditionsWidget(QWidget * parent = 0);
-	~btParallelConditionsWidget();
-	
-	void setParallelConditions(QString propertyName, QObject* object, bool enabled);
-	
-private:
-	QVBoxLayout* parallelConditionsLayout;
+        Q_OBJECT
+    public:
+        btParallelConditionsWidget( QWidget* parent = 0 );
+        ~btParallelConditionsWidget();
+
+        void setParallelConditions( QString propertyName, QObject* object, bool enabled );
+
+    private:
+        QVBoxLayout* parallelConditionsLayout;
 };
 
 #endif

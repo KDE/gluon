@@ -35,7 +35,7 @@
 
 class QSwipeGesture;
 class QPanGesture;
-class QPinchGesture; 
+class QPinchGesture;
 class QEvent;
 
 namespace GluonInput
@@ -47,7 +47,7 @@ namespace GluonInput
     {
             Q_OBJECT
             GLUON_SINGLETON( InputManager )
-            
+
         public:
             enum InputManagementType
             {

@@ -51,13 +51,13 @@ namespace GluonEngine
             /**
              * The number of instances to create upon loading the GameObject hieararchy from file
              */
-            Q_PROPERTY(int preCacheSize READ preCacheSize WRITE setPreCacheSize)
+            Q_PROPERTY( int preCacheSize READ preCacheSize WRITE setPreCacheSize )
             /**
              * The additional number of instances to add to the cache, relative to the preCacheSize
              * property value. The total size of the cache is thus the number of pre-cached
              * instances plus the additional cache size.
              */
-            Q_PROPERTY(int additionalCacheSize READ additionalCacheSize WRITE setAdditionalCacheSize)
+            Q_PROPERTY( int additionalCacheSize READ additionalCacheSize WRITE setAdditionalCacheSize )
 
         public:
             Q_INVOKABLE Prefab( QObject* parent = 0 );
@@ -90,16 +90,16 @@ namespace GluonEngine
             const QList<PrefabInstance*> instances() const;
 
             int preCacheSize() const;
-            void setPreCacheSize(int newPreCacheSize);
+            void setPreCacheSize( int newPreCacheSize );
             int additionalCacheSize() const;
-            void setAdditionalCacheSize(int newAdditionalCacheSize);
+            void setAdditionalCacheSize( int newAdditionalCacheSize );
 
             /**
              * Reimplemented from Savable::writeContents()
              */
-            virtual void writeContents(QIODevice* device);
+            virtual void writeContents( QIODevice* device );
 
-            static void cloneObjectProperties(const QObject* cloneFrom, QObject* setPropertiesOn);
+            static void cloneObjectProperties( const QObject* cloneFrom, QObject* setPropertiesOn );
         protected:
             friend class PrefabInstance;
             /**

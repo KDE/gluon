@@ -73,7 +73,7 @@ namespace GluonEngine
              *
              * Reimplemented from Savable::writeContents()
              */
-            virtual void writeContents(QIODevice* device);
+            virtual void writeContents( QIODevice* device );
 
             /**
              * Return a reference to the scene tree itself (meaning the GluonObject hierarchy

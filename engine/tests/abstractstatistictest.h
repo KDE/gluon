@@ -24,23 +24,23 @@
 
 class AbstractStatisticTest : public QObject
 {
-	Q_OBJECT
+        Q_OBJECT
 
-public:
-    AbstractStatisticTest();
-    virtual ~AbstractStatisticTest();
+    public:
+        AbstractStatisticTest();
+        virtual ~AbstractStatisticTest();
 
-private Q_SLOTS:
-    void testIsDatabaseOpen();
-    void testInitialize();
-    void testCleanup();
-    void testSetName();
-    void testValue();
-    void testInvalidate();
-    // void testArray();
-    // void testArrayAppend();
-    // void testRemoveAt();
-    void testCommit();
+    private Q_SLOTS:
+        void testIsDatabaseOpen();
+        void testInitialize();
+        void testCleanup();
+        void testSetName();
+        void testValue();
+        void testInvalidate();
+        // void testArray();
+        // void testArrayAppend();
+        // void testRemoveAt();
+        void testCommit();
 };
 
 #endif // GLUON_ENGINE_ABSTRACTSTATISTICTEST_H

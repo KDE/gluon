@@ -28,15 +28,15 @@ class btEditorNodeType;
 
 class nodeTypeFactory: public QObject
 {
-		Q_OBJECT
-	
-public:
-	static nodeTypeFactory * instance();
-	
-	btEditorNodeType * newObject(QString typeCategory);
-    btEditorNodeType * newObject(btNodeType::nodeType type);
-private:
-	nodeTypeFactory();
+        Q_OBJECT
+
+    public:
+        static nodeTypeFactory* instance();
+
+        btEditorNodeType* newObject( QString typeCategory );
+        btEditorNodeType* newObject( btNodeType::nodeType type );
+    private:
+        nodeTypeFactory();
 };
 
 #endif

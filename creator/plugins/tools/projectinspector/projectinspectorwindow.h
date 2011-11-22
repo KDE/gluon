@@ -28,9 +28,9 @@ namespace GluonCreator
 {
     class ProjectInspectorWindow : public QDialog
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            explicit ProjectInspectorWindow(QWidget* parent = 0, Qt::WindowFlags f = 0);
+            explicit ProjectInspectorWindow( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             virtual ~ProjectInspectorWindow();
 
             virtual QSize sizeHint() const;

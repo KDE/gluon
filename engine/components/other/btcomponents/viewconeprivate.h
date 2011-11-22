@@ -28,12 +28,12 @@ namespace GluonEngine
 {
     class ViewConePrivate : public QSharedData
     {
-	    public:
-		ViewConePrivate();
-		ViewConePrivate(const ViewConePrivate& other);
-		~ViewConePrivate();
-		
-		btPerceptionViewcone * viewcone;
+        public:
+            ViewConePrivate();
+            ViewConePrivate( const ViewConePrivate& other );
+            ~ViewConePrivate();
+
+            btPerceptionViewcone* viewcone;
     };
 }
 

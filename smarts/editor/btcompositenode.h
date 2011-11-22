@@ -25,13 +25,13 @@
 
 class btCompositeNode : public btEditorNodeType
 {
-	Q_OBJECT
-	
-public:
-	btCompositeNode(QObject* parent = 0);	
-	~btCompositeNode();
-	
-	bool run(btCharacter* character);
+        Q_OBJECT
+
+    public:
+        btCompositeNode( QObject* parent = 0 );
+        ~btCompositeNode();
+
+        bool run( btCharacter* character );
 };
 
 #endif

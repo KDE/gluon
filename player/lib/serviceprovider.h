@@ -153,7 +153,7 @@ namespace GluonPlayer
              * @param lastName Last name of the user
              */
             void registerAccount( const QString& username, const QString& password, const QString& mail,
-                          const QString& firstName, const QString& lastName );
+                                  const QString& firstName, const QString& lastName );
 
             /**
              * Fetch a list of games available on the OCS server

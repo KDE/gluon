@@ -24,26 +24,26 @@
 
 class SoundEmitterComponentTest : public QObject
 {
-	Q_OBJECT
+        Q_OBJECT
 
-public:
-    SoundEmitterComponentTest();
-    virtual ~SoundEmitterComponentTest();
+    public:
+        SoundEmitterComponentTest();
+        virtual ~SoundEmitterComponentTest();
 
-private Q_SLOTS:
-    void testCategory();
-    void testAsset();
-    void testInitialize();
-    void testStart();
-    void testDraw();
-    void testStop();
-    void testCleanup();
-    void testRadius();
-    void testVolume();
-    void testPitch();
-    void testIsPlaying();
-    void testIsLooping();
-    void testPopulateMetaInfo();
+    private Q_SLOTS:
+        void testCategory();
+        void testAsset();
+        void testInitialize();
+        void testStart();
+        void testDraw();
+        void testStop();
+        void testCleanup();
+        void testRadius();
+        void testVolume();
+        void testPitch();
+        void testIsPlaying();
+        void testIsLooping();
+        void testPopulateMetaInfo();
 };
 
 #endif // GLUON_ENGINE_SOUNDEMITTERCOMPONENTTEST_H

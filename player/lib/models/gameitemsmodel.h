@@ -90,7 +90,7 @@ namespace GluonPlayer
             void upgradableCountChanged();
 
         protected Q_SLOTS:
-            void processFetchedGameList ();
+            void processFetchedGameList();
 
         private:
             void fetchGamesList();

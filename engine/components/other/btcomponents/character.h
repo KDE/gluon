@@ -37,51 +37,51 @@ namespace GluonEngine
 
     class BTCOMPONENT_EXPORT Character : public GluonEngine::Component
     {
-        Q_OBJECT
-        GLUON_OBJECT(GluonEngine::Character)
-        Q_INTERFACES(GluonEngine::Component)
-        Q_PROPERTY(bool autoThink READ autoThink WRITE setAutoThink)
-        Q_PROPERTY(qreal knowledgePrecision READ knowledgePrecision WRITE setKnowledgePrecision)
-        Q_PROPERTY(qreal perceptionLimit READ perceptionLimit WRITE setPerceptionLimit)
-        Q_PROPERTY(GluonEngine::Tree* tree READ tree WRITE setTree)
+            Q_OBJECT
+            GLUON_OBJECT( GluonEngine::Character )
+            Q_INTERFACES( GluonEngine::Component )
+            Q_PROPERTY( bool autoThink READ autoThink WRITE setAutoThink )
+            Q_PROPERTY( qreal knowledgePrecision READ knowledgePrecision WRITE setKnowledgePrecision )
+            Q_PROPERTY( qreal perceptionLimit READ perceptionLimit WRITE setPerceptionLimit )
+            Q_PROPERTY( GluonEngine::Tree* tree READ tree WRITE setTree )
         public:
-            Q_INVOKABLE Character(QObject * parent = 0);
-            Character(const Character &other, QObject * parent = 0);
+            Q_INVOKABLE Character( QObject* parent = 0 );
+            Character( const Character& other, QObject* parent = 0 );
             virtual ~Character();
             virtual QString category() const;
-            
+
             virtual void initialize();
-			virtual void start();
-            virtual void update(int elapsedMilliseconds);
-            
+            virtual void start();
+            virtual void update( int elapsedMilliseconds );
+
             bool think();
-            
-            void setTree(Tree* newAsset);
+
+            void setTree( Tree* newAsset );
             Tree* tree() const;
-            
-            void setAutoThink(bool newAutoThink);
+
+            void setAutoThink( bool newAutoThink );
             bool autoThink() const;
-	    
-			qreal knowledgePrecision() const;
-			void setKnowledgePrecision(const qreal& newKnowledgePrecision);
-        
-			qreal perceptionLimit() const;
-			void setPerceptionLimit(const qreal& newPerceptionLimit);
-			
-			void addViewCone(btPerceptionViewcone * viewcone);
-			void addPerceptionAtom(btPerceptionAtom * atom);
-        
+
+            qreal knowledgePrecision() const;
+            void setKnowledgePrecision( const qreal& newKnowledgePrecision );
+
+            qreal perceptionLimit() const;
+            void setPerceptionLimit( const qreal& newPerceptionLimit );
+
+            void addViewCone( btPerceptionViewcone* viewcone );
+            void addPerceptionAtom( btPerceptionAtom* atom );
+
         private Q_SLOTS:
-            void treeReplaced(Tree* newTree);
-            
+            void treeReplaced( Tree* newTree );
+
         private:
-            void initScriptNodes(btNode * node);
-            
+            void initScriptNodes( btNode* node );
+
             QSharedDataPointer<CharacterPrivate> d;
     };
 }
 
-Q_DECLARE_METATYPE(GluonEngine::Character)
-Q_DECLARE_METATYPE(GluonEngine::Character*)
+Q_DECLARE_METATYPE( GluonEngine::Character )
+Q_DECLARE_METATYPE( GluonEngine::Character* )
 
 #endif // CHARACTER_H

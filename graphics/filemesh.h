@@ -33,7 +33,7 @@ namespace GluonGraphics
     */
     class FileMesh : public AbstractMesh
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             /**
              * Constructor.

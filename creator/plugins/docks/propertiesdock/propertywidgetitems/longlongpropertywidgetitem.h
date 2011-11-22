@@ -26,21 +26,21 @@ namespace GluonCreator
 {
     class LongLongPropertyWidgetItem : public PropertyWidgetItem
     {
-        Q_OBJECT
+            Q_OBJECT
 
-    public:
-        explicit LongLongPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
-        ~LongLongPropertyWidgetItem();
+        public:
+            explicit LongLongPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
+            ~LongLongPropertyWidgetItem();
 
-        virtual QStringList supportedDataTypes() const;
-        virtual PropertyWidgetItem* instantiate();
+            virtual QStringList supportedDataTypes() const;
+            virtual PropertyWidgetItem* instantiate();
 
-    public Q_SLOTS:
-        virtual void setEditProperty( const QString& propertyName );
-        virtual void setEditValue( const QVariant& value );
+        public Q_SLOTS:
+            virtual void setEditProperty( const QString& propertyName );
+            virtual void setEditValue( const QVariant& value );
 
-    private Q_SLOTS:
-        void doubleValueChanged( double value );
+        private Q_SLOTS:
+            void doubleValueChanged( double value );
     };
 }
 

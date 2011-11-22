@@ -58,7 +58,7 @@ namespace GluonEngine
             void createInstance();
 
         Q_SIGNALS:
-            void instanceCreated(GluonGraphics::MaterialInstance*);
+            void instanceCreated( GluonGraphics::MaterialInstance* );
 
         private:
             class MaterialAssetPrivate;

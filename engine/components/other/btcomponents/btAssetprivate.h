@@ -30,7 +30,7 @@ namespace GluonEngine
 {
     class btAssetPrivate : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             btBrain* brain;
     };

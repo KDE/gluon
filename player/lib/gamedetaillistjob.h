@@ -45,7 +45,7 @@ namespace GluonPlayer
             virtual QVariant data();
 
         protected Q_SLOTS:
-           virtual void startSocialService();
+            virtual void startSocialService();
 
         private Q_SLOTS:
             void processFetchedGameList( Attica::BaseJob* job );

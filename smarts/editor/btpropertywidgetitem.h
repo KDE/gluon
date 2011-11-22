@@ -31,45 +31,45 @@
  */
 class btPropertyWidgetItem : public QWidget
 {
-Q_OBJECT;
+        Q_OBJECT;
 
-public:
-    explicit btPropertyWidgetItem(QObject * parent = 0, Qt::WindowFlags f = 0);
-    ~btPropertyWidgetItem();
-    
-    void setEditObject(QObject * editThis);
-    void setEditProperty(QString propertyName, bool readOnly);
-    
-Q_SIGNALS:
-    void sendUpdateTreeModel();
-    
-    
-private Q_SLOTS:
-    void propertyChanged(QVariant value);
-    void propertyChanged(int value);
-    void propertyChanged(double value);
-    void propertyChanged(QString value);
-    
-    void QVariantListItemRemoved(QListWidgetItem * item, int index);
-    void QVariantListItemAdded(QListWidgetItem * item);
-    void QVariantListItemChanged(QListWidgetItem * item, int index);
-    
-private:
-    void setupPropertyWidget(bool readOnly);
+    public:
+        explicit btPropertyWidgetItem( QObject* parent = 0, Qt::WindowFlags f = 0 );
+        ~btPropertyWidgetItem();
 
-    QObject * editedObject;
-    QString propertyName;
-    
-    QWidget *createLineEdit (QVariant value, bool enabled);
-    QWidget *createSpinBox (QVariant value, bool enabled);
-    QWidget *createDoubleSpinBox (QVariant value, bool enabled);
-    QWidget *createList(QVariant value, bool enabled);
-    QWidget *createChildProbabilitiesList(QString propertyName ,bool enabled);
-	QWidget *createParallelConditionsList(QString propertyName, bool enabled);
-    
-    QWidget * editWidget;
-    
-    const QString getPropertyType(QString propertyName);
+        void setEditObject( QObject* editThis );
+        void setEditProperty( QString propertyName, bool readOnly );
+
+    Q_SIGNALS:
+        void sendUpdateTreeModel();
+
+
+    private Q_SLOTS:
+        void propertyChanged( QVariant value );
+        void propertyChanged( int value );
+        void propertyChanged( double value );
+        void propertyChanged( QString value );
+
+        void QVariantListItemRemoved( QListWidgetItem* item, int index );
+        void QVariantListItemAdded( QListWidgetItem* item );
+        void QVariantListItemChanged( QListWidgetItem* item, int index );
+
+    private:
+        void setupPropertyWidget( bool readOnly );
+
+        QObject* editedObject;
+        QString propertyName;
+
+        QWidget* createLineEdit( QVariant value, bool enabled );
+        QWidget* createSpinBox( QVariant value, bool enabled );
+        QWidget* createDoubleSpinBox( QVariant value, bool enabled );
+        QWidget* createList( QVariant value, bool enabled );
+        QWidget* createChildProbabilitiesList( QString propertyName , bool enabled );
+        QWidget* createParallelConditionsList( QString propertyName, bool enabled );
+
+        QWidget* editWidget;
+
+        const QString getPropertyType( QString propertyName );
 };
 
 #endif // BTPROPERTYWIDGETITEM_H

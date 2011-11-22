@@ -24,10 +24,10 @@
 #include <QtGui/QTreeView>
 
 
-class btTreeEditor:public QTreeView
+class btTreeEditor: public QTreeView
 {
-public:
-    btTreeEditor(QWidget *parent = 0);
+    public:
+        btTreeEditor( QWidget* parent = 0 );
 };
 
 #endif // BTTREEEDITOR_H

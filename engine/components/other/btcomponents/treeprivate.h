@@ -28,13 +28,13 @@ namespace GluonEngine
 {
     class TreePrivate : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
-            TreePrivate(QObject * parent = 0);
+            TreePrivate( QObject* parent = 0 );
             ~TreePrivate();
-            
+
             btNode* behaviorTree;
-			QString file;
+            QString file;
     };
 }
 
