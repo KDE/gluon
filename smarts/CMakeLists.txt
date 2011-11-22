@@ -6,6 +6,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 add_subdirectory(common)
 
+find_package(KDE4)
 if(KDE4_FOUND)
     include_directories(${KDE4_INCLUDES})
     if(BUILD_GLUON_SMARTS_EDITOR)
