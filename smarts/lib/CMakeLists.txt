@@ -81,11 +81,9 @@ install(
     FRAMEWORK   DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonsmarts
 )
 
-set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include/gluon/smarts)
-
 install(FILES
     ${GluonSmarts_HEADERS}
-    DESTINATION ${INCLUDE_INSTALL_DIR}
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/smarts
     COMPONENT gluonsmarts
 )
 
