@@ -49,7 +49,7 @@ void DockPlugin::load( KXmlGuiWindow* mainWindow )
 
 void DockPlugin::unload( KXmlGuiWindow* mainWindow )
 {
-
+    Q_UNUSED(mainWindow)
     DockManager::instance()->removeDock( m_dock );
 
     parentClient()->removeChildClient( this );
