@@ -30,25 +30,25 @@ btSequenceNode::btSequenceNode(QObject* parent)
 
 btNode::status btSequenceNode::run(btCharacter *self)
 {    
-	/*for(int i = this->currentChildIndex(); i < this->childCount(); i++)
+	/*for(int i = currentChildIndex(); i < childCount(); i++)
     {       
-		if(this->currentChildStatus() == btNode::Failed)
+		if(currentChildStatus() == btNode::Failed)
 		{
 			return btNode::Failed;
 		}
 		
-		return this->runChild(i);
+		return runChild(i);
     }//*/
 	
 	
-	if(this->currentChildStatus() == btNode::Failed)
+	if(currentChildStatus() == btNode::Failed)
 	{
 		return Failed;
 	}
 	
-	if(this->nextChildIndex() < this->childCount())
+	if(nextChildIndex() < childCount())
 	{
-		return runChild(this->currentChildIndex());
+		return runChild(currentChildIndex());
 	}
 	
 	

@@ -36,7 +36,7 @@ btTreeModel::btTreeModel(QObject* parent, btBrain* containingBrain)
     m_rootNode = new btEditorNode();
     brain = containingBrain;
     moving = false;
-    this->setSupportedDragActions(Qt::MoveAction);
+    setSupportedDragActions(Qt::MoveAction);
 }
 
 btTreeModel::~btTreeModel()
@@ -322,7 +322,7 @@ bool btTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int
                 parentNode->insertChild(row, node);
             }
 
-            this->reset();
+            reset();
             emit dataChanged(parent, parent);
 
             return true;

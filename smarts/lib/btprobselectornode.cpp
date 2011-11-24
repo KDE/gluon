@@ -45,9 +45,9 @@ btProbSelectorNode::~btProbSelectorNode()
 
 btNode::status btProbSelectorNode::run(btCharacter *self)
 {
-	if(this->currentChildStatus() == Succeeded)
+	if(currentChildStatus() == Succeeded)
 	{
-		this->resetProbNodes();
+		resetProbNodes();
 		return Succeeded;
 	}
 	
@@ -93,7 +93,7 @@ btNode::status btProbSelectorNode::run(btCharacter *self)
         }
     }
  
-    this->resetProbNodes();
+    resetProbNodes();
     return Failed;
 }
 
@@ -135,7 +135,7 @@ void btProbSelectorNode::childrenAdded()
             }
         }
         
-        this->resetProbNodes();
+        resetProbNodes();
     }
 }
 

@@ -34,7 +34,7 @@ btBrain::btBrain(QString data, QString file, QObject* parent)
         QDomElement rootNode = xmlDocument.documentElement();
         QDomNamedNodeMap rootNodeAttributes = rootNode.attributes();
     
-        this->setName(rootNodeAttributes.namedItem("name").nodeValue());
+        setName(rootNodeAttributes.namedItem("name").nodeValue());
     
         QDomNode nodeTypes = rootNode.namedItem("nodetypes");
         QDomNode behaviorTrees = rootNode.namedItem("behaviortrees");

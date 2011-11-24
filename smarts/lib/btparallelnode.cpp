@@ -29,7 +29,7 @@ REGISTER_NODETYPE(btParallelNode)
 btParallelNode::btParallelNode(QObject* parent)
     : btNode(parent)
 {
-	this->setCurrentChildStatus(Running);
+	setCurrentChildStatus(Running);
 	m_runningNodesStatus = new QList<btNode::status>();
 	m_conditionStatus = new QList<btNode::status>();
 }
@@ -45,33 +45,33 @@ btParallelNode::~btParallelNode()
 
 btNode::status btParallelNode::run(btCharacter *self)
 {	
-	if(this->currentChildStatus() == None)
+	if(currentChildStatus() == None)
 	{
 		return Running;
 	}
 		
-	return this->currentChildStatus();
+	return currentChildStatus();
 }
 
 void btParallelNode::appendingChild(int index)
 {	
 	//m_runningNodesStatus->insert(index, btNode::None);
 	
-	m_nodesIndex[this->child(index)] = index;
+	m_nodesIndex[child(index)] = index;
 }
 
 void btParallelNode::removingChild(int index)
 {
 	//m_runningNodesStatus->removeAt(index);
-	m_nodesIndex.remove(this->child(index));
+	m_nodesIndex.remove(child(index));
 }
 
 void btParallelNode::childrenAdded()
 {	
-	int count = this->childCount();
+	int count = childCount();
     if(count > 0)
 	{
-        if(this->property("conditions").isValid())
+        if(property("conditions").isValid())
 		{
             QList<QVariant> conditions = property("conditions").toList();
 			
@@ -107,7 +107,7 @@ btNode::status btParallelNode::conditionsFulfilled()
 	btNode::status fulfilled = Succeeded;
     bool terminate = false;
     Q_UNUSED(terminate)
-	for (int i = 0; i < this->childCount(); i++)
+	for (int i = 0; i < childCount(); i++)
 	{
 		if(m_runningNodesStatus->value(i) == btNode::Running && m_runningNodesStatus->value(i) != m_conditionStatus->value(i))
         {
@@ -116,14 +116,14 @@ btNode::status btParallelNode::conditionsFulfilled()
 		
         if(m_runningNodesStatus->value(i) != btNode::Running && m_runningNodesStatus->value(i) != m_conditionStatus->value(i))
 		{
-			this->resetRunningNodesStatus();
+			resetRunningNodesStatus();
 			return Failed;
 		}
 	}
     
 	if(fulfilled == Succeeded)
     {
-		this->resetRunningNodesStatus();
+		resetRunningNodesStatus();
     }
 	
 	return fulfilled;

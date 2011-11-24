@@ -22,24 +22,26 @@
 #ifndef COLORGEN_H
 #define COLORGEN_H
 
-#include <QColor>
+class QColor;
 
 class ColorGen
 {
     public:
         ColorGen() {};
         ColorGen( int hue, int sat, int step );
+
         QColor nextColor();
         QColor randomColor();
         void reset();
-    private:
-        int sat;
-        int hue;
-        int step;
 
-        int satorig;
-        int hueorig;
-        int v;
+    private:
+        int m_sat;
+        int m_hue;
+        int m_step;
+
+        int m_satorig;
+        int m_hueorig;
+        int m_v;
 };
 
 #endif // COLORGEN_H

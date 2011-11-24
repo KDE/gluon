@@ -49,9 +49,9 @@ btNodeType::nodeType btEditorNodeType::childType() const
 
 btEditorNodeType * btEditorNodeType::copy()
 {
-    btEditorNodeType * copyNode = nodeTypeFactory::instance()->newObject(this->type());
+    btEditorNodeType * copyNode = nodeTypeFactory::instance()->newObject(type());
 
-    const QMetaObject * mo = this->metaObject();
+    const QMetaObject * mo = metaObject();
 
     for (int i = 0; i < mo->propertyCount(); i++)
     {
@@ -62,13 +62,13 @@ btEditorNodeType * btEditorNodeType::copy()
         {
             continue;
         }
-        copyNode->setProperty(propertyName.toUtf8(), this->property(moProperty.name()));
+        copyNode->setProperty(propertyName.toUtf8(), property(moProperty.name()));
     }
 
-    for (int i = 0; i < this->dynamicPropertyNames().count(); i++)
+    for (int i = 0; i < dynamicPropertyNames().count(); i++)
     {
-        QString propertyName(this->dynamicPropertyNames().at(i));
-        copyNode->setProperty(propertyName.toUtf8(), this->property(propertyName.toUtf8()));
+        QString propertyName(dynamicPropertyNames().at(i));
+        copyNode->setProperty(propertyName.toUtf8(), property(propertyName.toUtf8()));
     }
 
     QHashIterator<QString, QString> i(getPropertyDescriptions());
@@ -84,12 +84,12 @@ btEditorNodeType * btEditorNodeType::copy()
 
 void btEditorNodeType::toNodeTypeXml(QXmlStreamWriter* xmlWriter)
 {
-    if (this->type() == btNodeType::ReferenceNodeType)
+    if (type() == btNodeType::ReferenceNodeType)
         return;
 
     xmlWriter->writeStartElement("nodetype");
 
-    const QMetaObject * mo = this->metaObject();
+    const QMetaObject * mo = metaObject();
 
     for (int i = 0; i < mo->propertyCount(); i++)
     {
@@ -103,19 +103,19 @@ void btEditorNodeType::toNodeTypeXml(QXmlStreamWriter* xmlWriter)
 
         if (propertyName == "name")
         {
-            xmlWriter->writeAttribute("name", this->property(moProperty.name()).toString());
+            xmlWriter->writeAttribute("name", property(moProperty.name()).toString());
         }
         else if (propertyName == "description")
         {
-            xmlWriter->writeAttribute("description", this->property(moProperty.name()).toString());
+            xmlWriter->writeAttribute("description", property(moProperty.name()).toString());
         }
         else if (propertyName == "className")
         {
-            xmlWriter->writeAttribute("className", this->property(moProperty.name()).toString());
+            xmlWriter->writeAttribute("className", property(moProperty.name()).toString());
         }
     }
 
-    switch (this->type())
+    switch (type())
     {
     case btNodeType::ActionNodeType:
         xmlWriter->writeAttribute("category", "action");
@@ -136,15 +136,15 @@ void btEditorNodeType::toNodeTypeXml(QXmlStreamWriter* xmlWriter)
         break;
     }
 
-    for (int i = 0; i < this->dynamicPropertyNames().count(); i++)
+    for (int i = 0; i < dynamicPropertyNames().count(); i++)
     {
-        QString propertyName(this->dynamicPropertyNames().at(i));
+        QString propertyName(dynamicPropertyNames().at(i));
 
         xmlWriter->writeStartElement("property");
 
         xmlWriter->writeAttribute("name", propertyName);
-        xmlWriter->writeAttribute("description", this->getPropertyDescription(propertyName));
-        xmlWriter->writeAttribute("datatype", this->property(propertyName.toUtf8()).toString());
+        xmlWriter->writeAttribute("description", getPropertyDescription(propertyName));
+        xmlWriter->writeAttribute("datatype", property(propertyName.toUtf8()).toString());
 
         xmlWriter->writeEndElement();
     }
@@ -162,9 +162,9 @@ void btEditorNodeType::initProperties()
     qRegisterMetaType<btChildWeights>("btChildWeights");
     qRegisterMetaType<btParallelConditions>("btParallelConditions");
 
-    foreach(const QString &name, this->dynamicPropertyNames())
+    foreach(const QString &name, dynamicPropertyNames())
     {
-        int typeId = QMetaType::type(this->property(name.toUtf8()).toString().toUtf8());
+        int typeId = QMetaType::type(property(name.toUtf8()).toString().toUtf8());
         QVariant dataType;
         switch (typeId)
         {
@@ -196,7 +196,7 @@ void btEditorNodeType::initProperties()
             dataType = QVariant(QVariant::Invalid);
             break;
         }
-        this->setProperty(name.toUtf8(), dataType);
+        setProperty(name.toUtf8(), dataType);
     }
 }
 
@@ -204,21 +204,21 @@ void btEditorNodeType::appendingChild(int index)
 {
     qRegisterMetaType<btChildWeights>("btChildWeights");
 
-    foreach(const QString &name, this->dynamicPropertyNames())
+    foreach(const QString &name, dynamicPropertyNames())
     {
-        if (this->property(name.toUtf8()).type() == QVariant::UserType && name == "weights")
+        if (property(name.toUtf8()).type() == QVariant::UserType && name == "weights")
         {
-            btChildWeights list = this->property(name.toUtf8()).value<btChildWeights>();
+            btChildWeights list = property(name.toUtf8()).value<btChildWeights>();
 
-            if (this->parentNode()->child(index)->type()->property("probability").isValid())
+            if (parentNode()->child(index)->type()->property("probability").isValid())
             {
-                list.childWeightList.insert(index, this->parentNode()->child(index)->type()->property("probability").toDouble());
-                this->parentNode()->child(index)->type()->setProperty("probability", QVariant::Invalid);
+                list.childWeightList.insert(index, parentNode()->child(index)->type()->property("probability").toDouble());
+                parentNode()->child(index)->type()->setProperty("probability", QVariant::Invalid);
             }
 
             QVariant v;
             v.setValue(list);
-            this->setProperty(name.toUtf8(), v);
+            setProperty(name.toUtf8(), v);
             break;
         }
     }
@@ -229,26 +229,26 @@ void btEditorNodeType::removingChild(int index)
     qRegisterMetaType<btChildWeights>("btChildWeights");
     qRegisterMetaType<btParallelConditions>("btParallelConditions");
 
-    btEditorNodeType * childNodeType = qobject_cast<btEditorNodeType*>(this->parentNode()->child(index)->type());
+    btEditorNodeType * childNodeType = qobject_cast<btEditorNodeType*>(parentNode()->child(index)->type());
     childNodeType->disconnectChangeProperty();
-    foreach(const QString &name, this->dynamicPropertyNames())
+    foreach(const QString &name, dynamicPropertyNames())
     {
-        if (this->property(name.toUtf8()).type() == QVariant::UserType && name == "weights")
+        if (property(name.toUtf8()).type() == QVariant::UserType && name == "weights")
         {
-            btChildWeights list = this->property(name.toUtf8()).value<btChildWeights>();
+            btChildWeights list = property(name.toUtf8()).value<btChildWeights>();
             list.childWeightList.removeAt(index);
             QVariant v;
             v.setValue(list);
-            this->setProperty(name.toUtf8(), v);
+            setProperty(name.toUtf8(), v);
             break;
         }
-        else if (this->property(name.toUtf8()).type() == QVariant::UserType && name == "conditions")
+        else if (property(name.toUtf8()).type() == QVariant::UserType && name == "conditions")
         {
-            btParallelConditions list = this->property(name.toUtf8()).value<btParallelConditions>();
+            btParallelConditions list = property(name.toUtf8()).value<btParallelConditions>();
             list.parallelConditions.removeAt(index);
             QVariant v;
             v.setValue(list);
-            this->setProperty(name.toUtf8(), v);
+            setProperty(name.toUtf8(), v);
             break;
         }
     }
@@ -258,15 +258,15 @@ void btEditorNodeType::changeProbability(double value)
 {
     qRegisterMetaType<btChildWeights>("btChildWeights");
 
-    foreach(const QString &name, this->parentNode()->parentNode()->type()->dynamicPropertyNames())
+    foreach(const QString &name, parentNode()->parentNode()->type()->dynamicPropertyNames())
     {
-        if (this->parentNode()->parentNode()->type()->property(name.toUtf8()).type() == QVariant::UserType && name == "weights")
+        if (parentNode()->parentNode()->type()->property(name.toUtf8()).type() == QVariant::UserType && name == "weights")
         {
-            btChildWeights list = this->parentNode()->parentNode()->type()->property(name.toUtf8()).value<btChildWeights>();
-            list.childWeightList[this->parentNode()->parentNode()->children().indexOf(this->parentNode())] = value;
+            btChildWeights list = parentNode()->parentNode()->type()->property(name.toUtf8()).value<btChildWeights>();
+            list.childWeightList[parentNode()->parentNode()->children().indexOf(parentNode())] = value;
             QVariant v;
             v.setValue(list);
-            this->parentNode()->parentNode()->type()->setProperty(name.toUtf8(), v);
+            parentNode()->parentNode()->type()->setProperty(name.toUtf8(), v);
             break;
         }
     }
@@ -297,7 +297,7 @@ void btEditorNodeType::changeProperty(QString propertyName, QVariant value)
         {
             btChildWeights ch;
 
-            for (int i = 0; i < this->parentNode()->childCount(); i++) {
+            for (int i = 0; i < parentNode()->childCount(); i++) {
                 ch.childWeightList.append(0.5);
             }
 
@@ -308,7 +308,7 @@ void btEditorNodeType::changeProperty(QString propertyName, QVariant value)
         break;
     }
 
-    this->setProperty(propertyName.toUtf8(), dataType);
+    setProperty(propertyName.toUtf8(), dataType);
 }
 
 void btEditorNodeType::disconnectChangeProperty()
@@ -394,19 +394,19 @@ void btEditorNodeType::emitDescriptionChanged(QString description)
 
 void btEditorNodeType::changeName(QString name)
 {
-    this->setName(name);
+    setName(name);
     emit nameChanged(name);
 }
 
 void btEditorNodeType::changeDescription(QString description)
 {
-    this->setDescription(description);
+    setDescription(description);
     emit descriptionChanged(description);
 }
 
 void btEditorNodeType::changeClassName(QString className)
 {
-    this->setClassName(className);
+    setClassName(className);
     emit classNameChanged(className);
 }
 
@@ -417,11 +417,11 @@ void btEditorNodeType::changeCondition(bool state)
 
     QRadioButton * radioButton = qobject_cast<QRadioButton*>(QObject::sender());
 
-    foreach(const QString &name, this->parentNode()->parentNode()->type()->dynamicPropertyNames())
+    foreach(const QString &name, parentNode()->parentNode()->type()->dynamicPropertyNames())
     {
-        if (this->parentNode()->parentNode()->type()->property(name.toUtf8()).type() == QVariant::UserType && name == "conditions")
+        if (parentNode()->parentNode()->type()->property(name.toUtf8()).type() == QVariant::UserType && name == "conditions")
         {
-            btParallelConditions list = this->parentNode()->parentNode()->type()->property(name.toUtf8()).value<btParallelConditions>();
+            btParallelConditions list = parentNode()->parentNode()->type()->property(name.toUtf8()).value<btParallelConditions>();
             double value = 0;
             if (radioButton->text() == "Succeeded")
             {
@@ -436,11 +436,11 @@ void btEditorNodeType::changeCondition(bool state)
                 value = -1;
             }
 
-            list.parallelConditions[this->parentNode()->parentNode()->children().indexOf(this->parentNode())] = value;
+            list.parallelConditions[parentNode()->parentNode()->children().indexOf(parentNode())] = value;
 
             QVariant v;
             v.setValue(list);
-            this->parentNode()->parentNode()->type()->setProperty(name.toUtf8(), v);
+            parentNode()->parentNode()->type()->setProperty(name.toUtf8(), v);
             break;
         }
     }

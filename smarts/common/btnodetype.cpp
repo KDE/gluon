@@ -80,7 +80,7 @@ QString btNodeType::className() const
 void btNodeType::setParentNode(btNode* node)
 {
     m_parent = node;
-    this->setParent(node);
+    setParent(node);
 }
 
 btNode* btNodeType::parentNode()

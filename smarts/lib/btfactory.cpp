@@ -59,7 +59,7 @@ btNode* btFactory::newObject(QDomNode xmlNode, btNode* parentNode, btBrain* brai
 {
     if(xmlNode.attributes().namedItem("nodetype").nodeValue() == "[reference]")
     {
-        this->addProperty(parentNode, xmlNode.childNodes().at(0), brain);
+        addProperty(parentNode, xmlNode.childNodes().at(0), brain);
         return NULL;
     }
 	
@@ -232,7 +232,7 @@ void btFactory::addProperty(btNode* node, QDomNode xNode ,btBrain* brain)
 
 btNode* btFactory::createRootNode(QDomNode xmlNode, btBrain* brain)
 {
-	btNode* newRootNode = (btNode*)this->m_nodeTypes["[sequence]"]->metaObject()->newInstance();
+	btNode* newRootNode = (btNode*)m_nodeTypes["[sequence]"]->metaObject()->newInstance();
     newRootNode->setParent(brain);
     
     newRootNode->setName(xmlNode.attributes().namedItem("name").nodeValue());

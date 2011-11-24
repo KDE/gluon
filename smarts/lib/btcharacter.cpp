@@ -40,12 +40,12 @@ btCharacter::btCharacter(QObject* parent)
 
 btCharacter::~btCharacter()
 {
-	this->clearExecution();
+	clearExecution();
 }
 
 void btCharacter::setBehaviorTree(btNode* behaviorTree)
 {
-	this->clearExecution();
+	clearExecution();
 	
 	m_behaviortree = behaviorTree;
 	
@@ -66,7 +66,7 @@ void btCharacter::setBehaviorTree(btNode* behaviorTree)
 	initProbabilityHash(m_behaviortree);
 	
 	btBrain * brain = qobject_cast<btBrain*>(m_behaviortree->parent());
-	this->setFile(brain->getFile());
+	setFile(brain->getFile());
 }
 
 void btCharacter::think()
@@ -284,7 +284,7 @@ void btCharacter::think()
 	
 	if(m_thinksBeforeSaving == m_thinksDone)
 	{
-		this->saveProbabilities();
+		saveProbabilities();
 		m_thinksDone = 0;
 	}
 	else
@@ -407,7 +407,7 @@ void btCharacter::saveProbabilities()
 	if(!file.exists())
 		xmlWriter->writeStartDocument("1.0");
 	
-	this->saveNodeProbabilities(m_behaviortree, xmlWriter);
+	saveNodeProbabilities(m_behaviortree, xmlWriter);
 	
 	file.open(QIODevice::Append | QIODevice::Text);
 	QByteArray byteFileContents(m_xmlData.toUtf8());

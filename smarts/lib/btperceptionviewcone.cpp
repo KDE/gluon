@@ -22,10 +22,10 @@
 
 btPerceptionViewcone::btPerceptionViewcone()
 {
-    this->extentAngleHorizontal = 0;
-    this->extentAngleVertical = 0;
-    this->offsetAngleHorizontal = 0;
-    this->offsetAngleVertical = 0;
-    this->radius = 0;
-    this->knowledgePrecision = 1.0;
+    extentAngleHorizontal = 0;
+    extentAngleVertical = 0;
+    offsetAngleHorizontal = 0;
+    offsetAngleVertical = 0;
+    radius = 0;
+    knowledgePrecision = 1.0;
 }

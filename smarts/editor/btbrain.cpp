@@ -82,15 +82,15 @@ btTreeModel *btBrain::newBehaviorTree(QString treeName)
 {
     // First create the new BT
     btTreeModel *newTree = new btTreeModel(this, this);
-    this->behaviorTrees.append(newTree);
+    behaviorTrees.append(newTree);
     newTree->setName(treeName);
     // We set the root node to be a sequence, as this is the fastest to choose that it should simply run the first child node (no selection, just runs children in sequence)
-    btEditorNode *btRootNode = new btEditorNode(this->findNodeTypeByName("Sequence"));
+    btEditorNode *btRootNode = new btEditorNode(findNodeTypeByName("Sequence"));
     newTree->setRootNode(btRootNode);
     btRootNode->setParent(newTree);
 
     // Add a real top level node, which should be a selector as per Alex' definition of behavior trees
-    btEditorNode *topNode = new btEditorNode(this->findNodeTypeByName("Selector"), btRootNode);
+    btEditorNode *topNode = new btEditorNode(findNodeTypeByName("Selector"), btRootNode);
     topNode->setName(tr("Top Behavior"));
     topNode->setDescription(topNode->type()->description());
 

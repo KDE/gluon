@@ -88,7 +88,7 @@ void btNode::appendChild(btNode* child)
 {
 	m_children.append(child);
 	//has to be in the list, before this function is called
-	this->appendingChild(m_children.count()-1);
+	appendingChild(m_children.count()-1);
 }
 
 btNode* btNode::child(int index)
@@ -98,7 +98,7 @@ btNode* btNode::child(int index)
 
 btNode::status btNode::run(btCharacter * self)
 {
-    qDebug() << "The btNode " << this->className() << " has either not been registered or implemented";
+    qDebug() << "The btNode " << className() << " has either not been registered or implemented";
 	return btNode::Failed;
 }
 
@@ -150,7 +150,7 @@ void btNode::setParentNode(btNode* parent)
 
 void btNode::removeChild(int index)
 {
-	this->removingChild(index);
+	removingChild(index);
 	m_children.removeAt(index);
 }
 
@@ -160,14 +160,14 @@ void btNode::removeChild(btNode* child)
 	{
 		if(m_children.at(i) == child)
 		{
-			this->removeChild(i);
+			removeChild(i);
 		}
 	}
 }
 
 void btNode::doneParsingChildren()
 {
-	this->childrenAdded();
+	childrenAdded();
 }
 
 int btNode::nextChildIndex()
@@ -180,7 +180,7 @@ int btNode::nextChildIndex()
 void btNode::insertChild(int index, btNode* child)
 {
 	m_children.insert(index, child);
-    this->appendingChild(index);
+    appendingChild(index);
 }
 
 int btNode::childIndex(btNode * child)

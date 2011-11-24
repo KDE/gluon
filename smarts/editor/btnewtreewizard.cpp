@@ -47,7 +47,7 @@ void NewTreeWizard::accept()
 {
     QString name = field("name").toString();
     emit behaviorTreeCreated(name);
-    this->close();
+    close();
 }
 
 IntroPage::IntroPage(QWidget *parent)

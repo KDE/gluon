@@ -44,7 +44,7 @@ void  btDecoratorNode::toDataXml(QXmlStreamWriter* xmlWriter)
 {
     xmlWriter->writeStartElement("decorator");
 
-    const QMetaObject * mo = this->metaObject();
+    const QMetaObject * mo = metaObject();
 
     for (int i = 0; i < mo->propertyCount(); i++)
     {
@@ -58,25 +58,25 @@ void  btDecoratorNode::toDataXml(QXmlStreamWriter* xmlWriter)
 
         if (propertyName == "name")
         {
-            xmlWriter->writeAttribute("name", this->property(moProperty.name()).toString());
+            xmlWriter->writeAttribute("name", property(moProperty.name()).toString());
         }
         else if (propertyName == "description")
         {
-            xmlWriter->writeAttribute("description", this->property(moProperty.name()).toString());
+            xmlWriter->writeAttribute("description", property(moProperty.name()).toString());
         }
         else if (propertyName == "className")
         {
-            xmlWriter->writeAttribute("nodetype", this->property(moProperty.name()).toString());
+            xmlWriter->writeAttribute("nodetype", property(moProperty.name()).toString());
         }
     }
 
-    for (int i = 0; i < this->dynamicPropertyNames().count(); i++)
+    for (int i = 0; i < dynamicPropertyNames().count(); i++)
     {
-        QString propertyName(this->dynamicPropertyNames().at(i));
+        QString propertyName(dynamicPropertyNames().at(i));
         xmlWriter->writeStartElement("property");
 
         xmlWriter->writeAttribute("name", propertyName);
-        xmlWriter->writeAttribute("value", this->property(propertyName.toUtf8()).toString());
+        xmlWriter->writeAttribute("value", property(propertyName.toUtf8()).toString());
 
         xmlWriter->writeEndElement();
     }

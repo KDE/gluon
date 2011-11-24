@@ -84,7 +84,7 @@ void btChildListWidget::setChildProbabilites(QString propertyName ,QObject* obje
     QVariant v;
     v.setValue(probList);
     nodeType->setProperty(propertyName.toUtf8(), v);
-    this->setLayout(childLayout);
+    setLayout(childLayout);
 }
 
 #include "btchildlistwidget.moc"

@@ -29,9 +29,9 @@ btSelectorNode::btSelectorNode(QObject* parent)
 
 btNode::status btSelectorNode::run(btCharacter *self)
 {
-    /*for(int i = this->currentChildIndex(); i < this->childCount(); i++)
+    /*for(int i = currentChildIndex(); i < childCount(); i++)
     {
-        if(this->currentChildStatus() == btNode::Succeeded)
+        if(currentChildStatus() == btNode::Succeeded)
         {
             return btNode::Succeeded;
         }
@@ -39,14 +39,14 @@ btNode::status btSelectorNode::run(btCharacter *self)
 		return runChild(i);
     }*/
 	
-	if(this->currentChildStatus() == btNode::Succeeded)
+	if(currentChildStatus() == btNode::Succeeded)
 	{
 		return Succeeded;
 	}
 	
-	if(this->nextChildIndex() < this->childCount())
+	if(nextChildIndex() < childCount())
 	{
-		return runChild(this->currentChildIndex());
+		return runChild(currentChildIndex());
 	}
 	
     return Failed;

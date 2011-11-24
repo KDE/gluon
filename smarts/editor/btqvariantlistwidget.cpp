@@ -53,7 +53,7 @@ btQVariantListWidget::btQVariantListWidget(bool enabled, QWidget * parent) : QWi
     buttonLayout->addSpacing(1);
     mainLayout->addWidget(listWidget);
     mainLayout->addLayout(buttonLayout);
-    this->setLayout(mainLayout);
+    setLayout(mainLayout);
     
     setupActions();
 }

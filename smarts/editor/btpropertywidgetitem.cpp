@@ -42,7 +42,7 @@ btPropertyWidgetItem::btPropertyWidgetItem(QObject * parent, Qt::WindowFlags f)
     QGridLayout * layout = new QGridLayout(this);
     layout->setSpacing(0);
     layout->setMargin(0);
-    this->setLayout(layout);
+    setLayout(layout);
 }
 
 btPropertyWidgetItem::~btPropertyWidgetItem()
@@ -73,13 +73,13 @@ btPropertyWidgetItem::~btPropertyWidgetItem()
 
 void btPropertyWidgetItem::setEditObject(QObject * editThis)
 {
-    this->editedObject = editThis;
+    editedObject = editThis;
 }
 
 
 void btPropertyWidgetItem::setEditProperty(QString propertyName, bool enabled)
 {
-    this->propertyName = propertyName;
+    propertyName = propertyName;
     setupPropertyWidget(enabled);
 }
 

@@ -41,7 +41,7 @@ btPropertyWidget::btPropertyWidget(QObject * parent)
 
 btPropertyWidget::~btPropertyWidget()
 {
-    qDeleteAll(this->children());
+    qDeleteAll(children());
     delete colorgen;
 }
 
@@ -57,7 +57,7 @@ void btPropertyWidget::appendToPropertyView (QGridLayout * layout, qint32 &row, 
     nameLabel->setAlignment(Qt::AlignTop);
 
     btPropertyWidgetItem * editWidget = new btPropertyWidgetItem(this);
-    connect(editWidget,SIGNAL(sendUpdateTreeModel()), this, SLOT(updateTreeModel()));
+    connect(editWidget,SIGNAL(sendUpdateTreeModel()), SLOT(updateTreeModel()));
     editWidget->setEditObject(object);
     editWidget->setEditProperty(name, enabled);
     layout->addWidget(editWidget, row, 1);
@@ -172,7 +172,7 @@ void btPropertyWidget::appendComponentToPropertyView (QGridLayout * layout, qint
 
 void btPropertyWidget::setupPropertyView()
 {
-    qDeleteAll(this->children());
+    qDeleteAll(children());
     delete colorgen;
 
     colorgen = new ColorGen(0,70,30);
@@ -184,12 +184,12 @@ void btPropertyWidget::setupPropertyView()
     qint32 row = 0;
 
     // First add yourself...
-    appendObjectToPropertyView(propertyLayout, row, this->node(), true);
+    appendObjectToPropertyView(propertyLayout, row, node(), true);
 
     // Then add all the decorators...
-    for (int i = 0; i < this->node()->decoratorCount(); i++)
+    for (int i = 0; i < node()->decoratorCount(); i++)
     {
-        appendComponentToPropertyView(propertyLayout, row, qobject_cast<btEditorNodeType*>(this->node()->decorators()[i]), false);
+        appendComponentToPropertyView(propertyLayout, row, qobject_cast<btEditorNodeType*>(node()->decorators()[i]), false);
     }
 
     // Finally, add the node's nodeType
@@ -206,7 +206,7 @@ void btPropertyWidget::setupPropertyView()
     containerLayout->setMargin(0);
 
 
-    this->setLayout(containerLayout);
+    setLayout(containerLayout);
 }
 
 btEditorNode * btPropertyWidget::node() const

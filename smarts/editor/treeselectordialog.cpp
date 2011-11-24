@@ -20,11 +20,11 @@
 
 #include "treeselectordialog.h"
 
-TreeSelectorDialog::TreeSelectorDialog(bteditor* bte)
+TreeSelectorDialog::TreeSelectorDialog(bteditor* bteditor)
 {
-    this->bte = bte;
+    bte = bteditor;
     // layout
-    this->setWindowTitle(tr("Select Tree"));
+    setWindowTitle(tr("Select Tree"));
     mainLayout = new QVBoxLayout(this);
     buttonLayout = new QHBoxLayout;
     treelist = new QListView();
@@ -39,7 +39,7 @@ TreeSelectorDialog::TreeSelectorDialog(bteditor* bte)
     buttonLayout->addWidget(cancel_button);
     mainLayout->addWidget(treelist);
     mainLayout->addLayout(buttonLayout);
-    this->setLayout(mainLayout);
+    setLayout(mainLayout);
 
     setupActions();
 
@@ -73,7 +73,7 @@ void TreeSelectorDialog::updateModel(QList<btTreeModel *> behaviortrees) {
         }
         model->setStringList(*list);
     } else {
-        QMessageBox::about(this, this->windowTitle(),tr("No trees to show"));
+        QMessageBox::about(this, windowTitle(), tr("No trees to show"));
     }
 }
 
@@ -84,9 +84,9 @@ void TreeSelectorDialog::updateModel(btTreeModel * behaviortree) {
 
 void TreeSelectorDialog::chooseTree() {
     if (treelist->currentIndex().isValid()) {
-        emit this->bte->setBehaviorTree(treelist->currentIndex().row());
+        emit bte->setBehaviorTree(treelist->currentIndex().row());
     } else {
-        QMessageBox::about(this, this->windowTitle(),tr("No trees selected"));
+        QMessageBox::about(this, windowTitle(), tr("No trees selected"));
     }
     emit TreeSelectorDialog::accept();
 

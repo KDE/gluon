@@ -21,45 +21,47 @@
 
 #include "colorgen.h"
 
+#include <QtGui/QColor>
+
 ColorGen::ColorGen(int hue, int sat, int step)
 {
     qsrand(13);
-    this->sat = sat;
-    this->hue = hue;
-    this->hueorig = hue;
-    this->satorig = sat;
-    this->step = step;
-    this->v = 0;
+    m_sat = sat;
+    m_hue = hue;
+    m_hueorig = hue;
+    m_satorig = sat;
+    m_step = step;
+    m_v = 0;
 }
 
 QColor ColorGen::nextColor()
 {
-    QColor color(0,0,0,0);
+    QColor color(0, 0, 0, 0);
 
-    if (hue >= 255) {
-        sat += step;
-        if (sat >= 255) {
-            sat = 0;
+    if (m_hue >= 255) {
+        m_sat += m_step;
+        if (m_sat >= 255) {
+            m_sat = 0;
         }
-        hue = 0;
+        m_hue = 0;
     }
-    hue += step;
+    m_hue += m_step;
 
-    color.setHsv(hue,sat,255,255);
+    color.setHsv(m_hue, m_sat, 255, 255);
     return color;
 }
 
 QColor ColorGen::randomColor()
 {
-    v = 255 * qrand();
+    m_v = 255 * qrand();
 
-    QColor color(0,0,0,0);
-    color.setHsv(v,sat,255,255);
+    QColor color(0, 0, 0, 0);
+    color.setHsv(m_v, m_sat, 255, 255);
     return color;
 }
 
 void ColorGen::reset()
 {
-    hue = hueorig;
-    sat = satorig;
+    m_hue = m_hueorig;
+    m_sat = m_satorig;
 }

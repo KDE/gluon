@@ -26,8 +26,8 @@
 
 btNodeTypesModelNode::btNodeTypesModelNode(btEditorNodeType *data, btNodeTypesModelNode *parent)
 {
-    this->nodeData = data;
-    this->parentNode = parent;
+    nodeData = data;
+    parentNode = parent;
     if (parentNode)
         parentNode->appendChild(this);
 }

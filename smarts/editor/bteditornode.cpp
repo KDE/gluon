@@ -45,10 +45,10 @@ void btEditorNode::toXml(QXmlStreamWriter* xmlWriter, QList<btTreeModel *> behav
 
     xmlWriter->writeStartElement("behaviornode");
 
-    xmlWriter->writeAttribute("name", this->name());
-    xmlWriter->writeAttribute("description", this->description());
+    xmlWriter->writeAttribute("name", name());
+    xmlWriter->writeAttribute("description", description());
 
-    btNodeType * nodeType = this->type();
+    btNodeType * nodeType = type();
     const QMetaObject * mo = nodeType->metaObject();
 
     for (int i = 0; i < mo->propertyCount(); i++)
@@ -89,9 +89,9 @@ void btEditorNode::toXml(QXmlStreamWriter* xmlWriter, QList<btTreeModel *> behav
             }
         }
 
-        if (this->decoratorCount() > 0)
+        if (decoratorCount() > 0)
         {
-            foreach(btNodeType* node, this->decorators())
+            foreach(btNodeType* node, decorators())
             {
                 btDecoratorNode* decorator = qobject_cast<btDecoratorNode*>(node);
                 decorator->toDataXml(xmlWriter);
@@ -178,13 +178,13 @@ void btEditorNode::toXml(QXmlStreamWriter* xmlWriter, QList<btTreeModel *> behav
             xmlWriter->writeEndElement(); //property
         }
 
-        for (int i = 0; i < this->decoratorCount(); i++)
+        for (int i = 0; i < decoratorCount(); i++)
         {
-            qobject_cast<btEditorNodeType*>(this->decorators().at(i))->toDataXml(xmlWriter);
+            qobject_cast<btEditorNodeType*>(decorators().at(i))->toDataXml(xmlWriter);
         }
-        for (int i = 0; i < this->childCount(); i++)
+        for (int i = 0; i < childCount(); i++)
         {
-            qobject_cast<btEditorNode*>(this->child(i))->toXml(xmlWriter, behaviorTrees);
+            qobject_cast<btEditorNode*>(child(i))->toXml(xmlWriter, behaviorTrees);
         }
     }
 
@@ -211,7 +211,7 @@ QVariant btEditorNode::data(int column) const
         return name();
         break;
     case 1:
-        if ( !this->decorators().isEmpty() )
+        if ( !decorators().isEmpty() )
             return QString("%1 (%2)").arg(description()).arg(decoratorCount());
         else
             return description();

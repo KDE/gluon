@@ -113,7 +113,7 @@ void btParallelConditionsWidget::setParallelConditions(QString propertyName, QOb
     QVariant v;
     v.setValue(conditionsList);
     nodeType->setProperty(propertyName.toUtf8(), v);
-    this->setLayout(parallelConditionsLayout);
+    setLayout(parallelConditionsLayout);
 }
 
 #include "btparallelconditionswidget.moc"

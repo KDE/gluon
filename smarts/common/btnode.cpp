@@ -30,14 +30,14 @@
 btNode::btNode(btNodeType *type, btNode *parent) : QObject(parent)
 {
 
-    this->m_type = type;
+    m_type = type;
 
     if (type)
     {
         m_type->setParentNode(this);
     }
 
-    this->m_parent = parent;
+    m_parent = parent;
     if (parent)
     {
         parent->appendChild(this);
@@ -153,7 +153,7 @@ QList<btNodeType*> btNode::decorators() const { return m_decorators; }
 void btNode::setParentNode(btNode* node)
 {
     m_parent = node;
-    this->setParent(node);
+    setParent(node);
 }
 
 void btNode::doneParsingChildren()
@@ -161,13 +161,13 @@ void btNode::doneParsingChildren()
     m_type->childrenAdded();
 }
 
-void btNode::removeChild(btNode* child)
+void btNode::removeChild(btNode* btNode)
 {
-    for (int i = 0; i < this->childCount(); i++)
+    for (int i = 0; i < childCount(); i++)
     {
-        if (this->child(i) == child)
+        if (child(i) == btNode)
         {
-            this->removeChild(i);
+            removeChild(i);
             break;
         }
     }

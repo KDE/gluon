@@ -112,13 +112,13 @@ void bteditor::setupActions()
 void bteditor::showBehaviorTree(btTreeModel* showThis)
 {
     disconnect(this, SLOT(editorSelectionChanged(QItemSelection,QItemSelection)));
-    this->btEditor->setModel(showThis);
-    this->btEditor->setSelectionModel(new QItemSelectionModel(showThis));
+    btEditor->setModel(showThis);
+    btEditor->setSelectionModel(new QItemSelectionModel(showThis));
     connect(
-        this->btEditor->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
+        btEditor->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
         this, SLOT(editorSelectionChanged(QItemSelection,QItemSelection))
     );
-    this->currentBTNameLabel->setText(showThis->name());
+    currentBTNameLabel->setText(showThis->name());
 
     if (m_currentBehaviorTree)
     {
@@ -240,7 +240,7 @@ void bteditor::on_actionSave_As_triggered()
     if (!fileName.endsWith(QLatin1String(".xml"), Qt::CaseInsensitive))
         fileName += ".xml";
 
-    QString fileContents = projectParser::instance()->serializeProject(this->m_brain);
+    QString fileContents = projectParser::instance()->serializeProject(m_brain);
 
     QFile file(fileName);
     file.open(QIODevice::WriteOnly | QIODevice::Text);
@@ -254,7 +254,7 @@ void bteditor::on_actionSave_triggered()
     if (fileName.isEmpty()) {
         on_actionSave_As_triggered();
     } else {
-        QString fileContents = projectParser::instance()->serializeProject(this->m_brain);
+        QString fileContents = projectParser::instance()->serializeProject(m_brain);
 
         QFile file(fileName);
         file.open(QIODevice::WriteOnly | QIODevice::Text);
@@ -285,7 +285,7 @@ void bteditor::replaceBrain() {
         this,SLOT(nodeTypeDeleted(int))
     );
     ///fixme add connection between nodeTypeDeleted and this
-    this->availableNodes->setModel(nodeTypes);
+    availableNodes->setModel(nodeTypes);
     //new ModelTest(nodeTypes, this);
 }
 
@@ -471,12 +471,12 @@ void bteditor::on_actionNew_Tree_triggered()
 void bteditor::updateView(const QModelIndex& one, const QModelIndex& two)
 {
     Q_UNUSED(two)
-    this->btEditor->scrollTo(one);
+    btEditor->scrollTo(one);
 }
 
 void bteditor::showFor(btEditorNode* node)
 {
-    this->showPropertiesFor(node);
+    showPropertiesFor(node);
 }
 
 #include "bteditor.moc"
