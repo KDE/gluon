@@ -21,12 +21,9 @@
 #ifndef GLUON_SMARTS_BTPROBSELECTORNODE_H
 #define GLUON_SMARTS_BTPROBSELECTORNODE_H
 
-#include <QObject>
-
 #include "btlib.h"
 
-
-class BT_LIB_EXPORT btProbSelectorNode : public btNode
+class GLUON_SMARTS_EXPORT btProbSelectorNode : public btNode
 {
         Q_OBJECT
 

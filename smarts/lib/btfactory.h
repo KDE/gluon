@@ -21,8 +21,7 @@
 #ifndef GLUON_SMARTS_BTFACTORY_H
 #define GLUON_SMARTS_BTFACTORY_H
 
-#include <QObject>
-#include <QHash>
+#include <QtCore/QHash>
 #include <QtXml/QDomNode>
 
 #include "btlib_export.h"
@@ -30,7 +29,7 @@
 class btNode;
 class btBrain;
 
-class BT_LIB_EXPORT btFactory : public QObject
+class GLUON_SMARTS_EXPORT btFactory : public QObject
 {
         Q_OBJECT
 
@@ -57,7 +56,7 @@ class BT_LIB_EXPORT btFactory : public QObject
 };
 
 template<class T>
-class BT_LIB_EXPORT Registration
+class GLUON_SMARTS_EXPORT Registration
 {
 
     public:

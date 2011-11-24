@@ -19,17 +19,15 @@
  */
 
 #ifndef GLUON_SMARTS_BTSEQUENCENODE_H
-#define GLUON_SMRATS_BTSEQUENCENODE_H
+#define GLUON_SMARTS_BTSEQUENCENODE_H
 
-#include <QObject>
-
+#include "btlib_export.h"
 #include "btfactory.h"
 #include "btcharacter.h"
-#include "btlib_export.h"
 
 class btNode;
 
-class BT_LIB_EXPORT btSequenceNode : public btNode
+class GLUON_SMARTS_EXPORT btSequenceNode : public btNode
 {
         Q_OBJECT
 

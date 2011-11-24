@@ -21,25 +21,23 @@
 #ifndef GLUON_SMARTS_BTCHARACTER_H
 #define GLUON_SMARTS_BTCHARACTER_H
 
-#include <QtCore/QObject>
+#include "btlib.h"
+#include "btlib_export.h"
+#include "btperception.h"
+
 #include <QtCore/QStack>
 #include <QtCore/QList>
 #include <QtCore/QQueue>
 #include <QtCore/QMultiHash>
 #include <QtCore/QHash>
 #include <QtCore/QPair>
-#include <QQuaternion>
-
-#include "btlib.h"
-#include "btlib_export.h"
-
-#include "btperception.h"
+#include <QtGui/QQuaternion>
 
 struct ProbNode;
 class btPerception;
 class QXmlStreamWriter;
 
-class BT_LIB_EXPORT btCharacter : public QObject
+class GLUON_SMARTS_EXPORT btCharacter : public QObject
 {
         Q_OBJECT
         Q_PROPERTY( QVector3D position READ position WRITE setPosition )

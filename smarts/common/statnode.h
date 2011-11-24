@@ -23,7 +23,7 @@
 
 #include "../lib/btlib_export.h"
 
-struct BT_LIB_EXPORT StatNode
+struct GLUON_SMARTS_EXPORT StatNode
 {
     StatNode()
     {

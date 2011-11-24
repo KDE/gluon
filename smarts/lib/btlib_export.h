@@ -19,21 +19,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BT_LIB_EXPORT_H
-#define BT_LIB_EXPORT_H
+#ifndef GLUON_SMARTS_EXPORT_H
+#define GLUON_SMARTS_EXPORT_H
 
-#include <QtCore/qglobal.h>
+#include <QtCore/QtGlobal>
 
-#ifndef BT_LIB_EXPORT
+#ifndef GLUON_SMARTS_EXPORT
 #if defined(MAKE_BT_LIB)
-#  define BT_LIB_EXPORT Q_DECL_EXPORT
+#  define GLUON_SMARTS_EXPORT Q_DECL_EXPORT
 #else
-#  define BT_LIB_EXPORT Q_DECL_IMPORT
+#  define GLUON_SMARTS_EXPORT Q_DECL_IMPORT
 #endif
 #endif
 
-# ifndef BT_LIB_EXPORT_DEPRECATED
-#  define BT_LIB_EXPORT_DEPRECATED Q_DECL_DEPRECATED BT_LIB_EXPORT
-# endif
+#ifndef GLUON_SMARTS_EXPORT_DEPRECATED
+#  define GLUON_SMRATS_EXPORT_DEPRECATED Q_DECL_DEPRECATED GLUON_SMARTS_EXPORT
+#endif
 
 #endif

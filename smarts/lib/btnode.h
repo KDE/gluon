@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_SMATS_BTNODE_H
+#ifndef GLUON_SMARTS_BTNODE_H
 #define GLUON_SMARTS_BTNODE_H
 
 #include "btlib_export.h"
@@ -28,7 +28,7 @@
 
 class btCharacter;
 
-class BT_LIB_EXPORT btNode : public QObject
+class GLUON_SMARTS_EXPORT btNode : public QObject
 {
         Q_OBJECT
         Q_PROPERTY( QString name READ name WRITE setName )

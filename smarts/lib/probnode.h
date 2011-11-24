@@ -23,7 +23,7 @@
 
 #include "btlib_export.h"
 
-struct BT_LIB_EXPORT ProbNode
+struct GLUON_SMARTS_EXPORT ProbNode
 {
     ProbNode()
     {

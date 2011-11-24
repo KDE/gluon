@@ -21,17 +21,17 @@
 #ifndef GLUON_SMARTS_BTNODE_H
 #define GLUON_SMARTS_BTNODE_H
 
+#include "../lib/btlib_export.h"
+
 #include <QtCore/QObject>
 #include <QtCore/QList>
-
-#include "../lib/btlib_export.h"
 
 class QString;
 class QVariant;
 class btNodeType;
 class btCharacter;
 
-class BT_LIB_EXPORT btNode : public QObject
+class GLUON_SMARTS_EXPORT btNode : public QObject
 {
         Q_OBJECT;
         Q_PROPERTY( QString name READ name WRITE setName );

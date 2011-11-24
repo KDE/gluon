@@ -21,14 +21,14 @@
 #ifndef GLUON_SMARTS_BTNODETYPE_H
 #define GLUON_SMARTS_BTNODETYPE_H
 
-#include <QObject>
-#include <QMetaObject>
-#include <QMetaProperty>
+#include "../lib/btlib_export.h"
 #include "btnode.h"
 #include "btcharacter.h"
-#include "../lib/btlib_export.h"
 
-class BT_LIB_EXPORT btNodeType : public QObject
+#include <QtCore/QMetaObject>
+#include <QtCore/QMetaProperty>
+
+class GLUON_SMARTS_EXPORT btNodeType : public QObject
 {
         Q_OBJECT
         Q_PROPERTY( QString name READ name WRITE setName )

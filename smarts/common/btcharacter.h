@@ -22,9 +22,10 @@
 #define GLUON_SMARTS_BTCHARACTER_H
 
 #include "../lib/btlib_export.h"
-#include <QDebug>
 
-class BT_LIB_EXPORT btCharacter : public QObject
+#include <QtCore/QDebug>
+
+class GLUON_SMARTS_EXPORT btCharacter : public QObject
 {
         Q_OBJECT
     public:

@@ -21,19 +21,18 @@
 #ifndef GLUON_SMARTS_BTBRAIN_H
 #define GLUON_SMARTS_BTBRAIN_H
 
-#include <QObject>
-#include <QList>
-#include <QHash>
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomNode>
-
 #include "btlib_export.h"
 #include "btperceptioninfo.h"
+
+#include <QtCore/QList>
+#include <QtCore/QHash>
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomNode>
 
 class btNode;
 Q_DECLARE_METATYPE( QList<btPerceptionInfo*> );
 
-class BT_LIB_EXPORT btBrain : public QObject
+class GLUON_SMARTS_EXPORT btBrain : public QObject
 {
         Q_OBJECT
 
