@@ -21,7 +21,7 @@
 #ifndef BTSELECTORNODE_H
 #define BTSELECTORNODE_H
 
-#include "btlib_export.h"
+#include "gluon_smarts_export.h"
 
 #include "btnode.h"
 #include "btfactory.h"

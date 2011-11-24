@@ -21,7 +21,7 @@
 #ifndef GLUON_SMARTS_BTFACTORY_H
 #define GLUON_SMARTS_BTFACTORY_H
 
-#include "btlib_export.h"
+#include "gluon_smarts_export.h"
 
 #include <QtCore/QHash>
 #include <QtXml/QDomNode>

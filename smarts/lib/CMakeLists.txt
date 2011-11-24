@@ -29,7 +29,6 @@ set(GluonSmarts_HEADERS
     btselectornode.h
     btsequencenode.h
     ../common/btglobal.h
-    btlib_export.h
     btlib.h
 	btnode.h
 	probnode.h
@@ -40,6 +39,8 @@ set(GluonSmarts_HEADERS
     btperceptionviewcone.h
     btperceptioninfo.h
     btperceptionatom.h
+
+    gluon_smarts_export.h
 )
 
 qt4_automoc(${GluonSmarts_SRCS})

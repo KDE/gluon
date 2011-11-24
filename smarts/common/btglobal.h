@@ -21,7 +21,7 @@
 #ifndef GLUON_SMARTS_BTGLOBAL_H
 #define GLUON_SMARTS_BTGLOBAL_H
 
-#include "../lib/btlib_export.h"
+#include "../lib/gluon_smarts_export.h"
 
 #include <QtCore/QVariant>
 

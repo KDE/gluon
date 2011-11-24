@@ -21,7 +21,7 @@
 #ifndef GLUON_SMARTS_BTNODE_H
 #define GLUON_SMARTS_BTNODE_H
 
-#include "btlib_export.h"
+#include "gluon_smarts_export.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QList>

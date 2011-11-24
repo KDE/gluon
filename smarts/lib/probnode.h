@@ -21,7 +21,7 @@
 #ifndef GLUON_SMARTS_PROBNODE_H
 #define GLUON_SMARTS_PROBNODE_H
 
-#include "btlib_export.h"
+#include "gluon_smarts_export.h"
 
 struct GLUON_SMARTS_EXPORT ProbNode
 {

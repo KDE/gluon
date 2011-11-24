@@ -21,7 +21,7 @@
 #ifndef GLUON_SMARTS_BTSEQUENCENODE_H
 #define GLUON_SMARTS_BTSEQUENCENODE_H
 
-#include "btlib_export.h"
+#include "gluon_smarts_export.h"
 
 #include "btfactory.h"
 #include "btcharacter.h"

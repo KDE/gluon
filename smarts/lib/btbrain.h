@@ -21,7 +21,7 @@
 #ifndef GLUON_SMARTS_BTBRAIN_H
 #define GLUON_SMARTS_BTBRAIN_H
 
-#include "btlib_export.h"
+#include "gluon_smarts_export.h"
 
 #include "btperceptioninfo.h"
 
