@@ -21,9 +21,10 @@
 #ifndef GLUON_SMARTS_BTNODETYPESMODELNODE_H
 #define GLUON_SMARTS_BTNODETYPESMODELNODE_H
 
-#include <QtCore/QVariant>
 #include <QtCore/QList>
 #include <QtCore/QString>
+
+class QVariant;
 
 class btEditorNodeType;
 

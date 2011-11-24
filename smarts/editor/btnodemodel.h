@@ -23,7 +23,8 @@
 
 #include <QtCore/QAbstractTableModel>
 #include <QtCore/QVariant>
-#include <QtCore/QModelIndex>
+
+class QModelIndex;
 
 class btEditorNodeType;
 

@@ -20,10 +20,13 @@
 
 #include "btnewtreewizard.h"
 
-#include <QtGui/QWizard>
-#include <QDebug>
 #include "bteditor.h"
 #include "btnodeeditwidget.h"
+
+#include <QtCore/QDebug>
+#include <QtGui/QWizard>
+#include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
 
 NewTreeWizard::NewTreeWizard(QWidget *parent)
         : QWizard(parent)

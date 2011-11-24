@@ -19,10 +19,13 @@
  */
 
 #include "btnodemodel.h"
+
 #include "btnodetypesmodel.h"
 #include "bteditornodetype.h"
-#include <QDebug>
-#include <QIcon>
+
+#include <QtCore/QDebug>
+#include <QtCore/QModelIndex>
+#include <QtGui/QIcon>
 
 btnodemodel::btnodemodel(btEditorNodeType * nodetype,QObject *parent)
         : QAbstractTableModel(parent)

@@ -32,6 +32,7 @@
 #include <QtGui/QLabel>
 #include <QtGui/QSpinBox>
 #include <QtGui/QLineEdit>
+#include <QtGui/QGridLayout>
 
 btPropertyWidgetItem::btPropertyWidgetItem(QObject * parent, Qt::WindowFlags f)
 {

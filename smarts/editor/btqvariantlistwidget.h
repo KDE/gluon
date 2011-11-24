@@ -21,19 +21,22 @@
 #ifndef GLUON_SMARTS_BTQVARIANTLISTWIDGET_H
 #define GLUON_SMARTS_BTQVARIANTLISTWIDGET_H
 
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QListWidget>
-#include <QListWidgetItem>
-#include <QPushButton>
-#include <QDebug>
+#include <QtGui/QWidget>
+
+class QVBoxLayout;
+class QHBoxLayout;
+class QListWidget;
+class QListWidgetItem;
+class QPushButton;
 
 class btQVariantListWidget : public QWidget
 {
         Q_OBJECT
+
     public:
         explicit btQVariantListWidget( bool enabled, QWidget* parent = 0 );
         ~btQVariantListWidget();
+
         void setupActions();
         void addItem( QListWidgetItem* item );
         Qt::ItemFlags returnItemFlags();

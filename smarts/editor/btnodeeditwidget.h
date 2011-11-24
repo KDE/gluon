@@ -21,12 +21,15 @@
 #ifndef GLUON_SMARTS_BTNODEEDITWIDGET_H
 #define GLUON_SMARTS_BTNODEEDITWIDGET_H
 
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QLineEdit>
-#include <QtGui/QGridLayout>
-#include <QtGui/QTableView>
-#include <QtGui/QPushButton>
+#include <QtGui/QWidget>
+
+class QLabel;
+class QLineEdit;
+class QVBoxLayout;
+class QHBoxLayout;
+class QGridLayout;
+class QTableView;
+class QPushButton;
 
 class btnodemodel;
 class btNodeTypesModelNode;
@@ -40,10 +43,12 @@ class btNodeEditWidget : public QWidget
     public:
         btNodeEditWidget( QWidget* parent );
         ~btNodeEditWidget();
+
         void setModel( btnodemodel* btmodel );
         void setSelectedNode( btNodeTypesModelNode* selectedNode );
         void connectSignals();
         void disconnectSignals( btTreeModel* currentBehaviorTree );
+
     private:
         QVBoxLayout*     mainLayout;
         QHBoxLayout*     buttonLayout;

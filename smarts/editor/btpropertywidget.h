@@ -24,12 +24,13 @@
 #include <QtCore/QVariant>
 #include <QtGui/QWidget>
 
+class QMenu;
+
 class btEditorNode;
 class btEditorNodeType;
 class QGridLayout;
 class btDecoratorNode;
 class ColorGen;
-class QMenu;
 
 class btPropertyWidget : public QWidget
 {

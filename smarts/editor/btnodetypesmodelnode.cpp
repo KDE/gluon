@@ -20,7 +20,9 @@
 
 #include "btnodetypesmodelnode.h"
 #include "bteditornodetype.h"
-#include <QDebug>
+
+#include <QtCore/QDebug>
+#include <QtCore/QVariant>
 
 btNodeTypesModelNode::btNodeTypesModelNode(btEditorNodeType *data, btNodeTypesModelNode *parent)
 {

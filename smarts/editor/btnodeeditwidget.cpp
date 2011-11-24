@@ -19,16 +19,22 @@
  */
 
 #include "btnodeeditwidget.h"
+
 #include "btnodemodel.h"
 #include "btnodetypesmodelnode.h"
-#include <QDebug>
-#include <QtGui/QValidator>
-#include <QtGui/QItemEditorFactory>
 #include "bttreemodel.h"
-
-#include <QtGui/QLineEdit>
 #include "btqlistdelegate.h"
 
+#include <QtCore/QDebug>
+#include <QtGui/QValidator>
+#include <QtGui/QItemEditorFactory>
+#include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
+#include <QtGui/QTableView>
+#include <QtGui/QPushButton>
 #include <QtGui/QSpinBox>
 
 btNodeEditWidget::btNodeEditWidget(QWidget * parent)

@@ -21,9 +21,9 @@
 #ifndef GLUON_SMARTS_BTQLISTDELEGATE_H
 #define GLUON_SMARTS_BTQLISTDELEGATE_H
 
-#include <QItemDelegate>
-#include <QModelIndex>
-#include <QObject>
+#include <QtGui/QItemDelegate>
+
+class QModelIndex;
 
 class btQListDeletgate : public QItemDelegate
 {

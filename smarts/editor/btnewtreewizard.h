@@ -34,6 +34,7 @@ class NewTreeWizard : public QWizard
     public:
         NewTreeWizard( QWidget* parent = 0 );
         void accept();
+
     Q_SIGNALS:
         void behaviorTreeCreated( QString name );
 };

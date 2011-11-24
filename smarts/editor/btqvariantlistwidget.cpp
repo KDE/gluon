@@ -20,6 +20,12 @@
 
 #include "btqvariantlistwidget.h"
 
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QListWidget>
+#include <QtGui/QListWidgetItem>
+#include <QtGui/QPushButton>
+
 btQVariantListWidget::btQVariantListWidget(bool enabled, QWidget * parent) : QWidget(parent)
 {
     // layout
