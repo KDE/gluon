@@ -46,20 +46,23 @@ qt4_automoc(${GluonSmarts_SRCS})
 
 if(APPLE)
     add_library(GluonSmarts SHARED ${GluonSmarts_SRCS} ${GluonSmarts_HEADERS})
+else()
+    add_library(GluonSmarts SHARED ${GluonSmarts_SRCS})
+endif()
+
+if(APPLE)
+    list(APPEND GluonSmarts_HEADERS
+        ${GluonSmarts_HEADERS}
+    )
 
     set_target_properties(GluonSmarts PROPERTIES FRAMEWORK TRUE)
 	set_target_properties(GluonSmarts PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
     set_target_properties(GluonSmarts PROPERTIES PUBLIC_HEADER "${GluonSmarts_HEADERS}")
 
-    add_custom_command(TARGET GluonSmarts POST_BUILD
-		COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/SMARTS.framework/Headers/smarts/
-		COMMAND mv ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/SMARTS.framework/Headers/*.h ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/SMARTS.framework/Headers/smarts/
-	)
-
-	set(MACOSX_FRAMEWORK_IDENTIFIER SMARTS)
-    set_target_properties(GluonSmarts PROPERTIES OUTPUT_NAME SMARTS)
-else()
-    add_library(GluonSmarts SHARED ${GluonSmarts_SRCS} )
+    set(MACOSX_FRAMEWORK_IDENTIFIER smarts)
+    set(MACOSX_FRAMEWORK_IDENTIFIER GluonSmarts)
+    set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
+    set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
 endif()
 
 set_target_properties(GluonSmarts PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_SMARTS_LIB)
