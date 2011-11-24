@@ -20,7 +20,6 @@
 
 #include "btnodetype.h"
 #include "btcharacter.h"
-#include <QtCore/QDebug>
 
 btNodeType::btNodeType(QObject * parent)
 {

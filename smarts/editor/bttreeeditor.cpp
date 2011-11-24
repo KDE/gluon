@@ -20,8 +20,6 @@
 
 #include "bttreeeditor.h"
 
-#include <QDropEvent>
-
 btTreeEditor::btTreeEditor(QWidget *parent)
 {
     Q_UNUSED(parent)

@@ -21,13 +21,13 @@
 #include "btchildlistwidget.h"
 
 #include "btglobal.h"
-#include <QLabel>
-#include <QDoubleSpinBox>
-#include <QVariant>
-#include <QtGui/QVBoxLayout>
-
 #include "btnode.h"
 #include "bteditornodetype.h"
+
+#include <QtCore/QVariant>
+#include <QtGui/QLabel>
+#include <QtGui/QDoubleSpinBox>
+#include <QtGui/QVBoxLayout>
 
 btChildListWidget::btChildListWidget(QWidget * parent)
     : QWidget(parent)

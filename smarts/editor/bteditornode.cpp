@@ -23,7 +23,6 @@
 #include "bttreemodel.h"
 #include "projectparser.h"
 #include "btreferencenode.h"
-#include <QtCore/QDebug>
 #include "btdecoratornode.h"
 #include "btglobal.h"
 

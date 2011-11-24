@@ -25,17 +25,12 @@
 #include "bteditornodetype.h"
 #include "colorgen.h"
 
-#include <QBoxLayout>
-#include <QVariant>
-#include <QLabel>
-#include <QLineEdit>
-#include <QDoubleSpinBox>
-#include <QGridLayout>
-#include <QtCore/QMetaClassInfo>
-#include <QToolButton>
-#include <QDebug>
-#include <QMenu>
-#include <QAction>
+#include <QtCore/QVariant>
+#include <QtGui/QLabel>
+#include <QtGui/QGridLayout>
+#include <QtGui/QToolButton>
+#include <QtGui/QMenu>
+#include <QtGui/QAction>
 
 btPropertyWidget::btPropertyWidget(QObject * parent)
 {

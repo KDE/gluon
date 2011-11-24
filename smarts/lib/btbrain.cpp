@@ -23,8 +23,6 @@
 #include "btnode.h"
 #include "btfactory.h"
 
-#include <QtCore/QDebug>
-
 btBrain::btBrain(QString data, QString file, QObject* parent)
     : QObject(parent)
 {

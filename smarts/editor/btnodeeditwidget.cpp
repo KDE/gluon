@@ -25,9 +25,6 @@
 #include "bttreemodel.h"
 #include "btqlistdelegate.h"
 
-#include <QtCore/QDebug>
-#include <QtGui/QValidator>
-#include <QtGui/QItemEditorFactory>
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
 #include <QtGui/QVBoxLayout>
@@ -35,7 +32,6 @@
 #include <QtGui/QGridLayout>
 #include <QtGui/QTableView>
 #include <QtGui/QPushButton>
-#include <QtGui/QSpinBox>
 
 btNodeEditWidget::btNodeEditWidget(QWidget * parent)
 {

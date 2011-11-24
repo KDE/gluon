@@ -23,11 +23,6 @@
 #include "bteditornodetype.h"
 #include "bteditornode.h"
 
-#include <QtGui/QApplication>
-#include <QtGui/QMessageBox>
-#include <QtCore/QEvent>
-#include <QtCore/QMimeData>
-
 btAvailableNodesTreeView::btAvailableNodesTreeView(QWidget* parent)
     : QTreeView(parent)
 {

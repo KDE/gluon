@@ -20,9 +20,9 @@
 
 #include "btparallelnode.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QVariant>
 #include "btnode.h"
+
+#include <QtCore/QVariant>
 
 REGISTER_NODETYPE(btParallelNode)
 

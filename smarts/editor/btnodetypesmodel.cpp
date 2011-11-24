@@ -19,14 +19,14 @@
  */
 
 #include "btnodetypesmodel.h"
+
 #include "bteditornodetype.h"
 #include "btnodetypesmodelnode.h"
 #include "btbrain.h"
 
-#include <QtGui/QMessageBox>
-#include <QtGui/QIcon>
 #include <QtCore/QDebug>
 #include <QtCore/QMimeData>
+#include <QtGui/QIcon>
 
 btNodeTypesModel::btNodeTypesModel(btBrain *brain, QObject* parent)
         :QAbstractItemModel(parent)

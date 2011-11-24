@@ -22,7 +22,6 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QXmlStreamWriter>
-#include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 
 #include <sys/stat.h>

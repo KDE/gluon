@@ -22,7 +22,6 @@
 
 #include "btbrain.h"
 
-
 class btPerceptionInfo::btPerceptionInfoPrivate
 {
     public:
@@ -30,7 +29,10 @@ class btPerceptionInfo::btPerceptionInfoPrivate
             : radius(0)
         {
         }
-        ~btPerceptionInfoPrivate() {}
+
+        ~btPerceptionInfoPrivate()
+        {
+        }
         
         QVector3D position;
         qreal radius;
@@ -41,6 +43,7 @@ btPerceptionInfo::btPerceptionInfo(QObject * parent)
     , d(new btPerceptionInfoPrivate())
 {
     btBrain* potentialBrain = qobject_cast<btBrain*>(parent);
+
 	if(potentialBrain)
 		potentialBrain->addPerceptionInfo(this);
 }

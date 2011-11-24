@@ -29,8 +29,6 @@
 
 #include "btglobal.h"
 
-#include <QtCore/QDebug>
-
 btFactory::btFactory()
 {
     m_nodeTypes["[selector]"] = new btSelectorNode();

@@ -20,13 +20,13 @@
 
 #include "btprobselectornode.h"
 
-REGISTER_NODETYPE(btProbSelectorNode)
+#include <QtCore/QDateTime>
+#include <QtCore/QVariant>
+#include <QtCore/QHash>
 
-#include <QDebug>
-#include <QDateTime>
-#include <QVariant>
-#include <QHash>
 #include <cmath>
+
+REGISTER_NODETYPE(btProbSelectorNode)
 
 btProbSelectorNode::btProbSelectorNode(QObject* parent)
     : btNode(parent)

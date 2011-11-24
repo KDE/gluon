@@ -28,10 +28,7 @@
 #include "btglobal.h"
 
 #include <QtGui/QIcon>
-#include <QtGui/QMessageBox>
-#include <QtGui/QTreeView>
 #include <QtCore/QMimeData>
-#include <QtCore/QDebug>
 
 btTreeModel::btTreeModel(QObject* parent, btBrain* containingBrain)
         : QAbstractItemModel(parent)

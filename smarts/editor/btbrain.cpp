@@ -25,10 +25,8 @@
 #include "bteditornode.h"
 #include "btcompositenode.h"
 #include "btconditionnode.h"
-#include <QtCore/qtextstream.h>
 #include "btreferencenode.h"
 #include "btglobal.h"
-
 
 btBrain::btBrain(QObject *parent)
     : QObject(parent)

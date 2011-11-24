@@ -19,6 +19,7 @@
  */
 
 #include "btperception.h"
+
 #include "btcharacter.h"
 
 class btPerception::btPerceptionPrivate

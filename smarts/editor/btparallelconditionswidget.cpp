@@ -25,7 +25,6 @@
 #include "btnode.h"
 
 #include <QtCore/QVariant>
-#include <QtGui/QLabel>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QRadioButton>
 #include <QtGui/QGroupBox>
