@@ -29,9 +29,10 @@
 #include <QtGui/QRadioButton>
 #include <QtGui/QGroupBox>
 
-btParallelConditionsWidget::btParallelConditionsWidget(QWidget * parent) : QWidget(parent)
+btParallelConditionsWidget::btParallelConditionsWidget(QWidget * parent)
+    : QWidget(parent)
+	, parallelConditionsLayout(new QVBoxLayout(this))
 {
-	parallelConditionsLayout = new QVBoxLayout(this);
 }
 
 btParallelConditionsWidget::~btParallelConditionsWidget()

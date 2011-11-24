@@ -21,8 +21,8 @@
 #include "btcharacter.h"
 
 btCharacter::btCharacter()
+    : think(true)
 {
-    think = true;
 }
 
 btCharacter::~btCharacter()

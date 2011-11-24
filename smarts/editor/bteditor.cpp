@@ -40,11 +40,12 @@
 #include <QtGui/QFileDialog>
 #include <QtGui/QMenu>
 
-bteditor::bteditor(QWidget *parent) : KParts::MainWindow()
+bteditor::bteditor(QWidget *parent)
+    : KParts::MainWindow()
+    , m_currentBehaviorTree(NULL)
+    , oldPropertyWidget(NULL)
 {
     Q_UNUSED(parent)
-    m_currentBehaviorTree = NULL;
-    oldPropertyWidget = NULL;
 
     setupUi(this);
     propertyWidget = new btPropertyWidget(this);

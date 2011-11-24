@@ -33,10 +33,10 @@
 #include <QtGui/QAction>
 
 btPropertyWidget::btPropertyWidget(QObject * parent)
+    : m_node(NULL)
+    , colorgen(NULL)
 {
     Q_UNUSED(parent)
-    colorgen = NULL;
-    m_node = NULL;
 }
 
 btPropertyWidget::~btPropertyWidget()

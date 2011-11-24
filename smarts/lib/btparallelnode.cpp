@@ -28,10 +28,10 @@ REGISTER_NODETYPE(btParallelNode)
 
 btParallelNode::btParallelNode(QObject* parent)
     : btNode(parent)
+	, m_runningNodesStatus(new QList<btNode::status>())
+	, m_conditionStatus(new QList<btNode::status>())
 {
 	setCurrentChildStatus(Running);
-	m_runningNodesStatus = new QList<btNode::status>();
-	m_conditionStatus = new QList<btNode::status>();
 }
 
 btParallelNode::~btParallelNode()

@@ -26,13 +26,13 @@
 struct GLUON_SMARTS_EXPORT StatNode
 {
     StatNode()
+        : fail(1)
+        , succes(1)
+        , p(0.5)
+        , visits(0)
+        , wp(0.5)
+        , visited(false)
     {
-        fail = 1;
-        succes = 1;
-        p = 0.5;
-        visits = 0;
-        wp = 0.5;
-        visited = false;
     }
 
     float p;

@@ -22,9 +22,9 @@
 #include "btcharacter.h"
 
 btNodeType::btNodeType(QObject * parent)
+    : m_parent(NULL)
 {
     Q_UNUSED(parent)
-    m_parent = NULL;
 }
 
 btNodeType::~btNodeType()

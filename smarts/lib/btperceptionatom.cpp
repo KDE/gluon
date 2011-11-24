@@ -26,9 +26,13 @@ class btPerceptionAtom::btPerceptionAtomPrivate
         btPerceptionAtomPrivate()
             : perceptionInfo(0)
             , precision(0)
+            , shouldUpdate(false)
         {
         }
-        ~btPerceptionAtomPrivate() {}
+
+        ~btPerceptionAtomPrivate()
+        {
+        }
         
         btPerceptionInfo* perceptionInfo;
         qreal precision;

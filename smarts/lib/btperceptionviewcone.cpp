@@ -21,11 +21,11 @@
 #include "btperceptionviewcone.h"
 
 btPerceptionViewcone::btPerceptionViewcone()
+    : offsetAngleHorizontal(0)
+    , offsetAngleVertical(0)
+    , extentAngleHorizontal(0)
+    , extentAngleVertical(0)
+    , radius(0)
+    , knowledgePrecision(1.0)
 {
-    extentAngleHorizontal = 0;
-    extentAngleVertical = 0;
-    offsetAngleHorizontal = 0;
-    offsetAngleVertical = 0;
-    radius = 0;
-    knowledgePrecision = 1.0;
 }

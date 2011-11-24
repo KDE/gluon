@@ -27,11 +27,11 @@
 #include <QtCore/QVariant>
 #include <QtCore/QDebug>
 
-btNode::btNode(btNodeType *type, btNode *parent) : QObject(parent)
+btNode::btNode(btNodeType *type, btNode *parent)
+    : QObject(parent)
+    , m_type(type)
+
 {
-
-    m_type = type;
-
     if (type)
     {
         m_type->setParentNode(this);

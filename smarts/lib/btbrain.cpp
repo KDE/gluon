@@ -25,9 +25,8 @@
 
 btBrain::btBrain(QString data, QString file, QObject* parent)
     : QObject(parent)
+	, m_file(file)
 {
-	m_file = file;
-	
     QDomDocument xmlDocument("data");
     if(xmlDocument.setContent(data))
     {

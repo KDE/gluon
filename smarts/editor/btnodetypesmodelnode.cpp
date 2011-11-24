@@ -25,9 +25,9 @@
 #include <QtCore/QVariant>
 
 btNodeTypesModelNode::btNodeTypesModelNode(btEditorNodeType *data, btNodeTypesModelNode *parent)
+    : nodeData(data)
+    , parentNode(parent)
 {
-    nodeData = data;
-    parentNode = parent;
     if (parentNode)
         parentNode->appendChild(this);
 }

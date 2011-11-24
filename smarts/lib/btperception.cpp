@@ -31,7 +31,10 @@ class btPerception::btPerceptionPrivate
             , perceptionLimit(0)
         {
         }
-        ~btPerceptionPrivate() {}
+
+        ~btPerceptionPrivate()
+        {
+        }
         
         btCharacter* character;
         qreal knowledgePrecision;

@@ -26,9 +26,9 @@
 #include <QtCore/QModelIndex>
 
 btnodemodel::btnodemodel(btEditorNodeType * nodetype,QObject *parent)
-        : QAbstractTableModel(parent)
+    : QAbstractTableModel(parent)
+    , node(nodetype)
 {
-    node = nodetype;
 }
 
 int btnodemodel::rowCount(const QModelIndex &parent) const

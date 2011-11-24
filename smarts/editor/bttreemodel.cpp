@@ -31,11 +31,11 @@
 #include <QtCore/QMimeData>
 
 btTreeModel::btTreeModel(QObject* parent, btBrain* containingBrain)
-        : QAbstractItemModel(parent)
+    : QAbstractItemModel(parent)
+    , moving(false)
+    , m_rootNode(new btEditorNode())
+    , brain(containingBrain)
 {
-    m_rootNode = new btEditorNode();
-    brain = containingBrain;
-    moving = false;
     setSupportedDragActions(Qt::MoveAction);
 }
 
