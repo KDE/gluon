@@ -2,7 +2,15 @@
 Encoding=UTF-8
 
 Name=Project Inspector
+Name[pt]=Inspector do Projecto
+Name[sv]=Projektinspektör
+Name[uk]=Ревізор проекту
+Name[x-test]=xxProject Inspectorxx
 Comment=Provides a tool to inspect the entire project hierarchy.
+Comment[pt]=Oferece uma ferramenta para inspeccionar a hierarquia completa do projecto.
+Comment[sv]=Tillhandahåller ett verktyg för att inspektera hela projektets hierarki.
+Comment[uk]=Інструмент ревізії усієї ієрархії проекту.
+Comment[x-test]=xxProvides a tool to inspect the entire project hierarchy.xx
 Icon=gluon
 
 Type=Service
