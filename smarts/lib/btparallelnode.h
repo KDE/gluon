@@ -23,7 +23,6 @@
 
 #include "btlib.h"
 
-#include <QtCore/QObject>
 #include <QtCore/QStack>
 #include <QtCore/QQueue>
 #include <QtCore/QHash>

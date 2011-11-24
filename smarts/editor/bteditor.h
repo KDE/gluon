@@ -21,11 +21,12 @@
 #ifndef GLUON_SMARTS_BTEDITOR_H
 #define GLUON_SMARTS_BTEDITOR_H
 
-#include <QtGui/QMainWindow>
-#include <QMenu>
 #include "ui_bteditor.h"
 #include "treeselectordialog.h"
+
 #include <kparts/mainwindow.h>
+
+#include <QtGui/QMenu>
 
 class btNode;
 class btNodeTypesModel;

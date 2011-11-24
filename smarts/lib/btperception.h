@@ -21,8 +21,7 @@
 #ifndef GLUON_SMARTS_BTPERCEPTION_H
 #define GLUON_SMARTS_BTPERCEPTION_H
 
-#include <QtCore/QObject>
-#include <QVector3D>
+#include <QtGui/QVector3D>
 
 #include "btperceptionatom.h"
 #include "btperceptionviewcone.h"

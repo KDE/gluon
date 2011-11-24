@@ -21,9 +21,9 @@
 #ifndef GLUON_SMARTS_BTNODEMODEL_H
 #define GLUON_SMARTS_BTNODEMODEL_H
 
-#include <QAbstractTableModel>
-#include <QVariant>
-#include <QModelIndex>
+#include <QtCore/QAbstractTableModel>
+#include <QtCore/QVariant>
+#include <QtCore/QModelIndex>
 
 class btEditorNodeType;
 

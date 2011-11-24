@@ -21,7 +21,6 @@
 #ifndef GLUON_SMARTS_BTPERCEPTIONATOM_H
 #define GLUON_SMARTS_BTPERCEPTIONATOM_H
 
-#include <QtCore/QObject>
 #include <QtCore/QVariant>
 
 #include "btperceptioninfo.h"

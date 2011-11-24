@@ -21,8 +21,9 @@
 #ifndef GLUON_SMARTS_BTNODETYPESMODEL_H
 #define GLUON_SMARTS_BTNODETYPESMODEL_H
 
-#include <QAbstractListModel>
-#include <QList>
+#include <QtCore/QAbstractListModel>
+#include <QtCore/QList>
+
 class btBrain;
 class btEditorNodeType;
 class btNodeTypesModelNode;

@@ -21,8 +21,9 @@
 #ifndef GLUON_SMARTS_BTPROPERTYWIDGET_H
 #define GLUON_SMARTS_BTPROPERTYWIDGET_H
 
-#include <QtGui/QWidget>
 #include <QtCore/QVariant>
+#include <QtGui/QWidget>
+
 class btEditorNode;
 class btEditorNodeType;
 class QGridLayout;

@@ -21,7 +21,6 @@
 #ifndef GLUON_SMARTS_BTPERCEPTIONINFO_H
 #define GLUON_SMARTS_BTPERCEPTIONINFO_H
 
-#include <QtCore/QObject>
 #include <QtCore/QVariant>
 #include <QtGui/QVector3D>
 

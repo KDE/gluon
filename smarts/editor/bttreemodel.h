@@ -21,9 +21,9 @@
 #ifndef GLUON_SMARTS_BTTREEMODEL_H
 #define GLUON_SMARTS_BTTREEMODEL_H
 
-#include <QObject>
-#include <QAbstractItemModel>
-#include <QString>
+#include <QtCore/QAbstractItemModel>
+#include <QtCore/QString>
+
 class btEditorNode;
 class btBrain;
 

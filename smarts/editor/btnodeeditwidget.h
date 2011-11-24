@@ -21,24 +21,21 @@
 #ifndef GLUON_SMARTS_BTNODEEDITWIDGET_H
 #define GLUON_SMARTS_BTNODEEDITWIDGET_H
 
-#include <QWidget>
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QLineEdit>
-#include <QGridLayout>
-#include <QTableView>
-#include <QPushButton>
+#include <QtGui/QLabel>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QLineEdit>
+#include <QtGui/QGridLayout>
+#include <QtGui/QTableView>
+#include <QtGui/QPushButton>
 
 class btnodemodel;
 class btNodeTypesModelNode;
 class btQListDeletgate;
 class btTreeModel;
 
-
 class btNodeEditWidget : public QWidget
 {
         Q_OBJECT
-
 
     public:
         btNodeEditWidget( QWidget* parent );

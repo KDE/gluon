@@ -23,7 +23,6 @@
 
 #include <QtGui/QTreeView>
 
-
 class btTreeEditor: public QTreeView
 {
     public:

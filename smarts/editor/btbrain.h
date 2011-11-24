@@ -21,7 +21,7 @@
 #ifndef GLUON_SMARTS_BTBRAIN_H
 #define GLUON_SMARTS_BTBRAIN_H
 
-#include <QObject>
+#include <QtCore/QObject>
 
 class btEditorNodeType;
 class btTreeModel;

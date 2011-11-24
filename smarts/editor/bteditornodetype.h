@@ -21,8 +21,6 @@
 #ifndef GLUON_SMARTS_BTEDITORNODETYPE_H
 #define GLUON_SMARTS_BTEDITORNODETYPE_H
 
-#include <QObject>
-
 #include "../common/btnodetype.h"
 
 class QXmlStreamWriter;

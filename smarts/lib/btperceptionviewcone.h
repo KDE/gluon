@@ -20,7 +20,8 @@
 
 #ifndef GLUON_SMARTS_BTPERCEPTIONVIEWCONE_H
 #define GLUON_SMARTS_BTPERCEPTIONVIEWCONE_H
-#include <qglobal.h>
+
+#include <QtCore/QtGlobal>
 
 struct btPerceptionViewcone
 {
