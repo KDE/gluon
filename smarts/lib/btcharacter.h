@@ -21,8 +21,9 @@
 #ifndef GLUON_SMARTS_BTCHARACTER_H
 #define GLUON_SMARTS_BTCHARACTER_H
 
-#include "btlib.h"
 #include "btlib_export.h"
+
+#include "btlib.h"
 #include "btperception.h"
 
 #include <QtCore/QStack>

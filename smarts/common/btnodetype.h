@@ -22,11 +22,11 @@
 #define GLUON_SMARTS_BTNODETYPE_H
 
 #include "../lib/btlib_export.h"
+
+#include <QtCore/QMetaProperty>
+
 #include "btnode.h"
 #include "btcharacter.h"
-
-#include <QtCore/QMetaObject>
-#include <QtCore/QMetaProperty>
 
 class GLUON_SMARTS_EXPORT btNodeType : public QObject
 {

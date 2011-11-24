@@ -39,6 +39,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QFile>
+#include <QtGui/QMenu>
 
 bteditor::bteditor(QWidget *parent) : KParts::MainWindow()
 {

@@ -23,8 +23,6 @@
 
 #include "btlib.h"
 
-#include <QtCore/QStack>
-#include <QtCore/QQueue>
 #include <QtCore/QHash>
 
 class btParallelNode : public btNode

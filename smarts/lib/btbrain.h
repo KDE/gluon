@@ -22,11 +22,11 @@
 #define GLUON_SMARTS_BTBRAIN_H
 
 #include "btlib_export.h"
+
 #include "btperceptioninfo.h"
 
 #include <QtCore/QList>
 #include <QtCore/QHash>
-#include <QtXml/QDomDocument>
 #include <QtXml/QDomNode>
 
 class btNode;

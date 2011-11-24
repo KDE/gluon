@@ -21,8 +21,6 @@
 #ifndef GLUON_SMARTS_BTEDITORNODE_H
 #define GLUON_SMARTS_BTEDITORNODE_H
 
-#include <QObject>
-
 #include "../common/btnode.h"
 
 class btTreeModel;

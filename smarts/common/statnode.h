@@ -34,6 +34,7 @@ struct GLUON_SMARTS_EXPORT StatNode
         wp = 0.5;
         visited = false;
     }
+
     float p;
     float wp;
     int succes;

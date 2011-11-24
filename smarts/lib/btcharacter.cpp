@@ -24,6 +24,7 @@
 #include <QtCore/QXmlStreamWriter>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
+
 #include <sys/stat.h>
 
 btCharacter::btCharacter(QObject* parent)

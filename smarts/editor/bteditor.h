@@ -26,7 +26,7 @@
 
 #include <kparts/mainwindow.h>
 
-#include <QtGui/QMenu>
+class Menu;
 
 class btNode;
 class btNodeTypesModel;

@@ -21,10 +21,11 @@
 #ifndef BTSELECTORNODE_H
 #define BTSELECTORNODE_H
 
+#include "btlib_export.h"
+
 #include "btnode.h"
 #include "btfactory.h"
 #include "btcharacter.h"
-#include "btlib_export.h"
 
 class GLUON_SMARTS_EXPORT btSelectorNode : public btNode
 {
