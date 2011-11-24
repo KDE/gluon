@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef _BTCONDITIONNODE_H_
-#define _BTCONDITIONNODE_H_
+#ifndef GLUON_SMARTS_BTCONDITIONNODE_H
+#define GLUON_SMARTS_BTCONDITIONNODE_H
 
 #include "bteditornodetype.h"
 
@@ -34,4 +34,4 @@ class btConditionNode : public btEditorNodeType
         bool run( btCharacter* character );
 };
 
-#endif
+#endif // GLUON_SMARTS_BTCONDITIONNODE_H

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTQLISTDELEGATE_H
-#define BTQLISTDELEGATE_H
+#ifndef GLUON_SMARTS_BTQLISTDELEGATE_H
+#define GLUON_SMARTS_BTQLISTDELEGATE_H
 
 #include <QItemDelegate>
 #include <QModelIndex>
@@ -41,4 +41,4 @@ class btQListDeletgate : public QItemDelegate
         void updateEditorGeometry( QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& index ) const;
 };
 
-#endif
+#endif // GLUON_SMARTS_BTQLISTDELEGATE_H

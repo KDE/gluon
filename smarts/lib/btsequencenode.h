@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTSEQUENCENODE_H
-#define BTSEQUENCENODE_H
+#ifndef GLUON_SMARTS_BTSEQUENCENODE_H
+#define GLUON_SMRATS_BTSEQUENCENODE_H
 
 #include <QObject>
 
@@ -38,4 +38,4 @@ class BT_LIB_EXPORT btSequenceNode : public btNode
         status run( btCharacter* self );
 };
 
-#endif
+#endif // GLUON_SMARTS_BTSEQUENCENODE_H

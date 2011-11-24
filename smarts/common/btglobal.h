@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTGLOBAL_H
-#define BTGLOBAL_H
+#ifndef GLUON_SMARTS_BTGLOBAL_H
+#define GLUON_SMARTS_BTGLOBAL_H
 
 #include <QVariant>
 #include "../lib/btlib_export.h"
@@ -36,4 +36,4 @@ struct BT_LIB_EXPORT btParallelConditions
 
 Q_DECLARE_METATYPE( btChildWeights )
 Q_DECLARE_METATYPE( btParallelConditions )
-#endif
+#endif // GLUON_SMARTS_BTGLOBAL_H

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTPROBSELECTORNODE_H
-#define BTPROBSELECTORNODE_H
+#ifndef GLUON_SMARTS_BTPROBSELECTORNODE_H
+#define GLUON_SMARTS_BTPROBSELECTORNODE_H
 
 #include <QObject>
 
@@ -47,4 +47,4 @@ class BT_LIB_EXPORT btProbSelectorNode : public btNode
         QList<ProbNode*> m_visitedProbStats;
 };
 
-#endif //BTPROBSELECTORNODE_H
+#endif // GLUON_SMARTS_BTPROBSELECTORNODE_H

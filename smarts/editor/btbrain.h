@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTBRAIN_H
-#define BTBRAIN_H
+#ifndef GLUON_SMARTS_BTBRAIN_H
+#define GLUON_SMARTS_BTBRAIN_H
 
 #include <QObject>
 
@@ -58,4 +58,4 @@ class btBrain : public QObject
         QString m_name;
 };
 
-#endif // BTBRAIN_H
+#endif // GLUON_SMARTS_BTBRAIN_H

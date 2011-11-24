@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTPARALLELCONDITIONSWIDGET_H
-#define BTPARALLELCONDITIONSWIDGET_H
+#ifndef GLUON_SMARTS_BTPARALLELCONDITIONSWIDGET_H
+#define GLUON_SMARTS_BTPARALLELCONDITIONSWIDGET_H
 
 #include <QWidget>
 #include <QObject>
@@ -39,4 +39,4 @@ class btParallelConditionsWidget : public QWidget
         QVBoxLayout* parallelConditionsLayout;
 };
 
-#endif
+#endif // GLUON_SMARTS_BTPARALLELCONDITIONSWIDGET_H

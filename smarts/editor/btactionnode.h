@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef _BTACTIONNODE_H_
-#define _BTACTIONNODE_H_
+#ifndef GLUON_SMARTS_BTACTIONNODE_H
+#define GLUON_SMARTS_BTACTIONNODE_H
 
 #include "bteditornodetype.h"
 
@@ -34,4 +34,4 @@ class btActionNode : public btEditorNodeType
         bool run( btCharacter* character );
 };
 
-#endif
+#endif // GLUON_SMARTS_BTACTIONNODE_H

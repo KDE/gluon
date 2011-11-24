@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef STATNODE_H
-#define STATNODE_H
+#ifndef GLUON_SMARTS_STATNODE_H
+#define GLUON_SMARTS_STATNODE_H
 
 #include "../lib/btlib_export.h"
 
@@ -43,4 +43,4 @@ struct BT_LIB_EXPORT StatNode
     bool visited;
 };
 
-#endif // STATNODE_H
+#endif // GLUON_SMARTS_STATNODE_H

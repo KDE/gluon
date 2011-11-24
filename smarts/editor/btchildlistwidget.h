@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTCHILDLISTWIDGET_H
-#define BTCHILDLISTWIDGET_H
+#ifndef GLUON_SMARTS_BTCHILDLISTWIDGET_H
+#define GLUON_SMARTS_BTCHILDLISTWIDGET_H
 
 #include <QWidget>
 #include <QObject>
@@ -39,4 +39,4 @@ class btChildListWidget : public QWidget
         QVBoxLayout*        childLayout;
 };
 
-#endif
+#endif // GLUON_SMARTS_BTCHILDLISTWIDGET_H

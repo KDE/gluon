@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTQVARIANTLISTWIDGET_H
-#define BTQVARIANTLISTWIDGET_H
+#ifndef GLUON_SMARTS_BTQVARIANTLISTWIDGET_H
+#define GLUON_SMARTS_BTQVARIANTLISTWIDGET_H
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -56,4 +56,4 @@ class btQVariantListWidget : public QWidget
         QPushButton*        addButton;
 };
 
-#endif // TREESELECTORDIALOG_H
+#endif // GLUON_SMARTS_BTQVARIANTLISTWIDGET_H

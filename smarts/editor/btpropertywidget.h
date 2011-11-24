@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTPROPERTYWIDGET_H
-#define BTPROPERTYWIDGET_H
+#ifndef GLUON_SMARTS_BTPROPERTYWIDGET_H
+#define GLUON_SMARTS_BTPROPERTYWIDGET_H
 
 #include <QtGui/QWidget>
 #include <QtCore/QVariant>
@@ -63,4 +63,4 @@ class btPropertyWidget : public QWidget
         QString getPropertyDescription( QObject* object, QString propertyName );
 };
 
-#endif // BTPROPERTYWIDGET_H
+#endif // GLUON_SMARTS_BTPROPERTYWIDGET_H

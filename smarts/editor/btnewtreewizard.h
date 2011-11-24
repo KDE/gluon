@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTNEWTREEWIZARD_H
-#define BTNEWTREEWIZARD_H
+#ifndef GLUON_SMARTS_BTNEWTREEWIZARD_H
+#define GLUON_SMARTS_BTNEWTREEWIZARD_H
 
 #include <QWizard>
 
@@ -79,4 +79,4 @@ class NodeTypePage : public QWizardPage
 
 
 
-#endif // BTNEWTREEWIZARD_H
+#endif // GLUON_SMARTS_BTNEWTREEWIZARD_H

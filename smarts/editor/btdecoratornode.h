@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef _BTDECORATORNODE_H_
-#define _BTDECORATORNODE_H_
+#ifndef GLUON_SMARTS_BTDECORATORNODE_H
+#define GLUON_SMARTS_BTDECORATORNODE_H
 
 #include "bteditornodetype.h"
 
@@ -38,4 +38,4 @@ class btDecoratorNode : public btEditorNodeType
         void toDataXml( QXmlStreamWriter* xmlWriter );
 };
 
-#endif
+#endif // GLUON_SMARTS_BTDECORATIONNODE_H

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef _BTREFERENCENODE_H_
-#define _BTREFERENCENODE_H_
+#ifndef GLUON_SMARTS_BTREFERENCENODE_H
+#define GLUON_SMARTS_BTREFERENCENODE_H
 
 #include "bteditornodetype.h"
 #include "bttreemodel.h"
@@ -41,4 +41,4 @@ class btReferenceNode : public btEditorNodeType
         btTreeModel* m_reference;
 };
 
-#endif
+#endif // GLUON_SMARTS_BTREFERENCENODE_H

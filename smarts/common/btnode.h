@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTNODE_H
-#define BTNODE_H
+#ifndef GLUON_SMARTS_BTNODE_H
+#define GLUON_SMARTS_BTNODE_H
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
@@ -86,4 +86,4 @@ class BT_LIB_EXPORT btNode : public QObject
         bool run( btCharacter* self );
 };
 
-#endif // BTNODE_H
+#endif // GLUON_SMARTS_BTNODE_H

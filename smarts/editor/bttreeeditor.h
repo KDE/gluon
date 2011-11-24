@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTTREEEDITOR_H
-#define BTTREEEDITOR_H
+#ifndef GLUON_SMARTS_BTTREEEDITOR_H
+#define GLUON_SMARTS_BTTREEEDITOR_H
 
 #include <QtGui/QTreeView>
 
@@ -30,4 +30,4 @@ class btTreeEditor: public QTreeView
         btTreeEditor( QWidget* parent = 0 );
 };
 
-#endif // BTTREEEDITOR_H
+#endif // GLUON_SMARTS_BTTREEEDITOR_H

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTPERCEPTIONVIEWCONE_H
-#define BTPERCEPTIONVIEWCONE_H
+#ifndef GLUON_SMARTS_BTPERCEPTIONVIEWCONE_H
+#define GLUON_SMARTS_BTPERCEPTIONVIEWCONE_H
 #include <qglobal.h>
 
 struct btPerceptionViewcone
@@ -68,4 +68,4 @@ struct btPerceptionViewcone
 
 };
 
-#endif // BTPERCEPTIONVIEWCONE_H
+#endif // GLUON_SMARTS_BTPERCEPTIONVIEWCONE_H

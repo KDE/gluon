@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTLIB_H
-#define BTLIB_H
+#ifndef GLUON_SMARTS_BTLIB_H
+#define GLUON_SMARTS_BTLIB_H
 
 #include "btbrain.h"
 #include "btfactory.h"
@@ -30,4 +30,4 @@
 #include "btprobselectornode.h"
 #include "btparallelnode.h"
 
-#endif //BTLIB_H
+#endif // GLUON_SMARTS_BTLIB_H

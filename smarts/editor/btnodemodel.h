@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTNODEMODEL_H
-#define BTNODEMODEL_H
+#ifndef GLUON_SMARTS_BTNODEMODEL_H
+#define GLUON_SMARTS_BTNODEMODEL_H
 
 #include <QAbstractTableModel>
 #include <QVariant>
@@ -62,4 +62,4 @@ class btnodemodel : public QAbstractTableModel
         btEditorNodeType*      node;
 };
 
-#endif // BTNODEMODEL_H
+#endif // GLUON_SMARTS_BTNODEMODEL_H

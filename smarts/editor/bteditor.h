@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef bteditor_H
-#define bteditor_H
+#ifndef GLUON_SMARTS_BTEDITOR_H
+#define GLUON_SMARTS_BTEDITOR_H
 
 #include <QtGui/QMainWindow>
 #include <QMenu>
@@ -90,4 +90,4 @@ class bteditor : public KParts::MainWindow, private Ui::BtEditor
         void on_actionOpen_triggered();
 };
 
-#endif // bteditor_H
+#endif // GLUON_SMARTS_BTEDITOR_H

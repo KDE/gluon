@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTPERCEPTION_H
-#define BTPERCEPTION_H
+#ifndef GLUON_SMARTS_BTPERCEPTION_H
+#define GLUON_SMARTS_BTPERCEPTION_H
 
 #include <QtCore/QObject>
 #include <QVector3D>
@@ -74,4 +74,4 @@ class btPerception : public QObject
         btPerceptionPrivate* d;
 };
 
-#endif // BTPERCEPTION_H
+#endif // GLUON_SMARTS_BTPERCEPTION_H

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef _BTEDITORNODE_H_
-#define _BTEDITORNODE_H_
+#ifndef GLUON_SMARTS_BTEDITORNODE_H
+#define GLUON_SMARTS_BTEDITORNODE_H
 
 #include <QObject>
 
@@ -57,4 +57,4 @@ class btEditorNode : public btNode
         QList<btNodeType*> m_decorators;
 };
 
-#endif
+#endif // GLUON_SMARTS_BTEDITORNODE_H

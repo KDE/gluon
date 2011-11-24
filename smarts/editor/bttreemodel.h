@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTTREEMODEL_H
-#define BTTREEMODEL_H
+#ifndef GLUON_SMARTS_BTTREEMODEL_H
+#define GLUON_SMARTS_BTTREEMODEL_H
 
 #include <QObject>
 #include <QAbstractItemModel>
@@ -81,4 +81,4 @@ class btTreeModel : public QAbstractItemModel
         btBrain* brain;
 };
 
-#endif // BTTREEMODEL_H
+#endif // GLUON_SMARTS_BTTREEMODE_H

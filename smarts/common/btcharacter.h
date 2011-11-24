@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef _BTCHARACTER_H_
-#define _BTCHARACTER_H_
+#ifndef GLUON_SMARTS_BTCHARACTER_H
+#define GLUON_SMARTS_BTCHARACTER_H
 
 #include "../lib/btlib_export.h"
 #include <QDebug>
@@ -41,4 +41,4 @@ class BT_LIB_EXPORT btCharacter : public QObject
         bool think;
 };
 
-#endif // _BTCHARACTER_H_
+#endif // GLUON_SMARTS_BTCHARACTER_H

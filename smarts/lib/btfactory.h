@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTFACTORY_H
-#define BTFACTORY_H
+#ifndef GLUON_SMARTS_BTFACTORY_H
+#define GLUON_SMARTS_BTFACTORY_H
 
 #include <QObject>
 #include <QHash>
@@ -70,4 +70,4 @@ class BT_LIB_EXPORT Registration
 #define REGISTER_NODETYPE(NEWNODE) \
     Registration<NEWNODE> NEWNODE ## _registration_(new NEWNODE());
 
-#endif // BTABSTRACTFACTORY_H
+#endif // GLUON_SMARTS_BTFACTORY_H

@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTAVAILABLENODESTREEVIEW_H
-#define BTAVAILABLENODESTREEVIEW_H
+#ifndef GLUON_SMARTS_BTAVAILABLENODESTREEVIEW_H
+#define GLUON_SMARTS_BTAVAILABLENODESTREEVIEW_H
 
 #include <QTreeView>
 
@@ -30,4 +30,4 @@ class btAvailableNodesTreeView : public QTreeView
         btAvailableNodesTreeView( QWidget* parent = 0 );
 };
 
-#endif // BTAVAILABLENODESTREEVIEW_H
+#endif // GLUON_SMARTS_BTAVAILABLENODESTREEVIEW_H

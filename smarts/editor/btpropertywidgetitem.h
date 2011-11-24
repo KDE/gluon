@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTPROPERTYWIDGETITEM_H
-#define BTPROPERTYWIDGETITEM_H
+#ifndef GLUON_SMARTS_BTPROPERTYWIDGETITEM_H
+#define GLUON_SMARTS_BTPROPERTYWIDGETITEM_H
 
 #include <QtGui/QWidget>
 #include <QtGui/QListWidgetItem>
@@ -72,4 +72,4 @@ class btPropertyWidgetItem : public QWidget
         const QString getPropertyType( QString propertyName );
 };
 
-#endif // BTPROPERTYWIDGETITEM_H
+#endif // GLUON_SMARTS_BTPROPERTYWIDGETITEM_H

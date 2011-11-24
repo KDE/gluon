@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BTPARALLELNODE_H
-#define BTPARALLELNODE_H
+#ifndef GLUON_SMARTS_BTPARALLELNODE_H
+#define GLUON_SMARTS_BTPARALLELNODE_H
 
 #include "btlib.h"
 
@@ -55,4 +55,4 @@ class btParallelNode : public btNode
 };
 
 
-#endif // BTPARALLELNODE_H
+#endif // GLUON_SMARTS_BTPARALLELNODE_H
