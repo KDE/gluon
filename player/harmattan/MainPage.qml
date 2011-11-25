@@ -18,43 +18,33 @@
  */
 
 import QtQuick 1.1
-import com.nokia.meego 1.0
+import com.nokia.meego 1.1
+import com.nokia.extras 1.1
 
 Page {
 
     property bool moreGames: false;
 
-    color: "black";
     anchors.fill: parent;
 
-    Component {
+    ListDelegate {
         id: gameItemsDelegate;
-        Button {
-            id: gameItem;
-            width: ListView.view.width;
-            icon: "icons/hi32-app-gluon.png";
-            text: qsTr(projectName);
-            subtext: qsTr(projectDescription);
-
-            onClicked: {
-                detailsPage.propagate(projectName, projectDescription, screenshotUrls, status, index);
-            }
+        Image {
+            source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "");
+            anchors.right: parent.right;
+            anchors.verticalCenter: parent.verticalCenter;
         }
+        onClicked: {  }
     }
 
-    Component {
+    ListDelegate {
         id: gameItemsDelegateMoreGames;
-        Button {
-            id: gameItemMoreGames;
-            width: ListView.view.width;
-            icon: "icons/hi32-app-gluon.png";
-            text: qsTr(projectNameDownloadable);
-            subtext: qsTr(projectDescriptionDownloadable);
-
-            onClicked: {
-                detailsPage.propagate(projectNameDownloadable, projectDescriptionDownloadable, screenshotUrlsDownloadable, statusDownloadable, index);
-            }
+        Image {
+            source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "");
+            anchors.right: parent.right;
+            anchors.verticalCenter: parent.verticalCenter;
         }
+        onClicked: {  }
     }
 
     ListView {
@@ -67,14 +57,13 @@ Page {
 
         header:
             Rectangle {
-                color: homePage.color;
                 width: ListView.view.width;
                 height: listViewHeaderButton.height + 5;
                 Button {
                     id: listViewHeaderButton;
-                    icon: "icons/get-hot-new-stuff.png";
+                    iconSource: "icons/get-hot-new-stuff.png";
                     text: qsTr("Get More Games");
-                    subtext: gameItemsModel.downloadableCount + qsTr(" new games, ") + gameItemsModel.upgradableCount + qsTr(" updated");
+                    // subtext: gameItemsModel.downloadableCount + qsTr(" new games, ") + gameItemsModel.upgradableCount + qsTr(" updated");
 
                     onClicked: {
                         if (!mainview.loggedIn) {
@@ -95,6 +84,6 @@ Page {
             }
     }
     ScrollDecorator {
-        flickableItem: listView
+        flickableItem: gameItemsListView
     }
 }
