@@ -27,24 +27,78 @@ Page {
 
     anchors.fill: parent;
 
-    ListDelegate {
+    Component {
         id: gameItemsDelegate;
-        Image {
-            source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "");
-            anchors.right: parent.right;
-            anchors.verticalCenter: parent.verticalCenter;
-        }
-        onClicked: {  }
-    }
 
-    ListDelegate {
-        id: gameItemsDelegateMoreGames;
-        Image {
-            source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "");
-            anchors.right: parent.right;
-            anchors.verticalCenter: parent.verticalCenter;
+        Item {
+            BorderImage {
+                id: background;
+                // Fill page porders
+                anchors {
+                    fill: parent;
+                    leftMargin: -16;
+                    rightMargin: -16;
+                }
+
+                visible: mouseArea.pressed;
+                source: theme.inverted ? "image://theme/meegotouch-panel-inverted-background-pressed" : "image://theme/meegotouch-panel-background-pressed";
+            }
+
+            Row {
+                anchors.fill: parent;
+                spacing: 16;
+
+                Image {
+                    anchors.verticalCenter: parent.verticalCenter;
+                    visible: true;
+                    width: 32;
+                    height: 32;
+                    source: "icons/hi32-app-gluon.png";
+                }
+
+                Column {
+                    anchors.verticalCenter: parent.verticalCenter;
+
+                    Label {
+                        id: mainText
+                        text: qsTr(projectName);
+                        font.family: "Nokia Pure Text";
+                        font.weight: Font.Bold;
+                        font.pixelSize: 26;
+                        color: mouseArea.pressed ? "#797979" : "#ffffff";
+                    }
+
+                    Label {
+                        id: subText
+                        text: qsTr(projectDescription);
+                        font.family: "Nokia Pure Text Light";
+                        font.weight: Font.Normal;
+                        font.pixelSize: 22;
+                        color: mouseArea.pressed ? "#797979" : "#C8C8C8";
+
+                        visible: text != "";
+                    }
+                }
+            }
+
+            MouseArea {
+                id: mouseArea;
+                anchors.fill: parent;
+                onClicked: {
+                    gameItemsDelegate.clicked();
+                }
+            }
+
+            Image {
+                source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "");
+                anchors {
+                    right: parent.right;
+                    verticalCenter: parent.verticalCenter;
+                }
+            }
+
+            // onClicked: {  }
         }
-        onClicked: {  }
     }
 
     ListView {
