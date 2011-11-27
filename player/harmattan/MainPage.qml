@@ -22,8 +22,8 @@ import com.nokia.meego 1.1
 import com.nokia.extras 1.1
 
 Page {
-
-    property bool moreGames: false;
+    id: mainPage;
+    anchors.margins: 40;
 
     Component {
         id: gameItemsDelegate;
@@ -41,6 +41,7 @@ Page {
 
         anchors.fill: parent;
         model: gameItemsModel;
+
         delegate: gameItemsDelegate;
         spacing: 5;
 

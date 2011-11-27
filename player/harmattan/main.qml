@@ -21,8 +21,8 @@ import QtQuick 1.1
 import com.nokia.meego 1.1
 
 PageStackWindow {
-    id: rootWindow
-    property int pageMargin: 16
+    id: rootWindow;
+    property int pageMargin: 40;
 
     // MainPage is what we see when the app starts, it shows up
     // the available games on the mobile handset
@@ -31,8 +31,8 @@ PageStackWindow {
     // These tools are shared by most sub-pages by assigning the
     // id to a page's tools property
     ToolBarLayout {
-        id: commonTools
-        visible: false
+        id: commonTools;
+        visible: false;
         ToolIcon {
             iconId: "toolbar-back";
             onClicked: { myMenu.close(); pageStack.pop(); }

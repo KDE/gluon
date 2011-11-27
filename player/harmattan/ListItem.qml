@@ -83,20 +83,20 @@ Rectangle {
         }
     }
 
-    MouseArea {
-        id: mouseArea;
-        anchors.fill: parent;
-        onClicked: {
-            gameItemsDelegate.clicked();
-        }
-    }
-
     Image {
         visible: drillDownArrow;
         source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "");
         anchors {
             right: parent.right;
             verticalCenter: parent.verticalCenter;
+        }
+    }
+
+    MouseArea {
+        id: mouseArea;
+        anchors.fill: background;
+        onClicked: {
+            // gameItemsDelegate.clicked();
         }
     }
 }
