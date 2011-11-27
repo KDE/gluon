@@ -76,6 +76,7 @@ if(NOT APPLE)
             COMPONENT gluonplayerharmattan)
 
     if(NOT PLAYER_ICONS_INSTALLED)
+        add_subdirectory(../icons icons)
         set(PLAYER_ICONS_INSTALLED TRUE)
     endif()
 endif()
