@@ -25,7 +25,6 @@ import com.nokia.extras 1.1
 Page {
 
     id: gameDetailsPage;
-    color: "black";
     anchors.fill: parent;
 
     property int gameIndex;
@@ -54,7 +53,7 @@ Page {
         anchors.fill: parent;
         model: GameDetailsModel {}
 
-        delegate: ListDelegate {
+        delegate: ListItem {
             iconSource: iconPath;
             titleText: text;
             subtitleText: subtext;

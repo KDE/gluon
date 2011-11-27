@@ -24,6 +24,14 @@ import com.nokia.extras 1.1
 Page {
     id: mainPage;
 
+    function pushPage(file) {
+        var component = Qt.createComponent(file)
+        if (component.status == Component.Ready)
+            pageStack.push(component);
+        else
+            console.log("Error loading component:", component.errorString());
+    }
+
     Component {
         id: gameItemsDelegate;
 
@@ -32,6 +40,14 @@ Page {
             titleText: qsTr(projectName);
             subtitleText: qsTr(projectDescription);
             drillDownArrow: true;
+
+            MouseArea {
+                id: listItemMuseArea;
+                anchors.fill: parent;
+                onClicked: {
+                    pageStack.push("/opt/gluon/qml/GameDetailsPage.qml");
+               }
+            }
         }
     }
 
@@ -44,12 +60,20 @@ Page {
         delegate: gameItemsDelegate;
 
         header:
-            ListItem {
-                iconSource: "icons/get-hot-new-stuff.png";
-                titleText: qsTr("Get More Games");
-                subtitleText: gameItemsModel.downloadableCount + qsTr(" new games, ") + gameItemsModel.upgradableCount + qsTr(" updated");
-                drillDownArrow: true;
-            }
+                ListItem {
+                    iconSource: "icons/get-hot-new-stuff.png";
+                    titleText: qsTr("Get More Games");
+                    subtitleText: gameItemsModel.downloadableCount + qsTr(" new games, ") + gameItemsModel.upgradableCount + qsTr(" updated");
+                    drillDownArrow: true;
+
+                    MouseArea {
+                        id: headerMouseArea;
+                        anchors.fill: parent;
+                        onClicked: {
+                          // gameItemsDelegate.clicked();
+                        }
+                    }
+                }
     }
 
     ScrollDecorator {
