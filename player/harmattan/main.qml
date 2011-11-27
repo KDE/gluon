@@ -42,4 +42,9 @@ PageStackWindow {
             onClicked: (myMenu.status == DialogStatus.Closed) ? myMenu.open() : myMenu.close()
         }
     }
+
+    Component.onCompleted: {
+        // Use the dark theme.
+        theme.inverted = true;
+    }
 }
