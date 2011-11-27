@@ -41,7 +41,6 @@ namespace GluonHarmattanPlayer
             explicit GameWindowManager( const QString& fileName = "" );
             virtual ~GameWindowManager();
 
-            bool isViewportGLWidget();
             Q_INVOKABLE void setProject( int index );
             Q_INVOKABLE int availableGamesCount( ) const;
             Q_INVOKABLE void buildCommentsModel( int index );

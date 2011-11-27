@@ -25,8 +25,6 @@ Page {
 
     property bool moreGames: false;
 
-    anchors.fill: parent;
-
     Component {
         id: gameItemsDelegate;
 

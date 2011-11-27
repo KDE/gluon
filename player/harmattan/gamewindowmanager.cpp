@@ -117,11 +117,6 @@ GameWindowManager::~GameWindowManager( )
     delete d;
 }
 
-bool GameWindowManager::isViewportGLWidget( )
-{
-    return qobject_cast<QGLWidget*>( d->declarativeView );
-}
-
 void GameWindowManager::startGame( )
 {
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
