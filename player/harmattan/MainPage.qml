@@ -23,7 +23,6 @@ import com.nokia.extras 1.1
 
 Page {
     id: mainPage;
-    anchors.margins: 40;
 
     Component {
         id: gameItemsDelegate;
@@ -43,7 +42,6 @@ Page {
         model: gameItemsModel;
 
         delegate: gameItemsDelegate;
-        spacing: 5;
 
         header:
             ListItem {

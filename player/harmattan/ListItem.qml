@@ -31,7 +31,10 @@ Rectangle {
 
     property bool drillDownArrow: false;
 
+    height: 64;
     width: parent.width;
+
+    color: "black";
 
     BorderImage {
         id: background;
@@ -81,6 +84,7 @@ Rectangle {
                 visible: text != "";
             }
         }
+
     }
 
     Image {
