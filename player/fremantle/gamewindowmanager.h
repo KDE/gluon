@@ -46,15 +46,6 @@ namespace GluonQMLPlayer
             Q_INVOKABLE int availableGamesCount( ) const;
             Q_INVOKABLE void buildCommentsModel( int index );
 
-            GluonPlayer::AchievementsModel* achievementsModel() const;
-            void setAchievementsModel( GluonPlayer::AchievementsModel* achievementsModel );
-
-            GluonPlayer::GameItemsModel* gameItemsModel() const;
-            void setGameItemsModel( GluonPlayer::GameItemsModel* gameItemsModel );
-
-            GluonPlayer::CommentItemsModel* commentItemsModel() const;
-            void setCommentItemsModel( GluonPlayer::CommentItemsModel* commentItemsModel );
-
             void show();
 
         public slots:

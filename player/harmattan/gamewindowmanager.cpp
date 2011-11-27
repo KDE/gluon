@@ -216,36 +216,6 @@ void GameWindowManager::countFrames( int /* time */ )
     d->frameCount++;
 }
 
-GluonPlayer::AchievementsModel* GameWindowManager::achievementsModel() const
-{
-    return d->achievementsModel;
-}
-
-void GameWindowManager::setAchievementsModel( GluonPlayer::AchievementsModel* achievementsModel )
-{
-    d->achievementsModel = achievementsModel;
-}
-
-GluonPlayer::GameItemsModel* GameWindowManager::gameItemsModel() const
-{
-    return d->gameItemsModel;
-}
-
-void GameWindowManager::setGameItemsModel( GluonPlayer::GameItemsModel* gameItemsModel )
-{
-    d->gameItemsModel = gameItemsModel;
-}
-
-GluonPlayer::CommentItemsModel* GameWindowManager::commentItemsModel() const
-{
-    return d->commentItemsModel;
-}
-
-void GameWindowManager::setCommentItemsModel( GluonPlayer::CommentItemsModel* commentItemsModel )
-{
-    d->commentItemsModel = commentItemsModel;
-}
-
 void GameWindowManager::show()
 {
     d->stackedWidget->show();
