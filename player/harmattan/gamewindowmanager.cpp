@@ -218,7 +218,7 @@ void GameWindowManager::countFrames( int /* time */ )
 
 void GameWindowManager::show()
 {
-    d->stackedWidget->show();
+    d->stackedWidget->showFullScreen();
 }
 
 #include "gamewindowmanager.moc"

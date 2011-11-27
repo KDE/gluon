@@ -32,7 +32,7 @@ PageStackWindow {
     // id to a page's tools property
     ToolBarLayout {
         id: commonTools
-        visible: false
+        visible: true
         ToolIcon {
             iconId: "toolbar-back";
             onClicked: { myMenu.close(); pageStack.pop(); }

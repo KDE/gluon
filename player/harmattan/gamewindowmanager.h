@@ -61,7 +61,6 @@ namespace GluonHarmattanPlayer
             void updateTitle( int msec );
 
         private:
-
             class GameWindowManagerPrivate;
             GameWindowManagerPrivate* d;
 
