@@ -47,7 +47,6 @@ using namespace GluonKDEPlayer;
 
 CommentItemsViewDelegate::CommentItemsViewDelegate( QAbstractItemView* itemView, QObject* parent )
     : KWidgetItemDelegate( itemView, parent )
-    , m_preview( new KIcon( "gluon_creator" ) )
 {
 }
 

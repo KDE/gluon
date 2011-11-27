@@ -64,7 +64,6 @@ namespace GluonKDEPlayer
             void selectGameClicked();
 
         protected:
-            KIcon* m_preview;
             QSize m_buttonSize;
     };
 }

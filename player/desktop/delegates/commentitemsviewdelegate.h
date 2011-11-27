@@ -62,7 +62,6 @@ namespace GluonKDEPlayer
             void slotReplyClicked();
 
         protected:
-            KIcon* m_preview;
             QSize m_buttonSize;
     };
 }
