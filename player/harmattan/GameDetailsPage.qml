@@ -27,6 +27,8 @@ Page {
     id: gameDetailsPage;
     anchors.fill: parent;
 
+    tools: commonTools
+
     property int gameIndex;
 
     function propagate(projectName, projectDescription, screenshotUrls, status, index) {
@@ -59,11 +61,5 @@ Page {
             subtitleText: subtext;
             drillDownArrow: true;
         }
-    }
-
-    ToolBarLayout {
-        id: tabTools
-
-        ToolIcon { iconId: "toolbar-back"; onClicked: { colorMenu.close(); pageStack.pop(); }  }
     }
 }
