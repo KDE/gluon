@@ -1,5 +1,5 @@
 { GluonCore::GluonObject(AnimatedSpriteMaterial)
-    vertexShader string(<<<
+    vertexShader string("
         uniform mat4 modelMatrix;
         uniform mat4 viewMatrix;
         uniform mat4 projectionMatrix;
@@ -17,9 +17,9 @@
             out_color = color;
             out_uv0 = uv0;
         }
-    <<<)
+    ")
 
-    fragmentShader string(<<<
+    fragmentShader string("
         uniform sampler2D texture0;
         uniform mediump vec4 materialColor;
 
@@ -35,9 +35,6 @@
             mediump vec4 color = out_color * materialColor * texColor;
             gl_FragColor = vec4(color.rgb, texColor.a * materialColor.a);
         }
-    <<<)
+    ")
 
-    texture0 int(0)
-    materialColor color(255;255;255;255)
-    frame vector4d(0;0;1;1)
 }
