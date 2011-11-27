@@ -1,4 +1,4 @@
-{ GluonCore::GluonObject(AnimatedSpriteMaterial)
+{ GluonCore::GluonObject("AnimatedSpriteMaterial")
     vertexShader string("
         uniform mat4 modelMatrix;
         uniform mat4 viewMatrix;

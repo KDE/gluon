@@ -1,4 +1,4 @@
-{ GluonCore::GluonObject(Material)
+{ GluonCore::GluonObject("Material")
     #Vertex shader source
     vertexShader string("
         uniform mat4 modelMatrix;
