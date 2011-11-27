@@ -56,8 +56,8 @@ Rectangle {
         Image {
             anchors.verticalCenter: parent.verticalCenter;
             visible: true;
-            width: 32;
-            height: 32;
+            width: 48;
+            height: 48;
             source: listItem.iconSource;
         }
 

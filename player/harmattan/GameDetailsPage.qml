@@ -29,26 +29,6 @@ Page {
 
     tools: commonTools
 
-    property int gameIndex;
-
-    function propagate(projectName, projectDescription, screenshotUrls, status, index) {
-        if (status == GameViewItem.Downloadable) {
-            play_game_btn.text = qsTr("Download " + projectName);
-            play_game_btn.icon = "icons/download.png";
-        } else if (status == GameViewItem.Installed) {
-            play_game_btn.text = qsTr("Play " + projectName);
-            play_game_btn.icon = "icons/media-playback-start.png";
-        } else if (status == GameViewItem.Upgradable) {
-            play_game_btn.text = qsTr("Upgrade " + projectName);
-            play_game_btn.icon = "system-software-update.png";
-        }
-
-        read_author_desc_btn.subtext = qsTr(projectDescription);
-        previewImages.model = screenshotUrls;
-        gameIndex = index;
-        mainview.statepoint = "details";
-    }
-
     ListView {
         id: gameItemsListView;
 

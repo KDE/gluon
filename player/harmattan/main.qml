@@ -26,7 +26,7 @@ PageStackWindow {
 
     // MainPage is what we see when the app starts, it shows up
     // the available games on the mobile handset
-    initialPage: MainPage { }
+    initialPage: MainPage { id: mainPage; }
 
     // These tools are shared by most sub-pages by assigning the
     // id to a page's tools property

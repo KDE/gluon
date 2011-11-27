@@ -28,14 +28,22 @@ ListModel {
 
     ListElement {
         iconPath: "icons/media-playback-start.png";
-        text: "Play the game";
+        text: "Play " + mainPage.selectedProjectName;
         subtext: "1697 others currently playing";
+
+        MouseArea {
+            id: playListItemMuseArea;
+            anchors.fill: parent;
+            onClicked: {
+               gameWindowManager.setProject(gameIndex);
+           }
+        }
     }
 
     ListElement {
         iconPath: "icons/dialog-information.png";
         text: "Read Author's Description";
-        subtext: "No description";
+        subtext: mainPage.selectedProjectDescription;
     }
 
     ListElement {

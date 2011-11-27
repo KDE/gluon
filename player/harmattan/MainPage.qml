@@ -24,6 +24,10 @@ import com.nokia.extras 1.1
 Page {
     id: mainPage;
 
+    property int selectedItem: 0;
+    property string selectedProjectName;
+    property string selectedProjectDescription;
+
     function pushPage(file) {
         var component = Qt.createComponent(file)
         if (component.status == Component.Ready)
@@ -45,6 +49,9 @@ Page {
                 id: listItemMuseArea;
                 anchors.fill: parent;
                 onClicked: {
+                    mainPage.selectedItem = index;
+                    mainPage.selectedProjectName = projectName;
+                    mainPage.selectedProjectDescription = projectDescription;
                     pageStack.push("/opt/gluon/qml/GameDetailsPage.qml");
                }
             }
