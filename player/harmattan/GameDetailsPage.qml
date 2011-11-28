@@ -33,13 +33,6 @@ Page {
         id: gameItemsListView;
 
         anchors.fill: parent;
-        model: GameDetailsModel {}
-
-        delegate: ListItem {
-            iconSource: iconPath;
-            titleText: text;
-            subtitleText: subtext;
-            drillDownArrow: true;
-        }
+        model: GameDetailsModel { }
     }
 }

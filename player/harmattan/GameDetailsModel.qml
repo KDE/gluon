@@ -19,60 +19,71 @@
 
 import QtQuick 1.1
 
-ListModel {
-    ListElement {
-        iconPath: "icons/hi32-app-gluon.png";
-        text: "Screenshots";
-        subtext: "Check out the screenshots";
+VisualItemModel {
+
+    id: gameDetailsModel
+
+    ListItem {
+        iconSource: "icons/hi32-app-gluon.png";
+        titleText: "Screenshots";
+        subtitleText: "Check out the screenshots";
+        drillDownArrow: true;
     }
 
-    ListElement {
-        iconPath: "icons/media-playback-start.png";
-        text: "Play " + mainPage.selectedProjectName;
-        subtext: "1697 others currently playing";
+    ListItem {
+        iconSource: "icons/media-playback-start.png";
+        titleText: "Play " + mainPage.selectedProjectName;
+        subtitleText: "1697 others currently playing";
+        drillDownArrow: true;
 
         MouseArea {
             id: playListItemMuseArea;
             anchors.fill: parent;
             onClicked: {
-               gameWindowManager.setProject(gameIndex);
-           }
+                gameWindowManager.setProject(main.Page.selectedItem);
+            }
         }
     }
 
-    ListElement {
-        iconPath: "icons/dialog-information.png";
-        text: "Read Author's Description";
-        subtext: mainPage.selectedProjectDescription;
+    ListItem {
+        iconSource: "icons/dialog-information.png";
+        titleText: "Read Author's Description";
+        subtitleText: mainPage.selectedProjectDescription;
+        drillDownArrow: true;
     }
 
-    ListElement {
-        iconPath: "icons/games-highscores.png";
-        text: "High Scores";
-        subtext: "Your global high-score: 258th";
+    ListItem {
+        iconSource: "icons/games-highscores.png";
+        titleText: "High Scores";
+        subtitleText: "Your global high-score: 258th";
+        drillDownArrow: true;
     }
 
-    ListElement {
-        iconPath: "icons/games-achievements.png";
-        text: "Achievements";
-        subtext: "You have 4 of 16";
+    ListItem {
+        iconSource: "icons/games-achievements.png";
+        titleText: "Achievements";
+        subtitleText: "You have 4 of 16";
+        drillDownArrow: true;
     }
 
-    ListElement {
-        iconPath: "icons/help-feedback.png";
-        text: "Rate & Comment";
-        subtext: "20984 ratings, 413 comments";
+    ListItem {
+        iconSource: "icons/help-feedback.png";
+        titleText: "Rate & Comment";
+        subtitleText: "20984 ratings, 413 comments";
+        drillDownArrow: true;
     }
 
-    ListElement {
-        iconPath: "icons/help-donate.png";
-        text: "Donate";
-        subtext: "€3 suggested";
+    ListItem {
+        iconSource: "icons/help-donate.png";
+        titleText: "Donate";
+        subtitleText: "€3 suggested";
+        drillDownArrow: true;
     }
 
-    ListElement {
-        iconPath: "icons/hi32-app-gluon.png";
-        text: "Comments";
-        subtext: "Check out the comments";
+    ListItem {
+        iconSource: "icons/hi32-app-gluon.png";
+        titleText: "Comments";
+        subtitleText: "Check out the comments";
+        drillDownArrow: true;
     }
 }
