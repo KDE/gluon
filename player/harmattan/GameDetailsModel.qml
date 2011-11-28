@@ -40,7 +40,7 @@ VisualItemModel {
             id: playListItemMuseArea;
             anchors.fill: parent;
             onClicked: {
-                gameWindowManager.setProject(main.Page.selectedItem);
+                gameWindowManager.setProject(mainPage.selectedItem);
             }
         }
     }
