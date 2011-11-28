@@ -28,6 +28,14 @@ VisualItemModel {
         titleText: "Screenshots";
         subtitleText: "Check out the screenshots";
         drillDownArrow: true;
+        mousePressed : screenshotListItemMouseArea.pressed;
+
+        MouseArea {
+            id: screenshotListItemMouseArea;
+            anchors.fill: parent;
+            onClicked: {
+            }
+        }
     }
 
     ListItem {
@@ -35,9 +43,10 @@ VisualItemModel {
         titleText: "Play " + mainPage.selectedProjectName;
         subtitleText: "1697 others currently playing";
         drillDownArrow: true;
+        mousePressed: playListItemMouseArea.pressed;
 
         MouseArea {
-            id: playListItemMuseArea;
+            id: playListItemMouseArea;
             anchors.fill: parent;
             onClicked: {
                 gameWindowManager.setProject(mainPage.selectedItem);
@@ -50,6 +59,14 @@ VisualItemModel {
         titleText: "Read Author's Description";
         subtitleText: mainPage.selectedProjectDescription;
         drillDownArrow: true;
+        mousePressed: descriptionListItemMouseArea.pressed;
+
+        MouseArea {
+            id: descriptionListItemMouseArea;
+            anchors.fill: parent;
+            onClicked: {
+            }
+        }
     }
 
     ListItem {
@@ -57,6 +74,14 @@ VisualItemModel {
         titleText: "High Scores";
         subtitleText: "Your global high-score: 258th";
         drillDownArrow: true;
+        mousePressed: highScoresListItemMouseArea.pressed;
+
+        MouseArea {
+            id: highScoresListItemMouseArea;
+            anchors.fill: parent;
+            onClicked: {
+            }
+        }
     }
 
     ListItem {
@@ -64,6 +89,14 @@ VisualItemModel {
         titleText: "Achievements";
         subtitleText: "You have 4 of 16";
         drillDownArrow: true;
+        mousePressed: achievementsScoresListItemMouseArea.pressed;
+
+        MouseArea {
+            id: achievementsScoresListItemMouseArea;
+            anchors.fill: parent;
+            onClicked: {
+            }
+        }
     }
 
     ListItem {
@@ -71,6 +104,14 @@ VisualItemModel {
         titleText: "Rate & Comment";
         subtitleText: "20984 ratings, 413 comments";
         drillDownArrow: true;
+        mousePressed: rateCommentScoresListItemMouseArea.pressed;
+
+        MouseArea {
+            id: rateCommentScoresListItemMouseArea;
+            anchors.fill: parent;
+            onClicked: {
+            }
+        }
     }
 
     ListItem {
@@ -78,6 +119,14 @@ VisualItemModel {
         titleText: "Donate";
         subtitleText: "€3 suggested";
         drillDownArrow: true;
+        mousePressed: donateScoresListItemMouseArea.pressed;
+
+        MouseArea {
+            id: donateScoresListItemMouseArea;
+            anchors.fill: parent;
+            onClicked: {
+            }
+        }
     }
 
     ListItem {
@@ -85,5 +134,14 @@ VisualItemModel {
         titleText: "Comments";
         subtitleText: "Check out the comments";
         drillDownArrow: true;
+
+        mousePressed: commentsScoresListItemMouseArea.pressed;
+
+        MouseArea {
+            id: commentsScoresListItemMouseArea;
+            anchors.fill: parent;
+            onClicked: {
+            }
+        }
     }
 }
