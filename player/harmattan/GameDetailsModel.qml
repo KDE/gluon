@@ -24,21 +24,6 @@ VisualItemModel {
     id: gameDetailsModel
 
     ListItem {
-        iconSource: "icons/hi32-app-gluon.png";
-        titleText: "Screenshots";
-        subtitleText: "Check out the screenshots";
-        drillDownArrow: true;
-        mousePressed : screenshotListItemMouseArea.pressed;
-
-        MouseArea {
-            id: screenshotListItemMouseArea;
-            anchors.fill: parent;
-            onClicked: {
-            }
-        }
-    }
-
-    ListItem {
         iconSource: "icons/media-playback-start.png";
         titleText: "Play " + mainPage.selectedProjectName;
         subtitleText: "1697 others currently playing";
@@ -70,14 +55,14 @@ VisualItemModel {
     }
 
     ListItem {
-        iconSource: "icons/games-highscores.png";
-        titleText: "High Scores";
-        subtitleText: "Your global high-score: 258th";
+        iconSource: "icons/ksnapshot.png";
+        titleText: "Screenshots";
+        subtitleText: "Check out the screenshots";
         drillDownArrow: true;
-        mousePressed: highScoresListItemMouseArea.pressed;
+        mousePressed : screenshotListItemMouseArea.pressed;
 
         MouseArea {
-            id: highScoresListItemMouseArea;
+            id: screenshotListItemMouseArea;
             anchors.fill: parent;
             onClicked: {
             }
@@ -93,6 +78,21 @@ VisualItemModel {
 
         MouseArea {
             id: achievementsScoresListItemMouseArea;
+            anchors.fill: parent;
+            onClicked: {
+            }
+        }
+    }
+
+    ListItem {
+        iconSource: "icons/games-highscores.png";
+        titleText: "High Scores";
+        subtitleText: "Your global high-score: 258th";
+        drillDownArrow: true;
+        mousePressed: highScoresListItemMouseArea.pressed;
+
+        MouseArea {
+            id: highScoresListItemMouseArea;
             anchors.fill: parent;
             onClicked: {
             }
@@ -123,22 +123,6 @@ VisualItemModel {
 
         MouseArea {
             id: donateScoresListItemMouseArea;
-            anchors.fill: parent;
-            onClicked: {
-            }
-        }
-    }
-
-    ListItem {
-        iconSource: "icons/hi32-app-gluon.png";
-        titleText: "Comments";
-        subtitleText: "Check out the comments";
-        drillDownArrow: true;
-
-        mousePressed: commentsScoresListItemMouseArea.pressed;
-
-        MouseArea {
-            id: commentsScoresListItemMouseArea;
             anchors.fill: parent;
             onClicked: {
             }
