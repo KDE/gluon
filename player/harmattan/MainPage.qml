@@ -40,7 +40,7 @@ Page {
         id: gameItemsDelegate;
 
         ListItem {
-            iconSource: "icons/hi32-app-gluon.png";
+            iconSource: "hi32-app-gluon.png";
             titleText: qsTr(projectName);
             subtitleText: qsTr(projectDescription);
             drillDownArrow: true;
@@ -53,7 +53,7 @@ Page {
                     mainPage.selectedItem = index;
                     mainPage.selectedProjectName = projectName;
                     mainPage.selectedProjectDescription = projectDescription;
-                    pageStack.push("/opt/gluon/qml/GameDetailsPage.qml");
+                    pageStack.push("qrc:/GameDetailsPage.qml");
                }
             }
         }
@@ -69,7 +69,7 @@ Page {
 
         header:
                 ListItem {
-                    iconSource: "icons/get-hot-new-stuff.png";
+                    iconSource: "get-hot-new-stuff.png";
                     titleText: qsTr("Get More Games");
                     subtitleText: gameItemsModel.downloadableCount + qsTr(" new games, ") + gameItemsModel.upgradableCount + qsTr(" updated");
                     drillDownArrow: true;

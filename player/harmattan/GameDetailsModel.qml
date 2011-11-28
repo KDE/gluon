@@ -24,7 +24,7 @@ VisualItemModel {
     id: gameDetailsModel
 
     ListItem {
-        iconSource: "icons/media-playback-start.png";
+        iconSource: "media-playback-start.png";
         titleText: "Play " + mainPage.selectedProjectName;
         subtitleText: "1697 others currently playing";
         drillDownArrow: true;
@@ -40,7 +40,7 @@ VisualItemModel {
     }
 
     ListItem {
-        iconSource: "icons/dialog-information.png";
+        iconSource: "dialog-information.png";
         titleText: "Read Author's Description";
         subtitleText: mainPage.selectedProjectDescription;
         drillDownArrow: true;
@@ -55,7 +55,7 @@ VisualItemModel {
     }
 
     ListItem {
-        iconSource: "icons/ksnapshot.png";
+        iconSource: "ksnapshot.png";
         titleText: "Screenshots";
         subtitleText: "Check out the screenshots";
         drillDownArrow: true;
@@ -70,7 +70,7 @@ VisualItemModel {
     }
 
     ListItem {
-        iconSource: "icons/games-achievements.png";
+        iconSource: "games-achievements.png";
         titleText: "Achievements";
         subtitleText: "You have 4 of 16";
         drillDownArrow: true;
@@ -85,7 +85,7 @@ VisualItemModel {
     }
 
     ListItem {
-        iconSource: "icons/games-highscores.png";
+        iconSource: "games-highscores.png";
         titleText: "High Scores";
         subtitleText: "Your global high-score: 258th";
         drillDownArrow: true;
@@ -100,7 +100,7 @@ VisualItemModel {
     }
 
     ListItem {
-        iconSource: "icons/help-feedback.png";
+        iconSource: "help-feedback.png";
         titleText: "Rate & Comment";
         subtitleText: "20984 ratings, 413 comments";
         drillDownArrow: true;
@@ -115,7 +115,7 @@ VisualItemModel {
     }
 
     ListItem {
-        iconSource: "icons/help-donate.png";
+        iconSource: "help-donate.png";
         titleText: "Donate";
         subtitleText: "€3 suggested";
         drillDownArrow: true;
