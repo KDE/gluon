@@ -46,7 +46,7 @@ FocusScope {
     BorderImage {
         anchors.fill: parent;
 
-        source: "icons/lineedit.png"
+        source: "lineedit.png"
         border.bottom: 20;
         border.top: 20;
         border.right: 20;

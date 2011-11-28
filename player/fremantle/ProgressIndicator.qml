@@ -26,7 +26,7 @@ import QtQuick 1.0
 Image {
     id: indicator
     property bool running: false
-    source: "icons/progress-indicator.png"
+    source: "progress-indicator.png"
     opacity: 0
     scale: 4
     smooth: true;

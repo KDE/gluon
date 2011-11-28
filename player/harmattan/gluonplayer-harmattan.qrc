@@ -6,81 +6,25 @@
         <file>GameDetailsPage.qml</file>
         <file>GameDetailsModel.qml</file>
 
-        <file alias="dialog-ok.png">
-            ../icons/common/dialog-ok.png
-        </file>
-
-        <file alias="help-hint.png">
-            ../icons/common/help-hint.png
-        </file>
-
-        <file alias="get-hot-new-stuff.png">
-            ../icons/common/get-hot-new-stuff.png
-        </file>
-
-        <file alias="lineedit.png">
-            ../icons/common/lineedit.png
-        </file>
-
-        <file alias="list-add-user.png">
-            ../icons/common/list-add-user.png
-        </file>
-
-        <file alias="media-playback-start.png">
-            ../icons/common/media-playback-start.png
-        </file>
-
-        <file alias="download.png">
-            ../icons/common/download.png
-        </file>
-
-        <file alias="system-software-update.png">
-            ../icons/common/system-software-update.png
-        </file>
-
-        <file alias="user-group-new.png">
-            ../icons/common/user-group-new.png
-        </file>
-
-        <file alias="im-user.png">
-            ../icons/common/im-user.png
-        </file>
-
-        <file alias="hi32-app-gluon.png">
-            ../icons/common/hi32-app-gluon.png
-        </file>
-
-        <file alias="hi256-app-gluon.png">
-            ../icons/common/hi256-app-gluon.png
-        </file>
-
-        <file alias="games-achievements.png">
-            ../icons/common/games-achievements.png
-        </file>
-
-        <file alias="games-highscores.png">
-            ../icons/common/games-highscores.png
-        </file>
-
-        <file alias="help-feedback.png">
-            ../icons/common/help-feedback.png
-        </file>
-
-        <file alias="help-donate.png">
-            ../icons/common/help-donate.png
-        </file>
-
-        <file alias="go-previous.png">
-            ../icons/common/go-previous.png
-        </file>
-
-        <file alias="dialog-information.png">
-            ../icons/common/dialog-information.png
-        </file>
-
-        <file alias="ksnapshot.png">
-            ../icons/common/ksnapshot.png
-        </file>
+        <file alias="dialog-ok.png">../icons/common/dialog-ok.png</file>
+        <file alias="help-hint.png">../icons/common/help-hint.png</file>
+        <file alias="get-hot-new-stuff.png">../icons/common/get-hot-new-stuff.png</file>
+        <file alias="lineedit.png">../icons/common/lineedit.png</file>
+        <file alias="list-add-user.png">../icons/common/list-add-user.png</file>
+        <file alias="media-playback-start.png">../icons/common/media-playback-start.png</file>
+        <file alias="download.png">../icons/common/download.png</file>
+        <file alias="system-software-update.png">../icons/common/system-software-update.png</file>
+        <file alias="user-group-new.png">../icons/common/user-group-new.png</file>
+        <file alias="im-user.png">../icons/common/im-user.png</file>
+        <file alias="hi32-app-gluon.png">../icons/common/hi32-app-gluon.png</file>
+        <file alias="hi256-app-gluon.png">../icons/common/hi256-app-gluon.png</file>
+        <file alias="games-achievements.png">../icons/common/games-achievements.png</file>
+        <file alias="games-highscores.png">../icons/common/games-highscores.png</file>
+        <file alias="help-feedback.png">../icons/common/help-feedback.png</file>
+        <file alias="help-donate.png">../icons/common/help-donate.png</file>
+        <file alias="go-previous.png">../icons/common/go-previous.png</file>
+        <file alias="dialog-information.png">../icons/common/dialog-information.png</file>
+        <file alias="ksnapshot.png">../icons/common/ksnapshot.png</file>
 
     </qresource>
 </RCC>

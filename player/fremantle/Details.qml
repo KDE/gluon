@@ -30,10 +30,10 @@ Rectangle {
     function propagate(projectName, projectDescription, screenshotUrls, status, index) {
         if (status == GameViewItem.Downloadable) {
             play_game_btn.text = qsTr("Download " + projectName);
-            play_game_btn.icon = "icons/download.png";
+            play_game_btn.icon = "download.png";
         } else if (status == GameViewItem.Installed) {
             play_game_btn.text = qsTr("Play " + projectName);
-            play_game_btn.icon = "icons/media-playback-start.png";
+            play_game_btn.icon = "media-playback-start.png";
         } else if (status == GameViewItem.Upgradable) {
             play_game_btn.text = qsTr("Upgrade " + projectName);
             play_game_btn.icon = "system-software-update.png";
@@ -51,7 +51,7 @@ Rectangle {
 
     Image {
         id: backIcon;
-        source: "icons/go-previous.png";
+        source: "go-previous.png";
         // z: 100;
         anchors {
             // bottom: previewImages.top;
@@ -90,7 +90,7 @@ Rectangle {
    Button {
         id: play_game_btn;
         height: parent.height * 1 / 5 - 10;
-        icon: "icons/media-playback-start.png";
+        icon: "media-playback-start.png";
         text: qsTr("Play the game");
         subtext: qsTr("1697 others currently playing");
         anchors {
@@ -108,7 +108,7 @@ Rectangle {
     Button {
         id: read_author_desc_btn;
         width: play_game_btn.width / 2;
-        icon: "icons/dialog-information.png";
+        icon: "dialog-information.png";
         text: qsTr("Read Author's Description");
         subtext: qsTr("No description");
         anchors {
@@ -126,7 +126,7 @@ Rectangle {
     Button {
         id: high_scores_btn;
         width: play_game_btn.width / 2;
-        icon: "icons/games-highscores.png";
+        icon: "games-highscores.png";
         text: qsTr("High Scores");
         subtext: "Your global high-score: 258th";
         anchors {
@@ -143,7 +143,7 @@ Rectangle {
     Button {
         id: achievements_btn;
         width: play_game_btn.width / 2;
-        icon: "icons/games-achievements.png";
+        icon: "games-achievements.png";
         text: qsTr("Achievements");
         subtext: "You have 4 of 16";
         anchors {
@@ -161,7 +161,7 @@ Rectangle {
     Button {
         id: rate_comments_btn;
         width: play_game_btn.width / 2;
-        icon: "icons/help-feedback.png";
+        icon: "help-feedback.png";
         text: qsTr("Rate & Comment");
         subtext: "20984 ratings, 413 comments";
         anchors {
@@ -179,7 +179,7 @@ Rectangle {
     Button {
         id: donate_btn;
         width: play_game_btn.width / 2;
-        icon: "icons/help-donate.png";
+        icon: "help-donate.png";
         text: qsTr("Donate");
         subtext: "€3 suggested";
         anchors {

@@ -111,7 +111,7 @@ Rectangle {
                   || priv.spaceDown);
             PropertyChanges {
                 target: buttonBorderImage;
-                // source: "icons/buttonpressed.png";
+                // source: "buttonpressed.png";
             }
 
              PropertyChanges {
@@ -129,7 +129,7 @@ Rectangle {
                   || parent.activeFocus);
       PropertyChanges {
             target: buttonBorderImage;
-            // source: "icons/buttonhovered.png";
+            // source: "buttonhovered.png";
       }
                  },
 
@@ -138,7 +138,7 @@ Rectangle {
           when: !enabled;
           PropertyChanges {
             target: buttonBorderImage;
-            // source: "icons/buttondisabled.png";
+            // source: "buttondisabled.png";
           }
 
       PropertyChanges {

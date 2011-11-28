@@ -34,7 +34,7 @@ Rectangle {
         Button {
             id: commentItem;
             width: ListView.view.width;
-            icon: "icons/hi32-app-gluon.png";
+            icon: "hi32-app-gluon.png";
             text: qsTr(author + " " + title + " " + dateTime + " " + rating);
             subtext: qsTr(body);
         }
@@ -50,7 +50,7 @@ Rectangle {
 
         header: Button {
             id: comment;
-            icon: "icons/user-group-new.png";
+            icon: "user-group-new.png";
             text: "gamerdude";
             onClicked: console.log("this doesn't do anything yet...");
         }

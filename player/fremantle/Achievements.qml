@@ -47,7 +47,7 @@ Rectangle {
 
                 Image {
                     id: achievedIcon;
-                    source: "icons/progress-indicator.png"
+                    source: "progress-indicator.png"
                     anchors {
                         left: achievedIcon.left;
                         rightMargin: 5;
@@ -67,7 +67,7 @@ Rectangle {
 
         header: Button {
             id: achievementHeader;
-            //icon: "icons/user-group-new.png";
+            //icon: "user-group-new.png";
             text: qsTr("Achievements");
         }
     }

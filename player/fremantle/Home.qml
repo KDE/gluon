@@ -31,7 +31,7 @@ Rectangle {
         Button {
             id: gameItem;
             width: ListView.view.width;
-            icon: "icons/hi32-app-gluon.png";
+            icon: "hi32-app-gluon.png";
             text: qsTr(projectName);
             subtext: qsTr(projectDescription);
 
@@ -46,7 +46,7 @@ Rectangle {
         Button {
             id: gameItemMoreGames;
             width: ListView.view.width;
-            icon: "icons/hi32-app-gluon.png";
+            icon: "hi32-app-gluon.png";
             text: qsTr(projectNameDownloadable);
             subtext: qsTr(projectDescriptionDownloadable);
 
@@ -73,7 +73,7 @@ Rectangle {
                 height: listViewHeaderButton.height + 5;
                 Button {
                     id: listViewHeaderButton;
-                    icon: "icons/get-hot-new-stuff.png";
+                    icon: "get-hot-new-stuff.png";
                     text: qsTr("Get More Games");
                     subtext: gameItemsModel.downloadableCount + qsTr(" new games, ") + gameItemsModel.upgradableCount + qsTr(" updated");
 

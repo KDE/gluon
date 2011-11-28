@@ -37,7 +37,7 @@ Rectangle {
 
    Image {
        id: gluon_logo;
-       source: "icons/hi256-app-gluon.png";
+       source: "hi256-app-gluon.png";
        width: parent.width/2 * 4/5;
        height: parent.height * 3/5;
        fillMode: Image.PreserveAspectFit;
@@ -66,7 +66,7 @@ Rectangle {
         id: new_user;
         width: parent.width / 4 - 5;
         height: parent.height * 1 / 5 - 10;
-        icon: "icons/list-add-user.png";
+        icon: "list-add-user.png";
         text: qsTr("New User");
         anchors {
             top: lgn.bottom;
@@ -83,7 +83,7 @@ Rectangle {
         id: log_on;
         width: parent.width / 4 - 5;
         height: parent.height * 1 / 5 - 10;
-        icon: "icons/im-user.png";
+        icon: "im-user.png";
         text: qsTr("Log On");
         anchors {
             top: lgn.bottom;
@@ -101,7 +101,7 @@ Rectangle {
         id: forgotten_details;
         width: parent.width / 2;
         height: parent.height * 1 / 5 - 10;
-        icon: "icons/help-hint.png";
+        icon: "help-hint.png";
         text: qsTr("Forgotten Your Details?");
         subtext: qsTr("Send new password to your email address");
         anchors {
@@ -121,7 +121,7 @@ Rectangle {
         id: play;
         width: parent.width / 2;
         height: parent.height * 1 / 5 - 10;
-        icon: "icons/media-playback-start.png";
+        icon: "media-playback-start.png";
         text: qsTr("Play Without Logging On");
         subtext: gameWindowManager.availableGamesCount() + " games available";
         anchors {
