@@ -29,6 +29,8 @@ Rectangle {
     property string titleText;
     property string subtitleText;
 
+    property bool mousePressed: false;
+
     property bool drillDownArrow: false;
 
     height: 64;
@@ -45,7 +47,7 @@ Rectangle {
             rightMargin: -16;
         }
 
-        visible: mouseArea.pressed;
+        visible: mousePressed;
         source: theme.inverted ? "image://theme/meegotouch-panel-inverted-background-pressed" : "image://theme/meegotouch-panel-background-pressed";
     }
 
@@ -70,7 +72,7 @@ Rectangle {
                 font.family: "Nokia Pure Text";
                 font.weight: Font.Bold;
                 font.pixelSize: 26;
-                color: mouseArea.pressed ? "#797979" : "#ffffff";
+                color: mousePressed ? "#797979" : "#ffffff";
             }
 
             Label {
@@ -79,7 +81,7 @@ Rectangle {
                 font.family: "Nokia Pure Text Light";
                 font.weight: Font.Normal;
                 font.pixelSize: 22;
-                color: mouseArea.pressed ? "#797979" : "#C8C8C8";
+                color: mousePressed ? "#797979" : "#C8C8C8";
 
                 visible: text != "";
             }
@@ -93,14 +95,6 @@ Rectangle {
         anchors {
             right: parent.right;
             verticalCenter: parent.verticalCenter;
-        }
-    }
-
-    MouseArea {
-        id: mouseArea;
-        anchors.fill: background;
-        onClicked: {
-            // gameItemsDelegate.clicked();
         }
     }
 }

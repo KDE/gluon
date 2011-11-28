@@ -44,9 +44,10 @@ Page {
             titleText: qsTr(projectName);
             subtitleText: qsTr(projectDescription);
             drillDownArrow: true;
+            mousePressed: listItemMouseArea.pressed;
 
             MouseArea {
-                id: listItemMuseArea;
+                id: listItemMouseArea;
                 anchors.fill: parent;
                 onClicked: {
                     mainPage.selectedItem = index;
@@ -72,6 +73,7 @@ Page {
                     titleText: qsTr("Get More Games");
                     subtitleText: gameItemsModel.downloadableCount + qsTr(" new games, ") + gameItemsModel.upgradableCount + qsTr(" updated");
                     drillDownArrow: true;
+                    mousePressed: headerMouseArea.pressed;
 
                     MouseArea {
                         id: headerMouseArea;
