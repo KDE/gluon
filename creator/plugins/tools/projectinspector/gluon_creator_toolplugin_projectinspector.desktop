@@ -2,12 +2,14 @@
 Encoding=UTF-8
 
 Name=Project Inspector
+Name[es]=Inspector de proyecto
 Name[pt]=Inspector do Projecto
 Name[pt_BR]=Inspetor do projeto
 Name[sv]=Projektinspektör
 Name[uk]=Ревізор проекту
 Name[x-test]=xxProject Inspectorxx
 Comment=Provides a tool to inspect the entire project hierarchy.
+Comment[es]=Proporciona na herramienta para examinar la jerarquía completa del proyecto
 Comment[pt]=Oferece uma ferramenta para inspeccionar a hierarquia completa do projecto.
 Comment[pt_BR]=Fornece uma ferramenta para inspecionar a hierarquia completa do projeto.
 Comment[sv]=Tillhandahåller ett verktyg för att inspektera hela projektets hierarki.
