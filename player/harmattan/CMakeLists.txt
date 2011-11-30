@@ -19,7 +19,7 @@ QT4_ADD_RESOURCES(GLUONPLAYER-HARMATTAN_RCC_SRCS
 
 qt4_automoc(${harmattan_SRCS})
 
-if(APPLEV)
+if(APPLE)
     add_executable(gluonplayer-harmattan MACOSX_BUNDLE ${harmattan_SRCS})
     #MACOSX_BUNDLE_INFO_STRING
     #MACOSX_BUNDLE_ICON_FILE
