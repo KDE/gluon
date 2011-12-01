@@ -8,8 +8,8 @@ endif()
 find_package(Qt4 4.7 REQUIRED)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
-                    ${GLUON_GRAPHICS_INCLUDES}
-                    ${GLUON_INPUT_INCLUDES})
+                    ${GLUON_GRAPHICS_INCLUDE_DIRS}
+                    ${GLUON_INPUT_INCLUDE_DIRS})
 
 set(uimanagercomponent_SRCS
     textureimageprovider.cpp

@@ -3,8 +3,8 @@
 # Once done this will define
 #  GLUON_CORE_FOUND - The Gluon Core library was found
 #  GLUON_CORE_LIBRARY - The Gluon Core library location
-#  GLUON_CORE_INCLUDES - all include directories required for the Gluon Core library
 #  GLUON_CORE_INCLUDE_DIR - the Gluon Core include directory
+#  GLUON_CORE_INCLUDE_DIRS - all include directories required for the Gluon Core library
 #
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
@@ -65,7 +65,7 @@ find_path(GLUON_CORE_INCLUDE_DIR
     gluon
 )
 
-set(GLUON_CORE_INCLUDES
+set(GLUON_CORE_INCLUDE_DIRS
     ${GLUON_CORE_INCLUDE_DIR}
     ${QT_INCLUDES}
     ${EIGEN2_INCLUDE_DIR}

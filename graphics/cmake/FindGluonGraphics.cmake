@@ -2,8 +2,8 @@
 #
 # Once done this will define
 #   GLUON_GRAPHICS_FOUND - system has Gluon graphics files
-#   GLUON_GRAPHICS_INCLUDES - all include directories required for Gluon's graphics files
 #   GLUON_GRAPHICS_INCLUDE_DIR - the Gluon graphics include directory
+#   GLUON_GRAPHICS_INCLUDE_DIRS - all include directories required for Gluon's graphics files
 #   GLUON_GRAPHICS_LIBRARY - The Gluon Graphics library location
 #   GLUON_GRAPHICS_LIBS - All libraries necessary for Gluon Graphics to work
 #
@@ -57,9 +57,9 @@ find_path(GLUON_GRAPHICS_INCLUDE_DIR
     gluon
 )
 
-set(GLUON_GRAPHICS_INCLUDES
+set(GLUON_GRAPHICS_INCLUDE_DIRS
     ${GLUON_GRAPHICS_INCLUDE_DIR}
-    ${GLUON_CORE_INCLUDES}
+    ${GLUON_CORE_INCLUDE_DIRS}
     ${OPENGL_REAL_INCLUDE_DIR}
 )
 

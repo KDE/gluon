@@ -2,7 +2,7 @@ if(NOT GLUON_BUILD_ALL)
     find_package(GluonInput REQUIRED)
 endif()
 
-include_directories(${GLUON_INPUT_INCLUDES})
+include_directories(${GLUON_INPUT_INCLUDE_DIRS})
 
 set(EXAMPLES_INSTALL_DIR ${BIN_INSTALL_DIR})
 

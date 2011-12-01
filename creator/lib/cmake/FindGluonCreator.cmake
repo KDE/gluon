@@ -2,8 +2,8 @@
 #
 # Once done this will define
 #  GLUON_FOUND - system has Gluon
-#  GLUON_INCLUDES - all include directories required for Gluon, use it with KDE4_INCLUDES
 #  GLUON_INCLUDE_DIR - the Gluon include directory
+#  GLUON_INCLUDE_DIRS - all include directories required for Gluon, use it with KDE4_INCLUDES
 #  GLUON_LIBRARY - the Gluon library
 #
 # Copyright (C) 2009 Guillaume Martres
@@ -36,10 +36,10 @@ find_path(GLUON_CREATOR_INCLUDE_DIR
     gluon
 )
 
-set(GLUON_CREATOR_INCLUDES
+set(GLUON_CREATOR_INCLUDE_DIRS
     ${GLUON_CREATOR_INCLUDE_DIR}
-    ${GLUON_CORE_INCLUDES}
-    ${GLUON_ENGINE_INCLUDES}
+    ${GLUON_CORE_INCLUDE_DIRS}
+    ${GLUON_ENGINE_INCLUDE_DIRS}
     ${KDE4_INCLUDES}
 )
 

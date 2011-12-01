@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(gluonexamples_audio_playbasic)
 
-include_directories(${GLUON_CORE_INCLUDES} ${GLUON_AUDIO_INCLUDES})
+include_directories(${GLUON_CORE_INCLUDE_DIRS} ${GLUON_AUDIO_INCLUDE_DIRS})
 
 set(gluonexamples_audio_playbasic_SRCS
     main.cpp

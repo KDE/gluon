@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(gluonexamples_input_listdevices)
 
-include_directories(${GLUON_INPUT_INCLUDES})
+include_directories(${GLUON_INPUT_INCLUDE_DIRS})
 
 set(gluonexamples_input_listdevices_SRCS
     main.cpp

@@ -8,13 +8,13 @@ endif()
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${GLUON_CORE_INCLUDES}
+    ${GLUON_CORE_INCLUDED_DIRS}
 )
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 if(APPLE)
-    set(GLUON_INPUT_INCLUDES
+    set(GLUON_INPUT_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/mac
         CACHE INTERNAL "Includes required for Gluon Input"
@@ -29,19 +29,19 @@ if(APPLE)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/mac/)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/qt/)
 elseif(WIN32)
-    set(GLUON_INPUT_INCLUDES
+    set(GLUON_INPUT_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/win
-        ${GLUON_CORE_INCLUDES}
+        ${GLUON_CORE_INCLUDE_DIRS}
         CACHE INTERNAL "Includes required for Gluon Input"
     )
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/win/)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/qt/)
 elseif(UNIX)
-    set(GLUON_INPUT_INCLUDES
+    set(GLUON_INPUT_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/linux
-        ${GLUON_CORE_INCLUDES}
+        ${GLUON_CORE_INCLUDE_DIRS}
         CACHE INTERNAL "Includes required for Gluon Input"
     )
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/linux/)

@@ -7,7 +7,7 @@ find_package(Qt4 REQUIRED)
 find_package(GluonCore REQUIRED)
 find_package(GluonEngine REQUIRED)
 
-include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${PROJECT_SOURCE_DIR} ${GLUON_ENGINE_INCLUDES} ${GLUON_CORE_INCLUDES})
+include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${PROJECT_SOURCE_DIR} ${GLUON_ENGINE_INCLUDE_DIRS} ${GLUON_CORE_INCLUDE_DIRS})
 
 set(btcomponents-testapp_SRCS btcomponents-testapp.cpp main.cpp)
 qt4_automoc(${btcomponents-testapp_SRCS})

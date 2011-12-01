@@ -4,7 +4,7 @@ if(NOT GLUON_BUILD_ALL)
     find_package(GluonSmarts REQUIRED)
 endif()
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_SMARTS_INCLUDES})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_SMARTS_INCLUDE_DIRS})
 
 set(behaviortreecomponent_SRCS
     btAssetprivate.cpp

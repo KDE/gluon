@@ -1,4 +1,4 @@
-include_directories(${GLUON_CORE_INCLUDES} common)
+include_directories(${GLUON_CORE_INCLUDE_DIRS} common)
 
 add_subdirectory(common)
 add_subdirectory(lib)

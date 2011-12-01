@@ -36,7 +36,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/gdl
 )
 
-set(GLUON_CORE_INCLUDES
+set(GLUON_CORE_INCLUDE_DIRS
     ${QT_INCLUDES}
     CACHE INTERNAL "Includes required for Gluon Core"
 )

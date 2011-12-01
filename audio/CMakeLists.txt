@@ -14,15 +14,15 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
 
-    ${GLUON_CORE_INCLUDES}
+    ${GLUON_CORE_INCLUDE_DIRS}
 
     ${ALURE_INCLUDE_DIRS}
     ${OPENAL_INCLUDE_DIR}
     #TODO: Make use of phonon instead of these libs for file input. Saves us another few dependencies.
 )
 
-set(GLUON_AUDIO_INCLUDES
-    ${GLUON_CORE_INCLUDES}
+set(GLUON_AUDIO_INCLUDE_DIRS
+    ${GLUON_CORE_INCLUDE_DIRS}
 
     ${ALURE_INCLUDE_DIRS}
     ${OPENAL_INCLUDE_DIR}

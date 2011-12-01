@@ -2,8 +2,8 @@
 #
 # Once done this will define
 #   GLUON_INPUT_FOUND - system has Gluon Input
-#   GLUON_INPUT_INCLUDES - all include directories required for Gluon Input
 #   GLUON_INPUT_INCLUDE_DIR - the Gluon Input include directory
+#   GLUON_INPUT_INCLUDE_DIRS - all include directories required for Gluon Input
 #   GLUON_INPUT_LIBRARY - The Gluon Input library location
 #   GLUON_INPUT_LIBS - All libraries necessary for Gluon Input to work
 #
@@ -42,8 +42,8 @@ find_path(GLUON_INPUT_INCLUDE_DIR
     gluon
 )
 
-set(GLUON_INPUT_INCLUDES
-    ${GLUON_CORE_INCLUDES}
+set(GLUON_INPUT_INCLUDE_DIRS
+    ${GLUON_CORE_INCLUDE_DIRS}
     ${GLUON_INPUT_INCLUDE_DIR}
 )
 

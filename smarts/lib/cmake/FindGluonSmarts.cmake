@@ -2,8 +2,8 @@
 #
 # Once done this will define
 #   GLUON_SMARTS_FOUND - system has Gluon Smarts
-#   GLUON_SMARTS_INCLUDES - all include directories required for Gluon Smarts
 #   GLUON_SMARTS_INCLUDE_DIR - the Gluon Smarts include directory
+#   GLUON_SMARTS_INCLUDE_DIRS - all include directories required for Gluon Smarts
 #   GLUON_SMARTS_LIBRARY - The Gluon Smarts library location
 #   GLUON_SMARTS_LIBS - All libraries necessary for Gluon Smarts to work
 #
@@ -34,8 +34,8 @@ find_path(GLUON_SMARTS_INCLUDE_DIR
     gluon
 )
 
-set(GLUON_SMARTS_INCLUDES
-    ${GLUON_CORE_INCLUDES}
+set(GLUON_SMARTS_INCLUDE_DIRS
+    ${GLUON_CORE_INCLUDE_DIRS}
     ${GLUON_SMARTS_INCLUDE_DIR}
 )
 

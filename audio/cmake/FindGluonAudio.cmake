@@ -2,8 +2,8 @@
 #
 # Once done this will define
 #  GLUON_AUDIO_FOUND - system has KAL
-#  GLUON_AUDIO_INCLUDES - all include directories required for KAL, use it with KDE4_INCLUDES
 #  GLUON_AUDIO_INCLUDE_DIR - the KAL include directory
+#  GLUON_AUDIO_INCLUDE_DIRS - all include directories required for KAL, use it with KDE4_INCLUDES
 #  GLUON_AUDIO_LIBRARY - the KAL library
 #  GLUON_AUDIO_LIBS - All libraries needed for Gluon Audio functionality
 #
@@ -39,8 +39,8 @@ find_path(GLUON_AUDIO_INCLUDE_DIR
     gluon
 )
 
-set(GLUON_AUDIO_INCLUDES
-    ${GLUON_CORE_INCLUDES}
+set(GLUON_AUDIO_INCLUDE_DIRS
+    ${GLUON_CORE_INCLUDE_DIRS}
     ${GLUON_AUDIO_INCLUDE_DIR}
     ${OPENAL_INCLUDE_DIR}
     ${SNDFILE_INCLUDE_DIR}

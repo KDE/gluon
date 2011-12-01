@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 2.8)
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${GLUON_CORE_INCLUDES}
-    ${GLUON_INPUT_INCLUDES}
+    ${GLUON_CORE_INCLUDE_DIRS}
+    ${GLUON_INPUT_INCLUDE_DIRS}
 )
 
 set(harmattan_SRCS

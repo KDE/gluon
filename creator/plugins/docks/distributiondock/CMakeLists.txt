@@ -13,7 +13,7 @@ kde4_add_plugin(gluon_creator_dockplugin_distributiondock ${distributiondock_SRC
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${GLUON_PLAYER_INCLUDES}
+    ${GLUON_PLAYER_INCLUDE_DIRS}
 )
 
 target_link_libraries(gluon_creator_dockplugin_distributiondock ${GLUON_CREATOR_LIBS} ${GLUON_PLAYER_LIBS})
