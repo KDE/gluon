@@ -37,7 +37,6 @@ find_path(GLUON_ENGINE_INCLUDE_DIR
 set(GLUON_ENGINE_INCLUDES
     ${GLUON_CORE_INCLUDES}
     ${GLUON_ENGINE_INCLUDE_DIR}
-    CACHE PATHS "Includes needed for Gluon Engine"
 )
 
 find_library(GLUON_ENGINE_LIBRARY
@@ -50,7 +49,6 @@ find_library(GLUON_ENGINE_LIBRARY
 set(GLUON_ENGINE_LIBS
     ${GLUON_CORE_LIBS}
     ${GLUON_ENGINE_LIBRARY}
-    CACHE PATHS "Libraries needed for Gluon Engine"
 )
 
 include(FindPackageHandleStandardArgs)

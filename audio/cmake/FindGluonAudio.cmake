@@ -45,7 +45,6 @@ set(GLUON_AUDIO_INCLUDES
     ${OPENAL_INCLUDE_DIR}
     ${SNDFILE_INCLUDE_DIR}
     ${OGGVORBIS_INCLUDE_DIR}
-    CACHE PATHS "Includes needed for Gluon Audio"
 )
 
 find_library(GLUON_AUDIO_LIBRARY
@@ -61,7 +60,6 @@ set(GLUON_AUDIO_LIBS
     ${SNDFILE_LIBRARY}
     ${OGGVORBIS_LIBRARY}
     ${GLUON_AUDIO_LIBRARY}
-    CACHE PATHS "Libraries needed for Gluon Audio"
 )
 
 include(FindPackageHandleStandardArgs)

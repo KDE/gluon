@@ -45,7 +45,6 @@ find_path(GLUON_INPUT_INCLUDE_DIR
 set(GLUON_INPUT_INCLUDES
     ${GLUON_CORE_INCLUDES}
     ${GLUON_INPUT_INCLUDE_DIR}
-    CACHE PATHS "Includes needed for Gluon Input"
 )
 
 find_library(GLUON_INPUT_LIBRARY
@@ -60,7 +59,6 @@ set(GLUON_INPUT_LIBS
     ${GLUON_INPUT_LIBRARY}
     ${IOKIT_LIBRARY}
     ${COREFOUNDATION_LIBRARY}
-    CACHE PATHS "Libraries required for Gluon Input"
 )
 
 include(FindPackageHandleStandardArgs)

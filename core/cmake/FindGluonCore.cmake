@@ -69,7 +69,6 @@ set(GLUON_CORE_INCLUDES
     ${GLUON_CORE_INCLUDE_DIR}
     ${QT_INCLUDES}
     ${EIGEN2_INCLUDE_DIR}
-    CACHE PATHS "Includes required for Gluon Core"
 )
 
 find_library(GLUON_CORE_LIBRARY
@@ -83,7 +82,6 @@ set(GLUON_CORE_LIBS
     ${GLUON_CORE_LIBRARY}
     ${QT_QTCORE_LIBRARY}
     ${QT_QTGUI_LIBRARY}
-    CACHE PATHS "Libraries required for Gluon Core"
 )
 
 include(FindPackageHandleStandardArgs)

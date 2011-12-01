@@ -37,7 +37,6 @@ find_path(GLUON_SMARTS_INCLUDE_DIR
 set(GLUON_SMARTS_INCLUDES
     ${GLUON_CORE_INCLUDES}
     ${GLUON_SMARTS_INCLUDE_DIR}
-    CACHE PATHS "Include files required for Gluon Smarts"
 )
 
 find_library(GLUON_SMARTS_LIBRARY
@@ -50,7 +49,6 @@ find_library(GLUON_SMARTS_LIBRARY
 set(GLUON_SMARTS_LIBS
     ${GLUON_CORE_LIBS}
     ${GLUON_SMARTS_LIBRARY}
-    CACHE PATHS "Libraries required for Gluon Smarts"
 )
 
 include(FindPackageHandleStandardArgs)

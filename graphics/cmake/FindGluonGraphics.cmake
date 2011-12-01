@@ -61,7 +61,6 @@ set(GLUON_GRAPHICS_INCLUDES
     ${GLUON_GRAPHICS_INCLUDE_DIR}
     ${GLUON_CORE_INCLUDES}
     ${OPENGL_REAL_INCLUDE_DIR}
-    CACHE PATHS "Include files required for Gluon Graphics"
 )
 
 find_library(GLUON_GRAPHICS_LIBRARY
@@ -76,7 +75,6 @@ set(GLUON_GRAPHICS_LIBS
     ${GLUON_CORE_LIBS}
     ${QT_QTOPENGL_LIBRARY}
     ${OPENGL_REAL_LIBS}
-    CACHE PATHS "Libraries required for Gluon Graphics"
 )
 
 include(FindPackageHandleStandardArgs)

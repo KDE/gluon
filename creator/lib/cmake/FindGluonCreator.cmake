@@ -41,7 +41,6 @@ set(GLUON_CREATOR_INCLUDES
     ${GLUON_CORE_INCLUDES}
     ${GLUON_ENGINE_INCLUDES}
     ${KDE4_INCLUDES}
-    CACHE PATHS "Include files required for Gluon Creator"
 )
 
 find_library(GLUON_CREATOR_LIBRARY
@@ -56,7 +55,6 @@ set(GLUON_CREATOR_LIBS
     ${GLUON_CORE_LIBS}
     ${GLUON_ENGINE_LIBS}
     ${GLUON_CREATOR_LIBRARY}
-    CACHE PATHS "Libraries required for Gluon Creator"
 )
 
 include(FindPackageHandleStandardArgs)
