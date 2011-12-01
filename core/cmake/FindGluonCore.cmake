@@ -30,8 +30,6 @@ find_path(GLUON_INSTALL_PREFIX
     include/gluon
 )
 
-set(CMAKE_MODULE_PATH ${GLUON_INSTALL_PREFIX}/share/gluon/cmake)
-
 find_package(Qt4 ${_gluonCoreReq})
 
 if(NOT LIB_SUFFIX)

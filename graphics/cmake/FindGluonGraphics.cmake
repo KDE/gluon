@@ -21,8 +21,6 @@ endif (GluonGraphics_FIND_REQUIRED)
 
 find_package(GluonCore ${_gluonGraphicsReq})
 
-set(CMAKE_MODULE_PATH ${SHARE_INSTALL_DIR}/gluon/cmake)
-
 set(OPENGL_REAL_LIBS "")
 set(OPENGL_REAL_INCLUDE_DIR "")
 find_package(OpenGL)

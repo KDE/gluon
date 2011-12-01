@@ -23,8 +23,6 @@ endif (GluonEngine_FIND_REQUIRED)
 
 find_package(GluonCore ${_gluonEngineReq})
 
-#set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_INSTALL_PREFIX}/share/gluon/cmake)
-
 find_path(GLUON_ENGINE_INCLUDE_DIR
     NAMES
     engine/gluon_engine_export.h

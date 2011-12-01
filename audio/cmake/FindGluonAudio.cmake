@@ -24,8 +24,6 @@ endif (GLUON_AUDIO_FIND_REQUIRED)
 
 find_package(GluonCore ${_gluonAudioReq})
 
-set(CMAKE_MODULE_PATH ${SHARE_INSTALL_DIR}/gluon/cmake)
-
 find_package(OpenAL ${_gluonAudioReq})
 find_package(Alure ${_gluonAudioReq})
 find_package(SndFile ${_gluonAudioReq})

@@ -23,8 +23,6 @@ endif (GluonSmarts_FIND_REQUIRED)
 
 find_package(GluonCore ${_gluonSmartsReq})
 
-set(CMAKE_MODULE_PATH ${SHARE_INSTALL_DIR}/gluon/cmake)
-
 find_path(GLUON_SMARTS_INCLUDE_DIR
     NAMES
     smarts/lib/btlib.h

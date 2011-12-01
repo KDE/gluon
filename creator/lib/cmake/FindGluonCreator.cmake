@@ -22,8 +22,6 @@ endif (GluonCreator_FIND_REQUIRED)
 
 find_package(GluonCore ${_gluonCreatorReq})
 
-set(CMAKE_MODULE_PATH ${SHARE_INSTALL_DIR}/gluon/cmake)
-
 find_package(KDE4 ${_gluonCreatorReq})
 find_package(GluonEngine ${_gluonCreatorReq})
 
