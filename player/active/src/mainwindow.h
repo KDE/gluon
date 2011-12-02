@@ -1,6 +1,8 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright 2011 Sebastian Kügler <sebas@kde.org>
+ * Copyright 2011 Marco Martin <mart@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,18 +19,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYERIMPORTSPLUGIN_H
-#define GLUONPLAYERIMPORTSPLUGIN_H
 
-#include <QDeclarativeExtensionPlugin>
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
-class GluonPlayerImportsPlugin : public QDeclarativeExtensionPlugin
+#include "appview.h"
+
+class MainWindow : public KMainWindow
 {
-        Q_OBJECT
-    public:
-        virtual void registerTypes( const char* uri );
+    Q_OBJECT
+public:
+    MainWindow(const QString &url);
+    virtual ~MainWindow();
+    QString name();
+    QIcon icon();
+    KConfigGroup config(const QString &group = "Default");
+
+    void setUseGL(const bool on);
+    bool useGL() const;
+
+private:
+    AppView *m_widget;
 };
 
-Q_EXPORT_PLUGIN2( gluonplayerimportsplugin, GluonPlayerImportsPlugin )
-
-#endif // GLUONPLAYERIMPORTSPLUGIN_H
+#endif // MAINWINDOW_H

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Gluon Player
+GenericName=Gluon Player
+Comment=Gluon Player for tablets
+Exec=gluonplayer-active -graphicssystem raster %u
+Terminal=false
+Icon=gluon-install
+Type=Application
+Categories=Qt;KDE;Games

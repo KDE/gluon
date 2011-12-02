@@ -1,6 +1,8 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright 2011 Sebastian Kügler <sebas@kde.org>
+ * Copyright 2011 Marco Martin <mart@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,24 +19,50 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-import QtQuick 1.0
-import org.kde.plasma.graphicswidgets 0.1 as PlasmaWidgets
-import org.kde.plasma.core 0.1 as PlasmaCore
-import org.kde.plasma.graphicslayouts 4.7 as GraphicsLayouts
-import org.gamingfreedom.gluon.gluonplayerimports 0.1 as GluonPlayer
+#ifndef VIEW_H
+#define VIEW_H
 
-Item {
-    property alias spacing: installedGamesList.spacing
+#include <QDeclarativeView>
+#include <QAction>
 
-    GameItemsDelegate {
-        id: gameItemsDelegate
-    }
+#include <KActionCollection>
+#include <KMainWindow>
+#include <KPluginInfo>
 
-    ListView {
-        id: installedGamesList
-        anchors.fill: parent
-        model: GluonPlayer.InstalledGamesModel { }
-        delegate: gameItemsDelegate
-    }
+class KMainWindow;
+class QDeclarativeItem;
+class QProgressBar;
+class QSignalMapper;
+class Page;
+class ScriptApi;
+class GluonPlayer;
+class DirModel;
+
+
+namespace Plasma
+{
+    class Package;
 }
 
+class AppView : public QDeclarativeView
+{
+    Q_OBJECT
+
+public:
+    AppView(const QString &url, QWidget *parent = 0 );
+    ~AppView();
+
+    QString name() const;
+
+    void setUseGL(const bool on);
+    bool useGL() const;
+
+private Q_SLOTS:
+    void onStatusChanged(QDeclarativeView::Status status);
+
+private:
+    Plasma::Package *m_package;
+    bool m_useGL;
+};
+
+#endif // VIEW_H
