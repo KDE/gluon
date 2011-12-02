@@ -1,10 +1,3 @@
-cmake_minimum_required(VERSION 2.8)
-
-if(NOT GLUON_BUILD_ALL)
-    project(GluonEngine)
-    find_package(GluonCore REQUIRED)
-endif()
-
 option(BUILD_AUDIO_COMPONENTS "Build Components dependant on Gluon Audio" ON)
 option(BUILD_AUDIO_ASSETS "Build Assets dependant on Gluon Audio" ON)
 option(BUILD_GRAPHICS_COMPONENTS "Build Components dependant on Gluon Graphics" ON)
@@ -34,18 +27,6 @@ if(NOT BUILD_GLUON_INPUT)
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${GLUON_CORE_INCLUDES}
-)
-
-set(GLUON_ENGINE_INCLUDES
-    ${GLUON_CORE_INCLUDES}
-    ${GLUON_GRAPHICS_INCLUDES}
-    CACHE INTERNAL "Include files required for Gluon Engine"
-)
 
 set(GluonEngine_SRCS
     abstractprefabinstance.cpp
@@ -104,14 +85,9 @@ set(GluonEngine_HEADERS
     gluon_engine_metatypes.h
 )
 
-qt4_automoc(${GluonEngine_SRCS})
-if(APPLE)
-    add_library(GluonEngine SHARED ${GluonEngine_SRCS} ${GluonEngine_HEADERS})
-else()
-    add_library(GluonEngine SHARED ${GluonEngine_SRCS})
-endif()
-
-set_target_properties(GluonEngine PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_ENGINE_LIB)
+gluon_include_directories(GluonEngine ${GLUONCORE_INCLUDES})
+gluon_add_library(GluonEngine SHARED ${GluonEngine_SRCS})
+gluon_target_link_libraries(GluonEngine ${GLUONCORE_LIBS} ${GLUONGRAPHICS_LIBS} ${QT_QTSQL_LIBRARY})
 
 if(APPLE)
     #hack for being able to set headers as public in a osx framework
@@ -128,19 +104,6 @@ if(APPLE)
     set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
     set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
 endif()
-
-if(GLUON_BUILD_ALL)
-    add_dependencies(GluonEngine GluonCore)
-endif()
-
-target_link_libraries(GluonEngine ${GLUON_CORE_LIBS} ${GLUON_GRAPHICS_LIBS} ${QT_QTSQL_LIBRARY})
-
-set(GLUON_ENGINE_LIBS
-    GluonEngine
-    ${GLUON_CORE_LIBS}
-    ${GLUON_GRAPHICS_LIBS}
-    CACHE INTERNAL "Libraries required for Gluon Engine"
-)
 
 install(
     TARGETS     GluonEngine

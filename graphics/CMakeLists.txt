@@ -1,51 +1,23 @@
-cmake_minimum_required(VERSION 2.8)
-
-if(NOT GLUON_BUILD_ALL)
-project(GluonGraphics)
-    find_package(GluonCore REQUIRED)
-endif()
-
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 if(WIN32)
-    find_package(Glee)
-    if(NOT GLEE_FOUND)
-        message(FATAL_ERROR "Could NOT find GLee!")
-    endif(NOT GLEE_FOUND)
+    find_package(Glee REQUIRED)
 endif(WIN32)
 
 find_package(AssImp)
 
 add_definitions(-DGL_GLEXT_PROTOTYPES)
 
-include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${GLUON_CORE_INCLUDES}
-    ${OPENGL_REAL_INCLUDE_DIR}
-)
-
-set(GLUON_GRAPHICS_INCLUDES
-    ${GLUON_CORE_INCLUDES}
-    ${OPENGL_REAL_INCLUDE_DIR}
-    CACHE INTERNAL "Includes required for Gluon Graphics"
-)
+gluon_include_directories(${GLUONCORE_INCLUDES} ${OPENGL_REAL_INCLUDE_DIR})
 
 if(WIN32)
-	include_directories(${GLEE_INCLUDE_DIR})
-	set(GLUON_GRAPHICS_INCLUDES
-		${GLUON_GRAPHICS_INCLUDES}
-		${GLEE_INCLUDE_DIR}
-		CACHE INTERNAL "Includes required for Gluon Graphics"
-	)
+    include_directories(${GLEE_INCLUDE_DIR})
+    list(APPEND GLUONGRAPHICS_INCLUDES ${GLEE_INCLUDE_DIR})
 endif(WIN32)
 
 if(ASSIMP_FOUND)
     include_directories(${ASSIMP_INCLUDE_DIR})
-    set(GLUON_GRAPHICS_INCLUDES
-        ${GLUON_GRAPHICS_INCLUDES}
-        ${ASSIMP_INCLUDE_DIR}
-    )
+    list(APPEND GLUONGRAPHICS_INCLUDES ${ASSIMP_INCLUDE_DIR})
     set(GLUON_GRAPHICS_HAS_MESH TRUE CACHE INTERNAL "")
 endif(ASSIMP_FOUND)
 
@@ -99,10 +71,8 @@ if(ASSIMP_FOUND)
     set( GluonGraphics_HEADERS ${GluonGraphics_HEADERS} filemesh.h )
 endif(ASSIMP_FOUND)
 
-qt4_automoc(${GluonGraphics_SRCS})
-add_library(GluonGraphics SHARED ${GluonGraphics_SRCS} ${GluonGraphics_HEADERS})
-
-set_target_properties(GluonGraphics PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_GRAPHICS_LIB)
+gluon_add_library(GluonGraphics SHARED ${GluonGraphics_SRCS})
+gluon_target_link_libraries(GluonGraphics ${GLUONCORE_LIBS} ${QT_QTOPENGL_LIBRARY} ${OPENGL_REAL_LIBS})
 
 if(APPLE)
     #hack for being able to set headers as public in a osx framework
@@ -119,29 +89,14 @@ if(APPLE)
     set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
 endif()
 
-target_link_libraries(
-    GluonGraphics
-    ${GLUON_CORE_LIBS}
-    ${QT_QTOPENGL_LIBRARY}
-    ${OPENGL_REAL_LIBS}
-)
-
-set(GLUON_GRAPHICS_LIBS
-    GluonGraphics
-    ${GLUON_CORE_LIBS}
-    ${QT_QTOPENGL_LIBRARY}
-    ${OPENGL_REAL_LIBS}
-    CACHE INTERNAL "Libraries required for Gluon Graphics"
-)
-
 if(ASSIMP_FOUND)
     target_link_libraries(GluonGraphics ${ASSIMP_LIBRARY})
-    set(GLUON_GRAPHICS_LIBS ${GLUON_GRAPHICS_LIBS} ${ASSIMP_LIBRARY})
+    list(APPEND GLUONGRAPHICS_LIBS ${ASSIMP_LIBRARY})
 endif(ASSIMP_FOUND)
 
 if(WIN32)
     target_link_libraries(GluonGraphics ${GLEE_LIBRARIES})
-    set(GLUON_GRAPHICS_LIBS ${GLUON_GRAPHICS_LIBS} ${GLEE_LIBRARIES})
+    list(APPEND GLUONGRAPHICS_LIBS ${GLEE_LIBRARIES})
 endif(WIN32)
 
 if(INSTALL_EXAMPLES)
@@ -150,10 +105,10 @@ endif()
 
 install(
     TARGETS     GluonGraphics
-    RUNTIME     DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluongraphics
-    LIBRARY     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
-    ARCHIVE     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
-    FRAMEWORK   DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
+    RUNTIME DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluongraphics
+    LIBRARY DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
+    ARCHIVE DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
+    FRAMEWORK DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
 )
 
 install(FILES

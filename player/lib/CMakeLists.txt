@@ -1,23 +1,5 @@
 set(LIBATTICA_MIN_VERSION 0.1.90)
-
 find_package(LibAttica)
-
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${GLUON_GRAPHICS_INCLUDES}
-    ${GLUON_ENGINE_INCLUDES}
-    ${LIBATTICA_INCLUDE_DIR}
-)
-
-set(GLUON_PLAYER_INCLUDES
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${GLUON_GRAPHICS_INCLUDES}
-    ${GLUON_ENGINE_INCLUDES}
-    ${LIBATTICA_INCLUDE_DIR}
-    CACHE INTERNAL "Include files required for Gluon Player"
-)
 
 set(libGluonPlayer_SRCS
     abstractjob.cpp
@@ -53,28 +35,17 @@ set(libGluonPlayer_SRCS
     models/installedgamesmodel.cpp
 )
 
-qt4_automoc(${libGluonPlayer_SRCS})
-add_library(libGluonPlayer SHARED ${libGluonPlayer_SRCS})
-set_target_properties(libGluonPlayer PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_PLAYER_LIB PREFIX "")
-
-target_link_libraries(libGluonPlayer
+gluon_include_directories(${GLUONGRAPHICS_INCLUDES} ${GLUONENGINE_INCLUDES} ${LIBATTICA_INCLUDE_DIR})
+gluon_add_library(GluonPlayer SHARED ${libGluonPlayer_SRCS})
+gluon_target_link_libraries(GluonPlayer
     ${LIBATTICA_LIBRARIES}
-    ${GLUON_CORE_LIBS}
-    ${GLUON_ENGINE_LIBS}
+    ${GLUONCORE_LIBRARIES}
+    ${GLUONENGINE_LIBRARIES}
     ${QT_QTNETWORK_LIBRARY}
-)
-
-set(GLUON_PLAYER_LIBS
-    libGluonPlayer
-    ${LIBATTICA_LIBRARIES}
-    ${GLUON_CORE_LIBS}
-    ${GLUON_ENGINE_LIBS}
-    ${QT_QTNETWORK_LIBRARY}
-    CACHE INTERNAL "Libraries required for Gluon Player"
 )
 
 install(
-    TARGETS     libGluonPlayer
+    TARGETS     GluonPlayer
     RUNTIME     DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluonplayer
     LIBRARY     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonplayer
     ARCHIVE     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonplayer

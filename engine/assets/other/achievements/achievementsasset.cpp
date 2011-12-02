@@ -130,5 +130,3 @@ void AchievementsAsset::populateMetaInfo(GluonCore::MetaInfo* info)
 }
 
 Q_EXPORT_PLUGIN2( gluon_asset_achievements, GluonEngine::AchievementsAsset )
-
-#include "achievementsasset.moc"

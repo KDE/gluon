@@ -112,5 +112,3 @@ GluonGraphics::Texture* TextureAsset::texture() const
 
 
 Q_EXPORT_PLUGIN2( gluon_asset_texture, GluonEngine::TextureAsset )
-
-#include "textureasset.moc"

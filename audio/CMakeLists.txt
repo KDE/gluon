@@ -1,33 +1,12 @@
-cmake_minimum_required(VERSION 2.8)
-
-if(NOT GLUON_BUILD_ALL)
-    project(GluonAudio)
-    find_package(GluonCore REQUIRED)
-endif()
+option(BUILD_GLUONAUDIO "Build GluonAudio Library" ON)
+if( NOT BUILD_GLUONAUDIO )
+    return()
+endif( NOT BUILD_GLUONAUDIO )
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(OpenAL 1.8 REQUIRED)
 find_package(Alure 1.2 REQUIRED)
-
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-
-    ${GLUON_CORE_INCLUDES}
-
-    ${ALURE_INCLUDE_DIRS}
-    ${OPENAL_INCLUDE_DIR}
-    #TODO: Make use of phonon instead of these libs for file input. Saves us another few dependencies.
-)
-
-set(GLUON_AUDIO_INCLUDES
-    ${GLUON_CORE_INCLUDES}
-
-    ${ALURE_INCLUDE_DIRS}
-    ${OPENAL_INCLUDE_DIR}
-    CACHE INTERNAL "Includes required for Gluon Audio"
-)
 
 set(GluonAudio_SRCS
     #capture.cpp
@@ -47,49 +26,10 @@ set(GluonAudio_HEADERS
     sound.h
 )
 
-qt4_automoc(${GluonAudio_SRCS})
-
-if(APPLE)
-    add_library(GluonAudio SHARED ${GluonAudio_SRCS} ${GluonAudio_HEADERS})
-else()
-    add_library(GluonAudio SHARED ${GluonAudio_SRCS})
-endif()
-
-if(GLUON_BUILD_ALL)
-    add_dependencies(GluonAudio GluonCore)
-endif()
-
-target_link_libraries(
-    GluonAudio
-    ${GLUON_CORE_LIBS}
-    ${OPENAL_LIBRARY}
-    ${ALURE_LIBRARIES}
-)
-
-set(GLUON_AUDIO_LIBS
-    GluonAudio
-    ${GLUON_CORE_LIBS}
-    ${OPENAL_LIBRARY}
-    ${ALURE_LIBRARIES}
-    CACHE INTERNAL "Libraries required for Gluon audio"
-)
-
-set_target_properties(GluonAudio PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_AUDIO_LIB)
-
-if(APPLE)
-    #hack for being able to set headers as public in a osx framework
-    list(APPEND GluonAudio_HEADERS
-        ${GluonAudio_HEADERS}
-    )
-
-    set_target_properties(GluonAudio PROPERTIES FRAMEWORK TRUE)
-    set_target_properties(GluonAudio PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
-    set_target_properties(GluonAudio PROPERTIES PUBLIC_HEADER "${GluonAudio_HEADERS}")
-
-    set(MACOSX_FRAMEWORK_IDENTIFIER audio)
-    set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
-    set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
-endif()
+gluon_include_directories(${GLUONCORE_INCLUDES} ${ALURE_INCLUDE_DIRS} ${OPENAL_INCLUDE_DIR})
+gluon_add_library(GluonAudio SHARED ${GluonAudio_SRCS} ${GluonAudio_HEADERS})
+gluon_target_link_libraries(GluonAudio ${GLUONCORE_LIBS} ${OPENAL_LIBRARY} ${ALURE_LIBRARIES})
+gluon_setup_framework(GluonAudio ${GluonAudio_HEADERS})
 
 if(INSTALL_EXAMPLES)
     add_subdirectory(examples)

@@ -1,10 +1,3 @@
-cmake_minimum_required(VERSION 2.8)
-
-if(NOT GLUON_BUILD_ALL)
-    project(GluonInput)
-    find_package(GluonCore REQUIRED)
-endif()
-
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -146,22 +139,13 @@ set(GluonInput_HEADERS_COMMON
 )
 ###############common source and headers###################
 
-qt4_automoc(${GluonInput_SRCS_COMMON})
-qt4_automoc(${GluonInput_SRCS_QT})
-
 if(APPLE)
-    qt4_automoc(${GluonInput_SRCS_MAC})
-    add_library(GluonInput SHARED ${GluonInput_SRCS_MAC} ${GluonInput_SRCS_COMMON} ${GluonInput_HEADERS_COMMON} ${GluonInput_HEADERS_MAC} ${GluonInput_SRCS_QT})
+    gluon_add_library(GluonInput SHARED ${GluonInput_SRCS_MAC} ${GluonInput_SRCS_COMMON} ${GluonInput_HEADERS_COMMON} ${GluonInput_HEADERS_MAC} ${GluonInput_SRCS_QT})
 elseif(WIN32)
-    qt4_automoc(${GluonInput_SRCS_WIN})
-    add_library(GluonInput SHARED ${GluonInput_SRCS_WIN} ${GluonInput_SRCS_QT} ${GluonInput_SRCS_COMMON})
+    gluon_add_library(GluonInput SHARED ${GluonInput_SRCS_WIN} ${GluonInput_SRCS_QT} ${GluonInput_SRCS_COMMON})
 elseif(UNIX)
-    qt4_automoc(${GluonInput_SRCS_LINUX})
-    add_library(GluonInput SHARED ${GluonInput_SRCS_LINUX} ${GluonInput_SRCS_QT} ${GluonInput_SRCS_COMMON})
+    gluon_add_library(GluonInput SHARED ${GluonInput_SRCS_LINUX} ${GluonInput_SRCS_QT} ${GluonInput_SRCS_COMMON})
 endif()
-
-
-set_target_properties(GluonInput PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_INPUT_LIB)
 
 if(APPLE)
     #hack for being able to set headers as public in a osx framework
@@ -182,25 +166,17 @@ if(APPLE)
 endif()
 
 
-target_link_libraries(GluonInput ${GLUON_CORE_LIBS})
-
-set(GLUON_INPUT_LIBS
-    GluonInput
-    ${GLUON_CORE_LIBS}
-    CACHE INTERNAL "Libraries required for Gluon Input"
-)
+gluon_target_link_libraries(GluonInput ${GLUONCORE_LIBS})
 
 if(APPLE)
-    set(GLUON_INPUT_LIBS
-        ${GLUON_INPUT_LIBS}
+    target_link_libraries(GluonInput ${IOKIT_LIBRARY} ${COREFOUNDATION_LIBRARY})
+
+    set(GLUONINPUT_LIBS
+        ${GLUONINPUT_LIBS}
         ${IOKIT_LIBRARY}
         ${COREFOUNDATION_LIBRARY}
         CACHE INTERNAL "Libraries required for Gluon Input"
     )
-endif()
-
-if(APPLE)
-    target_link_libraries(GluonInput ${IOKIT_LIBRARY} ${COREFOUNDATION_LIBRARY})
 endif()
 
 install(

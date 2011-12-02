@@ -151,5 +151,3 @@ bool StatisticsAsset::shouldSerializeChildren() const
 }
 
 Q_EXPORT_PLUGIN2( gluon_asset_statistics, GluonEngine::StatisticsAsset )
-
-#include "statisticsasset.moc"

@@ -1,15 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
-
-if(NOT GLUON_BUILD_ALL)
-    find_package(GluonGraphics REQUIRED)
-    find_package(GluonInput REQUIRED)
-endif()
-
-find_package(Qt4 4.7 REQUIRED)
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
-                    ${GLUON_GRAPHICS_INCLUDES}
-                    ${GLUON_INPUT_INCLUDES})
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${GLUONGRAPHICS_INCLUDES} ${GLUONINPUT_INCLUDES})
 
 set(uimanagercomponent_SRCS
     textureimageprovider.cpp
@@ -20,15 +9,8 @@ set(uimanagercomponent_SRCS
     uiasset.cpp
 )
 
-qt4_automoc(${uimanagercomponent_SRCS})
-add_library(gluon_component_uimanager SHARED ${uimanagercomponent_SRCS})
-
-if(GLUON_BUILD_ALL)
-    add_dependencies(gluon_component_uimanager GluonEngine GluonGraphics GluonInput)
-endif()
-
-set_target_properties(gluon_component_uimanager PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING}  DEFINE_SYMBOL MAKE_GLUON_COMPONENT_UIMANAGER_LIB)
-target_link_libraries(gluon_component_uimanager GluonEngine ${GLUON_GRAPHICS_LIBS} ${GLUON_INPUT_LIBS} ${QT_QTDECLARATIVE_LIBRARY})
+gluon_add_plugin(gluon_component_uimanager SHARED ${uimanagercomponent_SRCS})
+target_link_libraries(gluon_component_uimanager GluonEngine ${GLUONGRAPHICS_LIBS} ${GLUONINPUT_LIBS} ${QT_QTDECLARATIVE_LIBRARY})
 
 install(
     TARGETS

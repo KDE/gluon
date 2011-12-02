@@ -1,11 +1,3 @@
-cmake_minimum_required(VERSION 2.6)
-
-if(NOT GLUON_BUILD_ALL)
-    find_package(GluonSmarts REQUIRED)
-endif()
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_SMARTS_INCLUDES})
-
 set(behaviortreecomponent_SRCS
     btAssetprivate.cpp
     btAsset.cpp
@@ -24,15 +16,8 @@ set(behaviortreecomponent_SRCS
     btperceptioninfoscriptable.cpp
 )
 
-qt4_automoc(${behaviortreecomponent_SRCS})
-add_library(gluon_component_behaviortree SHARED ${behaviortreecomponent_SRCS})
-
-if(GLUON_BUILD_ALL)
-    add_dependencies(gluon_component_behaviortree GluonEngine GluonSmarts)
-endif()
-
-set_target_properties(gluon_component_behaviortree PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_COMPONENT_BEHAVIORTREE_LIB)
-target_link_libraries(gluon_component_behaviortree GluonEngine ${GLUON_SMARTS_LIBS})
+gluon_add_plugin(gluon_component_behaviortree ${behaviortreecomponent_SRCS})
+target_link_libraries(gluon_component_behaviortree GluonEngine ${GLUONSMARTS_LIBS})
 
 install(
     TARGETS

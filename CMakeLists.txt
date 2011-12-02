@@ -7,11 +7,19 @@ set(GLUON_VERSION_PATCH     0)
 set(GLUON_VERSION_STRING    "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}")
 set(GLUON_VERSION_NAME      "Alpha Particle")
 
+include(cmake/GluonMacros.cmake)
+# Reenable once automoc support in CMake is fixed
+# if(CMAKE_VERSION VERSION_LESS "2.8.6")
+#     find_package(Automoc4 REQUIRED)
+# else()
+#     set(CMAKE_AUTOMOC TRUE)
+# endif()
+
 #Project options, to provide a selective build process
 #Note that some of these are mutually exclusive or just
 #do not make a whole lot of sense combined.
 option(WITH_KDE "Build with KDE Development Platform Support" ON)
-option(BUILD_GLUON_AUDIO "Build Gluon Audio Library" ON)
+# option(BUILD_GLUON_AUDIO "Build Gluon Audio Library" ON)
 option(BUILD_GLUON_INPUT "Build Gluon Input Library" ON)
 option(BUILD_GLUON_SMARTS "Build SMARTS Game AI Library" ON)
 option(BUILD_GLUON_SMARTS_EDITOR "Build Gluon SMARTS Editor" ON)
@@ -37,10 +45,6 @@ endif()
 
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/gluon")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-
-set(GLUON_BUILD_ALL TRUE
-    CACHE INTERNAL "Build all of Gluon"
-)
 
 if(NOT MSVC)
     set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -Wno-switch -O2 -g")
@@ -79,9 +83,9 @@ endif()
 add_subdirectory(core)
 
 ####### Gluon Audio #######
-if(BUILD_GLUON_AUDIO)
+# if(BUILD_GLUON_AUDIO)
     add_subdirectory(audio)
-endif()
+# endif()
 
 ####### Gluon Input #######
 if(BUILD_GLUON_INPUT)
@@ -95,7 +99,7 @@ endif()
 
 ####### SMARTS Library #######
 if(BUILD_GLUON_SMARTS)
-     add_subdirectory(smarts)
+    add_subdirectory(smarts)
 endif()
 
 ###### Gluon Engine #######
