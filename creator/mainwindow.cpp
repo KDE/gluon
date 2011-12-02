@@ -143,40 +143,45 @@ void MainWindow::openProject( const QString& fileName )
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
         FileManager::instance()->closeAll( true );
-
-        statusBar()->showMessage( i18n( "Opening project..." ) );
-        FileManager::instance()->openFile( fileName, "view", i18nc( "View Game Tab", "View" ), QString(), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ), false );
-        // FileManager::instance()->openFile( fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), "gluon_editor_part", QVariantList() << QString( "autoplay=false" ), false );
-        d->mainArea->setActiveTab( "view" );
-
-        GluonEngine::Game::instance()->initializeAll();
-        GluonEngine::Game::instance()->drawAll();
-        ObjectManager::instance()->watchCurrentAssets();
-
         d->fileName = fileName;
-        d->recentFiles->addUrl( KUrl( fileName ) );
-
-        stateChanged( "fileOpened" );
-        DockManager::instance()->setDocksEnabled( true );
-
-        if( centralWidget() )
-            centralWidget()->setEnabled( true );
-
-        statusBar()->showMessage( i18n( "Project successfully opened" ) );
-        setCaption( i18n( "%1 - Gluon Creator", fileName.section( '/', -2, -2 ) ) );
-
-        foreach(GluonEngine::Asset* asset, GluonEngine::Game::instance()->gameProject()->findAssetsByType("GluonEngine::MaterialAsset*"))
-        {
-            connect(asset, SIGNAL(instanceCreated(GluonGraphics::MaterialInstance*)), ObjectManager::instance(), SLOT(createObjectCommand(GluonGraphics::MaterialInstance*)));
-        }
-
-        HistoryManager::instance()->clear();
-        connect( HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SLOT(historyChanged()) );
+        openProject();
     }
     else
     {
         statusBar()->showMessage( i18n( "Unable to open project file..." ) );
     }
+}
+
+void MainWindow::openProject()
+{
+    statusBar()->showMessage( i18n( "Opening project..." ) );
+    FileManager::instance()->openFile( d->fileName, "view", i18nc( "View Game Tab", "View" ), QString(), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ), false );
+    //TODO: Editor view needs to be implemented
+    // FileManager::instance()->openFile( fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), "gluon_editor_part", QVariantList() << QString( "autoplay=false" ), false );
+    d->mainArea->setActiveTab( "view" );
+
+    GluonEngine::Game::instance()->initializeAll();
+    GluonEngine::Game::instance()->drawAll();
+    ObjectManager::instance()->watchCurrentAssets();
+
+    d->recentFiles->addUrl( KUrl( d->fileName ) );
+
+    stateChanged( "fileOpened" );
+    DockManager::instance()->setDocksEnabled( true );
+
+    if( centralWidget() )
+        centralWidget()->setEnabled( true );
+
+    statusBar()->showMessage( i18n( "Project successfully opened" ) );
+    setCaption( i18n( "%1 - Gluon Creator", d->fileName.section( '/', -2, -2 ) ) );
+
+    foreach(GluonEngine::Asset* asset, GluonEngine::Game::instance()->gameProject()->findAssetsByType("GluonEngine::MaterialAsset*"))
+    {
+        connect(asset, SIGNAL(instanceCreated(GluonGraphics::MaterialInstance*)), ObjectManager::instance(), SLOT(createObjectCommand(GluonGraphics::MaterialInstance*)));
+    }
+
+    HistoryManager::instance()->clear();
+    connect( HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SLOT(historyChanged()) );
 }
 
 void MainWindow::saveProject()
@@ -335,7 +340,8 @@ void MainWindow::playGame( )
         setFocus();
         GluonEngine::Game::instance()->gameProject()->deleteLater();
         GluonEngine::Game::instance()->setGameProject(0);
-        openProject( d->fileName );
+        FileManager::instance()->closeFile("view", true);
+        openProject( );
         GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
         GluonEngine::Game::instance()->initializeAll();
     }

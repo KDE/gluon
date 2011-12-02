@@ -39,6 +39,7 @@ namespace GluonCreator
             virtual void closeEvent( QCloseEvent* event );
 
         public slots:
+            void openProject();
             void openProject( const KUrl& url );
             void openProject( const QString& fileName );
             void saveProject();
