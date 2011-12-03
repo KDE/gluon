@@ -19,6 +19,7 @@
 
 #include "materialasset.h"
 
+#include <core/metainfo.h>
 #include <graphics/material.h>
 #include <graphics/materialinstance.h>
 #include <graphics/engine.h>
@@ -79,12 +80,15 @@ const QStringList MaterialAsset::supportedMimeTypes() const
 
 void MaterialAsset::load()
 {
+    if( isLoaded() )
+        return;
+
     if( !file().isEmpty() )
     {
         if( !d->material )
             d->material = GluonGraphics::Engine::instance()->createMaterial( name() );
 
-        if( d->material->load( file() ) )
+        if( d->material->load( absolutePath() ) )
         {
             d->material->build();
             mimeData()->setText( name() );

@@ -51,7 +51,7 @@ void AchievementsManager::save( const QString& directory )
             objects.append( gobj );
     }
 
-    if( !GluonCore::GDLSerializer::instance()->write( QUrl( directory + "/achievementscache.gdl" ), objects ) )
+    if( !GluonCore::GDLSerializer::instance()->write( QUrl::fromLocalFile( directory + "/achievementscache.gdl" ), objects ) )
         return;
 }
 
@@ -67,7 +67,7 @@ void AchievementsManager::load( const QString& directory )
     QDir::home().mkpath(directory);
 
     GluonCore::GluonObjectList objectList;
-    if( !GluonCore::GDLSerializer::instance()->read( QUrl( directory + "/achievementscache.gdl" ), objectList ) )
+    if( !GluonCore::GDLSerializer::instance()->read( QUrl::fromLocalFile( directory + "/achievementscache.gdl" ), objectList ) )
         return;
 
     foreach( GluonCore::GluonObject* object, objectList )
@@ -129,7 +129,7 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
         object->setProperty( "name", achievement->name() );
         object->setProperty( "description", achievement->property("description") );
         if( achievement->icon() )
-            object->setProperty( "icon", achievement->icon()->file().toLocalFile() );
+            object->setProperty( "icon", achievement->icon()->file() );
         object->setProperty( "minimumScore", achievement->minimumScore() );
         object->setProperty( "thresholdScore", achievement->thresholdScore() );
         object->setProperty( "currentScore", achievement->currentScore() );

@@ -214,6 +214,11 @@ void RenderableScene::deliverEvent( QEvent* event )
         }
         break;
 #endif
+        case QEvent::Leave:
+        case QEvent::Enter:
+        case QEvent::MetaCall:
+            //These events should not be resent to the scene, it will in fact cause issues if they try.
+            break;
 
         default:
         {

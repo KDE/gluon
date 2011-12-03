@@ -96,13 +96,8 @@ int main( int argc, char** argv )
 
         QApplication app( argc, argv );
 
-        QFileInfo fi = QFileInfo( argv[1] );
-        QString fileName;
-        if( fi.isRelative() )
-            fileName = fi.canonicalFilePath();
-        else
-            fileName = argv[1];
-        
+        QString fileName = QFileInfo( argv[1] ).absoluteFilePath();
+
         Player player(fileName);
         QTimer::singleShot(0, &player, SLOT(openProject()));
 

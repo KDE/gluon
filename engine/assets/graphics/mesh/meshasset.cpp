@@ -65,7 +65,7 @@ void MeshAsset::load()
             delete d->mesh;
         }
 
-        d->mesh = new GluonGraphics::FileMesh( file().toLocalFile(), this);
+        d->mesh = new GluonGraphics::FileMesh( absolutePath().toLocalFile(), this);
         GluonGraphics::Engine::instance()->addMesh( name(), d->mesh );
         d->mesh->initialize();
 

@@ -277,9 +277,9 @@ void NodeEditor::exportCode( bool /* checked */ )
     {
         GluonEngine::Asset* script = new GluonEngine::Asset();
         script->setName( "vn-" + GluonEngine::Game::instance()->currentScene()->name() );
-        script->setFile( QUrl( "Assets/" + script->name() + ".js" ) );
+        script->setFile( QString( "Assets/" ) + script->name() + ".js" );
         GluonEngine::Game::instance()->gameProject()->addChild( script );
-        QFile codeFile( script->file().toLocalFile() );
+        QFile codeFile( script->absolutePath().toLocalFile() );
         if( !codeFile.open( QIODevice::WriteOnly ) ) return;
         QTextStream filewrite( &codeFile );
         foreach( QObject * o, surfNodesIntoTree()->children() )
@@ -292,7 +292,7 @@ void NodeEditor::exportCode( bool /* checked */ )
     {
         GluonEngine::Asset* scriptE = GluonEngine::Game::instance()->gameProject()->findChild<GluonEngine::Asset*>( "vn-" + GluonEngine::Game::instance()->currentScene()->name() );
         if( !scriptE ) return;
-        QFile codeFileE( scriptE->file().toLocalFile() );
+        QFile codeFileE( scriptE->absolutePath().toLocalFile() );
         if( !codeFileE.open( QIODevice::WriteOnly ) ) return;
         QTextStream filewriteE( &codeFileE );
         foreach( QObject * o, surfNodesIntoTree()->children() )

@@ -30,6 +30,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QDebug>
 #include <QtCore/QStringList>
+#include <game.h>
 
 Q_DECLARE_METATYPE(btNode*)
 
@@ -57,26 +58,27 @@ btAsset::~btAsset()
 }
 
 void
-btAsset::setFile(const QUrl &newFile)
+btAsset::setFile(const QString& newFile)
 {
-    debug(QString("Attempting to load %1").arg(newFile.toLocalFile()));
-    QFile *brainFile = new QFile(newFile.toLocalFile());
+    debug(QString("Attempting to load %1").arg(newFile));
+    QString newPath = Game::instance()->gameProject()->dirname().toLocalFile() + "/" + newFile;
+    QFile *brainFile = new QFile( newPath );
     if(!brainFile->open(QIODevice::ReadOnly))
         return;
-    
+
     debug(QString("File opened, attempting to create brain"));
     QTextStream brainReader(brainFile);
-    btBrain* newBrain = new btBrain(brainReader.readAll(), newFile.toLocalFile());
+    btBrain* newBrain = new btBrain(brainReader.readAll(), newPath );
     brainFile->close();
     delete brainFile;
-    
+
     if(!newBrain)
         return;
-    
+
     debug(QString("Brain loaded, replacing old brain and creating %1 sub-btAssets").arg(newBrain->behaviorTreesCount()));
     //delete d->brain;
     d->brain = newBrain;
-    
+
     const QObjectList& oldChildren = children();
     QList<Tree*> newChildren;
     for(int i = 0; i < newBrain->behaviorTreesCount(); ++i)
@@ -87,7 +89,7 @@ btAsset::setFile(const QUrl &newFile)
         newTree->setName(newTree->behaviorTree()->name());
         newChildren.append(newTree);
     }
-    
+
     // Run through all old children
     foreach(QObject* oldChild, oldChildren)
     {
@@ -103,11 +105,11 @@ btAsset::setFile(const QUrl &newFile)
         // If no new child could be found, inform the oldChild that it should be removed
         emit theOldChild->treeChanged(theNewChild);
     }
-    
+
     debug(QString("Brain successfully loaded! Number of sub-btAssets created: %1").arg(this->children().count()));
-    
+
 //    qDeleteAll(oldChildren);
-    
+
     GluonEngine::Asset::setFile(newFile);
 }
 

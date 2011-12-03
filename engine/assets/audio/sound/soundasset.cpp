@@ -46,7 +46,7 @@ const QStringList SoundAsset::supportedMimeTypes() const
 
 void SoundAsset::load()
 {
-    mimeData()->setText( absolutePath() );
+    mimeData()->setText( absolutePath().toLocalFile() );
     setLoaded( true );
 }
 

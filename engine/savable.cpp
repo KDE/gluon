@@ -47,24 +47,22 @@ bool Savable::saveToFile( GluonCore::GluonObject* object )
     Savable* savableObject = dynamic_cast<Savable*>( object );
     if( !savableObject )
     {
-        DEBUG_TEXT( "Attempted to save an object which does not inherit Savable!" )
         return false;
     }
 
     if( !savableObject->savableDirty )
     {
-        DEBUG_TEXT( "Trying to save an un-dirty object. This is technically possible, but makes little sense. So - let's not and say we did, shall we?" )
         return true;
     }
 
-    QUrl file = Asset::fullyQualifiedFileName( object );
+    QString file = Asset::fullyQualifiedFileName( object );
     object->setProperty( "file", file );
 
     // Make all the directories requires up to this file
-    QDir::current().mkpath( file.toLocalFile().section( '/', 0, -2 ) );
+    QDir::current().mkpath( file.section( '/', 0, -2 ) );
 
     // Perform the save
-    QFile* savableFile = new QFile( file.toLocalFile() );
+    QFile* savableFile = new QFile( file );
     if( !savableFile->open( QIODevice::WriteOnly ) )
     {
         DEBUG_TEXT2( "Could not write to file %1", object->property( "file" ).value<QUrl>().toString() )

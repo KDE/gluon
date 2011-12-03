@@ -85,7 +85,7 @@ void TextureAsset::load()
             return;
         }
 
-        if( d->texture->load( file() ) )
+        if( d->texture->load( absolutePath() ) )
         {
             mimeData()->setText( name() );
             //d->icon = QPixmap::fromImage(d->texture->image().scaled(QSize(128, 128), Qt::KeepAspectRatio));

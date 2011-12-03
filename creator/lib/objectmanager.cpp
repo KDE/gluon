@@ -113,6 +113,9 @@ GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, Gluo
         newChild = GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( className );
     }
 
+    if( !newChild )
+        return 0;
+
     GluonEngine::Asset* newAsset = qobject_cast< GluonEngine::Asset* >( newChild );
     if( newAsset )
     {
@@ -150,10 +153,6 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, GluonCore::GluonOb
     newAsset->setGameProject( GluonEngine::Game::instance()->gameProject() );
 
     QFileInfo info( fileName );
-    QString newFile = QString( "%1/%2" ).arg( GluonEngine::Game::instance()->gameProject()->dirname().toLocalFile(), info.fileName() );
-    QFile( fileName ).copy( newFile );
-    newAsset->setFile( newFile );
-
     if( name.isEmpty() )
     {
         newAsset->setName( info.fileName() );
@@ -162,9 +161,14 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, GluonCore::GluonOb
     {
         newAsset->setName( name );
     }
+
+    QString newFile = GluonEngine::Asset::fullyQualifiedFileName( newAsset );
+    QFile( fileName ).copy( newFile );
+    newAsset->setFile( newFile );
+
     newAsset->load();
 
-    QString filePath( newAsset->absolutePath() );
+    QString filePath( newAsset->absolutePath().toLocalFile() );
     d->m_assets.insert( filePath, newAsset );
     KDirWatch::self()->addFile( filePath );
 
@@ -271,7 +275,7 @@ void ObjectManager::watchCurrentAssets()
     QList<GluonEngine::Asset*> assets = GluonEngine::Game::instance()->gameProject()->findItemsByType<GluonEngine::Asset>();
     foreach( GluonEngine::Asset * asset, assets )
     {
-        QString path( asset->absolutePath() );
+        QString path( asset->absolutePath().toLocalFile() );
         DEBUG_TEXT2( "Watching %1 for changes.", path )
         KDirWatch::self()->addFile( path );
         d->m_assets.insert( path, asset );
@@ -307,7 +311,7 @@ void ObjectManager::assetDeleted( const QString& file )
 void ObjectManager::assetDeleted( GluonEngine::Asset* asset )
 {
     if( asset )
-        assetDeleted( asset->absolutePath() );
+        assetDeleted( asset->absolutePath().toLocalFile() );
 }
 
 ObjectManager::ObjectManager( QObject* parent )

@@ -194,7 +194,7 @@ void MainWindow::saveProject( const QString& fileName )
     if( !fileName.isEmpty() )
     {
         statusBar()->showMessage( i18n( "Saving project..." ) );
-        GluonEngine::Game::instance()->gameProject()->setFilename( QUrl( fileName ) );
+        GluonEngine::Game::instance()->gameProject()->setFilename( QUrl::fromLocalFile( fileName ) );
         QDir::setCurrent( KUrl( fileName ).directory() );
         if( !GluonEngine::Game::instance()->gameProject()->saveToFile() )
         {

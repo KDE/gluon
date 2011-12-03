@@ -48,7 +48,7 @@ Scene::~Scene()
 }
 
 void
-Scene::setFile( const QUrl& newFile )
+Scene::setFile( const QString& newFile )
 {
     if( !savableDirty )
         d->unloadContents();
@@ -57,7 +57,8 @@ Scene::setFile( const QUrl& newFile )
 
 void Scene::setName( const QString& newName )
 {
-    sceneContents()->setName( newName );
+    if( d->sceneContents )
+        d->sceneContents->setName( newName );
     GluonCore::GluonObject::setName( newName );
 }
 
@@ -71,7 +72,7 @@ void Scene::resetScene()
         sceneContents()->stop();
         sceneContents()->cleanup();
     }
-    d->loadContents( FileLocation( qobject_cast<GameProject*>( gameProject() ), file() ).location() );
+    d->loadContents( absolutePath() );
     emit Game::instance()->currentSceneChanged( this );
     if( Game::instance()->isRunning() )
     {
@@ -89,7 +90,7 @@ GameObject*
 Scene::sceneContents()
 {
     if( !d->sceneContentsLoaded && !savableDirty )
-        d->loadContents( FileLocation( qobject_cast<GameProject*>( gameProject() ), file() ).location() );
+        d->loadContents( absolutePath() );
     return d->sceneContents;
 }
 

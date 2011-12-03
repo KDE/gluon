@@ -124,7 +124,7 @@ void UiAsset::execute()
         d->qmlItem = 0;
 
         d->component = new QDeclarativeComponent( d->engine, this );
-        d->component->loadUrl( file().toLocalFile() );
+        d->component->loadUrl( absolutePath().toLocalFile() );
 
         if( d->component->isError() )
         {

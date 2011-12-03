@@ -43,7 +43,7 @@ class GluonEngine::AssetPrivate
         {
         }
 
-        QUrl file;
+        QString file;
         bool loaded;
         QMimeData* mime;
 };
@@ -81,15 +81,15 @@ Asset::setName( const QString& newName )
     if( !d->file.isEmpty() )
     {
         // If we use QDir::current(), .exists will throw debug crap... this works around that particular annoyance
-        if( QDir( QDir::currentPath() ).exists( d->file.toLocalFile() ) )
+        if( QDir( QDir::currentPath() ).exists( absolutePath().toLocalFile() ) )
         {
-            QUrl newFile = Asset::fullyQualifiedFileName( this, QFileInfo( d->file.toLocalFile() ).completeSuffix() );
+            QString newFile = Asset::fullyQualifiedFileName( this, QFileInfo( absolutePath().toLocalFile() ).completeSuffix() );
 
-            QString oldPath = d->file.toLocalFile().section( '/', 0, -2 );
-            QString newPath = newFile.toLocalFile().section( '/', 0, -2 );
+            QString oldPath = d->file.section( '/', 0, -2 );
+            QString newPath = newFile.section( '/', 0, -2 );
             QDir::current().mkpath( newPath );
-            
-            if( QDir::current().rename( d->file.toLocalFile(), newFile.toLocalFile() ) )
+
+            if( QDir::current().rename( absolutePath().toLocalFile(), QDir::current().absoluteFilePath( newPath ) ) )
             {
                 if( QDir::current().exists( oldPath ) )
                     QDir::current().rmpath( oldPath );
@@ -100,30 +100,32 @@ Asset::setName( const QString& newName )
 }
 
 void
-Asset::setFile( const QUrl& newFile )
+Asset::setFile( const QString& newFile )
 {
     if( !d->file.isEmpty() )
     {
-        QString oldPath = d->file.toLocalFile().section( '/', 0, -2 );
+        QString oldPath = d->file.section( '/', 0, -2 );
         if( QDir::current().exists( oldPath ) )
             QDir::current().rmpath( oldPath );
     }
-    QString newPath = newFile.toLocalFile().section( '/', 0, -2 );
+
+    QString newPath = newFile.section( '/', 0, -2 );
     QDir::current().mkpath( newPath );
     d->file = newFile;
+
     emit dataChanged();
 }
 
-QUrl
+QString
 Asset::file() const
 {
     return d->file;
 }
 
-QString
+QUrl
 Asset::absolutePath() const
 {
-    return GluonEngine::Game::instance()->gameProject()->dirname().toLocalFile() + '/' + d->file.toLocalFile();
+    return QUrl::fromLocalFile( Game::instance()->gameProject()->dirname().toLocalFile() + '/' + d->file );
 }
 
 QIcon
@@ -140,13 +142,11 @@ Asset::data() const
 
 QMimeData* Asset::dragData() const
 {
-    DEBUG_BLOCK
     QMimeData* data = new QMimeData();
     QByteArray encodedData;
     QDataStream stream( &encodedData, QIODevice::WriteOnly );
     stream << fullyQualifiedName();
     data->setData( QString("application/gluon.engine.").append(metaObject()->className()), encodedData );
-    DEBUG_TEXT(data->formats().join(","))
     return data;
 }
 
@@ -217,10 +217,9 @@ Asset::findItemByNameInternal( QStringList qualifiedName )
     return GluonCore::GluonObject::findItemByNameInternal( qualifiedName );
 }
 
-QUrl
+QString
 Asset::fullyQualifiedFileName( GluonCore::GluonObject* obj, const QString& extension )
 {
-    DEBUG_FUNC_NAME
     QStringList parts = obj->fullyQualifiedName().split( '/' );
     if( parts.count() > 1 && parts.first() == obj->gameProject()->name() )
         parts.removeFirst();
@@ -245,7 +244,7 @@ Asset::fullyQualifiedFileName( GluonCore::GluonObject* obj, const QString& exten
         dir.append( '/' );
 
     QString ext = extension.isEmpty() ? obj->metaInfo()->defaultExtension() : extension;
-    return QUrl( QString( "%1%2.%3" ).arg( dir, file, ext ) );
+    return QString( "%1%2.%3" ).arg( dir, file, ext );
 }
 
 

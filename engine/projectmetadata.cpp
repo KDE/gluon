@@ -122,7 +122,7 @@ void ProjectMetaData::load()
         return;
 
     GluonCore::GluonObjectList gdlList;
-    if( !GluonCore::GDLSerializer::instance()->read( projectDir() + "/game.gluonmeta", gdlList ) )
+    if( !GluonCore::GDLSerializer::instance()->read( QUrl::fromLocalFile( projectDir() + "/game.gluonmeta" ), gdlList ) )
         return;
 
     ProjectMetaData* object = qobject_cast<ProjectMetaData*>( gdlList[0] );

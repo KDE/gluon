@@ -64,7 +64,7 @@ namespace GluonEngine
             virtual void unload();
 
             /** Creates the statistics from the file at startup */
-            virtual void setFile( const QUrl& newFile );
+            virtual void setFile( const QString& newFile );
 
             virtual bool shouldSerializeChildren() const;
 

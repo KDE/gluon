@@ -91,7 +91,7 @@ namespace GluonEngine
              * no .. in the path string), and as this essentially sandboxes GluonEngine based
              * games.
              */
-            Q_PROPERTY( QUrl file READ file WRITE setFile DESIGNABLE false )
+            Q_PROPERTY( QString file READ file WRITE setFile DESIGNABLE false )
 
         public:
             Q_INVOKABLE Asset( QObject* parent = 0 );
@@ -112,8 +112,8 @@ namespace GluonEngine
              */
             virtual void setName( const QString& newName );
 
-            virtual void setFile( const QUrl& newFile );
-            virtual QUrl file() const;
+            virtual void setFile( const QString& newFile );
+            virtual QString file() const;
 
             /**
              * Return the absolute path of this asset's file.
@@ -122,7 +122,7 @@ namespace GluonEngine
              *
              * @return The absolute path of this asset's file.
              */
-            virtual QString absolutePath() const;
+            virtual QUrl absolutePath() const;
 
             /**
              * An icon to represent the asset. Think of it as a thumbnail representation
@@ -186,7 +186,7 @@ namespace GluonEngine
              *
              * \return A URL that can be used for saving files.
              */
-            static QUrl fullyQualifiedFileName( GluonCore::GluonObject* obj, const QString& extension = QString() );
+            static QString fullyQualifiedFileName( GluonCore::GluonObject* obj, const QString& extension = QString() );
 
         public Q_SLOTS:
             /**

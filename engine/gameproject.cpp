@@ -152,7 +152,6 @@ void GameProject::traverseChildren(GluonObject* gluonObject)
         if (assetChild)
         {
             addAsset(assetChild);
-            assetChild->load();
         }
     }
 }
@@ -165,7 +164,7 @@ GameProject::loadFromFile()
     setFilename( filename().toLocalFile() );
 
     QList<GluonObject*> objectList;
-    if( GluonCore::GDLSerializer::instance()->read( filename(), objectList ) )
+    if( GluonCore::GDLSerializer::instance()->read( filename(), objectList, this ) )
     {
         if( objectList.at(0)->metaObject() )
         {

@@ -40,7 +40,7 @@ namespace GluonEngine
             btAsset( const btAsset& other, QObject* parent = 0 );
             ~btAsset();
 
-            virtual void setFile( const QUrl& newFile );
+            virtual void setFile( const QString& newFile );
             virtual const QStringList supportedMimeTypes() const;
 
         private:

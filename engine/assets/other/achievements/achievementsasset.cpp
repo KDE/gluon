@@ -104,7 +104,7 @@ void AchievementsAsset::load()
     setLoaded( true );
 
     GluonCore::GluonObjectList list;
-    if( !GluonCore::GDLSerializer::instance()->read( file(), list, gameProject() ) )
+    if( !GluonCore::GDLSerializer::instance()->read( absolutePath(), list, gameProject() ) )
     {
         setLoaded( false );
         return;

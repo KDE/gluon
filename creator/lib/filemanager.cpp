@@ -75,7 +75,7 @@ void FileManager::openAsset( GluonEngine::Asset* asset )
         return;
 
     QString icon = asset->metaObject()->classInfo( asset->metaObject()->indexOfClassInfo( "org.gluon.icon" ) ).value();
-    openFile( asset->absolutePath(), asset->name(), asset->name(), icon );
+    openFile( asset->absolutePath().toLocalFile(), asset->name(), asset->name(), icon );
 }
 
 void FileManager::openFile( const QString& fileName, const QString& name, const QString& title, const QString& icon,  const QString& partName, const QVariantList& partParams, bool closeable )

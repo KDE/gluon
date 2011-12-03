@@ -139,7 +139,7 @@ void HighScoresModel::saveData()
     gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
     QString filename = gluonDir.absoluteFilePath( "highscores.gdl" );
 
-    GluonCore::GDLSerializer::instance()->write( QUrl( filename ), GluonCore::GluonObjectList() << d->m_rootNode );
+    GluonCore::GDLSerializer::instance()->write( QUrl::fromLocalFile( filename ), GluonCore::GluonObjectList() << d->m_rootNode );
 }
 
 #include "highscoresmodel.moc"

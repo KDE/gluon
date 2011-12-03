@@ -68,7 +68,7 @@ namespace GluonEngine
             virtual void unload();
 
             /** Creates the achievements from the file at startup */
-            virtual void setFile( const QUrl& newFile );
+            virtual void setFile( const QString& newFile );
 
         public Q_SLOTS:
             /**

@@ -59,7 +59,7 @@ namespace GluonEngine
              *
              * @param   newFile     The new file for the scene
              */
-            virtual void setFile( const QUrl& newFile );
+            virtual void setFile( const QString& newFile );
 
             /**
              * Set the new name of the scene.
