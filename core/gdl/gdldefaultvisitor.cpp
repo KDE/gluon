@@ -18,8 +18,18 @@ void DefaultVisitor::visitInteger_type(Integer_typeAst *)
 {
 }
 
-void DefaultVisitor::visitList_type(List_typeAst *)
+void DefaultVisitor::visitList_type(List_typeAst *node)
 {
+    if (node->valuesSequence)
+    {
+        const KDevPG::ListNode<Property_typeAst*> *__it = node->valuesSequence->front(), *__end = __it;
+        do
+        {
+            visitNode(__it->element);
+            __it = __it->next;
+        }
+        while (__it != __end);
+    }
 }
 
 void DefaultVisitor::visitLong_long_type(Long_long_typeAst *)
@@ -56,6 +66,12 @@ void DefaultVisitor::visitObject_type(Object_typeAst *)
 
 void DefaultVisitor::visitProperty(PropertyAst *node)
 {
+    visitNode(node->value);
+    visitNode(node->list);
+}
+
+void DefaultVisitor::visitProperty_type(Property_typeAst *node)
+{
     visitNode(node->boolean_type);
     visitNode(node->integer_type);
     visitNode(node->unsigned_int_type);
@@ -68,7 +84,6 @@ void DefaultVisitor::visitProperty(PropertyAst *node)
     visitNode(node->vector4d_type);
     visitNode(node->quaternion_type);
     visitNode(node->size2d_type);
-    visitNode(node->list_type);
     visitNode(node->url_type);
     visitNode(node->object_type);
 }

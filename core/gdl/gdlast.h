@@ -13,198 +13,202 @@ namespace GDL
 {
 
 
-    struct  AstNode
+struct  AstNode
+{
+    enum AstNodeKind
     {
-        enum AstNodeKind
-        {
-            Boolean_typeKind = 1000,
-            Float_typeKind = 1001,
-            Integer_typeKind = 1002,
-            List_typeKind = 1003,
-            Long_long_typeKind = 1004,
-            ObjectKind = 1005,
-            Object_typeKind = 1006,
-            PropertyKind = 1007,
-            Quaternion_typeKind = 1008,
-            Rgba_typeKind = 1009,
-            Size2d_typeKind = 1010,
-            StartKind = 1011,
-            String_typeKind = 1012,
-            Unsigned_int_typeKind = 1013,
-            Url_typeKind = 1014,
-            Vector2d_typeKind = 1015,
-            Vector3d_typeKind = 1016,
-            Vector4d_typeKind = 1017,
-            AST_NODE_KIND_COUNT
-        };
-
-        int kind;
-        qint64 startToken;
-        qint64 endToken;
-
+        Boolean_typeKind = 1000,
+        Float_typeKind = 1001,
+        Integer_typeKind = 1002,
+        List_typeKind = 1003,
+        Long_long_typeKind = 1004,
+        ObjectKind = 1005,
+        Object_typeKind = 1006,
+        PropertyKind = 1007,
+        Property_typeKind = 1008,
+        Quaternion_typeKind = 1009,
+        Rgba_typeKind = 1010,
+        Size2d_typeKind = 1011,
+        StartKind = 1012,
+        String_typeKind = 1013,
+        Unsigned_int_typeKind = 1014,
+        Url_typeKind = 1015,
+        Vector2d_typeKind = 1016,
+        Vector3d_typeKind = 1017,
+        Vector4d_typeKind = 1018,
+        AST_NODE_KIND_COUNT
     };
 
-    struct  Boolean_typeAst: public AstNode
-    {
-        enum { KIND = Boolean_typeKind };
+    int kind;
+    qint64 startToken;
+    qint64 endToken;
 
-        qint64 value;
-    };
+};
 
-    struct  Float_typeAst: public AstNode
-    {
-        enum { KIND = Float_typeKind };
+struct  Boolean_typeAst: public AstNode
+{
+    enum { KIND = Boolean_typeKind };
 
-        qint64 value;
-    };
+    qint64 value;
+};
 
-    struct  Integer_typeAst: public AstNode
-    {
-        enum { KIND = Integer_typeKind };
+struct  Float_typeAst: public AstNode
+{
+    enum { KIND = Float_typeKind };
 
-        qint64 value;
-    };
+    qint64 value;
+};
 
-    struct  List_typeAst: public AstNode
-    {
-        enum { KIND = List_typeKind };
+struct  Integer_typeAst: public AstNode
+{
+    enum { KIND = Integer_typeKind };
 
-        qint64 type;
-        const KDevPG::ListNode<qint64 > *valuesSequence;
-        const KDevPG::ListNode<qint64 > *numbersSequence;
-        const KDevPG::ListNode<qint64 > *identifiersSequence;
-        const KDevPG::ListNode<qint64 > *boolsSequence;
-    };
+    qint64 value;
+};
 
-    struct  Long_long_typeAst: public AstNode
-    {
-        enum { KIND = Long_long_typeKind };
+struct  List_typeAst: public AstNode
+{
+    enum { KIND = List_typeKind };
 
-        qint64 value;
-    };
+    const KDevPG::ListNode<Property_typeAst *> *valuesSequence;
+};
 
-    struct  ObjectAst: public AstNode
-    {
-        enum { KIND = ObjectKind };
+struct  Long_long_typeAst: public AstNode
+{
+    enum { KIND = Long_long_typeKind };
 
-        qint64 type;
-        qint64 name;
-        const KDevPG::ListNode<PropertyAst*> *propertiesSequence;
-        const KDevPG::ListNode<ObjectAst*> *objectsSequence;
-    };
+    qint64 value;
+};
 
-    struct  Object_typeAst: public AstNode
-    {
-        enum { KIND = Object_typeKind };
+struct  ObjectAst: public AstNode
+{
+    enum { KIND = ObjectKind };
 
-        qint64 type;
-        qint64 value;
-    };
+    qint64 type;
+    qint64 name;
+    const KDevPG::ListNode<PropertyAst *> *propertiesSequence;
+    const KDevPG::ListNode<ObjectAst *> *objectsSequence;
+};
 
-    struct  PropertyAst: public AstNode
-    {
-        enum { KIND = PropertyKind };
+struct  Object_typeAst: public AstNode
+{
+    enum { KIND = Object_typeKind };
 
-        qint64 propertyName;
-        Boolean_typeAst* boolean_type;
-        Integer_typeAst* integer_type;
-        Unsigned_int_typeAst* unsigned_int_type;
-        Long_long_typeAst* long_long_type;
-        Float_typeAst* float_type;
-        String_typeAst* string_type;
-        Rgba_typeAst* rgba_type;
-        Vector2d_typeAst* vector2d_type;
-        Vector3d_typeAst* vector3d_type;
-        Vector4d_typeAst* vector4d_type;
-        Quaternion_typeAst* quaternion_type;
-        Size2d_typeAst* size2d_type;
-        List_typeAst* list_type;
-        Url_typeAst* url_type;
-        Object_typeAst* object_type;
-    };
+    qint64 type;
+    qint64 value;
+};
 
-    struct  Quaternion_typeAst: public AstNode
-    {
-        enum { KIND = Quaternion_typeKind };
+struct  PropertyAst: public AstNode
+{
+    enum { KIND = PropertyKind };
 
-        qint64 x;
-        qint64 y;
-        qint64 z;
-        qint64 w;
-    };
+    qint64 propertyName;
+    Property_typeAst *value;
+    List_typeAst *list;
+};
 
-    struct  Rgba_typeAst: public AstNode
-    {
-        enum { KIND = Rgba_typeKind };
+struct  Property_typeAst: public AstNode
+{
+    enum { KIND = Property_typeKind };
 
-        qint64 r;
-        qint64 g;
-        qint64 b;
-        qint64 a;
-    };
+    Boolean_typeAst *boolean_type;
+    Integer_typeAst *integer_type;
+    Unsigned_int_typeAst *unsigned_int_type;
+    Long_long_typeAst *long_long_type;
+    Float_typeAst *float_type;
+    String_typeAst *string_type;
+    Rgba_typeAst *rgba_type;
+    Vector2d_typeAst *vector2d_type;
+    Vector3d_typeAst *vector3d_type;
+    Vector4d_typeAst *vector4d_type;
+    Quaternion_typeAst *quaternion_type;
+    Size2d_typeAst *size2d_type;
+    Url_typeAst *url_type;
+    Object_typeAst *object_type;
+};
 
-    struct  Size2d_typeAst: public AstNode
-    {
-        enum { KIND = Size2d_typeKind };
+struct  Quaternion_typeAst: public AstNode
+{
+    enum { KIND = Quaternion_typeKind };
 
-        qint64 width;
-        qint64 height;
-    };
+    qint64 x;
+    qint64 y;
+    qint64 z;
+    qint64 w;
+};
 
-    struct  StartAst: public AstNode
-    {
-        enum { KIND = StartKind };
+struct  Rgba_typeAst: public AstNode
+{
+    enum { KIND = Rgba_typeKind };
 
-        const KDevPG::ListNode<ObjectAst*> *objectsSequence;
-    };
+    qint64 r;
+    qint64 g;
+    qint64 b;
+    qint64 a;
+};
 
-    struct  String_typeAst: public AstNode
-    {
-        enum { KIND = String_typeKind };
+struct  Size2d_typeAst: public AstNode
+{
+    enum { KIND = Size2d_typeKind };
 
-        qint64 value;
-    };
+    qint64 width;
+    qint64 height;
+};
 
-    struct  Unsigned_int_typeAst: public AstNode
-    {
-        enum { KIND = Unsigned_int_typeKind };
+struct  StartAst: public AstNode
+{
+    enum { KIND = StartKind };
 
-        qint64 value;
-    };
+    const KDevPG::ListNode<ObjectAst *> *objectsSequence;
+};
 
-    struct  Url_typeAst: public AstNode
-    {
-        enum { KIND = Url_typeKind };
+struct  String_typeAst: public AstNode
+{
+    enum { KIND = String_typeKind };
 
-        qint64 path;
-    };
+    qint64 value;
+};
 
-    struct  Vector2d_typeAst: public AstNode
-    {
-        enum { KIND = Vector2d_typeKind };
+struct  Unsigned_int_typeAst: public AstNode
+{
+    enum { KIND = Unsigned_int_typeKind };
 
-        qint64 x;
-        qint64 y;
-    };
+    qint64 value;
+};
 
-    struct  Vector3d_typeAst: public AstNode
-    {
-        enum { KIND = Vector3d_typeKind };
+struct  Url_typeAst: public AstNode
+{
+    enum { KIND = Url_typeKind };
 
-        qint64 x;
-        qint64 y;
-        qint64 z;
-    };
+    qint64 path;
+};
 
-    struct  Vector4d_typeAst: public AstNode
-    {
-        enum { KIND = Vector4d_typeKind };
+struct  Vector2d_typeAst: public AstNode
+{
+    enum { KIND = Vector2d_typeKind };
 
-        qint64 x;
-        qint64 y;
-        qint64 z;
-        qint64 w;
-    };
+    qint64 x;
+    qint64 y;
+};
+
+struct  Vector3d_typeAst: public AstNode
+{
+    enum { KIND = Vector3d_typeKind };
+
+    qint64 x;
+    qint64 y;
+    qint64 z;
+};
+
+struct  Vector4d_typeAst: public AstNode
+{
+    enum { KIND = Vector4d_typeKind };
+
+    qint64 x;
+    qint64 y;
+    qint64 z;
+    qint64 w;
+};
 
 
 

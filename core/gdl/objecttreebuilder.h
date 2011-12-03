@@ -65,6 +65,7 @@ namespace GDL
             virtual void visitFloat_type( Float_typeAst* node );
             virtual void visitInteger_type( Integer_typeAst* node );
             virtual void visitProperty( PropertyAst* node );
+            virtual void visitProperty_type( Property_typeAst* node );
             virtual void visitLong_long_type( Long_long_typeAst* node );
             virtual void visitObject_type( Object_typeAst* node );
             virtual void visitQuaternion_type( Quaternion_typeAst* node );

@@ -1,7 +1,7 @@
 %token_stream Lexer ;
 
 -- Base tokens
-%token LBRACE, RBRACE, LARROW, RARROW, LPAREN, RPAREN, SEMICOLON, TRUE_VALUE, FALSE_VALUE, NUMBER, IDENTIFIER, VALUE ;
+%token LBRACE, RBRACE, LPAREN, RPAREN, LBRACKET, RBRACKET, SEMICOLON, TRUE_VALUE, FALSE_VALUE, NUMBER, IDENTIFIER, VALUE ;
 
 -- Types
 %token BOOLEAN, INTEGER, UNSIGNED_INT, LONG_LONG, FLOAT, STRING, RGBA,
@@ -25,10 +25,10 @@
     -- Basic divider characters
     "{"                                 LBRACE ;
     "}"                                 RBRACE ;
-    "<"                                 LARROW ;
-    ">"                                 RARROW ;
     "("                                 LPAREN ;
     ")"                                 RPAREN ;
+    "["                                 LBRACKET ;
+    "]"                                 RBRACKET ;
     ";"                                 SEMICOLON ;
 
     -- Types
@@ -109,40 +109,29 @@
     URL LPAREN path=VALUE RPAREN
 -> url_type ;
 
-    LIST LARROW ( type=BOOLEAN
-        | type=INTEGER
-        | type=UNSIGNED_INT
-        | type=LONG_LONG
-        | type=FLOAT
-        | type=STRING
-        | type=RGBA
-        | type=VECTOR_TWOD
-        | type=VECTOR_THREED
-        | type=VECTOR_FOURD
-        | type=QUATERNION
-        | type=SIZE_TWOD
-        | type=URL )
-    RARROW LPAREN ( #values=VALUE | #numbers=NUMBER | #identifiers=IDENTIFIER | #bools=TRUE_VALUE | #bools=FALSE_VALUE | SEMICOLON )* RPAREN
--> list_type ;
-
     type=IDENTIFIER LPAREN value=VALUE RPAREN
 -> object_type ;
 
-    propertyName=IDENTIFIER ( boolean_type=boolean_type
-        | integer_type=integer_type
-        | unsigned_int_type=unsigned_int_type
-        | long_long_type=long_long_type
-        | float_type=float_type
-        | string_type=string_type
-        | rgba_type=rgba_type
-        | vector2d_type=vector2d_type
-        | vector3d_type=vector3d_type
-        | vector4d_type=vector4d_type
-        | quaternion_type=quaternion_type
-        | size2d_type=size2d_type
-        | list_type=list_type
-        | url_type=url_type
-        | object_type=object_type )
+    boolean_type=boolean_type
+    | integer_type=integer_type
+    | unsigned_int_type=unsigned_int_type
+    | long_long_type=long_long_type
+    | float_type=float_type
+    | string_type=string_type
+    | rgba_type=rgba_type
+    | vector2d_type=vector2d_type
+    | vector3d_type=vector3d_type
+    | vector4d_type=vector4d_type
+    | quaternion_type=quaternion_type
+    | size2d_type=size2d_type
+    | url_type=url_type
+    | object_type=object_type
+-> property_type ;
+
+    LIST LPAREN LBRACKET ( #values=property_type SEMICOLON )+ RBRACKET RPAREN
+-> list_type ;
+
+    propertyName=IDENTIFIER ( value=property_type | list=list_type )
 -> property ;
 
     LBRACE type=IDENTIFIER LPAREN name=VALUE RPAREN

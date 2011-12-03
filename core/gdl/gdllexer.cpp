@@ -114,14 +114,14 @@ _state_0:
                 {
                     if (chr < 41)
                     {
-                        goto _state_2;
+                        goto _state_6;
                     }
                     else
                     {
                         if (chr < 45)
                         {
                             if (chr == 41)
-                                goto _state_31;
+                                goto _state_34;
                             else
                                 goto _end;
                         }
@@ -138,9 +138,9 @@ _state_0:
         }
         else
         {
-            if (chr < 65)
+            if (chr < 71)
             {
-                if (chr < 60)
+                if (chr < 65)
                 {
                     if (chr < 59)
                     {
@@ -151,30 +151,13 @@ _state_0:
                     }
                     else
                     {
-                        goto _state_77;
+                        if (chr == 59)
+                            goto _state_77;
+                        else
+                            goto _end;
                     }
                 }
                 else
-                {
-                    if (chr < 62)
-                    {
-                        if (chr == 60)
-                            goto _state_6;
-                        else
-                            goto _end;
-                    }
-                    else
-                    {
-                        if (chr == 62)
-                            goto _state_34;
-                        else
-                            goto _end;
-                    }
-                }
-            }
-            else
-            {
-                if (chr < 71)
                 {
                     if (chr < 70)
                     {
@@ -185,7 +168,10 @@ _state_0:
                         goto _state_66;
                     }
                 }
-                else
+            }
+            else
+            {
+                if (chr < 85)
                 {
                     if (chr < 84)
                     {
@@ -193,14 +179,28 @@ _state_0:
                     }
                     else
                     {
-                        if (chr < 85)
+                        goto _state_41;
+                    }
+                }
+                else
+                {
+                    if (chr < 91)
+                    {
+                        goto _state_23;
+                    }
+                    else
+                    {
+                        if (chr < 93)
                         {
-                            goto _state_41;
+                            if (chr == 91)
+                                goto _state_2;
+                            else
+                                goto _end;
                         }
                         else
                         {
-                            if (chr < 91)
-                                goto _state_23;
+                            if (chr == 93)
+                                goto _state_31;
                             else
                                 goto _end;
                         }
@@ -3588,13 +3588,13 @@ _end:
         goto _fail; // no warning about unused label
 _fail:
         {
-# 3593 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
-# 64 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
+# 3593 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp"
+# 64 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdl.g" 1
                                           
     qint64 line = 0, col = 0;
     locationTable()->positionAt( lxCURR_IDX, &line, &col );
     qDebug() << "Tokenizer error on line" << line + 1; 
-# 3597 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
+# 3597 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp" 2
 
             lxFINISH
         }
@@ -3612,25 +3612,25 @@ _fail:
     }
     case 3:
     {
-        lxRETURN(LARROW)
+        lxRETURN(LPAREN)
 
         lxFINISH
     }
     case 4:
     {
-        lxRETURN(RARROW)
+        lxRETURN(RPAREN)
 
         lxFINISH
     }
     case 5:
     {
-        lxRETURN(LPAREN)
+        lxRETURN(LBRACKET)
 
         lxFINISH
     }
     case 6:
     {
-        lxRETURN(RPAREN)
+        lxRETURN(RBRACKET)
 
         lxFINISH
     }
@@ -3756,10 +3756,10 @@ _fail:
     }
     case 27:
     {
-# 3761 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
-# 60 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
+# 3761 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp"
+# 60 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdl.g" 1
                                            /* Comment, ignore */ 
-# 3762 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
+# 3762 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp" 2
 
         lxSKIP
 
@@ -3767,10 +3767,10 @@ _fail:
     }
     case 28:
     {
-# 3772 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
-# 62 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
+# 3772 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp"
+# 62 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdl.g" 1
                                            /* Whitespace, ignore */ 
-# 3773 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
+# 3773 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp" 2
 
         lxSKIP
 
@@ -3778,10 +3778,10 @@ _fail:
     }
     case 29:
     {
-# 3783 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp"
-# 69 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdl.g" 1
+# 3783 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp"
+# 69 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdl.g" 1
                                            locationTable()->newline(lxCURR_IDX); 
-# 3784 "/home/ahiemstra/Projects/KDE/Gluon/newgdlparser/core/gdl/gdllexer.cpp" 2
+# 3784 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp" 2
 
         lxSKIP
 

@@ -50,7 +50,7 @@ class ObjectTreeBuilder::Private
             QString path;
         };
 
-        Private() : currentObject(0) { }
+        Private() : currentObject( 0 ), inList( false ) { }
 
         QString textForToken(Lexer::Token token);
         QString stripQuotes(const QString& input);
@@ -63,6 +63,8 @@ class ObjectTreeBuilder::Private
         GluonObject* project;
         QString currentPropertyName;
         QVariant currentPropertyValue;
+        bool inList;
+        QVariantList list;
 
         QList<Reference> references;
 };
@@ -184,6 +186,23 @@ void ObjectTreeBuilder::visitProperty(GDL::PropertyAst* node)
     {
         d->currentObject->setProperty(d->currentPropertyName.toUtf8(), d->currentPropertyValue);
     }
+}
+
+void ObjectTreeBuilder::visitProperty_type(Property_typeAst* node)
+{
+    GDL::DefaultVisitor::visitProperty_type(node);
+
+    if( d->inList )
+        d->list.append( d->currentPropertyValue );
+}
+
+void ObjectTreeBuilder::visitList_type(GDL::List_typeAst* node)
+{
+    d->inList = true;
+    d->list = QVariantList();
+    GDL::DefaultVisitor::visitList_type(node);
+    d->inList = false;
+    d->currentPropertyValue = QVariant::fromValue( d->list );
 }
 
 void ObjectTreeBuilder::visitBoolean_type(GDL::Boolean_typeAst* node)
@@ -317,11 +336,6 @@ void ObjectTreeBuilder::visitObject_type(GDL::Object_typeAst* node)
     d->references.append( ref );
 
     d->currentPropertyValue = QVariant();
-}
-
-void ObjectTreeBuilder::visitList_type(GDL::List_typeAst* node)
-{
-    qDebug("TODO: Implement list type");
 }
 
 QString ObjectTreeBuilder::Private::textForToken(KDevPG::Token token)

@@ -36,6 +36,9 @@ void Visitor::visitNode(AstNode *node)
         case AstNode::PropertyKind:
             visitProperty(reinterpret_cast<PropertyAst*>(node));
             break;
+        case AstNode::Property_typeKind:
+            visitProperty_type(reinterpret_cast<Property_typeAst*>(node));
+            break;
         case AstNode::Quaternion_typeKind:
             visitQuaternion_type(reinterpret_cast<Quaternion_typeAst*>(node));
             break;

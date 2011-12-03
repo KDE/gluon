@@ -47,8 +47,8 @@ namespace GluonEngine
             Q_PROPERTY( int frameRate READ frameRate WRITE setFrameRate )
             Q_PROPERTY( int direction READ direction WRITE setDirection )
             Q_PROPERTY( QSizeF frameSize READ frameSize WRITE setFrameSize )
-            Q_PROPERTY( QList<int> frameCounts READ frameCounts WRITE setFrameCounts )
-            Q_PROPERTY( QList<int> startFrames READ startFrames WRITE setStartFrames )
+            Q_PROPERTY( QVariantList frameCounts READ frameCounts WRITE setFrameCounts )
+            Q_PROPERTY( QVariantList startFrames READ startFrames WRITE setStartFrames )
             Q_PROPERTY( int animation READ animation WRITE setAnimation )
             //Q_PROPERTY( int textureCount READ textureCount WRITE setTextureCount )
             //Q_PROPERTY( QVector<Asset*> textures READ textures WRITE setTextures )
@@ -77,8 +77,8 @@ namespace GluonEngine
             int frameRate();
             int direction();
             QSizeF frameSize();
-            QList<int> frameCounts();
-            QList<int> startFrames();
+            QVariantList frameCounts();
+            QVariantList startFrames();
             int animation();
             //int textureCount();
             //virtual QVector<Asset*> textures();
@@ -92,8 +92,8 @@ namespace GluonEngine
             void setFrameRate( int frameRate );
             void setDirection( int direction );
             void setFrameSize( const QSizeF& size );
-            void setFrameCounts( const QList<int>& counts );
-            void setStartFrames( const QList<int>& starts );
+            void setFrameCounts( const QVariantList& counts );
+            void setStartFrames( const QVariantList& starts );
             void setAnimation( int anim );
             //void setTextureCount( int count );
 

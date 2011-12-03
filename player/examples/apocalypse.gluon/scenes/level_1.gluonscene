@@ -30,8 +30,24 @@
                 frameRate int(12)
                 direction int(3)
                 frameSize size2d(64;64)
-                #frameCounts list<int>(4;8;8;6;4;2;6)
-                #startFrames list<int>(0;4;12;20;26;30;32)
+                frameCounts list([
+                    int(4);
+                    int(8);
+                    int(8);
+                    int(6);
+                    int(4);
+                    int(2);
+                    int(6);
+                ])
+                startFrames list([
+                    int(0);
+                    int(4);
+                    int(12);
+                    int(20);
+                    int(26);
+                    int(30);
+                    int(32);
+                ])
             }
             { GluonEngine::ScriptingComponent("ScriptingComponent")
                 enabled bool(true)
@@ -159,8 +175,24 @@
             material GluonGraphics::MaterialInstance("Apocalypse/Assets/Animated Sprite/Zombie")
             frameRate int(12)
             frameSize size2d(64;64)
-            frameCounts list<int>("4;8;8;6;4;2;6")
-            startFrames list<int>("0;4;12;20;26;30;32")
+            frameCounts list([
+                int(4);
+                int(8);
+                int(8);
+                int(6);
+                int(4);
+                int(2);
+                int(6);
+            ])
+            startFrames list([
+                int(0);
+                int(4);
+                int(12);
+                int(20);
+                int(26);
+                int(30);
+                int(32);
+            ])
             animation int(1)
         }
         { GluonEngine::ScriptingComponent("ScriptingComponent")

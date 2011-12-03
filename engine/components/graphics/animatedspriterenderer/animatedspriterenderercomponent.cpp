@@ -337,14 +337,24 @@ void AnimatedSpriteRendererComponent::setDirection( int direction )
     d->direction = direction;
 }
 
-QList< int > AnimatedSpriteRendererComponent::frameCounts()
+QVariantList AnimatedSpriteRendererComponent::frameCounts()
 {
-    return d->frameCounts;
+    QVariantList list;
+    foreach(int frameCount, d->frameCounts)
+    {
+        list.append(QVariant::fromValue(frameCount));
+    }
+    return list;
 }
 
-void AnimatedSpriteRendererComponent::setFrameCounts( const QList< int >& counts )
+void AnimatedSpriteRendererComponent::setFrameCounts( const QVariantList& counts )
 {
-    d->frameCounts = counts;
+    d->frameCounts.clear();
+    foreach(const QVariant& value, counts)
+    {
+        if(value.type() == QVariant::Int)
+            d->frameCounts.append(value.toInt());
+    }
     setAnimation( d->currentAnimation );
 }
 
@@ -370,14 +380,24 @@ void AnimatedSpriteRendererComponent::setFrameSize( const QSizeF& size )
     d->frameHeightUV = d->frameSize.height() / d->textureSize.height();
 }
 
-QList< int > AnimatedSpriteRendererComponent::startFrames()
+QVariantList AnimatedSpriteRendererComponent::startFrames()
 {
-    return d->startFrames;
+    QVariantList list;
+    foreach(int startFrame, d->startFrames)
+    {
+        list.append(QVariant::fromValue(startFrame));
+    }
+    return list;
 }
 
-void AnimatedSpriteRendererComponent::setStartFrames( const QList< int >& starts )
+void AnimatedSpriteRendererComponent::setStartFrames( const QVariantList& starts )
 {
-    d->startFrames = starts;
+    d->startFrames.clear();
+    foreach(const QVariant& value, starts)
+    {
+        if(value.type() == QVariant::Int)
+            d->startFrames.append(value.toInt());
+    }
     setAnimation( d->currentAnimation );
 }
 
