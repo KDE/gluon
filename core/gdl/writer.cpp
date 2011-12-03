@@ -104,6 +104,20 @@ void Writer::writeProperty(const QString& name, const QVariant& value)
     if( name == "name" || name == "objectName" || !value.isValid() )
         return;
 
+    QString valueString = writePropertyValue( value );
+
+    if( valueString.isEmpty() )
+        return;
+
+    indent();
+    m_device->write( name.toUtf8() );
+    m_device->write( " " );
+    m_device->write( valueString.toUtf8() );
+    m_device->write( "\n" );
+}
+
+QString Writer::writePropertyValue(const QVariant& value)
+{
     QString valueString;
     switch( value.type() )
     {
@@ -156,15 +170,7 @@ void Writer::writeProperty(const QString& name, const QVariant& value)
                 valueString = writeObjectValue( value );
             }
     }
-
-    if( valueString.isEmpty() )
-        return;
-
-    indent();
-    m_device->write( name.toUtf8() );
-    m_device->write( " " );
-    m_device->write( valueString.toUtf8() );
-    m_device->write( "\n" );
+    return valueString;
 }
 
 QString Writer::writeBoolValue( const QVariant& value)
@@ -286,5 +292,18 @@ QString Writer::writeObjectValue(const QVariant& value)
 
 QString Writer::writeListValue(const QVariant& value)
 {
-    return QString( "list<int>(\"\")" );
+    QVariantList list = value.toList();
+
+    if( list.isEmpty() )
+        return QString();
+
+    QString listValue = QString("list([\n");
+    foreach( QVariant val, list )
+    {
+        QString valueString = writePropertyValue( val );
+        if( !valueString.isEmpty() )
+            listValue.append( QString().fill( ' ', ( m_indentLevel + 1 ) * 4 ) + valueString + ";\n");
+    }
+    listValue += QString().fill( ' ', m_indentLevel * 4 ) + QString("])");
+    return listValue;
 }

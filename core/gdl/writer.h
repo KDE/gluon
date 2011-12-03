@@ -39,6 +39,7 @@ namespace GDL
             void writeObject( QObject* object );
             void writeProperty( const QString& name, const QVariant& value );
 
+            QString writePropertyValue( const QVariant& value );
             QString writeBoolValue( const QVariant& value );
             QString writeIntValue( const QVariant& value );
             QString writeUIntValue( const QVariant& value );
