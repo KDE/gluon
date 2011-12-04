@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 {
     KAboutData about("gluonplayer-active", 0, ki18n("Gluon Player"), version, ki18n(description),
                      KAboutData::License_GPL, ki18n("Copyright 2011 Shantanu Tushar"), KLocalizedString(), 0, "jhahoneyk@gmail.com");
-                     about.addAuthor( ki18n("Shantanu Tushar"), KLocalizedString(), "jhahoneyk@gmail.com" );
+    about.addAuthor( ki18n("Shantanu Tushar"), KLocalizedString(), "jhahoneyk@gmail.com" );
     KCmdLineArgs::init(argc, argv, &about);
 
     KCmdLineOptions options;

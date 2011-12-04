@@ -1,8 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright 2011 Shantanu Tushar <jhahoneyk@gmail.com>
- * Copyright 2011 Sebastian Kügler <sebas@kde.org>
- * Copyright 2011 Marco Martin <mart@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,49 +17,30 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef VIEW_H
-#define VIEW_H
 
-#include <QDeclarativeView>
-#include <QAction>
+#ifndef GAMEDETAILSMODEL_H
+#define GAMEDETAILSMODEL_H
 
-#include <KActionCollection>
-#include <KMainWindow>
-#include <KPluginInfo>
+#include <QSortFilterProxyModel>
 
-class KMainWindow;
-class QDeclarativeItem;
-class QProgressBar;
-class QSignalMapper;
-class Page;
-class ScriptApi;
-class DirModel;
-
-
-namespace Plasma
-{
-class Package;
-}
-
-class AppView : public QDeclarativeView
+class GameDetailsModel : public QSortFilterProxyModel
 {
     Q_OBJECT
+    Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
 
 public:
-    AppView(const QString &url, QWidget *parent = 0 );
-    ~AppView();
+    GameDetailsModel( QObject* parent = 0 );
+    QString id() const;
+    void setId(const QString &id);
 
-    QString name() const;
+Q_SIGNALS:
+    void idChanged();
 
-    void setUseGL(const bool on);
-    bool useGL() const;
-
-private Q_SLOTS:
-    void onStatusChanged(QDeclarativeView::Status status);
+protected:
+    virtual bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const;
 
 private:
-    Plasma::Package *m_package;
-    bool m_useGL;
+    QString m_id;
 };
 
-#endif // VIEW_H
+#endif // GAMEDETAILSMODEL_H

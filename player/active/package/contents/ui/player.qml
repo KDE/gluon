@@ -1,6 +1,6 @@
 /*****************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010-2011 Laszlo Papp <lpapp@kde.org>
+ * Copyright (C) 2011 Shantanu Tushar <jhahoneyk@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,11 +18,103 @@
  */
 
 import QtQuick 1.0
+import org.kde.metadatamodels 0.1 as MetadataModels
+import org.kde.plasma.components 0.1 as PlasmaComponents
+import org.kde.plasma.core 0.1 as PlasmaCore
+import org.kde.plasma.mobilecomponents 0.1 as MobileComponents
+import org.kde.qtextracomponents 0.1
 
-Item {
-    Rectangle {
+Image {
+    id: rootItem
+    source: "image://appbackgrounds/standard"
+    fillMode: Image.Tile
+
+    property string currentGameId: ""
+
+    Row {
         anchors.fill: parent
-        color: "red"
-    }
-}
+        anchors.margins: 20
+        spacing: 10
 
+        Column {
+            height: parent.height
+            width: parent.width*0.4
+            spacing: 20
+
+            Rectangle {
+                id: gamesListStatusChanger
+
+                height: 32
+                width: gamesListView.width
+
+                color: theme.buttonBackgroundColor
+                radius: 10
+
+                Text {
+                    id: gamesListStatusChangerText
+                    anchors.fill: parent
+                    anchors.margins: 5
+
+                    color: theme.buttonTextColor
+
+                    horizontalAlignment: Text.AlignHCenter
+
+                    MouseArea {
+                        anchors.fill: parent
+
+                        onClicked: {
+                            rootItem.toggleState();
+                        }
+                    }
+                }
+            }
+
+            ListView {
+                id: gamesListView
+
+                height: parent.height - gamesListStatusChanger.height
+                width: parent.width
+
+                spacing: 10
+
+                delegate: GameItem { }
+            }
+        }
+
+        GameDetails {
+            height: parent.height
+            width: parent.width*0.6
+        }
+    }
+
+    onCurrentGameIdChanged: {
+        gameDetailsModel.id = currentGameId;
+    }
+
+    Component.onCompleted: {
+        state = "showInstalledGames"
+    }
+
+    function toggleState()
+    {
+        if (rootItem.state == "showInstalledGames")
+            rootItem.state = "showDownloadableGames";
+        else
+            rootItem.state = "showInstalledGames"
+    }
+
+    states: [
+        State {
+            name: "showInstalledGames"
+
+            PropertyChanges { target: gamesListView; model: installedGamesModel }
+            PropertyChanges { target: gamesListStatusChangerText; text: "Installed Games" }
+        },
+        State {
+            name: "showDownloadableGames"
+
+            PropertyChanges { target: gamesListView; model: downloadableGamesModel }
+            PropertyChanges { target: gamesListStatusChangerText; text: "Downloadable Games" }
+        }
+    ]
+}

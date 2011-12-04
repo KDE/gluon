@@ -21,20 +21,24 @@
 
 #include "appview.h"
 
+#include "gamedetailsmodel.h"
+
+#include <lib/models/installedgamesmodel.h>
+#include <lib/models/downloadablegamesmodel.h>
+
+#include <Plasma/Package>
+#include <kdeclarative.h>
+#include <KShell>
+#include <KStandardDirs>
+#include <KDebug>
+
 #include <QDeclarativeContext>
 #include <QDeclarativeEngine>
 #include <QDeclarativeItem>
 #include <QFileInfo>
 #include <QScriptValue>
 #include <QGLWidget>
-
-#include <KShell>
-#include <KStandardDirs>
-#include <KDebug>
-
-#include  <kdeclarative.h>
-
-#include <Plasma/Package>
+#include <lib/models/allgameitemsmodel.h>
 
 AppView::AppView(const QString &url, QWidget *parent)
     : QDeclarativeView(parent),
@@ -56,6 +60,13 @@ AppView::AppView(const QString &url, QWidget *parent)
 
     Plasma::PackageStructure::Ptr structure = Plasma::PackageStructure::load("Plasma/Generic");
     m_package = new Plasma::Package(QString(), "org.kde.gluon.player", structure);
+
+    rootContext()->setContextProperty("installedGamesModel", new GluonPlayer::InstalledGamesModel(this));
+    rootContext()->setContextProperty("downloadableGamesModel", new GluonPlayer::DownloadableGamesModel(this));
+
+    GameDetailsModel *gameDetailsModel = new GameDetailsModel(this);
+    gameDetailsModel->setSourceModel(new GluonPlayer::AllGameItemsModel(this)); //FIXME: share one instance
+    rootContext()->setContextProperty("gameDetailsModel", gameDetailsModel);
 
     setSource(QUrl(m_package->filePath("mainscript")));
     show();

@@ -3,6 +3,7 @@ include_directories( ${KDE4_INCLUDES} ${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR}
 
 set(gluonplayer-active_SRCS
     appview.cpp
+    gamedetailsmodel.cpp
     main.cpp
     mainwindow.cpp
 )
@@ -17,6 +18,7 @@ target_link_libraries(gluonplayer-active
     ${KDE4_KIO_LIBS}
     ${KDE4_PLASMA_LIBS}
     kdeclarative
+    ${GLUON_PLAYER_LIBS}
 )
 
 install(TARGETS gluonplayer-active ${INSTALL_TARGETS_DEFAULT_ARGS} )

@@ -41,8 +41,6 @@ MainWindow::MainWindow(const QString &url)
 
     restoreWindowSize(config("Window"));
     setCentralWidget(m_widget);
-
-    connect(m_widget, SIGNAL(titleChanged(QString)), SLOT(setCaption(QString)));
 }
 
 MainWindow::~MainWindow()
