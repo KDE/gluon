@@ -87,7 +87,8 @@ GameProject::saveToFile()
 
     QString projectDir = filename().toLocalFile().section( '/', 0, -2 );
     // Recreate the various icon files if we have an icon file available
-    QImage icon( 128, 128, QImage::Format_ARGB32 );
+    QIcon tempIcon = QIcon::fromTheme ("gluon", QIcon( QPixmap( 128, 128 ) ) );
+    QImage icon = tempIcon.pixmap(128, 128).toImage();
     if( d->icon )
         icon = d->icon->texture()->image().scaled( 128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation );
     QString iconFile( projectDir );
@@ -109,7 +110,7 @@ GameProject::saveToFile()
     if( directoryFile.open( QFile::WriteOnly | QFile::Truncate | QIODevice::Text ) )
     {
         QTextStream out( &directoryFile );
-        out << "[Desktop Entry]" << endl << "Icon=game.png" << endl << "Type=Directory" << endl;
+        out << "[Desktop Entry]" << endl << "Icon=./game.png" << endl << "Type=Directory" << endl;
         directoryFile.close();
     }
     QFile folderFile( projectDir + "/desktop.ini" );
