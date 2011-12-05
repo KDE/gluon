@@ -294,17 +294,27 @@ GluonObject::findItemByName( QString qualifiedName )
         return static_cast<GluonCore::GluonObject*>( this );
 
     QStringList names = qualifiedName.split( '/' );
-    return findItemByNameInObject( names, this );
+    return findItemByNameInternal( names );
 }
 
 GluonObject*
 GluonObject::findGlobalItemByName( QString fullyQualifiedName )
 {
     QStringList names = fullyQualifiedName.split( '/' );
-    if( !names.isEmpty() )
+    if( !names.isEmpty() /*&& names.first() == root()->name()*/ ) // With second check, project loading fails.
+    {
+        if( names.count() == 1 )
+        {
+            return root();
+        }
         names.removeFirst();
+    }
+    else
+    {
+        return 0;
+    }
 
-    return findItemByNameInObject( names, root() );
+    return root()->findItemByNameInternal( names );
 }
 
 GluonObject*
@@ -378,7 +388,7 @@ bool GluonObject::removeChild( GluonObject* child )
 }
 
 GluonObject*
-GluonObject::findItemByNameInObject( QStringList qualifiedName, const GluonCore::GluonObject* object )
+GluonObject::findItemByNameInternal( QStringList qualifiedName )
 {
     //DEBUG_FUNC_NAME
     DEBUG_BLOCK
@@ -391,7 +401,7 @@ GluonObject::findItemByNameInObject( QStringList qualifiedName, const GluonCore:
     qualifiedName.removeFirst();
 
     //DEBUG_TEXT(QString("Looking for object of name %1 in the object %2").arg(lookingFor).arg(object->name()));
-    foreach( QObject * child, object->children() )
+    foreach( QObject * child, children() )
     {
         if( qobject_cast<GluonObject*>( child ) )
         {
@@ -409,7 +419,7 @@ GluonObject::findItemByNameInObject( QStringList qualifiedName, const GluonCore:
         if( qualifiedName.count() > 0 )
         {
             //DEBUG_TEXT(QString("Found child, recursing..."))
-            return GluonObject::findItemByNameInObject( qualifiedName, foundChild );
+            return foundChild->findItemByNameInternal( qualifiedName );
         }
         else
         {
@@ -419,7 +429,7 @@ GluonObject::findItemByNameInObject( QStringList qualifiedName, const GluonCore:
     else
     {
         QString childNames;
-        foreach( QObject * child, object->children() )
+        foreach( QObject * child, children() )
         {
             childNames.append( child->objectName() ).append( ", " );
         }

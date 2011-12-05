@@ -63,12 +63,27 @@ void GluonObjectTest::testChildAt()
 
 void GluonObjectTest::testChildByName()
 {
-    GluonObject parentObject("ParentObject");
+    QString parentObjectName("ParentObject");
+    GluonObject parentObject(parentObjectName);
     QString childObjectName("ChildObject");
     GluonObject childObject(childObjectName);
     parentObject.addChild(&childObject);
+
     QCOMPARE(&childObject, parentObject.child(childObjectName));
     QCOMPARE(&childObject, parentObject.findItemByName(childObjectName));
+
+    QCOMPARE(&parentObject, parentObject.findGlobalItemByName(parentObjectName));
+    QCOMPARE(&parentObject, childObject.findGlobalItemByName(parentObjectName));
+    QCOMPARE(&childObject, parentObject.findGlobalItemByName(parentObjectName
+                                                             + "/" + childObjectName));
+
+    QString grandChildObjectName("grandChildObject");
+    GluonObject grandChildObject(grandChildObjectName);
+    childObject.addChild(&grandChildObject);
+
+    QCOMPARE(&grandChildObject, childObject.findItemByName(grandChildObjectName));
+    QCOMPARE(&grandChildObject, parentObject.findItemByName(childObjectName
+                                                            + "/" + grandChildObjectName));
 }
 
 void GluonObjectTest::testName()

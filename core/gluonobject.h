@@ -435,15 +435,13 @@ namespace GluonCore
 
         protected:
             /**
-             * Convenience function which will find objects inside a passed GluonObject which
-             * fit the also passed qualified name. The function is used internally by
-             * findItemByName() but could well be useful for other things as well.
+             * findItemByName uses this function to recursively search in its children
+             * for the given object. The path to the object is given as a list.
              *
              * @param   qualifiedName   The qualified name of the object you wish to locate
-             * @param   object          The object to start the search at
              * @return  The object if found, or null if the object was not found
              */
-            static GluonObject* findItemByNameInObject( QStringList qualifiedName, const GluonCore::GluonObject* object );
+            virtual GluonObject* findItemByNameInternal( QStringList qualifiedName );
 
             /**
              * This function is called by the clone function before handing the cloned object
