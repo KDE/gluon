@@ -52,11 +52,12 @@ namespace GluonPlayer
         public:
             enum GameItemsModelRoles
             {
-                GameNameRole = Qt::UserRole + 1,
-                GameDescriptionRole,
+                IDRole = Qt::UserRole + 1,
+                GameNameRole,
+                IconRole,
                 RatingRole,
+                GenreRole,
                 StatusRole,
-                IDRole
             };
 
             explicit AllGameItemsModel( QObject* parent = 0 );
@@ -71,7 +72,7 @@ namespace GluonPlayer
 
         protected Q_SLOTS:
             void processFetchedGamesList();
-            void processFetchedGameDetails( GameDetailItem* gameDetails );
+            void processFetchedGameDetails();
 
         private Q_SLOTS:
             void directoryLoaded( const QString& path );

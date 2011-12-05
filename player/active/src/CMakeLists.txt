@@ -3,7 +3,6 @@ include_directories( ${KDE4_INCLUDES} ${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR}
 
 set(gluonplayer-active_SRCS
     appview.cpp
-    gamedetailsmodel.cpp
     main.cpp
     mainwindow.cpp
 )

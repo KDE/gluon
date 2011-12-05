@@ -18,8 +18,11 @@
  */
 
 import QtQuick 1.0
-import org.kde.qtextracomponents 0.1
+import org.kde.metadatamodels 0.1 as MetadataModels
+import org.kde.plasma.components 0.1 as PlasmaComponents
+import org.kde.plasma.core 0.1 as PlasmaCore
 import org.kde.plasma.mobilecomponents 0.1 as MobileComponents
+import org.kde.qtextracomponents 0.1
 
 Item {
     id: gameItemRootItem
@@ -37,8 +40,7 @@ Item {
         color: "white"
         opacity: 0.5
         radius: 10
-        anchors.fill:
-        gameItemRow
+        anchors.fill: gameItemRow
     }
 
     Row {
@@ -54,13 +56,26 @@ Item {
             icon: QIcon("gluon-player")
         }
 
-        Text {
+        Column {
             height: parent.height
             width: parent.width - iconButton.width
 
-            verticalAlignment: Text.AlignVCenter
-
-            text: GameName
+            Text {
+                id: gameItemGameName
+                height: parent.height*0.6
+                width: parent.width
+                verticalAlignment: Text.AlignVCenter
+                text: GameName
+                font.pointSize: 12
+            }
+            Text {
+                height: parent.height*0.4
+                width: parent.width
+                verticalAlignment: Text.AlignVCenter
+                text: Genre
+                font.pointSize: gameItemGameName.font.pointSize*0.8
+                opacity: 0.6
+            }
         }
     }
 

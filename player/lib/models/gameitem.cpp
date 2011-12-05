@@ -33,10 +33,11 @@ class GameItem::Private
         int rating;
         Status status;
         QString id;
+        QString genre;
 };
 
 GameItem::GameItem( const QString& gameName, const QString& gameDescription, int rating,
-                    const Status& status, const QString& id, QObject* parent )
+                    const Status& status, const QString& id, const QString &genre, QObject* parent )
     : QObject( parent )
     , d( new Private() )
 {
@@ -45,6 +46,7 @@ GameItem::GameItem( const QString& gameName, const QString& gameDescription, int
     d->rating = rating;
     d->status = status;
     d->id = id;
+    d->genre = genre;
 }
 
 GameItem::~GameItem()
@@ -94,6 +96,16 @@ void GameItem::setRating( int rating )
 QString GameItem::id() const
 {
     return d->id;
+}
+
+QString GameItem::genre() const
+{
+    return d->genre;
+}
+
+void GameItem::setGenre(const QString& genre)
+{
+    d->genre = genre;
 }
 
 #include "gameitem.moc"

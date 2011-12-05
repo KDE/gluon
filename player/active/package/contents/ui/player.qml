@@ -47,7 +47,7 @@ Image {
                 height: 32
                 width: gamesListView.width
 
-                color: theme.buttonBackgroundColor
+                //color: theme.buttonBackgroundColor
                 radius: 10
 
                 Text {
@@ -55,7 +55,7 @@ Image {
                     anchors.fill: parent
                     anchors.margins: 5
 
-                    color: theme.buttonTextColor
+                    //color: theme.buttonTextColor
 
                     horizontalAlignment: Text.AlignHCenter
 
@@ -75,6 +75,7 @@ Image {
                 height: parent.height - gamesListStatusChanger.height
                 width: parent.width
 
+                clip: true
                 spacing: 10
 
                 delegate: GameItem { }
@@ -85,10 +86,6 @@ Image {
             height: parent.height
             width: parent.width*0.6
         }
-    }
-
-    onCurrentGameIdChanged: {
-        gameDetailsModel.id = currentGameId;
     }
 
     Component.onCompleted: {

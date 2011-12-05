@@ -18,48 +18,35 @@
  */
 
 import QtQuick 1.0
+import org.kde.metadatamodels 0.1 as MetadataModels
+import org.kde.plasma.components 0.1 as PlasmaComponents
+import org.kde.plasma.core 0.1 as PlasmaCore
+import org.kde.plasma.mobilecomponents 0.1 as MobileComponents
+import org.kde.qtextracomponents 0.1
 
 Rectangle {
     id: gameDetailsRect
-    color: theme.backgroundColor
-    opacity: 0.5
     radius: 10
 
-    ListView {
-        id: gameDetailsListView
-
+    Column {
         anchors.fill: parent
         anchors.margins: 20
+        spacing: 20
 
-        clip: true
+        Text {
+            width: parent.width
 
-        model: gameDetailsModel
-        delegate: gameDetailsDelegate
-    }
+            font.pointSize: 12; font.bold: true
+            text: "Game Name"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
 
-    Component {
-        id: gameDetailsDelegate
+        Text {
+            width: parent.width
+            wrapMode: Text.WordWrap
 
-        Column {
-            spacing: 20
-
-            Text {
-                width: gameDetailsListView.width
-
-                font.pointSize: 12; font.bold: true
-                color: theme.textColor
-                text: GameName
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-            }
-
-            Text {
-                width: gameDetailsListView.width
-                wrapMode: Text.WordWrap
-
-                color: theme.textColor
-                text: GameDescription
-            }
+            text: "Game Description"
         }
     }
 }

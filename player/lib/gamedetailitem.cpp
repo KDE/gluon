@@ -34,6 +34,7 @@ class GameDetailItem::Private
         QString gameDescription;
         QString version;
         QString category;
+        QString categoryName;
         QString homePage;
         QString license;
         QString changelog;
@@ -46,10 +47,10 @@ class GameDetailItem::Private
 };
 
 GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDescription, const QString& version,
-                                const QString& category, const QString& homePage, const QString& license,
-                                const QString& changelog, const QString& projectDirName, const QString& projectFileName,
-                                const QStringList& screenshotUrls, int rating, GluonPlayer::GameDetailItem::Status status,
-                                const QString id, QObject* parent )
+                                const QString& category, const QString& categoryName, const QString& homePage,
+                                const QString& license, const QString& changelog, const QString& projectDirName,
+                                const QString& projectFileName, const QStringList& screenshotUrls, int rating,
+                                GluonPlayer::GameDetailItem::Status status, const QString id, QObject* parent )
     : QObject( parent )
     , d( new Private() )
 {
@@ -57,6 +58,7 @@ GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDesc
     d->gameDescription = gameDescription;
     d->version = version;
     d->category = category;
+    d->categoryName = categoryName;
     d->homePage = homePage;
     d->license = license;
     d->changelog = changelog;
@@ -86,6 +88,11 @@ QString GameDetailItem::version() const
 QString GameDetailItem::category() const
 {
     return d->category;
+}
+
+QString GameDetailItem::categoryName() const
+{
+    return d->categoryName;
 }
 
 QString GameDetailItem::homePage() const

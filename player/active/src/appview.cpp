@@ -21,10 +21,10 @@
 
 #include "appview.h"
 
-#include "gamedetailsmodel.h"
-
 #include <lib/models/installedgamesmodel.h>
 #include <lib/models/downloadablegamesmodel.h>
+
+#include <engine/projectmetadata.h>
 
 #include <Plasma/Package>
 #include <kdeclarative.h>
@@ -63,10 +63,6 @@ AppView::AppView(const QString &url, QWidget *parent)
 
     rootContext()->setContextProperty("installedGamesModel", new GluonPlayer::InstalledGamesModel(this));
     rootContext()->setContextProperty("downloadableGamesModel", new GluonPlayer::DownloadableGamesModel(this));
-
-    GameDetailsModel *gameDetailsModel = new GameDetailsModel(this);
-    gameDetailsModel->setSourceModel(new GluonPlayer::AllGameItemsModel(this)); //FIXME: share one instance
-    rootContext()->setContextProperty("gameDetailsModel", gameDetailsModel);
 
     setSource(QUrl(m_package->filePath("mainscript")));
     show();

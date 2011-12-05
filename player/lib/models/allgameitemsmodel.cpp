@@ -33,6 +33,7 @@
 #include <QtCore/QByteArray>
 #include <QtCore/QDebug>
 #include <QtGui/QFileSystemModel>
+#include <gamedetailsjob.h>
 
 using namespace GluonPlayer;
 
@@ -57,11 +58,12 @@ AllGameItemsModel::AllGameItemsModel( QObject* parent )
     d->fsModel.setRootPath( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/games" );
 
     QHash<int, QByteArray> roles;
-    roles[GameNameRole] = "GameName";
-    roles[GameDescriptionRole] = "GameDescription";
-    roles[RatingRole] = "Rating";
-    roles[StatusRole] = "Status";
     roles[IDRole] = "Id";
+    roles[GameNameRole] = "GameName";
+    roles[IconRole] = "Icon";
+    roles[RatingRole] = "Rating";
+    roles[GenreRole] = "Genre";
+    roles[StatusRole] = "Status";
     setRoleNames( roles );
 
     fetchGamesList();
@@ -144,14 +146,16 @@ QString AllGameItemsModel::addGameFromDirectory( const QString& directoryPath )
 
         if( d->listIndexForId.contains( id ) )
         {
+            //FIXME: Get genre when project supports it
             GameItem* gameItem = new GameItem( project.name(),  project.description(), 0,
-                                               GluonPlayer::GameItem::Installed, id, this );
+                                               GluonPlayer::GameItem::Installed, id, "Gluon Game", this );
             addOrUpdateGameFromFetchedGameItem( gameItem );
         }
         else
         {
+            //FIXME: Get genre when project supports it
             GameItem* gameItem = new GameItem( project.name(),  project.description(), 0,
-                                               GluonPlayer::GameItem::Installed, id, this );
+                                               GluonPlayer::GameItem::Installed, id, "Gluon Game", this );
             addGameItemToList( gameItem );
             fetchAndUpdateExistingGameItem( gameItem ); //New game on disk, fetch social info from OCS server
         }
@@ -245,17 +249,19 @@ QVariant AllGameItemsModel::data( const QModelIndex& index, int role ) const
     {
         case Qt::UserRole:
             break;
+        case IDRole:
+            return d->gameItems.at( index.row() )->id();
         case Qt::DisplayRole:
         case GameNameRole:
             return d->gameItems.at( index.row() )->gameName();
-        case GameDescriptionRole:
-            return d->gameItems.at( index.row() )->gameDescription();
+        case IconRole:
+            return "";  //TODO: make it work when icon stuff in core is working again
         case RatingRole:
             return d->gameItems.at( index.row() )->rating();
+        case GenreRole:
+            return d->gameItems.at( index.row() )->genre();
         case StatusRole:
             return d->gameItems.at( index.row() )->status();
-        case IDRole:
-            return d->gameItems.at( index.row() )->id();
         default:
             break;
     }
@@ -312,7 +318,7 @@ void AllGameItemsModel::processFetchedGamesList()
     foreach( GameDetailItem* c, list )
     {
         GameItem* gameItem = new GameItem( c->gameName(), c->gameDescription(), c->rating(), GameItem::Downloadable,
-                                           c->id(), this );
+                                           c->id(), c->categoryName(), this );
 
         addOrUpdateGameFromFetchedGameItem( gameItem );
     }
@@ -323,16 +329,16 @@ void AllGameItemsModel::fetchAndUpdateExistingGameItem( const GameItem* gameItem
     if( gameItem->id().isEmpty() )
         return;
 
-    //TODO: To be uncommented once fetchOneGame is implemented
-    /*GameDetail* gameDetailsProvider = ServiceProvider::instance()->fetchOneGame( gameItem->id() );
-    connect( gameDetailsProvider, SIGNAL(gameDetailsFetched(GameDetailItem*)),
-             SLOT(processFetchedGameDetails(GameDetailItem*)) );*/
+    GameDetailsJob* gameDetailsJob = ServiceProvider::instance()->fetchOneGame( gameItem->id() );
+    connect( gameDetailsJob, SIGNAL(finished()), SLOT(processFetchedGameDetails()));
 }
 
-void AllGameItemsModel::processFetchedGameDetails( GameDetailItem* gameDetails )
+void AllGameItemsModel::processFetchedGameDetails()
 {
+    GameDetailsJob* job = qobject_cast<GameDetailsJob*>(sender());
+    GameDetailItem *gameDetails = job->data().value<GameDetailItem*>();
     GameItem* gameItem = new GameItem( gameDetails->gameName(), gameDetails->gameDescription(), gameDetails->rating(),
-                                       GameItem::Downloadable, gameDetails->id(), this );
+                                       GameItem::Downloadable, gameDetails->id(), gameDetails->categoryName(), this );
     addOrUpdateGameFromFetchedGameItem( gameItem );
 }
 

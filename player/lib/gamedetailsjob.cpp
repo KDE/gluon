@@ -68,7 +68,7 @@ void GameDetailsJob::processFetchedGameDetails( Attica::BaseJob* job )
     {
         Attica::Content content = contentJob->result();
         d->gameDetails = new GameDetailItem( content.name(), content.description(), content.version(),
-                content.attribute("typeid"), content.homePageEntry( 0 ).url().toString(),
+                content.attribute("typeid"), content.attribute("typename"), content.homePageEntry( 0 ).url().toString(),
                 content.license(), content.changelog(), "", "", QStringList(),
                 content.rating(), GameDetailItem::Downloadable, content.id() );
 

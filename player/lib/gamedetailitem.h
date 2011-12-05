@@ -38,16 +38,17 @@ namespace GluonPlayer
             };
 
             GameDetailItem( const QString& gameName, const QString& gameDescription, const QString& version,
-                            const QString& category, const QString& homePage, const QString& license,
-                            const QString& changelog, const QString& projectDirName, const QString& projectFileName,
-                            const QStringList& screenshotUrls, int rating, GluonPlayer::GameDetailItem::Status status,
-                            const QString id, QObject* parent = 0 );
+                                const QString& category, const QString& categoryName, const QString& homePage,
+                                const QString& license, const QString& changelog, const QString& projectDirName,
+                                const QString& projectFileName, const QStringList& screenshotUrls, int rating,
+                                GluonPlayer::GameDetailItem::Status status, const QString id, QObject* parent = 0 );
             virtual ~GameDetailItem();
 
             QString gameName() const;
             QString gameDescription() const;
             QString version() const;
             QString category() const;
+            QString categoryName() const;
             QString homePage() const;
             QString license() const;
             QString changelog() const;
