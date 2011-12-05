@@ -208,6 +208,15 @@ Asset::setLoaded( bool loaded )
     d->loaded = loaded;
 }
 
+GluonCore::GluonObject*
+Asset::findItemByNameInternal( QStringList qualifiedName )
+{
+    if( !qualifiedName.isEmpty() && !isLoaded() )
+        load();
+
+    return GluonCore::GluonObject::findItemByNameInternal( qualifiedName );
+}
+
 QUrl
 Asset::fullyQualifiedFileName( GluonCore::GluonObject* obj, const QString& extension )
 {

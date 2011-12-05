@@ -212,6 +212,11 @@ namespace GluonEngine
             QMimeData* mimeData() const;
             void setLoaded( bool loaded );
 
+            /**
+             * Reimplemented from GluonCore::GluonObject::findItemByNameInternal
+             */
+            virtual GluonCore::GluonObject* findItemByNameInternal( QStringList qualifiedName );
+
         private:
             AssetPrivate* d;
     };
