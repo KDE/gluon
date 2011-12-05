@@ -102,18 +102,13 @@ QList< QAction* > StatisticsAsset::actions()
     return d->actions;
 }
 
-void StatisticsAsset::setFile(const QUrl& newFile)
+void StatisticsAsset::load()
 {
-    GluonEngine::Asset::setFile(newFile);
-    foreach( QObject* child, children() )
-    {
-        AbstractStatistic* statistic = qobject_cast<AbstractStatistic*>(child);
-        if( statistic )
-            return;
-    }
+    if( isLoaded() )
+        return;
 
     GluonCore::GluonObjectList list;
-    if( !GluonCore::GDLSerializer::instance()->read( file(), list ) )
+    if( !GluonCore::GDLSerializer::instance()->read( file(), list, gameProject() ) )
         return;
 
     foreach( GluonCore::GluonObject* object, list )
@@ -122,6 +117,32 @@ void StatisticsAsset::setFile(const QUrl& newFile)
         if( statistic )
             statistic->setParent(this);
     }
+
+    GluonEngine::Asset::load();
+}
+
+void StatisticsAsset::unload()
+{
+    if( !isLoaded() )
+        return;
+
+    QObjectList childList( children() );
+    foreach( QObject* child, childList )
+    {
+        AbstractStatistic* statistic = qobject_cast<AbstractStatistic*>(child);
+        if( statistic )
+            statistic->deleteLater();
+    }
+
+    GluonEngine::Asset::unload();
+}
+
+void StatisticsAsset::setFile(const QUrl& newFile)
+{
+    GluonEngine::Asset::setFile( newFile );
+
+    if( isLoaded() )
+        reload();
 }
 
 void StatisticsAsset::createStatistic()

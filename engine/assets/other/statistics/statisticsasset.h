@@ -57,6 +57,12 @@ namespace GluonEngine
             /** Reimplemented from Asset::actions() */
             virtual QList<QAction*> actions();
 
+            /** Reimplemented from Asset::load() */
+            virtual void load();
+
+            /** Reimplemented from Asset::unload() */
+            virtual void unload();
+
             /** Creates the statistics from the file at startup */
             virtual void setFile( const QUrl& newFile );
 

@@ -87,25 +87,13 @@ QList< QAction* > AchievementsAsset::actions()
     return d->actions;
 }
 
-void AchievementsAsset::setFile(const QUrl& newFile)
+void AchievementsAsset::load()
 {
-    /* This function will extract the achievement instances
-     * from the file only the first time. If it would read
-     * the file every time this function is called, it would
-     * add the same instance multiple times. If I try do delete
-     * all achievements before, gluon creator crashes.
-     */
-    GluonEngine::Asset::setFile( newFile );
-
-    foreach( QObject* object, children() )
-    {
-        Achievement* achievement = qobject_cast<Achievement*>( object );
-        if( achievement )
-            return;
-    }
+    if( isLoaded() )
+        return;
 
     GluonCore::GluonObjectList list;
-    if( !GluonCore::GDLSerializer::instance()->read( file(), list ) )
+    if( !GluonCore::GDLSerializer::instance()->read( file(), list, gameProject() ) )
         return;
 
     foreach( GluonCore::GluonObject* gobj, list )
@@ -114,6 +102,32 @@ void AchievementsAsset::setFile(const QUrl& newFile)
         if( achievement )
             achievement->setParent( this );
     }
+
+    GluonEngine::Asset::load();
+}
+
+void AchievementsAsset::unload()
+{
+    if( !isLoaded() )
+        return;
+
+    QObjectList childList( children() );
+    foreach( QObject* object, childList )
+    {
+        Achievement* achievement = qobject_cast<Achievement*>( object );
+        if( achievement )
+            achievement->deleteLater();
+    }
+
+    GluonEngine::Asset::unload();
+}
+
+void AchievementsAsset::setFile(const QUrl& newFile)
+{
+    GluonEngine::Asset::setFile( newFile );
+
+    if( isLoaded() )
+        reload();
 }
 
 void AchievementsAsset::createAchievement()
