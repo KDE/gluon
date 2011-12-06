@@ -30,9 +30,17 @@ namespace GluonPlayer
     class GLUON_PLAYER_EXPORT InstalledGamesModel : public QSortFilterProxyModel
     {
             Q_OBJECT
+            Q_PROPERTY(QObject* sourceModel READ sourceModel WRITE setSourceModel NOTIFY sourceModelChanged)
+
         public:
             InstalledGamesModel( QObject* parent = 0 );
+            InstalledGamesModel( QAbstractItemModel *sourceModel, QObject* parent = 0 );
             Q_INVOKABLE QVariant gameData( int gameIndex, QByteArray role );
+
+            virtual void setSourceModel(QObject* sourceModel);
+
+        Q_SIGNALS:
+            void sourceModelChanged();
 
         protected:
             virtual bool filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const;

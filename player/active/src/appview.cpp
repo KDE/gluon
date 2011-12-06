@@ -23,6 +23,7 @@
 
 #include <lib/models/installedgamesmodel.h>
 #include <lib/models/downloadablegamesmodel.h>
+#include <lib/models/allgameitemsmodel.h>
 
 #include <engine/projectmetadata.h>
 
@@ -61,8 +62,9 @@ AppView::AppView(const QString &url, QWidget *parent)
     Plasma::PackageStructure::Ptr structure = Plasma::PackageStructure::load("Plasma/Generic");
     m_package = new Plasma::Package(QString(), "org.kde.gluon.player", structure);
 
-    rootContext()->setContextProperty("installedGamesModel", new GluonPlayer::InstalledGamesModel(this));
-    rootContext()->setContextProperty("downloadableGamesModel", new GluonPlayer::DownloadableGamesModel(this));
+    GluonPlayer::AllGameItemsModel *sourceModel = new GluonPlayer::AllGameItemsModel(this);
+    rootContext()->setContextProperty("installedGamesModel", new GluonPlayer::InstalledGamesModel(sourceModel, this));
+    rootContext()->setContextProperty("downloadableGamesModel", new GluonPlayer::DownloadableGamesModel(sourceModel, this));
 
     setSource(QUrl(m_package->filePath("mainscript")));
     show();

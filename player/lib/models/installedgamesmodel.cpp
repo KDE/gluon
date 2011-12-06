@@ -24,9 +24,17 @@
 
 using namespace GluonPlayer;
 
-InstalledGamesModel::InstalledGamesModel( QObject* parent ): QSortFilterProxyModel( parent )
+InstalledGamesModel::InstalledGamesModel(QObject* parent): QSortFilterProxyModel(parent)
 {
-    setSourceModel( new AllGameItemsModel( this ) );
+    InstalledGamesModel(0, parent);
+}
+
+InstalledGamesModel::InstalledGamesModel( QAbstractItemModel* sourceModel, QObject* parent ): QSortFilterProxyModel( parent )
+{
+    if (sourceModel)
+    {
+        setSourceModel( new AllGameItemsModel( this ) );
+    }
     setDynamicSortFilter( true );
 }
 
@@ -34,6 +42,13 @@ QVariant InstalledGamesModel::gameData( int gameIndex, QByteArray role )
 {
     return data( index( gameIndex, 0 ), roleNames().key( role ) );
 }
+
+void GluonPlayer::InstalledGamesModel::setSourceModel(QObject* sourceModel)
+{
+    emit sourceModelChanged();
+    QSortFilterProxyModel::setSourceModel(qobject_cast<QAbstractItemModel*>(sourceModel));
+}
+
 
 bool InstalledGamesModel::filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const
 {

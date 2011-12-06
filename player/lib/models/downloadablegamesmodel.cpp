@@ -26,13 +26,23 @@ using namespace GluonPlayer;
 
 DownloadableGamesModel::DownloadableGamesModel( QObject* parent ): QSortFilterProxyModel( parent )
 {
-    setSourceModel( new AllGameItemsModel( this ) );
+    DownloadableGamesModel(0, parent);
+}
+
+DownloadableGamesModel::DownloadableGamesModel(QAbstractItemModel* sourceModel, QObject* parent)
+    : QSortFilterProxyModel(parent)
+{
+    if (sourceModel)
+    {
+        setSourceModel(sourceModel);
+    }
     setDynamicSortFilter( true );
 }
 
-QVariant GluonPlayer::DownloadableGamesModel::gameData( int gameIndex, QByteArray role )
+void DownloadableGamesModel::setSourceModel(QObject* sourceModel)
 {
-    return data( index( gameIndex, 0 ), roleNames().key( role ) );
+    emit sourceModelChanged();
+    QSortFilterProxyModel::setSourceModel(qobject_cast<QAbstractItemModel*>(sourceModel));
 }
 
 bool DownloadableGamesModel::filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const
