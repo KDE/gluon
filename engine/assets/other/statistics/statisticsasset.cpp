@@ -107,9 +107,23 @@ void StatisticsAsset::load()
     if( isLoaded() )
         return;
 
+    // As long as we don't unload correctly, make sure we don't load the objects two times
+    foreach( QObject* child, children() )
+    {
+        Statistic* statistic = qobject_cast<Statistic*>(child);
+        if( statistic )
+            return;
+    }
+
+    // Make sure that we don't get into an endless recursion...
+    setLoaded( true );
+
     GluonCore::GluonObjectList list;
     if( !GluonCore::GDLSerializer::instance()->read( file(), list, gameProject() ) )
+    {
+        setLoaded( false );
         return;
+    }
 
     foreach( GluonCore::GluonObject* object, list )
     {
@@ -126,13 +140,14 @@ void StatisticsAsset::unload()
     if( !isLoaded() )
         return;
 
-    QObjectList childList( children() );
-    foreach( QObject* child, childList )
-    {
-        AbstractStatistic* statistic = qobject_cast<AbstractStatistic*>(child);
-        if( statistic )
-            statistic->deleteLater();
-    }
+    // This is causing a crash when saving & closing creator
+//     QObjectList childList( children() );
+//     foreach( QObject* child, childList )
+//     {
+//         AbstractStatistic* statistic = qobject_cast<AbstractStatistic*>(child);
+//         if( statistic )
+//             statistic->deleteLater();
+//     }
 
     GluonEngine::Asset::unload();
 }

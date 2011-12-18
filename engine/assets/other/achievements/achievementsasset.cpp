@@ -92,9 +92,23 @@ void AchievementsAsset::load()
     if( isLoaded() )
         return;
 
+    // As long as we don't unload correctly, make sure we don't load the objects two times
+    foreach( QObject* child, children() )
+    {
+        Achievement* achievement = qobject_cast<Achievement*>(child);
+        if( achievement )
+            return;
+    }
+
+    // Make sure that we don't get into an endless recursion...
+    setLoaded( true );
+
     GluonCore::GluonObjectList list;
     if( !GluonCore::GDLSerializer::instance()->read( file(), list, gameProject() ) )
+    {
+        setLoaded( false );
         return;
+    }
 
     foreach( GluonCore::GluonObject* gobj, list )
     {
@@ -111,13 +125,14 @@ void AchievementsAsset::unload()
     if( !isLoaded() )
         return;
 
-    QObjectList childList( children() );
-    foreach( QObject* object, childList )
-    {
-        Achievement* achievement = qobject_cast<Achievement*>( object );
-        if( achievement )
-            achievement->deleteLater();
-    }
+    // This is causing a crash when saving & closing creator
+//     QObjectList childList( children() );
+//     foreach( QObject* object, childList )
+//     {
+//         Achievement* achievement = qobject_cast<Achievement*>( object );
+//         if( achievement )
+//             achievement->deleteLater();
+//     }
 
     GluonEngine::Asset::unload();
 }
