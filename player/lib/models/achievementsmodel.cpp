@@ -35,12 +35,13 @@ using namespace GluonPlayer;
 class AchievementsModel::AchievementsModelPrivate
 {
     public:
-        AchievementsModelPrivate() : achievementsManager( 0 ) {}
+        AchievementsModelPrivate() : achievementsManager( 0 ), hiddenAchievements(0) {}
         ~AchievementsModelPrivate() { delete achievementsManager; }
 
         QStringList headerList;
         QString projectDir;
         GluonEngine::AchievementsManager* achievementsManager;
+        int hiddenAchievements;
 };
 
 AchievementsModel::AchievementsModel( GluonEngine::ProjectMetaData* metaData, const QString& userName, QObject* parent)
@@ -68,6 +69,13 @@ AchievementsModel::AchievementsModel( GluonEngine::ProjectMetaData* metaData, co
         qDebug() << Q_FUNC_INFO << "metaData is NULL, so the model will be empty.";
     }
 
+    // check for hidden achievements
+    for( int i=0; i<d->achievementsManager->achievementsCount(); ++i )
+    {
+        if( d->achievementsManager->isHidden( i ) && !d->achievementsManager->isPastThreshold( i ) )
+            d->hiddenAchievements++;
+    }
+
     QHash<int, QByteArray> roles;
     roles[Qt::DisplayRole] = "qtDisplayRole";
     roles[Qt::DecorationRole] = "qtDecorationRole";
@@ -80,14 +88,20 @@ AchievementsModel::~AchievementsModel()
     delete d;
 }
 
-int AchievementsModel::rowCount( const QModelIndex& /*parent*/ ) const
+int AchievementsModel::rowCount( const QModelIndex& parent ) const
 {
-    return d->achievementsManager->achievementsCount();
+    if( !parent.isValid() )
+        return d->achievementsManager->achievementsCount() - d->hiddenAchievements;
+
+    return 0;
 }
 
-int AchievementsModel::columnCount( const QModelIndex& /*parent*/ ) const
+int AchievementsModel::columnCount( const QModelIndex& parent ) const
 {
-    return 3;
+    if( !parent.isValid() )
+        return 3;
+
+    return 0;
 }
 
 QVariant AchievementsModel::data( const QModelIndex& index, int role ) const

@@ -90,6 +90,7 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
     QList< Achievement* > achieved;
     QList< Achievement* > hidden;
     QList< Achievement* > inProgress;
+    QList< Achievement* > unlocked;
     QList< Achievement* > locked;
     foreach( Achievement* achievement, achievements )
     {
@@ -101,9 +102,13 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
         {
             hidden.append(achievement);
         }
-        else if( achievement->dependencySatisfied() )
+        else if( achievement->dependencySatisfied() && achievement->isPastThreshold() )
         {
             inProgress.append(achievement);
+        }
+        else if( achievement->dependencySatisfied() )
+        {
+            unlocked.append(achievement);
         }
         else
         {
@@ -113,6 +118,7 @@ void AchievementsManager::readFromProject( const QList< Achievement* >& achievem
 
     QList< Achievement* > allAchievements = achieved;
     allAchievements.append(inProgress);
+    allAchievements.append(unlocked);
     allAchievements.append(locked);
     allAchievements.append(hidden);
 

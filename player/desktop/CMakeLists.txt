@@ -14,6 +14,7 @@ set(desktop_SRCS
     mainwindow.cpp
     overlay.cpp
 
+    delegates/achievementdelegate.cpp
     delegates/commentitemsviewdelegate.cpp
     delegates/itemsviewdelegate.cpp
     models/listmodel.cpp
