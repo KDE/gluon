@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright 2011 Shantanu Tushar <shaan7in@gmail.com>
  * Copyright 2011 Sebastian Kügler <sebas@kde.org>
  * Copyright 2011 Marco Martin <mart@kde.org>
  *
@@ -37,8 +37,8 @@ static const char version[] = "0.1";
 int main(int argc, char **argv)
 {
     KAboutData about("gluonplayer-active", 0, ki18n("Gluon Player"), version, ki18n(description),
-                     KAboutData::License_GPL, ki18n("Copyright 2011 Shantanu Tushar"), KLocalizedString(), 0, "jhahoneyk@gmail.com");
-    about.addAuthor( ki18n("Shantanu Tushar"), KLocalizedString(), "jhahoneyk@gmail.com" );
+                     KAboutData::License_GPL, ki18n("Copyright 2011 Shantanu Tushar"), KLocalizedString(), 0, "shaan7in@gmail.com");
+    about.addAuthor( ki18n("Shantanu Tushar"), KLocalizedString(), "shaan7in@gmail.com" );
     KCmdLineArgs::init(argc, argv, &about);
 
     KCmdLineOptions options;

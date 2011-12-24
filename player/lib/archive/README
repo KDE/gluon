@@ -24,4 +24,4 @@ II. Using Qt
 use a QDataStream to read/write the headers, and then usual read/write functions to read/write binary data.
 
 
-Last updated on 16 June 2011 by Shantanu Tushar <jhahoneyk@gmail.com>
+Last updated on 16 June 2011 by Shantanu Tushar <shaan7in@gmail.com>

@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright 2011 Shantanu Tushar <jhahoneyk@gmail.com>
+ * Copyright 2011 Shantanu Tushar <shaan7in@gmail.com>
  * Copyright 2011 Sebastian Kügler <sebas@kde.org>
  * Copyright 2011 Marco Martin <mart@kde.org>
  *
