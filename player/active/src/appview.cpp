@@ -21,11 +21,8 @@
 
 #include "appview.h"
 
-#include <lib/models/installedgamesmodel.h>
-#include <lib/models/downloadablegamesmodel.h>
-#include <lib/models/allgameitemsmodel.h>
-
-#include <engine/projectmetadata.h>
+#include <lib/gamemanager.h>
+#include <lib/gamemetadata.h>
 
 #include <Plasma/Package>
 #include <kdeclarative.h>
@@ -39,53 +36,53 @@
 #include <QFileInfo>
 #include <QScriptValue>
 #include <QGLWidget>
-#include <lib/models/allgameitemsmodel.h>
 
-AppView::AppView(const QString &url, QWidget *parent)
-    : QDeclarativeView(parent),
-      m_useGL(false)
+AppView::AppView( QWidget* parent )
+    : QDeclarativeView( parent ),
+      m_useGL( false )
 {
     // avoid flicker on show
-    setAttribute(Qt::WA_OpaquePaintEvent);
-    setAttribute(Qt::WA_NoSystemBackground);
-    viewport()->setAttribute(Qt::WA_OpaquePaintEvent);
-    viewport()->setAttribute(Qt::WA_NoSystemBackground);
+    setAttribute( Qt::WA_OpaquePaintEvent );
+    setAttribute( Qt::WA_NoSystemBackground );
+    viewport()->setAttribute( Qt::WA_OpaquePaintEvent );
+    viewport()->setAttribute( Qt::WA_NoSystemBackground );
 
-    setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    setResizeMode( QDeclarativeView::SizeRootObjectToView );
 
     KDeclarative kdeclarative;
-    kdeclarative.setDeclarativeEngine(engine());
+    kdeclarative.setDeclarativeEngine( engine() );
     kdeclarative.initialize();
     //binds things like kconfig and icons
     kdeclarative.setupBindings();
 
-    Plasma::PackageStructure::Ptr structure = Plasma::PackageStructure::load("Plasma/Generic");
-    m_package = new Plasma::Package(QString(), "org.kde.gluon.player", structure);
+    Plasma::PackageStructure::Ptr structure = Plasma::PackageStructure::load( "Plasma/Generic" );
+    m_package = new Plasma::Package( QString(), "org.kde.gluon.player", structure );
 
-    GluonPlayer::AllGameItemsModel *sourceModel = new GluonPlayer::AllGameItemsModel(this);
-    rootContext()->setContextProperty("installedGamesModel", new GluonPlayer::InstalledGamesModel(sourceModel, this));
-    rootContext()->setContextProperty("downloadableGamesModel", new GluonPlayer::DownloadableGamesModel(sourceModel, this));
+    rootContext()->setContextProperty( "installedGamesModel", GluonPlayer::GameManager::instance()->installedGamesModel() );
+    rootContext()->setContextProperty( "downloadableGamesModel", GluonPlayer::GameManager::instance()->downloadableGamesModel() );
+    qmlRegisterType<GluonPlayer::GameMetadata>( "org.kde.gluon", 1, 0, "GameMetadata" );
 
-    setSource(QUrl(m_package->filePath("mainscript")));
+    setSource( QUrl( m_package->filePath( "mainscript" ) ) );
     show();
 
-    onStatusChanged(status());
+    onStatusChanged( status() );
 
-    connect(this, SIGNAL(statusChanged(QDeclarativeView::Status)),
-            this, SLOT(onStatusChanged(QDeclarativeView::Status)));
+    connect( this, SIGNAL( statusChanged( QDeclarativeView::Status ) ),
+             this, SLOT( onStatusChanged( QDeclarativeView::Status ) ) );
 }
 
 AppView::~AppView()
 {
 }
 
-void AppView::setUseGL(const bool on)
+void AppView::setUseGL( const bool on )
 {
 #ifndef QT_NO_OPENGL
-    if (on) {
-        QGLWidget *glWidget = new QGLWidget;
-        glWidget->setAutoFillBackground(false);
-        setViewport(glWidget);
+    if( on )
+    {
+        QGLWidget* glWidget = new QGLWidget;
+        glWidget->setAutoFillBackground( false );
+        setViewport( glWidget );
     }
 #endif
     m_useGL = on;
@@ -96,7 +93,7 @@ bool AppView::useGL() const
     return m_useGL;
 }
 
-void AppView::onStatusChanged(QDeclarativeView::Status status)
+void AppView::onStatusChanged( QDeclarativeView::Status status )
 {
     kDebug() << "STATUS " << status;
 }

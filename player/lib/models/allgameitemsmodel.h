@@ -27,6 +27,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QMultiMap>
 #include <QtCore/QDir>
+#include <QtCore/QModelIndex>
 
 namespace GluonEngine
 {
@@ -52,18 +53,20 @@ namespace GluonPlayer
         public:
             enum GameItemsModelRoles
             {
-                IDRole = Qt::UserRole + 1,
+                IdRole = Qt::UserRole + 1,
                 GameNameRole,
                 IconRole,
                 RatingRole,
                 GenreRole,
                 StatusRole,
+                UriRole
             };
 
             explicit AllGameItemsModel( QObject* parent = 0 );
             virtual ~AllGameItemsModel();
 
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
+            virtual QVariant data( const QString& gameId, int role = Qt::DisplayRole ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
             virtual bool setData( const QModelIndex& index, const QVariant& value, int role = Qt::EditRole );
 

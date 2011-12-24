@@ -29,7 +29,7 @@ class MainWindow : public KMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow(const QString &url);
+    MainWindow();
     virtual ~MainWindow();
     QString name();
     QIcon icon();

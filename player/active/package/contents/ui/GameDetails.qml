@@ -18,10 +18,18 @@
  */
 
 import QtQuick 1.0
+import org.kde.gluon 1.0 as Gluon
 
 Rectangle {
     id: gameDetailsRect
+    property alias gameId: gameMetadata.gameId
+
     radius: 10
+
+    Gluon.GameMetadata
+    {
+        id: gameMetadata
+    }
 
     Column {
         anchors.fill: parent
@@ -32,7 +40,7 @@ Rectangle {
             width: parent.width
 
             font.pointSize: 12; font.bold: true
-            text: "Game Name"
+            text: gameMetadata.gameName
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
         }
@@ -41,7 +49,7 @@ Rectangle {
             width: parent.width
             wrapMode: Text.WordWrap
 
-            text: "Game Description"
+            text: gameMetadata.gameDescription
         }
     }
 }

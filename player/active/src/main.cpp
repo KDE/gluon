@@ -58,12 +58,7 @@ int main(int argc, char **argv)
         useGL = cg.readEntry("UseOpenGl", true);
     }
 
-    QString url;
-    if (args->count() > 0) {
-        url = args->arg(0);
-    }
-
-    MainWindow *mainWindow = new MainWindow(url);
+    MainWindow *mainWindow = new MainWindow();
     mainWindow->setUseGL(useGL);
     mainWindow->show();
     args->clear();

@@ -36,6 +36,8 @@ set(libGluonPlayer_SRCS
     gamedetailsjob.cpp
     gamedetaillistjob.cpp
     gamedownloadjob.cpp
+    gamemanager.cpp
+    gamemetadata.cpp
     gameuploadjob.cpp
     licensejob.cpp
     ratingjob.cpp

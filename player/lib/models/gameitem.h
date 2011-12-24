@@ -24,6 +24,7 @@
 #include "lib/gluon_player_export.h"
 
 #include <QtCore/QStringList>
+#include <QUrl>
 
 namespace GluonPlayer
 {
@@ -46,7 +47,8 @@ namespace GluonPlayer
             };
 
             explicit GameItem( const QString& gameName, const QString& description, int rating,
-                               const Status& status, const QString& id, const QString& genre, QObject* parent = 0 );
+                               const Status& status, const QString& id, const QString& genre, const QUrl& uri,
+                               QObject* parent = 0 );
             virtual ~GameItem();
 
             QString gameName() const;
@@ -60,6 +62,8 @@ namespace GluonPlayer
             QString id() const;
             QString genre() const;
             void setGenre( const QString& genre );
+            QUrl uri() const;
+            void setUri( const QString& uri );
 
         private:
             class Private;

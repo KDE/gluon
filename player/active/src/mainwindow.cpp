@@ -27,7 +27,7 @@
 
 #include "mainwindow.h"
 
-MainWindow::MainWindow(const QString &url)
+MainWindow::MainWindow()
     : KMainWindow()
 {
     setAcceptDrops(true);
@@ -37,7 +37,7 @@ MainWindow::MainWindow(const QString &url)
     Plasma::Theme::defaultTheme()->setThemeName(themeName);
     addAction(KStandardAction::close(this, SLOT(close()), this));
     addAction(KStandardAction::quit(this, SLOT(close()), this));
-    m_widget = new AppView(url, this);
+    m_widget = new AppView(this);
 
     restoreWindowSize(config("Window"));
     setCentralWidget(m_widget);

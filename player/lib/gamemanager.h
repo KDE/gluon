@@ -1,8 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright 2011 Shantanu Tushar <jhahoneyk@gmail.com>
- * Copyright 2011 Sebastian Kügler <sebas@kde.org>
- * Copyright 2011 Marco Martin <mart@kde.org>
+ * Copyright 2011 Shantanu Tushar <shaan7in@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,48 +17,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef VIEW_H
-#define VIEW_H
 
-#include <QDeclarativeView>
-#include <QAction>
+#ifndef GLUONPLAYER_GAMEMANAGER_H
+#define GLUONPLAYER_GAMEMANAGER_H
 
-#include <KActionCollection>
-#include <KMainWindow>
-#include <KPluginInfo>
+#include <core/singleton.h>
 
-class KMainWindow;
-class QDeclarativeItem;
-class QProgressBar;
-class QSignalMapper;
-class Page;
-class ScriptApi;
-class DirModel;
-;
-namespace Plasma
+namespace GluonPlayer
 {
-class Package;
+    class GameManager : public GluonCore::Singleton<GameManager>
+    {
+            Q_OBJECT
+            Q_PROPERTY( QObject* allGamesModel READ allGamesModel CONSTANT )
+            Q_PROPERTY( QObject* downloadableGamesModel READ downloadableGamesModel CONSTANT )
+            Q_PROPERTY( QObject* installedGamesModel READ installedGamesModel CONSTANT )
+            GLUON_SINGLETON( GameManager )
+
+        public:
+            QObject* allGamesModel() const;
+            QObject* downloadableGamesModel() const;
+            QObject* installedGamesModel() const;
+
+        private:
+            class Private;
+            Private * const d;
+    };
 }
 
-class AppView : public QDeclarativeView
-{
-    Q_OBJECT
-
-public:
-    AppView( QWidget *parent = 0 );
-    ~AppView();
-
-    QString name() const;
-
-    void setUseGL(const bool on);
-    bool useGL() const;
-
-private Q_SLOTS:
-    void onStatusChanged(QDeclarativeView::Status status);
-
-private:
-    Plasma::Package *m_package;
-    bool m_useGL;
-};
-
-#endif // VIEW_H
+#endif // GLUONPLAYER_GAMEMANAGER_H

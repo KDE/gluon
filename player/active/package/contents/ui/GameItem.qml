@@ -79,8 +79,6 @@ Item {
     MouseArea {
         anchors.fill: gameItemRow
 
-        onClicked: {
-            rootItem.currentGameId = Id;
-        }
+        onClicked: rootItem.currentGameId = Id
     }
 }

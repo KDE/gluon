@@ -29,7 +29,7 @@ Image {
     source: "image://appbackgrounds/standard"
     fillMode: Image.Tile
 
-    property string currentGameId: ""
+    property alias currentGameId: gameDetailsItem.gameId
 
     Row {
         anchors.fill: parent
@@ -83,6 +83,7 @@ Image {
         }
 
         GameDetails {
+            id: gameDetailsItem
             height: parent.height
             width: parent.width*0.6
         }
