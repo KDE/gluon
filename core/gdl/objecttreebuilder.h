@@ -53,7 +53,7 @@ namespace GDL
              *
              * \param lexer The lexer that was used to create the AST.
              */
-            ObjectTreeBuilder( GDL::Lexer* lexer, const QString& content, GluonCore::GluonObject* project = 0 );
+            ObjectTreeBuilder( GDL::Lexer* lexer, const QString& content, GluonCore::GluonObject* project = 0, GluonCore::GluonObject* parent = 0 );
             virtual ~ObjectTreeBuilder();
 
             QList<GluonCore::GluonObject*> objects();

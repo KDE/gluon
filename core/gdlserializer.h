@@ -46,10 +46,12 @@ namespace GluonCore
              * \param url The url of a file to read from.
              * \param objects A list that will be cleared and populated with objects.
              * \param project The project the objects will belong to. If null, the first created object will be used.
+             * \param parent The parent of the top level objects in the GDL file. If null, top level objects are
+             *               expected to be root items.
              *
              * \return True when successful, false if any error occured.
              */
-            bool read( const QUrl& url, GluonObjectList& objects, GluonObject* project = 0 );
+            bool read( const QUrl& url, GluonObjectList& objects, GluonObject* project = 0, GluonObject* parent = 0 );
 
             /**
              * Write a list of GluonObjects to a file.
@@ -77,10 +79,12 @@ namespace GluonCore
              * \param data The data to parse.
              * \param objects A list that will be cleared and populated with objects.
              * \param project The project the objects will belong to. If null, the first created object will be used.
+             * \param parent The parent of the top level objects in the GDL file. If null, top level objects are
+             *               expected to be root items.
              *
              * \return True when successful, false if any error occured.
              */
-            bool parse( const QByteArray& data, GluonObjectList& objects, GluonObject* project = 0 );
+            bool parse( const QByteArray& data, GluonObjectList& objects, GluonObject* project = 0, GluonObject* parent = 0 );
     };
 
 }

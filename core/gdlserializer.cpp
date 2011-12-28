@@ -34,7 +34,7 @@ using namespace GluonCore;
 
 GLUON_DEFINE_SINGLETON( GDLSerializer )
 
-bool GDLSerializer::read(const QUrl& url, GluonObjectList& objects, GluonObject* project)
+bool GDLSerializer::read(const QUrl& url, GluonObjectList& objects, GluonObject* project, GluonObject* parent )
 {
     QFile file( url.toLocalFile() );
     if( !file.open( QIODevice::ReadOnly | QIODevice::Text ) )
@@ -50,7 +50,7 @@ bool GDLSerializer::read(const QUrl& url, GluonObjectList& objects, GluonObject*
     bool result = false;
     if( data.size() > 0 )
     {
-        result = parse( data, objects, project );
+        result = parse( data, objects, project, parent );
         if( !result )
         {
             DEBUG_BLOCK
@@ -83,7 +83,7 @@ bool GDLSerializer::write(QIODevice* device, const GluonObjectList& objects)
     return true;
 }
 
-bool GDLSerializer::parse(const QByteArray& data, GluonObjectList& objects, GluonObject* project)
+bool GDLSerializer::parse(const QByteArray& data, GluonObjectList& objects, GluonObject* project, GluonObject* parent)
 {
     KDevPG::QUtf8ToUcs4Iterator itr(data);
 
@@ -103,7 +103,7 @@ bool GDLSerializer::parse(const QByteArray& data, GluonObjectList& objects, Gluo
         return false;
     }
 
-    GDL::ObjectTreeBuilder builder( &lexer, data, project );
+    GDL::ObjectTreeBuilder builder( &lexer, data, project, parent );
     builder.visitStart(ast);
 
     if( builder.objects().count() > 0 )

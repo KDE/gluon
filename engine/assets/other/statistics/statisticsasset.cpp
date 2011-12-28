@@ -119,7 +119,7 @@ void StatisticsAsset::load()
     setLoaded( true );
 
     GluonCore::GluonObjectList list;
-    if( !GluonCore::GDLSerializer::instance()->read( absolutePath(), list, gameProject() ) )
+    if( !GluonCore::GDLSerializer::instance()->read( absolutePath(), list, gameProject(), this ) )
     {
         setLoaded( false );
         return;

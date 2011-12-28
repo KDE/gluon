@@ -61,6 +61,7 @@ class ObjectTreeBuilder::Private
         QList<GluonObject*> objects;
         GluonObject* currentObject;
         GluonObject* project;
+        GluonObject* parent;
         QString currentPropertyName;
         QVariant currentPropertyValue;
         bool inList;
@@ -69,12 +70,13 @@ class ObjectTreeBuilder::Private
         QList<Reference> references;
 };
 
-ObjectTreeBuilder::ObjectTreeBuilder(Lexer* lexer, const QString& content, GluonObject* project)
+ObjectTreeBuilder::ObjectTreeBuilder(Lexer* lexer, const QString& content, GluonObject* project, GluonObject* parent )
     : d(new Private)
 {
     d->lexer = lexer;
     d->content = content;
     d->project = project;
+    d->parent = parent;
 }
 
 ObjectTreeBuilder::~ObjectTreeBuilder()
@@ -95,9 +97,29 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
     foreach( const Private::Reference& ref, d->references )
     {
         GluonObject* target = 0;
+
+        // Check whether the path points into this GDL file
+        bool isRelative = false;
+        QString relativePath;
+        if( d->parent )
+        {
+            QString refPathWithoutRoot = ref.path.section( '/', 1, -1 );
+            QString parentPathWithoutRoot = d->parent->qualifiedName( d->parent->root() );
+            if( refPathWithoutRoot.startsWith( parentPathWithoutRoot ) )
+            {
+                isRelative = true;
+                QString relativePath = refPathWithoutRoot.remove( 0, parentPathWithoutRoot.length()+1 ); // +1 for the slash
+            }
+        }
+
+        // now try to find the reference
         foreach( GluonObject* object, d->objects )
         {
-            target = object->findGlobalItemByName( ref.path );
+            if( isRelative )
+                target = object->findGlobalItemByName( relativePath );
+            else
+                target = object->findGlobalItemByName( ref.path );
+
             if( target )
                 break;
         }
