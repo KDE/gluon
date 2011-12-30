@@ -137,7 +137,7 @@ void AchievementsAsset::unload()
     GluonEngine::Asset::unload();
 }
 
-void AchievementsAsset::setFile(const QUrl& newFile)
+void AchievementsAsset::setFile(const QString& newFile)
 {
     GluonEngine::Asset::setFile( newFile );
 

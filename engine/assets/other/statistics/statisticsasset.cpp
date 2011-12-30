@@ -152,7 +152,7 @@ void StatisticsAsset::unload()
     GluonEngine::Asset::unload();
 }
 
-void StatisticsAsset::setFile(const QUrl& newFile)
+void StatisticsAsset::setFile(const QString& newFile)
 {
     GluonEngine::Asset::setFile( newFile );
 
