@@ -82,10 +82,10 @@ void Player::append(QString file)
 
 void Player::insert(int index, QString file)
 {
-    if( d->files.count()-1 > index )
+    if( d->files.count()-1 < index )
         d->files.append(file);
     else
-        d->files.replace( index, file );
+        d->files.insert( index, file );
 }
 
 void Player::removeLast()
