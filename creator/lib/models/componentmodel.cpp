@@ -131,6 +131,16 @@ ComponentModel::ComponentModel( QObject* parent )
                     DEBUG_TEXT2( "The Component %1 is lacking the Q_INTERFACES(GluonEngine::Component) macro", obj->className() )
                 }
             }
+            else
+            {
+                if( obj->superClass() )
+                {
+                    if( obj->superClass()->className() )
+                    {
+                        DEBUG_TEXT2( "The Component %1 does not have its constructor marked with Q_INVOKABLE", obj->className() );
+                    }
+                }
+            }
         }
     }
 }
