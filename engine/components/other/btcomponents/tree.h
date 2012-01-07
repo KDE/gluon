@@ -39,7 +39,7 @@ namespace GluonEngine
         public:
             friend class GluonEngine::btAsset;
 
-            Tree( QObject* parent = 0 );
+            Q_INVOKABLE Tree( QObject* parent = 0 );
             Tree( const Tree& other, QObject* parent = 0 );
             ~Tree();
 

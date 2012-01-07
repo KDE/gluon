@@ -36,7 +36,7 @@ namespace GluonEngine
             Q_INTERFACES( GluonEngine::Asset )
 
         public:
-            btAsset( QObject* parent = 0 );
+            Q_INVOKABLE btAsset( QObject* parent = 0 );
             btAsset( const btAsset& other, QObject* parent = 0 );
             ~btAsset();
 

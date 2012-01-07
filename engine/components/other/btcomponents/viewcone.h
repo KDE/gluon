@@ -40,6 +40,8 @@ namespace GluonEngine
             Q_PROPERTY( qreal radius READ radius WRITE setRadius );
             Q_PROPERTY( qreal knowledgePrecision READ knowledgePrecision WRITE setKnowledgePrecision );
 
+            Q_CLASSINFO( "org.gluon.category", "Artificial Intelligence" )
+            Q_CLASSINFO( "org.gluon.icon", "application-x-executable" )
         public:
             Q_INVOKABLE ViewCone( QObject* parent = 0 );
             ViewCone( const ViewCone& other, QObject* parent = 0 );

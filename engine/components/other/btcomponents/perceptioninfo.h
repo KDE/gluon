@@ -45,8 +45,10 @@ namespace GluonEngine
             Q_PROPERTY( qreal radius READ radius WRITE setRadius/* NOTIFY radiusUpdated*/ )
             Q_PROPERTY( GluonEngine::Asset* script READ script WRITE setScript )
 
+            Q_CLASSINFO( "org.gluon.category", "Artificial Intelligence" )
+            Q_CLASSINFO( "org.gluon.icon", "application-x-executable" )
         public:
-            PerceptionInfo( QObject* parent = 0 );
+            Q_INVOKABLE PerceptionInfo( QObject* parent = 0 );
             PerceptionInfo( const PerceptionInfo& other, QObject* parent = 0 );
             ~PerceptionInfo();
 

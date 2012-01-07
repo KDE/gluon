@@ -43,6 +43,8 @@ namespace GluonEngine
             Q_PROPERTY( qreal precision READ precision WRITE setPrecision )
             Q_PROPERTY( bool shouldUpdate READ shouldUpdate WRITE setShouldUpdate )
 
+            Q_CLASSINFO( "org.gluon.category", "Artificial Intelligence" )
+            Q_CLASSINFO( "org.gluon.icon", "application-x-executable" )
         public:
             Q_INVOKABLE PerceptionAtom( QObject* parent = 0 );
             PerceptionAtom( const PerceptionAtom& other, QObject* parent = 0 );
