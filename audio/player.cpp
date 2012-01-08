@@ -82,7 +82,7 @@ void Player::append(QString file)
 
 void Player::insert(int index, QString file)
 {
-    if( d->files.count()-1 < index )
+    if( d->files.count() - 1 < index )
         d->files.append(file);
     else
         d->files.insert( index, file );
@@ -102,8 +102,9 @@ void Player::play()
 
 void Player::playAt(int index)
 {
-    d->currentIndex = index;
-    d->sound->load(d->files.at(index));
+    d->currentIndex = qMin(d->files.count() - 1, index);
+
+    d->sound->load(d->files.at(d->currentIndex));
     d->sound->setVolume(d->soundVolume);
     d->sound->play();
 }
