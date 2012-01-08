@@ -3,43 +3,43 @@
     entryPoint GluonEngine::Scene("Ball/Scenes/Game")
     { GluonCore::GluonObject("Scenes")
         { GluonEngine::Scene("Game")
-            file url("scenes/game.gluonscene")
+            file string("scenes/game.gluonscene")
         }
     }
     { GluonCore::GluonObject("Assets")
         { GluonCore::GluonObject("Scripts")
             { GluonEngine::ScriptingAsset("Controller")
-                file url("assets/scripts/controller.js")
+                file string("assets/scripts/controller.js")
             }
             { GluonEngine::ScriptingAsset("Player")
-                file url("assets/scripts/player.js")
+                file string("assets/scripts/player.js")
             }
             { GluonEngine::ScriptingAsset("Trap")
-                file url("assets/scripts/trap.js")
+                file string("assets/scripts/trap.js")
             }
         }
         { GluonCore::GluonObject("Textures")
             { GluonEngine::TextureAsset("Background")
-                file url("assets/textures/background.png")
+                file string("assets/textures/background.png")
             }
             { GluonEngine::TextureAsset("Ball")
-                file url("assets/textures/ball.png")
+                file string("assets/textures/ball.png")
             }
             { GluonEngine::TextureAsset("Score")
-                file url("assets/textures/score.png")
+                file string("assets/textures/score.png")
             }
             { GluonEngine::TextureAsset("Star")
-                file url("assets/textures/star.png")
+                file string("assets/textures/star.png")
             }
             { GluonEngine::TextureAsset("Reset")
-                file url("assets/textures/reset.png")
+                file string("assets/textures/reset.png")
             }
             { GluonEngine::TextureAsset("Trap")
-                file url("assets/textures/trap.png")
+                file string("assets/textures/trap.png")
             }
         }
         { GluonEngine::MaterialAsset("Main Material")
-            file url("assets/main_material.gml")
+            file string("assets/main_material.gml")
             { GluonGraphics::MaterialInstance("Background")
                 materialColor rgba(255;255;255;255)
                 texture0 GluonEngine::TextureAsset("Ball/Assets/Textures/Background")
@@ -67,11 +67,11 @@
         }
         { GluonCore::GluonObject("Sounds")
             { GluonEngine::SoundAsset("Game Music")
-                file url("assets/sounds/game_music.ogg")
+                file string("assets/sounds/game_music.ogg")
             }
         }
         { GluonEngine::MaterialAsset("Render Target")
-            file url("assets/render_target.gml")
+            file string("assets/render_target.gml")
             { GluonGraphics::MaterialInstance("Main")
                 materialColor rgba(255;255;255;255)
                 texture0 uint(12)
