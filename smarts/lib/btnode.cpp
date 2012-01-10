@@ -28,6 +28,7 @@ btNode::btNode(QObject* parent)
     , m_description("")
     , m_className("")
     , m_type(btNode::UnusableNodeType)
+    , m_parent(0)
     , m_currentChildIndex(0)
     , m_currentChildStatus(btNode::None)
 {
