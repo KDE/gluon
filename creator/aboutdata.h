@@ -43,11 +43,11 @@ namespace GluonCreator
 
         data.addAuthor( ki18n( "Arjen Hiemstra" ), ki18n( "Gluon Core, Gluon Graphics, Gluon Engine, Gluon Creator" ), "ahiemstra@heimr.nl", QByteArray(), "ahiemstra" );
         data.addAuthor( ki18n( "Dan Leinir Tuthra Jensen" ), ki18n( "Gluon Core, Gluon Engine, Gluon Creator, SMARTS" ), "admin@leinir.dk", "" );
-        data.addAuthor( ki18n( "Sacha Schutz" ), ki18n( "Gluon Graphics, Gluon Audio, Gluon Input" ), "" );
-        data.addAuthor( ki18n( "Guillaume Martres" ), ki18n( "Gluon Audio, Gluon Graphics" ), "" );
-        data.addAuthor( ki18n( "Shantanu Tushar Jha" ), ki18n( "Gluon Player, Gluon Creator" ), "" );
-        data.addAuthor( ki18n( "Kim Jung Nissen" ), ki18n( "Gluon Input, Mac Compatibility" ), "" );
-        data.addAuthor( ki18n( "Laszlo Papp" ), ki18n( "Gluon Creator, Input, Player, Mobile support" ), "" );
+        data.addAuthor( ki18n( "Sacha Schutz" ), ki18n( "Gluon Graphics, Gluon Audio, Gluon Input" ), "istdasklar@free.fr" );
+        data.addAuthor( ki18n( "Guillaume Martres" ), ki18n( "Gluon Audio, Gluon Graphics" ), "smarter@ubuntu.com" );
+        data.addAuthor( ki18n( "Shantanu Tushar Jha" ), ki18n( "Gluon Player, Gluon Creator" ), "jhahoneyk@gmail.com" );
+        data.addAuthor( ki18n( "Kim Jung Nissen" ), ki18n( "Gluon Input, Mac Compatibility" ), "jungnissen@gmail.com" );
+        data.addAuthor( ki18n( "Laszlo Papp" ), ki18n( "Gluon Creator, Input, Player, Mobile support" ), "lpapp@kde.org" );
 
         return data;
     }
