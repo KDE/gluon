@@ -26,6 +26,9 @@
 #include "btfactory.h"
 #include "btcharacter.h"
 
+namespace GluonSmarts
+{
+
 class btNode;
 
 class GLUON_SMARTS_EXPORT btSequenceNode : public btNode
@@ -36,5 +39,6 @@ class GLUON_SMARTS_EXPORT btSequenceNode : public btNode
         Q_INVOKABLE btSequenceNode( QObject* parent = 0 );
         status run( btCharacter* self );
 };
+}
 
 #endif // GLUON_SMARTS_BTSEQUENCENODE_H

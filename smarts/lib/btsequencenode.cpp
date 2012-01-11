@@ -23,6 +23,8 @@
 #include "btnode.h"
 #include "btcharacter.h"
 
+using namespace GluonSmarts;
+
 btSequenceNode::btSequenceNode(QObject* parent)
     : btNode(parent)
 {

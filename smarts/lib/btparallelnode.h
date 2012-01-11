@@ -25,6 +25,9 @@
 
 #include <QtCore/QHash>
 
+namespace GluonSmarts
+{
+
 class btParallelNode : public btNode
 {
         Q_OBJECT
@@ -50,6 +53,6 @@ class btParallelNode : public btNode
         QList<btNode::status>* m_conditionStatus;
         QHash<btNode*, int> m_nodesIndex;
 };
-
+}
 
 #endif // GLUON_SMARTS_BTPARALLELNODE_H

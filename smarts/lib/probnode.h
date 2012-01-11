@@ -23,6 +23,9 @@
 
 #include "gluon_smarts_export.h"
 
+namespace GluonSmarts
+{
+
 struct GLUON_SMARTS_EXPORT ProbNode
 {
     ProbNode()
@@ -34,5 +37,6 @@ struct GLUON_SMARTS_EXPORT ProbNode
     float probability;
     bool visited;
 };
+}
 
 #endif // GLUON_SMARTS_PROBNODE_H

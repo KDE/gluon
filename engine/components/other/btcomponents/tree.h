@@ -24,9 +24,13 @@
 #include "engine/asset.h"
 #include "smarts/lib/btnode.h"
 
-namespace GluonEngine
+namespace GluonSmarts
 {
     class btAsset;
+}
+
+namespace GluonEngine
+{
     class TreePrivate;
 
     class BTCOMPONENT_EXPORT Tree : public GluonEngine::Asset
@@ -34,17 +38,17 @@ namespace GluonEngine
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::Tree )
             Q_INTERFACES( GluonEngine::Asset )
-            Q_PROPERTY( btNode* behaviorTree READ behaviorTree WRITE setBehaviorTree )
+            Q_PROPERTY( GluonSmarts::btNode* behaviorTree READ behaviorTree WRITE setBehaviorTree )
 
         public:
-            friend class GluonEngine::btAsset;
+            friend class btAsset;
 
             Q_INVOKABLE Tree( QObject* parent = 0 );
             Tree( const Tree& other, QObject* parent = 0 );
             ~Tree();
 
-            void setBehaviorTree( btNode* newBehaviorTree );
-            btNode* behaviorTree() const;
+            void setBehaviorTree( GluonSmarts::btNode* newBehaviorTree );
+            GluonSmarts::btNode* behaviorTree() const;
 
             void setFile( QString file );
             QString getFile();

@@ -22,6 +22,8 @@
 
 #include "btcharacter.h"
 
+using namespace GluonSmarts;
+
 btSelectorNode::btSelectorNode(QObject* parent)
     : btNode(parent)
 {

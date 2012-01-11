@@ -26,6 +26,8 @@
 
 #include <sys/stat.h>
 
+using namespace GluonSmarts;
+
 btCharacter::btCharacter(QObject* parent)
     : QObject(parent)
     , m_thinksBeforeSaving(10)

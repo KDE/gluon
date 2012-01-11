@@ -28,9 +28,13 @@
 #include "engine/asset.h"
 
 class QVector3D;
-class btPerceptionInfo;
 class QScriptValue;
 class QScriptEngine;
+
+namespace GluonSmarts
+{
+    class btPerceptionInfo;
+}
 
 namespace GluonEngine
 {
@@ -58,7 +62,7 @@ namespace GluonEngine
             qreal radius() const;
             void setRadius( const qreal& newRadius );
 
-            btPerceptionInfo* getBtPerceptionInfo();
+            GluonSmarts::btPerceptionInfo* getBtPerceptionInfo();
 
             virtual void initialize();
             virtual void start();

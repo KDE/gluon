@@ -22,6 +22,10 @@
 #define GLUON_SMARTS_BTPERCEPTIONVIEWCONE_H
 
 #include <QtCore/QtGlobal>
+#include <QtCore/QMetaType>
+
+namespace GluonSmarts
+{
 
 struct btPerceptionViewcone
 {
@@ -73,5 +77,8 @@ struct btPerceptionViewcone
          */
         int position;
 };
+}
+
+Q_DECLARE_METATYPE( QList<GluonSmarts::btPerceptionViewcone*> );
 
 #endif // GLUON_SMARTS_BTPERCEPTIONVIEWCONE_H

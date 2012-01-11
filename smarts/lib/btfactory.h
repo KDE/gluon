@@ -26,6 +26,9 @@
 #include <QtCore/QHash>
 #include <QtXml/QDomNode>
 
+namespace GluonSmarts
+{
+
 class btNode;
 class btBrain;
 
@@ -65,6 +68,8 @@ class GLUON_SMARTS_EXPORT Registration
             btFactory::instance()->registerNodeType( newNode );
         }
 };
+
+}
 
 #define REGISTER_NODETYPE(NEWNODE) \
     Registration<NEWNODE> NEWNODE ## _registration_(new NEWNODE());

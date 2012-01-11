@@ -36,7 +36,7 @@ ViewCone::ViewCone(QObject * parent)
 	: Component(parent)
 {
 	d = new ViewConePrivate();
-    d->viewcone = new btPerceptionViewcone();
+    d->viewcone = new GluonSmarts::btPerceptionViewcone();
     metaInfo()->setPropertyRange("offsetAngleHorizontal", 0, 180);
     metaInfo()->setPropertyRange("offsetAngleVertical", 0, 180);
     metaInfo()->setPropertyRange("extentAngleHorizontal", 0, 180);
@@ -68,7 +68,7 @@ void ViewCone::initialize()
         charComponent = qobject_cast<GluonEngine::Character*>(this->gameObject()->findComponentByType("GluonEngine::Character"));
 	if(charComponent)
 	{
-		charComponent->addViewCone((btPerceptionViewcone*)this);
+		charComponent->addViewCone((GluonSmarts::btPerceptionViewcone*)this);
 	}
 	else
 	{

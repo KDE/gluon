@@ -20,6 +20,8 @@
 
 #include "btperceptionatom.h"
 
+using namespace GluonSmarts;
+
 class btPerceptionAtom::btPerceptionAtomPrivate
 {
     public:

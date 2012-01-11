@@ -72,7 +72,7 @@ void PerceptionInfo::setRadius(const qreal& newRadius)
 	d->info->setRadius(newRadius);
 }
 
-btPerceptionInfo* PerceptionInfo::getBtPerceptionInfo()
+GluonSmarts::btPerceptionInfo* PerceptionInfo::getBtPerceptionInfo()
 {
 	return d->info;
 }

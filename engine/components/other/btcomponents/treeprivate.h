@@ -22,7 +22,10 @@
 
 #include <QtCore/QObject>
 
-class btNode;
+namespace GluonSmarts
+{
+    class btNode;
+}
 
 namespace GluonEngine
 {
@@ -33,7 +36,7 @@ namespace GluonEngine
             TreePrivate( QObject* parent = 0 );
             ~TreePrivate();
 
-            btNode* behaviorTree;
+            GluonSmarts::btNode* behaviorTree;
             QString file;
     };
 }

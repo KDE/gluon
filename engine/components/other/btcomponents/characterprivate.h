@@ -22,11 +22,14 @@
 
 #include <QtCore/QSharedData>
 
-class btCharacterScriptable;
-class btPerception;
+namespace GluonSmarts
+{
+    class btPerception;
+}
 
 namespace GluonEngine
 {
+    class btCharacterScriptable;
     class Tree;
 
     class CharacterPrivate : public QSharedData
@@ -39,7 +42,7 @@ namespace GluonEngine
             Tree* tree;
             bool autoThink;
             btCharacterScriptable* self;
-            btPerception* perception;
+            GluonSmarts::btPerception* perception;
     };
 }
 

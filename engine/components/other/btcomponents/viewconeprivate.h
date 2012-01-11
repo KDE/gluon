@@ -22,7 +22,10 @@
 
 #include <QtCore/QSharedData>
 
+namespace GluonSmarts
+{
 class btPerceptionViewcone;
+}
 
 namespace GluonEngine
 {
@@ -33,7 +36,7 @@ namespace GluonEngine
             ViewConePrivate( const ViewConePrivate& other );
             ~ViewConePrivate();
 
-            btPerceptionViewcone* viewcone;
+            GluonSmarts::btPerceptionViewcone* viewcone;
     };
 }
 

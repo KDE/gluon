@@ -32,7 +32,7 @@
 
 using namespace GluonEngine;
 
-Q_DECLARE_METATYPE(btNode::status)
+Q_DECLARE_METATYPE(GluonSmarts::btNode::status)
 
 void qtscript_initialize_com_trolltech_qt_gui_bindings(QScriptValue &);
 class btNodeScriptable::btNodeScriptablePrivate
@@ -66,7 +66,7 @@ btNodeScriptable::~btNodeScriptable()
 	delete d;
 }
 
-btNode::status btNodeScriptable::run(btCharacter* self)
+GluonSmarts::btNode::status btNodeScriptable::run(GluonSmarts::btCharacter* self)
 {
 	QScriptValue character = d->engine.newQObject(self, QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
 	d->engine.globalObject().setProperty("Character", character);
@@ -74,7 +74,7 @@ btNode::status btNodeScriptable::run(btCharacter* self)
     QScriptValue component = d->engine.newQObject(d->character, QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
     d->engine.globalObject().setProperty("Component", component);
     
-     QScriptValue gameObj = d->engine.newQObject(d->character->gameObject(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
+    QScriptValue gameObj = d->engine.newQObject(d->character->gameObject(), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);
     d->engine.globalObject().setProperty("GameObject", gameObj);
     
     QScriptValue btnode = d->engine.newQObject(this, QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties);

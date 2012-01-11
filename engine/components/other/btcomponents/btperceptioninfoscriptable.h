@@ -25,7 +25,7 @@
 
 namespace GluonEngine
 {
-    class BTCOMPONENT_EXPORT btPerceptionInfoScriptable : public btPerceptionInfo
+    class BTCOMPONENT_EXPORT btPerceptionInfoScriptable : public GluonSmarts::btPerceptionInfo
     {
             Q_OBJECT
         public:

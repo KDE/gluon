@@ -23,6 +23,8 @@
 #include "btnode.h"
 #include "btfactory.h"
 
+using namespace GluonSmarts;
+
 btBrain::btBrain(QString data, QString file, QObject* parent)
     : QObject(parent)
 	, m_file(file)

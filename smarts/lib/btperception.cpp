@@ -22,6 +22,8 @@
 
 #include "btcharacter.h"
 
+using namespace GluonSmarts;
+
 class btPerception::btPerceptionPrivate
 {
     public:

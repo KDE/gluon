@@ -25,7 +25,7 @@
 
 namespace GluonEngine
 {
-    class BTCOMPONENT_EXPORT btCharacterScriptable : public btCharacter
+    class BTCOMPONENT_EXPORT btCharacterScriptable : public GluonSmarts::btCharacter
     {
             Q_OBJECT
             Q_PROPERTY( int time READ time WRITE setTime )
@@ -39,7 +39,7 @@ namespace GluonEngine
             Q_INVOKABLE virtual QQuaternion orientation() const;
             Q_INVOKABLE virtual void setOrientation( const QQuaternion& newOrientation );
 
-            Q_INVOKABLE virtual btPerception* perception();
+            Q_INVOKABLE virtual GluonSmarts::btPerception* perception();
 
             Q_INVOKABLE virtual int time();
             Q_INVOKABLE virtual void setTime( int time );

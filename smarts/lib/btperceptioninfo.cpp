@@ -22,6 +22,8 @@
 
 #include "btbrain.h"
 
+using namespace GluonSmarts;
+
 class btPerceptionInfo::btPerceptionInfoPrivate
 {
     public:

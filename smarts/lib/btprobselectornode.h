@@ -23,6 +23,9 @@
 
 #include "btlib.h"
 
+namespace GluonSmarts
+{
+
 class GLUON_SMARTS_EXPORT btProbSelectorNode : public btNode
 {
         Q_OBJECT
@@ -43,5 +46,6 @@ class GLUON_SMARTS_EXPORT btProbSelectorNode : public btNode
         QList<ProbNode*> m_probStats;
         QList<ProbNode*> m_visitedProbStats;
 };
+}
 
 #endif // GLUON_SMARTS_BTPROBSELECTORNODE_H

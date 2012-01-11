@@ -33,7 +33,7 @@ using namespace GluonEngine;
 PerceptionAtom::PerceptionAtom(QObject* parent): Component(parent)
 {
 	d = new PerceptionAtomPrivate();
-	d->atom = new btPerceptionAtom();
+	d->atom = new GluonSmarts::btPerceptionAtom();
 	d->info = 0;
 }
 
@@ -50,7 +50,7 @@ void PerceptionAtom::initialize()
         charComponent = qobject_cast<GluonEngine::Character*>(this->gameObject()->findComponentByType("GluonEngine::Character"));
 	if(charComponent)
 	{
-		charComponent->addPerceptionAtom((btPerceptionAtom*)this);
+		charComponent->addPerceptionAtom((GluonSmarts::btPerceptionAtom*)this);
 	}
 	else
 	{

@@ -46,12 +46,12 @@ Tree::~Tree()
 }
 
 void
-Tree::setBehaviorTree(btNode* newBehaviorTree)
+Tree::setBehaviorTree(GluonSmarts::btNode* newBehaviorTree)
 {
     d->behaviorTree = newBehaviorTree;
 }
 
-btNode*
+GluonSmarts::btNode*
 Tree::behaviorTree() const
 {
     return d->behaviorTree;

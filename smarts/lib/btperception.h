@@ -25,8 +25,8 @@
 #include "btperceptionviewcone.h"
 #include "btcharacter.h"
 
-Q_DECLARE_METATYPE( QList<btPerceptionViewcone*> );
-Q_DECLARE_METATYPE( QList<btPerceptionAtom*> );
+namespace GluonSmarts
+{
 
 class btPerception : public QObject
 {
@@ -70,5 +70,6 @@ class btPerception : public QObject
         class btPerceptionPrivate;
         btPerceptionPrivate* d;
 };
+}
 
 #endif // GLUON_SMARTS_BTPERCEPTION_H

@@ -25,7 +25,7 @@
 using namespace GluonEngine;
 
 btCharacterScriptable::btCharacterScriptable(QObject * parent)
-	: btCharacter()
+	: GluonSmarts::btCharacter()
     , m_time(0)
 {
     this->setParent(parent);
@@ -59,9 +59,9 @@ void btCharacterScriptable::setOrientation(const QQuaternion& newOrientation)
     character->gameObject()->setOrientation(newOrientation);
 }
 
-btPerception* btCharacterScriptable::perception()
+GluonSmarts::btPerception* btCharacterScriptable::perception()
 {
-    return btCharacter::perception();
+    return GluonSmarts::btCharacter::perception();
 }
 
 int btCharacterScriptable::time()

@@ -20,6 +20,8 @@
 
 #include "btperceptionviewcone.h"
 
+using namespace GluonSmarts;
+
 btPerceptionViewcone::btPerceptionViewcone()
     : offsetAngleHorizontal(0)
     , offsetAngleVertical(0)

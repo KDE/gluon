@@ -22,7 +22,10 @@
 
 #include <QtCore/QSharedData>
 
-class btPerceptionAtom;
+namespace GluonSmarts
+{
+    class btPerceptionAtom;
+}
 
 namespace GluonEngine
 {
@@ -35,7 +38,7 @@ namespace GluonEngine
             PerceptionAtomPrivate( const PerceptionAtomPrivate& other );
             ~PerceptionAtomPrivate();
 
-            btPerceptionAtom* atom;
+            GluonSmarts::btPerceptionAtom* atom;
             GluonEngine::PerceptionInfo* info;
     };
 }

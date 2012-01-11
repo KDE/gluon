@@ -24,6 +24,8 @@
 
 #include <QtCore/QVariant>
 
+using namespace GluonSmarts;
+
 REGISTER_NODETYPE(btParallelNode)
 
 btParallelNode::btParallelNode(QObject* parent)

@@ -195,19 +195,19 @@ void Character::setPerceptionLimit(const qreal& newPerceptionLimit)
     d->perception->setPerceptionLimit(newPerceptionLimit);
 }
 
-void Character::addViewCone(btPerceptionViewcone * viewcone)
+void Character::addViewCone(GluonSmarts::btPerceptionViewcone * viewcone)
 {
     d->perception->addViewCone(viewcone);
 }
 
-void Character::addPerceptionAtom(btPerceptionAtom * atom)
+void Character::addPerceptionAtom(GluonSmarts::btPerceptionAtom * atom)
 {
     d->perception->addPerceptionAtom(atom);
 }
 
-void Character::initScriptNodes(btNode* node)
+void Character::initScriptNodes(GluonSmarts::btNode* node)
 {
-    if (node->type() == btNode::UnusableNodeType)
+    if (node->type() == GluonSmarts::btNode::UnusableNodeType)
     {
         QList<GluonEngine::Asset*> assets = GluonEngine::Game::instance()->gameProject()->findChildren<GluonEngine::Asset*>();
         foreach(GluonEngine::Asset* asset, assets)
@@ -247,7 +247,7 @@ void Character::initScriptNodes(btNode* node)
                     node->removeChild(i);
                 }
                 
-                btNode* parent = node->parentNode();
+                GluonSmarts::btNode* parent = node->parentNode();
                 int childIndex = parent->childIndex(node);
                 parent->removeChild(node);
                 parent->insertChild(childIndex,newNode);

@@ -29,8 +29,11 @@
 #include <QtCore/QHash>
 #include <QtXml/QDomNode>
 
+Q_DECLARE_METATYPE( QList<GluonSmarts::btPerceptionInfo*> );
+
+namespace GluonSmarts
+{
 class btNode;
-Q_DECLARE_METATYPE( QList<btPerceptionInfo*> );
 
 class GLUON_SMARTS_EXPORT btBrain : public QObject
 {
@@ -72,5 +75,6 @@ class GLUON_SMARTS_EXPORT btBrain : public QObject
 
         QString m_file;
 };
+}
 
 #endif // GLUON_SMARTS_BTBRAIN_H

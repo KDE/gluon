@@ -25,6 +25,8 @@
 
 #include "btperceptioninfo.h"
 
+namespace GluonSmarts
+{
 class btPerceptionAtom : public QObject
 {
         Q_OBJECT
@@ -69,5 +71,8 @@ class btPerceptionAtom : public QObject
         class btPerceptionAtomPrivate;
         btPerceptionAtomPrivate* d;
 };
+}
+
+Q_DECLARE_METATYPE( QList<GluonSmarts::btPerceptionAtom*> );
 
 #endif // GLUON_SMARTS_BTPERCEPTIONATOM_H

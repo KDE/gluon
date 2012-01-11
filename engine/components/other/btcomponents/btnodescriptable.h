@@ -28,7 +28,7 @@ namespace GluonEngine
 {
     class Character;
 
-    class BTCOMPONENT_EXPORT btNodeScriptable : public btNode
+    class BTCOMPONENT_EXPORT btNodeScriptable : public GluonSmarts::btNode
     {
             Q_OBJECT
         public:
@@ -37,7 +37,7 @@ namespace GluonEngine
 
             void setScriptAsset( GluonEngine::Asset* asset );
 
-            virtual status run( btCharacter* self );
+            virtual status run( GluonSmarts::btCharacter* self );
 
         private:
             class btNodeScriptablePrivate;

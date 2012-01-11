@@ -24,6 +24,8 @@
 #include <QtCore/QVariant>
 #include <QtGui/QVector3D>
 
+namespace GluonSmarts
+{
 class btBrain;
 
 class btPerceptionInfo : public QObject
@@ -53,5 +55,6 @@ class btPerceptionInfo : public QObject
         class btPerceptionInfoPrivate;
         btPerceptionInfoPrivate* d;
 };
+}
 
 #endif // GLUON_SMARTS_BTPERCEPTIONINFO_H

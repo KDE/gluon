@@ -26,6 +26,8 @@
 
 #include <cmath>
 
+using namespace GluonSmarts;
+
 REGISTER_NODETYPE(btProbSelectorNode)
 
 btProbSelectorNode::btProbSelectorNode(QObject* parent)

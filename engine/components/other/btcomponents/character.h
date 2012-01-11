@@ -26,9 +26,12 @@
 
 #include "tree.h"
 
-class btNode;
-class btPerceptionViewcone;
-class btPerceptionAtom;
+namespace GluonSmarts
+{
+    class btNode;
+    class btPerceptionViewcone;
+    class btPerceptionAtom;
+}
 
 namespace GluonEngine
 {
@@ -71,14 +74,14 @@ namespace GluonEngine
             qreal perceptionLimit() const;
             void setPerceptionLimit( const qreal& newPerceptionLimit );
 
-            void addViewCone( btPerceptionViewcone* viewcone );
-            void addPerceptionAtom( btPerceptionAtom* atom );
+            void addViewCone( GluonSmarts::btPerceptionViewcone* viewcone );
+            void addPerceptionAtom( GluonSmarts::btPerceptionAtom* atom );
 
         private Q_SLOTS:
             void treeReplaced( Tree* newTree );
 
         private:
-            void initScriptNodes( btNode* node );
+            void initScriptNodes( GluonSmarts::btNode* node );
 
             QSharedDataPointer<CharacterPrivate> d;
     };

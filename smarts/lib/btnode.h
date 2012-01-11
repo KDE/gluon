@@ -26,6 +26,8 @@
 #include <QtCore/QObject>
 #include <QtCore/QList>
 
+namespace GluonSmarts
+{
 class btCharacter;
 
 class GLUON_SMARTS_EXPORT btNode : public QObject
@@ -106,5 +108,6 @@ class GLUON_SMARTS_EXPORT btNode : public QObject
         status m_currentChildStatus;
         QList<btNode*> m_children;
 };
+}
 
 #endif // GLUON_SMARTS_BTNODE_H

@@ -32,7 +32,7 @@
 #include <QtCore/QStringList>
 #include <game.h>
 
-Q_DECLARE_METATYPE(btNode*)
+Q_DECLARE_METATYPE(GluonSmarts::btNode*)
 
 REGISTER_OBJECTTYPE(GluonEngine, btAsset)
 
@@ -42,7 +42,7 @@ btAsset::btAsset(QObject * parent)
     : GluonEngine::Asset(parent)
 {
     d = new btAssetPrivate;
-    qRegisterMetaType<btNode*>("btNode*");
+    qRegisterMetaType<GluonSmarts::btNode*>("btNode*");
 }
 
 btAsset::btAsset(const btAsset& other, QObject* parent)
@@ -68,7 +68,7 @@ btAsset::setFile(const QString& newFile)
 
     debug(QString("File opened, attempting to create brain"));
     QTextStream brainReader(brainFile);
-    btBrain* newBrain = new btBrain(brainReader.readAll(), newPath );
+    GluonSmarts::btBrain* newBrain = new GluonSmarts::btBrain(brainReader.readAll(), newPath );
     brainFile->close();
     delete brainFile;
 

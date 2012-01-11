@@ -34,9 +34,12 @@
 #include <QtCore/QPair>
 #include <QtGui/QQuaternion>
 
+class QXmlStreamWriter;
+
+namespace GluonSmarts
+{
 struct ProbNode;
 class btPerception;
-class QXmlStreamWriter;
 
 class GLUON_SMARTS_EXPORT btCharacter : public QObject
 {
@@ -113,5 +116,6 @@ class GLUON_SMARTS_EXPORT btCharacter : public QObject
         QQuaternion m_orientation;
         btPerception* m_perception;
 };
+}
 
 #endif // GLUON_SMARTS_BTCHARACTER_H

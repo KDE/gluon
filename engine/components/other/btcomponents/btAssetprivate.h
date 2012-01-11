@@ -32,7 +32,7 @@ namespace GluonEngine
     {
             Q_OBJECT
         public:
-            btBrain* brain;
+            GluonSmarts::btBrain* brain;
     };
 }
 

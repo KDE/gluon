@@ -29,6 +29,8 @@
 
 #include "btglobal.h"
 
+using namespace GluonSmarts;
+
 btFactory::btFactory()
 {
     m_nodeTypes["[selector]"] = new btSelectorNode();

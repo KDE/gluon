@@ -22,6 +22,8 @@
 
 #include <QtCore/QDebug>
 
+using namespace GluonSmarts;
+
 btNode::btNode(QObject* parent)
     : QObject(parent)
     , m_name("")
