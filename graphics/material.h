@@ -177,6 +177,6 @@ namespace GluonGraphics
     };
 }
 
-Q_DECLARE_METATYPE( GluonGraphics::Material* );
+Q_DECLARE_METATYPE( GluonGraphics::Material* )
 
 #endif // GLUONGRAPHICS_MATERIAL_H

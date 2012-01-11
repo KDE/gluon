@@ -101,6 +101,6 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::AbstractPrefabInstance* );
+Q_DECLARE_METATYPE( GluonEngine::AbstractPrefabInstance* )
 
 #endif // GLUON_ENGINE_ABSTRACTPREFABINSTANCE

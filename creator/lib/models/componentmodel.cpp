@@ -66,7 +66,7 @@ namespace GluonCreator
             QHash<QString, int> itemNames;
     };
 }
-//Q_DECLARE_METATYPE(GluonCreator::ComponentModelItem);
+//Q_DECLARE_METATYPE(GluonCreator::ComponentModelItem)
 
 using namespace GluonCreator;
 

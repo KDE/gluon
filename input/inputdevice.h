@@ -75,6 +75,6 @@ namespace GluonInput
     };
 }
 
-Q_DECLARE_METATYPE( GluonInput::InputDevice* );
+Q_DECLARE_METATYPE( GluonInput::InputDevice* )
 
 #endif // GLUON_INPUT_INPUTDEVICE_H

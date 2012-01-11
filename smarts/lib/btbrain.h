@@ -29,7 +29,7 @@
 #include <QtCore/QHash>
 #include <QtXml/QDomNode>
 
-Q_DECLARE_METATYPE( QList<GluonSmarts::btPerceptionInfo*> );
+Q_DECLARE_METATYPE( QList<GluonSmarts::btPerceptionInfo*> )
 
 namespace GluonSmarts
 {

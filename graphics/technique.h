@@ -59,6 +59,6 @@ namespace GluonGraphics
 
 }
 
-Q_DECLARE_METATYPE( GluonGraphics::Technique* );
+Q_DECLARE_METATYPE( GluonGraphics::Technique* )
 
 #endif // GLUONGRAPHICS_TECHNIQUE_H

@@ -79,6 +79,6 @@ struct btPerceptionViewcone
 };
 }
 
-Q_DECLARE_METATYPE( QList<GluonSmarts::btPerceptionViewcone*> );
+Q_DECLARE_METATYPE( QList<GluonSmarts::btPerceptionViewcone*> )
 
 #endif // GLUON_SMARTS_BTPERCEPTIONVIEWCONE_H

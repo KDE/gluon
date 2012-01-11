@@ -109,8 +109,8 @@ namespace GluonCore
     }
     }
 
-    Q_DECLARE_METATYPE(YourNamespace::YourClassName);
-    Q_DECLARE_METATYPE(YourNamespace::YourClassName*);
+    Q_DECLARE_METATYPE(YourNamespace::YourClassName)
+    Q_DECLARE_METATYPE(YourNamespace::YourClassName*)
     \endcode
      *
      * Implementation (yourclassname.cpp):
