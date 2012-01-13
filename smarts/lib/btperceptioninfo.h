@@ -26,8 +26,6 @@
 
 namespace GluonSmarts
 {
-class btBrain;
-
 class btPerceptionInfo : public QObject
 {
         Q_OBJECT

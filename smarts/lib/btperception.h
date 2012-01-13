@@ -23,7 +23,6 @@
 
 #include "btperceptionatom.h"
 #include "btperceptionviewcone.h"
-#include "btcharacter.h"
 
 namespace GluonSmarts
 {
