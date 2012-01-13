@@ -87,6 +87,11 @@ ProjectModel::setProject( GluonEngine::GameProject* project )
         d->project = project;
         project->setParent( d->root );
 
+        foreach( GluonEngine::Asset* asset, project->assets() )
+        {
+            asset->load();
+        }
+
         reset();
     }
 }
