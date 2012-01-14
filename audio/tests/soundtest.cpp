@@ -28,7 +28,7 @@
 using namespace GluonAudio;
 
 SoundTest::SoundTest()
-    : m_audioFilePath(GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/audio/Front_Left.wav")
+    : m_audioFilePath(GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/examples/audio/Front_Left.wav")
 {
 }
 
