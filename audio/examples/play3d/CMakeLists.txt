@@ -20,7 +20,7 @@ install(FILES
     Front_Center.wav
     Front_Left.wav
     Front_Right.wav
-    DESTINATION ${EXAMPLES_DATA_INSTALL_DIR}
+    DESTINATION ${AUDIO_EXAMPLES_DATA_INSTALL_DIR}
     COMPONENT Devel
 )
 
