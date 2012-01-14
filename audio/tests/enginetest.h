@@ -34,6 +34,10 @@ class EngineTest : public QObject
         void testBufferLength();
         void testBuffersPerStream();
         void testListenerPosition();
+
+    private:
+        int m_defaultBufferLength;
+        int m_defaultBufferPerStream;
 };
 
 #endif // GLUON_AUDIO_ENGINETEST_H

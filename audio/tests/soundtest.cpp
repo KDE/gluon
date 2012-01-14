@@ -28,6 +28,7 @@
 using namespace GluonAudio;
 
 SoundTest::SoundTest()
+    : m_audioFilePath(GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/audio/Front_Left.wav")
 {
 }
 
@@ -52,8 +53,7 @@ void SoundTest::testLoad()
     Sound sound(this);
     QCOMPARE(sound.isValid(), false);
 
-    QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
-    sound.load(shareInstallDir + "/gluon/audio/sounds/Front_Left.wav");
+    sound.load(m_audioFilePath);
 
     QCOMPARE(sound.isValid(), true);
 }
@@ -71,8 +71,7 @@ void SoundTest::testIsValid()
     Sound sound(this);
     QCOMPARE(sound.isValid(), false);
 
-    QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
-    sound.load(shareInstallDir + "/gluon/audio/sounds/Front_Left.wav");
+    sound.load(m_audioFilePath);
 
     QCOMPARE(sound.isValid(), true);
 }
@@ -83,8 +82,7 @@ void SoundTest::testIsPlaying()
     QCOMPARE(sound.isPlaying(), false);
     QCOMPARE(sound.isValid(), false);
 
-    QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
-    sound.load(shareInstallDir + "/gluon/audio/sounds/Front_Left.wav");
+    sound.load(m_audioFilePath);
 
     QCOMPARE(sound.isPlaying(), false);
     QCOMPARE(sound.isValid(), true);
@@ -100,8 +98,7 @@ void SoundTest::testIsLooping()
     QCOMPARE(sound.isValid(), false);
     QCOMPARE(sound.isLooping(), false);
 
-    QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
-    sound.load(shareInstallDir + "/gluon/audio/sounds/Front_Left.wav");
+    sound.load(m_audioFilePath);
 
     QCOMPARE(sound.isValid(), true);
 
@@ -117,8 +114,7 @@ void SoundTest::testPosition()
     Sound sound(this);
     QCOMPARE(sound.isValid(), false);
 
-    QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
-    sound.load(shareInstallDir + "/gluon/audio/sounds/Front_Left.wav");
+    sound.load(m_audioFilePath);
 
     QVector3D vector3D(1.0, 2.0, 3.0);
     sound.setPosition(vector3D);
@@ -131,8 +127,7 @@ void SoundTest::testVolume()
     QCOMPARE(sound.isValid(), false);
     QCOMPARE(sound.isLooping(), false);
 
-    QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
-    sound.load(shareInstallDir + "/gluon/audio/sounds/Front_Left.wav");
+    sound.load(m_audioFilePath);
 
     QCOMPARE(sound.isValid(), true);
 
@@ -145,13 +140,13 @@ void SoundTest::testPitch()
     Sound sound(this);
     QCOMPARE(sound.isValid(), false);
 
-    QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
-    sound.load(shareInstallDir + "/gluon/audio/sounds/Front_Left.wav");
+    sound.load(m_audioFilePath);
 
     QCOMPARE(sound.isValid(), true);
 
-    sound.setPitch(1.5f);
-    QCOMPARE(sound.pitch(), 1.5f);
+    ALfloat pitch = 1.5f;
+    sound.setPitch(pitch);
+    QCOMPARE(sound.pitch(), pitch);
 }
 
 void SoundTest::testRadius()
@@ -159,13 +154,13 @@ void SoundTest::testRadius()
     Sound sound(this);
     QCOMPARE(sound.isValid(), false);
 
-    QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
-    sound.load(shareInstallDir + "/gluon/audio/sounds/Front_Left.wav");
+    sound.load(m_audioFilePath);
 
     QCOMPARE(sound.isValid(), true);
 
-    sound.setRadius(15000.0f);
-    QCOMPARE(sound.radius(), 15000.0f);
+    ALfloat radius = 15000.0f;
+    sound.setRadius(radius);
+    QCOMPARE(sound.radius(), radius);
 }
 
 QTEST_MAIN(SoundTest)

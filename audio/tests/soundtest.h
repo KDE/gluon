@@ -41,6 +41,9 @@ class SoundTest : public QObject
         void testVolume();
         void testPitch();
         void testRadius();
+
+    private:
+        QString m_audioFilePath;
 };
 
 #endif // GLUON_AUDIO_SOUNDTEST_H

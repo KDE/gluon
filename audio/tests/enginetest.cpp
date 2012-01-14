@@ -26,6 +26,8 @@
 using namespace GluonAudio;
 
 EngineTest::EngineTest()
+    : m_defaultBufferLength(250000)
+    , m_defaultBufferPerStream(3)
 {
 }
 
@@ -36,17 +38,21 @@ EngineTest::~EngineTest()
 void EngineTest::testBufferLength()
 {
     Engine *engine = Engine::instance();
-    QCOMPARE(engine->bufferLength(), 250000);
-    engine->setBufferLength(100000);
-    QCOMPARE(engine->bufferLength(), 100000);
+    QCOMPARE(engine->bufferLength(), m_defaultBufferLength);
+
+    int bufferLength = 100000;
+    engine->setBufferLength(bufferLength);
+    QCOMPARE(engine->bufferLength(), bufferLength);
 }
 
 void EngineTest::testBuffersPerStream()
 {
     Engine *engine = Engine::instance();
-    QCOMPARE(engine->buffersPerStream(), 3);
-    engine->setBuffersPerStream(2);
-    QCOMPARE(engine->buffersPerStream(), 2);
+    QCOMPARE(engine->buffersPerStream(), m_defaultBufferPerStream);
+
+    int bufferPerStream = 2;
+    engine->setBuffersPerStream(bufferPerStream);
+    QCOMPARE(engine->buffersPerStream(), bufferPerStream);
 }
 
 void EngineTest::testListenerPosition()
