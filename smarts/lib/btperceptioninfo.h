@@ -34,7 +34,7 @@ class btPerceptionInfo : public QObject
 
     public:
         btPerceptionInfo( QObject* parent );
-        ~btPerceptionInfo();
+        virtual ~btPerceptionInfo();
 
         virtual QVector3D position() const;
         virtual void setPosition( const QVector3D& newPosition );
