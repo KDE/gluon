@@ -3,7 +3,7 @@
  * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
  * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
  * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
- * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
+ * Copyright (C) 2011-2012 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,9 +29,9 @@
 int main( int argc, char* argv[] )
 {
     QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
-    GluonAudio::Sound* left = new GluonAudio::Sound( shareInstallDir + "/gluon/audio/sounds/Front_Left.wav" );
-    GluonAudio::Sound* right = new GluonAudio::Sound( shareInstallDir + "/gluon/audio/sounds/Front_Right.wav" );
-    GluonAudio::Sound* center = new GluonAudio::Sound( shareInstallDir + "/gluon/audio/sounds/Front_Center.wav" );
+    GluonAudio::Sound* left = new GluonAudio::Sound( shareInstallDir + "/gluon/examples/audio/Front_Left.wav" );
+    GluonAudio::Sound* right = new GluonAudio::Sound( shareInstallDir + "/gluon/examples/audio/Front_Right.wav" );
+    GluonAudio::Sound* center = new GluonAudio::Sound( shareInstallDir + "/gluon/examples/audio/Front_Center.wav" );
 
     left->setPosition( -1, 0, 0 );
     right->setPosition( 1, 0, 0 );
