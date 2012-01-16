@@ -59,13 +59,6 @@ else()
 endif()
 target_link_libraries(gluonplayer-harmattan ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS} ${QT_QTDECLARATIVE_LIBRARY})
 
-set(GLUON_DECLARATIVE_LIBS
-    GluonPlayerHarmattan
-    ${GLUON_CORE_LIBS}
-    ${QT_QTDECLARATIVE_LIBRARY}
-    CACHE PATHS "Libraries required for Gluon Player (QML version)"
-)
-
 if(NOT APPLE)
     install(TARGETS gluonplayer-harmattan
             DESTINATION ${BIN_INSTALL_DIR}
