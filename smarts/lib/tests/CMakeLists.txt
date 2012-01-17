@@ -16,6 +16,7 @@ GLUON_UNIT_TESTS(
     "gluonsmarts"            # modulename argument
 
     # Source files without the extension
+    btnodetest
     btperceptioninfotest
 )
 
