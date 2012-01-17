@@ -43,6 +43,11 @@ class PlayerTest : public QObject
         void testPause();
         void testSeek();
         void testStop();
+
+    private:
+	QString m_audioFilePath;
+	QString m_audioFilePath2;
+	int m_overRangeValue;
 };
 
 #endif // GLUON_AUDIO_PLAYERTEST_H
