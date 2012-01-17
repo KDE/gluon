@@ -2,6 +2,7 @@
 Name=Gluon Player
 Name[de]=Gluon-Player
 Name[es]=Gluon Player
+Name[et]=Gluoni mängija
 Name[fr]=Gluon Player
 Name[nl]=Gluon-speler
 Name[pt]=Leitor do Gluon
@@ -11,6 +12,7 @@ Name[uk]=Програвач Gluon
 Name[x-test]=xxGluon Playerxx
 Comment=Gluon player for tablets
 Comment[es]=Reproductor Gluon para tabletas
+Comment[et]=Gluoni mängija tahvelarvutitele
 Comment[fr]=Gluon Player pour tablettes
 Comment[pt]=Leitor do Gluon para tabletes
 Comment[pt_BR]=Jogador do Gluon para tablets
