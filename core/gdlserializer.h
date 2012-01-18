@@ -49,7 +49,7 @@ namespace GluonCore
              * \param parent The parent of the top level objects in the GDL file. If null, top level objects are
              *               expected to be root items.
              *
-             * \return True when successful, false if any error occured.
+             * \return True when successful, false if any error occurred.
              */
             bool read( const QUrl& url, GluonObjectList& objects, GluonObject* project = 0, GluonObject* parent = 0 );
 
@@ -59,7 +59,7 @@ namespace GluonCore
              * \param url The url of a file to write to.
              * \param objects A list of objects to serialize to the file.
              *
-             * \return True when succesful, false if any error occured.
+             * \return True when successful, false if any error occurred.
              */
             bool write( const QUrl& url, const GluonObjectList& objects );
 
@@ -69,7 +69,7 @@ namespace GluonCore
              * \param device The device to write to.
              * \param objects A list of objects to write to the device.
              *
-             * \return True if successful, false if any error occured.
+             * \return True if successful, false if any error occurred.
              */
             bool write( QIODevice* device, const GluonObjectList& objects );
 
@@ -82,7 +82,7 @@ namespace GluonCore
              * \param parent The parent of the top level objects in the GDL file. If null, top level objects are
              *               expected to be root items.
              *
-             * \return True when successful, false if any error occured.
+             * \return True when successful, false if any error occurred.
              */
             bool parse( const QByteArray& data, GluonObjectList& objects, GluonObject* project = 0, GluonObject* parent = 0 );
     };
