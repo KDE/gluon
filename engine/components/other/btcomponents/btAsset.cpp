@@ -61,7 +61,7 @@ void
 btAsset::setFile(const QString& newFile)
 {
     debug(QString("Attempting to load %1").arg(newFile));
-    QString newPath = Game::instance()->gameProject()->dirname().toLocalFile() + "/" + newFile;
+    QString newPath = Game::instance()->gameProject()->dirname().toLocalFile() + '/' + newFile;
     QFile *brainFile = new QFile( newPath );
     if(!brainFile->open(QIODevice::ReadOnly))
         return;

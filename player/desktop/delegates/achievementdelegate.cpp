@@ -80,7 +80,7 @@ void AchievementDelegate::updateItemWidgets( const QList<QWidget*> widgets,
         if( iconString.isEmpty() )
             icon = KIcon("games-achievements");
         else
-            icon = QIcon( model->projectDir() + "/" + iconString );
+            icon = QIcon( model->projectDir() + '/' + iconString );
 
         QPixmap image;
         if( !model->achievementsManager()->achievementAchieved(index.row()) )
