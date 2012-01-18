@@ -298,7 +298,7 @@ QString Writer::writeListValue(const QVariant& value)
         return QString();
 
     QString listValue = QString("list([\n");
-    foreach( QVariant val, list )
+    foreach( const QVariant& val, list )
     {
         QString valueString = writePropertyValue( val );
         if( !valueString.isEmpty() )
