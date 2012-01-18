@@ -19,13 +19,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <KAction>
-#include <KIcon>
-#include <KStandardAction>
+#include "mainwindow.h"
 
 #include <Plasma/Theme>
 
-#include "mainwindow.h"
+#include <KDE/KAction>
+#include <KDE/KIcon>
+#include <KDE/KStandardAction>
 
 MainWindow::MainWindow()
     : KMainWindow()
