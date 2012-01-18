@@ -32,7 +32,7 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            MainWindow( const QString& fileName = QString(), QWidget* parent = 0, Qt::WindowFlags flags = 0 );
+            explicit MainWindow( const QString& fileName = QString(), QWidget* parent = 0, Qt::WindowFlags flags = 0 );
             ~MainWindow();
 
             virtual bool queryClose();

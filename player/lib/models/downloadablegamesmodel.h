@@ -33,7 +33,7 @@ namespace GluonPlayer
             Q_PROPERTY(QObject* sourceModel READ sourceModel WRITE setSourceModel NOTIFY sourceModelChanged)
         public:
             DownloadableGamesModel( QObject* parent = 0 );
-            DownloadableGamesModel( QAbstractItemModel *sourceModel, QObject* parent = 0 );
+            explicit DownloadableGamesModel( QAbstractItemModel *sourceModel, QObject* parent = 0 );
             virtual void setSourceModel(QObject* sourceModel);
 
         Q_SIGNALS:

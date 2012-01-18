@@ -34,7 +34,7 @@ namespace GluonPlayer
 
         public:
             InstalledGamesModel( QObject* parent = 0 );
-            InstalledGamesModel( QAbstractItemModel *sourceModel, QObject* parent = 0 );
+            explicit InstalledGamesModel( QAbstractItemModel *sourceModel, QObject* parent = 0 );
             Q_INVOKABLE QVariant gameData( int gameIndex, QByteArray role );
 
             virtual void setSourceModel(QObject* sourceModel);
