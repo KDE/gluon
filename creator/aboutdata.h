@@ -1,6 +1,12 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2011 All people listed in this file.
+ * Copyright (c) 2011 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011 Dan Leinir Turthra Jensen <admin@leinir.dk>
+ * Copyright (c) 2011 Sacha Schutz <istdasklar@free.fr>
+ * Copyright (c) 2011 Guillaume Martres <smarter@ubuntu.com>
+ * Copyright (c) 2011 Shantanu Tushar Jha <jhahoneyk@gmail.com>
+ * Copyright (c) 2011 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
