@@ -54,7 +54,7 @@ AllGameItemsModel::AllGameItemsModel( QObject* parent )
     , d( new Private() )
 {
     d->fsModel.setNameFilters( QStringList( '*' + GluonEngine::projectSuffix ) );
-    connect( &d->fsModel, SIGNAL( directoryLoaded( QString ) ), SLOT( directoryLoaded( QString ) ) );
+    connect( &d->fsModel, SIGNAL(directoryLoaded(QString)), SLOT(directoryLoaded(QString)) );
     d->fsModel.setRootPath( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/games" );
 
     QHash<int, QByteArray> roles;
@@ -288,7 +288,7 @@ bool AllGameItemsModel::setData( const QModelIndex& index, const QVariant& value
         case RatingRole:
             RatingJob* ratingJob =
                 ServiceProvider::instance()->setRating( d->gameItems.at( index.row() )->id(), value.toUInt() );
-            connect( ratingJob, SIGNAL( succeeded() ), SLOT( ratingUploadFinished() ) );
+            connect( ratingJob, SIGNAL(succeeded()), SLOT(ratingUploadFinished()) );
             ratingJob->start();
             return true;
     }
@@ -319,7 +319,7 @@ QVariant AllGameItemsModel::headerData( int section, Qt::Orientation orientation
 void AllGameItemsModel::fetchGamesList()
 {
     GameDetailListJob* gameDetailListJob = ServiceProvider::instance()->fetchGames();
-    connect( gameDetailListJob, SIGNAL( succeeded() ), SLOT( processFetchedGamesList() ) );
+    connect( gameDetailListJob, SIGNAL(succeeded()), SLOT(processFetchedGamesList()) );
     gameDetailListJob->start();
 }
 
@@ -342,7 +342,7 @@ void AllGameItemsModel::fetchAndUpdateExistingGameItem( const GameItem* gameItem
         return;
 
     GameDetailsJob* gameDetailsJob = ServiceProvider::instance()->fetchOneGame( gameItem->id() );
-    connect( gameDetailsJob, SIGNAL( finished() ), SLOT( processFetchedGameDetails() ) );
+    connect( gameDetailsJob, SIGNAL(finished()), SLOT(processFetchedGameDetails()) );
 }
 
 void AllGameItemsModel::processFetchedGameDetails()

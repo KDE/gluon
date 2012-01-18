@@ -42,7 +42,7 @@ ProjectInspectorWindow::ProjectInspectorWindow( QWidget* parent, Qt::WindowFlags
     : QDialog( parent, f ), d( new Private )
 {
     QTreeView* view = new QTreeView( this );
-    connect( view, SIGNAL( activated( QModelIndex ) ), SLOT( activated( QModelIndex ) ) );
+    connect( view, SIGNAL(activated(QModelIndex)), SLOT(activated(QModelIndex)) );
     QObjectTreeModel* model = new QObjectTreeModel( GluonEngine::Game::instance()->gameProject(), this );
 
     view->setModel( model );

@@ -67,8 +67,8 @@ AppView::AppView( QWidget* parent )
 
     onStatusChanged( status() );
 
-    connect( this, SIGNAL( statusChanged( QDeclarativeView::Status ) ),
-             this, SLOT( onStatusChanged( QDeclarativeView::Status ) ) );
+    connect( this, SIGNAL(statusChanged(QDeclarativeView::Status)),
+             this, SLOT(onStatusChanged(QDeclarativeView::Status)) );
 }
 
 AppView::~AppView()

@@ -50,7 +50,7 @@ AbstractPrefabInstance::~AbstractPrefabInstance()
 
 void AbstractPrefabInstance::addChild(GameObject* child)
 {
-    connect(child, SIGNAL(nameChanged(QString, QString)), this, SLOT(childNameChanged(QString, QString)));
+    connect(child, SIGNAL(nameChanged(QString,QString)), this, SLOT(childNameChanged(QString,QString)));
     AbstractPrefabInstance* instance = qobject_cast<AbstractPrefabInstance*>( child );
     if( instance )
     {
@@ -63,7 +63,7 @@ void AbstractPrefabInstance::addChild(GameObject* child)
 
 void AbstractPrefabInstance::addChild(GluonCore::GluonObject* child)
 {
-    connect(child, SIGNAL(nameChanged(QString, QString)), this, SLOT(childNameChanged(QString, QString)));
+    connect(child, SIGNAL(nameChanged(QString,QString)), this, SLOT(childNameChanged(QString,QString)));
     AbstractPrefabInstance* instance = qobject_cast<AbstractPrefabInstance*>( child );
     if( instance )
     {
@@ -76,7 +76,7 @@ void AbstractPrefabInstance::addChild(GluonCore::GluonObject* child)
 
 void AbstractPrefabInstance::addChildAt(GluonCore::GluonObject* child, int position)
 {
-    connect(child, SIGNAL(nameChanged(QString, QString)), this, SLOT(childNameChanged(QString, QString)));
+    connect(child, SIGNAL(nameChanged(QString,QString)), this, SLOT(childNameChanged(QString,QString)));
     AbstractPrefabInstance* instance = qobject_cast<AbstractPrefabInstance*>( child );
     if( instance )
     {
@@ -89,7 +89,7 @@ void AbstractPrefabInstance::addChildAt(GluonCore::GluonObject* child, int posit
 
 bool AbstractPrefabInstance::removeChild(GameObject* child)
 {
-    disconnect(child, SIGNAL(nameChanged(QString, QString)), this, SLOT(childNameChanged(QString, QString)));
+    disconnect(child, SIGNAL(nameChanged(QString,QString)), this, SLOT(childNameChanged(QString,QString)));
     AbstractPrefabInstance* instance = qobject_cast<AbstractPrefabInstance*>( child );
     if( instance )
     {
@@ -102,7 +102,7 @@ bool AbstractPrefabInstance::removeChild(GameObject* child)
 
 bool AbstractPrefabInstance::removeChild(GluonCore::GluonObject* child)
 {
-    disconnect(child, SIGNAL(nameChanged(QString, QString)), this, SLOT(childNameChanged(QString, QString)));
+    disconnect(child, SIGNAL(nameChanged(QString,QString)), this, SLOT(childNameChanged(QString,QString)));
     AbstractPrefabInstance* instance = qobject_cast<AbstractPrefabInstance*>( child );
     if( instance )
     {
@@ -115,13 +115,13 @@ bool AbstractPrefabInstance::removeChild(GluonCore::GluonObject* child)
 
 void AbstractPrefabInstance::addComponent(Component* addThis)
 {
-    connect(addThis, SIGNAL(nameChanged(QString, QString)), this, SLOT(childNameChanged(QString, QString)));
+    connect(addThis, SIGNAL(nameChanged(QString,QString)), this, SLOT(childNameChanged(QString,QString)));
     GluonEngine::GameObject::addComponent(addThis);
 }
 
 bool AbstractPrefabInstance::removeComponent(Component* removeThis)
 {
-    connect(removeThis, SIGNAL(nameChanged(QString, QString)), this, SLOT(childNameChanged(QString, QString)));
+    connect(removeThis, SIGNAL(nameChanged(QString,QString)), this, SLOT(childNameChanged(QString,QString)));
     return GluonEngine::GameObject::removeComponent(removeThis);
 }
 

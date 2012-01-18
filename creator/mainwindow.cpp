@@ -76,8 +76,8 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
     DockManager::instance()->setMainWindow( this );
 
     FileManager::instance()->initialize( this );
-    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), SLOT( partChanged( KParts::Part* ) ) );
-    connect( FileManager::instance()->partManager(), SIGNAL( activePartChanged( KParts::Part* ) ), DockManager::instance(), SLOT(updateDockActions()) );
+    connect( FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), SLOT(partChanged(KParts::Part*)) );
+    connect( FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), DockManager::instance(), SLOT(updateDockActions()) );
 
     PluginManager::instance()->setMainWindow( this );
     PluginManager::instance()->loadPlugins();
@@ -97,7 +97,7 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
 
     d->projectDialog = new ProjectSelectionDialog( this );
     d->projectDialog->setModal( true );
-    connect( d->projectDialog, SIGNAL( accepted() ), SLOT( projectDialogAccepted() ) );
+    connect( d->projectDialog, SIGNAL(accepted()), SLOT(projectDialogAccepted()) );
 
     DockManager::instance()->setDocksEnabled( false );
     DockManager::instance()->setDocksLocked( GluonCreator::Settings::lockLayout() );

@@ -103,13 +103,13 @@ void ProjectSelectionDialog::addPage( KPageWidgetItem* item, ProjectSelectionDia
             break;
         case OpenProjectPage:
         {
-            connect( item, SIGNAL( projectRequested( QString ) ),
-                     SLOT( projectRequested( QString ) ) );
+            connect( item, SIGNAL(projectRequested(QString)),
+                     SLOT(projectRequested(QString)) );
             break;
         }
         case RecentProjectPage:
-            connect( item, SIGNAL( projectRequested( QString ) ),
-                     SLOT( projectRequested( QString ) ) );
+            connect( item, SIGNAL(projectRequested(QString)),
+                     SLOT(projectRequested(QString)) );
             break;
         default:
             break;
