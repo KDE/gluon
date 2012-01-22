@@ -301,7 +301,7 @@ GluonObject*
 GluonObject::findGlobalItemByName( QString fullyQualifiedName )
 {
     QStringList names = fullyQualifiedName.split( '/' );
-    if( !names.isEmpty() /*&& names.first() == root()->name()*/ ) // With second check, project loading fails.
+    if( !names.isEmpty() && names.first() == root()->name() )
     {
         if( names.count() == 1 )
         {
