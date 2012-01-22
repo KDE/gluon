@@ -108,7 +108,7 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
             if( refPathWithoutRoot.startsWith( parentPathWithoutRoot ) )
             {
                 isRelative = true;
-                QString relativePath = refPathWithoutRoot.remove( 0, parentPathWithoutRoot.length()+1 ); // +1 for the slash
+                relativePath = refPathWithoutRoot.remove( 0, parentPathWithoutRoot.length()+1 ); // +1 for the slash
             }
         }
 
