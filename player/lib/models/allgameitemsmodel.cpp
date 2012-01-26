@@ -60,6 +60,7 @@ AllGameItemsModel::AllGameItemsModel( QObject* parent )
     QHash<int, QByteArray> roles;
     roles[IdRole] = "Id";
     roles[GameNameRole] = "GameName";
+    roles[GameDescriptionRole] = "GameDescriptionRole";
     roles[IconRole] = "Icon";
     roles[RatingRole] = "Rating";
     roles[GenreRole] = "Genre";
@@ -264,6 +265,8 @@ QVariant AllGameItemsModel::data( const QModelIndex& index, int role ) const
         case Qt::DisplayRole:
         case GameNameRole:
             return d->gameItems.at( index.row() )->gameName();
+        case GameDescriptionRole:
+            return d->gameItems.at( index.row() )->gameDescription();
         case IconRole:
             return "";  //TODO: make it work when icon stuff in core is working again
         case RatingRole:

@@ -74,11 +74,15 @@ void GameMetadata::setGameId( const QString& gameId )
 
         d->gameName = d->projectMetadata->projectName();
         d->gameDescription = d->projectMetadata->projectDescription();
-
-        emit gameIdChanged();
-        emit gameNameChanged();
-        emit gameDescriptionChanged();
+    } else {
+        d->gameId = model->data(gameId, AllGameItemsModel::IdRole).toString();
+        d->gameName = model->data(gameId, AllGameItemsModel::GameNameRole).toString();
+        d->gameDescription = model->data(gameId, AllGameItemsModel::GameDescriptionRole).toString();
     }
+
+    emit gameIdChanged();
+    emit gameNameChanged();
+    emit gameDescriptionChanged();
 }
 
 QString GameMetadata::gameName() const
