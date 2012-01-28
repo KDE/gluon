@@ -4,7 +4,7 @@
  * Copyright (c) 2011 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2011 Sacha Schutz <istdasklar@free.fr>
  * Copyright (c) 2011 Guillaume Martres <smarter@ubuntu.com>
- * Copyright (c) 2011 Shantanu Tushar Jha <jhahoneyk@gmail.com>
+ * Copyright (c) 2011 Shantanu Tushar Jha <shaan7in@gmail.com>
  * Copyright (c) 2011 Kim Jung Nissen <jungnissen@gmail.com>
  * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
  *
@@ -51,7 +51,7 @@ namespace GluonCreator
         data.addAuthor( ki18n( "Dan Leinir Tuthra Jensen" ), ki18n( "Gluon Core, Gluon Engine, Gluon Creator, SMARTS" ), "admin@leinir.dk", "" );
         data.addAuthor( ki18n( "Sacha Schutz" ), ki18n( "Gluon Graphics, Gluon Audio, Gluon Input" ), "istdasklar@free.fr" );
         data.addAuthor( ki18n( "Guillaume Martres" ), ki18n( "Gluon Audio, Gluon Graphics" ), "smarter@ubuntu.com" );
-        data.addAuthor( ki18n( "Shantanu Tushar Jha" ), ki18n( "Gluon Player, Gluon Creator" ), "jhahoneyk@gmail.com" );
+        data.addAuthor( ki18n( "Shantanu Tushar Jha" ), ki18n( "Gluon Player, Gluon Creator" ), "shaan7@gmail.com" );
         data.addAuthor( ki18n( "Kim Jung Nissen" ), ki18n( "Gluon Input, Mac Compatibility" ), "jungnissen@gmail.com" );
         data.addAuthor( ki18n( "Laszlo Papp" ), ki18n( "Gluon Creator, Input, Player, Mobile support" ), "lpapp@kde.org" );
 
