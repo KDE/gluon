@@ -20,9 +20,7 @@
 import QtQuick 1.0
 import org.kde.metadatamodels 0.1 as MetadataModels
 import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.plasma.core 0.1 as PlasmaCore
 import org.kde.plasma.mobilecomponents 0.1 as MobileComponents
-import org.kde.qtextracomponents 0.1
 
 Image {
     id: rootItem
@@ -41,32 +39,13 @@ Image {
             width: parent.width*0.4
             spacing: 20
 
-            Rectangle {
+            PlasmaComponents.Button {
                 id: gamesListStatusChanger
 
                 height: 32
                 width: gamesListView.width
 
-                //color: theme.buttonBackgroundColor
-                radius: 10
-
-                Text {
-                    id: gamesListStatusChangerText
-                    anchors.fill: parent
-                    anchors.margins: 5
-
-                    //color: theme.buttonTextColor
-
-                    horizontalAlignment: Text.AlignHCenter
-
-                    MouseArea {
-                        anchors.fill: parent
-
-                        onClicked: {
-                            rootItem.toggleState();
-                        }
-                    }
-                }
+                onClicked: rootItem.toggleState()
             }
 
             ListView {
@@ -106,13 +85,13 @@ Image {
             name: "showInstalledGames"
 
             PropertyChanges { target: gamesListView; model: installedGamesModel }
-            PropertyChanges { target: gamesListStatusChangerText; text: "Installed Games" }
+            PropertyChanges { target: gamesListStatusChanger; text: "Showing Installed Games" }
         },
         State {
             name: "showDownloadableGames"
 
             PropertyChanges { target: gamesListView; model: downloadableGamesModel }
-            PropertyChanges { target: gamesListStatusChangerText; text: "Downloadable Games" }
+            PropertyChanges { target: gamesListStatusChanger; text: "Showing Downloadable Games" }
         }
     ]
 }
