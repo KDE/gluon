@@ -47,31 +47,27 @@ namespace GluonPlayer
     class GLUON_PLAYER_EXPORT CommentsModel : public QAbstractItemModel
     {
             Q_OBJECT
+            Q_PROPERTY(QString gameId READ gameId WRITE setGameId NOTIFY gameIdChanged)
+
         public:
-            enum Column
+            enum Roles
             {
                 AuthorRole = Qt::UserRole,
                 TitleRole,
                 BodyRole,
                 DateTimeRole,
-                RatingRole
+                RatingRole,
+                DepthRole,
+                ParentIdRole
             };
 
-            /**
-             * @param gameId The game ID which will be used to perform the lookup in the online
-             * service
-             */
-            explicit CommentsModel( QString gameId, QObject* parent = 0 );
+            explicit CommentsModel( QObject* parent = 0 );
             virtual ~CommentsModel();
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual QModelIndex parent( const QModelIndex& child ) const;
             virtual QModelIndex index( int row, int column, const QModelIndex& parent = QModelIndex() ) const;
-            virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
-            virtual Qt::ItemFlags flags( const QModelIndex& index ) const;
-            virtual bool setData( const QModelIndex& index, const QVariant& value, int role = Qt::EditRole );
-            virtual bool insertRows( int row, int count, const QModelIndex& parent = QModelIndex() );
 
             /**
              * check if we are connected to the online service
@@ -84,17 +80,21 @@ namespace GluonPlayer
              * used to add and upload a new comment to the server.
              * If successful, the model reloads the comments and hence shows the new one
              * If unsuccessful, the model emits addCommentFailed()
-             * @param   parentIndex     the index of the parent comment
+             * @param   parentId        the id of the parent comment
              * @param   subject         the subject (title) of the comment
              * @param   message         the message (body) of the comment
              */
-            void uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message );
+            Q_INVOKABLE void uploadComment( const QString& parentId, const QString& subject, const QString& message );
+
+            QString gameId() const;
+            void setGameId(const QString &id);
 
         Q_SIGNALS:
             /** signal which is emitted when the comment failed to be added
              */
             void addCommentFailed();
             void commentListFetchFailed();
+            void gameIdChanged();
 
         private Q_SLOTS:
             void processFetchedComments();
@@ -105,6 +105,7 @@ namespace GluonPlayer
             void updateData();
             void loadData();
             void saveData();
+            void clear();
 
             class Private;
             Private* const d;

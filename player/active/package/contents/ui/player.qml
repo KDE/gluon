@@ -18,7 +18,6 @@
  */
 
 import QtQuick 1.0
-import org.kde.metadatamodels 0.1 as MetadataModels
 import org.kde.plasma.components 0.1 as PlasmaComponents
 import org.kde.plasma.mobilecomponents 0.1 as MobileComponents
 
@@ -27,7 +26,7 @@ Image {
     source: "image://appbackgrounds/standard"
     fillMode: Image.Tile
 
-    property alias currentGameId: gameDetailsItem.gameId
+    property alias currentGameId: gameDetailsTabGroup.gameId
 
     Row {
         anchors.fill: parent
@@ -61,10 +60,48 @@ Image {
             }
         }
 
-        GameDetails {
-            id: gameDetailsItem
+        Column {
             height: parent.height
             width: parent.width*0.6
+
+            PlasmaComponents.TabBar {
+                id: gameDetailsTabBar
+                height: 64
+                width: parent.width
+
+                PlasmaComponents.TabButton {
+                    tab: gameDetailsItem
+                    text: "Details"
+                    iconSource: "view-list-details"
+                }
+                PlasmaComponents.TabButton {
+                    tab: gameCommentsView
+                    text: "Comments"
+                    iconSource: "text-plain"
+                }
+            }
+
+            PlasmaComponents.TabGroup {
+                id: gameDetailsTabGroup
+                property string gameId
+
+                height: parent.height - gameDetailsTabBar.height
+                width: parent.width
+
+                GameDetails {
+                    id: gameDetailsItem
+                    gameId: gameDetailsTabGroup.gameId
+                    height: parent.height
+                    width: parent.width
+                }
+
+                CommentsView {
+                    id: gameCommentsView
+                    gameId: gameDetailsTabGroup.gameId
+                    height: parent.height
+                    width: parent.width
+                }
+            }
         }
     }
 

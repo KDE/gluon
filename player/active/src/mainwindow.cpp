@@ -23,6 +23,7 @@
 
 #include <lib/gamemetadata.h>
 #include <lib/gamemanager.h>
+#include <lib/models/commentsmodel.h>
 
 #include "kdeclarativeview.h"
 
@@ -35,6 +36,7 @@ MainWindow::MainWindow()
     declarativeView()->rootContext()->setContextProperty( "downloadableGamesModel",
                                                           GluonPlayer::GameManager::instance()->downloadableGamesModel() );
     qmlRegisterType<GluonPlayer::GameMetadata>( "org.kde.gluon", 1, 0, "GameMetadata" );
+    qmlRegisterType<GluonPlayer::CommentsModel>( "org.kde.gluon", 1, 0, "CommentsModel" );
 
     declarativeView()->setPackageName("org.kde.gluon.player");
 }

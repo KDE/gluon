@@ -47,31 +47,34 @@ class CommentsModel::Private
     }
 
     GluonCore::GluonObject* m_rootNode;
-    QStringList m_columnNames;
     bool m_isOnline;
     QString m_gameId;
+    QList<GluonObject*> flatComments;
 };
 
-CommentsModel::CommentsModel( QString gameId, QObject* parent )
+CommentsModel::CommentsModel( QObject* parent )
     : QAbstractItemModel( parent )
     , d(new Private)
 {
-    d->m_rootNode = new GluonObject( "Comment" );
+    d->m_rootNode = new GluonObject( "" );
+    d->m_rootNode->setProperty("Depth", -1);
     d->m_isOnline = false;
-    d->m_gameId = gameId;
-    d->m_columnNames << tr( "Author" ) << tr( "Title" ) << tr( "Body" ) << tr( "DateTime" ) << tr( "Rating" );
 
-    loadData();     // Load comments stored locally
-    updateData();   // Fetch latest comments from the web service
+    QHash<int, QByteArray> roleNames;
+    roleNames[AuthorRole] = "AuthorRole";
+    roleNames[TitleRole] = "TitleRole";
+    roleNames[BodyRole] = "BodyRole";
+    roleNames[DateTimeRole] = "DateTimeRole";
+    roleNames[RatingRole] = "RatingRole";
+    roleNames[DepthRole] = "DepthRole";
+    roleNames[ParentIdRole] = "ParentIdRole";
+    setRoleNames(roleNames);
 }
 
 void CommentsModel::processFetchedComments()
 {
-    qDebug() << "Comments Successfully Fetched from the server!";
     QList<CommentItem*> list = qobject_cast<CommentsListJob*>(sender())->data().value< QList<CommentItem*> >();
-    if (d->m_rootNode) {
-        qDeleteAll(d->m_rootNode->children());
-    }
+    qDebug() << list.count() << " comments Successfully Fetched from the server!";
     foreach(CommentItem *comment, list) {
         addComment(comment, d->m_rootNode);
     }
@@ -87,6 +90,9 @@ GluonObject* CommentsModel::addComment( CommentItem* comment, GluonObject* paren
     newComment->setProperty( "Body", comment->text() );
     newComment->setProperty( "DateTime", comment->dateTime().toString() );
     newComment->setProperty( "Rating", comment->score() );
+    newComment->setProperty( "Depth", parent->property("Depth").toInt() + 1 );
+    newComment->setProperty( "ParentId", parent->name() );
+    d->flatComments.append( newComment );
 
     foreach( QObject *child, comment->children() ) {
         addComment( static_cast<CommentItem*>(child), newComment );
@@ -128,132 +134,47 @@ CommentsModel::~CommentsModel()
 
 QVariant CommentsModel::data( const QModelIndex& index, int role ) const
 {
-    if( role == Qt::DisplayRole || role == Qt::EditRole )
-    {
-        GluonObject* node;
-        node = static_cast<GluonObject*>( index.internalPointer() );
+    if (index.row() >= rowCount())
+        return QVariant();
 
-        return node->property( d->m_columnNames.at( index.column() ).toUtf8() );
+    switch (role) {
+        case AuthorRole:
+            return d->flatComments.at(index.row())->property( "Author" );
+        case TitleRole:
+            return d->flatComments.at(index.row())->property( "Title" );
+        case BodyRole:
+            return d->flatComments.at(index.row())->property( "Body" );
+        case DateTimeRole:
+            return d->flatComments.at(index.row())->property( "DateTime" );
+        case RatingRole:
+            return d->flatComments.at(index.row())->property( "Rating" );
+        case DepthRole:
+            return d->flatComments.at(index.row())->property( "Depth" );
+        case ParentIdRole:
+            return d->flatComments.at(index.row())->property( "ParentId" );
     }
-    else if( role >= Qt::UserRole )
-    {
-        GluonObject* node;
-        node = static_cast<GluonObject*>( index.internalPointer() );
 
-        return node->property( d->m_columnNames.at( role - Qt::UserRole ).toUtf8() );
-    }
     return QVariant();
 }
 
 int CommentsModel::columnCount( const QModelIndex& /* parent */ ) const
 {
-    return 5;
+    return 1;
 }
 
 int CommentsModel::rowCount( const QModelIndex& parent ) const
 {
-    GluonObject* parentItem;
-    if( parent.column() > 0 )
-        return 0;
-
-    if( !parent.isValid() )
-        parentItem = d->m_rootNode;
-    else
-        parentItem = static_cast<GluonObject*>( parent.internalPointer() );
-
-    return parentItem->children().count();
+    return d->flatComments.count();
 }
 
 QModelIndex CommentsModel::parent( const QModelIndex& child ) const
 {
-    if( !child.isValid() )
-        return QModelIndex();
-
-    GluonObject* childItem = static_cast<GluonObject*>( child.internalPointer() );
-    GluonObject* parentItem = qobject_cast<GluonObject*> ( childItem->parent() );
-
-    if( parentItem == d->m_rootNode )
-        return QModelIndex();
-
-    GluonObject* grandParentItem = qobject_cast<GluonObject*>( parentItem->parent() );
-    if( !grandParentItem )
-        return QModelIndex();
-
-    return createIndex( grandParentItem->children().indexOf( parentItem ), 0, parentItem );
+    return QModelIndex();
 }
 
 QModelIndex CommentsModel::index( int row, int column, const QModelIndex& parent ) const
 {
-    if( !hasIndex( row, column, parent ) )
-        return QModelIndex();
-
-    GluonObject* parentItem;
-
-    if( !parent.isValid() )
-        parentItem = d->m_rootNode;
-    else
-        parentItem = static_cast<GluonObject*>( parent.internalPointer() );
-
-    GluonObject* childItem = parentItem->child( row );
-    if( childItem )
-        return createIndex( row, column, childItem );
-    else
-        return QModelIndex();
-}
-
-QVariant CommentsModel::headerData( int section, Qt::Orientation orientation, int role ) const
-{
-    if( orientation == Qt::Horizontal && role == Qt::DisplayRole )
-        return d->m_columnNames.at( section );
-
-    return QVariant();
-}
-
-Qt::ItemFlags CommentsModel::flags( const QModelIndex& index ) const
-{
-    if( !index.isValid() )
-        return Qt::ItemIsEnabled;
-
-    return QAbstractItemModel::flags( index );
-}
-
-bool CommentsModel::setData( const QModelIndex& index, const QVariant& value, int role )
-{
-    if( index.isValid() && role == Qt::EditRole )
-    {
-        GluonObject* node;
-        node = static_cast<GluonObject*>( index.internalPointer() );
-
-        node->setProperty( d->m_columnNames.at( index.column() ).toUtf8(), value );
-        emit dataChanged( index, index );
-        return true;
-    }
-
-    return false;
-}
-
-bool CommentsModel::insertRows( int row, int count, const QModelIndex& parent )
-{
-    if( count != 1 )  // Do not support more than one row at a time
-    {
-        qDebug() << "Can insert only one comment at a time";
-        return false;
-    }
-    if( row != rowCount( parent ) )
-    {
-        qDebug() << "Can only add a comment to the end of existing comments";
-        return false;
-    }
-
-    beginInsertRows( parent, row, row );
-    GluonObject* parentNode;
-    parentNode = static_cast<GluonObject*>( parent.internalPointer() );
-
-    GluonObject* newNode = new GluonObject( "Comment", parentNode );
-    parentNode->addChild( newNode );
-    endInsertRows();
-
-    return true;
+    return createIndex( row, column );
 }
 
 bool CommentsModel::isOnline()
@@ -261,17 +182,15 @@ bool CommentsModel::isOnline()
     return d->m_isOnline;
 }
 
-void CommentsModel::uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message )
+void CommentsModel::uploadComment( const QString &parentId, const QString& subject, const QString& message )
 {
     if( d->m_gameId.isEmpty() )
     {
         qDebug() << "Invalid game id, can't upload comment";
         return;
     }
-    GluonObject* parentNode = static_cast<GluonObject*>( parentIndex.internalPointer() );
-
     CommentUploadJob *commentsUploadJob = ServiceProvider::instance()->uploadComment(d->m_gameId,
-                                                                                   parentNode->name(),
+                                                                                   parentId,
                                                                                    subject, message);
     connect(commentsUploadJob, SIGNAL(succeeded()), SLOT(uploadCommentFinished()));
     connect(commentsUploadJob, SIGNAL(failed()), SIGNAL(addCommentFailed()));
@@ -280,7 +199,7 @@ void CommentsModel::uploadComment( const QModelIndex& parentIndex, const QString
 
 void CommentsModel::updateData()
 {
-    qDebug() << "Updating..";
+    clear();
     CommentsListJob *commentListJob = ServiceProvider::instance()->fetchCommentList(d->m_gameId, 0, 0);
     connect(commentListJob, SIGNAL(succeeded()), SLOT(processFetchedComments()));
     connect(commentListJob, SIGNAL(failed()), SIGNAL(commentListFetchFailed()));
@@ -290,6 +209,26 @@ void CommentsModel::updateData()
 void CommentsModel::uploadCommentFinished()
 {
     updateData();
+}
+
+QString CommentsModel::gameId() const
+{
+    return d->m_gameId;
+}
+
+void CommentsModel::setGameId( const QString& id )
+{
+    d->m_gameId = id;
+    updateData();   // Fetch latest comments from the web serviceprovider
+    emit gameIdChanged();
+}
+
+void CommentsModel::clear()
+{
+    if (d->m_rootNode) {
+        qDeleteAll(d->m_rootNode->children());
+    }
+    d->flatComments.clear();
 }
 
 #include "commentsmodel.moc"
