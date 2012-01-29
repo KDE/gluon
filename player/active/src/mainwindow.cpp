@@ -21,56 +21,22 @@
 
 #include "mainwindow.h"
 
-#include <Plasma/Theme>
+#include <lib/gamemetadata.h>
+#include <lib/gamemanager.h>
 
-#include <KDE/KAction>
-#include <KDE/KIcon>
-#include <KDE/KStandardAction>
+#include "kdeclarativeview.h"
+
+#include <QtDeclarative/QtDeclarative>
 
 MainWindow::MainWindow()
-    : KMainWindow()
 {
-    setAcceptDrops(true);
-    KConfigGroup cg(KSharedConfig::openConfig("plasmarc"), "Theme-plasma-mobile");
-    const QString themeName = cg.readEntry("name", "air-mobile");
-    Plasma::Theme::defaultTheme()->setUseGlobalSettings(false);
-    Plasma::Theme::defaultTheme()->setThemeName(themeName);
-    addAction(KStandardAction::close(this, SLOT(close()), this));
-    addAction(KStandardAction::quit(this, SLOT(close()), this));
-    m_widget = new AppView(this);
+    declarativeView()->rootContext()->setContextProperty( "installedGamesModel",
+                                                          GluonPlayer::GameManager::instance()->installedGamesModel() );
+    declarativeView()->rootContext()->setContextProperty( "downloadableGamesModel",
+                                                          GluonPlayer::GameManager::instance()->downloadableGamesModel() );
+    qmlRegisterType<GluonPlayer::GameMetadata>( "org.kde.gluon", 1, 0, "GameMetadata" );
 
-    restoreWindowSize(config("Window"));
-    setCentralWidget(m_widget);
-}
-
-MainWindow::~MainWindow()
-{
-    saveWindowSize(config("Window"));
-}
-
-KConfigGroup MainWindow::config(const QString &group)
-{
-    return KConfigGroup(KSharedConfig::openConfig("gluonplayeractiverc"), group);
-}
-
-QString MainWindow::name()
-{
-    return "Gluon Player";
-}
-
-QIcon MainWindow::icon()
-{
-    return KIcon("gluon-install");
-}
-
-void MainWindow::setUseGL(const bool on)
-{
-    m_widget->setUseGL(on);
-}
-
-bool MainWindow::useGL() const
-{
-    return m_widget->useGL();
+    declarativeView()->setPackageName("org.kde.gluon.player");
 }
 
 #include "mainwindow.moc"

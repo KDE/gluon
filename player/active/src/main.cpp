@@ -23,9 +23,6 @@
 #include <KApplication>
 #include <KAboutData>
 #include <KCmdLineArgs>
-#include <KDebug>
-#include <KDE/KLocale>
-#include <KToolBar>
 
 // Own
 #include "mainwindow.h"
@@ -50,17 +47,9 @@ int main(int argc, char **argv)
 
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-    bool useGL = args->isSet("opengl");
+    MainWindow mainWindow;
+    mainWindow.show();
 
-    if (!useGL) {
-        //use plasmarc to share this with plasma-windowed
-        KConfigGroup cg(KSharedConfig::openConfig("plasmarc"), "General");
-        useGL = cg.readEntry("UseOpenGl", true);
-    }
-
-    MainWindow *mainWindow = new MainWindow();
-    mainWindow->setUseGL(useGL);
-    mainWindow->show();
     args->clear();
     return app.exec();
 }

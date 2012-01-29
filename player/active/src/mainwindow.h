@@ -23,23 +23,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "appview.h"
+#include "kdeclarativemainwindow.h"
 
-class MainWindow : public KMainWindow
+class MainWindow : public KDeclarativeMainWindow
 {
     Q_OBJECT
 public:
     MainWindow();
-    virtual ~MainWindow();
-    QString name();
-    QIcon icon();
-    KConfigGroup config(const QString &group = "Default");
-
-    void setUseGL(const bool on);
-    bool useGL() const;
-
-private:
-    AppView *m_widget;
 };
 
 #endif // MAINWINDOW_H
