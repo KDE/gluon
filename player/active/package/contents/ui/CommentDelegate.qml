@@ -23,16 +23,16 @@ import org.kde.plasma.mobilecomponents 0.1 as MobileComponents
 import org.kde.plasma.core 0.1 as PlasmaCore
 
 Item {
+    id: commentDelegateRootItem
+    property QtObject addCommentForm
     width: parent.width
     height: 128
 
-    PlasmaCore.FrameSvgItem {
+    PlasmaBackground {
         id: surfaceNormal
 
         anchors.fill: parent
         anchors.leftMargin: DepthRole*20
-        imagePath: "widgets/button"
-        prefix: "normal"
 
         Column {
             anchors.fill: parent
@@ -72,14 +72,26 @@ Item {
 
                 PlasmaComponents.Label {
                     height: parent.height
-                    width: parent.width/2
+                    width: (parent.width-commentReplyButton.width)/2
                     text: AuthorRole
                 }
 
                 PlasmaComponents.Label {
                     height: parent.height
-                    width: parent.width/2
+                    width: (parent.width-commentReplyButton.width)/2
                     text: DateTimeRole
+                }
+
+                PlasmaComponents.ToolButton {
+                    id: commentReplyButton
+                    iconSource: "edit-undo"
+                    height: parent.height
+                    width: height
+
+                    onClicked: {
+                        commentDelegateRootItem.addCommentForm.parentId = ParentIdRole
+                        commentDelegateRootItem.addCommentForm.open()
+                    }
                 }
             }
         }

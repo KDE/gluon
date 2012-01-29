@@ -218,6 +218,8 @@ QString CommentsModel::gameId() const
 
 void CommentsModel::setGameId( const QString& id )
 {
+    if (id.isEmpty())
+        return;
     d->m_gameId = id;
     updateData();   // Fetch latest comments from the web serviceprovider
     emit gameIdChanged();

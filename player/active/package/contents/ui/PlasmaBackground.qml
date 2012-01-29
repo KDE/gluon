@@ -1,6 +1,6 @@
 /*****************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2012 Shantanu Tushar <shaan7in@gmail.com>
+ * Copyright (C) 2011 Shantanu Tushar <shaan7in@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,22 +17,12 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-import QtQuick 1.1
+import QtQuick 1.0
 import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.gluon 1.0 as Gluon
+import org.kde.plasma.mobilecomponents 0.1 as MobileComponents
+import org.kde.plasma.core 0.1 as PlasmaCore
 
-ListView {
-    id: commentsListView
-    property alias gameId: commentsModel.gameId
-
-    model: Gluon.CommentsModel { id: commentsModel }
-    delegate: CommentDelegate {
-        addCommentForm: AddCommentForm {
-            id: commentForm
-            onAccepted: commentsModel.uploadComment(ParentIdRole, commentForm.subjectText, commentForm.bodyText );
-        }
-    }
-
-    spacing: 10
-    clip: true
+PlasmaCore.FrameSvgItem {
+    imagePath: "widgets/button"
+    prefix: "normal"
 }

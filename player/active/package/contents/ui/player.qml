@@ -72,12 +72,14 @@ Image {
                 PlasmaComponents.TabButton {
                     tab: gameDetailsItem
                     text: "Details"
-                    iconSource: "view-list-details"
                 }
                 PlasmaComponents.TabButton {
                     tab: gameCommentsView
                     text: "Comments"
-                    iconSource: "text-plain"
+                }
+                PlasmaComponents.TabButton {
+                    tab: userDetailsItem
+                    text: "User"
                 }
             }
 
@@ -98,6 +100,12 @@ Image {
                 CommentsView {
                     id: gameCommentsView
                     gameId: gameDetailsTabGroup.gameId
+                    height: parent.height
+                    width: parent.width
+                }
+
+                UserDetails {
+                    id: userDetailsItem
                     height: parent.height
                     width: parent.width
                 }
