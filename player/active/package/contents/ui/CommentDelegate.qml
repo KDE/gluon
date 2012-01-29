@@ -38,7 +38,7 @@ Item {
             anchors.fill: parent
             anchors.margins: 10
             spacing: 2
-            property real rowHeight: height/3 - 2*spacing
+            property real rowHeight: height/5 - 2*spacing
 
             Row {
                 width: parent.width
@@ -50,25 +50,20 @@ Item {
                     text: TitleRole
                 }
 
-                //Use Rating Item
-                PlasmaComponents.Label {
+                RatingItem {
                     id: ratingItem
                     height: parent.height
-                    width: 10
-                    text: RatingRole
+                    width: height*5
+                    rating: RatingRole
                 }
             }
 
-            Row {
+            PlasmaComponents.TextArea {
                 width: parent.width
-                height: parent.rowHeight
-
-                PlasmaComponents.TextArea {
-                    height: parent.height
-                    width: parent.width
-                    readOnly: true
-                    text: BodyRole
-                }
+                height: parent.rowHeight*4
+                wrapMode: TextEdit.Wrap
+                readOnly: true
+                text: BodyRole
             }
 
             Row {
