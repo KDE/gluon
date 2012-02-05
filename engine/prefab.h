@@ -29,6 +29,7 @@ namespace GluonEngine
 {
     class GameObject;
     class PrefabInstance;
+    class PrefabInstanceChild;
     class PrefabPrivate;
 
     /**
@@ -102,6 +103,7 @@ namespace GluonEngine
             static void cloneObjectProperties( const QObject* cloneFrom, QObject* setPropertiesOn );
         protected:
             friend class PrefabInstance;
+            friend class PrefabInstanceChild;
             /**
              * Add a new instance to this Prefab's list of instances. This function is normally only
              * used by the PrefabInstance class when setting the prefab link.
@@ -127,6 +129,17 @@ namespace GluonEngine
              * are added to the children where appropriate.
              */
             void updateFromInstance( GluonEngine::PrefabInstance* updateFrom );
+
+            /**
+             * This method is quite similar to updateFromInstance, but it will only update a child
+             * object of the stored GameObject from the given PrefabInstanceChild.
+             *
+             * @param updateThis The child of the stored GameObject to update
+             * @param updateFrom The PrefabInstanceChild to update from
+             * @see updateFromInstance
+             */
+            void updateFromInstanceChild( GameObject* updateThis, PrefabInstanceChild* updateFrom );
+
         private:
             PrefabPrivate* d;
     };

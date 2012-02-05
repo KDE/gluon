@@ -98,13 +98,23 @@ PrefabInstance* PrefabInstanceChild::parentInstance()
 
 void PrefabInstanceChild::storeChanges()
 {
-    // TODO: Implement
+    parentInstance()->prefabLink()->updateFromInstanceChild( d->linkedGameObject, this );
     AbstractPrefabInstance::storeChanges();
 }
 
 void PrefabInstanceChild::revertChanges()
 {
-    // TODO: Implement
+    foreach( QObject* child, children() )
+    {
+        GluonCore::GluonObject* object = qobject_cast<GluonCore::GluonObject*>( child );
+        if( object )
+            removeChild( object );
+        else
+            child->deleteLater();
+    }
+
+    cloneFromGameObject( d->linkedGameObject );
+
     AbstractPrefabInstance::revertChanges();
 }
 

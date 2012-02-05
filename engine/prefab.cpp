@@ -20,6 +20,7 @@
 #include "prefab.h"
 #include "prefabprivate.h"
 #include "prefabinstance.h"
+#include "prefabinstancechild.h"
 #include <core/gdlserializer.h>
 
 #include <QtCore/QMetaProperty>
@@ -146,6 +147,11 @@ void Prefab::updateFromInstance(GluonEngine::PrefabInstance* updateFrom)
 {
     // TODO implement :P
     d->updateChildrenFromOther(d->gameObject, updateFrom);
+}
+
+void Prefab::updateFromInstanceChild(GameObject* updateThis, PrefabInstanceChild* updateFrom)
+{
+    d->updateChildrenFromOther(updateThis, updateFrom);
 }
 
 void Prefab::cloneObjectProperties(const QObject* cloneFrom, QObject* setPropertiesOn)

@@ -21,6 +21,7 @@
 
 #include <engine/gameobject.h>
 #include <engine/prefabinstance.h>
+#include <engine/prefabinstancechild.h>
 #include <engine/prefab.h>
 
 #include <QtGui/QVector3D>
@@ -219,6 +220,37 @@ void PrefabTest::testInstances()
     QCOMPARE( m_instance->position(), QVector3D( 10, 10, 10 ) );
     QCOMPARE( instance->position(), QVector3D( 10, 10, 10 ) );
     QCOMPARE( m_instance->scale(), QVector3D( 15, 15, 16 ) );
+}
+
+void PrefabTest::testRevertChild()
+{
+    PrefabInstanceChild* child = qobject_cast<PrefabInstanceChild*>( m_instance->child(0) );
+    QVERIFY( child );
+    child->addChild( new GameObject() );
+    QCOMPARE( child->children().count(), 1 );
+    child->setPosition( QVector3D(12, 13, 14) );
+
+    child->revertChanges();
+
+    QCOMPARE( child->children().count(), 0 );
+    QCOMPARE( child->position(), QVector3D(0,0,0) );
+}
+
+void PrefabTest::testApplyChild()
+{
+    PrefabInstance* secondInstance = m_prefab->createInstance();
+    PrefabInstanceChild* secondInstanceChild = qobject_cast<PrefabInstanceChild*>( secondInstance->child(0) );
+
+    PrefabInstanceChild* child = qobject_cast<PrefabInstanceChild*>( m_instance->child(0) );
+    QVERIFY( child );
+    child->addChild( new GameObject() );
+    QCOMPARE( child->children().count(), 1 );
+    child->setPosition( QVector3D(12, 13, 14) );
+
+    child->storeChanges();
+
+    QCOMPARE( secondInstanceChild->position(), QVector3D(12,13,14) );
+    QCOMPARE( secondInstanceChild->children().count(), 1 );
 }
 
 QTEST_MAIN( PrefabTest )
