@@ -280,6 +280,9 @@ QString NewProjectDialogPage::pathUp( const QString& aPath )
     QString tPath = aPath;
     int tIndex = tPath.lastIndexOf( QDir::separator() );
     tPath = tPath.remove( tIndex, tPath.length() - tIndex );
+    if( tPath == "" ) // ok, that seems to be root
+        tPath = "/";
+
     return tPath;
 }
 
