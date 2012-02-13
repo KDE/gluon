@@ -69,6 +69,9 @@ set(GluonGraphics_SRCS
     vertexbuffer.cpp
     viewport.cpp
     spritemesh.cpp
+    backend.cpp
+    windowsurface.cpp
+    texturedata.cpp
 )
 
 set(GluonGraphics_HEADERS
@@ -92,6 +95,7 @@ set(GluonGraphics_HEADERS
     vertexbuffer.h
     vertexattribute.h
     viewport.h
+    shader.cpp
 )
 
 if(ASSIMP_FOUND)
@@ -173,4 +177,3 @@ if(BUILD_GLUON_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif()
-

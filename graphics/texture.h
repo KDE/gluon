@@ -84,7 +84,6 @@ namespace GluonGraphics
     };
 }
 
-Q_DECLARE_METATYPE( GluonGraphics::Texture )
 Q_DECLARE_METATYPE( GluonGraphics::Texture* )
 
 #endif // GLUON_GRAPHICS_TEXTURE_H
