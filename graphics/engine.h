@@ -31,7 +31,7 @@ namespace GluonGraphics
 {
 
     class RenderTarget;
-
+    class Backend;
     class Camera;
     class AbstractMesh;
     class Material;
@@ -69,6 +69,13 @@ namespace GluonGraphics
              * It should be called during the OpenGL initialization phase.
              */
             void initialize();
+
+            /**
+             * Retrieve the current backend.
+             *
+             * \return The current backend. If no backend exists, one will be created.
+             */
+            Backend* backend();
 
             /**
              * Create an Item.

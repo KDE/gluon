@@ -67,6 +67,8 @@ class Engine::EnginePrivate
 
         void viewportSizeChanged( int left, int bottom, int width, int height );
 
+        Backend* backend;
+
         RenderTarget* mainTarget;
         MaterialInstance* mainTargetShader;
 
@@ -193,6 +195,25 @@ void Engine::initialize()
 
     d->mainTarget = new RenderTarget( 1024, 768, this );
     d->mainTarget->setMaterialInstance( material->createInstance( "mainTarget" ) );
+}
+
+Backend*
+Engine::backend()
+{
+    if( !d->backend )
+    {
+#ifdef GLUONGRAPHICS_USE_GLES
+        d->backend = new EGLBackend();
+#elif Q_WS_X11
+        d->backend = new GLXBackend();
+#elif Q_WS_WIN
+        d->backend = new WGLBackend();
+#elif Q_WS_MAC
+        d->backend = new AGLBackend();
+#endif
+    }
+
+    return d->backend;
 }
 
 Item*
