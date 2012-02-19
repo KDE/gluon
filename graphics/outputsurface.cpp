@@ -17,12 +17,30 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "windowsurface.h"
+#include "outputsurface.h"
 
 using namespace GluonGraphics;
 
-WindowSurface::~WindowSurface()
+class OutputSurface::Private
 {
+    public:
+        QWidget* widget;
+};
 
+OutputSurface::OutputSurface(QWidget* container, QObject* parent)
+    : QObject( parent ), d( new Private )
+{
+    d->widget = container;
 }
 
+OutputSurface::~OutputSurface()
+{
+    delete d;
+}
+
+QWidget* OutputSurface::widget()
+{
+    return d->widget;
+}
+
+#include "outputsurface.moc"

@@ -17,17 +17,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "backend.h"
+#ifndef GLUONGRAPHICS_WINDOWSURFACE_H
+#define GLUONGRAPHICS_WINDOWSURFACE_H
 
-using namespace GluonGraphics;
+#include <QObject>
 
-Backend::Backend()
+namespace GluonGraphics
 {
+    class OutputSurface : public QObject
+    {
+        Q_OBJECT
+        public:
+            OutputSurface(QWidget* container, QObject* parent = 0);
+            virtual ~OutputSurface();
+
+        public Q_SLOTS:
+            virtual void render() = 0;
+
+        protected:
+            QWidget* widget();
+
+        private:
+            class Private;
+            Private * const d;
+    };
 
 }
 
-Backend::~Backend()
-{
-
-}
-
+#endif // GLUONGRAPHICS_WINDOWSURFACE_H

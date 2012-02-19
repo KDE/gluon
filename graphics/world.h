@@ -1,4 +1,4 @@
-/*****************************************************************************
+/******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
@@ -17,28 +17,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "shader.h"
+#ifndef GLUONGRAPHICS_WORLD_H
+#define GLUONGRAPHICS_WORLD_H
 
-using namespace GluonGraphics;
+#include <QtCore/QObject>
 
-Shader::Shader()
+namespace GluonGraphics
 {
+    class World : public QObject
+    {
+        Q_OBJECT
+        public:
+            explicit World( QObject* parent = 0 );
+            virtual ~World();
+    };
 
 }
 
-Shader::~Shader()
-{
-
-}
-
-QString Shader::source( Shader::SourceType type ) const
-{
-
-}
-
-void Shader::setSource( Shader::SourceType type, const QString& source )
-{
-
-}
-
-
+#endif // GLUONGRAPHICS_WORLD_H

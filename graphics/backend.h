@@ -22,8 +22,10 @@
 
 namespace GluonGraphics
 {
-
     class Shader;
+    class TextureData;
+    class Buffer;
+    class OutputSurface;
 
     /**
      * \brief Abstract class for encapsulating all graphics backend details.
@@ -37,11 +39,11 @@ namespace GluonGraphics
             /**
              * Constructor.
              */
-            Backend();
+            Backend() { }
             /**
              * Destructor.
              */
-            virtual ~Backend();
+            virtual ~Backend() { }
 
             /**
              * Create a Shader object.
@@ -62,17 +64,11 @@ namespace GluonGraphics
              */
             virtual Buffer* createBuffer() = 0;
             /**
-             * Create a WindowSurface object.
+             * Create an OutputSurface object.
              *
-             * \return A platform-specific implementation of a WindowSurface object.
+             * \return A platform-specific implementation of an OutputSurface object.
              */
-            virtual WindowSurface* createWindowSurface() = 0;
-            /**
-             * Create a Context object.
-             *
-             * \return A platform-specific implementation of a Context object.
-             */
-            virtual Context* createContext() = 0;
+            virtual OutputSurface* createOutputSurface() = 0;
     };
 
 }

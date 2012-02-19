@@ -1,4 +1,4 @@
-/*****************************************************************************
+/******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
@@ -17,19 +17,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONGRAPHICS_WINDOWSURFACE_H
-#define GLUONGRAPHICS_WINDOWSURFACE_H
+#include "world.h"
 
-namespace GluonGraphics
+using namespace GluonGraphics;
+
+World::World( QObject* parent )
 {
-
-    class WindowSurface
-    {
-
-        public:
-            virtual ~WindowSurface();
-    };
 
 }
 
-#endif // GLUONGRAPHICS_WINDOWSURFACE_H
+World::~World()
+{
+
+}
+

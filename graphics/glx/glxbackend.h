@@ -20,11 +20,12 @@
 #ifndef GLUONGRAPHICS_GLXBACKEND_H
 #define GLUONGRAPHICS_GLXBACKEND_H
 
+#include <QtCore/QScopedPointer>
 #include <graphics/backend.h>
-
 
 namespace GluonGraphics
 {
+    class GLXContext;
 
     class GLXBackend : public GluonGraphics::Backend
     {
@@ -32,12 +33,15 @@ namespace GluonGraphics
             GLXBackend();
             virtual ~GLXBackend();
 
-            virtual Context* createContext();
-            virtual WindowSurface* createWindowSurface();
+            GLXContext* context();
             virtual Buffer* createBuffer();
             virtual TextureData* createTextureData();
             virtual Shader* createShader();
+            virtual OutputSurface* createOutputSurface();
 
+        private:
+            class Private;
+            const QScopedPointer< Private > d;
     };
 
 }

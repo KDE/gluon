@@ -44,10 +44,9 @@ namespace GluonGraphics
             QString source( SourceType type ) const;
             void setSource( SourceType type, const QString& source );
 
-            bool build();
+            bool build() = 0;
 
-
-            bool bind();
+            bool bind() = 0;
     };
 
 }

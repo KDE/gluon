@@ -1,4 +1,4 @@
-/*****************************************************************************
+/******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
@@ -17,28 +17,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "shader.h"
+#ifndef GLUONGRAPHICS_GLXWINDOWSURFACE_H
+#define GLUONGRAPHICS_GLXWINDOWSURFACE_H
 
-using namespace GluonGraphics;
+#include <graphics/outputsurface.h>
 
-Shader::Shader()
+namespace GluonGraphics
 {
+    class GLXContext;
+    class GLXOutputSurface : public OutputSurface
+    {
+        Q_OBJECT
+        public:
+            GLXOutputSurface( GLXContext* context, QWidget* container, QObject* parent = 0 );
+            virtual ~GLXOutputSurface();
+
+        public Q_SLOTS:
+            virtual void render();
+
+        private:
+            class Private;
+            const QScopedPointer< Private > d;
+    };
 
 }
 
-Shader::~Shader()
-{
-
-}
-
-QString Shader::source( Shader::SourceType type ) const
-{
-
-}
-
-void Shader::setSource( Shader::SourceType type, const QString& source )
-{
-
-}
-
-
+#endif // GLUONGRAPHICS_GLXWINDOWSURFACE_H
