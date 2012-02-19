@@ -1,4 +1,4 @@
-/*****************************************************************************
+/******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
@@ -17,28 +17,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "shader.h"
+#include "glxcontext.h"
 
 using namespace GluonGraphics;
 
-Shader::Shader()
+GLXContext::GLXContext()
 {
 
 }
 
-Shader::~Shader()
+GLXContext::~GLXContext()
 {
 
 }
-
-QString Shader::source( Shader::SourceType type ) const
-{
-
-}
-
-void Shader::setSource( Shader::SourceType type, const QString& source )
-{
-
-}
-
 

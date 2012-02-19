@@ -19,14 +19,28 @@
 
 #include "glxbackend.h"
 
+#include "glxcontext.h"
+#include "glxshader.h"
+
 using namespace GluonGraphics;
 
-Context* GLXBackend::createContext()
+class GLXBackend::Private
+{
+    public:
+        GLXContext* context;
+};
+
+GLXBackend::GLXBackend() : d( new Private )
 {
 
 }
 
-WindowSurface* GLXBackend::createWindowSurface()
+GLXBackend::~GLXBackend()
+{
+
+}
+
+GLXContext* GLXBackend::context()
 {
 
 }
@@ -43,16 +57,10 @@ TextureData* GLXBackend::createTextureData()
 
 GluonGraphics::Shader* GLXBackend::createShader()
 {
-
+    return new GLXShader( context, this );
 }
 
-GLXBackend::~Backend()
+OutputSurface* GLXBackend::createOutputSurface()
 {
 
 }
-
-GLXBackend::GLXBackend()
-{
-
-}
-

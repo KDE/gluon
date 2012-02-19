@@ -69,9 +69,13 @@ set(GluonGraphics_SRCS
     vertexbuffer.cpp
     viewport.cpp
     spritemesh.cpp
-    backend.cpp
-    windowsurface.cpp
+
     texturedata.cpp
+
+    manager.cpp
+    world.cpp
+    outputsurface.cpp
+    shader.cpp
 )
 
 set(GluonGraphics_HEADERS
@@ -95,7 +99,6 @@ set(GluonGraphics_HEADERS
     vertexbuffer.h
     vertexattribute.h
     viewport.h
-    shader.cpp
 )
 
 if(ASSIMP_FOUND)

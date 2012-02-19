@@ -22,16 +22,17 @@
 
 #include <shader.h>
 
-
 namespace GluonGraphics
 {
-
     class GLXShader : public GluonGraphics::Shader
     {
-
         public:
             GLXShader();
             virtual ~GLXShader();
+
+            bool build();
+
+            bool bind();
     };
 
 }
