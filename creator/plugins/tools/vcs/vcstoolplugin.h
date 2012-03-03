@@ -32,6 +32,8 @@ namespace GluonCreator
             VcsToolPlugin( QObject* parent, const QList<QVariant>& params );
             ~VcsToolPlugin();
 
+            void initialize() {}
+
         protected:
             QWidget* createTool( KXmlGuiWindow* parent );
     };
