@@ -18,7 +18,7 @@
  */
 
 import QtQuick 1.0
-import org.kde.gluon 1.0 as Gluon
+import org.kde.gluon.player 1.0 as Gluon
 
 Rectangle {
     id: gameDetailsRect

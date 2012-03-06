@@ -1,5 +1,11 @@
 
-include_directories( ${KDE4_INCLUDES} ${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} )
+include_directories(
+    ${KDE4_INCLUDES}
+    ${QT_INCLUDES}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${GLUON_INPUT_INCLUDE_DIRS}
+)
 
 set(gluonplayer-active_SRCS
     kdeclarativemainwindow.cpp

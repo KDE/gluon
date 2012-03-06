@@ -29,9 +29,9 @@
 #include <lib/models/allgameitemsmodel.h>
 #include <lib/models/gameitem.h>
 
-#include <gluon/engine/game.h>
-#include <gluon/input/inputmanager.h>
-#include <gluon/graphics/renderwidget.h>
+#include <engine/game.h>
+#include <input/inputmanager.h>
+#include <graphics/renderwidget.h>
 
 #include "kdeclarativeview.h"
 
@@ -47,9 +47,9 @@ MainWindow::MainWindow()
                                                           GluonPlayer::ServiceProvider::instance() );
     declarativeView()->rootContext()->setContextProperty( "mainWindow",
                                                           this );
-    qmlRegisterType<GluonPlayer::GameMetadata>( "org.kde.gluon", 1, 0, "GameMetadata" );
-    qmlRegisterType<GluonPlayer::CommentsModel>( "org.kde.gluon", 1, 0, "CommentsModel" );
-    qmlRegisterUncreatableType<GluonPlayer::GameItem>( "org.kde.gluon", 1, 0, "GameItem", "To be used only for enums" );
+    qmlRegisterType<GluonPlayer::GameMetadata>( "org.kde.gluon.player", 1, 0, "GameMetadata" );
+    qmlRegisterType<GluonPlayer::CommentsModel>( "org.kde.gluon.player", 1, 0, "CommentsModel" );
+    qmlRegisterUncreatableType<GluonPlayer::GameItem>( "org.kde.gluon.player", 1, 0, "GameItem", "To be used only for enums" );
 
     declarativeView()->setPackageName("org.kde.gluon.player");
 }
