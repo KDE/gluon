@@ -92,9 +92,4 @@ void MainWindow::startGame()
     QApplication::instance()->exit();
 }
 
-void MainWindow::resizeEvent( QResizeEvent* event )
-{
-    glViewport( 0, 0, event->size().width(), event->size().height() );
-}
-
 #include "mainwindow.moc"

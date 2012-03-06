@@ -34,8 +34,6 @@ public:
     MainWindow();
     Q_INVOKABLE void playGame(const QString &gameId);
 
-    virtual void resizeEvent( QResizeEvent* );
-
 private Q_SLOTS:
     void startGame();
 

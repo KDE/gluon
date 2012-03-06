@@ -262,13 +262,6 @@ void MainWindow::closeEvent( QCloseEvent* event )
     QWidget::closeEvent( event );
 }
 
-void MainWindow::resizeEvent( QResizeEvent* event )
-{
-    m_viewportWidth = event->size().width();
-    m_viewportHeight = event->size().height();
-    glViewport( 0, 0, m_viewportWidth, m_viewportHeight );
-}
-
 void MainWindow::showGames()
 {
     m_gamesOverlay->setGeometry( geometry() );

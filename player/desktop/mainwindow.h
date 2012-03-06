@@ -56,7 +56,6 @@ namespace GluonKDEPlayer
 
         protected:
             virtual void closeEvent( QCloseEvent* event );
-            virtual void resizeEvent( QResizeEvent* event );
 
         public Q_SLOTS:
             void startGame();
@@ -91,9 +90,6 @@ namespace GluonKDEPlayer
             QString m_projectFilePath;
             GluonEngine::GameProject* m_project;
             KRecentFilesAction* m_recentFiles;
-
-            int m_viewportWidth;
-            int m_viewportHeight;
     };
 }
 
