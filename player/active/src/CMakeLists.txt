@@ -19,6 +19,9 @@ target_link_libraries(gluonplayer-active
     ${KDE4_PLASMA_LIBS}
     kdeclarative
     ${GLUON_PLAYER_LIBS}
+    ${GLUON_ENGINE_LIBS}
+    ${GLUON_GRAPHICS_LIBS}
+    ${GLUON_INPUT_LIBS}
 )
 
 install(TARGETS gluonplayer-active ${INSTALL_TARGETS_DEFAULT_ARGS} )

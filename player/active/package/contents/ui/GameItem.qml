@@ -19,6 +19,7 @@
 
 import QtQuick 1.1
 import org.kde.plasma.components 0.1 as PlasmaComponents
+import org.kde.gluon 1.0 as Gluon
 
 Item {
     id: gameItemRootItem
@@ -32,13 +33,27 @@ Item {
 //                 easing.type: Easing.InOutQuad }
 //         }
 
-    PlasmaComponents.Button {
-        id: iconButton
+    Row {
         anchors.fill: parent
+        PlasmaComponents.Button {
+            id: iconButton
+            height: parent.height
+            width: parent.width - (playButton.visible ? playButton.width : 0)
 
-        iconSource: "gluon-player"
-        text: GameName
+            iconSource: "gluon-player"
+            text: GameName
 
-        onClicked: rootItem.currentGameId = Id
+            onClicked: rootItem.currentGameId = Id
+        }
+
+        PlasmaComponents.ToolButton {
+            id: playButton
+            height: parent.height
+            width: width
+            visible: Status == Gluon.GameItem.Installed || Status == Gluon.GameItem.Local
+
+            iconSource: "media-playback-start"
+            onClicked: mainWindow.playGame(Id)
+        }
     }
 }

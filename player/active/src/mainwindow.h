@@ -25,11 +25,23 @@
 
 #include "kdeclarativemainwindow.h"
 
+class QResizeEvent;
+
 class MainWindow : public KDeclarativeMainWindow
 {
     Q_OBJECT
 public:
     MainWindow();
+    Q_INVOKABLE void playGame(const QString &gameId);
+
+    virtual void resizeEvent( QResizeEvent* );
+
+private Q_SLOTS:
+    void startGame();
+
+private:
+    void openProject(const QString &projectPath);
+    QString m_projectPath;
 };
 
 #endif // MAINWINDOW_H
