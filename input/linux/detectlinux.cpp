@@ -26,6 +26,7 @@
 
 #include <QtCore/QDir>
 
+#include <unistd.h>
 // #include <libudev.h>
 
 using namespace GluonInput;
