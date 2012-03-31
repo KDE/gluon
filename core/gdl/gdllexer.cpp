@@ -3588,13 +3588,13 @@ _end:
         goto _fail; // no warning about unused label
 _fail:
         {
-# 3593 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp"
-# 64 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdl.g" 1
+
+#line 64 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdl.g"
                                           
     qint64 line = 0, col = 0;
     locationTable()->positionAt( lxCURR_IDX, &line, &col );
     qDebug() << "Tokenizer error on line" << line + 1; 
-# 3597 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp" 2
+#line 3597 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp"
 
             lxFINISH
         }
@@ -3756,10 +3756,10 @@ _fail:
     }
     case 27:
     {
-# 3761 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp"
-# 60 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdl.g" 1
+
+#line 60 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdl.g"
                                            /* Comment, ignore */ 
-# 3762 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp" 2
+#line 3762 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp"
 
         lxSKIP
 
@@ -3767,10 +3767,10 @@ _fail:
     }
     case 28:
     {
-# 3772 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp"
-# 62 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdl.g" 1
+
+#line 62 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdl.g"
                                            /* Whitespace, ignore */ 
-# 3773 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp" 2
+#line 3773 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp"
 
         lxSKIP
 
@@ -3778,10 +3778,10 @@ _fail:
     }
     case 29:
     {
-# 3783 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp"
-# 69 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdl.g" 1
+
+#line 69 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdl.g"
                                            locationTable()->newline(lxCURR_IDX); 
-# 3784 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp" 2
+#line 3784 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdllexer.cpp"
 
         lxSKIP
 
@@ -3791,6 +3791,7 @@ _fail:
     /* assert(false);*/
     return Base::read();
 }
+
 
 #undef lxNEXT_CHR
 #undef lxFAIl
@@ -3805,7 +3806,6 @@ _fail:
 
 #undef PP_CONCAT
 #undef PP_CONCAT_IMPL
-
 
 } // end of namespace GDL
 

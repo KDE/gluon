@@ -7,8 +7,8 @@
 #include "gdltokentext.h"
 
 
-# 12 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdlparser.cpp"
-# 145 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdl.g" 1
+
+#line 145 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdl.g"
   
 void GDL::Parser::expectedSymbol(int /*expectedSymbol*/, const QString& name)
 {
@@ -22,7 +22,7 @@ void GDL::Parser::expectedToken(int actual, qint64 /*expected*/, const QString& 
     qDebug() << "Expected token" << name << "but got token" << GDL::tokenText( actual );
 }
  
-# 25 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdlparser.cpp" 2
+#line 25 "/home/ahiemstra/Projects/KDE/Gluon/master/core/gdl/gdlparser.cpp"
 
 namespace GDL
 {
