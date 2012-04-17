@@ -23,9 +23,6 @@
 #include <attica/postjob.h>
 #include <attica/provider.h>
 
-#include <QtCore/QDebug>
-#include <QtCore/QFileInfo>
-
 using namespace GluonPlayer;
 
 class RatingJob::Private
