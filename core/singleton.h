@@ -129,21 +129,34 @@ namespace GluonCore
              */
             virtual ~Singleton()
             {
+#if QT_VERSION >= 0x050000
+                delete sm_mutex.load();
+                sm_mutex.store(0);
+#else
                 delete sm_mutex;
                 sm_mutex = 0;
+#endif
             }
 
         private:
 
             static QMutex* mutexInstance()
             {
-                if( !sm_mutex )
+#if QT_VERSION >= 0x050000
+                if (sm_mutex.load())
+#else
+                if (!sm_mutex)
+#endif
                 {
                     QMutex* mutex = new QMutex();
                     if( !sm_mutex.testAndSetOrdered( 0, mutex ) ) /* some other thread beat us to it */
                         delete mutex;
                 }
+#if QT_VERSION >= 0x050000
+                return sm_mutex.load();
+#else
                 return sm_mutex;
+#endif
             }
 
             static T* sm_instance;
