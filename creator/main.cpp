@@ -30,11 +30,8 @@
 #include <QtDeclarative/QDeclarativeContext>
 #include <QtDeclarative/QDeclarativeView>
 #include <core/gluon_global.h>
-
 #include "aboutdata.h"
-class QDeclarativeContext;
-class QDeclarativeView;
-class QString;
+#include "introduction.h"
 
 int main( int argc, char** argv )
 {
@@ -57,16 +54,9 @@ int main( int argc, char** argv )
     GluonCreator::MainWindow* window = new GluonCreator::MainWindow( args->count() > 0 ? args->arg( 0 ) : QString() );
     window->show();
     splash.finish( window );
-    QDeclarativeView* view = new QDeclarativeView( window );
-    QDeclarativeContext *context = view->rootContext();
-    context->setContextProperty( "targetRect", window->findChild<QWidget*>( "ComponentsDock" )->frameGeometry() );
-    context->setContextProperty( "targetRect2", window->findChild<QWidget*>( "ProjectDock" )->frameGeometry() );
-    view->setSource( QUrl::fromLocalFile( KGlobal::dirs()->locate( "appdata", "introduction.qml" ) ));
-    QObject *object = view->rootObject();
-    QObject *geometry = object->findChild<QObject*>("geometry");
-    view->setStyleSheet("background: transparent");
-    view->setResizeMode( QDeclarativeView::SizeRootObjectToView );
-    view->setGeometry( window->rect());
-    view->show();
+
+    //Instantiate QML Bindings for SlideShow
+    IntroSlideShow intro;
+
     app.exec();
 }

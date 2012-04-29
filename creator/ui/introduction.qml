@@ -14,16 +14,16 @@ Item {
         color: "blue";
     }
     Rectangle {
-        id: leftOverlay;
 
+        id: leftOverlay;
         anchors.top: topOverlay.bottom;
         anchors.left: parent.left;
         anchors.right: viewport.left;
         anchors.bottom: bottomOverlay.top;
-
         opacity: 0.1;
         color: "blue";
-    }
+     }
+
     Rectangle {
         id: rightOverlay;
 
@@ -48,12 +48,14 @@ Item {
     }
 
     Item {
-        id: geomtery
-        width: 0;
-        height: 0;
-        x: 0;
-        y: 0;
-        }
+
+        property string dockername;
+        property int x;
+        property int y;
+        property int width;
+        property int height ;
+        onDockernameChanged : intro.updateDocker(dockername);
+    }
 
     Item {
         id: viewport;
