@@ -48,18 +48,19 @@ Item {
     }
 
     Item {
-
-        property string dockername;
-        property int x;
-        property int y;
-        property int width;
-        property int height ;
+        id :dummy;
+        property string dockername:"";
+        x:0;
+        y :0;
+        width :0;
+        height :0;
         onDockernameChanged : intro.updateDocker(dockername);
+        objectName: "geometry";
     }
 
     Item {
         id: viewport;
-
+        property int flag: 0
         width: parent.width / 2;
         height: parent.height / 2;
         x: parent.width / 4;
@@ -70,46 +71,53 @@ Item {
         Behavior on x { NumberAnimation { duration: 500; } }
         Behavior on y { NumberAnimation { duration: 500; } }
 
+    MouseArea {
+        anchors.fill: parent;
+
+        onClicked: {
+            switch(flag){
+            case(0):
+                viewport.state = 'component';
+                break;
+            case(1):
+                viewport.state = 'project';
+                break;
+            default:
+                break;
+
+            }
+        }
+
+    }
     states: [
 
         State {
-                name: "next"
-                PropertyChanges { target: viewport; x: componentsDockRect.x; y: componentsDockRect.y; width:componentsDockRect.width; height:componentsDockRect.height }
+                name: "component"
+                PropertyChanges { target:dummy; dockername : "ComponentsDock"}
+                PropertyChanges { target: viewport; flag:1; x: dummy.x; y: dummy.y; width:dummy.width; height:dummy.height }
             },
 
         State {
-                name: "next2"
-                PropertyChanges { target: viewport; x: projectDockRect.x; y: projectDockRect.y; width: projectDockRect.width; height: projectDockRect.height }
+                name: "project"
+                PropertyChanges { target:dummy; dockername : "ProjectsDock"}
+                PropertyChanges { target: viewport;flag:2 ; x: dummy.x; y: dummy.y; width:dummy.width; height:dummy.height }
             }
     ]
 
-        // Transitions define how the properties change when the item moves between each state
     transitions: [
 
             Transition {
-                from: "*"; to: "next"
+                from: "*"; to: "component"
                 NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
             },
 
             Transition {
-                from: "*"; to: "next2"
+                from: "*"; to: "project"
                 NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
             }
         ]
 
     }
 
-    MouseArea {anchors.fill: parent; onClicked: viewport.state = 'next' }
-    Rectangle {
-            id: componentsDockRect
-            opacity: 0.1;
-            color: "blue";
-            x : targetRect.x;
-            y : targetRect.y;
-            width : targetRect.width;
-            height : targetRect.height;
-            MouseArea { anchors.fill: parent; onEntered: viewport.state = 'next2' }
-
-        }
 
 }

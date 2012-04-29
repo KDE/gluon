@@ -56,7 +56,8 @@ int main( int argc, char** argv )
     splash.finish( window );
 
     //Instantiate QML Bindings for SlideShow
-    IntroSlideShow intro;
+    IntroSlideShow *intro = new IntroSlideShow();
+    intro->context->setContextProperty("intro", intro);
 
     app.exec();
 }

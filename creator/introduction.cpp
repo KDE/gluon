@@ -2,10 +2,10 @@
 #include <QRect>
 class QRect;
 
-IntroSlideShow::IntroSlideShow(QObject *parent) :
-    QObject(parent){
+IntroSlideShow::IntroSlideShow(QObject *parent):
+  QObject(parent){
 
-  startIntro();
+    startIntro();
 }
 
 
@@ -13,7 +13,7 @@ void IntroSlideShow::startIntro(){
 
     view = new QDeclarativeView( window );
     context = view->rootContext();
-    context->setContextProperty("intro", this);
+
     view->setSource( QUrl::fromLocalFile( KGlobal::dirs()->locate( "appdata", "introduction.qml" ) ));
     view->setStyleSheet("background: transparent");
     view->setResizeMode( QDeclarativeView::SizeRootObjectToView );
@@ -25,15 +25,15 @@ void IntroSlideShow::startIntro(){
 void IntroSlideShow::updateDocker(QString dockername){
 
     docker =dockername;
-    QObject *object = view->rootObject();
+    QGraphicsObject *object = view->rootObject();
     QObject *geometry = object->findChild<QObject*>("geometry");
     if(geometry){
-        QRect rectangle= new QRect();
+        QRect rectangle;
         rectangle= window->findChild<QWidget*>( docker )->frameGeometry();
         geometry->setProperty("width",rectangle.width());
         geometry->setProperty("x",rectangle.x());
         geometry->setProperty("y",rectangle.y());
-        geometry->setProperty("height",rectangle.height());
+        geometry->setProperty("height",rectangle.height());*/
     }
 
 }
