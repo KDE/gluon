@@ -16,6 +16,7 @@ Name[x-test]=xxbteditorxx
 Comment=Provides a Behavior Tree Editor for Gluon Creator
 Comment[es]=Proporciona un editor del árbol de comportamiento para Gluon Creator
 Comment[et]=Gluoni mängulooja Behavior Tree redaktor
+Comment[fr]=Fournit un éditeur de graphe d'états pour Gluon Creator
 Comment[pl]=Dostarcza Behavior Tree Editor (edytor drzewa zachowania) dla kreatora Gluon
 Comment[pt]=Oferece um editor da árvore de comportamento do Criador do Gluon
 Comment[pt_BR]=Fornece um editor de árvore do comportamento para o criador do Gluon
