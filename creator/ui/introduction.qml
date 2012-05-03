@@ -1,8 +1,27 @@
+/******************************************************************************
+ * This file is part of the Gluon Development Platform
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 import QtQuick 1.0
 
 Item {
 
-    Rectangle {
+   Rectangle {
         id: topOverlay;
 
         anchors.top: parent.top;
@@ -10,9 +29,10 @@ Item {
         anchors.right: parent.right;
         anchors.bottom: viewport.top;
 
-        opacity: 0.1;
-        color: "blue";
+        opacity: 0.7;
+        color: "black";
     }
+
     Rectangle {
 
         id: leftOverlay;
@@ -20,8 +40,8 @@ Item {
         anchors.left: parent.left;
         anchors.right: viewport.left;
         anchors.bottom: bottomOverlay.top;
-        opacity: 0.1;
-        color: "blue";
+        opacity: 0.7;
+        color: "black";
      }
 
     Rectangle {
@@ -32,9 +52,10 @@ Item {
         anchors.right: parent.right;
         anchors.bottom: bottomOverlay.top;
 
-        opacity: 0.1;
-        color: "blue";
+        opacity: 0.7;
+        color: "black";
     }
+
     Rectangle {
         id: bottomOverlay;
 
@@ -43,24 +64,23 @@ Item {
         anchors.right: parent.right;
         anchors.bottom: parent.bottom;
 
-        opacity: 0.1;
-        color: "blue";
+        opacity: 0.7;
+        color: "black";
     }
 
     Item {
-        id :dummy;
+        id :animator;
         property string dockername:"";
         x:0;
         y :0;
         width :0;
         height :0;
-        onDockernameChanged : intro.updateDocker(dockername);
+        onDockernameChanged :intro.updateDocker(dockername);
         objectName: "geometry";
     }
 
     Item {
         id: viewport;
-        property int flag: 0
         width: parent.width / 2;
         height: parent.height / 2;
         x: parent.width / 4;
@@ -71,36 +91,75 @@ Item {
         Behavior on x { NumberAnimation { duration: 500; } }
         Behavior on y { NumberAnimation { duration: 500; } }
 
-    MouseArea {
-        anchors.fill: parent;
+        MouseArea {
+            anchors.fill: parent;
 
-        onClicked: {
-            switch(flag){
-            case(0):
-                viewport.state = 'component';
-                break;
-            case(1):
-                viewport.state = 'project';
-                break;
-            default:
-                break;
+            onClicked: {
+                switch(animator.dockername){
+
+                case(""):
+                    viewport.state = 'component';
+                    break;
+
+                case("ComponentsDock"):
+                    viewport.state = 'project';
+                    break;
+
+                case("ProjectDock"):
+                    viewport.state = 'message';
+                    break;
+
+                case("MessageDock"):
+                    viewport.state = 'scene';
+                    break;
+
+                case("SceneDock"):
+                    viewport.state = 'property';
+                    break;
+
+                case("PropertiesDock"):
+                    viewport.state = 'component';
+                    break;
+
+                default:
+                    break;
+
+                }
 
             }
-        }
 
     }
-    states: [
+
+        states: [
 
         State {
                 name: "component"
-                PropertyChanges { target:dummy; dockername : "ComponentsDock"}
-                PropertyChanges { target: viewport; flag:1; x: dummy.x; y: dummy.y; width:dummy.width; height:dummy.height }
+                PropertyChanges { target:animator; dockername : "ComponentsDock"}
+                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.width; height:animator.height }
             },
 
         State {
                 name: "project"
-                PropertyChanges { target:dummy; dockername : "ProjectsDock"}
-                PropertyChanges { target: viewport;flag:2 ; x: dummy.x; y: dummy.y; width:dummy.width; height:dummy.height }
+                PropertyChanges { target:animator; dockername : "ProjectDock"}
+                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.width; height:animator.height }
+            },
+
+        State {
+                name: "message"
+                PropertyChanges { target:animator; dockername : "MessageDock"}
+                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.width; height:animator.height }
+            },
+
+        State {
+                name: "scene"
+                PropertyChanges { target:animator; dockername : "SceneDock"}
+                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.width; height:animator.height }
+            },
+
+        State {
+                name: "property"
+                PropertyChanges { target:animator; dockername : "PropertiesDock"}
+                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.width; height:animator.height }
             }
     ]
 
@@ -114,7 +173,23 @@ Item {
             Transition {
                 from: "*"; to: "project"
                 NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
+            },
+
+            Transition {
+                from: "*"; to: "message"
+                NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
+            },
+
+            Transition {
+                from: "*"; to: "scene"
+                NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
+            },
+
+            Transition {
+                from: "*"; to: "property"
+                NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
             }
+
         ]
 
     }
