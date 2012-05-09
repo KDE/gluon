@@ -1,9 +1,16 @@
-#include "iostream"
+#include "gamesave.h"
+#include "scene.h"
+#include "game.h"
+#include <core/gluonobject.h>
 
-using namespace std;
+using namespace GluonEngine;
 
-int main(int argc, char *argv[])
+GameSave::GameSave( QObject* parent )
+: GluonObject( parent )
+, d( new Game )
 {
-  cout<<"Commit trial";
-  return 0;
+}
+
+GameSave::~GameSave()
+{
 }
