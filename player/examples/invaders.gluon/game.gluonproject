@@ -9,8 +9,9 @@
         { GluonEngine::Scene("Game")
             file string("scenes/game.gluonscene")
             paused bool(false)
-            enemies float(28)
-            lives float(5)
+            enemies int(28)
+            lives int(5)
+            sceneScore int(0)
         }
     }
     { GluonCore::GluonObject("Assets")
@@ -104,7 +105,7 @@
             file string("assets/render_target_material.gml")
             { GluonGraphics::MaterialInstance("Main")
                 materialColor rgba(255;255;255;255)
-                texture0 uint(2)
+                texture0 uint(17)
             }
         }
     }
