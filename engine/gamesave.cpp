@@ -14,3 +14,11 @@ GameSave::GameSave( QObject* parent )
 GameSave::~GameSave()
 {
 }
+
+GameSave::save()
+{
+}
+
+GameSave::load()
+{
+}
