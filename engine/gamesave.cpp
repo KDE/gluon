@@ -22,3 +22,7 @@ GameSave::save()
 GameSave::load()
 {
 }
+
+GameSave::load( QString fileName )
+{
+}
