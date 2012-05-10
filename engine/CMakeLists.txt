@@ -77,6 +77,7 @@ set(GluonEngine_SRCS
 
     game.cpp
     gameprivate.cpp
+    gamesave.cpp
 )
 
 set(GluonEngine_HEADERS
@@ -102,6 +103,7 @@ set(GluonEngine_HEADERS
     tasksstatistic.h
 
     game.h
+    gamesave.h
     gluon_engine_export.h
     gluon_engine_metatypes.h
 )

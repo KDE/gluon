@@ -1,13 +1,19 @@
-#include "gamesave.h"
 #include "scene.h"
+#include "gameprivate.h"
 #include "game.h"
 #include <core/gluonobject.h>
+#include "gamesave.h"
 
 using namespace GluonEngine;
 
+REGISTER_OBJECTTYPE( GluonEngine, GameSave )
+
 GameSave::GameSave( QObject* parent )
 : GluonObject( parent )
-, d( new Game )
+{
+}
+
+GameSave::GameSave()
 {
 }
 
@@ -15,14 +21,20 @@ GameSave::~GameSave()
 {
 }
 
-GameSave::save()
+bool GameSave::save()
+{
+  Game *d = new Game();
+  GamePrivate *d = new GamePrivate(q);
+  QList<const GluonCore::GluonObject*> objectlist = d->listAllChildren();
+  
+}
+
+bool GameSave::load()
 {
 }
 
-GameSave::load()
+bool GameSave::load( QString fileName )
 {
 }
 
-GameSave::load( QString fileName )
-{
-}
+#include "gamesave.moc"
