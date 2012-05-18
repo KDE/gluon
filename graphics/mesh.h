@@ -1,9 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -51,12 +48,12 @@ namespace GluonGraphics
      * want to use dynamic meshes, you also need to reimplement
      * update(), which needs to adjust the data.
      */
-    class GLUON_GRAPHICS_EXPORT AbstractMesh : public QObject
+    class GLUON_GRAPHICS_EXPORT Mesh : public QObject
     {
             Q_OBJECT
         public:
-            AbstractMesh( QObject* parent = 0 );
-            virtual ~AbstractMesh();
+            Mesh( QObject* parent = 0 );
+            virtual ~Mesh();
 
             /**
              * Initialize the data of this mesh.

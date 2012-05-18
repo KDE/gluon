@@ -22,46 +22,65 @@
  */
 
 #include "graphics/renderwidget.h"
-#include "graphics/engine.h"
 #include "graphics/camera.h"
 #include "graphics/item.h"
 #include "graphics/frustrum.h"
 #include "graphics/material.h"
 #include "graphics/materialinstance.h"
 #include "graphics/spritemesh.h"
+#include "graphics/manager.h"
 
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QApplication>
+#include <QtCore/QDebug>
 #include <QtCore/QTimer>
+#include <world.h>
+#include <backend.h>
+#include <QMainWindow>
 
 int main( int argc, char* argv[] )
 {
     QApplication app( argc, argv );
 
+    //GluonGraphics::RenderWidget widget;
+    //widget.show();
+
+    GluonGraphics::Material* mat = new GluonGraphics::Material();
+    GluonGraphics::Manager::instance()->addResource( "Main", mat );
+    //createResource< GluonGraphics::Material >( "Main" );
+
+    //qDebug() << GluonGraphics::Manager::instance()->backend( widget )->information( GluonGraphics::Backend::VerboseInformation );
+
+    //app.exec();
+
+    //delete widget;
+
     //Create a widget to render the graphics on.
-    GluonGraphics::RenderWidget* widget = new GluonGraphics::RenderWidget();
-    widget->show();
+//     GluonGraphics::RenderWidget* widget = new GluonGraphics::RenderWidget();
+//     widget->show();
+
+//     GluonGraphics::World* world = GluonGraphics::Manager::instance()->createWorld();
 
     //Create a camera to view the scene from.
-    GluonGraphics::Camera* cam = new GluonGraphics::Camera();
+//     GluonGraphics::Camera* cam = world->createEntity< GluonGraphics::Camera* >();
 
     //Set the viewport
-    cam->frustrum()->setOrthographic( -5.f, 5.f, -5.f, 5.f, -5.f, 5.f );
+//     cam->frustrum()->setOrthographic( -5.f, 5.f, -5.f, 5.f, -5.f, 5.f );
 
     //Activate the new camera
-    GluonGraphics::Engine::instance()->setActiveCamera( cam );
+    //GluonGraphics::Manager::instance()->setActiveCamera( cam );
 
     //Create an item to display
-    GluonGraphics::Item* item = GluonGraphics::Engine::instance()->createItem( "default" );
-
-    QMatrix4x4 mat;
-    mat.translate( -1.5f, -1.5f );
-    item->setTransform( mat );
-
-    item = GluonGraphics::Engine::instance()->createItem( "default" );
-    mat.translate( 3.f, 3.f );
-    item->setTransform( mat );
-
-    QTimer::singleShot( 0, widget, SLOT(updateGL()) );
-    return app.exec();
+//     GluonGraphics::Item* item = GluonGraphics::Engine::instance()->createItem( "default" );
+//
+//     QMatrix4x4 mat;
+//     mat.translate( -1.5f, -1.5f );
+//     item->setTransform( mat );
+//
+//     item = GluonGraphics::Engine::instance()->createItem( "default" );
+//     mat.translate( 3.f, 3.f );
+//     item->setTransform( mat );
+//
+//     QTimer::singleShot( 0, widget, SLOT(updateGL()) );
+// return app.exec();
 }

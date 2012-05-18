@@ -18,6 +18,7 @@
  */
 
 #include "outputsurface.h"
+#include "manager.h"
 
 using namespace GluonGraphics;
 
@@ -25,17 +26,37 @@ class OutputSurface::Private
 {
     public:
         QWidget* widget;
+        RenderTarget* renderTarget;
 };
 
 OutputSurface::OutputSurface(QWidget* container, QObject* parent)
     : QObject( parent ), d( new Private )
 {
     d->widget = container;
+    //d->renderTarget = Manager::instance()->resource< RenderTarget >( Manager::defaultRenderTarget );
 }
 
 OutputSurface::~OutputSurface()
 {
     delete d;
+}
+
+RenderTarget* OutputSurface::renderTarget() const
+{
+    return d->renderTarget;
+}
+
+void OutputSurface::setRenderTarget( RenderTarget* newTarget )
+{
+    if( !newTarget )
+        return;
+
+    d->renderTarget = newTarget;
+}
+
+void OutputSurface::setRenderTarget( const QString& targetIdentifier )
+{
+    //setRenderTarget( Manager::instance()->resource< RenderTarget >( targetIdentifier ) );
 }
 
 QWidget* OutputSurface::widget()

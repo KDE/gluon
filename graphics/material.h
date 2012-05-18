@@ -161,16 +161,6 @@ namespace GluonGraphics
              */
             MaterialInstance* instance( const QString& name );
 
-            /**
-             * Retrieve the internal OpenGL Program identifier.
-             *
-             * \return The OpenGL identifier for the program or
-             * 0 if build was not yet called.
-             */
-            uint glProgram();
-
-            QHash<QString, QVariant> uniformList();
-
         private:
             class MaterialPrivate;
             MaterialPrivate* const d;

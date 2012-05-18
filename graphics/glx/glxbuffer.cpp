@@ -17,29 +17,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONGRAPHICS_GLXWINDOWSURFACE_H
-#define GLUONGRAPHICS_GLXWINDOWSURFACE_H
+#include "glxbuffer.h"
 
-#include <graphics/outputsurface.h>
+using namespace GluonGraphics;
 
-namespace GluonGraphics
+GLXBuffer::GLXBuffer()
 {
-    class GLXContext;
-    class GLXOutputSurface : public OutputSurface
-    {
-        Q_OBJECT
-        public:
-            GLXOutputSurface( GLXContext* context, QWidget* container, QObject* parent = 0 );
-            virtual ~GLXOutputSurface();
-
-        public Q_SLOTS:
-            virtual void render();
-
-        private:
-            class Private;
-            const QScopedPointer< Private > d;
-    };
 
 }
 
-#endif // GLUONGRAPHICS_GLXWINDOWSURFACE_H
+GLXBuffer::~GLXBuffer()
+{
+
+}
+

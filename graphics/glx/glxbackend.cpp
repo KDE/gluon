@@ -19,48 +19,114 @@
 
 #include "glxbackend.h"
 
+#include <QtCore/QTextStream>
+#include <QtGui/QX11Info>
+#include <QtGui/QWidget>
+#include <QtGui/QApplication>
+
+#include <GL/gl.h>
+#include <GL/glx.h>
+
 #include "glxcontext.h"
 #include "glxshader.h"
+#include "glxoutputsurface.h"
+#include "glxbuffer.h"
+#include "glxtexture.h"
+#include "glxrendertarget.h"
 
 using namespace GluonGraphics;
 
 class GLXBackend::Private
 {
     public:
-        GLXContext* context;
+        Private() : context( 0 ) { }
+
+        GLX::Context* context;
 };
 
 GLXBackend::GLXBackend() : d( new Private )
 {
-
 }
 
 GLXBackend::~GLXBackend()
 {
-
+    d->context->clearCurrent();
+    delete d->context;
 }
 
-GLXContext* GLXBackend::context()
+void GLXBackend::initialize( QWidget* widget )
 {
+    d->context = new GLX::Context();
+    d->context->makeCurrent( widget );
+}
 
+QString GLXBackend::identifier()
+{
+    return QString("glx");
+}
+
+QString GLXBackend::information( Backend::InformationLevel level )
+{
+    QTextStream info( QByteArray(), QIODevice::ReadWrite );
+    switch( level )
+    {
+        case SummaryInformation:
+            info << "GluonGraphics GLX Backend using OpenGL " << glGetString( GL_VERSION );
+            break;
+        case FullInformation:
+            info << "-------------------------------------------------------------\n"
+                 << "                 GluonGraphics GLX Backend\n"
+                 << " GLX Version:  " << glXGetClientString( QX11Info::display(), GLX_VERSION ) << "\n"
+                 << " GL Version:   " << reinterpret_cast< const char* >( glGetString( GL_VERSION ) ) << "\n"
+                 << " GLSL Version: " << reinterpret_cast< const char* >( glGetString( GL_SHADING_LANGUAGE_VERSION ) ) << "\n"
+                 << " Renderer:     " << reinterpret_cast< const char* >( glGetString( GL_RENDERER ) ) << "\n"
+                 << "\n"
+                 << "-------------------------------------------------------------\n";
+            break;
+        case VerboseInformation:
+            info << information( FullInformation );
+
+            int extensionCount;
+            glGetIntegerv( GL_NUM_EXTENSIONS, &extensionCount );
+            info << "\nNumber of extensions: " << extensionCount << "\n"
+                 << "All extensions:\n"
+                 << reinterpret_cast< const char* >( glGetString( GL_EXTENSIONS ) );
+            break;
+    }
+    info.seek( 0 );
+    return info.readAll();
+}
+
+GLX::Context* GLXBackend::context()
+{
+    return d->context;
 }
 
 Buffer* GLXBackend::createBuffer()
 {
-
+    return new GLXBuffer();
 }
 
-TextureData* GLXBackend::createTextureData()
+Texture* GLXBackend::createTexture()
 {
-
+    return new GLXTexture();
 }
 
-GluonGraphics::Shader* GLXBackend::createShader()
+RenderTarget* GLXBackend::createRenderTarget()
 {
-    return new GLXShader( context, this );
+    return new GLXRenderTarget();
 }
 
-OutputSurface* GLXBackend::createOutputSurface()
+Shader* GLXBackend::createShader()
 {
-
+    return new GLXShader( d->context );
 }
+
+OutputSurface* GLXBackend::createOutputSurface( QWidget* widget )
+{
+    return new GLXOutputSurface( d->context, widget, widget );
+}
+
+Q_EXPORT_PLUGIN2( gluongraphics_glx_backend, GluonGraphics::GLXBackend )
+
+#include "glxbackend.moc"

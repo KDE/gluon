@@ -24,12 +24,29 @@
 
 namespace GluonGraphics
 {
+    class Item;
+    class Sprite;
+
     class World : public QObject
     {
         Q_OBJECT
         public:
             explicit World( QObject* parent = 0 );
             virtual ~World();
+
+            template < typename T >
+            T* createEntity();
+
+            template < typename T >
+            T* entity( int id );
+
+            void destroyEntity( int id );
+
+            void render();
+
+        private:
+            class Private;
+            const QScopedPointer< Private > d;
     };
 
 }

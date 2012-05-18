@@ -1,4 +1,4 @@
-/*****************************************************************************
+/******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
@@ -17,28 +17,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "glxshader.h"
+#ifndef GLUONGRAPHICS_GLX_GLXRENDERTARGET_H
+#define GLUONGRAPHICS_GLX_GLXRENDERTARGET_H
 
-#include "glxcontext.h"
+#include <graphics/rendertarget.h>
 
-using namespace GluonGraphics;
 
-GLXShader::GLXShader( GLX::Context* context )
+namespace GluonGraphics
 {
+    class GLXRenderTarget : public GluonGraphics::RenderTarget
+    {
 
+        public:
+            explicit GLXRenderTarget( QObject* parent = 0 );
+            virtual ~GLXRenderTarget();
+
+            virtual void bind();
+            virtual void release();
+            virtual void resize( int width, int height );
+    };
 }
 
-GLXShader::~GLXShader()
-{
-
-}
-
-bool GLXShader::build()
-{
-
-}
-
-bool GLXShader::bind()
-{
-
-}
+#endif // GLUONGRAPHICS_GLX_GLXRENDERTARGET_H

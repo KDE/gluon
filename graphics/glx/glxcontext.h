@@ -20,15 +20,30 @@
 #ifndef GLUONGRAPHICS_GLXCONTEXT_H
 #define GLUONGRAPHICS_GLXCONTEXT_H
 
+#include <QtCore/QScopedPointer>
+
+class QWidget;
 namespace GluonGraphics
 {
-    class GLXContext
+    namespace GLX
     {
-        public:
-            GLXContext();
-            virtual ~GLXContext();
-    };
+        class Context
+        {
+            public:
+                Context();
+                virtual ~Context();
 
+                void makeCurrent( QWidget* widget );
+
+                void clearCurrent();
+
+                bool isCurrent() const;
+
+            private:
+                class Private;
+                const QScopedPointer< Private > d;
+        };
+    }
 }
 
 #endif // GLUONGRAPHICS_GLXCONTEXT_H

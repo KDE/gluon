@@ -77,11 +77,11 @@ bool Texture::load( const QUrl& url )
 
     d->glTexture = context->bindTexture( d->image );
 
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-#if !defined(GLUON_GRAPHICS_GLES) && !defined(QT_OPENGL_ES)
-    glTexParameterf( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE );
-#endif
+//     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+//     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+// #if !defined(GLUON_GRAPHICS_GLES) && !defined(QT_OPENGL_ES)
+//     glTexParameterf( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE );
+// #endif
 
     if( d->glTexture != 0 )
         return true;

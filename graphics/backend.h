@@ -20,22 +20,33 @@
 #ifndef GLUONGRAPHICS_BACKEND_H
 #define GLUONGRAPHICS_BACKEND_H
 
+#include <QtCore/QObject>
+#include <QtCore/QtPlugin>
+
 namespace GluonGraphics
 {
     class Shader;
-    class TextureData;
+    class Texture;
     class Buffer;
     class OutputSurface;
+    class RenderTarget;
 
     /**
      * \brief Abstract class for encapsulating all graphics backend details.
      *
      * This class primarily acts as a factory for creating platform-specific
-     * instances of basic abstracted objects.
+     * instances of basic graphics objects.
      */
-    class Backend
+    class Backend : public QObject
     {
         public:
+            enum InformationLevel
+            {
+                SummaryInformation,
+                FullInformation,
+                VerboseInformation
+            };
+
             /**
              * Constructor.
              */
@@ -45,6 +56,20 @@ namespace GluonGraphics
              */
             virtual ~Backend() { }
 
+            virtual void initialize( QWidget* widget ) = 0;
+
+            /**
+             * Returns a string to identify the backend with.
+             */
+            virtual QString identifier() = 0;
+
+            /**
+             * Returns a string with information about the backend.
+             *
+             * \param level The amount of information requested.
+             */
+            virtual QString information( InformationLevel level ) = 0;
+
             /**
              * Create a Shader object.
              *
@@ -52,11 +77,11 @@ namespace GluonGraphics
              */
             virtual Shader* createShader() = 0;
             /**
-             * Create a TextureData object.
+             * Create a Texture object.
              *
-             * \return A platform-specific implementation of a TextureData object.
+             * \return A platform-specific implementation of a Texture object.
              */
-            virtual TextureData* createTextureData() = 0;
+            virtual Texture* createTexture() = 0;
             /**
              * Create a Buffer object.
              *
@@ -64,13 +89,21 @@ namespace GluonGraphics
              */
             virtual Buffer* createBuffer() = 0;
             /**
+             * Create a RenderTarget object.
+             *
+             * \return A platform-specific implementation of a RenderTarget object.
+             */
+            virtual RenderTarget* createRenderTarget() = 0;
+            /**
              * Create an OutputSurface object.
              *
              * \return A platform-specific implementation of an OutputSurface object.
              */
-            virtual OutputSurface* createOutputSurface() = 0;
+            virtual OutputSurface* createOutputSurface( QWidget* widget ) = 0;
     };
 
 }
+
+Q_DECLARE_INTERFACE( GluonGraphics::Backend, "org.gluon.graphics.backend/1.0" );
 
 #endif // GLUONGRAPHICS_BACKEND_H

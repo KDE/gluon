@@ -32,7 +32,7 @@ namespace GluonGraphics
 {
 
     class MaterialInstance;
-    class AbstractMesh;
+    class Mesh;
 
     /**
      * \brief An object in 3D-space.
@@ -63,7 +63,7 @@ namespace GluonGraphics
              *
              * \return The item's mesh.
              */
-            AbstractMesh* mesh();
+            Mesh* mesh();
 
             /**
              * Retrieve the material instance used by this item.
@@ -100,7 +100,7 @@ namespace GluonGraphics
              *
              * \param mesh The mesh to use.
              */
-            void setMesh( AbstractMesh* mesh );
+            void setMesh( Mesh* mesh );
 
             /**
              * Set the material instance that needs to be used by

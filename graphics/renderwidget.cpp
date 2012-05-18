@@ -1,10 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Rivo Laks <rivolaks@hot.ee>
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,52 +19,33 @@
 
 #include "renderwidget.h"
 
-#include "engine.h"
-#include "camera.h"
-#include "frustrum.h"
-#include "viewport.h"
-#include "glheaders.h"
+#include "manager.h"
+#include "outputsurface.h"
+#include "backend.h"
 
 using namespace GluonGraphics;
 
-class RenderWidget::RenderWidgetPrivate
+class RenderWidget::Private
 {
-
+    public:
+        OutputSurface* surface;
 };
 
-RenderWidget::RenderWidget( QWidget* parent, const QGLWidget* shareWidget, Qt::WindowFlags f ) :
-    QGLWidget( parent, shareWidget, f ),
-    d( new RenderWidgetPrivate )
+RenderWidget::RenderWidget( QWidget* parent, Qt::WindowFlags f ) :
+    QWidget( parent, f ), d( new Private )
 {
-
+    setAttribute( Qt::WA_PaintOnScreen );
+    setAttribute( Qt::WA_OpaquePaintEvent );
+    d->surface = Manager::instance()->backend()->createOutputSurface( this );
 }
 
 RenderWidget::~RenderWidget()
 {
-    delete d;
 }
 
-void RenderWidget::initializeGL()
+void RenderWidget::paintEvent( QPaintEvent* )
 {
-    glEnable( GL_DEPTH_TEST );
-    glEnable( GL_BLEND );
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
-
-    Engine::instance()->initialize();
-}
-
-void RenderWidget::paintGL()
-{
-    //glDisable(GL_SCISSOR_TEST);
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    //glEnable(GL_SCISSOR_TEST);
-    Engine::instance()->render();
-}
-
-void RenderWidget::resizeGL( int w, int h )
-{
-    Engine::instance()->currentViewport()->setSize( 0, w, 0, h );
+    d->surface->render();
 }
 
 #include "renderwidget.moc"

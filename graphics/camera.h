@@ -1,10 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Rivo Laks <rivolaks@hot.ee>
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,6 +23,7 @@
 #include <QtCore/QObject>
 
 #include "gluon_graphics_export.h"
+#include "renderable.h"
 
 class QRectF;
 class QSizeF;
@@ -43,7 +40,7 @@ namespace GluonGraphics
      * volume (a.k.a. frustrum). These are used to determine
      * what to render and where to render it.
      */
-    class GLUON_GRAPHICS_EXPORT Camera : public QObject
+    class GLUON_GRAPHICS_EXPORT Camera : public QObject, public Renderable
     {
             Q_OBJECT
 
@@ -101,9 +98,11 @@ namespace GluonGraphics
              */
             void setFrustrum( GluonGraphics::Frustrum* frustrum );
 
+            virtual void render();
+
         private:
-            class CameraPrivate;
-            CameraPrivate* const d;
+            class Private;
+            Private* const d;
     };
 
 }

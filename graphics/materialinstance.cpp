@@ -21,7 +21,6 @@
 
 #include "material.h"
 #include "mathutils.h"
-#include "engine.h"
 #include "texture.h"
 #include "glheaders.h"
 #include "camera.h"
@@ -43,12 +42,12 @@ class MaterialInstance::MaterialInstancePrivate
             , bound( false )
             , customViewProjMatrices( false )
         {
-            activeCamera = Engine::instance()->activeCamera();
+            //activeCamera = Engine::instance()->activeCamera();
         }
 
         void setActiveCamera( Camera* camera )
         {
-            activeCamera = camera;
+            //activeCamera = camera;
         }
 
         Material* material;
@@ -71,7 +70,7 @@ MaterialInstance::MaterialInstance( QObject* parent )
       d( new MaterialInstancePrivate )
 {
     qRegisterMetaType<GluonGraphics::Texture*>( "GluonGraphics::Texture*" );
-    connect( Engine::instance(), SIGNAL(activeCameraChanging(Camera*)), this, SLOT(setActiveCamera(Camera*)) );
+    //connect( Engine::instance(), SIGNAL(activeCameraChanging(Camera*)), this, SLOT(setActiveCamera(Camera*)) );
 }
 
 MaterialInstance::~MaterialInstance()
@@ -88,7 +87,7 @@ MaterialInstance::bind()
         return false;
     }
 
-    int program = d->material->glProgram();
+    /*int program = d->material->glProgram();
     if( !program )
         return false;
 
@@ -107,14 +106,15 @@ MaterialInstance::bind()
         setGLUniform( prop, property( prop ) );
     }
 
-    return true;
+    return true;*/
+    return false;
 }
 
 void
 MaterialInstance::release()
 {
-    glUseProgram( 0 );
-    glEnable( GL_BLEND );
+    //glUseProgram( 0 );
+    //glEnable( GL_BLEND );
     d->bound = false;
 }
 
@@ -132,40 +132,42 @@ MaterialInstance::setMaterial( Material* material )
 
 int MaterialInstance::attributeLocation( const QString& attrib )
 {
-    if( d->attributeLocations.contains( attrib ) )
-        return d->attributeLocations.value( attrib );
-
-    int loc = glGetAttribLocation( d->material->glProgram(), attrib.toUtf8().constData() );
-    if( loc != -1 )
-    {
-        d->attributeLocations.insert( attrib, loc );
-    }
-
-    return loc;
+//     if( d->attributeLocations.contains( attrib ) )
+//         return d->attributeLocations.value( attrib );
+//
+//     int loc = glGetAttribLocation( d->material->glProgram(), attrib.toUtf8().constData() );
+//     if( loc != -1 )
+//     {
+//         d->attributeLocations.insert( attrib, loc );
+//     }
+//
+//     return loc;
+    return -1;
 }
 
 int MaterialInstance::uniformLocation( const QString& name )
 {
-    if( d->uniformLocations.contains( name ) )
-        return d->uniformLocations.value( name );
-
-    int loc = glGetUniformLocation( d->material->glProgram(), name.toUtf8().constData() );
-    if( loc != -1 )
-    {
-        d->uniformLocations.insert( name, loc );
-    }
-
-    return loc;
+//     if( d->uniformLocations.contains( name ) )
+//         return d->uniformLocations.value( name );
+//
+//     int loc = glGetUniformLocation( d->material->glProgram(), name.toUtf8().constData() );
+//     if( loc != -1 )
+//     {
+//         d->uniformLocations.insert( name, loc );
+//     }
+//
+//     return loc;
+    return -1;
 }
 
 void
 MaterialInstance::setPropertiesFromMaterial()
 {
-    QHash<QString, QVariant> uniforms = d->material->uniformList();
+    /*QHash<QString, QVariant> uniforms = d->material->uniformList();
     for( QHash<QString, QVariant>::iterator pitr = uniforms.begin(); pitr != uniforms.end(); ++pitr )
     {
         setProperty( pitr.key().toUtf8(), pitr.value() );
-    }
+    }*/
 }
 
 void MaterialInstance::setUseCustomViewProjMatrices( bool useCustom )
@@ -176,7 +178,7 @@ void MaterialInstance::setUseCustomViewProjMatrices( bool useCustom )
 void
 MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
 {
-    switch( value.type() )
+    /*switch( value.type() )
     {
         case QVariant::UInt:
         case QVariant::Int:
@@ -258,7 +260,7 @@ MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
             }
             break;
         }
-    }
+    }*/
 }
 
 void
@@ -275,9 +277,9 @@ void MaterialInstance::bindTexture( const QString& name, int tex )
     QString uniName = name;
     int id = uniName.remove( "texture" ).toInt();
 
-    glActiveTexture( GL_TEXTURE0 + id );
-    glBindTexture( GL_TEXTURE_2D, tex );
-    glUniform1i( uniformLocation( name ), id );
+    //glActiveTexture( GL_TEXTURE0 + id );
+    //glBindTexture( GL_TEXTURE_2D, tex );
+    //glUniform1i( uniformLocation( name ), id );
 }
 
 #include "materialinstance.moc"

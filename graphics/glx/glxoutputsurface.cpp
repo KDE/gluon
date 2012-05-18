@@ -1,4 +1,4 @@
-/*****************************************************************************
+/******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
@@ -17,28 +17,45 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "glxshader.h"
+#include "glxoutputsurface.h"
+
+#include <QtGui/QWidget>
+#include <QtGui/QX11Info>
+
+#include <GL/gl.h>
+#include <GL/glx.h>
 
 #include "glxcontext.h"
+#include <rendertarget.h>
 
 using namespace GluonGraphics;
 
-GLXShader::GLXShader( GLX::Context* context )
+class GLXOutputSurface::Private
+{
+    public:
+        GLX::Context* context;
+};
+
+GLXOutputSurface::GLXOutputSurface( GLX::Context* context, QWidget* container, QObject* parent )
+    : GluonGraphics::OutputSurface( container, parent ), d( new Private )
+{
+    d->context = context;
+}
+
+GLXOutputSurface::~GLXOutputSurface()
 {
 
 }
 
-GLXShader::~GLXShader()
+void GLXOutputSurface::render()
 {
+    d->context->makeCurrent( widget() );
 
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+    renderTarget()->render();
+
+    glXSwapBuffers( QX11Info::display(), widget()->internalWinId() );
 }
 
-bool GLXShader::build()
-{
-
-}
-
-bool GLXShader::bind()
-{
-
-}
+#include "glxoutputsurface.moc"

@@ -231,17 +231,17 @@ Material::setDefaultTechnique( const QString& name )
 
 }
 
-uint
-Material::glProgram()
-{
-    if( !d->program )
-        build();
-
-    if( !d->program || !d->program->isLinked() )
-        return 0;
-
-    return d->program->programId();
-}
+// uint
+// Material::glProgram()
+// {
+//     if( !d->program )
+//         build();
+//
+//     if( !d->program || !d->program->isLinked() )
+//         return 0;
+//
+//     return d->program->programId();
+// }
 
 MaterialInstance*
 Material::createInstance( const QString& name )
@@ -269,13 +269,13 @@ Material::instance( const QString& name )
     return 0;
 }
 
-QHash< QString, QVariant >
-Material::uniformList()
-{
-    QHash<QString, QVariant> uniforms;
-    uniforms.insert( "materialColor", Qt::white );
-    uniforms.insert( "texture0", GluonCore::GluonObjectFactory::instance()->wrapObject( QString( "GluonEngine::TextureAsset*" ), 0 ) );
-    return uniforms;
-}
+// QHash< QString, QVariant >
+// Material::uniformList()
+// {
+//     QHash<QString, QVariant> uniforms;
+//     uniforms.insert( "materialColor", Qt::white );
+//     uniforms.insert( "texture0", GluonCore::GluonObjectFactory::instance()->wrapObject( QString( "GluonEngine::TextureAsset*" ), 0 ) );
+//     return uniforms;
+// }
 
 #include "material.moc"

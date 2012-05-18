@@ -22,10 +22,9 @@
 
 #include "item.h"
 
-#include "abstractmesh.h"
+#include "mesh.h"
 #include "camera.h"
 #include "frustrum.h"
-#include "engine.h"
 #include "math.h"
 #include "materialinstance.h"
 #include "material.h"
@@ -43,7 +42,7 @@ class Item::ItemPrivate
             mesh = 0;
             materialInstance = 0;
         }
-        AbstractMesh* mesh;
+        Mesh* mesh;
         QMatrix4x4 transform;
         MaterialInstance* materialInstance;
 };
@@ -51,7 +50,7 @@ class Item::ItemPrivate
 Item::Item( QObject* parent )
     : QObject( parent ), d( new ItemPrivate )
 {
-    d->materialInstance = Engine::instance()->material( "default" )->instance( "default" );
+    //d->materialInstance = Engine::instance()->material( "default" )->instance( "default" );
 }
 
 Item::~Item()
@@ -59,7 +58,7 @@ Item::~Item()
     delete d;
 }
 
-AbstractMesh*
+Mesh*
 Item::mesh()
 {
     return d->mesh;
@@ -89,9 +88,9 @@ Item::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
     if( !d->mesh )
         return;
 
-    Camera* activeCam = Engine::instance()->activeCamera();
-    if( !activeCam )
-        return;
+    //Camera* activeCam = Engine::instance()->activeCamera();
+    //if( !activeCam )
+    //    return;
 
     // TODO: Implement view frustum culling. After all, that is what that damn class is for... ;)
     material->setProperty( "modelMatrix", d->transform );
@@ -109,7 +108,7 @@ Item::setTransform( const QMatrix4x4 transform )
 }
 
 void
-Item::setMesh( AbstractMesh* mesh )
+Item::setMesh( Mesh* mesh )
 {
     d->mesh = mesh;
 }

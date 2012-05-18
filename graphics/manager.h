@@ -22,10 +22,15 @@
 
 #include <core/singleton.h>
 
+#include "gluon_graphics_export.h"
+
+class QWidget;
 namespace GluonGraphics
 {
+    class Backend;
+    class World;
 
-    class Manager : public GluonCore::Singleton< Manager >
+    class GLUON_GRAPHICS_EXPORT Manager : public GluonCore::Singleton< Manager >
     {
         Q_OBJECT
         GLUON_SINGLETON( Manager )
@@ -33,22 +38,31 @@ namespace GluonGraphics
         public:
             Backend* backend();
 
-            World* createWorld( const QString& identifier = defaultWorldIdentifier );
-            World* world( const QString& identifier = defaultWorldIdentifier ) const;
-            void destroyWorld( const QString& identifier = defaultWorldIdentifier );
+            World* createWorld( const QString& identifier = defaultWorld );
+            World* world( const QString& identifier = defaultWorld ) const;
+            void destroyWorld( const QString& identifier = defaultWorld );
+            World* currentWorld() const;
 
-            template < typename T >
-            T* createResource( const QString& identifier );
+            void setCurrentWorld( const QString& identifier = defaultWorld );
 
-//             template < Texture >
-//             Texture* createResource( const QString& identifier );
+            void addResource( const QString& identifier, QObject* object );
+            QObject* resource( const QString& identifier );
+            void removeResource( QObject* resource );
 
-            template < typename T >
-            T* resource( const QString& identifier ) const;
+//             template < typename T >
+//             T* createResource( const QString& identifier );
+//
+//             template < typename T >
+//             void addResource( const QString& identifier, T* object );
+//
+//             template < typename T >
+//             T* resource( const QString& identifier ) const;
+//
+//             template < typename T >
+//             void destroyResource( const QString& identifier );
 
-            void destroyResource( const QString& identifier );
-
-            static const QString defaultWorldIdentifier;
+            static const QString defaultWorld;
+            static const QString defaultRenderTarget;
 
         private:
             ~Manager();
@@ -56,7 +70,6 @@ namespace GluonGraphics
             class Private;
             const QScopedPointer< Private > d;
     };
-
 }
 
 #endif // GLUONGRAPHICS_MANAGER_H
