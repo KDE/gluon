@@ -21,7 +21,13 @@
 
 using namespace GluonGraphics;
 
-World::World( QObject* parent )
+class World::Private
+{
+    public:
+
+};
+
+World::World( QObject* parent ) : d( new Private )
 {
 
 }
@@ -31,3 +37,4 @@ World::~World()
 
 }
 
+#include "world.moc"

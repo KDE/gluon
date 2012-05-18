@@ -20,19 +20,24 @@
 #ifndef GLUONGRAPHICS_WINDOWSURFACE_H
 #define GLUONGRAPHICS_WINDOWSURFACE_H
 
-#include <QObject>
+#include <QtCore/QObject>
 
 namespace GluonGraphics
 {
+    class RenderTarget;
     class OutputSurface : public QObject
     {
         Q_OBJECT
         public:
-            OutputSurface(QWidget* container, QObject* parent = 0);
+            OutputSurface( QWidget* container, QObject* parent = 0 );
             virtual ~OutputSurface();
+
+            RenderTarget* renderTarget() const;
 
         public Q_SLOTS:
             virtual void render() = 0;
+            void setRenderTarget( RenderTarget* newTarget );
+            void setRenderTarget( const QString& targetIdentifier );
 
         protected:
             QWidget* widget();

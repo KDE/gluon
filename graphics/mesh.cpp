@@ -1,9 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "abstractmesh.h"
+#include "mesh.h"
 
 #include "materialinstance.h"
 #include "vertexbuffer.h"
@@ -29,7 +26,7 @@
 
 using namespace GluonGraphics;
 
-class AbstractMesh::Private
+class Mesh::Private
 {
     public:
         Private() : buffer(0), material(0)
@@ -40,20 +37,20 @@ class AbstractMesh::Private
         MaterialInstance* material;
 };
 
-AbstractMesh::AbstractMesh( QObject* parent )
+Mesh::Mesh( QObject* parent )
     : QObject( parent ), d( new Private )
 {
     d->buffer = new VertexBuffer( VertexBuffer::BM_STATIC_DRAW, this );
 }
 
-AbstractMesh::~AbstractMesh()
+Mesh::~Mesh()
 {
     delete d->buffer;
     delete d;
 }
 
 void
-AbstractMesh::setVertexBuffer( VertexBuffer* buffer )
+Mesh::setVertexBuffer( VertexBuffer* buffer )
 {
     if( d->buffer )
     {
@@ -72,27 +69,27 @@ AbstractMesh::setVertexBuffer( VertexBuffer* buffer )
     }
 }
 
-void AbstractMesh::update()
+void Mesh::update()
 {
     //Intentionally empty
 }
 
 void
-AbstractMesh::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
+Mesh::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
 {
     d->buffer->render( mode, material );
 }
 
 bool
-AbstractMesh::isInitialized() const
+Mesh::isInitialized() const
 {
     return d->buffer && d->buffer->isInitialized();
 }
 
 VertexBuffer*
-AbstractMesh::vertexBuffer() const
+Mesh::vertexBuffer() const
 {
     return d->buffer;
 }
 
-#include "abstractmesh.moc"
+#include "mesh.moc"

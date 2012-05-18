@@ -19,15 +19,46 @@
 
 #include "glxcontext.h"
 
-using namespace GluonGraphics;
+#include <QtGui/QX11Info>
+#include <QtGui/QWidget>
+#include <GL/glx.h>
 
-GLXContext::GLXContext()
+using namespace GluonGraphics::GLX;
+
+class Context::Private
 {
+    public:
+        GLXContext context;
+        bool current;
+};
 
+Context::Context()
+    : d( new Private )
+{
+    int attribList[] = { GLX_RGBA, GLX_DOUBLEBUFFER, GLX_RED_SIZE, 8, GLX_GREEN_SIZE, 8, GLX_BLUE_SIZE, 8, None };
+
+    XVisualInfo* info = glXChooseVisual( QX11Info::display(), QX11Info::appScreen(), attribList );
+    d->context = glXCreateContext( QX11Info::display(), info, 0, true );
 }
 
-GLXContext::~GLXContext()
+Context::~Context()
 {
-
+    glXDestroyContext( QX11Info::display(), d->context );
 }
 
+void Context::makeCurrent( QWidget* widget )
+{
+    if( d->current )
+        return;
+
+    glXMakeCurrent( QX11Info::display(), widget->internalWinId(), d->context );
+    d->current = true;
+}
+
+void Context::clearCurrent()
+{
+    if( !d->current )
+        return;
+
+    glXMakeCurrent( QX11Info::display(), None, NULL );
+}

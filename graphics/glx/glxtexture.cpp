@@ -17,38 +17,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "glxwindowsurface.h"
-
-#include <QtGui/QWidget>
-#include <QtGui/QX11Info>
-
-#include "glxcontext.h"
+#include "glxtexture.h"
 
 using namespace GluonGraphics;
 
-class GLXOutputSurface::Private
+GLXTexture::GLXTexture( QObject* parent )
+    : GluonGraphics::Texture( parent )
 {
-    public:
-        GLXContext* context;
-};
 
-GLXOutputSurface::GLXWindowSurface( GLXContext* context, QWidget* container, QObject* parent )
-    : OutputSurface( container, parent ), d( new Private )
-{
-    d->context = context;
 }
 
-GLXOutputSurface::~WindowSurface()
+GLXTexture::~GLXTexture()
 {
-    delete d;
+
 }
 
-void GLXOutputSurface::render()
-{
-    //glXMakeCurrent();
-    d->context()->makeCurrent( widget()->x11Info().visual() );
-
-    Manager::instance()->currentWorld()->render();
-
-    d->context->clearCurrent();
-}

@@ -7,38 +7,19 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-if(WIN32)
-    find_package(Glee)
-    if(NOT GLEE_FOUND)
-        message(FATAL_ERROR "Could NOT find GLee!")
-    endif(NOT GLEE_FOUND)
-endif(WIN32)
-
+find_package(OpenGL)
 find_package(AssImp)
-
-add_definitions(-DGL_GLEXT_PROTOTYPES)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${GLUON_CORE_INCLUDE_DIRS}
-    ${OPENGL_REAL_INCLUDE_DIR}
 )
 
 set(GLUON_GRAPHICS_INCLUDE_DIRS
     ${GLUON_CORE_INCLUDE_DIRS}
-    ${OPENGL_REAL_INCLUDE_DIR}
     CACHE INTERNAL "Includes required for Gluon Graphics"
 )
-
-if(WIN32)
-	include_directories(${GLEE_INCLUDE_DIR})
-    set(GLUON_GRAPHICS_INCLUDE_DIRS
-        ${GLUON_GRAPHICS_INCLUDE_DIRS}
-		${GLEE_INCLUDE_DIR}
-		CACHE INTERNAL "Includes required for Gluon Graphics"
-	)
-endif(WIN32)
 
 if(ASSIMP_FOUND)
     include_directories(${ASSIMP_INCLUDE_DIR})
@@ -50,9 +31,7 @@ if(ASSIMP_FOUND)
 endif(ASSIMP_FOUND)
 
 set(GluonGraphics_SRCS
-    backendcapabilities.cpp
     camera.cpp
-    engine.cpp
     frustrum.cpp
     item.cpp
     material.cpp
@@ -63,7 +42,7 @@ set(GluonGraphics_SRCS
     renderwidget.cpp
     technique.cpp
     texture.cpp
-    abstractmesh.cpp
+    mesh.cpp
     vertex.cpp
     vertexattribute.cpp
     vertexbuffer.cpp
@@ -79,14 +58,12 @@ set(GluonGraphics_SRCS
 )
 
 set(GluonGraphics_HEADERS
-    backendcapabilities.h
     camera.h
-    engine.h
     frustrum.h
     glheaders.h
     gluon_graphics_export.h
     item.h
-    abstractmesh.h
+    mesh.h
     material.h
     materialelement.h
     materialinstance.h
@@ -129,15 +106,14 @@ endif()
 target_link_libraries(
     GluonGraphics
     ${GLUON_CORE_LIBS}
+
     ${QT_QTOPENGL_LIBRARY}
-    ${OPENGL_REAL_LIBS}
+    ${OPENGL_LIBRARIES}
 )
 
 set(GLUON_GRAPHICS_LIBS
     GluonGraphics
     ${GLUON_CORE_LIBS}
-    ${QT_QTOPENGL_LIBRARY}
-    ${OPENGL_REAL_LIBS}
     CACHE INTERNAL "Libraries required for Gluon Graphics"
 )
 
@@ -146,10 +122,14 @@ if(ASSIMP_FOUND)
     set(GLUON_GRAPHICS_LIBS ${GLUON_GRAPHICS_LIBS} ${ASSIMP_LIBRARY})
 endif(ASSIMP_FOUND)
 
-if(WIN32)
-    target_link_libraries(GluonGraphics ${GLEE_LIBRARIES})
-    set(GLUON_GRAPHICS_LIBS ${GLUON_GRAPHICS_LIBS} ${GLEE_LIBRARIES})
-endif(WIN32)
+if( APPLE )
+    #add_subdirectory( agl )
+elseif( WIN32 )
+    #add_subdirectory( wgl )
+elseif( UNIX )
+    add_subdirectory( glx )
+    #add_subdirectory( egl )
+endif()
 
 if(INSTALL_EXAMPLES)
     add_subdirectory(examples)
@@ -169,12 +149,12 @@ install(FILES
     COMPONENT gluongraphics
 )
 
-install(
-    FILES
-    default.gml
-    default.png
-    DESTINATION ${SHARE_INSTALL_DIR}/gluon/defaults
-)
+# install(
+#     FILES
+#     default.gml
+#     default.png
+#     DESTINATION ${SHARE_INSTALL_DIR}/gluon/defaults
+# )
 
 if(BUILD_GLUON_TESTS)
     enable_testing()

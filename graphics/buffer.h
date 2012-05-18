@@ -1,4 +1,4 @@
-/*****************************************************************************
+/******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
@@ -17,28 +17,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "glxshader.h"
+#ifndef GLUONGRAPHICS_BUFFER_H
+#define GLUONGRAPHICS_BUFFER_H
 
-#include "glxcontext.h"
-
-using namespace GluonGraphics;
-
-GLXShader::GLXShader( GLX::Context* context )
+namespace GluonGraphics
 {
+
+    class Buffer
+    {
+
+        public:
+            Buffer();
+            virtual ~Buffer();
+    };
 
 }
 
-GLXShader::~GLXShader()
-{
-
-}
-
-bool GLXShader::build()
-{
-
-}
-
-bool GLXShader::bind()
-{
-
-}
+#endif // GLUONGRAPHICS_BUFFER_H

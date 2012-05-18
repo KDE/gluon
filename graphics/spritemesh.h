@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2011 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2011-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,7 +21,7 @@
 #ifndef GLUONGRAPHICS_SPRITEMESH_H
 #define GLUONGRAPHICS_SPRITEMESH_H
 
-#include "abstractmesh.h"
+#include "mesh.h"
 #include "gluon_graphics_export.h"
 
 namespace GluonGraphics
@@ -36,7 +36,7 @@ namespace GluonGraphics
      * - color
      * - uv0
      */
-    class GLUON_GRAPHICS_EXPORT SpriteMesh : public AbstractMesh
+    class GLUON_GRAPHICS_EXPORT SpriteMesh : public Mesh
     {
             Q_OBJECT
         public:

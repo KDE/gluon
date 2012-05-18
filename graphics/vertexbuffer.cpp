@@ -99,81 +99,81 @@ void VertexBuffer::initialize()
         return;
     }
 
-    glGenBuffers( 1, &d->buffer );
+    //glGenBuffers( 1, &d->buffer );
 
-    update();
+    //update();
 }
 
 void VertexBuffer::update()
 {
-    if( d->attributes.isEmpty() )
-    {
-        return;
-    }
-
-    glBindBuffer( GL_ARRAY_BUFFER, d->buffer );
-    int size = 0;
-    foreach( const VertexAttribute & attribute, d->attributes )
-    {
-        size += attribute.size();
-    }
-
-    glBufferData( GL_ARRAY_BUFFER, size, 0, d->dataMode );
-
-    quintptr offset = 0;
-    for( int i = 0; i < d->attributes.size(); ++i )
-    {
-        VertexAttribute& attribute = d->attributes[i];
-        attribute.d->offset = offset;
-        glBufferSubData( GL_ARRAY_BUFFER, offset, attribute.size(), attribute.data() );
-        offset += attribute.size();
-    }
-
-    glBindBuffer( GL_ARRAY_BUFFER, 0 );
-
-    if(d->indices.size() > 0)
-    {
-        glGenBuffers( 1, &d->indexBuffer );
-        glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, d->indexBuffer );
-        glBufferData( GL_ELEMENT_ARRAY_BUFFER, d->indices.size() * sizeof( float ), d->indices.data(), GL_STATIC_DRAW );
-        glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
-    }
+//     if( d->attributes.isEmpty() )
+//     {
+//         return;
+//     }
+//
+//     glBindBuffer( GL_ARRAY_BUFFER, d->buffer );
+//     int size = 0;
+//     foreach( const VertexAttribute & attribute, d->attributes )
+//     {
+//         size += attribute.size();
+//     }
+//
+//     glBufferData( GL_ARRAY_BUFFER, size, 0, d->dataMode );
+//
+//     quintptr offset = 0;
+//     for( int i = 0; i < d->attributes.size(); ++i )
+//     {
+//         VertexAttribute& attribute = d->attributes[i];
+//         attribute.d->offset = offset;
+//         glBufferSubData( GL_ARRAY_BUFFER, offset, attribute.size(), attribute.data() );
+//         offset += attribute.size();
+//     }
+//
+//     glBindBuffer( GL_ARRAY_BUFFER, 0 );
+//
+//     if(d->indices.size() > 0)
+//     {
+//         glGenBuffers( 1, &d->indexBuffer );
+//         glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, d->indexBuffer );
+//         glBufferData( GL_ELEMENT_ARRAY_BUFFER, d->indices.size() * sizeof( float ), d->indices.data(), GL_STATIC_DRAW );
+//         glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+//     }
 }
 
 void VertexBuffer::render( RenderMode mode, GluonGraphics::MaterialInstance* material )
 {
-    if( d->buffer == 0 || d->attributes.size() == 0 )
-    {
-        return;
-    }
-
-    glBindBuffer( GL_ARRAY_BUFFER, d->buffer );
-    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, d->indexBuffer );
-
-    for( int i = 0; i < d->attributes.size(); ++i )
-    {
-        VertexAttribute& attribute = d->attributes[i];
-        if( attribute.location() == -1 )
-            attribute.d->location = material->attributeLocation( attribute.name() );
-
-        if( attribute.location() != -1 )
-        {
-            glVertexAttribPointer( attribute.location(), attribute.itemSize(),
-                                   GL_FLOAT, 0, 0, reinterpret_cast< void* >( attribute.offset() ) );
-            glEnableVertexAttribArray( attribute.location() );
-        }
-    }
-
-    glDrawElements( mode, d->indices.count(), GL_UNSIGNED_INT, 0 );
-
-    foreach( const VertexAttribute & attribute, d->attributes )
-    {
-        if( attribute.location() != -1 )
-            glDisableVertexAttribArray( attribute.location() );
-    }
-
-    glBindBuffer( GL_ARRAY_BUFFER, 0 );
-    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+//     if( d->buffer == 0 || d->attributes.size() == 0 )
+//     {
+//         return;
+//     }
+//
+//     glBindBuffer( GL_ARRAY_BUFFER, d->buffer );
+//     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, d->indexBuffer );
+//
+//     for( int i = 0; i < d->attributes.size(); ++i )
+//     {
+//         VertexAttribute& attribute = d->attributes[i];
+//         if( attribute.location() == -1 )
+//             attribute.d->location = material->attributeLocation( attribute.name() );
+//
+//         if( attribute.location() != -1 )
+//         {
+//             glVertexAttribPointer( attribute.location(), attribute.itemSize(),
+//                                    GL_FLOAT, 0, 0, reinterpret_cast< void* >( attribute.offset() ) );
+//             glEnableVertexAttribArray( attribute.location() );
+//         }
+//     }
+//
+//     glDrawElements( mode, d->indices.count(), GL_UNSIGNED_INT, 0 );
+//
+//     foreach( const VertexAttribute & attribute, d->attributes )
+//     {
+//         if( attribute.location() != -1 )
+//             glDisableVertexAttribArray( attribute.location() );
+//     }
+//
+//     glBindBuffer( GL_ARRAY_BUFFER, 0 );
+//     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 }
 
 #include "vertexbuffer.moc"

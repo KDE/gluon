@@ -1,6 +1,6 @@
 /*****************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -35,7 +35,7 @@ class FileMesh::Private
 };
 
 FileMesh::FileMesh( const QString& file, QObject* parent )
-    : AbstractMesh( parent ), d(new Private)
+    : Mesh( parent ), d(new Private)
 {
     d->file = file;
 }

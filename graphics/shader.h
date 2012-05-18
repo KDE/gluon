@@ -20,6 +20,8 @@
 #ifndef GLUONGRAPHICS_SHADER_H
 #define GLUONGRAPHICS_SHADER_H
 
+#include <QScopedPointer>
+
 class QString;
 namespace GluonGraphics
 {
@@ -41,12 +43,16 @@ namespace GluonGraphics
             Shader();
             virtual ~Shader();
 
-            QString source( SourceType type ) const;
-            void setSource( SourceType type, const QString& source );
+            virtual QString source( SourceType type ) const;
+            virtual void setSource( SourceType type, const QString& source );
 
-            bool build() = 0;
+            virtual bool build() = 0;
 
-            bool bind() = 0;
+            virtual bool bind() = 0;
+
+        private:
+            class Private;
+            const QScopedPointer < Private > d;
     };
 
 }

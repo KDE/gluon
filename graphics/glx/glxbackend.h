@@ -25,25 +25,35 @@
 
 namespace GluonGraphics
 {
-    class GLXContext;
+    namespace GLX
+    {
+        class Context;
+    }
 
     class GLXBackend : public GluonGraphics::Backend
     {
+        Q_OBJECT
+        Q_INTERFACES( GluonGraphics::Backend )
         public:
             GLXBackend();
             virtual ~GLXBackend();
 
-            GLXContext* context();
+            virtual void initialize( QWidget* widget );
+
+            virtual QString identifier();
+            virtual QString information( InformationLevel level );
+
+            GLX::Context* context();
             virtual Buffer* createBuffer();
-            virtual TextureData* createTextureData();
+            virtual Texture* createTexture();
+            virtual RenderTarget* createRenderTarget();
             virtual Shader* createShader();
-            virtual OutputSurface* createOutputSurface();
+            virtual OutputSurface* createOutputSurface( QWidget* widget );
 
         private:
             class Private;
             const QScopedPointer< Private > d;
     };
-
 }
 
 #endif // GLUONGRAPHICS_GLXBACKEND_H

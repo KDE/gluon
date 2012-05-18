@@ -19,9 +19,18 @@
 
 #include "shader.h"
 
+#include <QtCore/QString>
+#include <QtCore/QHash>
+
 using namespace GluonGraphics;
 
-Shader::Shader()
+class Shader::Private
+{
+    public:
+        QHash< Shader::SourceType, QString > sources;
+};
+
+Shader::Shader() : d( new Private )
 {
 
 }
@@ -33,12 +42,10 @@ Shader::~Shader()
 
 QString Shader::source( Shader::SourceType type ) const
 {
-
+    return d->sources.value( type );
 }
 
 void Shader::setSource( Shader::SourceType type, const QString& source )
 {
-
+    d->sources[ type ] = source;
 }
-
-

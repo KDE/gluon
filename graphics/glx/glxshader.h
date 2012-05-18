@@ -24,17 +24,21 @@
 
 namespace GluonGraphics
 {
+    namespace GLX
+    {
+        class Context;
+    }
+
     class GLXShader : public GluonGraphics::Shader
     {
         public:
-            GLXShader();
+            explicit GLXShader( GLX::Context* context );
             virtual ~GLXShader();
 
             bool build();
 
             bool bind();
     };
-
 }
 
 #endif // GLUONGRAPHICS_GLXSHADER_H

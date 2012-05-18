@@ -1,10 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Rivo Laks <rivolaks@hot.ee>
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,14 +20,13 @@
 #include "camera.h"
 
 #include "frustrum.h"
-#include "engine.h"
 #include "viewport.h"
 
 #include <QtGui/QMatrix4x4>
 
 using namespace GluonGraphics;
 
-class Camera::CameraPrivate
+class Camera::Private
 {
     public:
         Frustrum* frustrum;
@@ -39,15 +34,13 @@ class Camera::CameraPrivate
 };
 
 Camera::Camera( QObject* parent )
-    : QObject( parent ),
-      d( new CameraPrivate )
+    : QObject( parent ), d( new Private )
 {
     d->frustrum = new Frustrum;
 }
 
 Camera::Camera( Frustrum* frustum, QObject* parent )
-    : QObject( parent ),
-      d( new CameraPrivate )
+    : QObject( parent ), d( new Private )
 {
     d->frustrum = frustum;
 }
@@ -80,6 +73,12 @@ void
 Camera::setViewMatrix( const QMatrix4x4& matrix )
 {
     d->viewMatrix = matrix;
+}
+
+void Camera::render()
+{
+    //d->world->setActivateCamera( this );
+    //d->world->render();
 }
 
 #include "camera.moc"

@@ -20,6 +20,10 @@
 #include "manager.h"
 
 #include <QtCore/QHash>
+#include <QtCore/QPluginLoader>
+
+#include <core/directoryprovider.h>
+#include <core/debughelper.h>
 
 #include "backend.h"
 #include "world.h"
@@ -28,23 +32,26 @@ using namespace GluonGraphics;
 
 GLUON_DEFINE_SINGLETON( Manager );
 
-Backend* createBackend( QObject* parent );
+#define PREFIX_IDENTIFIER(Object, Identifier) QString( "%1::%2" ).arg( Object->metaObject()->className() ).arg( Identifier );
 
 class Manager::Private
 {
     public:
+        Private() : backend( 0 ) { }
+        void createBackend();
         Backend* backend;
 
         QHash< QString, World* > worlds;
         QHash< QString, QObject* > resources;
 };
 
-const QString Manager::defaultWorldIdentifier("_default");
+const QString Manager::defaultWorld( "_defaultWorld" );
+const QString Manager::defaultRenderTarget( "_defaultRenderTarget" );
 
-Backend* Manager::backend()
+Backend* Manager::backend(  )
 {
     if( !d->backend )
-        d->backend = createBackend( this );
+        d->createBackend();
 
     return d->backend;
 }
@@ -76,44 +83,33 @@ void Manager::destroyWorld( const QString& identifier )
     }
 }
 
-template <typename T>
-T* Manager::createResource( const QString& identifier )
+World* Manager::currentWorld() const
 {
-    if( d->resources.contains( identifier ) )
-        return qobject_cast< T* >( d->resources.value( identifier ) );
 
-    T* newResource = new T( this );
-    d->resources.insert( identifier, newResource );
-
-    return newResource;
 }
 
-// template < Texture >
-// Texture* Manager::createResource( const QString& identifier )
-// {
-//     if( d->resources.contains( identifier ) )
-//         return qobject_cast< Texture* >( d->resources.value( identifier ) );
-//
-//     Texture* newTexture = d->ba
-// }
-
-template< typename T>
-Manager* Manager::resource( const QString& identifier ) const
+void Manager::setCurrentWorld( const QString& identifier )
 {
-    if( d->resources.contains( identifier ) )
-        return qobject_cast< T*>( d->resources.value( identifier ) );
 
-    return 0;
 }
 
-void Manager::destroyResource( const QString& identifier )
+void Manager::addResource( const QString& identifier, QObject* object )
 {
-    QObject* resource = d->resources.value( identifier );
-    if( resource )
-    {
-        d->resources.remove( identifier );
-        resource->deleteLater();
-    }
+    QString prefixedIdentifier = PREFIX_IDENTIFIER( object, identifier );
+    DEBUG_FUNC_NAME
+    DEBUG_TEXT( prefixedIdentifier );
+    if( !d->resources.contains( prefixedIdentifier ) )
+        d->resources.insert( prefixedIdentifier, object );
+}
+
+void Manager::removeResource( QObject* resource )
+{
+
+}
+
+QObject* Manager::resource( const QString& identifier )
+{
+
 }
 
 Manager::Manager( QObject* parent )
@@ -124,13 +120,67 @@ Manager::Manager( QObject* parent )
 
 Manager::~Manager()
 {
+    delete d->backend;
     qDeleteAll( d->worlds );
     qDeleteAll( d->resources );
 }
 
-#ifdef Q_WS_X11
-    #include "glx/glxbackend.h"
-    Backend* createBackend( QObject* parent ) { return new GLXBackend( parent ); }
-#else
-    #error GluonGraphics: Your current windowing system is not supported!
-#endif
+// T* Manager::createResource( const QString& identifier )
+// {
+//     DEBUG_FUNC_NAME
+//     QString prefixedIdentifier = PREFIX_IDENTIFIER( T, identifier );
+//     DEBUG_TEXT( prefixedIdentifier );
+//     if( d->resources.contains( prefixedIdentifier ) )
+//         return qobject_cast< T* >( d->resources.value( prefixedIdentifier ) );
+//
+//     T* newResource = new T( this );
+//     d->resources.insert( prefixedIdentifier, newResource );
+//
+//     return newResource;
+// }
+//
+// template < typename T >
+// void Manager::addResource( const QString& identifier, T* object )
+// {
+//     QString prefixedIdentifier = PREFIX_IDENTIFIER( T, identifier );
+//     if( !d->resources.contains( prefixedIdentifier ) )
+//         d->resources.insert( prefixedIdentifier, object );
+// }
+//
+// template < typename T >
+// T* Manager::resource( const QString& identifier ) const
+// {
+//     QString prefixedIdentifier = PREFIX_IDENTIFIER( T, identifier );
+//     if( d->resources.contains( prefixedIdentifier ) )
+//         return qobject_cast< T*>( d->resources.value( prefixedIdentifier ) );
+//
+//     return 0;
+// }
+//
+// template < typename T >
+// void Manager::destroyResource( const QString& identifier )
+// {
+//     QString prefixedIdentifier = PREFIX_IDENTIFIER( T, identifier );
+//     QObject* resource = d->resources.value( prefixedIdentifier );
+//     if( resource )
+//     {
+//         d->resources.remove( prefixedIdentifier );
+//         resource->deleteLater();
+//     }
+// }
+
+void Manager::Private::createBackend()
+{
+    QString pluginPath = GluonCore::DirectoryProvider::instance()->libDirectory() + "/gluon/gluongraphics_backend.so";
+    QPluginLoader loader( pluginPath );
+    if( !loader.load() )
+    {
+        qFatal( loader.errorString().toUtf8().data() );
+    }
+
+    backend = qobject_cast< Backend*>( loader.instance() );
+    if( !backend )
+        qFatal( "The backend plugin %s does not provide a GluonGraphics::Backend object!", pluginPath.toUtf8().data() );
+}
+
+#include "manager.moc"
