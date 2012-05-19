@@ -194,13 +194,12 @@ void Game::setPause( bool pause )
     DEBUG_BLOCK
     if( pause )
     {
-        DEBUG_TEXT( QString( "Pausing gameloop" ) )
+        DEBUG_TEXT( QString( "The Game Instance: Pausing gameloop" ) )
     }
     else
     {
         DEBUG_TEXT( QString( "Un-pausing gameloop" ) )
     }
-
     d->gamePaused = pause;
 }
 

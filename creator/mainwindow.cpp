@@ -39,6 +39,7 @@
 #include <engine/game.h>
 #include <engine/gameproject.h>
 #include <engine/scene.h>
+#include <engine/gamesave.h>
 
 #include "lib/plugin.h"
 #include "lib/pluginmanager.h"
@@ -54,6 +55,7 @@
 #include "dialogs/configdialog.h"
 
 using namespace GluonCreator;
+using namespace GluonEngine;
 
 class MainWindow::Private
 {
@@ -276,6 +278,10 @@ void MainWindow::setupActions()
     actionCollection()->addAction( "game_play", play );
     connect( play, SIGNAL(triggered(bool)), SLOT(playGame()) );
 
+    KAction* savegame = new KAction( KIcon( "document-save" ), i18n( "Save Game" ), actionCollection() );
+    actionCollection()->addAction( "game_savegame", savegame );
+    connect( savegame, SIGNAL(triggered(bool)), SLOT(saveGame()) );
+
     KAction* pause = new KAction( KIcon( "media-playback-pause" ), i18n( "Pause Game" ), actionCollection() );
     actionCollection()->addAction( "game_pause", pause );
     connect( pause, SIGNAL(triggered(bool)), SLOT(pauseGame()) );
@@ -353,6 +359,13 @@ void MainWindow::pauseGame()
     stateChanged( "paused" );
 }
 
+void MainWindow::saveGame()
+{
+    GluonEngine::Game::instance()->setPause( true );
+    GluonEngine::GameSave *s = new GluonEngine::GameSave();
+    s->save(GluonEngine::Game::instance()->currentScene()->root());
+    GluonEngine::Game::instance()->setPause( false );
+}
 void MainWindow::stopGame()
 {
     GluonEngine::Game::instance()->stopGame();

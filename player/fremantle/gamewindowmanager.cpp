@@ -37,7 +37,7 @@
 #include <QtGui/QStackedWidget>
 #include <QtCore/QTimer>
 #include <QtCore/QDebug>
-
+#include <engine/gamesave.h>
 using namespace GluonQMLPlayer;
 
 class GameWindowManager::GameWindowManagerPrivate

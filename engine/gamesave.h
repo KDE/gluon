@@ -1,17 +1,18 @@
-#ifndef GLUON_ENGINE_GAME_H
-#define GLUON_ENGINE_GAME_H
+#ifndef GLUON_ENGINE_GAMESAVE_H
+#define GLUON_ENGINE_GAMESAVE_H
 
 #include "scene.h"
 #include "game.h"
+#include "gameprivate.h"
 #include <core/gluonobject.h>
 #include "gluon_engine_export.h"
-#include <core/gdlserializer.h>
+#include <creator/dialogs/configdialog.h>
 
 namespace GluonEngine
 {
     class Scene;
+    class GamePrivate;
     class Game;
-    class gdlserializer;
     
     class GLUON_ENGINE_EXPORT GameSave : public GluonCore::GluonObject
     {
@@ -19,15 +20,15 @@ namespace GluonEngine
         GLUON_OBJECT( GluonEngine::GameSave )
 
     public:
-        GameSave( QObject* parent );
 	GameSave();
         ~GameSave();
 
-        bool save();
+        bool save(GluonCore::GluonObject *);
         bool load();
         bool load( QUrl fileUrl );
         bool load( QString fileName );
     };
 }
+
 Q_DECLARE_METATYPE( GluonEngine::GameSave* )
 #endif

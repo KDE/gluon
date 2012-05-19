@@ -16,97 +16,12 @@
     }
     { GluonCore::GluonObject("Assets")
         { GluonCore::GluonObject("Interface")
-            { GluonEngine::UiAsset("Menu Interface")
-                file string("assets/interface/menu_interface.qml")
-            }
-            { GluonEngine::UiAsset("Game Interface")
-                file string("assets/interface/game_interface.qml")
-            }
         }
         { GluonCore::GluonObject("Scripts")
-            { GluonEngine::ScriptingAsset("Player")
-                file string("assets/scripts/player.js")
-            }
-            { GluonEngine::ScriptingAsset("Enemy")
-                file string("assets/scripts/enemy.js")
-            }
-            { GluonEngine::ScriptingAsset("Controller")
-                file string("assets/scripts/controller.js")
-            }
-            { GluonEngine::ScriptingAsset("Bullet")
-                file string("assets/scripts/bullet.js")
-            }
         }
         { GluonCore::GluonObject("Sounds")
-            { GluonEngine::SoundAsset("Menu Music")
-                file string("assets/sounds/menu_music.ogg")
-                description string("The Whip Theme - Extended Version")
-            }
-            { GluonEngine::SoundAsset("Game Muisc")
-                file string("assets/sounds/game_music.ogg")
-                description string("Harmful or Fatal")
-            }
-            { GluonEngine::SoundAsset("Fire")
-                file string("assets/sounds/fire.ogg")
-            }
-            { GluonEngine::SoundAsset("Explode")
-                file string("assets/sounds/explode.ogg")
-            }
         }
         { GluonCore::GluonObject("Textures")
-            { GluonEngine::TextureAsset("Enemy")
-                file string("assets/textures/enemy.png")
-            }
-            { GluonEngine::TextureAsset("Background")
-                file string("assets/textures/background.png")
-            }
-            { GluonEngine::TextureAsset("Icon")
-                file string("assets/textures/icon.png")
-            }
-            { GluonEngine::TextureAsset("Spaceship Reflection")
-                file string("assets/textures/spaceship_reflection.png")
-            }
-            { GluonEngine::TextureAsset("Spaceship")
-                file string("assets/textures/spaceship.png")
-            }
-        }
-        { GluonEngine::MaterialAsset("Main Material")
-            file string("assets/main_material.gml")
-            { GluonGraphics::MaterialInstance("Icon")
-                materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset("Invaders/Assets/Textures/Icon")
-            }
-            { GluonGraphics::MaterialInstance("Player")
-                materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset("Invaders/Assets/Textures/Spaceship")
-            }
-            { GluonGraphics::MaterialInstance("Player Reflection")
-                materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset("Invaders/Assets/Textures/Spaceship Reflection")
-            }
-            { GluonGraphics::MaterialInstance("Enemy")
-                materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset("Invaders/Assets/Textures/Enemy")
-            }
-            { GluonGraphics::MaterialInstance("Enemy_Fade")
-                materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset("Invaders/Assets/Textures/Enemy")
-            }
-            { GluonGraphics::MaterialInstance("Bullet")
-                materialColor rgba(255;0;0;255)
-                texture0 GluonEngine::TextureAsset("Invaders/Assets/Textures/Enemy")
-            }
-            { GluonGraphics::MaterialInstance("Background")
-                materialColor rgba(255;255;255;255)
-                texture0 GluonEngine::TextureAsset("Invaders/Assets/Textures/Background")
-            }
-        }
-        { GluonEngine::MaterialAsset("Render Target Material")
-            file string("assets/render_target_material.gml")
-            { GluonGraphics::MaterialInstance("Main")
-                materialColor rgba(255;255;255;255)
-                texture0 uint(17)
-            }
         }
     }
     { GluonCore::GluonObject("Prefabs")
