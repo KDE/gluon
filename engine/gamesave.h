@@ -24,7 +24,7 @@ namespace GluonEngine
 	GameSave();
         ~GameSave();
 
-        bool save(GluonCore::GluonObject *);
+        bool save();
         bool load();
         bool load( QUrl fileUrl );
         bool load( QString fileName );

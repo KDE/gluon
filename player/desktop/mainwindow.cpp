@@ -194,10 +194,8 @@ void MainWindow::pauseGame()
 
 void MainWindow::saveGame()
 {
-    GluonEngine::Game::instance()->setPause( true );
     GluonEngine::GameSave *s = new GluonEngine::GameSave();
-    s->save(GluonEngine::Game::instance()->currentScene()->root());
-    GluonEngine::Game::instance()->setPause( false );
+    s->save();
 }
 
 void MainWindow::stopGame()
