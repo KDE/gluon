@@ -7,6 +7,7 @@
 #include <core/gluonobject.h>
 #include "gluon_engine_export.h"
 #include <creator/dialogs/configdialog.h>
+#include <core/gdlserializer.h>
 
 namespace GluonEngine
 {

@@ -10,6 +10,8 @@
 #include <QtCore/QMetaProperty>
 #include <QFile>
 #include <QObject>
+#include <QUrl>
+#include <core/gdlserializer.h>
 
 using namespace GluonEngine;
 using namespace std;
@@ -27,29 +29,17 @@ GameSave::~GameSave()
 
 bool GameSave::save(GluonCore::GluonObject *obj)
 {
-//   QFile file("/home/vsrao/Desktop/new.txt");
-  ofstream of("/home/vsrao/Desktop/new.txt");
-  of << obj->metaObject()->className() << '\n';
+  QUrl filename("/home/vsrao/Desktop/new.txt");
   GluonEngine::GamePrivate *d = new GluonEngine::GamePrivate(GluonEngine::Game::instance());
-  QList<const GluonCore::GluonObject*> objects = d->listAllChildren( obj );
+  QList< const GluonCore::GluonObject*> objects = d->listAllChildren( obj );
+  QList<GluonObject*> objectlist;
   foreach(const GluonCore::GluonObject *o, objects)
   {
     QString s = o->metaObject()->className();
     if ( s.compare("GluonEngine::GameObject") == 0)
-    {
-      of << s.toStdString() <<": "<< o->name().toStdString();
-      GluonEngine::GameObject *ob = (GluonEngine::GameObject *)o;
-      for(int i = 0; i < o->metaObject()->propertyCount(); i++ )
-      {
-	GluonCore::GluonObject* o = qobject_cast< GluonCore::GluonObject* >( ob );
-	QMetaProperty property = o->metaObject()->property( i );
-	of << property.name() << ' ';
-	of << property.read( o ).toString().toStdString() << ' ';
-      }
-      of << '\n';
-    }
+      objectlist.append((GluonObject *) o);
   }
-  of.close();
+  GluonCore::GDLSerializer::instance()->write( filename, objectlist);
 }
 
 bool GameSave::load()

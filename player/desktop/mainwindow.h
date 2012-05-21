@@ -60,6 +60,7 @@ namespace GluonKDEPlayer
         public Q_SLOTS:
             void startGame();
             void pauseGame();
+            void saveGame();
             void stopGame();
 
             void optionsConfigureKeys();
