@@ -39,8 +39,6 @@
 
 MainWindow::MainWindow()
 {
-    declarativeView()->setPackageName("org.kde.gluon.player");
-
     declarativeView()->rootContext()->setContextProperty( "installedGamesModel",
                                                           GluonPlayer::GameManager::instance()->installedGamesModel() );
     declarativeView()->rootContext()->setContextProperty( "downloadableGamesModel",
@@ -49,9 +47,11 @@ MainWindow::MainWindow()
                                                           GluonPlayer::ServiceProvider::instance() );
     declarativeView()->rootContext()->setContextProperty( "mainWindow",
                                                           this );
-    qmlRegisterType<GluonPlayer::GameMetadata>( "org.kde.gluon.player", 1, 0, "GameMetadata" );
-    qmlRegisterType<GluonPlayer::CommentsModel>( "org.kde.gluon.player", 1, 0, "CommentsModel" );
-    qmlRegisterUncreatableType<GluonPlayer::GameItem>( "org.kde.gluon.player", 1, 0, "GameItem", "To be used only for enums" );
+    qmlRegisterType<GluonPlayer::GameMetadata>( "org.kde.gluon.playercomponents", 1, 0, "GameMetadata" );
+    qmlRegisterType<GluonPlayer::CommentsModel>( "org.kde.gluon.playercomponents", 1, 0, "CommentsModel" );
+    qmlRegisterUncreatableType<GluonPlayer::GameItem>( "org.kde.gluon.playercomponents", 1, 0, "GameItem", "To be used only for enums" );
+
+    declarativeView()->setPackageName("org.kde.gluon.player");
 }
 
 void MainWindow::playGame(const QString& gameId)
