@@ -49,7 +49,7 @@ Item {
         PlasmaComponents.ToolButton {
             id: playButton
             height: parent.height
-            width: width
+            width: height
             visible: Status == Gluon.GameItem.Installed || Status == Gluon.GameItem.Local
 
             iconSource: "media-playback-start"

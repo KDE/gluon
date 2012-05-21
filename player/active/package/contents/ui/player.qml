@@ -21,10 +21,10 @@ import QtQuick 1.0
 import org.kde.plasma.components 0.1 as PlasmaComponents
 import org.kde.plasma.mobilecomponents 0.1 as MobileComponents
 
-Image {
+Rectangle {
     id: rootItem
-    source: "image://appbackgrounds/standard"
-    fillMode: Image.Tile
+    //source: "image://appbackgrounds/contextarea"
+    //fillMode: Image.Tile
 
     property alias currentGameId: gameDetailsTabGroup.gameId
 
