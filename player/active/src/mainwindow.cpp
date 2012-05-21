@@ -33,7 +33,7 @@
 #include <input/inputmanager.h>
 #include <graphics/renderwidget.h>
 
-#include "kdeclarativeview.h"
+#include <kdeclarativeview.h>
 
 #include <QtDeclarative/QtDeclarative>
 
