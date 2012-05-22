@@ -27,12 +27,18 @@ ListView {
 
     model: Gluon.CommentsModel { id: commentsModel }
     delegate: CommentDelegate {
-        addCommentForm: AddCommentForm {
-            id: commentForm
-            onAccepted: commentsModel.uploadComment(ParentIdRole, commentForm.subjectText, commentForm.bodyText );
+        onReplyComment: {
+            commentForm.parentId = parentCommentId
+            commentForm.open()
         }
     }
 
     spacing: 10
     clip: true
+
+    AddCommentForm {
+        id: commentForm
+        property string parentId
+        onAccepted: commentsModel.uploadComment(parentId, commentForm.subjectText, commentForm.bodyText );
+    }
 }
