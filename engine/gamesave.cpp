@@ -28,7 +28,7 @@ GameSave::~GameSave()
 
 bool GameSave::save()
 {
-  GluonCore::GluonObject *obj = Game::instance()->currentScene()->root();
+  GluonCore::GluonObject *obj = Game::instance()->currentScene()->sceneContents();
   bool pause_flag = true;
   if( !GluonEngine::Game::instance()->isPaused() )
   {
@@ -38,15 +38,8 @@ bool GameSave::save()
   QString dir = QDir::homePath().append( "/Desktop/" );
   QString savefile = QFileDialog::getOpenFileName(0, tr("Save Game"), dir, tr("Save Files (*.gs)"));
   QUrl filename(savefile);
-  GluonEngine::GamePrivate *d = new GluonEngine::GamePrivate(GluonEngine::Game::instance());
-  QList< const GluonCore::GluonObject*> objects = d->listAllChildren( obj );
   QList<GluonObject*> objectlist;
-  foreach(const GluonCore::GluonObject *o, objects)
-  {
-    QString s = o->metaObject()->className();
-    if ( s.compare("GluonEngine::GameObject") == 0)
-      objectlist.append((GluonObject *) o);
-  }
+  objectlist.append( obj );
   if(!GluonCore::GDLSerializer::instance()->write( filename, objectlist))
     qDebug() << "Error in writing to: " << filename.toString();
   if( !pause_flag )
