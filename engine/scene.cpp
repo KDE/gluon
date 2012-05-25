@@ -30,6 +30,7 @@
 #include <core/gdlserializer.h>
 
 #include <QtGui/QAction>
+#include <QDebug>
 
 REGISTER_OBJECTTYPE( GluonEngine, Scene )
 
@@ -64,10 +65,21 @@ void Scene::setName( const QString& newName )
 
 void Scene::loadScene(QUrl filename)
 {
-    QUrl scenefile = absolutePath();
-    setFile( filename.toString() );
-    resetScene();
-    setFile( scenefile.toLocalFile().section("/",-2));
+    if( !d->sceneContentsLoaded )
+        return;
+
+    if( Game::instance()->isRunning() )
+    {
+        sceneContents()->stop();
+        sceneContents()->cleanup();
+    }
+    d->loadContents( filename );
+    emit Game::instance()->currentSceneChanged( this );
+    if( Game::instance()->isRunning() )
+    {
+        sceneContents()->initialize();
+        sceneContents()->start();
+    }
 }
 
 void Scene::resetScene()
