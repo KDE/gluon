@@ -28,6 +28,7 @@
 #include <lib/serviceprovider.h>
 #include <lib/models/allgameitemsmodel.h>
 #include <lib/models/gameitem.h>
+#include <lib/gamedownloadjob.h>
 
 #include <engine/game.h>
 #include <input/inputmanager.h>
@@ -50,6 +51,7 @@ MainWindow::MainWindow()
     qmlRegisterType<GluonPlayer::GameMetadata>( "org.kde.gluon.playercomponents", 1, 0, "GameMetadata" );
     qmlRegisterType<GluonPlayer::CommentsModel>( "org.kde.gluon.playercomponents", 1, 0, "CommentsModel" );
     qmlRegisterUncreatableType<GluonPlayer::GameItem>( "org.kde.gluon.playercomponents", 1, 0, "GameItem", "To be used only for enums" );
+    qmlRegisterUncreatableType<GluonPlayer::GameDownloadJob>( "org.kde.gluon.playercomponents", 1, 0, "GameDownloadJob", "Get an instance from serviceProvider" );
 
     declarativeView()->setPackageName("org.kde.gluon.player");
 }

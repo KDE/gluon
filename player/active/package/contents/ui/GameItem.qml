@@ -38,7 +38,7 @@ Item {
         PlasmaComponents.Button {
             id: iconButton
             height: parent.height
-            width: parent.width - (playButton.visible ? playButton.width : 0)
+            width: parent.width - playDownloadButton.width
 
             iconSource: "gluon-player"
             text: GameName
@@ -47,13 +47,12 @@ Item {
         }
 
         PlasmaComponents.ToolButton {
-            id: playButton
+            id: playDownloadButton
             height: parent.height
             width: height
-            visible: Status == Gluon.GameItem.Installed || Status == Gluon.GameItem.Local
 
-            iconSource: "media-playback-start"
-            onClicked: mainWindow.playGame(Id)
+            iconSource: Status == Gluon.GameItem.Installed || Status == Gluon.GameItem.Local ? "media-playback-start" : "download"
+            onClicked: Status == Gluon.GameItem.Installed || Status == Gluon.GameItem.Local ? mainWindow.playGame(Id) : serviceProvider.downloadGame(Id).startSocialService()
         }
     }
 }
