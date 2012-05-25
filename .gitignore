@@ -21,3 +21,7 @@ CMakeLists.txt.user.*
 #QtCreator
 qtcreator-build
 
+#KDevelop
+.kdev4
+*.kdev4
+
