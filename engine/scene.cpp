@@ -62,6 +62,14 @@ void Scene::setName( const QString& newName )
     GluonCore::GluonObject::setName( newName );
 }
 
+void Scene::loadScene(QUrl filename)
+{
+    QUrl scenefile = absolutePath();
+    setFile( filename.toString() );
+    resetScene();
+    setFile( scenefile.toLocalFile().section("/",-2));
+}
+
 void Scene::resetScene()
 {
     if( !d->sceneContentsLoaded )

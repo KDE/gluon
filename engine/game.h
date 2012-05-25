@@ -133,10 +133,15 @@ namespace GluonEngine
              * Cleanup all objects in the current scene.
              */
             void cleanupAll();
+	    /**
+	     * Load a scene from a saved file.
+	     */
+	    void loadScene( QUrl );
 
             // This allows the reset scene call to emit the Game::currentSceneChanged signal
             // which ensures that Creator doesn't crash when resetting the scene
             friend void Scene::resetScene();
+	    friend void Scene::loadScene( QUrl );
 
         Q_SIGNALS:
             void showDebug( const QString& debugText );

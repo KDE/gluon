@@ -128,6 +128,10 @@ void MainWindow::setupActions()
     actionCollection()->addAction( "game_savegame", savegame );
     connect( savegame, SIGNAL(triggered(bool)), SLOT(saveGame()) );
 
+    KAction* loadgame = new KAction( KIcon( "media-playback-start" ), i18n( "Load Game" ), actionCollection() );
+    actionCollection()->addAction( "game_loadgame", loadgame );
+    connect( loadgame, SIGNAL(triggered(bool)), SLOT(loadGame()) );
+
     KAction* pause = new KAction( KIcon( "media-playback-pause" ), i18n( "Pause Game" ), actionCollection() );
     actionCollection()->addAction( "game_pause", pause );
     connect( pause, SIGNAL(triggered(bool)), SLOT(pauseGame()) );
@@ -196,6 +200,12 @@ void MainWindow::saveGame()
 {
     GluonEngine::GameSave *s = new GluonEngine::GameSave();
     s->save();
+}
+
+void MainWindow::loadGame()
+{
+    GluonEngine::GameSave *s = new GluonEngine::GameSave();
+    s->load();
 }
 
 void MainWindow::stopGame()

@@ -88,6 +88,7 @@ namespace GluonEngine
              * If the scene's content is loaded, reload it from disk. Otherwise do nothing.
              */
             virtual void resetScene();
+	    virtual void loadScene( QUrl );
 
             /**
              *  Set this scene to the entry point of the current project.

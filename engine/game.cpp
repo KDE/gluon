@@ -72,6 +72,11 @@ Game::getCurrentTick()
     return d->time.elapsed();
 }
 
+void Game::loadScene(QUrl filename)
+{
+    d->currentScene->loadScene( filename );
+}
+
 void
 Game::runGameFixedUpdate( int updatesPerSecond, int maxFrameSkip )
 {

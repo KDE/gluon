@@ -28,6 +28,7 @@ namespace GluonEngine
         bool load();
         bool load( QUrl fileUrl );
         bool load( QString fileName );
+	void debug_print(QObject *);
     };
 }
 

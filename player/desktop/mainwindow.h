@@ -61,6 +61,7 @@ namespace GluonKDEPlayer
             void startGame();
             void pauseGame();
             void saveGame();
+	    void loadGame();
             void stopGame();
 
             void optionsConfigureKeys();

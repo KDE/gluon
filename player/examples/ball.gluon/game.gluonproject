@@ -74,7 +74,7 @@
             file string("assets/render_target.gml")
             { GluonGraphics::MaterialInstance("Main")
                 materialColor rgba(255;255;255;255)
-                texture0 uint(18)
+                texture0 uint(11)
             }
         }
     }
