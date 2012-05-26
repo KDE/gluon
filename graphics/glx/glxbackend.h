@@ -50,6 +50,9 @@ namespace GluonGraphics
             virtual Shader* createShader();
             virtual OutputSurface* createOutputSurface( QWidget* widget );
 
+        public Q_SLOTS:
+            void aboutToQuit();
+
         private:
             class Private;
             const QScopedPointer< Private > d;

@@ -63,7 +63,7 @@ int main( int argc, char* argv[] )
     GluonGraphics::MaterialInstance *materialInstance = engine->material("customMaterialName")->createInstance("InstanceName");
 
     //Create an item to display
-    GluonGraphics::Item* item = engine->createItem( "default" );
+    GluonGraphics::Entity* item = engine->createItem( "default" );
     item->setMaterialInstance(materialInstance);
 
     //Load a custom texture from file
@@ -76,7 +76,7 @@ int main( int argc, char* argv[] )
     GluonGraphics::MaterialInstance *materialInstance2 = engine->material("customMaterialName")->createInstance("Instance2Name");
 
     //Create another item to display
-    GluonGraphics::Item* item2 = engine->createItem( "default" );
+    GluonGraphics::Entity* item2 = engine->createItem( "default" );
     item2->setMaterialInstance(materialInstance2);
 
     //Load another custom texture from file

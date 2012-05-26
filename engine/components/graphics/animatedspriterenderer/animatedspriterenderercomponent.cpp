@@ -67,7 +67,7 @@ class AnimatedSpriteRendererComponent::Private
         {
         }
 
-        GluonGraphics::Item* item;
+        GluonGraphics::Entity* item;
         GluonGraphics::MaterialInstance* material;
         GluonGraphics::MaterialInstance* localInstance;
 

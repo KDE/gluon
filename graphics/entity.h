@@ -1,9 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,32 +20,36 @@
 #ifndef GLUONGRAPHICS_ITEM_H
 #define GLUONGRAPHICS_ITEM_H
 
-#include "gluon_graphics_export.h"
+#include <core/gluonobject.h>
 
-#include "vertexbuffer.h"
+#include "gluon_graphics_export.h"
 
 class QMatrix4x4;
 namespace GluonGraphics
 {
-
+    class World;
     class MaterialInstance;
     class Mesh;
 
     /**
      * \brief An object in 3D-space.
      *
-     * The item class describes an object in 3D-space. It
+     * The Entity class describes an object in 3D-space. It
      * is essentially a transformation matrix and a mesh.
-     * The Item object tells the associated mesh where it
+     * The Entity object tells the associated mesh where it
      * should be rendered. This allows us to reuse a mesh
      * multiple times.
      */
-    class GLUON_GRAPHICS_EXPORT Item : public QObject
+    class GLUON_GRAPHICS_EXPORT Entity : public GluonCore::GluonObject
     {
             Q_OBJECT
+            GLUON_OBJECT( Entity )
+
         public:
-            Item( QObject* parent = 0 );
-            virtual ~Item();
+            Entity( QObject* parent = 0 );
+            virtual ~Entity();
+
+            virtual World* world() const;
 
             /**
              * Retrieve the transformation matrix associated with
@@ -56,14 +57,16 @@ namespace GluonGraphics
              *
              * \return The item's transformation matrix.
              */
-            QMatrix4x4 transform();
+            virtual QMatrix4x4 transform() const;
 
             /**
              * Retrieve the mesh currently used by this item.
              *
              * \return The item's mesh.
              */
-            Mesh* mesh();
+            virtual Mesh* mesh() const;
+
+            virtual bool hasMesh() const;
 
             /**
              * Retrieve the material instance used by this item.
@@ -72,35 +75,39 @@ namespace GluonGraphics
              *
              * \return The material instance used by this item.
              */
-            MaterialInstance* materialInstance();
+            virtual MaterialInstance* materialInstance() const;
+
+            virtual bool hasMaterialInstance() const;
 
         public Q_SLOTS:
+            virtual void setWorld( World* world );
+
             /**
              * Render the item to screen using the material set.
              */
             virtual void render();
 
-            /**
-             * Render the item to screen.
-             *
-             * \param material The material to use to render the item
-             * \param mode The GL mode used to render the mesh, like GL_TRIANGLES
-             */
-            void render( MaterialInstance* material, VertexBuffer::RenderMode mode );
+//             /**
+//              * Render the item to screen.
+//              *
+//              * \param material The material to use to render the item
+//              * \param mode The GL mode used to render the mesh, like GL_TRIANGLES
+//              */
+//             void render( MaterialInstance* material, VertexBuffer::RenderMode mode );
 
             /**
              * Set the transformation used for this item.
              *
              * \param transform The new transformation to use.
              */
-            void setTransform( const QMatrix4x4 transform );
+            virtual void setTransform( const QMatrix4x4 transform );
 
             /**
              * Set the mesh used by this item.
              *
              * \param mesh The mesh to use.
              */
-            void setMesh( Mesh* mesh );
+            virtual void setMesh( Mesh* mesh );
 
             /**
              * Set the material instance that needs to be used by
@@ -108,12 +115,15 @@ namespace GluonGraphics
              *
              * \param material The material instance to use.
              */
-            void setMaterialInstance( MaterialInstance* material );
+            virtual void setMaterialInstance( MaterialInstance* material );
 
         private:
-            class ItemPrivate;
-            ItemPrivate* const d;
+            class Private;
+            Private* const d;
     };
 
 }
+
+Q_DECLARE_METATYPE( GluonGraphics::Entity* );
+
 #endif // GLUONGRAPHICS_ITEM_H

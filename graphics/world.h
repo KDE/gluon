@@ -24,7 +24,7 @@
 
 namespace GluonGraphics
 {
-    class Item;
+    class Entity;
     class Sprite;
 
     class World : public QObject
@@ -35,18 +35,20 @@ namespace GluonGraphics
             virtual ~World();
 
             template < typename T >
-            T* createEntity();
+            T* createEntity()
+            {
 
-            template < typename T >
-            T* entity( int id );
-
+            }
+            void addEntity( Entity* entity );
+            Entity* entity( int id );
             void destroyEntity( int id );
+            void destroyEntity( Entity* entity );
 
             void render();
 
         private:
             class Private;
-            const QScopedPointer< Private > d;
+            Private* const d;
     };
 
 }

@@ -19,7 +19,6 @@
 
 #include "viewport.h"
 
-#include "glheaders.h"
 #include "camera.h"
 #include "frustrum.h"
 
@@ -27,7 +26,7 @@
 
 using namespace GluonGraphics;
 
-class Viewport::ViewportPrivate
+class Viewport::Private
 {
     public:
         float left;
@@ -38,8 +37,7 @@ class Viewport::ViewportPrivate
 };
 
 Viewport::Viewport( QObject* parent )
-    : QObject( parent ),
-      d( new ViewportPrivate )
+    : QObject( parent ), d( new Private )
 {
 }
 

@@ -19,6 +19,8 @@
 
 #include "renderwidget.h"
 
+#include <QResizeEvent>
+
 #include "manager.h"
 #include "outputsurface.h"
 #include "backend.h"
@@ -28,6 +30,8 @@ using namespace GluonGraphics;
 class RenderWidget::Private
 {
     public:
+        Private() : surface( 0 ) { }
+
         OutputSurface* surface;
 };
 
@@ -36,16 +40,32 @@ RenderWidget::RenderWidget( QWidget* parent, Qt::WindowFlags f ) :
 {
     setAttribute( Qt::WA_PaintOnScreen );
     setAttribute( Qt::WA_OpaquePaintEvent );
-    d->surface = Manager::instance()->backend()->createOutputSurface( this );
 }
 
 RenderWidget::~RenderWidget()
 {
+    delete d->surface;
+    delete d;
 }
 
 void RenderWidget::paintEvent( QPaintEvent* )
 {
-    d->surface->render();
+    if( !d->surface )
+    {
+        Manager::instance()->backend()->initialize( this );
+        Manager::instance()->initialize();
+        d->surface = Manager::instance()->backend()->createOutputSurface( this );
+        d->surface->setSize( width(), height() );
+    }
+
+    d->surface->renderContents();
+}
+
+void RenderWidget::resizeEvent( QResizeEvent* event )
+{
+    if( d->surface )
+        d->surface->setSize( event->size().width(), event->size().height() );
+    QWidget::resizeEvent( event );
 }
 
 #include "renderwidget.moc"

@@ -20,11 +20,10 @@
 #ifndef GLUONGRAPHICS_RENDERTARGET_H
 #define GLUONGRAPHICS_RENDERTARGET_H
 
-#include "gluon_graphics_export.h"
-
-
 #include <QtCore/QObject>
-#include "renderable.h"
+
+#include "gluon_graphics_export.h"
+#include "renderpipelineitem.h"
 
 namespace GluonGraphics
 {
@@ -43,7 +42,7 @@ namespace GluonGraphics
      * Note that this class always renders its target as a 1x1 full
      * screen quad.
      */
-    class GLUON_GRAPHICS_EXPORT RenderTarget : public QObject, public Renderable
+    class GLUON_GRAPHICS_EXPORT RenderTarget : public QObject, public RenderPipelineItem
     {
             Q_OBJECT
         public:
@@ -74,6 +73,12 @@ namespace GluonGraphics
              */
             virtual void release() = 0;
 
+            void addChild( RenderPipelineItem* item );
+            void removeChild( RenderPipelineItem* item );
+
+            int width();
+            int height();
+
         public Q_SLOTS:
             /**
              * Resize the RenderTarget and any attached framebuffers and
@@ -82,12 +87,17 @@ namespace GluonGraphics
              * \param width The new width of the RenderTarget.
              * \param height The new height of the RenderTarget.
              */
-            virtual void resize( int width, int height ) = 0;
+            virtual void resize( int width, int height );
+
+            virtual void update();
 
             /**
              * Render this render target. Reimplemented from Renderable::render().
              */
-            virtual void render();
+            virtual void renderContents();
+
+        protected:
+            virtual void resizeImpl() = 0;
 
         private:
             class Private;

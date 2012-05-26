@@ -36,8 +36,8 @@ namespace GluonGraphics
             virtual ~MaterialElement();
 
         private:
-            class MaterialElementPrivate;
-            MaterialElementPrivate* const d;
+            class Private;
+            Private* const d;
     };
 
 }

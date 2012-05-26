@@ -19,6 +19,7 @@
 
 #include "glxcontext.h"
 
+#include <QtCore/QDebug>
 #include <QtGui/QX11Info>
 #include <QtGui/QWidget>
 #include <GL/glx.h>
@@ -28,6 +29,7 @@ using namespace GluonGraphics::GLX;
 class Context::Private
 {
     public:
+        Private() : current( false ) { }
         GLXContext context;
         bool current;
 };
@@ -43,6 +45,7 @@ Context::Context()
 
 Context::~Context()
 {
+    clearCurrent();
     glXDestroyContext( QX11Info::display(), d->context );
 }
 

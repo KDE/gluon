@@ -21,32 +21,43 @@
 
 #include <QtCore/QHash>
 #include <QtCore/QPluginLoader>
+#include <QApplication>
 
 #include <core/directoryprovider.h>
 #include <core/debughelper.h>
 
 #include "backend.h"
 #include "world.h"
+#include "rendertarget.h"
+#include "material.h"
+#include "spritemesh.h"
 
 using namespace GluonGraphics;
 
 GLUON_DEFINE_SINGLETON( Manager );
 
-#define PREFIX_IDENTIFIER(Object, Identifier) QString( "%1::%2" ).arg( Object->metaObject()->className() ).arg( Identifier );
-
 class Manager::Private
 {
     public:
-        Private() : backend( 0 ) { }
+        Private( Manager* qq ) : q( qq ), backend( 0 ) { }
+
         void createBackend();
+        void aboutToQuit();
+
+        Manager* q;
+
         Backend* backend;
 
+        World* currentWorld;
+
         QHash< QString, World* > worlds;
-        QHash< QString, QObject* > resources;
 };
 
-const QString Manager::defaultWorld( "_defaultWorld" );
-const QString Manager::defaultRenderTarget( "_defaultRenderTarget" );
+const QString Manager::Defaults::World( "_defaultWorld" );
+const QString Manager::Defaults::RenderTarget( "_defaultRenderTarget" );
+const QString Manager::Defaults::Material( "_defaultMaterial" );
+const QString Manager::Defaults::SpriteMesh( "_defaultSpriteMesh" );
+const char* Manager::resourceIdentifierProperty = "_GluonGraphics_ResourceIdentifier";
 
 Backend* Manager::backend(  )
 {
@@ -54,6 +65,14 @@ Backend* Manager::backend(  )
         d->createBackend();
 
     return d->backend;
+}
+
+void Manager::initialize()
+{
+    d->currentWorld = createWorld();
+    addResource< RenderTarget >( Defaults::RenderTarget, backend()->createRenderTarget() );
+    createResource< Material >( Defaults::Material );
+    createResource< SpriteMesh >( Defaults::SpriteMesh );
 }
 
 World* Manager::createWorld( const QString& identifier )
@@ -79,95 +98,34 @@ void Manager::destroyWorld( const QString& identifier )
     if( world )
     {
         d->worlds.remove( identifier );
-        world->deleteLater();
+        delete world;
     }
 }
 
 World* Manager::currentWorld() const
 {
-
+    return d->currentWorld;
 }
 
 void Manager::setCurrentWorld( const QString& identifier )
 {
+    if( !d->worlds.contains( identifier ) )
+        return;
 
-}
-
-void Manager::addResource( const QString& identifier, QObject* object )
-{
-    QString prefixedIdentifier = PREFIX_IDENTIFIER( object, identifier );
-    DEBUG_FUNC_NAME
-    DEBUG_TEXT( prefixedIdentifier );
-    if( !d->resources.contains( prefixedIdentifier ) )
-        d->resources.insert( prefixedIdentifier, object );
-}
-
-void Manager::removeResource( QObject* resource )
-{
-
-}
-
-QObject* Manager::resource( const QString& identifier )
-{
-
+    d->currentWorld = d->worlds.value( identifier );
+    emit currentWorldChanged();
 }
 
 Manager::Manager( QObject* parent )
-    : GluonCore::Singleton< Manager >( parent ), d( new Private )
+    : GluonCore::Singleton< Manager >( parent ), d( new Private( this ) )
 {
-
+    connect( QApplication::instance(), SIGNAL(aboutToQuit()), SLOT(aboutToQuit()) );
 }
 
 Manager::~Manager()
 {
-    delete d->backend;
-    qDeleteAll( d->worlds );
-    qDeleteAll( d->resources );
+    delete d;
 }
-
-// T* Manager::createResource( const QString& identifier )
-// {
-//     DEBUG_FUNC_NAME
-//     QString prefixedIdentifier = PREFIX_IDENTIFIER( T, identifier );
-//     DEBUG_TEXT( prefixedIdentifier );
-//     if( d->resources.contains( prefixedIdentifier ) )
-//         return qobject_cast< T* >( d->resources.value( prefixedIdentifier ) );
-//
-//     T* newResource = new T( this );
-//     d->resources.insert( prefixedIdentifier, newResource );
-//
-//     return newResource;
-// }
-//
-// template < typename T >
-// void Manager::addResource( const QString& identifier, T* object )
-// {
-//     QString prefixedIdentifier = PREFIX_IDENTIFIER( T, identifier );
-//     if( !d->resources.contains( prefixedIdentifier ) )
-//         d->resources.insert( prefixedIdentifier, object );
-// }
-//
-// template < typename T >
-// T* Manager::resource( const QString& identifier ) const
-// {
-//     QString prefixedIdentifier = PREFIX_IDENTIFIER( T, identifier );
-//     if( d->resources.contains( prefixedIdentifier ) )
-//         return qobject_cast< T*>( d->resources.value( prefixedIdentifier ) );
-//
-//     return 0;
-// }
-//
-// template < typename T >
-// void Manager::destroyResource( const QString& identifier )
-// {
-//     QString prefixedIdentifier = PREFIX_IDENTIFIER( T, identifier );
-//     QObject* resource = d->resources.value( prefixedIdentifier );
-//     if( resource )
-//     {
-//         d->resources.remove( prefixedIdentifier );
-//         resource->deleteLater();
-//     }
-// }
 
 void Manager::Private::createBackend()
 {
@@ -181,6 +139,17 @@ void Manager::Private::createBackend()
     backend = qobject_cast< Backend*>( loader.instance() );
     if( !backend )
         qFatal( "The backend plugin %s does not provide a GluonGraphics::Backend object!", pluginPath.toUtf8().data() );
+}
+
+void Manager::Private::aboutToQuit()
+{
+    q->destroyWorld( Defaults::World );
+    q->destroyResource< RenderTarget >( Defaults::RenderTarget );
+    q->destroyResource< Material >( Defaults::Material );
+
+    delete backend;
+    qDeleteAll( worlds );
+    qDeleteAll( q->m_resources );
 }
 
 #include "manager.moc"

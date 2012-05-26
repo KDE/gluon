@@ -33,7 +33,7 @@ endif(ASSIMP_FOUND)
 set(GluonGraphics_SRCS
     camera.cpp
     frustrum.cpp
-    item.cpp
+    entity.cpp
     material.cpp
     materialelement.cpp
     materialinstance.cpp
@@ -43,26 +43,23 @@ set(GluonGraphics_SRCS
     technique.cpp
     texture.cpp
     mesh.cpp
-    vertex.cpp
     vertexattribute.cpp
     vertexbuffer.cpp
     viewport.cpp
     spritemesh.cpp
 
-    texturedata.cpp
-
     manager.cpp
     world.cpp
     outputsurface.cpp
     shader.cpp
+    buffer.cpp
 )
 
 set(GluonGraphics_HEADERS
     camera.h
     frustrum.h
-    glheaders.h
     gluon_graphics_export.h
-    item.h
+    entity.h
     mesh.h
     material.h
     materialelement.h
@@ -72,7 +69,6 @@ set(GluonGraphics_HEADERS
     renderwidget.h
     technique.h
     texture.h
-    vertex.h
     vertexbuffer.h
     vertexattribute.h
     viewport.h

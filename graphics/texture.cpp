@@ -22,42 +22,27 @@
 
 #include "texture.h"
 
-#include "glheaders.h"
 #include "math.h"
 
-#include <QtOpenGL/QGLContext>
 #include <QtGui/QImage>
 #include <QtCore/QUrl>
 
 using namespace GluonGraphics;
 
-class Texture::TexturePrivate
+class Texture::Private
 {
     public:
-        TexturePrivate()
-            : glTexture( 0 )
-        { }
-        uint glTexture;
         QImage image;
 };
 
 Texture::Texture( QObject* parent )
-    : QObject( parent )
-    , d( new TexturePrivate )
+    : QObject( parent ), d( new Private )
 {
 
-}
-
-Texture::Texture( const Texture& other, QObject* parent )
-    : QObject( parent )
-    , d( new TexturePrivate() )
-{
-    *d = *other.d;
 }
 
 Texture::~Texture()
 {
-    glDeleteTextures( 1, &d->glTexture );
     delete d;
 }
 
@@ -65,33 +50,9 @@ bool Texture::load( const QUrl& url )
 {
     // TODO: Add support for non-2D textures and non-RGBA colour formats. Also, find a way
     // around the nasty const_cast .
-    if( !QGLContext::currentContext() || !QGLContext::currentContext()->isValid() )
-        return false;
-
-    QGLContext* context = const_cast<QGLContext*>( QGLContext::currentContext() );
-
-    if( d->glTexture )
-        context->deleteTexture( d->glTexture );
-
     d->image.load( url.toLocalFile() );
 
-    d->glTexture = context->bindTexture( d->image );
-
-//     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-//     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-// #if !defined(GLUON_GRAPHICS_GLES) && !defined(QT_OPENGL_ES)
-//     glTexParameterf( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE );
-// #endif
-
-    if( d->glTexture != 0 )
-        return true;
-
     return false;
-}
-
-uint Texture::glTexture() const
-{
-    return d->glTexture;
 }
 
 QImage Texture::image() const

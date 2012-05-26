@@ -46,7 +46,7 @@ class DiscSectionRendererComponent::DiscSectionRendererComponentPrivate
         {
         }
 
-        GluonGraphics::Item* item;
+        GluonGraphics::Entity* item;
         GluonGraphics::DiscSectionMesh* mesh;
 
         GluonEngine::Asset* texture;
@@ -81,7 +81,7 @@ void DiscSectionRendererComponent::initialize()
     if( !d->item )
     {
         d->mesh = new GluonGraphics::DiscSectionMesh( gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->arcCenter, d->color, this );
-        d->item = new GluonGraphics::Item( d->mesh, this );
+        d->item = new GluonGraphics::Entity( d->mesh, this );
         d->item->setColor( d->color );
     }
 

@@ -52,7 +52,6 @@ namespace GluonGraphics
             Q_OBJECT
         public:
             explicit Texture( QObject* parent = 0 );
-            Texture( const Texture& other, QObject* parent = 0 );
             virtual ~Texture();
 
             /**
@@ -65,13 +64,6 @@ namespace GluonGraphics
             bool load( const QUrl& url );
 
             /**
-             * Retrieve the OpenGL texture id.
-             *
-             * \return The OpenGL texture ID for this texture.
-             */
-            uint glTexture() const;
-
-            /**
              * Retrieve the image used for this texture.
              *
              * \return The image used.
@@ -79,8 +71,8 @@ namespace GluonGraphics
             QImage image() const;
 
         private:
-            class TexturePrivate;
-            TexturePrivate* const d;
+            class Private;
+            Private* const d;
     };
 }
 

@@ -27,12 +27,15 @@
 #include <GL/gl.h>
 #include <GL/glx.h>
 
+#include <core/debughelper.h>
+
 #include "glxcontext.h"
 #include "glxshader.h"
 #include "glxoutputsurface.h"
 #include "glxbuffer.h"
 #include "glxtexture.h"
 #include "glxrendertarget.h"
+#include <manager.h>
 
 using namespace GluonGraphics;
 
@@ -50,14 +53,25 @@ GLXBackend::GLXBackend() : d( new Private )
 
 GLXBackend::~GLXBackend()
 {
-    d->context->clearCurrent();
-    delete d->context;
+    if( d->context )
+    {
+        d->context->clearCurrent();
+        delete d->context;
+    }
 }
 
 void GLXBackend::initialize( QWidget* widget )
 {
+    if( d->context )
+        return;
+
     d->context = new GLX::Context();
     d->context->makeCurrent( widget );
+
+    DEBUG_BLOCK
+    DEBUG_TEXT( information( FullInformation ) );
+
+    glClearColor( 0.f, 0.f, 0.f, 0.f );
 }
 
 QString GLXBackend::identifier()

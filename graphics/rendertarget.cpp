@@ -19,26 +19,17 @@
 
 #include "rendertarget.h"
 
-#include "texture.h"
-#include "vertexbuffer.h"
-#include "vertexattribute.h"
-#include "materialinstance.h"
-#include "viewport.h"
-
-#include <QtOpenGL/QGLFramebufferObject>
-#include <QtGui/QMatrix4x4>
-#include "manager.h"
-#include "world.h"
+#include "renderpipelineitem.h"
 
 using namespace GluonGraphics;
 
 class RenderTarget::Private
 {
     public:
-        Camera* camera;
-
         int width;
         int height;
+
+        QList< RenderPipelineItem* > children;
 };
 
 RenderTarget::RenderTarget( QObject* parent )
@@ -56,13 +47,54 @@ RenderTarget::~RenderTarget()
     delete d;
 }
 
-void RenderTarget::render()
+void RenderTarget::addChild(RenderPipelineItem* item)
+{
+
+}
+
+void RenderTarget::removeChild(RenderPipelineItem* item)
+{
+
+}
+
+int RenderTarget::height()
+{
+    return d->height;
+}
+
+int RenderTarget::width()
+{
+    return d->width;
+}
+
+void RenderTarget::update()
 {
     bind();
 
-    //for each renderable: render
+    foreach( RenderPipelineItem* item, d->children )
+    {
+        item->renderContents();
+    }
 
     release();
+}
+
+void RenderTarget::renderContents()
+{
+    update();
+
+
+}
+
+void RenderTarget::resize( int width, int height )
+{
+    if( width == d->width && height == d->height )
+        return;
+
+    d->width = width;
+    d->height = height;
+
+    resizeImpl();
 }
 
 #include "rendertarget.moc"

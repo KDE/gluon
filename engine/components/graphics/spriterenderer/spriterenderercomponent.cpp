@@ -50,7 +50,7 @@ class SpriteRendererComponent::SpriteRendererComponentPrivate
         {
         }
 
-        GluonGraphics::Item* item;
+        GluonGraphics::Entity* item;
         GluonEngine::Asset* texture;
         GluonGraphics::MaterialInstance* material;
 

@@ -34,7 +34,13 @@ namespace GluonGraphics
 
             virtual void bind();
             virtual void release();
-            virtual void resize( int width, int height );
+
+        protected:
+            virtual void resizeImpl();
+
+        private:
+            class Private;
+            Private * const d;
     };
 }
 

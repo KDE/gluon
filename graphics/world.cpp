@@ -19,6 +19,8 @@
 
 #include "world.h"
 
+#include "entity.h"
+
 using namespace GluonGraphics;
 
 class World::Private
@@ -33,6 +35,31 @@ World::World( QObject* parent ) : d( new Private )
 }
 
 World::~World()
+{
+    delete d;
+}
+
+void World::addEntity(Entity* entity)
+{
+
+}
+
+Entity* World::entity(int id)
+{
+
+}
+
+void World::destroyEntity(int id)
+{
+
+}
+
+void World::destroyEntity(Entity* entity)
+{
+
+}
+
+void World::render()
 {
 
 }
