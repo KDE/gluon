@@ -22,7 +22,6 @@
 #include "material.h"
 #include "mathutils.h"
 #include "texture.h"
-#include "glheaders.h"
 #include "camera.h"
 #include "frustrum.h"
 
@@ -34,16 +33,10 @@ REGISTER_OBJECTTYPE( GluonGraphics, MaterialInstance )
 
 using namespace GluonGraphics;
 
-class MaterialInstance::MaterialInstancePrivate
+class MaterialInstance::Private
 {
     public:
-        MaterialInstancePrivate()
-            : activeCamera( 0 )
-            , bound( false )
-            , customViewProjMatrices( false )
-        {
-            //activeCamera = Engine::instance()->activeCamera();
-        }
+        Private() : activeCamera( 0 ), bound( false ), customViewProjMatrices( false ) { }
 
         void setActiveCamera( Camera* camera )
         {
@@ -66,8 +59,7 @@ class MaterialInstance::MaterialInstancePrivate
 };
 
 MaterialInstance::MaterialInstance( QObject* parent )
-    : GluonObject( parent ),
-      d( new MaterialInstancePrivate )
+    : GluonObject( parent ), d( new Private )
 {
     qRegisterMetaType<GluonGraphics::Texture*>( "GluonGraphics::Texture*" );
     //connect( Engine::instance(), SIGNAL(activeCameraChanging(Camera*)), this, SLOT(setActiveCamera(Camera*)) );
@@ -266,20 +258,12 @@ MaterialInstance::setGLUniform( const QString& name, const QVariant& value )
 void
 MaterialInstance::bindTexture( const QString& name, Texture* tex )
 {
-    if( !tex )
-        return;
 
-    bindTexture( name, tex->glTexture() );
 }
 
 void MaterialInstance::bindTexture( const QString& name, int tex )
 {
-    QString uniName = name;
-    int id = uniName.remove( "texture" ).toInt();
 
-    //glActiveTexture( GL_TEXTURE0 + id );
-    //glBindTexture( GL_TEXTURE_2D, tex );
-    //glUniform1i( uniformLocation( name ), id );
 }
 
 #include "materialinstance.moc"

@@ -34,10 +34,11 @@ namespace GluonGraphics
             virtual ~RenderWidget();
 
             virtual void paintEvent( QPaintEvent* );
+            virtual void resizeEvent(QResizeEvent* );
 
         private:
             class Private;
-            const QScopedPointer< Private > d;
+            Private* const d;
     };
 }
 

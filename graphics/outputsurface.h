@@ -35,16 +35,17 @@ namespace GluonGraphics
             RenderTarget* renderTarget() const;
 
         public Q_SLOTS:
-            virtual void render() = 0;
+            virtual void renderContents() = 0;
             void setRenderTarget( RenderTarget* newTarget );
             void setRenderTarget( const QString& targetIdentifier );
+            void setSize( int width, int height );
 
         protected:
             QWidget* widget();
 
         private:
             class Private;
-            Private * const d;
+            Private* const d;
     };
 
 }

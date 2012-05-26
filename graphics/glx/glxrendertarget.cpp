@@ -19,30 +19,92 @@
 
 #include "glxrendertarget.h"
 
+#include <GL/gl.h>
+#include <GL/glext.h>
+
 using namespace GluonGraphics;
 
-GLXRenderTarget::GLXRenderTarget( QObject* parent )
-    : GluonGraphics::RenderTarget( parent )
+class GLXRenderTarget::Private
 {
+    public:
+        Private() :
+            bound( false ),
+            fbo( 0 ),
+            previous( 0 ),
+            imageBuffer( 0 ),
+            depthBuffer( 0 )
+        { }
 
+        bool bound;
+        GLuint fbo;
+        GLuint previous;
+
+        GLuint imageBuffer;
+        GLuint depthBuffer;
+};
+
+GLXRenderTarget::GLXRenderTarget( QObject* parent )
+    : GluonGraphics::RenderTarget( parent ), d( new Private )
+{
+    glGenFramebuffers( 1, &d->fbo );
+    resize( 512, 512 );
 }
 
 GLXRenderTarget::~GLXRenderTarget()
 {
-
+    glDeleteFramebuffers( 1, &d->fbo );
 }
 
 void GLXRenderTarget::bind()
 {
+    if( d->bound )
+        return;
 
+    int current;
+    glGetIntegerv( GL_FRAMEBUFFER_BINDING, &current );
+    if( current > 0 )
+        d->previous = current;
+
+    glBindFramebuffer( GL_FRAMEBUFFER, d->fbo );
+
+    glClearColor( 1.f, 0.f, 0.f, 1.f );
+    glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT );
+
+    d->bound = true;
 }
 
 void GLXRenderTarget::release()
 {
-
+    glBindFramebuffer( GL_FRAMEBUFFER, d->previous );
+    glClearColor( 0.f, 0.f, 0.f, 1.f );
+    d->previous = 0;
+    d->bound = false;
 }
 
-void GLXRenderTarget::resize( int width, int height )
+void GLXRenderTarget::resizeImpl()
 {
+    if( d->bound )
+        return;
 
+    if( d->imageBuffer != 0 )
+        glDeleteTextures( 1, &d->imageBuffer );
+
+    glGenTextures( 1, &d->imageBuffer );
+    glBindTexture( GL_TEXTURE_2D, d->imageBuffer );
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, width(), height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, 0 );
+
+    if( d->depthBuffer != 0 )
+        glDeleteRenderbuffersEXT( 1, &d->depthBuffer );
+
+    glGenRenderbuffersEXT( 1, &d->depthBuffer );
+    glBindRenderbufferEXT( GL_RENDERBUFFER, d->depthBuffer );
+    glRenderbufferStorageEXT( GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width(), height() );
+
+    glBindFramebufferEXT( GL_FRAMEBUFFER, d->fbo );
+    glFramebufferTexture2DEXT( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, d->imageBuffer, 0 );
+    glFramebufferRenderbufferEXT( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, d->depthBuffer );
+    glBindFramebufferEXT( GL_FRAMEBUFFER, 0 );
+
+    glBindRenderbufferEXT( GL_RENDERBUFFER, 0 );
+    glBindTexture( GL_TEXTURE_2D, 0 );
 }

@@ -2,6 +2,7 @@
 find_package( OpenGL )
 
 include_directories( ${CMAKE_CURRENT_BINARY_DIR} ${OPENGL_INCLUDE_DIR} )
+add_definitions(-DGL_GLEXT_PROTOTYPES)
 
 set( gluongraphics_backend_SRCS
     glxbackend.cpp

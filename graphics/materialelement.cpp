@@ -23,15 +23,14 @@ REGISTER_OBJECTTYPE( GluonGraphics, MaterialElement )
 
 using namespace GluonGraphics;
 
-class MaterialElement::MaterialElementPrivate
+class MaterialElement::Private
 {
     public:
 
 };
 
 MaterialElement::MaterialElement( QObject* parent )
-    : GluonObject( parent ),
-      d( new MaterialElementPrivate )
+    : GluonObject( parent ), d( new Private )
 {
 
 }

@@ -29,12 +29,12 @@ namespace GluonGraphics
      *
      *
      */
-    class GLUON_GRAPHICS_EXPORT Renderable
+    class GLUON_GRAPHICS_EXPORT RenderPipelineItem
     {
         public:
-            virtual ~Renderable() { }
+            virtual ~RenderPipelineItem() { }
 
-            virtual void render() = 0;
+            virtual void renderContents() = 0;
     };
 }
 

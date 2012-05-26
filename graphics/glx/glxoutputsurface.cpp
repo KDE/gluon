@@ -47,13 +47,14 @@ GLXOutputSurface::~GLXOutputSurface()
 
 }
 
-void GLXOutputSurface::render()
+void GLXOutputSurface::renderContents()
 {
     d->context->makeCurrent( widget() );
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-    renderTarget()->render();
+    if( renderTarget() )
+        renderTarget()->renderContents();
 
     glXSwapBuffers( QX11Info::display(), widget()->internalWinId() );
 }

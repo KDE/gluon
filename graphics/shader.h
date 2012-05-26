@@ -52,7 +52,7 @@ namespace GluonGraphics
 
         private:
             class Private;
-            const QScopedPointer < Private > d;
+            Private* const d;
     };
 
 }

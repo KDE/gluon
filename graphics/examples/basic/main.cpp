@@ -21,22 +21,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "graphics/renderwidget.h"
-#include "graphics/camera.h"
-#include "graphics/item.h"
-#include "graphics/frustrum.h"
 #include "graphics/material.h"
-#include "graphics/materialinstance.h"
-#include "graphics/spritemesh.h"
 #include "graphics/manager.h"
+#include "graphics/renderwidget.h"
 
-#include <QtGui/QMatrix4x4>
 #include <QtGui/QApplication>
-#include <QtCore/QDebug>
-#include <QtCore/QTimer>
-#include <world.h>
-#include <backend.h>
-#include <QMainWindow>
 
 int main( int argc, char* argv[] )
 {
@@ -45,10 +34,10 @@ int main( int argc, char* argv[] )
     //GluonGraphics::RenderWidget widget;
     //widget.show();
 
-    GluonGraphics::Material* mat = new GluonGraphics::Material();
-    GluonGraphics::Manager::instance()->addResource( "Main", mat );
+    //GluonGraphics::Material* mat = new GluonGraphics::Material();
+    GluonGraphics::Material* mat = GluonGraphics::Manager::instance()->createResource< GluonGraphics::Material >( "Main" );
     //createResource< GluonGraphics::Material >( "Main" );
-
+    GluonGraphics::Manager::instance()->destroyResource< GluonGraphics::Material >( "Main" );
     //qDebug() << GluonGraphics::Manager::instance()->backend( widget )->information( GluonGraphics::Backend::VerboseInformation );
 
     //app.exec();
@@ -83,4 +72,8 @@ int main( int argc, char* argv[] )
 //
 //     QTimer::singleShot( 0, widget, SLOT(updateGL()) );
 // return app.exec();
+    GluonGraphics::RenderWidget widget;
+    widget.show();
+
+    app.exec();
 }

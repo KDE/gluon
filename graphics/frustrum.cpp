@@ -23,14 +23,14 @@
 
 using namespace GluonGraphics;
 
-class Frustrum::FrustrumPrivate
+class Frustrum::Private
 {
     public:
-        FrustrumPrivate()
+        Private()
         {
             mode = FM_ORTHO;
         }
-        FrustrumPrivate( const FrustrumPrivate& other )
+        Private( const Private& other )
             : matrix( other.matrix )
         {
 
@@ -54,13 +54,13 @@ class Frustrum::FrustrumPrivate
 };
 
 Frustrum::Frustrum()
-    : d( new FrustrumPrivate )
+    : d( new Private )
 {
     d->matrix.ortho( -50, 50, -50, 50, 1, 100 );
 }
 
 Frustrum::Frustrum( const GluonGraphics::Frustrum& other )
-    : d( new FrustrumPrivate() )
+    : d( new Private )
 {
     *d = *other.d;
 }
@@ -122,7 +122,7 @@ Frustrum::setOrthographic( float left, float right, float bottom, float top, flo
 
     d->viewPlane.setCoords( left, top, right, bottom );
 
-    d->mode = FrustrumPrivate::FM_ORTHO;
+    d->mode = Private::FM_ORTHO;
 }
 
 void
@@ -148,7 +148,7 @@ Frustrum::setOrthoAdjusted( const QSizeF& area, float aspect, float near, float 
 
     d->viewPlane.setCoords( -( area.width() / 2 ), -( area.height() / 2 ), area.width() / 2, area.height() / 2 );
 
-    d->mode = FrustrumPrivate::FM_ADJUSTED_ORTHO;
+    d->mode = Private::FM_ADJUSTED_ORTHO;
 }
 
 void
@@ -163,19 +163,19 @@ Frustrum::setPerspective( float fov, float aspect, float near, float far )
 
     //Todo: set view plane.
 
-    d->mode = FrustrumPrivate::FM_PERSPECTIVE;
+    d->mode = Private::FM_PERSPECTIVE;
 }
 
 void Frustrum::updateFrustrum( float aspect )
 {
     switch( d->mode )
     {
-        case FrustrumPrivate::FM_ORTHO:
+        case Private::FM_ORTHO:
             break;
-        case FrustrumPrivate::FM_ADJUSTED_ORTHO:
+        case Private::FM_ADJUSTED_ORTHO:
             setOrthoAdjusted( d->viewPlane.size(), aspect, d->nearPlane, d->farPlane );
             break;
-        case FrustrumPrivate::FM_PERSPECTIVE:
+        case Private::FM_PERSPECTIVE:
             setPerspective( d->fov, aspect, d->nearPlane, d->farPlane );
             break;
     }

@@ -20,10 +20,9 @@
 #ifndef GLUONGRAPHICS_CAMERA_H
 #define GLUONGRAPHICS_CAMERA_H
 
-#include <QtCore/QObject>
-
 #include "gluon_graphics_export.h"
-#include "renderable.h"
+#include "entity.h"
+#include "renderpipelineitem.h"
 
 class QRectF;
 class QSizeF;
@@ -40,13 +39,13 @@ namespace GluonGraphics
      * volume (a.k.a. frustrum). These are used to determine
      * what to render and where to render it.
      */
-    class GLUON_GRAPHICS_EXPORT Camera : public QObject, public Renderable
+    class GLUON_GRAPHICS_EXPORT Camera : public Entity, public RenderPipelineItem
     {
             Q_OBJECT
 
         public:
             /**
-             * Contrstructor.
+             * Constructor.
              *
              * Creates a camera with a default frustum.
              *
@@ -97,6 +96,8 @@ namespace GluonGraphics
              * \param frustum The frustum to use.
              */
             void setFrustrum( GluonGraphics::Frustrum* frustrum );
+
+            virtual void renderContents();
 
             virtual void render();
 

@@ -36,8 +36,8 @@ class VertexBuffer::VertexBufferPrivate
         {
         }
 
-        GLuint buffer;
-        GLuint indexBuffer;
+        uint buffer;
+        uint indexBuffer;
 
         BufferDataMode dataMode;
 

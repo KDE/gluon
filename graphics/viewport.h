@@ -59,8 +59,8 @@ namespace GluonGraphics
             void viewportSizeChanged( int left, int bottom, int width, int height );
 
         private:
-            class ViewportPrivate;
-            ViewportPrivate* const d;
+            class Private;
+            Private* const d;
     };
 
 }

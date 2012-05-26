@@ -150,7 +150,7 @@ class UiManagerComponent::UiManagerComponentPrivate
         RenderableScene* scene;
         UiAsset* ui;
         QSizeF size;
-        Item* item;
+        Entity* item;
         EngineAccess* engineAccess;
         QScriptEngine* scriptEngine;
 

@@ -21,7 +21,6 @@
 #include "materialinstance.h"
 #include "technique.h"
 #include "backendcapabilities.h"
-#include "glheaders.h"
 
 #include <core/gdlserializer.h>
 
@@ -34,16 +33,10 @@ REGISTER_OBJECTTYPE( GluonGraphics, Material )
 
 using namespace GluonGraphics;
 
-class Material::MaterialPrivate
+class Material::Private
 {
     public:
-        MaterialPrivate() :
-            vertShader( 0 ),
-            fragShader( 0 ),
-            glProgram( 0 ),
-            program( 0 )
-        {
-        }
+        Private() : vertShader( 0 ), fragShader( 0 ), glProgram( 0 ), program( 0 ) { }
 
         QHash<QString, Technique*> techniques;
 
@@ -60,8 +53,7 @@ class Material::MaterialPrivate
 };
 
 Material::Material( QObject* parent )
-    : GluonObject( parent ),
-      d( new MaterialPrivate )
+    : GluonObject( parent ), d( new Private )
 {
     createInstance( "default" );
 }

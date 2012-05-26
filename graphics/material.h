@@ -162,8 +162,8 @@ namespace GluonGraphics
             MaterialInstance* instance( const QString& name );
 
         private:
-            class MaterialPrivate;
-            MaterialPrivate* const d;
+            class Private;
+            Private* const d;
     };
 }
 

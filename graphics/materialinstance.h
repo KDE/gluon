@@ -167,8 +167,8 @@ namespace GluonGraphics
             void setGLUniform( const QString& name, const QVariant& value );
 
         private:
-            class MaterialInstancePrivate;
-            MaterialInstancePrivate* const d;
+            class Private;
+            Private* const d;
 
             Q_PRIVATE_SLOT( d, void setActiveCamera( Camera* camera ) );
 

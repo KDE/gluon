@@ -153,8 +153,8 @@ namespace GluonGraphics
             void updateFrustrum( float aspect );
 
         private:
-            class FrustrumPrivate;
-            FrustrumPrivate* const d;
+            class Private;
+            Private* const d;
     };
 
 }

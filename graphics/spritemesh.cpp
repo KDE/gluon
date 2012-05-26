@@ -20,6 +20,7 @@
 
 #include "spritemesh.h"
 
+#include <QVector>
 #include "vertexattribute.h"
 
 using namespace GluonGraphics;

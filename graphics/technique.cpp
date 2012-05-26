@@ -23,14 +23,13 @@ REGISTER_OBJECTTYPE( GluonGraphics, Technique )
 
 using namespace GluonGraphics;
 
-class Technique::TechniquePrivate
+class Technique::Private
 {
     public:
 };
 
 Technique::Technique( QObject* parent )
-    : GluonObject( parent ),
-      d( new TechniquePrivate )
+    : GluonObject( parent ), d( new Private )
 {
 
 }

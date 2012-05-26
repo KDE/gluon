@@ -21,6 +21,7 @@
 
 #include "frustrum.h"
 #include "viewport.h"
+#include "world.h"
 
 #include <QtGui/QMatrix4x4>
 
@@ -34,13 +35,13 @@ class Camera::Private
 };
 
 Camera::Camera( QObject* parent )
-    : QObject( parent ), d( new Private )
+    : Entity( parent ), d( new Private )
 {
     d->frustrum = new Frustrum;
 }
 
 Camera::Camera( Frustrum* frustum, QObject* parent )
-    : QObject( parent ), d( new Private )
+    : Entity( parent ), d( new Private )
 {
     d->frustrum = frustum;
 }
@@ -77,8 +78,13 @@ Camera::setViewMatrix( const QMatrix4x4& matrix )
 
 void Camera::render()
 {
-    //d->world->setActivateCamera( this );
-    //d->world->render();
+    //world()->setActivateCamera( this );
+    //world()->render();
+}
+
+void Camera::renderContents()
+{
+    world()->render();
 }
 
 #include "camera.moc"

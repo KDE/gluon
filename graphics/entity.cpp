@@ -1,9 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,70 +17,83 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "item.h"
+#include "entity.h"
 
 #include "mesh.h"
-#include "camera.h"
-#include "frustrum.h"
-#include "math.h"
 #include "materialinstance.h"
-#include "material.h"
-#include "glheaders.h"
+#include "manager.h"
 
 #include <QtGui/QMatrix4x4>
 
 using namespace GluonGraphics;
 
-class Item::ItemPrivate
+REGISTER_OBJECTTYPE( GluonGraphics, Entity );
+
+class Entity::Private
 {
     public:
-        ItemPrivate()
-        {
-            mesh = 0;
-            materialInstance = 0;
-        }
-        Mesh* mesh;
+        Private() : mesh( 0 ), materialInstance( 0 ) { }
+
+        World* world;
         QMatrix4x4 transform;
+        Mesh* mesh;
         MaterialInstance* materialInstance;
 };
 
-Item::Item( QObject* parent )
-    : QObject( parent ), d( new ItemPrivate )
+Entity::Entity( QObject* parent )
+    : GluonObject( parent ), d( new Private )
 {
-    //d->materialInstance = Engine::instance()->material( "default" )->instance( "default" );
 }
 
-Item::~Item()
+Entity::~Entity()
 {
     delete d;
 }
 
-Mesh*
-Item::mesh()
+World*
+Entity::world() const
 {
-    return d->mesh;
+    return d->world;
 }
 
 QMatrix4x4
-Item::transform()
+Entity::transform() const
 {
     return d->transform;
 }
 
+Mesh*
+Entity::mesh() const
+{
+    return d->mesh;
+}
+
+bool
+Entity::hasMesh() const
+{
+    return d->mesh != 0;
+}
+
 MaterialInstance*
-Item::materialInstance()
+Entity::materialInstance() const
 {
     return d->materialInstance;
 }
 
-void
-Item::render()
+bool
+Entity::hasMaterialInstance() const
 {
-    render( d->materialInstance, VertexBuffer::RM_TRIANGLES );
+    return d->materialInstance != 0;
 }
 
 void
-Item::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
+Entity::setWorld(World* world)
+{
+    d->world = world;
+}
+
+void
+Entity::render()
 {
     if( !d->mesh )
         return;
@@ -93,31 +103,30 @@ Item::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
     //    return;
 
     // TODO: Implement view frustum culling. After all, that is what that damn class is for... ;)
-    material->setProperty( "modelMatrix", d->transform );
-    if( !material->bind() )
+    d->materialInstance->setProperty( "modelMatrix", d->transform );
+    if( !d->materialInstance->bind() )
         return;
 
-    d->mesh->render( material, mode );
-    material->release();
+    //d->mesh->render();
+    d->materialInstance->release();
 }
 
 void
-Item::setTransform( const QMatrix4x4 transform )
+Entity::setTransform( const QMatrix4x4 transform )
 {
     d->transform = transform;
 }
 
 void
-Item::setMesh( Mesh* mesh )
+Entity::setMesh( Mesh* mesh )
 {
     d->mesh = mesh;
 }
 
 void
-Item::setMaterialInstance( MaterialInstance* instance )
+Entity::setMaterialInstance( MaterialInstance* instance )
 {
     d->materialInstance = instance;
 }
 
-
-#include "item.moc"
+#include "entity.moc"

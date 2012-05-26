@@ -30,14 +30,15 @@ class Shader::Private
         QHash< Shader::SourceType, QString > sources;
 };
 
-Shader::Shader() : d( new Private )
+Shader::Shader()
+    : d( new Private )
 {
 
 }
 
 Shader::~Shader()
 {
-
+    delete d;
 }
 
 QString Shader::source( Shader::SourceType type ) const

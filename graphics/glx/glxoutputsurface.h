@@ -37,7 +37,7 @@ namespace GluonGraphics
             virtual ~GLXOutputSurface();
 
         public Q_SLOTS:
-            virtual void render();
+            virtual void renderContents();
 
         private:
             class Private;
