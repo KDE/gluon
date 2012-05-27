@@ -17,7 +17,6 @@
 using namespace std;
 
 using namespace GluonEngine;
-using namespace GluonCreator;
 
 REGISTER_OBJECTTYPE( GluonEngine, GameSave )
 
@@ -45,7 +44,6 @@ bool GameSave::save()
 {
   GluonCore::GluonObject *obj = Game::instance()->currentScene()->sceneContents();
   bool pause_flag = true;
-  debug_print( obj );
   if( !GluonEngine::Game::instance()->isPaused() )
   {
     GluonEngine::Game::instance()->setPause( true );
@@ -62,6 +60,16 @@ bool GameSave::save()
     GluonEngine::Game::instance()->setPause( false );
 }
 
+bool GameSave::save( QString path)
+{
+  GluonCore::GluonObject *obj = Game::instance()->currentScene()->sceneContents();
+  QUrl filename( path );
+  QList<GluonObject*> objectlist;
+  objectlist.append( obj );
+  if(!GluonCore::GDLSerializer::instance()->write( filename, objectlist))
+    qDebug() << "Error in writing to: " << filename.toString();
+}
+
 bool GameSave::load()
 {
   //TODO: Give developer option to present list of saved slots to choose from.
@@ -69,14 +77,9 @@ bool GameSave::load()
   QString dir = QDir::homePath().append( "/Desktop/" );
   QString savefile = QFileDialog::getOpenFileName(0, tr("Load Game"), dir, tr("Save Files (*.gs)"));
   QUrl filename(savefile);
-//   Scene *scene;
-//   if( GluonCore::GDLSerializer::instance()->read( filename, objectlist, 0 ) )
-//         scene = qobject_cast< GluonEngine::Scene*>( objectlist.at( 0 ) );
-//   qDebug() << scene->fullyQualifiedName();
-//   GluonEngine::Scene *scenecontents = new GluonEngine::Scene( scene );
-//   GluonEngine::Game::instance()->setCurrentScene( scene );
-//   GluonEngine::Game::instance()->runGame();
   GluonEngine::Game::instance()->loadScene( filename );
+  GluonCore::GluonObject *obj = GluonEngine::Game::instance()->currentScene()->sceneContents();
+  save( "/home/vsrao/Desktop/new.gs" );
 }
 
 bool GameSave::load( QString fileName )

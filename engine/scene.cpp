@@ -31,6 +31,8 @@
 
 #include <QtGui/QAction>
 #include <QDebug>
+#include <QMetaClassInfo>
+#include <QMetaProperty>
 
 REGISTER_OBJECTTYPE( GluonEngine, Scene )
 

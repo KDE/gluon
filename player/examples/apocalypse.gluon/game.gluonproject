@@ -61,8 +61,7 @@
             file string("assets/rendertarget.gml")
             { GluonGraphics::MaterialInstance("Main")
                 materialColor rgba(255;255;255;255)
-                texture0 uint(12)
-                saturation float(1)
+                texture0 uint(14)
             }
         }
         { GluonCore::GluonObject("Sounds")
@@ -111,12 +110,10 @@
                 specularColor rgba(255;255;255;255)
                 emissiveColor rgba(0;0;0;255)
                 lightPosition vector3d(0;0;9)
-                lightIntensity float(1500)
                 lightColor rgba(255;220;168;255)
                 lightAmbDiffSpec vector3d(0;1;0)
                 lightAttenuation vector3d(0;0;3)
                 textureParameters vector4d(0;0;2;2)
-                saturation float(1)
                 texture0 GluonEngine::TextureAsset("Apocalypse/Assets/Textures/Background")
             }
         }

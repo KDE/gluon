@@ -78,6 +78,8 @@ set(GluonEngine_SRCS
     game.cpp
     gameprivate.cpp
     gamesave.cpp
+    scenegraph.cpp
+    scenegraphobject.cpp
 )
 
 set(GluonEngine_HEADERS
@@ -104,6 +106,8 @@ set(GluonEngine_HEADERS
 
     game.h
     gamesave.h
+    scenegraph.h
+    scenegraphobject.h
     gluon_engine_export.h
     gluon_engine_metatypes.h
 )

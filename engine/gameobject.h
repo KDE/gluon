@@ -112,7 +112,6 @@ namespace GluonEngine
              * @see GDLHandler::parseGDL
              */
             void sanitize();
-
             /**
              * Initialize to a functional state
              */

@@ -89,7 +89,6 @@ namespace GluonEngine
              */
             virtual void resetScene();
 	    virtual void loadScene( QUrl );
-
             /**
              *  Set this scene to the entry point of the current project.
              */

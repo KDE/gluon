@@ -277,8 +277,7 @@ QString Writer::writeQuaternionValue(const QVariant& value)
 
     if( v.isNull() || v.isIdentity() )
         return QString();
-
-    return QString( "quaternion(%1;%2;%3;%4)" ).arg( v.x() ).arg( v.y() ).arg( v.z() ).arg( v.scalar() );
+    return QString( "quaternion(%1;%2;%3;%4)" ).arg( QString::number( v.x(), 'f', 6 ) ).arg( QString::number( v.y(), 'f', 6 ) ).arg( QString::number( v.z(), 'f', 6 ) ).arg( v.scalar() );
 }
 
 QString Writer::writeObjectValue(const QVariant& value)
