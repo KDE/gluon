@@ -60,7 +60,6 @@ int main( int argc, char** argv )
     introObj->windowcopy=window ;
     introObj->view = new QDeclarativeView(window);
     introObj->context = introObj->view->rootContext();
-    introObj->context->setContextProperty("intro", introObj);
     introObj->startIntro();
     app.exec();
 }

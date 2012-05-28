@@ -18,7 +18,7 @@
  */
 
 import QtQuick 1.0
-
+import Intro 1.0
 Item {
 
    Rectangle {
@@ -68,28 +68,22 @@ Item {
         color: "black";
     }
 
-    Item {
-        id :animator;
-        property string dockername:"";
-        x:0;
-        y :0;
-        width :0;
-        height :0;
-        onDockernameChanged :intro.updateDocker(dockername);
-        objectName: "geometry";
-    }
 
     Item {
         id: viewport;
-        width: parent.width / 2;
-        height: parent.height / 2;
-        x: parent.width / 4;
-        y: parent.height / 4;
+        width: parent.m_width / 2;
+        height: parent.m_height / 2;
+        x: parent.m_width / 4;
+        y: parent.m_height / 4;
 
         Behavior on width { NumberAnimation { duration: 500; } }
         Behavior on height { NumberAnimation { duration: 500; } }
         Behavior on x { NumberAnimation { duration: 500; } }
         Behavior on y { NumberAnimation { duration: 500; } }
+
+        IntroSlideshow {
+            id :animator;
+        }
 
         MouseArea {
             anchors.fill: parent;
@@ -135,31 +129,31 @@ Item {
         State {
                 name: "component"
                 PropertyChanges { target:animator; dockername : "ComponentsDock"}
-                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.width; height:animator.height }
+                PropertyChanges { target: viewport; x: animator.m_xpos; y: animator.m_ypos; width:animator.m_width; height:animator.m_height}
             },
 
         State {
                 name: "project"
                 PropertyChanges { target:animator; dockername : "ProjectDock"}
-                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.width; height:animator.height }
+                PropertyChanges { target: viewport; x: animator.m_xpos; y: animator.m_ypos; width:animator.m_width; height:animator.m_height }
             },
 
         State {
                 name: "message"
                 PropertyChanges { target:animator; dockername : "MessageDock"}
-                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.width; height:animator.height }
+                PropertyChanges { target: viewport; x: animator.m_xpos; y: animator.m_ypos; width:animator.m_width; height:animator.m_height }
             },
 
         State {
                 name: "scene"
                 PropertyChanges { target:animator; dockername : "SceneDock"}
-                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.width; height:animator.height }
+                PropertyChanges { target: viewport; x: animator.m_xpos; y: animator.m_ypos; width:animator.m_width; height:animator.m_height }
             },
 
         State {
                 name: "property"
                 PropertyChanges { target:animator; dockername : "PropertiesDock"}
-                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.width; height:animator.height }
+                PropertyChanges { target: viewport; x: animator.m_xpos; y: animator.m_ypos; width:animator.m_width; height:animator.m_height }
             }
     ]
 
@@ -167,32 +161,32 @@ Item {
 
             Transition {
                 from: "*"; to: "component"
-                NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
+                NumberAnimation { properties: "x,y,m_width,m_height"; duration: 1000 }
             },
 
             Transition {
                 from: "*"; to: "project"
-                NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
+                NumberAnimation { properties: "x,y,m_width,m_height"; duration: 1000 }
             },
 
             Transition {
                 from: "*"; to: "message"
-                NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
+                NumberAnimation { properties: "x,y,m_width,m_height"; duration: 1000 }
             },
 
             Transition {
                 from: "*"; to: "scene"
-                NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
+                NumberAnimation { properties: "x,y,m_width,m_height"; duration: 1000 }
             },
 
             Transition {
                 from: "*"; to: "property"
-                NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
+                NumberAnimation { properties: "x,y,m_width,m_height"; duration: 1000 }
             }
 
         ]
 
-    }
 
+}
 
 }

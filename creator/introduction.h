@@ -23,29 +23,66 @@
 #include "mainwindow.h"
 #include <KDE/KStandardDirs>
 #include <QtDeclarative/QDeclarativeContext>
+#include <QtDeclarative/QDeclarativeItem>
 #include <QtDeclarative/QDeclarativeView>
-#include <QGraphicsObject>
 #include <QString>
+
 class QDeclarativeContext;
+class QDeclarativeItem;
 class QDeclarativeView;
 class QString;
 
-class IntroSlideShow: public QObject
+class IntroSlideShow: public QDeclarativeItem
 {
 
     Q_OBJECT
+    Q_PROPERTY(QString dockername READ dockername WRITE setdockername NOTIFY dockernameChanged)
+    Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
+    Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
+    Q_PROPERTY(int xpos READ xpos WRITE setXpos NOTIFY xposChanged)
+    Q_PROPERTY(int ypos READ ypos WRITE setYpos NOTIFY yposChanged)
 
     public:
-        IntroSlideShow(QObject *parent = 0);
+        IntroSlideShow();
+        QString dockername() const {return docker;}
+        int width() const { return m_width; }
+        int height() const { return m_height; }
+        int xpos() const { return m_xpos; }
+        int ypos() const { return m_ypos; }
+        void setWidth(int width){ m_width=width;}
+        void setHeight(int height){ m_height=height;}
+        void setXpos(int xpos){ m_xpos=xpos;}
+        void setYpos(int ypos){ m_ypos=ypos;}
 
-        Q_INVOKABLE void updateDocker(QString dockername);
+        void setdockername(QString name){
+
+            docker=name;
+            if(docker!="") { updateDocker(); }
+        }
 
         void startIntro();
+        void updateDocker();
 
         GluonCreator::MainWindow *windowcopy;
         QDeclarativeView* view;
         QDeclarativeContext *context;
         QString docker;
+
+    signals:
+
+        void dockernameChanged();
+        void widthChanged();
+        void heightChanged();
+        void xposChanged();
+        void yposChanged();
+
+    private:
+
+        int m_width;
+        int m_height;
+        int m_xpos;
+        int m_ypos;
+
 };
 
 #endif // IntroSlideShow_H

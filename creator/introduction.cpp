@@ -22,9 +22,9 @@
 
 class QRect;
 
-IntroSlideShow::IntroSlideShow(QObject *parent):
-  QObject(parent)
+IntroSlideShow::IntroSlideShow()
 {
+    qmlRegisterType<IntroSlideShow>("Intro",1,0,"IntroSlideshow");
 
 }
 
@@ -32,28 +32,24 @@ IntroSlideShow::IntroSlideShow(QObject *parent):
 void IntroSlideShow::startIntro()
 {
 
-     view->setSource( QUrl::fromLocalFile( KGlobal::dirs()->locate( "appdata", "introduction.qml" ) ));
-     view->setStyleSheet("background: transparent");
-     view->setResizeMode( QDeclarativeView::SizeRootObjectToView );
-     view->setGeometry( windowcopy->rect());
-     view->show();
+    setdockername("");
+    view->setSource( QUrl::fromLocalFile( KGlobal::dirs()->locate( "appdata", "introduction.qml" ) ));
+    view->setStyleSheet("background: transparent");
+    view->setResizeMode( QDeclarativeView::SizeRootObjectToView );
+    view->setGeometry( windowcopy->rect());
+    view->show();
 
 }
 
-void IntroSlideShow::updateDocker(QString dockername)
+void IntroSlideShow::updateDocker()
 {
+    QRect rectangle;
+    rectangle= windowcopy->findChild<QWidget*>( docker )->frameGeometry();
+    setWidth(rectangle.width());
+    setHeight(rectangle.height());
+    setXpos(rectangle.x());
+    setYpos(rectangle.y());
 
-    docker =dockername;
-    QGraphicsObject *object = view->rootObject();
-    QObject *geometry = object->findChild<QObject*>("geometry");
-    if(geometry)
-    {
-        QRect rectangle;
-        rectangle= windowcopy->findChild<QWidget*>( docker )->frameGeometry();
-        geometry->setProperty("width",rectangle.width());
-        geometry->setProperty("x",rectangle.x());
-        geometry->setProperty("y",rectangle.y());
-        geometry->setProperty("height",rectangle.height());
-    }
 
 }
+
