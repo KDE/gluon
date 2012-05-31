@@ -45,6 +45,8 @@ class GLXBackend::Private
         Private() : context( 0 ) { }
 
         GLX::Context* context;
+
+        QString errorString;
 };
 
 GLXBackend::GLXBackend() : d( new Private )
@@ -58,20 +60,33 @@ GLXBackend::~GLXBackend()
         d->context->clearCurrent();
         delete d->context;
     }
+    delete d;
 }
 
-void GLXBackend::initialize( QWidget* widget )
+bool GLXBackend::initialize( QWidget* widget )
 {
     if( d->context )
-        return;
+        return true;
 
     d->context = new GLX::Context();
-    d->context->makeCurrent( widget );
+
+    if( !d->context->initialize( widget ) )
+    {
+        d->errorString = d->context->errorString();
+        return false;
+    }
 
     DEBUG_BLOCK
     DEBUG_TEXT( information( FullInformation ) );
 
     glClearColor( 0.f, 0.f, 0.f, 0.f );
+
+    return true;
+}
+
+QString GLXBackend::errorString()
+{
+    return d->errorString;
 }
 
 QString GLXBackend::identifier()
@@ -85,26 +100,26 @@ QString GLXBackend::information( Backend::InformationLevel level )
     switch( level )
     {
         case SummaryInformation:
-            info << "GluonGraphics GLX Backend using OpenGL " << glGetString( GL_VERSION );
+            info << "GluonGraphics GLX Backend using OpenGL " << d->context->glVersion().toString();
             break;
         case FullInformation:
             info << "-------------------------------------------------------------\n"
                  << "                 GluonGraphics GLX Backend\n"
-                 << " GLX Version:  " << glXGetClientString( QX11Info::display(), GLX_VERSION ) << "\n"
-                 << " GL Version:   " << reinterpret_cast< const char* >( glGetString( GL_VERSION ) ) << "\n"
-                 << " GLSL Version: " << reinterpret_cast< const char* >( glGetString( GL_SHADING_LANGUAGE_VERSION ) ) << "\n"
-                 << " Renderer:     " << reinterpret_cast< const char* >( glGetString( GL_RENDERER ) ) << "\n"
+                 << " GLX Version:  " << d->context->glXVersion().toString() << "\n"
+                 << " GL Version:   " << d->context->glVersion().toString() << "\n"
+                 << " GLSL Version: " << d->context->glslVersion().toString() << "\n"
+                 << " Renderer:     " << d->context->rendererString() << "\n"
                  << "\n"
                  << "-------------------------------------------------------------\n";
             break;
         case VerboseInformation:
             info << information( FullInformation );
+            info << "\nNumber of extensions: " << d->context->extensions().count() << "\n"
+                 << "All extensions:\n";
 
-            int extensionCount;
-            glGetIntegerv( GL_NUM_EXTENSIONS, &extensionCount );
-            info << "\nNumber of extensions: " << extensionCount << "\n"
-                 << "All extensions:\n"
-                 << reinterpret_cast< const char* >( glGetString( GL_EXTENSIONS ) );
+            foreach( const QString& extension, d->context->extensions() )
+                info << extension << ", ";
+
             break;
     }
     info.seek( 0 );

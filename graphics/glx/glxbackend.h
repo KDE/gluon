@@ -20,7 +20,6 @@
 #ifndef GLUONGRAPHICS_GLXBACKEND_H
 #define GLUONGRAPHICS_GLXBACKEND_H
 
-#include <QtCore/QScopedPointer>
 #include <graphics/backend.h>
 
 namespace GluonGraphics
@@ -38,7 +37,8 @@ namespace GluonGraphics
             GLXBackend();
             virtual ~GLXBackend();
 
-            virtual void initialize( QWidget* widget );
+            virtual bool initialize( QWidget* widget );
+            virtual QString errorString();
 
             virtual QString identifier();
             virtual QString information( InformationLevel level );
@@ -50,12 +50,9 @@ namespace GluonGraphics
             virtual Shader* createShader();
             virtual OutputSurface* createOutputSurface( QWidget* widget );
 
-        public Q_SLOTS:
-            void aboutToQuit();
-
         private:
             class Private;
-            const QScopedPointer< Private > d;
+            Private * const d;
     };
 }
 

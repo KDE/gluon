@@ -56,7 +56,19 @@ namespace GluonGraphics
              */
             virtual ~Backend() { }
 
-            virtual void initialize( QWidget* widget ) = 0;
+            /**
+             * Initialize the backend.
+             *
+             * \param widget A widget that can be used during initialization.
+             *
+             * \return true when successfully initialized, false if not.
+             */
+            virtual bool initialize( QWidget* widget ) = 0;
+
+            /**
+             * A description of the last error that occured.
+             */
+            virtual QString errorString() = 0;
 
             /**
              * Returns a string to identify the backend with.

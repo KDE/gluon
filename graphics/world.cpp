@@ -46,7 +46,7 @@ void World::addEntity(Entity* entity)
 
 Entity* World::entity(int id)
 {
-
+    return 0;
 }
 
 void World::destroyEntity(int id)
