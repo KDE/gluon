@@ -20,28 +20,50 @@
 #ifndef GLUONGRAPHICS_GLXCONTEXT_H
 #define GLUONGRAPHICS_GLXCONTEXT_H
 
-#include <QtCore/QScopedPointer>
+#include <QList>
 
 class QWidget;
 namespace GluonGraphics
 {
     namespace GLX
     {
+        struct Version
+        {
+            bool operator==( const Version& other );
+
+            QString toString() const;
+
+            int major;
+            int minor;
+            int patch;
+        };
+
         class Context
         {
             public:
                 Context();
                 virtual ~Context();
 
+                bool initialize( QWidget* widget );
+                void destroy();
+
                 void makeCurrent( QWidget* widget );
-
                 void clearCurrent();
-
                 bool isCurrent() const;
+
+                QString errorString() const;
+
+                Version glVersion() const;
+                Version glXVersion() const;
+                Version glslVersion() const;
+                QString rendererString() const;
+
+                bool hasExtension( const QString& extension ) const;
+                const QList< QString > extensions() const;
 
             private:
                 class Private;
-                const QScopedPointer< Private > d;
+                Private * const d;
         };
     }
 }

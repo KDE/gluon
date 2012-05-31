@@ -48,11 +48,13 @@ RenderWidget::~RenderWidget()
     delete d;
 }
 
-void RenderWidget::paintEvent( QPaintEvent* )
+void RenderWidget::paintEvent( QPaintEvent* event )
 {
     if( !d->surface )
     {
-        Manager::instance()->backend()->initialize( this );
+        if( !Manager::instance()->backend()->initialize( this ) )
+            qFatal( Manager::instance()->backend()->errorString().toUtf8() );
+
         Manager::instance()->initialize();
         d->surface = Manager::instance()->backend()->createOutputSurface( this );
         d->surface->setSize( width(), height() );
