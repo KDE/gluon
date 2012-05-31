@@ -4,6 +4,7 @@
 #include<QObject>
 #include <core/gluonobject.h>
 #include "gluon_engine_export.h"
+#include "scenegraphobject.h"
 
 namespace GluonEngine
 {
@@ -11,7 +12,9 @@ namespace GluonEngine
     {
         Q_OBJECT
         GLUON_OBJECT( GluonEngine::SceneGraph )
-        
+
+	SceneGraphObject* root;
+
     public:
         SceneGraph();
         ~SceneGraph();

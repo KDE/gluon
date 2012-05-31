@@ -1,6 +1,7 @@
 #include "scene.h"
 #include "gameprivate.h"
 #include "game.h"
+#include "achievementsmanager.h"
 #include <core/gluonobject.h>
 #include "gamesave.h"
 #include "gameobject.h"
@@ -40,37 +41,29 @@ void GameSave::debug_print(QObject* obj)
     debug_print( ob );
 }
 
-bool GameSave::save()
+void GameSave::save()
 {
   GluonCore::GluonObject *obj = Game::instance()->currentScene()->sceneContents();
-  bool pause_flag = true;
-  if( !GluonEngine::Game::instance()->isPaused() )
-  {
-    GluonEngine::Game::instance()->setPause( true );
-    pause_flag = false;
-  }
+  debug_print( obj );
+  bool pause_flag = Game::instance()->isPaused();
+  if( ! pause_flag )
+    Game::instance()->setPause( true );
   QString dir = QDir::homePath().append( "/Desktop/" );
   QString savefile = QFileDialog::getSaveFileName(0, tr("Save Game"), dir, tr("Save Files (*.gs)"));
   QUrl filename(savefile);
   QList<GluonObject*> objectlist;
   objectlist.append( obj );
+  AchievementsManager am;
+  am.readFromProject(Game::instance()->gameProject()->achievements());
+  if( am.achievementsCount() > 0 )
+    am.save(dir);
   if(!GluonCore::GDLSerializer::instance()->write( filename, objectlist))
     qDebug() << "Error in writing to: " << filename.toString();
-  if( !pause_flag )
-    GluonEngine::Game::instance()->setPause( false );
+  if( ! pause_flag )
+    Game::instance()->setPause( false );
 }
 
-bool GameSave::save( QString path)
-{
-  GluonCore::GluonObject *obj = Game::instance()->currentScene()->sceneContents();
-  QUrl filename( path );
-  QList<GluonObject*> objectlist;
-  objectlist.append( obj );
-  if(!GluonCore::GDLSerializer::instance()->write( filename, objectlist))
-    qDebug() << "Error in writing to: " << filename.toString();
-}
-
-bool GameSave::load()
+void GameSave::load()
 {
   //TODO: Give developer option to present list of saved slots to choose from.
   QList<GluonObject*> objectlist;
@@ -79,10 +72,11 @@ bool GameSave::load()
   QUrl filename(savefile);
   GluonEngine::Game::instance()->loadScene( filename );
   GluonCore::GluonObject *obj = GluonEngine::Game::instance()->currentScene()->sceneContents();
-  save( "/home/vsrao/Desktop/new.gs" );
+  AchievementsManager am;
+  am.load(dir);
 }
 
-bool GameSave::load( QString fileName )
+void GameSave::load( QString fileName )
 {
 }
 

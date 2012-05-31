@@ -22,7 +22,7 @@
 #define GLUON_ENGINE_GAMEPROJECTPRIVATE_H
 
 #include "assets/graphics/texture/textureasset.h"
-
+#include "tagobject.h"
 #include <QtCore/QSharedData>
 #include <QtCore/QUrl>
 
@@ -52,6 +52,7 @@ namespace GluonEngine
             QString description;
             QUrl homepage;
             QList<QUrl> mediaInfo;
+	    TagObject* tags;
             QUrl filename;
             QUrl dirname;
             Scene* entryPoint;

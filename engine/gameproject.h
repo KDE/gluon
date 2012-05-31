@@ -23,7 +23,7 @@
 
 #include "gluon_engine_export.h"
 #include "scene.h"
-
+#include "tagobject.h"
 #include <graphics/texture.h>
 
 #include <core/gluonobject.h>
@@ -206,7 +206,10 @@ namespace GluonEngine
             Q_INVOKABLE virtual void addAsset( GluonEngine::Asset* addThis );
             Q_INVOKABLE virtual bool removeAsset( GluonEngine::Asset* removeThis );
             Q_INVOKABLE QList<Asset*> assets() const;
+            TagObject* getTagObject();
 
+	public slots:
+	    void addTag( GluonCore::GluonObject*, QString);
 
         private:
             QSharedDataPointer<GameProjectPrivate> d;

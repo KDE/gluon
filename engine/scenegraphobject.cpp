@@ -54,6 +54,11 @@ void SceneGraphObject::setHash( long int hash )
     this->hash = hash;
 }
 
+void SceneGraphObject::setLevel( int level )
+{
+    this->level = level;
+}
+
 int SceneGraphObject::childCount()
 {
     return this->children.length();

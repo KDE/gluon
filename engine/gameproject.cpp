@@ -469,4 +469,14 @@ QList<Asset*> GameProject::assets() const
     return d->assets;
 }
 
+void GameProject::addTag( GluonCore::GluonObject *object, QString tag )
+{
+    d->tags->addTag( object, tag );
+}
+
+TagObject* GameProject::getTagObject()
+{
+    return d->tags;
+}
+
 #include "gameproject.moc"

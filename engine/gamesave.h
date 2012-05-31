@@ -24,11 +24,10 @@ namespace GluonEngine
 	GameSave();
         ~GameSave();
 
-        bool save();
-	bool save( QString );
-        bool load();
-        bool load( QUrl fileUrl );
-        bool load( QString fileName );
+        void save();
+        void load();
+        void load( QUrl fileUrl );
+        void load( QString fileName );
 	void debug_print(QObject *);
     };
 }
