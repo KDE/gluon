@@ -25,7 +25,7 @@ this.update = function(time)
 {
     if(this.Scene.paused)
         return;
-    
+
     this.timeToSpawn -= time;
     this.timeToSpawnChange -= time;
 

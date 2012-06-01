@@ -22,6 +22,8 @@
 #include "gluonvarianttypes.h"
 #include "metainfo.h"
 
+#include <engine/game.h>
+
 #include <QtGui/QColor>
 #include <QtGui/QVector2D>
 #include <QtGui/QVector3D>
@@ -113,7 +115,6 @@ GluonObject::clone() const
     GluonObject* parentObject = qobject_cast<GluonObject*>( parent() );
     if( !parentObject )
         return 0;
-
     return clone( parentObject );
 }
 
@@ -156,6 +157,7 @@ GluonObject::clone( GluonObject* parentObject ) const
 
     // In case any object is doing something clever with its children, make sure it's allowed to do that on cloning as well
     newObject->postCloneSanitize();
+    GluonEngine::Game::instance()->gameProject()->addTag( newObject );
     return newObject;
 }
 

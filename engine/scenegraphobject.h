@@ -21,7 +21,7 @@ namespace GluonEngine
 	 * A group of objects, that come under the same level of hierarchy,
 	 * grouped by similar scripts/names
 	 */
-	QString group_name;
+	QString groupName;
 	/*
 	 * This is the main object/group we target at this level
 	 * Can be used, to perform same operation/set property for all 
@@ -72,7 +72,7 @@ namespace GluonEngine
 	 */
 	void setHash( long );
 	/*
-	 * Set the level
+	 * Set the level of hierarchy, for easy access and further operations
 	 */
 	void setLevel( int );
 	/*

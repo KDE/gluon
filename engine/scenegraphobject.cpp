@@ -9,17 +9,17 @@ REGISTER_OBJECTTYPE( GluonEngine, SceneGraphObject )
 SceneGraphObject::SceneGraphObject()
 {
     this->parent = 0;
-    this->group_name = "";
+    this->groupName = "";
     this->member = new GluonCore::GluonObject( 0 );
     this->children.clear();
     this->childrenGroup.clear();
 }
 
-SceneGraphObject::SceneGraphObject( SceneGraphObject* parent, QString group_name, GluonCore::GluonObject* member, 
+SceneGraphObject::SceneGraphObject( SceneGraphObject* parent, QString groupName, GluonCore::GluonObject* member, 
 				   QList< GluonCore::GluonObject* > children, QList< SceneGraphObject* > childrenGroup )
 {
     this->parent = parent;
-    this->group_name = group_name;
+    this->groupName = groupName;
     this->member = member;
     this->children = children;
     this->childrenGroup = childrenGroup;
@@ -29,9 +29,9 @@ SceneGraphObject::~SceneGraphObject()
 {
 }
 
-void SceneGraphObject::setGroupName( QString group_name )
+void SceneGraphObject::setGroupName( QString groupName )
 {
-    this->group_name = group_name;
+    this->groupName = groupName;
 }
 
 void SceneGraphObject::setParent( SceneGraphObject* parent )

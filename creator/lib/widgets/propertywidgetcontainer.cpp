@@ -35,6 +35,8 @@
 #include <engine/prefab.h>
 #include <engine/abstractprefabinstance.h>
 #include <engine/component.h>
+#include <engine/gameproject.h>
+#include <engine/game.h>
 
 #include <KDE/KIcon>
 #include <KDE/KLocalizedString>
@@ -47,7 +49,6 @@
 #include <QtGui/QToolButton>
 #include <QtGui/QCheckBox>
 #include <QtGui/QMenu>
-#include <QtCore/QHash>
 #include <QtCore/QMetaProperty>
 #include <QtCore/QStringBuilder>
 

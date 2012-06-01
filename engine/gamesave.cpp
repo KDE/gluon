@@ -44,7 +44,6 @@ void GameSave::debug_print(QObject* obj)
 void GameSave::save()
 {
   GluonCore::GluonObject *obj = Game::instance()->currentScene()->sceneContents();
-  debug_print( obj );
   bool pause_flag = Game::instance()->isPaused();
   if( ! pause_flag )
     Game::instance()->setPause( true );

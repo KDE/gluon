@@ -18,11 +18,24 @@ namespace GluonEngine
 
     public:
 	TagObject();
+        TagObject( const GluonEngine::TagObject & );
+        TagObject( QString );
 	~TagObject();
 	
-	void addTag(GluonCore::GluonObject*, QString);
+	void addTag(GluonCore::GluonObject*, QString );
+        void removeTag( GluonCore::GluonObject* );
         QList<QString> getTags(GluonCore::GluonObject*);
         QList<QString> getObjects(QString);
+
+        bool writeToFile();
+        bool writeToFile( QString );
+        bool readFromFile();
+        bool readFromFile( QString );
+
+        /*
+         * For testing purposes
+         */
+        void printTags();
     };
 }
 
