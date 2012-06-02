@@ -1,34 +1,35 @@
 #ifndef GLUON_ENGINE_GAMESAVE_H
 #define GLUON_ENGINE_GAMESAVE_H
 
-#include "scene.h"
-#include "game.h"
-#include "gameprivate.h"
 #include <core/gluonobject.h>
 #include "gluon_engine_export.h"
-#include <creator/dialogs/configdialog.h>
-#include <core/gdlserializer.h>
 
 namespace GluonEngine
 {
     class Scene;
     class GamePrivate;
     class Game;
-    
+
+    /*
+     * For saving and loading game states, by serializing the 
+     * current scene.
+     */
     class GLUON_ENGINE_EXPORT GameSave : public GluonCore::GluonObject
     {
         Q_OBJECT
         GLUON_OBJECT( GluonEngine::GameSave )
 
     public:
-	GameSave();
+	Q_INVOKABLE GameSave();
         ~GameSave();
 
-        void save();
-        void load();
-        void load( QUrl fileUrl );
-        void load( QString fileName );
-	void debug_print(QObject *);
+        Q_INVOKABLE void save();
+        Q_INVOKABLE void load();
+
+        /*
+         * Print the current contents of the scene, along with their properties.
+         */
+	Q_INVOKABLE void debugPrint(QObject *);
     };
 }
 

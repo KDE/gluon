@@ -29,21 +29,21 @@ GameSave::~GameSave()
 {
 }
 
-void GameSave::debug_print(QObject* obj)
+void GameSave::debugPrint( QObject* obj)
 {
   for(int i = 0; i < obj->metaObject()->propertyCount(); i++)
   {
     QMetaProperty property = obj->metaObject()->property( i );
-    cout << property.name() << ": " << property.read( obj ).toString().toStdString() << ' ';
+    cout << property.name() << ": " << property.read( obj ).toString().toUtf8().constData() << ' ';
   }
   cout << endl;
-  foreach(QObject *ob, obj->children())
-    debug_print( ob );
+  foreach ( QObject *ob, obj->children() )
+    debugPrint( ob );
 }
 
 void GameSave::save()
 {
-  GluonCore::GluonObject *obj = Game::instance()->currentScene()->sceneContents();
+  GluonCore::GluonObject *obj = GluonEngine::Game::instance()->currentScene()->sceneContents();
   bool pause_flag = Game::instance()->isPaused();
   if( ! pause_flag )
     Game::instance()->setPause( true );
@@ -53,10 +53,10 @@ void GameSave::save()
   QList<GluonObject*> objectlist;
   objectlist.append( obj );
   AchievementsManager am;
-  am.readFromProject(Game::instance()->gameProject()->achievements());
+  am.readFromProject( Game::instance()->gameProject()->achievements() );
   if( am.achievementsCount() > 0 )
     am.save(dir);
-  if(!GluonCore::GDLSerializer::instance()->write( filename, objectlist))
+  if(!GluonCore::GDLSerializer::instance()->write( filename, objectlist) )
     qDebug() << "Error in writing to: " << filename.toString();
   if( ! pause_flag )
     Game::instance()->setPause( false );
@@ -73,10 +73,6 @@ void GameSave::load()
   GluonCore::GluonObject *obj = GluonEngine::Game::instance()->currentScene()->sceneContents();
   AchievementsManager am;
   am.load(dir);
-}
-
-void GameSave::load( QString fileName )
-{
 }
 
 

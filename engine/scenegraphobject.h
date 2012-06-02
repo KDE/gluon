@@ -8,6 +8,10 @@
 
 namespace GluonEngine
 {
+    /*
+     * A single entry in a scene graph. This contains all the information necessary for
+     * further searching from within the scene graph. 
+     */
     class GLUON_ENGINE_EXPORT SceneGraphObject : public GluonCore::GluonObject
     {
         Q_OBJECT
@@ -47,42 +51,42 @@ namespace GluonEngine
 	int level;
 	
     public:
-        SceneGraphObject();
-	SceneGraphObject( SceneGraphObject*, QString, GluonCore::GluonObject*, QList<GluonObject*>, QList<SceneGraphObject*> );
+        Q_INVOKABLE  SceneGraphObject();
+        Q_INVOKABLE SceneGraphObject( SceneGraphObject*, QString, GluonCore::GluonObject*, QList<GluonObject*>, QList<SceneGraphObject*> );
         ~SceneGraphObject();
 	
 	/*
 	 * To set the parent of the member object
 	 */
-	void setParent( SceneGraphObject* );
+	Q_INVOKABLE void setParent( SceneGraphObject* );
 	/*
 	 * To set the group names
 	 */
-	void setGroupName( QString );
+	Q_INVOKABLE void setGroupName( QString );
 	/*
 	 * Add children to object, at this level
 	 */
-	void addChildren( QList<GluonObject*> );
+	Q_INVOKABLE void addChildren( QList<GluonObject*> );
 	/*
 	 * Add a group of children
 	 */
-	void addChildrenGroup( QList<SceneGraphObject*> );
+	Q_INVOKABLE void addChildrenGroup( QList<SceneGraphObject*> );
 	/*
 	 * Called, to set the hash
 	 */
-	void setHash( long );
+	Q_INVOKABLE void setHash( long );
 	/*
 	 * Set the level of hierarchy, for easy access and further operations
 	 */
-	void setLevel( int );
+	Q_INVOKABLE void setLevel( int );
 	/*
 	 * Returns the number of children(excluding those under a group
 	 */
-	int childCount();
+	Q_INVOKABLE int childCount();
 	/*
 	 * Returns the number of groups of children
 	 */
-	int groupCount();
+	Q_INVOKABLE int groupCount();
     };
 }
 

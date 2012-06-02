@@ -9,6 +9,10 @@
 
 namespace GluonEngine
 {
+    /*
+     * This class is used for managing tags held in the GameProject.
+     * Tags are used for searching and categorizing objects.
+     */
     class GLUON_ENGINE_EXPORT TagObject : public GluonCore::GluonObject
     {
         Q_OBJECT
@@ -17,25 +21,53 @@ namespace GluonEngine
         QHash<QString, QSet<QString> > tags;
 
     public:
-	TagObject();
-        TagObject( const GluonEngine::TagObject & );
-        TagObject( QString );
+	Q_INVOKABLE TagObject();
+        Q_INVOKABLE TagObject( GluonEngine::TagObject * );
+        Q_INVOKABLE TagObject( QString );
 	~TagObject();
-	
-	void addTag(GluonCore::GluonObject*, QString );
-        void removeTag( GluonCore::GluonObject* );
-        QList<QString> getTags(GluonCore::GluonObject*);
-        QList<QString> getObjects(QString);
-
-        bool writeToFile();
-        bool writeToFile( QString );
-        bool readFromFile();
-        bool readFromFile( QString );
 
         /*
-         * For testing purposes
+         * Simply add a new tag to an object
          */
-        void printTags();
+	Q_INVOKABLE void addTag(GluonCore::GluonObject*, QString );
+
+        /*
+         * Add multiple tags to an object, through a list
+         */
+        Q_INVOKABLE void addTags(GluonCore::GluonObject*, QList<QString> );
+
+        /*
+         * Remove the tags associated with an object
+         */
+        Q_INVOKABLE void removeTag( GluonCore::GluonObject* );
+
+        /*
+         * Get all the tags associated with an object
+         */
+        Q_INVOKABLE QList<QString> getTags(GluonCore::GluonObject*);
+
+        /*
+         * Get all the objects associated with a tag
+         */
+        Q_INVOKABLE QList<QString> getObjects(QString);
+
+        /*
+         * Serialize the tags and objects. If not path is specified,
+         * the default assets/tags/ is used
+         */
+        Q_INVOKABLE bool writeToFile();
+        Q_INVOKABLE bool writeToFile( QString );
+
+        /*
+         * Read tags from a file
+         */
+        Q_INVOKABLE bool readFromFile();
+        Q_INVOKABLE bool readFromFile( QString );
+
+        /*
+         * For testing purposes, print all the tags+objects
+         */
+        Q_INVOKABLE void printTags();
     };
 }
 

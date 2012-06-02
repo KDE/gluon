@@ -206,11 +206,12 @@ namespace GluonEngine
             Q_INVOKABLE virtual void addAsset( GluonEngine::Asset* addThis );
             Q_INVOKABLE virtual bool removeAsset( GluonEngine::Asset* removeThis );
             Q_INVOKABLE QList<Asset*> assets() const;
-            TagObject* getTagObject();
-            void setTagObject( TagObject* );
+            Q_INVOKABLE TagObject* getTagObject();
+            Q_INVOKABLE void setTagObject( TagObject* );
+            Q_INVOKABLE void addTags( GluonCore::GluonObject*, GluonCore::GluonObject* );
 	public slots:
-	    void addTag( GluonCore::GluonObject*, QString );
-            void removeTag( GluonCore::GluonObject*, QString );
+	    Q_INVOKABLE void addTag( GluonCore::GluonObject*, QString );
+            Q_INVOKABLE void removeTag( GluonCore::GluonObject* );
 
         private:
             QSharedDataPointer<GameProjectPrivate> d;

@@ -4,6 +4,7 @@
 #include <QMetaProperty>
 #include <QIODevice>
 #include <QFile>
+#include <QString>
 #include <QTextStream>
 #include <QDir>
 
@@ -20,10 +21,10 @@ TagObject::TagObject()
     this->tags.clear();
 }
 
-TagObject::TagObject( const GluonEngine::TagObject* other )
+TagObject::TagObject( GluonEngine::TagObject* other )
 {
     for(QHash<QString, QSet<QString> >::iterator i = other->tags.begin(); i != other->tags.end(); ++i)
-        this->tags.insert( i.key(), i.value() );
+        this->tags[ i.key() ] = i.value();
 }
 
 TagObject::TagObject( QString path )
@@ -44,6 +45,12 @@ void TagObject::addTag( GluonCore::GluonObject* object , QString tag )
     set.insert( property.read( object ).toString() );
     this->tags.insert( tag, set );
     printTags();
+}
+
+void TagObject::addTags( GluonCore::GluonObject* object, QList< QString > tags )
+{
+    foreach( const QString tag, tags )
+        addTag( object, tag );
 }
 
 void TagObject::removeTag( GluonCore::GluonObject* object )
@@ -77,9 +84,9 @@ void TagObject::printTags()
 {
     for(QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i)
     {
-        cout << i.key() << ': ';
+        cout << i.key().toUtf8().constData() << ": ";
         foreach( QString ob, i.value() )
-            cout << ob << ' ';
+            cout << ob.toUtf8().constData() << ' ';
     }
     cout << endl;
 }
@@ -100,7 +107,7 @@ bool TagObject::writeToFile( QString path )
         return false;
     QTextStream out( &file );
     for(QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i)
-        out << i.key() << ' ' << QStringList( i.value().toList() ).join(" ") << '\n';
+        out << i.key().toUtf8().constData() << ' ' << QStringList( i.value().toList() ).join(" ").toUtf8().constData() << '\n';
     file.close();
     return true;
 }
@@ -119,13 +126,14 @@ bool TagObject::readFromFile( QString path )
         return false;
     this->tags.clear();
     QTextStream in( &file );
-    QString line;
-    while( ( line = in.readLine() ) != QString::Null )
+    QString line = in.readLine();
+    while( ! line.isNull() )
     {
         QList< QString > list = line.split(" ");
         QString key = list.first();
         list.pop_front();
-        this->tags.insert( key, list );
+        this->tags[ key ] = list.toSet();
+        line = in.readLine();
     }
     return true;
 }

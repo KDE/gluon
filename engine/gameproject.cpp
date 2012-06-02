@@ -474,6 +474,12 @@ void GameProject::addTag( GluonCore::GluonObject *object, QString tag )
     d->tags->addTag( object, tag );
 }
 
+void GameProject::addTags( GluonCore::GluonObject* object, GluonCore::GluonObject* parent )
+{
+    d->tags->addTags( object, d->tags->getTags( parent ));
+}
+
+
 void GameProject::removeTag( GluonCore::GluonObject *object )
 {
     d->tags->removeTag( object );
