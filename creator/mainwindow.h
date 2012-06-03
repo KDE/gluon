@@ -21,8 +21,13 @@
 #define GLUONCREATOR_MAINWINDOW_H
 
 #include <KDE/KParts/MainWindow>
-#include "introduction.h"
-class IntroSlideShow ;
+#include <QtDeclarative/QDeclarativeView>
+#include <KDE/KStandardDirs>
+#include <QtDeclarative/QDeclarativeItem>
+#include <introduction.h>
+
+class KStandardDirs;
+class QDeclarativeView;
 class KUrl;
 class KRecentFilesAction;
 namespace GluonCreator
@@ -35,7 +40,7 @@ namespace GluonCreator
         public:
             explicit MainWindow( const QString& fileName = QString(), QWidget* parent = 0, Qt::WindowFlags flags = 0 );
             ~MainWindow();
-
+            void loadView();
             virtual bool queryClose();
             virtual void closeEvent( QCloseEvent* event );
 
@@ -47,7 +52,6 @@ namespace GluonCreator
             void saveProject( const QString& fileName );
             void saveProjectAs();
             void showPreferences();
-            void timeout();
             void playGame();
             void pauseGame();
             void stopGame();
@@ -65,7 +69,7 @@ namespace GluonCreator
 
         private:
             void setupActions();
-            IntroSlideShow *obj;
+            QDeclarativeView* view;
             class Private;
             Private* const d;
     };

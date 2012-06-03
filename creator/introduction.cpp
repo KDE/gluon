@@ -43,12 +43,6 @@ void IntroSlideShow::startIntro()
 {
     qDebug() << "INSIDE START INTRO";
 
-/*    view = new QDeclarativeView( QUrl::fromLocalFile( KGlobal::dirs()->locate( "appdata", "introduction.qml" ) ), this_windowcopy );
-    view->setStyleSheet("background: transparent");
-    view->setResizeMode( QDeclarativeView::SizeRootObjectToView );
-    view->setGeometry(this_windowcopy->rect());
-    view->show();*/
-
 }
 
 void IntroSlideShow::on_timeout()
@@ -56,7 +50,6 @@ void IntroSlideShow::on_timeout()
     qDebug() << "INSIDE TIMEOUT";
     this_windowcopy= kapp->activeWindow();
     qDebug() <<"OUR WINDOWCOPY IS" << this_windowcopy;
-    qmlRegisterType<IntroSlideShow>("Intro",1,0,"IntroSlideShow");
 
 }
 

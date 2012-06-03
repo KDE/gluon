@@ -21,10 +21,7 @@
 #define INTRODUCTION_H
 
 #include "mainwindow.h"
-#include <KDE/KStandardDirs>
-#include <QtDeclarative/QDeclarativeContext>
 #include <QtDeclarative/QDeclarativeItem>
-#include <QtDeclarative/QDeclarativeView>
 #include <QString>
 #include <QDebug>
 #include <QWidget>
@@ -32,9 +29,7 @@
 #include <QWidget>
 
 class QTimer;
-class QDeclarativeContext;
 class QDeclarativeItem;
-class QDeclarativeView;
 class QString;
 class QDebug;
 class QWidget;
@@ -88,8 +83,6 @@ public:
 
         QWidget *this_windowcopy;
         QTimer *timer;
-        QDeclarativeView* view;
-        QDeclarativeContext *context;
         QString docker;
 
     signals:

@@ -99,11 +99,8 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
 
     setupActions();
     setupGUI();
+    loadView();
     stateChanged( "initial" );
-    obj= new IntroSlideShow();
-    QTimer *time = new QTimer();
-    time->setSingleShot(true);
-    time->singleShot(5000, this, SLOT(timeout()));
 
     d->projectDialog = new ProjectSelectionDialog( this );
     d->projectDialog->setModal( true );
@@ -149,9 +146,15 @@ void MainWindow::openProject( const KUrl& url )
     openProject( url.path() );
 }
 
-void MainWindow::timeout()
+void MainWindow::loadView()
 {
-    obj->startIntro();
+    qmlRegisterType<IntroSlideShow>("Intro",1,0,"IntroSlideShow");
+    view = new QDeclarativeView( QUrl::fromLocalFile( KGlobal::dirs()->locate( "appdata", "introduction.qml" ) ), this );
+    view->setStyleSheet("background: transparent");
+    view->setResizeMode( QDeclarativeView::SizeRootObjectToView );
+    view->setGeometry(this->rect());
+    view->show();
+
 }
 
 void MainWindow::openProject( const QString& fileName )
