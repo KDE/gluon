@@ -32,6 +32,8 @@
 #include <core/gluon_global.h>
 #include "aboutdata.h"
 #include "introduction.h"
+#include <QDebug>
+
 
 int main( int argc, char** argv )
 {
@@ -54,12 +56,6 @@ int main( int argc, char** argv )
     GluonCreator::MainWindow* window = new GluonCreator::MainWindow( args->count() > 0 ? args->arg( 0 ) : QString() );
     window->show();
     splash.finish( window );
-
-    //Instantiate QML Bindings for SlideShow
-    IntroSlideShow *introObj = new IntroSlideShow();
-    introObj->windowcopy=window ;
-    introObj->view = new QDeclarativeView(window);
-    introObj->context = introObj->view->rootContext();
-    introObj->startIntro();
+    kapp->setActiveWindow(window);
     app.exec();
 }

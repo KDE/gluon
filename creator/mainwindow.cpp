@@ -23,7 +23,8 @@
 #include <QtCore/QVariantList>
 #include <QtCore/QFileInfo>
 #include <QtCore/QTimer>
-
+#include <QDebug>
+#include <QWidget>
 #include <KDE/KFileDialog>
 #include <KDE/KStandardAction>
 #include <KDE/KActionCollection>
@@ -35,6 +36,8 @@
 #include <KDE/KRecentFilesAction>
 #include <KDE/KParts/PartManager>
 #include <KDE/KMenuBar>
+#include <KDE/KApplication>
+#include <KDE/KAboutData>
 
 #include <engine/game.h>
 #include <engine/gameproject.h>
@@ -52,8 +55,12 @@
 #include "gluoncreatorsettings.h"
 #include "dialogs/projectselectiondialog.h"
 #include "dialogs/configdialog.h"
+#include <QTimer>
+
+class QTimer;
 
 using namespace GluonCreator;
+class QDebug;
 
 class MainWindow::Private
 {
@@ -70,7 +77,6 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
     : KParts::MainWindow( parent, flags ), d( new Private )
 {
     d->modified = false;
-
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     DockManager::instance()->setMainWindow( this );
@@ -94,6 +100,10 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
     setupActions();
     setupGUI();
     stateChanged( "initial" );
+    obj= new IntroSlideShow();
+    QTimer *time = new QTimer();
+    time->setSingleShot(true);
+    time->singleShot(5000, this, SLOT(timeout()));
 
     d->projectDialog = new ProjectSelectionDialog( this );
     d->projectDialog->setModal( true );
@@ -133,9 +143,15 @@ void MainWindow::closeEvent( QCloseEvent* event )
     QWidget::closeEvent( event );
 }
 
+
 void MainWindow::openProject( const KUrl& url )
 {
     openProject( url.path() );
+}
+
+void MainWindow::timeout()
+{
+    obj->startIntro();
 }
 
 void MainWindow::openProject( const QString& fileName )
@@ -404,7 +420,7 @@ void MainWindow::addAsset()
 void GluonCreator::MainWindow::showNewProjectDialog()
 {
     d->projectDialog->setPage( ProjectSelectionDialog::NewProjectPage );
-    d->projectDialog->show();
+ //   d->projectDialog->show();
 }
 
 void MainWindow::showOpenProjectDialog()

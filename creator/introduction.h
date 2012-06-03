@@ -26,11 +26,19 @@
 #include <QtDeclarative/QDeclarativeItem>
 #include <QtDeclarative/QDeclarativeView>
 #include <QString>
+#include <QDebug>
+#include <QWidget>
+#include <QTimer>
+#include <QWidget>
 
+class QTimer;
 class QDeclarativeContext;
 class QDeclarativeItem;
 class QDeclarativeView;
 class QString;
+class QDebug;
+class QWidget;
+
 
 class IntroSlideShow: public QDeclarativeItem
 {
@@ -42,28 +50,44 @@ class IntroSlideShow: public QDeclarativeItem
     Q_PROPERTY(int xpos READ xpos WRITE setXpos NOTIFY xposChanged)
     Q_PROPERTY(int ypos READ ypos WRITE setYpos NOTIFY yposChanged)
 
-    public:
-        IntroSlideShow();
-        QString dockername() const {return docker;}
-        int width() const { return m_width; }
-        int height() const { return m_height; }
-        int xpos() const { return m_xpos; }
-        int ypos() const { return m_ypos; }
-        void setWidth(int width){ m_width=width;}
-        void setHeight(int height){ m_height=height;}
-        void setXpos(int xpos){ m_xpos=xpos;}
-        void setYpos(int ypos){ m_ypos=ypos;}
+public slots:
+  void on_timeout();
 
-        void setdockername(QString name){
+
+public:
+        IntroSlideShow();
+        ~IntroSlideShow();
+        QString dockername() const {return docker;}
+        qreal width() const { return implicitWidth(); }
+        qreal height() const { return implicitHeight(); }
+        int xpos() const { return x(); }
+        int ypos() const { return y(); }
+
+        void setWidth(qreal width){qDebug() << "Inside setwidth"; setImplicitWidth(width); emit widthChanged();}
+
+        void setHeight(qreal height){ setImplicitHeight(height); emit heightChanged();}
+
+        void setXpos(qreal xpos){ setX(xpos);emit xposChanged();}
+
+        void setYpos(qreal ypos){ setY(ypos);emit yposChanged();}
+
+        Q_INVOKABLE void setdockername(QString name){
 
             docker=name;
-            if(docker!="") { updateDocker(); }
+            qDebug() << "Inside set dockername" ;
+            if(QString::compare(docker,"", Qt::CaseInsensitive)) {
+                qDebug() << "INSIDE IF" ;
+                qDebug() << docker;
+                updateDocker();
+           }
+            emit dockernameChanged();
         }
 
-        void startIntro();
+        Q_INVOKABLE void startIntro();
         void updateDocker();
 
-        GluonCreator::MainWindow *windowcopy;
+        QWidget *this_windowcopy;
+        QTimer *timer;
         QDeclarativeView* view;
         QDeclarativeContext *context;
         QString docker;
@@ -76,12 +100,6 @@ class IntroSlideShow: public QDeclarativeItem
         void xposChanged();
         void yposChanged();
 
-    private:
-
-        int m_width;
-        int m_height;
-        int m_xpos;
-        int m_ypos;
 
 };
 

@@ -21,7 +21,8 @@
 #define GLUONCREATOR_MAINWINDOW_H
 
 #include <KDE/KParts/MainWindow>
-
+#include "introduction.h"
+class IntroSlideShow ;
 class KUrl;
 class KRecentFilesAction;
 namespace GluonCreator
@@ -46,7 +47,7 @@ namespace GluonCreator
             void saveProject( const QString& fileName );
             void saveProjectAs();
             void showPreferences();
-
+            void timeout();
             void playGame();
             void pauseGame();
             void stopGame();
@@ -64,7 +65,7 @@ namespace GluonCreator
 
         private:
             void setupActions();
-
+            IntroSlideShow *obj;
             class Private;
             Private* const d;
     };

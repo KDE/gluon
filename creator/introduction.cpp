@@ -19,37 +19,59 @@
 
 #include "introduction.h"
 #include <QRect>
+#include <QDebug>
+#include <KDE/KApplication>
 
 class QRect;
+class QDebug;
+class KApplication;
 
 IntroSlideShow::IntroSlideShow()
 {
-    qmlRegisterType<IntroSlideShow>("Intro",1,0,"IntroSlideshow");
-
+    qDebug() << "INSIDE CONSTRUCTOR";
+    timer = new QTimer();
+    timer->setSingleShot(true);
+    timer->singleShot(3000, this, SLOT(on_timeout()));
 }
 
+IntroSlideShow::~IntroSlideShow()
+{
+    delete timer;
+}
 
 void IntroSlideShow::startIntro()
 {
+    qDebug() << "INSIDE START INTRO";
 
-    setdockername("");
-    view->setSource( QUrl::fromLocalFile( KGlobal::dirs()->locate( "appdata", "introduction.qml" ) ));
+/*    view = new QDeclarativeView( QUrl::fromLocalFile( KGlobal::dirs()->locate( "appdata", "introduction.qml" ) ), this_windowcopy );
     view->setStyleSheet("background: transparent");
     view->setResizeMode( QDeclarativeView::SizeRootObjectToView );
-    view->setGeometry( windowcopy->rect());
-    view->show();
+    view->setGeometry(this_windowcopy->rect());
+    view->show();*/
 
 }
 
+void IntroSlideShow::on_timeout()
+{
+    qDebug() << "INSIDE TIMEOUT";
+    this_windowcopy= kapp->activeWindow();
+    qDebug() <<"OUR WINDOWCOPY IS" << this_windowcopy;
+    qmlRegisterType<IntroSlideShow>("Intro",1,0,"IntroSlideShow");
+
+}
+
+
+
 void IntroSlideShow::updateDocker()
 {
-    QRect rectangle;
-    rectangle= windowcopy->findChild<QWidget*>( docker )->frameGeometry();
-    setWidth(rectangle.width());
-    setHeight(rectangle.height());
-    setXpos(rectangle.x());
-    setYpos(rectangle.y());
+    qDebug() << "Inside updateDocker";
+    QWidget *rectangle;
 
+    /*setWidth(rectangle->width());
+    setHeight(rectangle->height());
+    setXpos(rectangle->x());
+    setYpos(rectangle->y());
+*/
 
 }
 
