@@ -31,7 +31,6 @@
 #include <QtDeclarative/QDeclarativeView>
 #include <core/gluon_global.h>
 #include "aboutdata.h"
-#include "introduction.h"
 #include <QDebug>
 
 

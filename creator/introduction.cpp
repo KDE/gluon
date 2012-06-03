@@ -19,52 +19,64 @@
 
 #include "introduction.h"
 #include <QRect>
-#include <QDebug>
 #include <KDE/KApplication>
 
 class QRect;
-class QDebug;
 class KApplication;
 
 IntroSlideShow::IntroSlideShow()
 {
-    qDebug() << "INSIDE CONSTRUCTOR";
-    timer = new QTimer();
-    timer->setSingleShot(true);
-    timer->singleShot(3000, this, SLOT(on_timeout()));
+
 }
 
 IntroSlideShow::~IntroSlideShow()
 {
-    delete timer;
+    delete this;
 }
 
-void IntroSlideShow::startIntro()
+void IntroSlideShow::setWidth(qreal width)
 {
-    qDebug() << "INSIDE START INTRO";
-
+    setImplicitWidth(width);
+    emit widthChanged();
 }
 
-void IntroSlideShow::on_timeout()
+
+void IntroSlideShow::setHeight(qreal height)
 {
-    qDebug() << "INSIDE TIMEOUT";
-    this_windowcopy= kapp->activeWindow();
-    qDebug() <<"OUR WINDOWCOPY IS" << this_windowcopy;
-
+    setImplicitHeight(height);
+    emit heightChanged();
 }
 
+void IntroSlideShow::setXpos(qreal xpos)
+{
+    setX(xpos);
+    emit xposChanged();
+}
 
+void IntroSlideShow::setYpos(qreal ypos)
+{
+    setY(ypos);
+    emit yposChanged();
+}
+
+void IntroSlideShow::setdockername(QString name)
+{
+    docker=name;
+    if(QString::compare(docker,"", Qt::CaseInsensitive)) {
+        updateDocker();
+   }
+
+    emit dockernameChanged();
+}
 
 void IntroSlideShow::updateDocker()
 {
-    qDebug() << "Inside updateDocker";
-    QWidget *rectangle;
-
-    /*setWidth(rectangle->width());
-    setHeight(rectangle->height());
-    setXpos(rectangle->x());
-    setYpos(rectangle->y());
-*/
+    QRect rectangle;
+    rectangle= kapp->activeWindow()->findChild<QWidget*>(docker)->frameGeometry();
+    setWidth(rectangle.width());
+    setHeight(rectangle.height());
+    setXpos(rectangle.x());
+    setYpos(rectangle.y());
 
 }
 

@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,7 +24,6 @@
 #include <QtCore/QVariantList>
 #include <QtCore/QFileInfo>
 #include <QtCore/QTimer>
-#include <QDebug>
 #include <QWidget>
 #include <KDE/KFileDialog>
 #include <KDE/KStandardAction>
@@ -55,12 +55,8 @@
 #include "gluoncreatorsettings.h"
 #include "dialogs/projectselectiondialog.h"
 #include "dialogs/configdialog.h"
-#include <QTimer>
-
-class QTimer;
 
 using namespace GluonCreator;
-class QDebug;
 
 class MainWindow::Private
 {
@@ -76,6 +72,7 @@ class MainWindow::Private
 MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlags flags )
     : KParts::MainWindow( parent, flags ), d( new Private )
 {
+    kapp->setActiveWindow(this);
     d->modified = false;
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
@@ -423,7 +420,7 @@ void MainWindow::addAsset()
 void GluonCreator::MainWindow::showNewProjectDialog()
 {
     d->projectDialog->setPage( ProjectSelectionDialog::NewProjectPage );
- //   d->projectDialog->show();
+    d->projectDialog->show();
 }
 
 void MainWindow::showOpenProjectDialog()

@@ -83,9 +83,6 @@ Item {
 
             IntroSlideShow {
                 id :animator;
-                Component.onCompleted:{
-                    console.log("I am inside instance");
-               }
     }
 
         MouseArea {
@@ -95,12 +92,10 @@ Item {
                 switch(animator.dockername){
 
                 case(""):
-                    console.log("going to component")
                     viewport.state = 'component';
                     break;
 
                 case("ComponentsDock"):
-                    console.log("going to project")
                     viewport.state = 'project';
                     break;
 

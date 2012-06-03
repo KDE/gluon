@@ -23,75 +23,43 @@
 #include "mainwindow.h"
 #include <QtDeclarative/QDeclarativeItem>
 #include <QString>
-#include <QDebug>
-#include <QWidget>
-#include <QTimer>
-#include <QWidget>
 
-class QTimer;
 class QDeclarativeItem;
 class QString;
-class QDebug;
-class QWidget;
 
 
 class IntroSlideShow: public QDeclarativeItem
 {
+        Q_OBJECT
+        Q_PROPERTY(QString dockername READ dockername WRITE setdockername NOTIFY dockernameChanged)
+        Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
+        Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
+        Q_PROPERTY(int xpos READ xpos WRITE setXpos NOTIFY xposChanged)
+        Q_PROPERTY(int ypos READ ypos WRITE setYpos NOTIFY yposChanged)
 
-    Q_OBJECT
-    Q_PROPERTY(QString dockername READ dockername WRITE setdockername NOTIFY dockernameChanged)
-    Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
-    Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
-    Q_PROPERTY(int xpos READ xpos WRITE setXpos NOTIFY xposChanged)
-    Q_PROPERTY(int ypos READ ypos WRITE setYpos NOTIFY yposChanged)
+        public:
+            IntroSlideShow();
+            ~IntroSlideShow();
+            QString dockername() const {return docker;}
+            qreal width() const { return implicitWidth(); }
+            qreal height() const { return implicitHeight(); }
+            int xpos() const { return x(); }
+            int ypos() const { return y(); }
+            void setWidth(qreal width);
+            void setHeight(qreal height);
+            void setXpos(qreal xpos);
+            void setYpos(qreal ypos);
+            Q_INVOKABLE void setdockername(QString name);
+            void updateDocker();
+            QString docker;
 
-public slots:
-  void on_timeout();
+        signals:
 
-
-public:
-        IntroSlideShow();
-        ~IntroSlideShow();
-        QString dockername() const {return docker;}
-        qreal width() const { return implicitWidth(); }
-        qreal height() const { return implicitHeight(); }
-        int xpos() const { return x(); }
-        int ypos() const { return y(); }
-
-        void setWidth(qreal width){qDebug() << "Inside setwidth"; setImplicitWidth(width); emit widthChanged();}
-
-        void setHeight(qreal height){ setImplicitHeight(height); emit heightChanged();}
-
-        void setXpos(qreal xpos){ setX(xpos);emit xposChanged();}
-
-        void setYpos(qreal ypos){ setY(ypos);emit yposChanged();}
-
-        Q_INVOKABLE void setdockername(QString name){
-
-            docker=name;
-            qDebug() << "Inside set dockername" ;
-            if(QString::compare(docker,"", Qt::CaseInsensitive)) {
-                qDebug() << "INSIDE IF" ;
-                qDebug() << docker;
-                updateDocker();
-           }
-            emit dockernameChanged();
-        }
-
-        Q_INVOKABLE void startIntro();
-        void updateDocker();
-
-        QWidget *this_windowcopy;
-        QTimer *timer;
-        QString docker;
-
-    signals:
-
-        void dockernameChanged();
-        void widthChanged();
-        void heightChanged();
-        void xposChanged();
-        void yposChanged();
+            void dockernameChanged();
+            void widthChanged();
+            void heightChanged();
+            void xposChanged();
+            void yposChanged();
 
 
 };
