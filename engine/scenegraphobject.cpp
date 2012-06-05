@@ -4,34 +4,19 @@
 
 using namespace GluonEngine;
 
-REGISTER_OBJECTTYPE( GluonEngine, SceneGraphObject )
-
 SceneGraphObject::SceneGraphObject()
 {
     this->parent = 0;
-    this->groupName = "";
+    this->groupname = "";
     this->member = new GluonCore::GluonObject( 0 );
     this->children.clear();
-    this->childrenGroup.clear();
+    this->childrengroup.clear();
+    this->level = 0;
 }
 
-SceneGraphObject::SceneGraphObject( SceneGraphObject* parent, QString groupName, GluonCore::GluonObject* member, 
-				   QList< GluonCore::GluonObject* > children, QList< SceneGraphObject* > childrenGroup )
-{
-    this->parent = parent;
-    this->groupName = groupName;
-    this->member = member;
-    this->children = children;
-    this->childrenGroup = childrenGroup;
-}
 
 SceneGraphObject::~SceneGraphObject()
 {
-}
-
-void SceneGraphObject::setGroupName( QString groupName )
-{
-    this->groupName = groupName;
 }
 
 void SceneGraphObject::setParent( SceneGraphObject* parent )
@@ -39,20 +24,31 @@ void SceneGraphObject::setParent( SceneGraphObject* parent )
     this->parent = parent;
 }
 
-void SceneGraphObject::addChildren( QList< GluonCore::GluonObject* > children )
+void SceneGraphObject::addChildren( QList< SceneGraphObject* > children )
 {
     this->children.append( children );
 }
 
-void SceneGraphObject::addChildrenGroup( QList< SceneGraphObject* > childrenGroup )
+void SceneGraphObject::addChildrenGroup( QList< SceneGraphObject* > childrengroup )
 {
-    this->childrenGroup.append( childrenGroup );
+    this->childrengroup.append( childrengroup );
+}
+
+void SceneGraphObject::setMember( GluonEngine::GameObject* object )
+{
+    this->member = object;
 }
 
 void SceneGraphObject::setHash( long int hash )
 {
     this->hash = hash;
 }
+
+void SceneGraphObject::setGroupName( QString groupname )
+{
+    this->groupname = groupname;
+}
+
 
 void SceneGraphObject::setLevel( int level )
 {
@@ -61,12 +57,23 @@ void SceneGraphObject::setLevel( int level )
 
 int SceneGraphObject::childCount()
 {
-    return this->children.length();
+    return this->children.length() + this->childrengroup.length();
 }
 
 int SceneGraphObject::groupCount()
 {
-    return this->childrenGroup.length();
+    return this->childrengroup.length();
 }
+
+GluonCore::GluonObject* SceneGraphObject::getMember()
+{
+    return this->member;
+}
+
+QList< SceneGraphObject* > SceneGraphObject::getChildren()
+{
+    return this->children;
+}
+
 
 #include "scenegraphobject.moc"

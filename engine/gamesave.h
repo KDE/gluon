@@ -10,7 +10,7 @@ namespace GluonEngine
     class GamePrivate;
     class Game;
 
-    /*
+    /**
      * For saving and loading game states, by serializing the 
      * current scene.
      */
@@ -25,8 +25,9 @@ namespace GluonEngine
 
         Q_INVOKABLE void save();
         Q_INVOKABLE void load();
+        Q_INVOKABLE void scenegraph();
 
-        /*
+        /**
          * Print the current contents of the scene, along with their properties.
          */
 	Q_INVOKABLE void debugPrint(QObject *);

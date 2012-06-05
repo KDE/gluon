@@ -52,6 +52,8 @@
 #include <QtCore/QMetaProperty>
 #include <QtCore/QStringBuilder>
 
+#include <QDebug>
+
 namespace GluonCreator
 {
     class PropertyWidgetContainer::PropertyWidgetContainerPrivate
@@ -211,6 +213,11 @@ void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
     descriptionWidget->setEditObject( theObject );
     descriptionWidget->setEditProperty( "description" );
     d->addPropertyItem( "description", descriptionWidget );
+
+    PropertyWidgetItem* tagWidget = PropertyWidgetItemFactory::instance()->create( theObject, "QString", parentWidget() );
+    tagWidget->setEditObject( theObject );
+    tagWidget->setEditProperty( "tag" );
+    d->addPropertyItem( "tag", tagWidget );
 
     QFrame* separator = new QFrame( this );
     separator->setFrameShape( QFrame::HLine );
@@ -534,3 +541,11 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::humanifyString( QString
     }
     return fixedString;
 }
+
+void PropertyWidgetContainer::handleTag( QObject* obj, QString property, QVariant oldvalue ,QVariant newvalue )
+{
+    GluonCore::GluonObject *object = qobject_cast< GluonCore::GluonObject* >( obj );
+    QString tags = newvalue.toString();
+    GluonEngine::Game::instance()->gameProject()->addTag( object, tags );
+}
+

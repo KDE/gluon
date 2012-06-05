@@ -159,8 +159,6 @@ GluonObject::clone( GluonObject* parentObject ) const
     // In case any object is doing something clever with its children, make sure it's allowed to do that on cloning as well
     newObject->postCloneSanitize();
 
-    qobject_cast< GluonEngine::GameProject* >( gameProject() )->addTags( newObject, parentObject );
-
     return newObject;
 }
 

@@ -186,7 +186,6 @@ GameObject::cleanup()
 
 void GameObject::destroy()
 {
-    Game::instance()->gameProject()->removeTag( this );
     parentGameObject()->removeLater( this );
 }
 
