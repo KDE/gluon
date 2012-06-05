@@ -61,7 +61,7 @@
             file string("assets/rendertarget.gml")
             { GluonGraphics::MaterialInstance("Main")
                 materialColor rgba(255;255;255;255)
-                texture0 uint(18)
+                texture0 uint(14)
             }
         }
         { GluonCore::GluonObject("Sounds")

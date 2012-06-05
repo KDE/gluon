@@ -1,6 +1,5 @@
 #include "tagobject.h"
 #include "game.h"
-
 #include <QMetaProperty>
 #include <QIODevice>
 #include <QFile>

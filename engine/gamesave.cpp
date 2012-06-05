@@ -2,6 +2,7 @@
 #include "gameprivate.h"
 #include "game.h"
 #include "achievementsmanager.h"
+#include "scenegraph.h"
 #include <core/gluonobject.h>
 #include "gamesave.h"
 #include "gameobject.h"
@@ -31,48 +32,55 @@ GameSave::~GameSave()
 
 void GameSave::debugPrint( QObject* obj)
 {
-  for(int i = 0; i < obj->metaObject()->propertyCount(); i++)
-  {
-    QMetaProperty property = obj->metaObject()->property( i );
-    cout << property.name() << ": " << property.read( obj ).toString().toUtf8().constData() << ' ';
-  }
-  cout << endl;
-  foreach ( QObject *ob, obj->children() )
-    debugPrint( ob );
+    for(int i = 0; i < obj->metaObject()->propertyCount(); i++)
+    {
+        QMetaProperty property = obj->metaObject()->property( i );
+        cout << property.name() << ": " << property.read( obj ).toString().toUtf8().constData() << ' ';
+    }
+    cout << endl;
+    foreach ( QObject *ob, obj->children() )
+        debugPrint( ob );
 }
 
 void GameSave::save()
 {
-  GluonCore::GluonObject *obj = GluonEngine::Game::instance()->currentScene()->sceneContents();
-  bool pause_flag = Game::instance()->isPaused();
-  if( ! pause_flag )
-    Game::instance()->setPause( true );
-  QString dir = QDir::homePath().append( "/Desktop/" );
-  QString savefile = QFileDialog::getSaveFileName(0, tr("Save Game"), dir, tr("Save Files (*.gs)"));
-  QUrl filename(savefile);
-  QList<GluonObject*> objectlist;
-  objectlist.append( obj );
-  AchievementsManager am;
-  am.readFromProject( Game::instance()->gameProject()->achievements() );
-  if( am.achievementsCount() > 0 )
-    am.save(dir);
-  if(!GluonCore::GDLSerializer::instance()->write( filename, objectlist) )
-    qDebug() << "Error in writing to: " << filename.toString();
-  if( ! pause_flag )
-    Game::instance()->setPause( false );
+    GluonCore::GluonObject *obj = GluonEngine::Game::instance()->currentScene()->sceneContents();
+    bool pause_flag = Game::instance()->isPaused();
+    if( ! pause_flag )
+        Game::instance()->setPause( true );
+    QString dir = QDir::homePath().append( "/Desktop/" );
+    QString savefile = QFileDialog::getSaveFileName(0, tr("Save Game"), dir, tr("Save Files (*.gs)"));
+    QUrl filename(savefile);
+    QList<GluonObject*> objectlist;
+    objectlist.append( obj );
+    AchievementsManager am;
+    am.readFromProject( Game::instance()->gameProject()->achievements() );
+    if( am.achievementsCount() > 0 )
+        am.save(dir);
+    if(!GluonCore::GDLSerializer::instance()->write( filename, objectlist) )
+        qDebug() << "Error in writing to: " << filename.toString();
+    if( ! pause_flag )
+        Game::instance()->setPause( false );
+    scenegraph();
 }
 
 void GameSave::load()
 {
-  //TODO: Give developer option to present list of saved slots to choose from.
-  QList<GluonObject*> objectlist;
-  QString dir = QDir::homePath().append( "/Desktop/" );
-  QString savefile = QFileDialog::getOpenFileName(0, tr("Load Game"), dir, tr("Save Files (*.gs)"));
-  QUrl filename(savefile);
-  GluonEngine::Game::instance()->loadScene( filename );
-  GluonCore::GluonObject *obj = GluonEngine::Game::instance()->currentScene()->sceneContents();
-  AchievementsManager am;
-  am.load(dir);
+    //TODO: Give developer option to present list of saved slots to choose from.
+    QList<GluonObject*> objectlist;
+    QString dir = QDir::homePath().append( "/Desktop/" );
+    QString savefile = QFileDialog::getOpenFileName(0, tr("Load Game"), dir, tr("Save Files (*.gs)"));
+    QUrl filename(savefile);
+    GluonEngine::Game::instance()->loadScene( filename );
+    GluonCore::GluonObject *obj = GluonEngine::Game::instance()->currentScene()->sceneContents();
+    AchievementsManager am;
+    am.load(dir);
+}
+
+void GameSave::scenegraph()
+{
+    SceneGraph *scene = new SceneGraph();
+    scene->debugprint( scene->getRoot() );
 }
 
 
