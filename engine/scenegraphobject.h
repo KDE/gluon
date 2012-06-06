@@ -29,7 +29,11 @@ namespace GluonEngine
 	 * Can be used, to perform same operation/set property for all 
 	 * objects that fall under this group
 	 */
+<<<<<<< HEAD
 	GluonEngine::GameObject *member;
+=======
+	GluonCore::GluonObject *member;
+>>>>>>> 876b9a7d8af3372fe4e3ddaf4a61eaaf3cf4e599
 	/**
 	 * Children of the present 'member', each individual objects
 	 */
@@ -61,9 +65,15 @@ namespace GluonEngine
          */
         Q_INVOKABLE void setMember( GluonEngine::GameObject *object );
         /**
+<<<<<<< HEAD
          * To get the member object
          */
         Q_INVOKABLE GluonEngine::GameObject* getMember();
+=======
+         * To get the member objects
+         */
+        Q_INVOKABLE GluonCore::GluonObject* getMember();
+>>>>>>> 876b9a7d8af3372fe4e3ddaf4a61eaaf3cf4e599
 	/**
 	 * To set the group names
 	 */
