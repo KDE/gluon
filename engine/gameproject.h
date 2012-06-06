@@ -208,10 +208,10 @@ namespace GluonEngine
             Q_INVOKABLE QList<Asset*> assets() const;
             Q_INVOKABLE TagObject* getTagObject();
             Q_INVOKABLE void setTagObject( TagObject* );
-            Q_INVOKABLE void addTags( GluonCore::GluonObject*, GluonCore::GluonObject* );
+            Q_INVOKABLE void addTags( GluonEngine::GameObject*, GluonEngine::GameObject* );
 	public slots:
-	    Q_INVOKABLE void addTag( GluonCore::GluonObject*, QString );
-            Q_INVOKABLE void removeTag( GluonCore::GluonObject* );
+	    Q_INVOKABLE void addTag( GluonEngine::GameObject*, QString );
+            Q_INVOKABLE void removeTag( GluonEngine::GameObject* );
 
         private:
             QSharedDataPointer<GameProjectPrivate> d;

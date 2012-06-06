@@ -2,6 +2,7 @@
 #define GLUON_ENGINE_TAGOBJECT_H
 
 #include <core/gluonobject.h>
+#include <engine/gameobject.h>
 #include "gluon_engine_export.h"
 
 #include <QHash>
@@ -29,22 +30,22 @@ namespace GluonEngine
         /*
          * Simply add a new tag to an object
          */
-	Q_INVOKABLE void addTag(GluonCore::GluonObject*, QString );
+	Q_INVOKABLE void addTag(GluonEngine::GameObject*, QString );
 
         /*
          * Add multiple tags to an object, through a list
          */
-        Q_INVOKABLE void addTags(GluonCore::GluonObject*, QList<QString> );
+        Q_INVOKABLE void addTags(GluonEngine::GameObject*, QList<QString> );
 
         /*
          * Remove the tags associated with an object
          */
-        Q_INVOKABLE void removeTag( GluonCore::GluonObject* );
+        Q_INVOKABLE void removeTag( GluonEngine::GameObject* );
 
         /*
          * Get all the tags associated with an object
          */
-        Q_INVOKABLE QList<QString> getTags(GluonCore::GluonObject*);
+        Q_INVOKABLE QList<QString> getTags( GluonEngine::GameObject* );
 
         /*
          * Get all the objects associated with a tag

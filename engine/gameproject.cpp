@@ -469,18 +469,18 @@ QList<Asset*> GameProject::assets() const
     return d->assets;
 }
 
-void GameProject::addTag( GluonCore::GluonObject *object, QString tag )
+void GameProject::addTag( GluonEngine::GameObject *object, QString tag )
 {
     d->tags->addTag( object, tag );
 }
 
-void GameProject::addTags( GluonCore::GluonObject* object, GluonCore::GluonObject* parent )
+void GameProject::addTags( GluonEngine::GameObject* object, GluonEngine::GameObject* parent )
 {
     d->tags->addTags( object, d->tags->getTags( parent ));
 }
 
 
-void GameProject::removeTag( GluonCore::GluonObject *object )
+void GameProject::removeTag( GluonEngine::GameObject *object )
 {
     d->tags->removeTag( object );
 }

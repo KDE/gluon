@@ -1,6 +1,8 @@
 #include "tagobject.h"
 #include "game.h"
-#include <QMetaProperty>
+
+#include <engine/gameobject.h>
+
 #include <QIODevice>
 #include <QFile>
 #include <QString>
@@ -35,27 +37,25 @@ TagObject::~TagObject()
 
 }
 
-void TagObject::addTag( GluonCore::GluonObject* object , QString tag )
+void TagObject::addTag( GluonEngine::GameObject* object , QString tag )
 {
     QSet<QString> set;
     if( this->tags.contains( tag ) )
         set = this->tags[ tag ];
-    QMetaProperty property = object->metaObject()->property( 0 );
-    set.insert( property.read( object ).toString() );
+    set.insert( object->name() );
     this->tags.insert( tag, set );
     printTags();
 }
 
-void TagObject::addTags( GluonCore::GluonObject* object, QList< QString > tags )
+void TagObject::addTags( GluonEngine::GameObject* object, QList< QString > tags )
 {
     foreach( const QString tag, tags )
         addTag( object, tag );
 }
 
-void TagObject::removeTag( GluonCore::GluonObject* object )
+void TagObject::removeTag( GluonEngine::GameObject* object )
 {
-    QMetaProperty property = object->metaObject()->property( 0 );
-    QString objectname = property.read( object ).toString();
+    QString objectname = object->name();
     for(QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i)
         if( i.value().contains( objectname ) )
             i.value().remove( objectname );
@@ -68,10 +68,9 @@ QList< QString > TagObject::getObjects( QString tag )
         return this->tags[ tag ].toList();
 }
 
-QList< QString > TagObject::getTags( GluonCore::GluonObject* object )
+QList< QString > TagObject::getTags( GluonEngine::GameObject* object )
 {
-    QMetaProperty property = object->metaObject()->property( 0 );
-    QString objectname = property.read( object ).toString();
+    QString objectname = object->name();
     QList< QString> list;
     for(QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i)
         if( i.value().contains( objectname ) )

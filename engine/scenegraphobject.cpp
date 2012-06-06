@@ -8,7 +8,7 @@ SceneGraphObject::SceneGraphObject()
 {
     this->parent = 0;
     this->groupname = "";
-    this->member = new GluonCore::GluonObject( 0 );
+    this->member = new GluonEngine::GameObject( 0 );
     this->children.clear();
     this->childrengroup.clear();
     this->level = 0;
@@ -65,7 +65,7 @@ int SceneGraphObject::groupCount()
     return this->childrengroup.length();
 }
 
-GluonCore::GluonObject* SceneGraphObject::getMember()
+GluonEngine::GameObject* SceneGraphObject::getMember()
 {
     return this->member;
 }
