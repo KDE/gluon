@@ -544,11 +544,7 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::humanifyString( QString
 
 void PropertyWidgetContainer::handleTag( QObject* obj, QString property, QVariant oldvalue ,QVariant newvalue )
 {
-<<<<<<< HEAD
     GluonEngine::GameObject *object = qobject_cast< GluonEngine::GameObject* >( obj );
-=======
-    GluonCore::GluonObject *object = qobject_cast< GluonCore::GluonObject* >( obj );
->>>>>>> 876b9a7d8af3372fe4e3ddaf4a61eaaf3cf4e599
     QString tags = newvalue.toString();
     GluonEngine::Game::instance()->gameProject()->addTag( object, tags );
 }

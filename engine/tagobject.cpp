@@ -1,12 +1,8 @@
 #include "tagobject.h"
 #include "game.h"
-<<<<<<< HEAD
 
 #include <engine/gameobject.h>
 
-=======
-#include <QMetaProperty>
->>>>>>> 876b9a7d8af3372fe4e3ddaf4a61eaaf3cf4e599
 #include <QIODevice>
 #include <QFile>
 #include <QString>
