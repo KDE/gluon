@@ -48,6 +48,23 @@ void TagObject::addTag( GluonEngine::GameObject* object , QString tag )
     printTags();
 }
 
+void TagObject::addTags( QString objectname, QString tags )
+{
+    if( tags.isEmpty() || objectname.isEmpty() )
+        return;
+    QStringList taglist = tags.split(QRegExp("\\W+"), QString::SkipEmptyParts);
+    foreach( QString tag, taglist )
+    {
+        QSet<QString> set;
+        if( this->tags.contains( tag ) )
+            set = this->tags[ tag ];
+        set.insert( objectname );
+        this->tags.insert( tag, set );
+    }
+    printTags();
+}
+
+
 void TagObject::addTags( GluonEngine::GameObject* object, QList< QString > tags )
 {
     foreach( const QString tag, tags )
@@ -83,6 +100,15 @@ QList< QString > TagObject::getTags( GluonEngine::GameObject* object )
         if( i.value().contains( objectname ) )
             list.append( i.key() );
     return list;
+}
+
+QString TagObject::getTags( QString objectname )
+{
+    QStringList list;
+    for(QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i)
+        if( i.value().contains( objectname ) )
+            list.append( i.key() );
+    return list.join( "," );
 }
 
 void TagObject::printTags()

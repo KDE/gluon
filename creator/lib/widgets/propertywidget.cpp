@@ -29,6 +29,7 @@ using namespace GluonCreator;
 
 #include "engine/asset.h"
 #include "engine/scene.h"
+#include "engine/game.h"
 #include "engine/gameobject.h"
 
 #include "core/gluonobject.h"
@@ -36,8 +37,12 @@ using namespace GluonCreator;
 #include <KDE/KLocalizedString>
 
 #include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
 #include <QtGui/QGridLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
 #include <QtCore/QMetaClassInfo>
+#include <QPushButton>
 
 class PropertyWidget::PropertyWidgetPrivate
 {
@@ -97,6 +102,17 @@ void PropertyWidget::setObject( GluonCore::GluonObject* object )
                 }
             }
         }
+        QHBoxLayout *hlayout = new QHBoxLayout;
+        QLabel *taglabel = new QLabel( "Tags  " );
+        taglabel->resize( 50, 30 );
+        hlayout->addWidget( taglabel );
+        hlayout->setObjectName( "hlayout" );
+        tagedit = new QLineEdit;
+        QString tags = GluonEngine::Game::instance()->gameProject()->getTags( d->object->name() );
+        tagedit->setText( tags );
+        connect( tagedit, SIGNAL(editingFinished()), this, SLOT(slotTags()) );
+        hlayout->addWidget( tagedit );
+        d->layout->addLayout( hlayout );
         d->layout->addStretch();
 
         QWidget* containerWidget = new QWidget( this );
@@ -119,4 +135,9 @@ void PropertyWidget::appendObject( GluonCore::GluonObject* obj, bool first )
         return;
 
     d->layout->addWidget( new PropertyWidgetContainer( obj, this ) );
+}
+
+void PropertyWidget::slotTags()
+{
+    GluonEngine::Game::instance()->gameProject()->addTags( d->object->name(), this->tagedit->text() );
 }

@@ -25,6 +25,7 @@
 
 #include <QtGui/QWidget>
 #include <QtGui/QScrollArea>
+#include <QLineEdit>
 
 namespace GluonCore
 {
@@ -41,6 +42,7 @@ namespace GluonCreator
     class GLUONCREATOR_EXPORT PropertyWidget : public QScrollArea
     {
             Q_OBJECT;
+            QLineEdit *tagedit;
 
         public:
             PropertyWidget( QWidget* parent = 0 );
@@ -58,6 +60,9 @@ namespace GluonCreator
         private:
             class PropertyWidgetPrivate;
             PropertyWidgetPrivate* const d;
+
+        public Q_SLOTS:
+            void slotTags();
     };
 }
 

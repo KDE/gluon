@@ -475,9 +475,9 @@ void GameProject::addTag( GluonEngine::GameObject *object, QString tag )
     d->tags->addTag( object, tag );
 }
 
-void GameProject::addTags( GluonEngine::GameObject* object, GluonEngine::GameObject* parent )
+void GameProject::addTags( QString objectname, QString tags )
 {
-    d->tags->addTags( object, d->tags->getTags( parent ));
+    d->tags->addTags( objectname, tags );
 }
 
 
@@ -489,6 +489,11 @@ void GameProject::removeTag( GluonEngine::GameObject *object )
 TagObject* GameProject::getTagObject()
 {
     return d->tags;
+}
+
+QString GameProject::getTags( QString objectname )
+{
+    return d->tags->getTags( objectname );
 }
 
 void GameProject::setTagObject( TagObject* tags )

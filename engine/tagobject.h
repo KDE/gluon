@@ -32,6 +32,7 @@ namespace GluonEngine
          * Simply add a new tag to an object
          */
 	Q_INVOKABLE void addTag(GluonEngine::GameObject*, QString );
+        Q_INVOKABLE void addTags(QString objectname, QString tags);
 
         /**
          * Add multiple tags to an object, through a list
@@ -47,6 +48,7 @@ namespace GluonEngine
          * Get all the tags associated with an object
          */
         Q_INVOKABLE QList<QString> getTags( GluonEngine::GameObject* );
+        Q_INVOKABLE QString getTags( QString objectname );
 
         /**
          * Get all the objects associated with a tag
