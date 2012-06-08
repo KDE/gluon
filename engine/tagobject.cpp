@@ -8,6 +8,7 @@
 #include <QString>
 #include <QTextStream>
 #include <QDir>
+#include <QDebug>
 
 #include <iostream>
 
@@ -25,7 +26,7 @@ TagObject::TagObject()
 TagObject::TagObject( GluonEngine::TagObject* other )
 {
     for(QHash<QString, QSet<QString> >::iterator i = other->tags.begin(); i != other->tags.end(); ++i)
-        this->tags[ i.key() ] = i.value();
+        this->tags.insert( i.key(), i.value() );
 }
 
 TagObject::TagObject( QString path )
@@ -55,17 +56,23 @@ void TagObject::addTags( GluonEngine::GameObject* object, QList< QString > tags 
 
 void TagObject::removeTag( GluonEngine::GameObject* object )
 {
+    QList< QString > list;
     QString objectname = object->name();
     for(QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i)
+    {
         if( i.value().contains( objectname ) )
             i.value().remove( objectname );
+        if( i.value().isEmpty() )
+            list.append( i.key() );
+    }
+    foreach( QString item, list )
+        this->tags.remove( item );
     printTags();
 }
 
 QList< QString > TagObject::getObjects( QString tag )
 {
-    if( this->tags.contains( tag ) )
-        return this->tags[ tag ].toList();
+    return this->tags[ tag ].toList();
 }
 
 QList< QString > TagObject::getTags( GluonEngine::GameObject* object )
@@ -81,25 +88,19 @@ QList< QString > TagObject::getTags( GluonEngine::GameObject* object )
 void TagObject::printTags()
 {
     for(QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i)
-    {
-        cout << i.key().toUtf8().constData() << ": ";
-        foreach( QString ob, i.value() )
-            cout << ob.toUtf8().constData() << ' ';
-    }
-    cout << endl;
+        qDebug() << i.key().toUtf8().constData() << ' ' << QStringList( i.value().toList() ).join(" ").toUtf8().constData();
 }
 
 bool TagObject::writeToFile()
 {
-    QString dir = Game::instance()->gameProject()->dirname().toString() + QString( "/assets/tags/" );
-    if( ! QDir( dir ).exists() )
-        QDir().mkpath( dir );
-    dir += "tags.gs";
-    return writeToFile( dir );
+    return writeToFile( this->path );
 }
 
 bool TagObject::writeToFile( QString path )
 {
+    QString dir = path.section( '/', 0, -2 );
+    if( ! QDir( dir ).exists() )
+        QDir().mkpath( dir );
     QFile file( path );
     if( !file.open( QIODevice::WriteOnly ) )
         return false;
@@ -110,18 +111,20 @@ bool TagObject::writeToFile( QString path )
     return true;
 }
 
+
 bool TagObject::readFromFile()
 {
-    QString dir = Game::instance()->gameProject()->dirname().toString() + QString( "/assets/tags/" );
-    dir += "tags.gs";
-    return readFromFile( dir );
+    return readFromFile( this->path );
 }
 
 bool TagObject::readFromFile( QString path )
 {
     QFile file( path );
     if( !file.open( QIODevice::ReadOnly ) )
+    {
+        writeToFile( path );
         return false;
+    }
     this->tags.clear();
     QTextStream in( &file );
     QString line = in.readLine();
@@ -133,6 +136,16 @@ bool TagObject::readFromFile( QString path )
         this->tags[ key ] = list.toSet();
         line = in.readLine();
     }
+    file.close();
+    printTags();
     return true;
 }
+
+void TagObject::setPath( QUrl path )
+{
+    this->path = path.toLocalFile() + QString("/assets/tags/tags.gs");
+    readFromFile();
+}
+
+
 #include "tagobject.moc"

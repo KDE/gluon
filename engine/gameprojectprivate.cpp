@@ -36,6 +36,7 @@ GameProjectPrivate::GameProjectPrivate()
     , icon( 0 )
     , screenshot( 0 )
     , userName( "user" )
+    , tags()
 {
 }
 
@@ -50,6 +51,7 @@ GameProjectPrivate::GameProjectPrivate( const GameProjectPrivate& other )
     , icon( other.icon )
     , screenshot( other.screenshot )
     , userName( other.userName )
+    , tags( other.tags )
 {
 }
 

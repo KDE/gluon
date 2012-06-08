@@ -140,7 +140,7 @@ GameProject::saveToFile()
     achievementsManager.makeTemplate();
     QString saveDirectory = projectDir + "/.cache";
     achievementsManager.save(saveDirectory);
-
+    d->tags->writeToFile();
     return true;
 }
 
@@ -235,7 +235,8 @@ GameProject::loadFromFile()
             return false;
         }
     }
-
+    d->tags = new TagObject();
+    d->tags->setPath( d->dirname );
     return true;
 }
 

@@ -20,6 +20,7 @@ namespace GluonEngine
         GLUON_OBJECT( GluonEngine::TagObject )
 
         QHash<QString, QSet<QString> > tags;
+        QString path;
 
     public:
 	Q_INVOKABLE TagObject();
@@ -51,20 +52,21 @@ namespace GluonEngine
          * Get all the objects associated with a tag
          */
         Q_INVOKABLE QList<QString> getObjects(QString);
-
         /**
-         * Serialize the tags and objects. If not path is specified,
+         * To set the file that the tags are read from
+         */
+        Q_INVOKABLE void setPath( QUrl path );
+        /**
+         * Serialize the tags and objects. If path is not specified,
          * the default assets/tags/ is used
          */
         Q_INVOKABLE bool writeToFile();
-        Q_INVOKABLE bool writeToFile( QString );
-
+        Q_INVOKABLE bool writeToFile( QString path );
         /**
          * Read tags from a file
          */
         Q_INVOKABLE bool readFromFile();
-        Q_INVOKABLE bool readFromFile( QString );
-
+        Q_INVOKABLE bool readFromFile( QString path );
         /**
          * For testing purposes, print all the tags+objects
          */
