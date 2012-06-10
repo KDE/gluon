@@ -18,7 +18,6 @@
  */
 
 import QtQuick 1.0
-import com.nokia.symbian 1.1
 import Intro 1.0
 Item {
 
@@ -84,15 +83,6 @@ Item {
 
             IntroSlideShow {
                 id :animator;
-    }
-
-
-    ToolTip {
-        id: toolTip
-        text: ""
-        target: viewport
-        visible: mouseArea.hoverEnabled
-
     }
 
         Text {
