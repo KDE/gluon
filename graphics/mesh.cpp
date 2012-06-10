@@ -29,44 +29,22 @@ using namespace GluonGraphics;
 class Mesh::Private
 {
     public:
-        Private() : buffer(0), material(0)
+        Private() : vertexBuffer(0), indexBuffer(0)
         {
         }
 
-        VertexBuffer* buffer;
-        MaterialInstance* material;
+        Buffer* vertexBuffer;
+        Buffer* indexBuffer;
 };
 
 Mesh::Mesh( QObject* parent )
     : QObject( parent ), d( new Private )
 {
-    d->buffer = new VertexBuffer( VertexBuffer::BM_STATIC_DRAW, this );
 }
 
 Mesh::~Mesh()
 {
-    delete d->buffer;
     delete d;
-}
-
-void
-Mesh::setVertexBuffer( VertexBuffer* buffer )
-{
-    if( d->buffer )
-    {
-        delete d->buffer;
-    }
-
-    d->buffer = buffer;
-
-    if( buffer )
-    {
-        buffer->setParent( this );
-        if( !buffer->isInitialized() )
-        {
-            buffer->initialize();
-        }
-    }
 }
 
 void Mesh::update()
@@ -74,22 +52,10 @@ void Mesh::update()
     //Intentionally empty
 }
 
-void
-Mesh::render( MaterialInstance* material, VertexBuffer::RenderMode mode )
-{
-    d->buffer->render( mode, material );
-}
-
 bool
 Mesh::isInitialized() const
 {
-    return d->buffer && d->buffer->isInitialized();
-}
-
-VertexBuffer*
-Mesh::vertexBuffer() const
-{
-    return d->buffer;
+    return false;
 }
 
 #include "mesh.moc"

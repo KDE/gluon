@@ -25,8 +25,8 @@
 
 using namespace GluonGraphics;
 
-SpriteMesh::SpriteMesh(QObject* parent)
-    : Mesh(parent)
+SpriteMesh::SpriteMesh( QObject* parent )
+    : Mesh( parent )
 {
 
 }
@@ -38,36 +38,40 @@ SpriteMesh::~SpriteMesh()
 
 void SpriteMesh::initialize()
 {
-    VertexBuffer* buffer = vertexBuffer();
+//     VertexBuffer* buffer = vertexBuffer();
+//
+//     VertexAttribute vertices( "vertex", 3 );
+//     vertices << -1.f << -1.f << 0.f;
+//     vertices << -1.f <<  1.f << 0.f;
+//     vertices <<  1.f <<  1.f << 0.f;
+//     vertices <<  1.f << -1.f << 0.f;
+//     buffer->addAttribute( vertices );
+//
+//     VertexAttribute colors( "color", 4 );
+//     colors << 1.f << 1.f << 1.f << 1.f;
+//     colors << 1.f << 1.f << 1.f << 1.f;
+//     colors << 1.f << 1.f << 1.f << 1.f;
+//     colors << 1.f << 1.f << 1.f << 1.f;
+//     buffer->addAttribute( colors );
+//
+//     VertexAttribute uvs( "uv0", 2 );
+//     uvs << 0.f << 0.f;
+//     uvs << 0.f << 1.f;
+//     uvs << 1.f << 1.f;
+//     uvs << 1.f << 0.f;
+//     buffer->addAttribute( uvs );
+//
+//     QVector<uint> indices;
+//     indices << 0 << 1 << 2
+//             << 0 << 2 << 3;
+//
+//     buffer->setIndices( indices );
+//     buffer->initialize();
+}
 
-    VertexAttribute vertices( "vertex", 3 );
-    vertices << -1.f << -1.f << 0.f;
-    vertices << -1.f <<  1.f << 0.f;
-    vertices <<  1.f <<  1.f << 0.f;
-    vertices <<  1.f << -1.f << 0.f;
-    buffer->addAttribute( vertices );
+void SpriteMesh::render( Shader* shader )
+{
 
-    VertexAttribute colors( "color", 4 );
-    colors << 1.f << 1.f << 1.f << 1.f;
-    colors << 1.f << 1.f << 1.f << 1.f;
-    colors << 1.f << 1.f << 1.f << 1.f;
-    colors << 1.f << 1.f << 1.f << 1.f;
-    buffer->addAttribute( colors );
-
-    VertexAttribute uvs( "uv0", 2 );
-    uvs << 0.f << 0.f;
-    uvs << 0.f << 1.f;
-    uvs << 1.f << 1.f;
-    uvs << 1.f << 0.f;
-    buffer->addAttribute( uvs );
-
-    QVector<uint> indices;
-    indices << 0 << 1 << 2
-            << 0 << 2 << 3;
-
-    buffer->setIndices( indices );
-    buffer->initialize();
 }
 
 #include "spritemesh.moc"
-

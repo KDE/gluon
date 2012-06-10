@@ -26,6 +26,8 @@
 #include "graphics/renderwidget.h"
 
 #include <QtGui/QApplication>
+#include <shader.h>
+#include <backend.h>
 
 int main( int argc, char* argv[] )
 {
@@ -35,11 +37,13 @@ int main( int argc, char* argv[] )
     //widget.show();
 
     //GluonGraphics::Material* mat = new GluonGraphics::Material();
-    GluonGraphics::Material* mat = GluonGraphics::Manager::instance()->createResource< GluonGraphics::Material >( "Main" );
+    //GluonGraphics::Material* mat = GluonGraphics::Manager::instance()->createResource< GluonGraphics::Material >( "Main" );
     //createResource< GluonGraphics::Material >( "Main" );
-    GluonGraphics::Manager::instance()->destroyResource< GluonGraphics::Material >( "Main" );
+    //GluonGraphics::Manager::instance()->destroyResource< GluonGraphics::Material >( "Main" );
     //qDebug() << GluonGraphics::Manager::instance()->backend( widget )->information( GluonGraphics::Backend::VerboseInformation );
 
+    GluonGraphics::RenderWidget widget;
+    widget.show();
     //app.exec();
 
     //delete widget;
@@ -72,8 +76,6 @@ int main( int argc, char* argv[] )
 //
 //     QTimer::singleShot( 0, widget, SLOT(updateGL()) );
 // return app.exec();
-    GluonGraphics::RenderWidget widget;
-    widget.show();
 
     app.exec();
 }

@@ -29,13 +29,15 @@
 
 #include <core/debughelper.h>
 
+#include <graphics/manager.h>
+
 #include "glxcontext.h"
 #include "glxshader.h"
 #include "glxoutputsurface.h"
 #include "glxbuffer.h"
 #include "glxtexture.h"
 #include "glxrendertarget.h"
-#include <manager.h>
+#include "glxmeshdata.h"
 
 using namespace GluonGraphics;
 
@@ -78,8 +80,6 @@ bool GLXBackend::initialize( QWidget* widget )
 
     DEBUG_BLOCK
     DEBUG_TEXT( information( FullInformation ) );
-
-    glClearColor( 0.f, 0.f, 0.f, 0.f );
 
     return true;
 }
@@ -148,12 +148,17 @@ RenderTarget* GLXBackend::createRenderTarget()
 
 Shader* GLXBackend::createShader()
 {
-    return new GLXShader( d->context );
+    return new GLXShader();
 }
 
 OutputSurface* GLXBackend::createOutputSurface( QWidget* widget )
 {
     return new GLXOutputSurface( d->context, widget, widget );
+}
+
+MeshData* GLXBackend::createMeshData()
+{
+    return new GLXMeshData();
 }
 
 Q_EXPORT_PLUGIN2( gluongraphics_glx_backend, GluonGraphics::GLXBackend )

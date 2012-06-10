@@ -49,12 +49,12 @@ class Context::Private
 
 bool Version::operator==( const Version& other )
 {
-    return ( major == other.major && minor == other.minor && patch == other.patch );
+    return ( major == other.major && minor == other.minor );
 }
 
 QString Version::toString() const
 {
-    return QString( "%1.%2.%3" ).arg( major ).arg( minor ).arg( patch );
+    return QString( "%1.%2" ).arg( major ).arg( minor );
 }
 
 Context::Context()
@@ -116,6 +116,8 @@ bool Context::initialize( QWidget* widget )
     }
 
     d->renderer = reinterpret_cast< const char* >( glGetString( GL_RENDERER ) );
+
+    glClearColor( 0.f, 0.f, 0.f, 0.f );
 
     return true;
 }
@@ -191,15 +193,12 @@ Version Context::Private::parseVersion( const QByteArray& string )
 {
     QList< QByteArray > numbers = string.split( '.' );
 
-    Version ver = { 0, 0, 0 };
+    Version ver = { 0, 0 };
     if( numbers.count() > 0 )
         ver.major = numbers.at( 0 ).toInt();
 
     if( numbers.count() > 1 )
         ver.minor = numbers.at( 1 ).toInt();
-
-    if( numbers.count() > 2 )
-        ver.patch = numbers.at( 2 ).toInt();
 
     return ver;
 }

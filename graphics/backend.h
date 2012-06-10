@@ -30,6 +30,7 @@ namespace GluonGraphics
     class Buffer;
     class OutputSurface;
     class RenderTarget;
+    class MeshData;
 
     /**
      * \brief Abstract class for encapsulating all graphics backend details.
@@ -112,6 +113,8 @@ namespace GluonGraphics
              * \return A platform-specific implementation of an OutputSurface object.
              */
             virtual OutputSurface* createOutputSurface( QWidget* widget ) = 0;
+
+            virtual MeshData* createMeshData() = 0;
     };
 
 }

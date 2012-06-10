@@ -17,46 +17,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "glxoutputsurface.h"
+#ifndef GLUONGRAPHICS_GLXMESHDATA_H
+#define GLUONGRAPHICS_GLXMESHDATA_H
 
-#include <QtGui/QWidget>
-#include <QtGui/QX11Info>
+#include <meshdata.h>
 
-#include <GL/gl.h>
-#include <GL/glx.h>
 
-#include "glxcontext.h"
-#include <rendertarget.h>
-
-using namespace GluonGraphics;
-
-class GLXOutputSurface::Private
+namespace GluonGraphics
 {
-    public:
-        GLX::Context* context;
-};
+    class GLXMeshData : public GluonGraphics::MeshData
+    {
+        public:
+            GLXMeshData();
+            virtual ~GLXMeshData();
 
-GLXOutputSurface::GLXOutputSurface( GLX::Context* context, QWidget* container, QObject* parent )
-    : GluonGraphics::OutputSurface( container, parent ), d( new Private )
-{
-    d->context = context;
-}
+            virtual void render();
+            virtual void setAttribute( int index, QVariant::Type type, const QByteArray& data );
+            virtual void setIndices( const QVector< int >& indices );
+            virtual void setPrimitiveType( GluonGraphics::MeshData::PrimitiveType type );
+            virtual void setPrimitiveCount( int count, int sizeHint = 0 );
 
-GLXOutputSurface::~GLXOutputSurface()
-{
+        private:
+            class Private;
+            Private * const d;
+    };
 
 }
 
-void GLXOutputSurface::renderContents()
-{
-    d->context->makeCurrent( widget() );
-
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
-    if( renderTarget() )
-        renderTarget()->renderContents();
-
-    glXSwapBuffers( QX11Info::display(), widget()->winId() );
-}
-
-#include "glxoutputsurface.moc"
+#endif // GLUONGRAPHICS_GLXMESHDATA_H

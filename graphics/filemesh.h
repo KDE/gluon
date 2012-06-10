@@ -46,6 +46,7 @@ namespace GluonGraphics
             QString file() const;
 
             virtual void initialize();
+            virtual void render( Shader* shader );
 
         private:
             class Private;

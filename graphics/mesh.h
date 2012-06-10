@@ -20,16 +20,14 @@
 #ifndef GLUONGRAPHICS_ABSTRACTMESH_H
 #define GLUONGRAPHICS_ABSTRACTMESH_H
 
+#include <QObject>
+
 #include "gluon_graphics_export.h"
-
-#include "vertexbuffer.h"
-
-class QMatrix4x4;
 
 namespace GluonGraphics
 {
-    class MaterialInstance;
-    class VertexBuffer;
+    class Buffer;
+    class Shader;
 
     /**
      * \brief Abstract base class for different types of meshes.
@@ -50,25 +48,12 @@ namespace GluonGraphics
      */
     class GLUON_GRAPHICS_EXPORT Mesh : public QObject
     {
-            Q_OBJECT
+        Q_OBJECT
         public:
-            Mesh( QObject* parent = 0 );
+            explicit Mesh( QObject* parent = 0 );
             virtual ~Mesh();
 
-            /**
-             * Initialize the data of this mesh.
-             *
-             * This method should create a VertexBuffer and populate
-             * this buffer with data.
-             */
             virtual void initialize() = 0;
-
-            /**
-             * Set the buffer used by this Mesh to render.
-             *
-             * \param buffer The buffer to render.
-             */
-            void setVertexBuffer( VertexBuffer* buffer );
 
             /**
              * Has this mesh been initialized yet?
@@ -80,28 +65,13 @@ namespace GluonGraphics
              *
              * The default implementation of this method does
              * nothing.
-             *
-             * Note also that you want to avoid doing anything
-             * in this method when you are using any of the
-             * STATIC_* data upload methods.
              */
             virtual void update();
 
             /**
-             * Render this mesh to the screen.
              *
-             * \param material The material used to render the mesh. This
-             * is only used to determine vertex attribute locations in the
-             * program.
-             * \param mode The mode used to render the mesh.
              */
-            virtual void render( MaterialInstance* material, VertexBuffer::RenderMode mode = VertexBuffer::RM_TRIANGLES );
-
-        protected:
-            /**
-             * Returns the buffer being used to draw this mesh.
-             **/
-            VertexBuffer* vertexBuffer() const;
+            virtual void render( Shader* shader ) = 0;
 
         private:
             class Private;

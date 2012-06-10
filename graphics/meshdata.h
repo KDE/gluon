@@ -17,31 +17,46 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONGRAPHICS_GLX_BUFFER_H
-#define GLUONGRAPHICS_GLX_BUFFER_H
+#ifndef GLUONGRAPHICS_MESHDATA_H
+#define GLUONGRAPHICS_MESHDATA_H
 
-#include <graphics/buffer.h>
+#include <QVariant>
 
 namespace GluonGraphics
 {
-    class GLXBuffer : public GluonGraphics::Buffer
+    class Buffer;
+
+    class MeshData
     {
         public:
-            GLXBuffer();
-            virtual ~GLXBuffer();
+            enum PrimitiveType
+            {
+                PointType,
+                LineType,
+                TriangleType,
+                TriangleFanType,
+                TriangleStripType,
+            };
 
-            virtual void initialize( BufferType type, UpdateMode mode );
-            virtual void destroy();
-            virtual void setSize( int size );
-            virtual void setData( const QByteArray& data, int offset = 0 );
+            MeshData();
+            virtual ~MeshData();
 
-            virtual void bind();
-            virtual void release();
+            virtual void setAttribute( int index, QVariant::Type type, const QByteArray& data ) = 0;
+            virtual void setIndices( const QVector< int >& indices ) = 0;
+
+            PrimitiveType primitiveType() const;
+            virtual void setPrimitiveType( PrimitiveType type );
+
+            int primitiveCount() const;
+            virtual void setPrimitiveCount( int count, int sizeHint = 1 );
+
+            virtual void render() = 0;
 
         private:
             class Private;
             Private * const d;
     };
+
 }
 
-#endif // GLUONGRAPHICS_GLX_BUFFER_H
+#endif // GLUONGRAPHICS_MESHDATA_H

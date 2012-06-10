@@ -32,12 +32,20 @@ namespace GluonGraphics
     class GLXShader : public GluonGraphics::Shader
     {
         public:
-            explicit GLXShader( GLX::Context* context );
+            explicit GLXShader(  );
             virtual ~GLXShader();
 
-            bool build();
+            virtual bool build();
+            virtual bool bind();
+            virtual void release();
 
-            bool bind();
+            virtual void setProperty( const QString& name, const QVariant& value );
+            virtual void setProperty( const QString& name, Texture* texture, int textureID = 0 );
+            virtual QList< int > attributes();
+
+        private:
+            class Private;
+            Private * const d;
     };
 }
 

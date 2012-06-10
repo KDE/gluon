@@ -65,7 +65,7 @@ void GLXRenderTarget::bind()
     if( current > 0 )
         d->previous = current;
 
-    glBindFramebuffer( GL_FRAMEBUFFER, d->fbo );
+    glBindFramebufferEXT( GL_FRAMEBUFFER, d->fbo );
 
     glClearColor( 1.f, 0.f, 0.f, 1.f );
     glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT );
@@ -75,7 +75,7 @@ void GLXRenderTarget::bind()
 
 void GLXRenderTarget::release()
 {
-    glBindFramebuffer( GL_FRAMEBUFFER, d->previous );
+    glBindFramebufferEXT( GL_FRAMEBUFFER, d->previous );
     glClearColor( 0.f, 0.f, 0.f, 1.f );
     d->previous = 0;
     d->bound = false;

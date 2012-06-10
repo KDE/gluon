@@ -46,85 +46,95 @@ FileMesh::~FileMesh()
 
 }
 
+QString FileMesh::file() const
+{
+
+}
+
 void FileMesh::initialize()
 {
-    Assimp::Importer imp;
-    const aiScene* scene = imp.ReadFile( d->file.toUtf8(), aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType );
+//     Assimp::Importer imp;
+//     const aiScene* scene = imp.ReadFile( d->file.toUtf8(), aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType );
+//
+//     if(!scene)
+//     {
+//         return;
+//     }
+//
+//     VertexBuffer* buffer = vertexBuffer();
+//     for(uint m = 0; m < scene->mNumMeshes; ++m)
+//     {
+//         aiMesh* mesh = scene->mMeshes[m];
+//
+//         VertexAttribute vertices("vertex", 3);
+//         for( uint i = 0; i < mesh->mNumVertices; ++i )
+//         {
+//             aiVector3D vertex = mesh->mVertices[i];
+//             vertices << vertex.x << vertex.y << vertex.z;
+//         }
+//         buffer->addAttribute(vertices);
+//
+//         QVector<uint> indices;
+//         for( uint i = 0; i < mesh->mNumFaces; ++i )
+//         {
+//             aiFace face = mesh->mFaces[i];
+//             for( uint j = 0; j < face.mNumIndices; ++j )
+//             {
+//                 indices << face.mIndices[j];
+//             }
+//         }
+//         buffer->setIndices(indices);
+//
+//         uint uvCount = mesh->GetNumUVChannels();
+//         for( uint t = 0; t < uvCount; ++t )
+//         {
+//             aiVector3D* uvChannel = mesh->mTextureCoords[t];
+//             uint numComponents = mesh->mNumUVComponents[t];
+//             VertexAttribute uvs(QString("uv%1").arg(t), numComponents);
+//             for( uint i = 0; i < mesh->mNumVertices; ++i )
+//             {
+//                 aiVector3D uv = uvChannel[i];
+//
+//                 uvs << uv.x;
+//                 if(numComponents > 1)
+//                     uvs << uv.y;
+//
+//                 if(numComponents > 2)
+//                     uvs << uv.z;
+//             }
+//             buffer->addAttribute(uvs);
+//         }
+//
+//         if( mesh->HasVertexColors(0) )
+//         {
+//             aiColor4D* colorChannel = mesh->mColors[0];
+//             VertexAttribute colors("color", 4);
+//             for( uint i = 0; i < mesh->mNumVertices; ++i )
+//             {
+//                 aiColor4D color = colorChannel[i];
+//                 colors << color.r << color.g << color.b << color.a;
+//             }
+//             buffer->addAttribute(colors);
+//         }
+//
+//         if( mesh->HasNormals() )
+//         {
+//             VertexAttribute normals("normal", 3);
+//             for( uint i = 0; i < mesh->mNumVertices; ++i )
+//             {
+//                 aiVector3D normal = mesh->mNormals[i];
+//                 normals << normal.x << normal.y << normal.z;
+//             }
+//             buffer->addAttribute(normals);
+//         }
+//     }
+//
+//     buffer->initialize();
+}
 
-    if(!scene)
-    {
-        return;
-    }
+void FileMesh::render( Shader* shader )
+{
 
-    VertexBuffer* buffer = vertexBuffer();
-    for(uint m = 0; m < scene->mNumMeshes; ++m)
-    {
-        aiMesh* mesh = scene->mMeshes[m];
-
-        VertexAttribute vertices("vertex", 3);
-        for( uint i = 0; i < mesh->mNumVertices; ++i )
-        {
-            aiVector3D vertex = mesh->mVertices[i];
-            vertices << vertex.x << vertex.y << vertex.z;
-        }
-        buffer->addAttribute(vertices);
-
-        QVector<uint> indices;
-        for( uint i = 0; i < mesh->mNumFaces; ++i )
-        {
-            aiFace face = mesh->mFaces[i];
-            for( uint j = 0; j < face.mNumIndices; ++j )
-            {
-                indices << face.mIndices[j];
-            }
-        }
-        buffer->setIndices(indices);
-
-        uint uvCount = mesh->GetNumUVChannels();
-        for( uint t = 0; t < uvCount; ++t )
-        {
-            aiVector3D* uvChannel = mesh->mTextureCoords[t];
-            uint numComponents = mesh->mNumUVComponents[t];
-            VertexAttribute uvs(QString("uv%1").arg(t), numComponents);
-            for( uint i = 0; i < mesh->mNumVertices; ++i )
-            {
-                aiVector3D uv = uvChannel[i];
-
-                uvs << uv.x;
-                if(numComponents > 1)
-                    uvs << uv.y;
-
-                if(numComponents > 2)
-                    uvs << uv.z;
-            }
-            buffer->addAttribute(uvs);
-        }
-
-        if( mesh->HasVertexColors(0) )
-        {
-            aiColor4D* colorChannel = mesh->mColors[0];
-            VertexAttribute colors("color", 4);
-            for( uint i = 0; i < mesh->mNumVertices; ++i )
-            {
-                aiColor4D color = colorChannel[i];
-                colors << color.r << color.g << color.b << color.a;
-            }
-            buffer->addAttribute(colors);
-        }
-
-        if( mesh->HasNormals() )
-        {
-            VertexAttribute normals("normal", 3);
-            for( uint i = 0; i < mesh->mNumVertices; ++i )
-            {
-                aiVector3D normal = mesh->mNormals[i];
-                normals << normal.x << normal.y << normal.z;
-            }
-            buffer->addAttribute(normals);
-        }
-    }
-
-    buffer->initialize();
 }
 
 #include "filemesh.moc"
