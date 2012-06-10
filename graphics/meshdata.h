@@ -21,9 +21,11 @@
 #define GLUONGRAPHICS_MESHDATA_H
 
 #include <QVariant>
+#include <QVector>
 
 namespace GluonGraphics
 {
+    class Shader;
     class Buffer;
 
     class MeshData
@@ -41,22 +43,32 @@ namespace GluonGraphics
             MeshData();
             virtual ~MeshData();
 
-            virtual void setAttribute( int index, QVariant::Type type, const QByteArray& data ) = 0;
-            virtual void setIndices( const QVector< int >& indices ) = 0;
+            template < typename T >
+            void setAttribute( const QString& name, QVariant::Type type, QVector< T > data ); //Note: Explicit use of copy-by-value for QVector, do not change!
+            virtual void setIndices(QVector< uint > indices ) = 0; //Note: Explicit use of copy-by-value for QVector, do not change!
 
             PrimitiveType primitiveType() const;
             virtual void setPrimitiveType( PrimitiveType type );
 
             int primitiveCount() const;
-            virtual void setPrimitiveCount( int count, int sizeHint = 1 );
+            virtual void setPrimitiveCount( int count );
+            virtual void setPrimitiveCount( int count, int vertexSize, int indexSize ) = 0;
 
-            virtual void render() = 0;
+            virtual void render( Shader* shader ) = 0;
+
+        protected:
+            virtual void setAttribute( const QString& name, QVariant::Type type, void* data, int size ) = 0;
 
         private:
             class Private;
             Private * const d;
     };
 
+    template < typename T >
+    void MeshData::setAttribute( const QString& name, QVariant::Type type, QVector< T > data)
+    {
+        setAttribute( name, type, reinterpret_cast< void* >( data.data() ), sizeof( T ) * data.size() );
+    }
 }
 
 #endif // GLUONGRAPHICS_MESHDATA_H

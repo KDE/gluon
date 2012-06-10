@@ -21,12 +21,24 @@
 #include "spritemesh.h"
 
 #include <QVector>
-#include "vertexattribute.h"
+
+#include "meshdata.h"
+#include "manager.h"
+#include "backend.h"
+#include "shader.h"
 
 using namespace GluonGraphics;
 
+class SpriteMesh::Private
+{
+    public:
+        Private() : meshData( 0 ) { }
+
+        MeshData* meshData;
+};
+
 SpriteMesh::SpriteMesh( QObject* parent )
-    : Mesh( parent )
+    : Mesh( parent ), d( new Private )
 {
 
 }
@@ -38,40 +50,42 @@ SpriteMesh::~SpriteMesh()
 
 void SpriteMesh::initialize()
 {
-//     VertexBuffer* buffer = vertexBuffer();
-//
-//     VertexAttribute vertices( "vertex", 3 );
-//     vertices << -1.f << -1.f << 0.f;
-//     vertices << -1.f <<  1.f << 0.f;
-//     vertices <<  1.f <<  1.f << 0.f;
-//     vertices <<  1.f << -1.f << 0.f;
-//     buffer->addAttribute( vertices );
-//
-//     VertexAttribute colors( "color", 4 );
-//     colors << 1.f << 1.f << 1.f << 1.f;
-//     colors << 1.f << 1.f << 1.f << 1.f;
-//     colors << 1.f << 1.f << 1.f << 1.f;
-//     colors << 1.f << 1.f << 1.f << 1.f;
-//     buffer->addAttribute( colors );
-//
-//     VertexAttribute uvs( "uv0", 2 );
-//     uvs << 0.f << 0.f;
-//     uvs << 0.f << 1.f;
-//     uvs << 1.f << 1.f;
-//     uvs << 1.f << 0.f;
-//     buffer->addAttribute( uvs );
-//
-//     QVector<uint> indices;
-//     indices << 0 << 1 << 2
-//             << 0 << 2 << 3;
-//
-//     buffer->setIndices( indices );
-//     buffer->initialize();
+    d->meshData = Manager::instance()->backend()->createMeshData();
+    d->meshData->setPrimitiveType( GluonGraphics::MeshData::TriangleType );
+    d->meshData->setPrimitiveCount( 6, 80, 24 );
+
+    QVector< float > vertices;
+    vertices << -0.5f << -0.5f << 0.f;
+    vertices << -0.5f <<  0.5f << 0.f;
+    vertices <<  0.5f <<  0.5f << 0.f;
+    vertices <<  0.5f << -0.5f << 0.f;
+    d->meshData->setAttribute( "vertex", QVariant::Vector3D, vertices );
+
+    QVector< float > uvs;
+    uvs << 0.f << 0.f;
+    uvs << 0.f << 1.f;
+    uvs << 1.f << 1.f;
+    uvs << 1.f << 0.f;
+    d->meshData->setAttribute( "uv0", QVariant::Vector2D, uvs );
+
+    d->meshData->setIndices( QVector< uint >() << 0 << 1 << 2 << 0 << 2 << 3 );
+}
+
+bool SpriteMesh::isInitialized() const
+{
+    return d->meshData != 0;
 }
 
 void SpriteMesh::render( Shader* shader )
 {
-
+    if( d->meshData )
+    {
+        d->meshData->render( shader );
+    }
+    else
+    {
+        qWarning( "Warning: Attempting to render an uninitialised SpriteMesh!" );
+    }
 }
 
 #include "spritemesh.moc"

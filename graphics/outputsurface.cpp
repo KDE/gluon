@@ -19,9 +19,13 @@
 
 #include "outputsurface.h"
 
+#include <QWidget>
+
 #include "manager.h"
 #include "rendertarget.h"
-#include <QWidget>
+#include "shader.h"
+#include "meshdata.h"
+
 
 using namespace GluonGraphics;
 
@@ -32,6 +36,9 @@ class OutputSurface::Private
         RenderTarget* renderTarget;
         int width;
         int height;
+
+        MeshData* data;
+        Shader* shader;
 };
 
 OutputSurface::OutputSurface(QWidget* container, QObject* parent)

@@ -25,6 +25,7 @@ class MeshData::Private
 {
     public:
         Private() : type( TriangleType ), count( 0 ) { }
+
         PrimitiveType type;
         int count;
 };
@@ -54,8 +55,7 @@ int MeshData::primitiveCount() const
     return d->count;
 }
 
-void MeshData::setPrimitiveCount( int count, int sizeHint )
+void MeshData::setPrimitiveCount( int count )
 {
-    Q_UNUSED( sizeHint );
     d->count = count;
 }

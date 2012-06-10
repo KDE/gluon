@@ -26,25 +26,13 @@
 
 using namespace GluonGraphics;
 
-class Mesh::Private
-{
-    public:
-        Private() : vertexBuffer(0), indexBuffer(0)
-        {
-        }
-
-        Buffer* vertexBuffer;
-        Buffer* indexBuffer;
-};
-
 Mesh::Mesh( QObject* parent )
-    : QObject( parent ), d( new Private )
+    : QObject( parent )
 {
 }
 
 Mesh::~Mesh()
 {
-    delete d;
 }
 
 void Mesh::update()

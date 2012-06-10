@@ -34,11 +34,13 @@ namespace GluonGraphics
 
             RenderTarget* renderTarget() const;
 
+            virtual void createDebug() = 0;
+
         public Q_SLOTS:
             virtual void renderContents() = 0;
-            void setRenderTarget( RenderTarget* newTarget );
-            void setRenderTarget( const QString& targetIdentifier );
-            void setSize( int width, int height );
+            virtual void setRenderTarget( RenderTarget* newTarget );
+            virtual void setRenderTarget( const QString& targetIdentifier );
+            virtual void setSize( int width, int height );
 
         protected:
             QWidget* widget();

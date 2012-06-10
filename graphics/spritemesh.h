@@ -44,7 +44,12 @@ namespace GluonGraphics
             virtual ~SpriteMesh();
 
             virtual void initialize();
+            virtual bool isInitialized() const;
             virtual void render( Shader* shader );
+
+        private:
+            class Private;
+            Private * const d;
     };
 }
 

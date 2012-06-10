@@ -73,10 +73,6 @@ namespace GluonGraphics
              */
             virtual void render( Shader* shader ) = 0;
 
-        private:
-            class Private;
-            Private* const d;
-
     };
 }
 

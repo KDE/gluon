@@ -76,19 +76,23 @@ void GLXBuffer::setSize( int size )
     bind();
     glBufferData( d->target, size, 0, d->usage );
     release();
+    d->size = size;
 }
 
-void GLXBuffer::setData( const QByteArray& data, int offset )
+void GLXBuffer::setData( void* data, int size, int offset )
 {
     if( !d->buffer )
         return;
 
     bind();
 
-    if( data.size() > d->size )
-        setSize( data.size() );
+    if( offset + size > d->size )
+    {
+        glBufferData( d->target, offset + size, 0, d->usage );
+        d->size = offset + size;
+    }
 
-    glBufferSubData( d->target, offset, data.size(), data.data() );
+    glBufferSubData( d->target, offset, size, data );
     release();
 }
 

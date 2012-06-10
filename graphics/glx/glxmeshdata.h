@@ -20,8 +20,9 @@
 #ifndef GLUONGRAPHICS_GLXMESHDATA_H
 #define GLUONGRAPHICS_GLXMESHDATA_H
 
-#include <meshdata.h>
+#include <QVector>
 
+#include <meshdata.h>
 
 namespace GluonGraphics
 {
@@ -31,17 +32,18 @@ namespace GluonGraphics
             GLXMeshData();
             virtual ~GLXMeshData();
 
-            virtual void render();
-            virtual void setAttribute( int index, QVariant::Type type, const QByteArray& data );
-            virtual void setIndices( const QVector< int >& indices );
+            virtual void render( Shader* shader );
+            virtual void setIndices( QVector< uint > indices );
             virtual void setPrimitiveType( GluonGraphics::MeshData::PrimitiveType type );
-            virtual void setPrimitiveCount( int count, int sizeHint = 0 );
+            virtual void setPrimitiveCount(int count, int vertexSize, int indexSize);
+
+        protected:
+            virtual void setAttribute( const QString& name, QVariant::Type type, void* data, int size );
 
         private:
             class Private;
             Private * const d;
     };
-
 }
 
 #endif // GLUONGRAPHICS_GLXMESHDATA_H
