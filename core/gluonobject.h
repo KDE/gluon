@@ -478,7 +478,6 @@ namespace GluonCore
 
         private:
             Q_DISABLE_COPY( GluonObject )
-
             class Private;
             Private* const d;
     };

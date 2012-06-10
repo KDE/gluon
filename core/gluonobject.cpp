@@ -22,9 +22,6 @@
 #include "gluonvarianttypes.h"
 #include "metainfo.h"
 
-#include <engine/game.h>
-#include <engine/gameproject.h>
-
 #include <QtGui/QColor>
 #include <QtGui/QVector2D>
 #include <QtGui/QVector3D>
@@ -158,7 +155,6 @@ GluonObject::clone( GluonObject* parentObject ) const
 
     // In case any object is doing something clever with its children, make sure it's allowed to do that on cloning as well
     newObject->postCloneSanitize();
-
     return newObject;
 }
 

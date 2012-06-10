@@ -72,7 +72,6 @@ void GameSave::load()
     QString savefile = QFileDialog::getOpenFileName(0, tr("Load Game"), dir, tr("Save Files (*.gs)"));
     QUrl filename(savefile);
     GluonEngine::Game::instance()->loadScene( filename );
-    GluonCore::GluonObject *obj = GluonEngine::Game::instance()->currentScene()->sceneContents();
     AchievementsManager am;
     am.load(dir);
 }

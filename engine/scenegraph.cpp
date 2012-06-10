@@ -1,6 +1,8 @@
 #include "scenegraph.h"
 #include "scenegraphobject.h"
+
 #include "game.h"
+#include "gameproject.h"
 
 #include <core/gluonobject.h>
 #include <iostream>
@@ -49,7 +51,8 @@ void SceneGraph::debugprint( SceneGraphObject* object, int level )
 {
     for( int i = 0; i < level; i++ )
         cout << "  ";
-    cout << object->getMember()->name().toUtf8().constData() << endl;
+    QString name = object->getMember()->name();
+    cout << name.toUtf8().constData() << endl;
     foreach( SceneGraphObject *child, object->getChildren() )
         debugprint( child, level + 1 );
     cout << "  ";

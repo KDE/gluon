@@ -52,7 +52,8 @@ void TagObject::addTags( QString objectname, QString tags )
 {
     if( tags.isEmpty() || objectname.isEmpty() )
         return;
-    QStringList taglist = tags.split(QRegExp("\\W+"), QString::SkipEmptyParts);
+    clearTags( objectname );
+    QStringList taglist = tags.split( QRegExp("\\W+"), QString::SkipEmptyParts );
     foreach( QString tag, taglist )
     {
         QSet<QString> set;
@@ -92,6 +93,17 @@ QList< QString > TagObject::getObjects( QString tag )
     return this->tags[ tag ].toList();
 }
 
+QList< QString > TagObject::getObjects( GameObject* scene, QString tag )
+{
+    QList< QString > list = this->tags[ tag ].toList();
+    QStringList objectlist = getObjectsFromScene( scene );
+    foreach( QString object, objectlist )
+        if( list.contains( getBaseName( object ) ) )
+            list.append( object );
+    return list;
+}
+
+
 QList< QString > TagObject::getTags( GluonEngine::GameObject* object )
 {
     QString objectname = object->name();
@@ -108,7 +120,9 @@ QString TagObject::getTags( QString objectname )
     for(QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i)
         if( i.value().contains( objectname ) )
             list.append( i.key() );
-    return list.join( "," );
+    if( list.isEmpty() )
+        return getTags( getBaseName( objectname ) );
+    return list.join( ", " );
 }
 
 void TagObject::printTags()
@@ -171,6 +185,36 @@ void TagObject::setPath( QUrl path )
 {
     this->path = path.toLocalFile() + QString("/assets/tags/tags.gs");
     readFromFile();
+}
+
+void TagObject::clearTags( QString objectname )
+{
+    QStringList list;
+    for(QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i)
+        if( i.value().contains( objectname ) )
+        {
+            i.value().remove( objectname );
+            if( i.value().isEmpty() )
+                list.append( i.key () );
+        }
+    foreach( QString key, list )
+        this->tags.remove( key );
+}
+
+QString TagObject::getBaseName( QString objectname )
+{
+    QStringList list = objectname.split( QRegExp("\\W+"), QString::SkipEmptyParts );
+    if( !list.isEmpty() )
+        return list.first();
+}
+
+QStringList TagObject::getObjectsFromScene( GluonEngine::GameObject* scene )
+{
+    QStringList list;
+    list.append( scene->name() );
+    for( int i = 0; i < scene->childCount(); i++ )
+        list.append( getObjectsFromScene( scene->childGameObject( i ) ) );
+    return list;
 }
 
 

@@ -4,6 +4,7 @@
 #include <core/gluonobject.h>
 #include <engine/gameobject.h>
 #include "gluon_engine_export.h"
+#include "game.h"
 
 #include <QHash>
 #include <QSet>
@@ -21,6 +22,7 @@ namespace GluonEngine
 
         QHash<QString, QSet<QString> > tags;
         QString path;
+        QStringList getObjectsFromScene( GluonEngine::GameObject * scene );
 
     public:
 	Q_INVOKABLE TagObject();
@@ -43,17 +45,24 @@ namespace GluonEngine
          * Remove the tags associated with an object
          */
         Q_INVOKABLE void removeTag( GluonEngine::GameObject* );
-
+        void clearTags( QString objectname );
         /**
          * Get all the tags associated with an object
          */
         Q_INVOKABLE QList<QString> getTags( GluonEngine::GameObject* );
         Q_INVOKABLE QString getTags( QString objectname );
-
+        /**
+         * Get the parent(base) object name
+         */
+        Q_INVOKABLE QString getBaseName( QString objectname );
         /**
          * Get all the objects associated with a tag
          */
-        Q_INVOKABLE QList<QString> getObjects(QString);
+        Q_INVOKABLE QList<QString> getObjects( QString tag );
+        /**
+         * Pass a scene with it, to get cloned objects too
+         */
+        Q_INVOKABLE QList<QString> getObjects( GluonEngine::GameObject* scene, QString tag );
         /**
          * To set the file that the tags are read from
          */

@@ -483,7 +483,7 @@ void GameProject::addTags( QString objectname, QString tags )
 
 void GameProject::removeTag( GluonEngine::GameObject *object )
 {
-    d->tags->removeTag( object );
+    d->tags->clearTags( object->name() );
 }
 
 TagObject* GameProject::getTagObject()
