@@ -28,6 +28,7 @@ class Shader::Private
 {
     public:
         QHash< Shader::SourceType, QString > sources;
+        QHash< QString, int > attributes;
         QString error;
 };
 
@@ -57,7 +58,28 @@ QString Shader::error() const
     return d->error;
 }
 
+QHash< QString, int >
+Shader::attributes() const
+{
+    return d->attributes;
+}
+
+int Shader::attributeIndex( const QString& name ) const
+{
+    return d->attributes.value( name );
+}
+
+bool Shader::hasAttribute( const QString& name ) const
+{
+    return d->attributes.contains( name );
+}
+
 void Shader::setError( const QString& error )
 {
     d->error = error;
+}
+
+void Shader::setAttributes(const QHash< QString, int >& attribs)
+{
+    d->attributes = attribs;
 }

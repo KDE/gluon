@@ -20,7 +20,7 @@
 #ifndef GLUONGRAPHICS_SHADER_H
 #define GLUONGRAPHICS_SHADER_H
 
-#include <QList>
+#include <QHash>
 
 class QVariant;
 namespace GluonGraphics
@@ -57,12 +57,16 @@ namespace GluonGraphics
 
             virtual void setProperty( const QString& name, const QVariant& value ) = 0;
             virtual void setProperty( const QString& name, Texture* texture, int textureID = 0 ) = 0;
-            virtual QList<int> attributes() = 0;
+
+            virtual QHash< QString, int > attributes() const;
+            virtual bool hasAttribute( const QString& name ) const;
+            virtual int attributeIndex( const QString& name ) const;
 
             QString error() const;
 
         protected:
             void setError( const QString& error );
+            void setAttributes( const QHash< QString, int >& attribs );
 
         private:
             class Private;

@@ -47,7 +47,6 @@ GLXRenderTarget::GLXRenderTarget( QObject* parent )
     : GluonGraphics::RenderTarget( parent ), d( new Private )
 {
     glGenFramebuffers( 1, &d->fbo );
-    resize( 512, 512 );
 }
 
 GLXRenderTarget::~GLXRenderTarget()

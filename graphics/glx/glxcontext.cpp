@@ -117,7 +117,9 @@ bool Context::initialize( QWidget* widget )
 
     d->renderer = reinterpret_cast< const char* >( glGetString( GL_RENDERER ) );
 
-    glClearColor( 0.f, 0.f, 0.f, 0.f );
+    glClearColor( 0.f, 0.f, 0.f, 1.f );
+    glEnable( GL_BLEND );
+    glEnable( GL_DEPTH_TEST );
 
     return true;
 }

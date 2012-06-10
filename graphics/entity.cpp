@@ -32,7 +32,7 @@ REGISTER_OBJECTTYPE( GluonGraphics, Entity );
 class Entity::Private
 {
     public:
-        Private() : mesh( 0 ), materialInstance( 0 ) { }
+        Private() : world( 0 ), mesh( 0 ), materialInstance( 0 ) { }
 
         World* world;
         QMatrix4x4 transform;

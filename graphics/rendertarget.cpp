@@ -71,7 +71,7 @@ void RenderTarget::update()
 {
     bind();
 
-    foreach( RenderPipelineItem* item, d->children )
+    Q_FOREACH( RenderPipelineItem* item, d->children )
     {
         item->renderContents();
     }

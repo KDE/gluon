@@ -20,6 +20,9 @@
 #include "renderwidget.h"
 
 #include <QResizeEvent>
+#include <QDebug>
+#include <QVector3D>
+#include <QMatrix4x4>
 
 #include "manager.h"
 #include "outputsurface.h"
@@ -36,6 +39,9 @@ class RenderWidget::Private
         Private() : surface( 0 ) { }
 
         OutputSurface* surface;
+
+        Shader* shader;
+        MeshData* data;
 };
 
 RenderWidget::RenderWidget( QWidget* parent, Qt::WindowFlags f ) :
@@ -62,30 +68,7 @@ void RenderWidget::paintEvent( QPaintEvent* event )
         d->surface = Manager::instance()->backend()->createOutputSurface( this );
         d->surface->setSize( width(), height() );
 
-        MeshData* data = Manager::instance()->backend()->createMeshData();
-        data->setPrimitiveType( GluonGraphics::MeshData::TriangleType );
-        data->setPrimitiveCount( 2, 12 );
-        QByteArray bytes;
-        bytes.append( QByteArray::number( -1.f ) );
-        bytes.append( QByteArray::number( -1.f ) );
-        bytes.append( QByteArray::number( 0.f ) );
-
-        bytes.append( QByteArray::number( -1.f ) );
-        bytes.append( QByteArray::number( 1.f ) );
-        bytes.append( QByteArray::number( 0.f ) );
-
-        bytes.append( QByteArray::number( 1.f ) );
-        bytes.append( QByteArray::number( -1.f ) );
-        bytes.append( QByteArray::number( 0.f ) );
-
-        bytes.append( QByteArray::number( 1.f ) );
-        bytes.append( QByteArray::number( 1.f ) );
-        bytes.append( QByteArray::number( 0.f ) );
-
-        data->setAttribute( 0, QVariant::Vector3D, bytes );
-        data->setIndices( QVector< int >() << 0 << 1 << 2 << 2 << 1 << 3 );
-
-        data->render();
+        d->surface->createDebug();
     }
 
     d->surface->renderContents();

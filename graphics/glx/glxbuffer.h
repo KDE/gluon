@@ -33,7 +33,7 @@ namespace GluonGraphics
             virtual void initialize( BufferType type, UpdateMode mode );
             virtual void destroy();
             virtual void setSize( int size );
-            virtual void setData( const QByteArray& data, int offset = 0 );
+            virtual void setData( void* data, int size, int offset = 0 );
 
             virtual void bind();
             virtual void release();

@@ -21,16 +21,19 @@
 
 #include <QVector>
 #include <QList>
+#include <QDebug>
 
 #include <GL/gl.h>
 #include <GL/glext.h>
 
 #include "glxbuffer.h"
+#include <shader.h>
 
 using namespace GluonGraphics;
 
 struct VertexAttribute
 {
+    QString name;
     int index;
     int size;
     GLenum type;
@@ -63,11 +66,76 @@ GLXMeshData::~GLXMeshData()
     delete d->indexBuffer;
 }
 
-void GLXMeshData::setAttribute( int index, QVariant::Type type, const QByteArray& data )
+void GLXMeshData::setIndices( QVector< uint > indices )
+{
+    d->indexBuffer->setData( reinterpret_cast< void* >( indices.data() ), indices.size() * sizeof( uint ), 0 );
+}
+
+void GLXMeshData::render( Shader* shader )
+{
+    d->vertexBuffer->bind();
+    d->indexBuffer->bind();
+
+    for( QList< VertexAttribute >::iterator itr = d->attributes.begin(); itr != d->attributes.end(); ++itr )
+    {
+        VertexAttribute& attribute = *itr;
+        if( shader->hasAttribute( attribute.name ) )
+        {
+            attribute.index = shader->attributeIndex( attribute.name );
+            glVertexAttribPointer( attribute.index, attribute.size, attribute.type, false, 0, reinterpret_cast< void* >( attribute.offset ) );
+            glEnableVertexAttribArray( attribute.index );
+        }
+    }
+
+    glDrawElements( d->mode, primitiveCount(), GL_UNSIGNED_INT, 0 );
+
+    Q_FOREACH( const VertexAttribute& attribute, d->attributes )
+    {
+        if( attribute.index != -1 )
+            glDisableVertexAttribArray( attribute.index );
+    }
+
+    d->indexBuffer->release();
+    d->vertexBuffer->release();
+}
+
+void GLXMeshData::setPrimitiveType( GluonGraphics::MeshData::PrimitiveType type )
+{
+    switch( type )
+    {
+        case PointType:
+            d->mode = GL_POINTS;
+            break;
+        case LineType:
+            d->mode = GL_LINES;
+            break;
+        case TriangleType:
+            d->mode = GL_TRIANGLES;
+            break;
+        case TriangleStripType:
+            d->mode = GL_TRIANGLE_STRIP;
+            break;
+        case TriangleFanType:
+            d->mode = GL_TRIANGLE_FAN;
+            break;
+    }
+
+    GluonGraphics::MeshData::setPrimitiveType( type );
+}
+
+void GLXMeshData::setPrimitiveCount(int count, int vertexSize, int indexSize )
+{
+    d->vertexBuffer->setSize( vertexSize );
+    d->indexBuffer->setSize( indexSize );
+    MeshData::setPrimitiveCount( count );
+}
+
+void GLXMeshData::setAttribute(const QString& name, QVariant::Type type, void* data, int size)
 {
     VertexAttribute attrib;
-    attrib.index = index;
-    attrib.length = data.length();
+    attrib.name = name;
+    attrib.index = -1;
+    attrib.length = size;
     attrib.offset = d->attributes.count() > 0 ? d->attributes.last().offset + d->attributes.last().length : 0;
 
     switch( type )
@@ -110,64 +178,5 @@ void GLXMeshData::setAttribute( int index, QVariant::Type type, const QByteArray
     }
 
     d->attributes.append( attrib );
-    d->vertexBuffer->setData( data, attrib.offset );
-}
-
-void GLXMeshData::setIndices( const QVector< int >& indices )
-{
-    QByteArray data( reinterpret_cast< const char* >( indices.data() ), indices.size() * 4 );
-    d->indexBuffer->setData( data );
-}
-
-void GLXMeshData::render()
-{
-    d->vertexBuffer->bind();
-    d->indexBuffer->bind();
-
-    Q_FOREACH( const VertexAttribute& attribute, d->attributes )
-    {
-        glVertexAttribPointer( attribute.index, attribute.size, attribute.type, false, 0, reinterpret_cast< void* >( attribute.offset ) );
-        glEnableVertexAttribArray( attribute.index );
-    }
-
-    glDrawElements( d->mode, primitiveCount(), GL_UNSIGNED_BYTE, 0 );
-
-    Q_FOREACH( const VertexAttribute& attribute, d->attributes )
-    {
-        glDisableVertexAttribArray( attribute.index );
-    }
-
-    d->indexBuffer->release();
-    d->vertexBuffer->release();
-}
-
-void GLXMeshData::setPrimitiveType( GluonGraphics::MeshData::PrimitiveType type )
-{
-    switch( type )
-    {
-        case PointType:
-            d->mode = GL_POINTS;
-            break;
-        case LineType:
-            d->mode = GL_LINES;
-            break;
-        case TriangleType:
-            d->mode = GL_TRIANGLES;
-            break;
-        case TriangleStripType:
-            d->mode = GL_TRIANGLE_STRIP;
-            break;
-        case TriangleFanType:
-            d->mode = GL_TRIANGLE_FAN;
-            break;
-    }
-
-    GluonGraphics::MeshData::setPrimitiveType( type );
-}
-
-void GLXMeshData::setPrimitiveCount( int count, int sizeHint )
-{
-    d->vertexBuffer->setSize( count * sizeHint );
-    d->indexBuffer->setSize( count );
-    GluonGraphics::MeshData::setPrimitiveCount( count );
+    d->vertexBuffer->setData( data, size, attrib.offset );
 }
