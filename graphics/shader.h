@@ -20,11 +20,13 @@
 #ifndef GLUONGRAPHICS_SHADER_H
 #define GLUONGRAPHICS_SHADER_H
 
-#include <QScopedPointer>
+#include <QList>
 
-class QString;
+class QVariant;
 namespace GluonGraphics
 {
+
+    class Texture;
     /**
      * \brief Abstract base class for an encapsulated GPU shader program.
      *
@@ -32,12 +34,15 @@ namespace GluonGraphics
     class Shader
     {
         public:
+            /**
+             * \todo Implement support for Geometry, Hull and Domain shaders.
+             */
             enum SourceType {
                 VertexProgramSource,
                 FragmentProgramSource,
-                GeometryProgramSource,
-                DomainProgramSource,
-                HullProgramSource,
+                //GeometryProgramSource,
+                //DomainProgramSource,
+                //HullProgramSource,
             };
 
             Shader();
@@ -47,14 +52,22 @@ namespace GluonGraphics
             virtual void setSource( SourceType type, const QString& source );
 
             virtual bool build() = 0;
-
             virtual bool bind() = 0;
+            virtual void release() = 0;
+
+            virtual void setProperty( const QString& name, const QVariant& value ) = 0;
+            virtual void setProperty( const QString& name, Texture* texture, int textureID = 0 ) = 0;
+            virtual QList<int> attributes() = 0;
+
+            QString error() const;
+
+        protected:
+            void setError( const QString& error );
 
         private:
             class Private;
             Private* const d;
     };
-
 }
 
 #endif // GLUONGRAPHICS_SHADER_H

@@ -30,12 +30,10 @@ namespace GluonGraphics
         struct Version
         {
             bool operator==( const Version& other );
-
             QString toString() const;
 
             int major;
             int minor;
-            int patch;
         };
 
         class Context

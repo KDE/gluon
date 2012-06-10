@@ -17,17 +17,45 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "buffer.h"
+#include "meshdata.h"
 
 using namespace GluonGraphics;
 
-Buffer::Buffer()
+class MeshData::Private
+{
+    public:
+        Private() : type( TriangleType ), count( 0 ) { }
+        PrimitiveType type;
+        int count;
+};
+
+MeshData::MeshData() : d( new Private )
 {
 
 }
 
-Buffer::~Buffer()
+MeshData::~MeshData()
 {
 
 }
 
+MeshData::PrimitiveType MeshData::primitiveType() const
+{
+    return d->type;
+}
+
+void MeshData::setPrimitiveType( MeshData::PrimitiveType type )
+{
+    d->type = type;
+}
+
+int MeshData::primitiveCount() const
+{
+    return d->count;
+}
+
+void MeshData::setPrimitiveCount( int count, int sizeHint )
+{
+    Q_UNUSED( sizeHint );
+    d->count = count;
+}

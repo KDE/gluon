@@ -19,15 +19,98 @@
 
 #include "glxbuffer.h"
 
+#include <GL/gl.h>
+#include <GL/glext.h>
+
 using namespace GluonGraphics;
 
-GLXBuffer::GLXBuffer()
+class GLXBuffer::Private
+{
+    public:
+        Private() : buffer( 0 ), size( 0 ), bound( false ) { }
+
+        BufferType type;
+
+        GLenum target;
+        GLenum usage;
+        GLuint buffer;
+
+        int size;
+
+        bool bound;
+};
+
+GLXBuffer::GLXBuffer() : d( new Private )
 {
 
 }
 
 GLXBuffer::~GLXBuffer()
 {
+    if( d->buffer )
+        destroy();
 
+    delete d;
 }
 
+void GLXBuffer::initialize( Buffer::BufferType type, Buffer::UpdateMode mode )
+{
+    d->type = type;
+    d->target = type == Vertex ? GL_ARRAY_BUFFER : GL_ELEMENT_ARRAY_BUFFER;
+    d->usage = mode == Static ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
+
+    glGenBuffers(1, &d->buffer);
+}
+
+void GLXBuffer::destroy()
+{
+    glDeleteBuffers(1, &d->buffer);
+    d->buffer = 0;
+}
+
+void GLXBuffer::setSize( int size )
+{
+    if( !d->buffer )
+        return;
+
+    bind();
+    glBufferData( d->target, size, 0, d->usage );
+    release();
+}
+
+void GLXBuffer::setData( const QByteArray& data, int offset )
+{
+    if( !d->buffer )
+        return;
+
+    bind();
+
+    if( data.size() > d->size )
+        setSize( data.size() );
+
+    glBufferSubData( d->target, offset, data.size(), data.data() );
+    release();
+}
+
+void GLXBuffer::bind()
+{
+    if( !d->buffer || d->bound )
+        return;
+
+    glBindBuffer( d->target, d->buffer );
+    d->bound = true;
+
+    if( d->type == Vertex )
+    {
+
+    }
+}
+
+void GLXBuffer::release()
+{
+    if( !d->bound )
+        return;
+
+    glBindBuffer( d->target, 0 );
+    d->bound = false;
+}

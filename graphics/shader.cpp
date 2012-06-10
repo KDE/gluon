@@ -28,6 +28,7 @@ class Shader::Private
 {
     public:
         QHash< Shader::SourceType, QString > sources;
+        QString error;
 };
 
 Shader::Shader()
@@ -49,4 +50,14 @@ QString Shader::source( Shader::SourceType type ) const
 void Shader::setSource( Shader::SourceType type, const QString& source )
 {
     d->sources[ type ] = source;
+}
+
+QString Shader::error() const
+{
+    return d->error;
+}
+
+void Shader::setError( const QString& error )
+{
+    d->error = error;
 }

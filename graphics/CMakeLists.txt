@@ -52,7 +52,7 @@ set(GluonGraphics_SRCS
     world.cpp
     outputsurface.cpp
     shader.cpp
-    buffer.cpp
+    meshdata.cpp
 )
 
 set(GluonGraphics_HEADERS

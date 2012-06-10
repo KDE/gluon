@@ -25,6 +25,9 @@
 #include "outputsurface.h"
 #include "backend.h"
 
+#include "shader.h"
+#include "meshdata.h"
+
 using namespace GluonGraphics;
 
 class RenderWidget::Private
@@ -58,6 +61,31 @@ void RenderWidget::paintEvent( QPaintEvent* event )
         Manager::instance()->initialize();
         d->surface = Manager::instance()->backend()->createOutputSurface( this );
         d->surface->setSize( width(), height() );
+
+        MeshData* data = Manager::instance()->backend()->createMeshData();
+        data->setPrimitiveType( GluonGraphics::MeshData::TriangleType );
+        data->setPrimitiveCount( 2, 12 );
+        QByteArray bytes;
+        bytes.append( QByteArray::number( -1.f ) );
+        bytes.append( QByteArray::number( -1.f ) );
+        bytes.append( QByteArray::number( 0.f ) );
+
+        bytes.append( QByteArray::number( -1.f ) );
+        bytes.append( QByteArray::number( 1.f ) );
+        bytes.append( QByteArray::number( 0.f ) );
+
+        bytes.append( QByteArray::number( 1.f ) );
+        bytes.append( QByteArray::number( -1.f ) );
+        bytes.append( QByteArray::number( 0.f ) );
+
+        bytes.append( QByteArray::number( 1.f ) );
+        bytes.append( QByteArray::number( 1.f ) );
+        bytes.append( QByteArray::number( 0.f ) );
+
+        data->setAttribute( 0, QVariant::Vector3D, bytes );
+        data->setIndices( QVector< int >() << 0 << 1 << 2 << 2 << 1 << 3 );
+
+        data->render();
     }
 
     d->surface->renderContents();

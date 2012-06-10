@@ -12,6 +12,7 @@ set( gluongraphics_backend_SRCS
     glxbuffer.cpp
     glxtexture.cpp
     glxrendertarget.cpp
+    glxmeshdata.cpp
 )
 
 qt4_automoc( ${gluongraphics_backend_SRCS} )

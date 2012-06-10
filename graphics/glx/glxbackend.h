@@ -49,6 +49,7 @@ namespace GluonGraphics
             virtual RenderTarget* createRenderTarget();
             virtual Shader* createShader();
             virtual OutputSurface* createOutputSurface( QWidget* widget );
+            virtual MeshData* createMeshData();
 
         private:
             class Private;
