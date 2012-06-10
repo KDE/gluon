@@ -20,7 +20,9 @@
 #include "introduction.h"
 #include <QRect>
 #include <KDE/KApplication>
+#include <QDebug>
 
+class QDebug;
 class QRect;
 class KApplication;
 
@@ -69,6 +71,15 @@ void IntroSlideShow::setdockername(QString name)
     emit dockernameChanged();
 }
 
+void IntroSlideShow::setAlignment(QString align)
+{
+    if(!QString::compare(align,"left", Qt::CaseInsensitive)) {m_alignment= "left";}
+    else {m_alignment = "right";}
+    qDebug() << m_alignment;
+
+    emit alignmentChanged();
+}
+
 void IntroSlideShow::updateDocker()
 {
     QRect rectangle;
@@ -77,6 +88,14 @@ void IntroSlideShow::updateDocker()
     setHeight(rectangle.height());
     setXpos(rectangle.x());
     setYpos(rectangle.y());
+    if ((rectangle.x()+ rectangle.width()) < (kapp->activeWindow()->width()/2))
+    {setAlignment("left");
+
+    }
+     else
+    {setAlignment("right");
+
+    }
 
 }
 

@@ -21,9 +21,11 @@
 
 #include "projectselectiondialog.h"
 
+#include "welcomedialogpage.h"
 #include "newprojectdialogpage.h"
 #include "recentprojectsdialogpage.h"
 #include "openprojectdialogpage.h"
+
 
 #include <core/debughelper.h>
 
@@ -78,13 +80,16 @@ ProjectSelectionDialog::ProjectSelectionDialog( QWidget* parent, Qt::WFlags flag
     setButtons( Ok | Close );
 
     NewProjectDialogPage* npdp = new NewProjectDialogPage;
+    WelcomeDialogPage *wpdp = new WelcomeDialogPage;
     addPage( npdp, NewProjectPage );
     addPage( new RecentProjectsDialogPage, RecentProjectPage );
+    addPage( wpdp, WelcomePage );
     addPage( new OpenProjectDialogPage, OpenProjectPage );
 
     restoreDialogSize( KGlobal::config()->group( "ProjectSelectionDialog" ) );
 
     connect( npdp, SIGNAL(validationFinished(bool)), SLOT(enableButtonOk(bool)) );
+    connect( wpdp, SIGNAL(validationFinished(bool)), SLOT(enableButtonOk(bool)) );
     connect( this, SIGNAL(okClicked()), SLOT(okClicked()) );
 }
 
@@ -110,6 +115,8 @@ void ProjectSelectionDialog::addPage( KPageWidgetItem* item, ProjectSelectionDia
         case RecentProjectPage:
             connect( item, SIGNAL(projectRequested(QString)),
                      SLOT(projectRequested(QString)) );
+            break;
+        case WelcomePage:
             break;
         default:
             break;

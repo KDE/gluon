@@ -18,6 +18,7 @@
  */
 
 import QtQuick 1.0
+import com.nokia.symbian 1.1
 import Intro 1.0
 Item {
 
@@ -85,6 +86,34 @@ Item {
                 id :animator;
     }
 
+
+    ToolTip {
+        id: toolTip
+        text: ""
+        target: viewport
+        visible: mouseArea.hoverEnabled
+
+    }
+
+        Text {
+            id : text;
+            font.pointSize: 18;
+            text: "test";
+            style: Text.Raised;
+            styleColor: "white";
+            function orient() {
+                console.log("IN ORIENT") ;
+                if (animator.alignment == "left")
+                {anchors.left= viewport.right;
+                 anchors.right= viewport.left;
+                }
+                 else
+                { anchors.right= viewport.left;
+                }
+
+            }
+    }
+
         MouseArea {
             anchors.fill: parent;
             onClicked: {
@@ -136,31 +165,56 @@ Item {
         State {
                 name: "component"
                 PropertyChanges { target:animator; dockername: "ComponentsDock"}
-                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight}
-            },
+                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight; toolTip: "Yeh hai component"}
+                StateChangeScript {
+                         name: "myScript"
+                         script: { text.orient();}
+
+                }
+          },
 
         State {
                 name: "project"
                 PropertyChanges { target:animator; dockername : "ProjectDock"}
                 PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight }
+                StateChangeScript {
+                         name: "myScript"
+                         script: { text.orient();}
+
+                }
             },
 
         State {
                 name: "message"
                 PropertyChanges { target:animator; dockername : "MessageDock"}
                 PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight }
+                StateChangeScript {
+                         name: "myScript"
+                         script: { text.orient();}
+
+                }
             },
 
         State {
                 name: "scene"
                 PropertyChanges { target:animator; dockername : "SceneDock"}
                 PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight }
+                StateChangeScript {
+                         name: "myScript"
+                         script: { text.orient();}
+
+                }
             },
 
         State {
                 name: "property"
                 PropertyChanges { target:animator; dockername : "PropertiesDock"}
                 PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight }
+                StateChangeScript {
+                         name: "myScript"
+                         script: { text.orient();}
+
+                }
             }
     ]
 
@@ -169,26 +223,31 @@ Item {
             Transition {
                 from: "*"; to: "component"
                 NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
+                 ScriptAction { scriptName: "myScript" }
             },
 
             Transition {
                 from: "*"; to: "project"
                 NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
+                ScriptAction { scriptName: "myScript" }
             },
 
             Transition {
                 from: "*"; to: "message"
                 NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
+                ScriptAction { scriptName: "myScript" }
             },
 
             Transition {
                 from: "*"; to: "scene"
                 NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
+                ScriptAction { scriptName: "myScript" }
             },
 
             Transition {
                 from: "*"; to: "property"
                 NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
+                ScriptAction { scriptName: "myScript" }
             }
 
         ]

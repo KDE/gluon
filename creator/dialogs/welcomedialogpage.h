@@ -19,39 +19,28 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef GLUON_CREATOR_PROJECTSELECTIONDIALOG_H
-#define GLUON_CREATOR_PROJECTSELECTIONDIALOG_H
+#ifndef GLUON_CREATOR_WELCOMEDIALOGPAGE_H
+#define GLUON_CREATOR_WELCOMEDIALOGPAGE_H
 
-#include <KDE/KPageDialog>
+#include <KDE/KPageWidgetItem>
+#include <KDE/KColorScheme>
+
+class QLabel;
 
 namespace GluonCreator
 {
-    class ProjectSelectionDialog : public KPageDialog
+    class WelcomeDialogPage : public KPageWidgetItem
     {
             Q_OBJECT
         public:
-            enum ProjectPage
-            {
-                NewProjectPage,
-                RecentProjectPage,
-                OpenProjectPage,
-                WelcomePage
-            };
+            WelcomeDialogPage();
+            ~WelcomeDialogPage();
 
-            explicit ProjectSelectionDialog( QWidget* parent = 0, Qt::WFlags = 0 );
-            ~ProjectSelectionDialog();
-            void addPage( KPageWidgetItem* item, ProjectPage page );
-            QString fileName() const;
-            virtual QSize sizeHint() const;
-        public Q_SLOTS:
-            void setPage( ProjectPage page );
         private:
-            Q_PRIVATE_SLOT( d, void okClicked() )
-            Q_PRIVATE_SLOT( d, void projectRequested( const QString& project ) )
-        private:
-            class ProjectSelectionDialogPrivate;
-            ProjectSelectionDialogPrivate* const d;
+
+            class WelcomeDialogPagePrivate;
+            WelcomeDialogPagePrivate* const d;
     };
 }
 
-#endif // GLUON_CREATOR_PROJECTSELECTIONDIALOG_H
+#endif // GLUON_CREATOR_WELCOMEDIALOGPAGE_H

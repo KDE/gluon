@@ -36,6 +36,7 @@ class IntroSlideShow: public QDeclarativeItem
         Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
         Q_PROPERTY(int xpos READ xpos WRITE setXpos NOTIFY xposChanged)
         Q_PROPERTY(int ypos READ ypos WRITE setYpos NOTIFY yposChanged)
+        Q_PROPERTY(QString alignment READ alignment WRITE setAlignment NOTIFY alignmentChanged)
 
         public:
             IntroSlideShow();
@@ -45,13 +46,16 @@ class IntroSlideShow: public QDeclarativeItem
             qreal height() const { return implicitHeight(); }
             int xpos() const { return x(); }
             int ypos() const { return y(); }
+            Q_INVOKABLE QString alignment() { return m_alignment; }
             void setWidth(qreal width);
             void setHeight(qreal height);
             void setXpos(qreal xpos);
             void setYpos(qreal ypos);
+            void setAlignment(QString align);
             Q_INVOKABLE void setdockername(QString name);
             void updateDocker();
             QString docker;
+            QString m_alignment;
 
         signals:
 
@@ -60,6 +64,7 @@ class IntroSlideShow: public QDeclarativeItem
             void heightChanged();
             void xposChanged();
             void yposChanged();
+            void alignmentChanged();
 
 
 };
