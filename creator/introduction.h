@@ -23,6 +23,7 @@
 #include "mainwindow.h"
 #include <QtDeclarative/QDeclarativeItem>
 #include <QString>
+#include <QtGlobal>
 
 class QDeclarativeItem;
 class QString;
@@ -36,17 +37,18 @@ class IntroSlideShow: public QDeclarativeItem
         Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
         Q_PROPERTY(int xpos READ xpos WRITE setXpos NOTIFY xposChanged)
         Q_PROPERTY(int ypos READ ypos WRITE setYpos NOTIFY yposChanged)
-        Q_PROPERTY(QString alignment READ alignment WRITE setAlignment NOTIFY alignmentChanged)
 
         public:
             IntroSlideShow();
             ~IntroSlideShow();
-            QString dockername() const {return docker;}
-            qreal width() const { return implicitWidth(); }
-            qreal height() const { return implicitHeight(); }
-            int xpos() const { return x(); }
-            int ypos() const { return y(); }
-            Q_INVOKABLE QString alignment() { return m_alignment; }
+            QString dockername() const;
+            qreal width() const;
+            qreal height() const;
+            Q_INVOKABLE qreal getdockX();
+            Q_INVOKABLE qreal getdockWidth();
+            Q_INVOKABLE qreal getrefWidth();
+            int xpos() const;
+            int ypos() const;
             void setWidth(qreal width);
             void setHeight(qreal height);
             void setXpos(qreal xpos);
@@ -55,7 +57,9 @@ class IntroSlideShow: public QDeclarativeItem
             Q_INVOKABLE void setdockername(QString name);
             void updateDocker();
             QString docker;
-            QString m_alignment;
+            qreal refWidth;
+            qreal dockX;
+            qreal dockWidth;
 
         signals:
 

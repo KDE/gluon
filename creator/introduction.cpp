@@ -71,13 +71,44 @@ void IntroSlideShow::setdockername(QString name)
     emit dockernameChanged();
 }
 
-void IntroSlideShow::setAlignment(QString align)
+qreal IntroSlideShow::getdockX()
 {
-    if(!QString::compare(align,"left", Qt::CaseInsensitive)) {m_alignment= "left";}
-    else {m_alignment = "right";}
-    qDebug() << m_alignment;
+    return dockX;
+}
 
-    emit alignmentChanged();
+qreal IntroSlideShow::getdockWidth()
+{
+    return dockWidth;
+}
+
+QString IntroSlideShow::dockername() const
+{
+    return docker;
+}
+
+qreal IntroSlideShow::getrefWidth()
+{
+     return refWidth;
+}
+
+qreal IntroSlideShow::width() const
+{
+     return implicitWidth();
+}
+
+qreal IntroSlideShow::height() const
+{
+     return implicitHeight();
+}
+
+int IntroSlideShow::ypos() const
+{
+     return y();
+}
+
+int IntroSlideShow::xpos() const
+{
+     return x();
 }
 
 void IntroSlideShow::updateDocker()
@@ -85,17 +116,12 @@ void IntroSlideShow::updateDocker()
     QRect rectangle;
     rectangle= kapp->activeWindow()->findChild<QWidget*>(docker)->frameGeometry();
     setWidth(rectangle.width());
+    refWidth=kapp->activeWindow()->width()/2 ;
+    dockX= rectangle.x();
+    dockWidth= rectangle.width();
     setHeight(rectangle.height());
     setXpos(rectangle.x());
     setYpos(rectangle.y());
-    if ((rectangle.x()+ rectangle.width()) < (kapp->activeWindow()->width()/2))
-    {setAlignment("left");
-
-    }
-     else
-    {setAlignment("right");
-
-    }
 
 }
 

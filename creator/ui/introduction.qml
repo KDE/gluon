@@ -19,9 +19,10 @@
 
 import QtQuick 1.0
 import Intro 1.0
+
 Item {
 
-   Rectangle {
+    Rectangle {
         id: topOverlay;
 
         anchors.top: parent.top;
@@ -81,72 +82,114 @@ Item {
         Behavior on x { NumberAnimation { duration: 500; } }
         Behavior on y { NumberAnimation { duration: 500; } }
 
-            IntroSlideShow {
+        IntroSlideShow {
                 id :animator;
     }
 
+
+
         Text {
             id : text;
-            font.pointSize: 18;
+            font.pointSize: 12;
+            font.bold : true;
             text: "test";
+            opacity: 0;
             style: Text.Raised;
-            styleColor: "white";
+            color: "white";
+            property bool showText: true ;
+
+            states: [
+
+            State {
+                    name: "right"
+                    AnchorChanges {
+                                target: text
+                                anchors.left: viewport.right;
+
+                            }
+              },
+
+            State {
+                    name: "left"
+                    AnchorChanges {
+                                target: text
+                                anchors.right: viewport.left;
+
+                            }
+
+                }
+]
+
+
             function orient() {
-                console.log("IN ORIENT") ;
-                if (animator.alignment == "left")
-                {anchors.left= viewport.right;
-                 anchors.right= viewport.left;
+
+                if ((animator.getdockX() +animator.getdockWidth()) < (animator.getrefWidth())){
+                    text.state = "right";
                 }
-                 else
-                { anchors.right= viewport.left;
+                 else{
+                    text.state = "left";
                 }
+                show();
 
             }
+
+            function show(){opacity=1; showText = false ;}
+
+            Behavior on opacity {
+                NumberAnimation { properties:"opacity"; duration: 100 }
+         }
     }
 
         MouseArea {
-            anchors.fill: parent;
-            onClicked: {
 
-                switch(animator.dockername){
+            Timer {
+                id: showTimer
+                interval: 500
+                onTriggered:  {
+                     switch(animator.dockername){
 
-                case(""):
-                    viewport.state = 'component';
-                    break;
+                                   case(""):
+                                       viewport.state = 'component';
+                                       break;
 
-                case("ComponentsDock"):
-                    viewport.state = 'project';
-                    break;
+                                   case("ComponentsDock"):
+                                       viewport.state = 'project';
+                                       break;
 
-                case("ProjectDock"):
-                    viewport.state = 'message';
-                    break;
+                                   case("ProjectDock"):
+                                       viewport.state = 'message';
+                                       break;
 
-                case("MessageDock"):
-                    viewport.state = 'scene';
-                    break;
+                                   case("MessageDock"):
+                                       viewport.state = 'scene';
+                                       break;
 
-                case("SceneDock"):
-                    viewport.state = 'property';
-                    break;
+                                   case("SceneDock"):
+                                       viewport.state = 'property';
+                                       break;
 
-                case("PropertiesDock"):
-                    viewport.state = 'component';
-                    break;
+                                   case("PropertiesDock"):
+                                       viewport.state = 'component';
+                                       break;
 
-                default:
-                    break;
-
-                }
-
-
-               onDockernameChanged: {
-                        animator.setdockername(animator.dockername);
-               }
+                                   default:
+                                       break;
 
                 }
 
             }
+
+        }
+
+            anchors.fill: parent;
+            onClicked: {
+                if(!text.showText){ text.opacity = 0 ;}
+                showTimer.start();
+                onDockernameChanged: { animator.setdockername(animator.dockername);}
+
+            }
+
+        }
 
 
 
@@ -155,7 +198,7 @@ Item {
         State {
                 name: "component"
                 PropertyChanges { target:animator; dockername: "ComponentsDock"}
-                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight; toolTip: "Yeh hai component"}
+                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight; }
                 StateChangeScript {
                          name: "myScript"
                          script: { text.orient();}

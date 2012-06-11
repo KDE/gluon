@@ -420,7 +420,7 @@ void MainWindow::addAsset()
 void GluonCreator::MainWindow::showNewProjectDialog()
 {
     d->projectDialog->setPage( ProjectSelectionDialog::NewProjectPage );
-    d->projectDialog->show();
+//    d->projectDialog->show();
 }
 
 void MainWindow::showOpenProjectDialog()
