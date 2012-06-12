@@ -33,15 +33,15 @@ class IntroSlideShow: public QDeclarativeItem
 {
         Q_OBJECT
         Q_PROPERTY(QString dockername READ dockername WRITE setdockername NOTIFY dockernameChanged)
-        Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
-        Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
-        Q_PROPERTY(int xpos READ xpos WRITE setXpos NOTIFY xposChanged)
-        Q_PROPERTY(int ypos READ ypos WRITE setYpos NOTIFY yposChanged)
+        Q_PROPERTY(int width READ width WRITE setWidth )
+        Q_PROPERTY(int height READ height WRITE setHeight )
+        Q_PROPERTY(int xpos READ xpos WRITE setXpos )
+        Q_PROPERTY(int ypos READ ypos WRITE setYpos )
 
         public:
             IntroSlideShow();
             ~IntroSlideShow();
-            QString dockername() const;
+            QString dockername();
             qreal width() const;
             qreal height() const;
             Q_INVOKABLE qreal getdockX();
@@ -53,9 +53,9 @@ class IntroSlideShow: public QDeclarativeItem
             void setHeight(qreal height);
             void setXpos(qreal xpos);
             void setYpos(qreal ypos);
-            void setAlignment(QString align);
-            Q_INVOKABLE void setdockername(QString name);
+            void setdockername(QString name);
             void updateDocker();
+            int count;
             QString docker;
             qreal refWidth;
             qreal dockX;

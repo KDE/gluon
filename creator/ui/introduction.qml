@@ -86,8 +86,6 @@ Item {
                 id :animator;
     }
 
-
-
         Text {
             id : text;
             font.pointSize: 12;
@@ -125,9 +123,12 @@ Item {
 
                 if ((animator.getdockX() +animator.getdockWidth()) < (animator.getrefWidth())){
                     text.state = "right";
+                    console.log(animator.dockername);
                 }
                  else{
                     text.state = "left";
+                    console.log("dockname is");
+                    console.log(animator.dockername);
                 }
                 show();
 
@@ -144,8 +145,10 @@ Item {
 
             Timer {
                 id: showTimer
+                property int count: 0;
                 interval: 500
                 onTriggered:  {
+
                      switch(animator.dockername){
 
                                    case(""):
@@ -153,6 +156,7 @@ Item {
                                        break;
 
                                    case("ComponentsDock"):
+
                                        viewport.state = 'project';
                                        break;
 
@@ -185,12 +189,10 @@ Item {
             onClicked: {
                 if(!text.showText){ text.opacity = 0 ;}
                 showTimer.start();
-                onDockernameChanged: { animator.setdockername(animator.dockername);}
 
             }
 
         }
-
 
 
         states: [
@@ -201,7 +203,7 @@ Item {
                 PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight; }
                 StateChangeScript {
                          name: "myScript"
-                         script: { text.orient();}
+                         script: { text.orient(animator.dockername); showTimer.stop();}
 
                 }
           },
@@ -212,7 +214,7 @@ Item {
                 PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight }
                 StateChangeScript {
                          name: "myScript"
-                         script: { text.orient();}
+                         script: { text.orient();showTimer.stop();}
 
                 }
             },
@@ -223,7 +225,7 @@ Item {
                 PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight }
                 StateChangeScript {
                          name: "myScript"
-                         script: { text.orient();}
+                         script: { text.orient();showTimer.stop();}
 
                 }
             },
@@ -234,7 +236,7 @@ Item {
                 PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight }
                 StateChangeScript {
                          name: "myScript"
-                         script: { text.orient();}
+                         script: { text.orient();showTimer.stop();}
 
                 }
             },
@@ -245,7 +247,7 @@ Item {
                 PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight }
                 StateChangeScript {
                          name: "myScript"
-                         script: { text.orient();}
+                         script: { text.orient();showTimer.stop();}
 
                 }
             }

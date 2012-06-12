@@ -63,12 +63,13 @@ void IntroSlideShow::setYpos(qreal ypos)
 
 void IntroSlideShow::setdockername(QString name)
 {
+
     docker=name;
     if(QString::compare(docker,"", Qt::CaseInsensitive)) {
         updateDocker();
    }
 
-    emit dockernameChanged();
+
 }
 
 qreal IntroSlideShow::getdockX()
@@ -81,7 +82,7 @@ qreal IntroSlideShow::getdockWidth()
     return dockWidth;
 }
 
-QString IntroSlideShow::dockername() const
+QString IntroSlideShow::dockername()
 {
     return docker;
 }
@@ -113,6 +114,10 @@ int IntroSlideShow::xpos() const
 
 void IntroSlideShow::updateDocker()
 {
+    count++;
+    qDebug()<<"dockername"<< docker;
+
+    qDebug()<<"in update docker for" << count <<"th time";
     QRect rectangle;
     rectangle= kapp->activeWindow()->findChild<QWidget*>(docker)->frameGeometry();
     setWidth(rectangle.width());
@@ -122,6 +127,7 @@ void IntroSlideShow::updateDocker()
     setHeight(rectangle.height());
     setXpos(rectangle.x());
     setYpos(rectangle.y());
-
+    qDebug()<<rectangle.x()+rectangle.width();
+    qDebug()<<kapp->activeWindow()->width()/2 ;
 }
 
