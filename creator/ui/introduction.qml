@@ -71,20 +71,24 @@ Item {
 
 
     Item {
+
+
+        IntroSlideShow {
+                id :animator;
+                dockername: "ComponentsDock";
+        }
+
         id: viewport;
-        width: parent.width / 2;
-        height: parent.height / 2;
-        x: parent.width / 4;
-        y: parent.height / 4;
+        width: animator.implicitWidth;
+        height: animator.implicitHeight;
+        x: animator.x;
+        y: animator.y;
 
         Behavior on width { NumberAnimation { duration: 500; } }
         Behavior on height { NumberAnimation { duration: 500; } }
         Behavior on x { NumberAnimation { duration: 500; } }
         Behavior on y { NumberAnimation { duration: 500; } }
 
-        IntroSlideShow {
-                id :animator;
-    }
 
         Text {
             id : text;
@@ -123,6 +127,7 @@ Item {
 
                 if ((animator.getdockX() +animator.getdockWidth()) < (animator.getrefWidth())){
                     text.state = "right";
+                     console.log("dockname is");
                     console.log(animator.dockername);
                 }
                  else{
@@ -137,7 +142,7 @@ Item {
             function show(){opacity=1; showText = false ;}
 
             Behavior on opacity {
-                NumberAnimation { properties:"opacity"; duration: 100 }
+                    NumberAnimation { properties:"opacity"; duration: 100 }
          }
     }
 
@@ -152,8 +157,10 @@ Item {
                      switch(animator.dockername){
 
                                    case(""):
+                                   {console.log("HAHAHAHAHHA");
                                        viewport.state = 'component';
-                                       break;
+                                   }
+                                   break;
 
                                    case("ComponentsDock"):
 
@@ -200,10 +207,9 @@ Item {
         State {
                 name: "component"
                 PropertyChanges { target:animator; dockername: "ComponentsDock"}
-                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight; }
                 StateChangeScript {
                          name: "myScript"
-                         script: { text.orient(animator.dockername); showTimer.stop();}
+                         script: { text.orient(); showTimer.stop();}
 
                 }
           },
@@ -211,7 +217,6 @@ Item {
         State {
                 name: "project"
                 PropertyChanges { target:animator; dockername : "ProjectDock"}
-                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight }
                 StateChangeScript {
                          name: "myScript"
                          script: { text.orient();showTimer.stop();}
@@ -222,7 +227,6 @@ Item {
         State {
                 name: "message"
                 PropertyChanges { target:animator; dockername : "MessageDock"}
-                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight }
                 StateChangeScript {
                          name: "myScript"
                          script: { text.orient();showTimer.stop();}
@@ -233,7 +237,6 @@ Item {
         State {
                 name: "scene"
                 PropertyChanges { target:animator; dockername : "SceneDock"}
-                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight }
                 StateChangeScript {
                          name: "myScript"
                          script: { text.orient();showTimer.stop();}
@@ -244,7 +247,6 @@ Item {
         State {
                 name: "property"
                 PropertyChanges { target:animator; dockername : "PropertiesDock"}
-                PropertyChanges { target: viewport; x: animator.x; y: animator.y; width:animator.implicitWidth; height:animator.implicitHeight }
                 StateChangeScript {
                          name: "myScript"
                          script: { text.orient();showTimer.stop();}
@@ -256,35 +258,10 @@ Item {
     transitions: [
 
             Transition {
-                from: "*"; to: "component"
-                NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
+                from: "*"; to: "*"
+                NumberAnimation { properties: "x,y,width,height"; duration: 500 }
                  ScriptAction { scriptName: "myScript" }
-            },
-
-            Transition {
-                from: "*"; to: "project"
-                NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
-                ScriptAction { scriptName: "myScript" }
-            },
-
-            Transition {
-                from: "*"; to: "message"
-                NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
-                ScriptAction { scriptName: "myScript" }
-            },
-
-            Transition {
-                from: "*"; to: "scene"
-                NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
-                ScriptAction { scriptName: "myScript" }
-            },
-
-            Transition {
-                from: "*"; to: "property"
-                NumberAnimation { properties: "x,y,width,height"; duration: 1000 }
-                ScriptAction { scriptName: "myScript" }
             }
-
         ]
 
 

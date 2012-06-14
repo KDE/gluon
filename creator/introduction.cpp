@@ -65,11 +65,11 @@ void IntroSlideShow::setdockername(QString name)
 {
 
     docker=name;
-    if(QString::compare(docker,"", Qt::CaseInsensitive)) {
+//    if(QString::compare(docker,"", Qt::CaseInsensitive)) {
         updateDocker();
-   }
 
 
+emit dockernameChanged();
 }
 
 qreal IntroSlideShow::getdockX()
