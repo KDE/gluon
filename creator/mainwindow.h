@@ -21,11 +21,12 @@
 #ifndef GLUONCREATOR_MAINWINDOW_H
 #define GLUONCREATOR_MAINWINDOW_H
 
+#include "introslideshow.h"
+
 #include <KDE/KParts/MainWindow>
 #include <QtDeclarative/QDeclarativeView>
 #include <KDE/KStandardDirs>
 #include <QtDeclarative/QDeclarativeItem>
-#include <introduction.h>
 
 class KStandardDirs;
 class QDeclarativeView;

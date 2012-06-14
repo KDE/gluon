@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "introduction.h"
+#include "introslideshow.h"
 #include <QRect>
 #include <KDE/KApplication>
 #include <QDebug>
@@ -36,40 +36,34 @@ IntroSlideShow::~IntroSlideShow()
     delete this;
 }
 
+int IntroSlideShow::height() const
+{
+    return m_height;
+}
+
+int IntroSlideShow::width() const
+{
+    return m_width;
+}
+
 void IntroSlideShow::setWidth(qreal width)
 {
-    setImplicitWidth(width);
+    m_width = width;
     emit widthChanged();
 }
 
-
 void IntroSlideShow::setHeight(qreal height)
 {
-    setImplicitHeight(height);
+    m_height = height;
     emit heightChanged();
 }
-
-void IntroSlideShow::setXpos(qreal xpos)
-{
-    setX(xpos);
-    emit xposChanged();
-}
-
-void IntroSlideShow::setYpos(qreal ypos)
-{
-    setY(ypos);
-    emit yposChanged();
-}
-
-void IntroSlideShow::setdockername(QString name)
+void IntroSlideShow::setDockername(QString name)
 {
 
     docker=name;
-//    if(QString::compare(docker,"", Qt::CaseInsensitive)) {
+//     if(QString::compare(docker,"", Qt::CaseInsensitive)) {
         updateDocker();
-
-
-emit dockernameChanged();
+    emit dockernameChanged();
 }
 
 qreal IntroSlideShow::getdockX()
@@ -82,7 +76,7 @@ qreal IntroSlideShow::getdockWidth()
     return dockWidth;
 }
 
-QString IntroSlideShow::dockername()
+QString IntroSlideShow::dockername() const
 {
     return docker;
 }
@@ -92,26 +86,6 @@ qreal IntroSlideShow::getrefWidth()
      return refWidth;
 }
 
-qreal IntroSlideShow::width() const
-{
-     return implicitWidth();
-}
-
-qreal IntroSlideShow::height() const
-{
-     return implicitHeight();
-}
-
-int IntroSlideShow::ypos() const
-{
-     return y();
-}
-
-int IntroSlideShow::xpos() const
-{
-     return x();
-}
-
 void IntroSlideShow::updateDocker()
 {
     count++;
@@ -119,15 +93,37 @@ void IntroSlideShow::updateDocker()
 
     qDebug()<<"in update docker for" << count <<"th time";
     QRect rectangle;
+
     rectangle= kapp->activeWindow()->findChild<QWidget*>(docker)->frameGeometry();
     setWidth(rectangle.width());
     refWidth=kapp->activeWindow()->width()/2 ;
     dockX= rectangle.x();
     dockWidth= rectangle.width();
     setHeight(rectangle.height());
-    setXpos(rectangle.x());
-    setYpos(rectangle.y());
+    setX(rectangle.x());
+    setY(rectangle.y());
     qDebug()<<rectangle.x()+rectangle.width();
     qDebug()<<kapp->activeWindow()->width()/2 ;
 }
 
+void IntroSlideShow::setX (int x)
+{
+    m_x = x;
+    emit xChanged();
+}
+
+void IntroSlideShow::setY (int y)
+{
+    m_y = y;
+    emit yChanged();
+}
+
+int IntroSlideShow::x() const
+{
+    return m_x;
+}
+
+int IntroSlideShow::y() const
+{
+    return m_y;
+}

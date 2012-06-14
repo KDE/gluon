@@ -35,7 +35,7 @@ add_subdirectory(nodeeditor)
 set(gluoncreator_SRCS
     main.cpp
     mainwindow.cpp
-    introduction.cpp
+    introslideshow.cpp
 
     dialogs/configdialog.cpp
     dialogs/newprojectdialogpage.cpp

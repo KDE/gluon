@@ -79,8 +79,8 @@ Item {
         }
 
         id: viewport;
-        width: animator.implicitWidth;
-        height: animator.implicitHeight;
+        width: animator.width;
+        height: animator.height;
         x: animator.x;
         y: animator.y;
 
@@ -255,14 +255,14 @@ Item {
             }
     ]
 
-    transitions: [
-
-            Transition {
-                from: "*"; to: "*"
-                NumberAnimation { properties: "x,y,width,height"; duration: 500 }
-                 ScriptAction { scriptName: "myScript" }
-            }
-        ]
+//     transitions: [
+// 
+//             Transition {
+//                 from: "*"; to: "*"
+//                 NumberAnimation { properties: "x,y,width,height"; duration: 500 }
+//                  ScriptAction { scriptName: "myScript" }
+//             }
+//         ]
 
 
 }
