@@ -67,6 +67,16 @@ void IntroSlideShow::setDockername(QString name)
 
 }
 
+qreal IntroSlideShow::getdockY()
+{
+    return dockY;
+}
+
+qreal IntroSlideShow::getdockHeight()
+{
+    return dockHeight;
+}
+
 qreal IntroSlideShow::getdockX()
 {
     return dockX;
@@ -87,20 +97,28 @@ qreal IntroSlideShow::getrefWidth()
      return refWidth;
 }
 
+qreal IntroSlideShow::getrefHeight()
+{
+     return refHeight;
+}
+
 void IntroSlideShow::updateDocker()
 {
-    count++;
     QRect rectangle;
     rectangle= kapp->activeWindow()->findChild<QWidget*>(docker)->frameGeometry();
     setWidth(rectangle.width());
-    refWidth=kapp->activeWindow()->width()/2 ;
+    refWidth=kapp->activeWindow()->width() ;
+    refHeight= kapp->activeWindow()->height()/2 ;
     dockX= rectangle.x();
+    dockY= rectangle.y();
     dockWidth= rectangle.width();
+    dockHeight= rectangle.height();
     setHeight(rectangle.height());
     setX(rectangle.x());
     setY(rectangle.y());
     qDebug()<<rectangle.x()+rectangle.width();
-    qDebug()<<kapp->activeWindow()->width()/2 ;
+    qDebug()<<"Limit 1"<<kapp->activeWindow()->width()/4 ;
+    qDebug()<<"Limit 2"<<kapp->activeWindow()->width()*0.75;
 }
 
 void IntroSlideShow::setX (int x)

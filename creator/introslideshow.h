@@ -47,6 +47,9 @@ class IntroSlideShow: public QObject
             Q_INVOKABLE qreal getdockX();
             Q_INVOKABLE qreal getdockWidth();
             Q_INVOKABLE qreal getrefWidth();
+            Q_INVOKABLE qreal getdockY();
+            Q_INVOKABLE qreal getdockHeight();
+            Q_INVOKABLE qreal getrefHeight();
             void setWidth(qreal width);
             void setHeight(qreal height);
             void setDockername(QString name);
@@ -57,11 +60,13 @@ class IntroSlideShow: public QObject
             int y() const;
 
         private:
-            int count;
             QString docker;
             qreal refWidth;
             qreal dockX;
             qreal dockWidth;
+            qreal dockY;
+            qreal dockHeight;
+            qreal refHeight;
             int m_width;
             int m_height;
             int m_x;

@@ -101,7 +101,7 @@ Item {
             id : text;
             font.pointSize: 12;
             font.bold : true;
-            text: "test";
+            text: "In addition to the more traditional Grid, Row, and Column, QML also provides a way to layout items using the concept of anchors. Each item can be thought of as having a set of 7 invisible : left, horizontalCenter, right, top, verticalCenter, baseline, and bottom.";
             opacity: 0;
             style: Text.Raised;
             color: "white";
@@ -110,10 +110,46 @@ Item {
             states: [
 
                 State {
+                    name: "top"
+                    AnchorChanges {
+                                target: text
+                                anchors.top: viewport.bottom;
+                                anchors.horizontalCenter: viewport.horizontalCenter;
+                    }
+                    StateChangeScript {
+                             name: "myScript1"
+                             script: {console.log("In top");}
+
+                    }
+
+                },
+
+                State {
+                    name: "bottom"
+                    AnchorChanges {
+                                target: text
+                                anchors.bottom: viewport.top;
+                                anchors.horizontalCenter: viewport.horizontalCenter
+
+                    }
+                    StateChangeScript {
+                             name: "myScript1"
+                             script: {console.log("In bottom");}
+
+                    }
+
+                },
+
+                State {
                     name: "right"
                     AnchorChanges {
                                 target: text
                                 anchors.left: viewport.right;
+
+                    }
+                    StateChangeScript {
+                             name: "myScript1"
+                             script: {console.log("In right");}
 
                     }
                 },
@@ -125,6 +161,11 @@ Item {
                                 anchors.right: viewport.left;
 
                     }
+                    StateChangeScript {
+                             name: "myScript1"
+                             script: {console.log("In left");}
+
+                    }
 
                 }
             ]
@@ -132,19 +173,24 @@ Item {
 
             function orient() {
 
-                if ((animator.getdockX() +animator.getdockWidth()) < (animator.getrefWidth())){
+                if ((animator.getdockX() +animator.getdockWidth()) < (0.25*animator.getrefWidth())){
                     text.state = "right";
                     console.log("dockname is");
                     console.log(animator.dockername);
                 }
 
+                else if((animator.getdockX() +animator.getdockWidth()) > (0.75*(animator.getrefWidth()))) {
+
+                        text.state = "left";
+                        console.log("dockname is");
+                        console.log(animator.dockername);
+                    }
+
                 else{
 
-                    text.state = "left";
-                    console.log("dockname is");
-                    console.log(animator.dockername);
+                    if((animator.getdockY()+animator.getdockHeight()) < animator.getrefHeight()) {text.state = "top";}
+                    else{text.state = "bottom";}
                 }
-
                 show();
 
             }
