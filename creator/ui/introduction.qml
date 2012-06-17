@@ -72,13 +72,20 @@ Item {
 
     Item {
 
+        id: viewport;
+        function onCreation(){viewport.state= 'default'}
 
-        IntroSlideShow {
-                id :animator;
-                dockername: "ComponentsDock";
+        Timer {
+            id: viewportTimer
+            interval: 2000
+            onTriggered:{viewport.onCreation();}
         }
 
-        id: viewport;
+        IntroSlideShow {
+            id :animator;
+            Component.onCompleted:viewportTimer.start();
+        }
+
         width: animator.width;
         height: animator.height;
         x: animator.x;
@@ -102,39 +109,42 @@ Item {
 
             states: [
 
-            State {
+                State {
                     name: "right"
                     AnchorChanges {
                                 target: text
                                 anchors.left: viewport.right;
 
-                            }
-              },
+                    }
+                },
 
-            State {
+                State {
                     name: "left"
                     AnchorChanges {
                                 target: text
                                 anchors.right: viewport.left;
 
-                            }
+                    }
 
                 }
-]
+            ]
 
 
             function orient() {
 
                 if ((animator.getdockX() +animator.getdockWidth()) < (animator.getrefWidth())){
                     text.state = "right";
-                     console.log("dockname is");
+                    console.log("dockname is");
                     console.log(animator.dockername);
                 }
-                 else{
+
+                else{
+
                     text.state = "left";
                     console.log("dockname is");
                     console.log(animator.dockername);
                 }
+
                 show();
 
             }
@@ -143,10 +153,11 @@ Item {
 
             Behavior on opacity {
                     NumberAnimation { properties:"opacity"; duration: 100 }
-         }
-    }
+               }
+            }
 
         MouseArea {
+
 
             Timer {
                 id: showTimer
@@ -155,12 +166,6 @@ Item {
                 onTriggered:  {
 
                      switch(animator.dockername){
-
-                                   case(""):
-                                   {console.log("HAHAHAHAHHA");
-                                       viewport.state = 'component';
-                                   }
-                                   break;
 
                                    case("ComponentsDock"):
 
@@ -172,7 +177,7 @@ Item {
                                        break;
 
                                    case("MessageDock"):
-                                       viewport.state = 'scene';
+                                       viewport.state = 'scene';status
                                        break;
 
                                    case("SceneDock"):
@@ -180,7 +185,7 @@ Item {
                                        break;
 
                                    case("PropertiesDock"):
-                                       viewport.state = 'component';
+                                       viewport.state = 'default';
                                        break;
 
                                    default:
@@ -205,7 +210,7 @@ Item {
         states: [
 
         State {
-                name: "component"
+                name: "default"
                 PropertyChanges { target:animator; dockername: "ComponentsDock"}
                 StateChangeScript {
                          name: "myScript"
@@ -253,18 +258,8 @@ Item {
 
                 }
             }
-    ]
+        ]
 
-//     transitions: [
-// 
-//             Transition {
-//                 from: "*"; to: "*"
-//                 NumberAnimation { properties: "x,y,width,height"; duration: 500 }
-//                  ScriptAction { scriptName: "myScript" }
-//             }
-//         ]
-
-
-}
+    }
 
 }
