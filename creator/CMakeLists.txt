@@ -54,6 +54,7 @@ install(TARGETS gluoncreator DESTINATION ${BIN_INSTALL_DIR})
 install(FILES
     ui/gluoncreatorui.rc
     ui/introduction.qml
+    ui/CustomText.qml
     icons/gluon-creator-splash.png
 
     DESTINATION ${DATA_INSTALL_DIR}/gluoncreator

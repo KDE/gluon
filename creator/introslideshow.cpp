@@ -20,9 +20,7 @@
 #include "introslideshow.h"
 #include <QRect>
 #include <KDE/KApplication>
-#include <QDebug>
 
-class QDebug;
 class QRect;
 class KApplication;
 
@@ -116,9 +114,6 @@ void IntroSlideShow::updateDocker()
     setHeight(rectangle.height());
     setX(rectangle.x());
     setY(rectangle.y());
-    qDebug()<<rectangle.x()+rectangle.width();
-    qDebug()<<"Limit 1"<<kapp->activeWindow()->width()/4 ;
-    qDebug()<<"Limit 2"<<kapp->activeWindow()->width()*0.75;
 }
 
 void IntroSlideShow::setX (int x)

@@ -21,6 +21,7 @@ import QtQuick 1.0
 import Intro 1.0
 
 Item {
+    id: topmost;
 
     Rectangle {
         id: topOverlay;
@@ -29,7 +30,6 @@ Item {
         anchors.left: parent.left;
         anchors.right: parent.right;
         anchors.bottom: viewport.top;
-
         opacity: 0.7;
         color: "black";
     }
@@ -86,6 +86,10 @@ Item {
             Component.onCompleted:viewportTimer.start();
         }
 
+        CustomText{
+            id :custom;
+        }
+
         width: animator.width;
         height: animator.height;
         x: animator.x;
@@ -96,30 +100,23 @@ Item {
         Behavior on x { NumberAnimation { duration: 500; } }
         Behavior on y { NumberAnimation { duration: 500; } }
 
-
-        Text {
-            id : text;
-            font.pointSize: 12;
-            font.bold : true;
-            text: "In addition to the more traditional Grid, Row, and Column, QML also provides a way to layout items using the concept of anchors. Each item can be thought of as having a set of 7 invisible : left, horizontalCenter, right, top, verticalCenter, baseline, and bottom.";
-            opacity: 0;
-            style: Text.Raised;
-            color: "white";
+        Rectangle{
+            id: textBox;
+            color: "Transparent";
+            property int i: 0;
             property bool showText: true ;
-
+            width: topmost.width / 4;
+            height: topmost.height / 4;
+            x: topmost.width / 5;
+            y: topmost.height / 5;
             states: [
 
                 State {
                     name: "top"
                     AnchorChanges {
-                                target: text
+                                target: textBox;
                                 anchors.top: viewport.bottom;
                                 anchors.horizontalCenter: viewport.horizontalCenter;
-                    }
-                    StateChangeScript {
-                             name: "myScript1"
-                             script: {console.log("In top");}
-
                     }
 
                 },
@@ -127,29 +124,18 @@ Item {
                 State {
                     name: "bottom"
                     AnchorChanges {
-                                target: text
+                                target: textBox;
                                 anchors.bottom: viewport.top;
                                 anchors.horizontalCenter: viewport.horizontalCenter
 
                     }
-                    StateChangeScript {
-                             name: "myScript1"
-                             script: {console.log("In bottom");}
-
-                    }
-
                 },
 
                 State {
                     name: "right"
                     AnchorChanges {
-                                target: text
+                                target: textBox;
                                 anchors.left: viewport.right;
-
-                    }
-                    StateChangeScript {
-                             name: "myScript1"
-                             script: {console.log("In right");}
 
                     }
                 },
@@ -157,50 +143,62 @@ Item {
                 State {
                     name: "left"
                     AnchorChanges {
-                                target: text
+                                target: textBox;
                                 anchors.right: viewport.left;
-
-                    }
-                    StateChangeScript {
-                             name: "myScript1"
-                             script: {console.log("In left");}
 
                     }
 
                 }
             ]
 
+            Text {
+                id : docktext;
+                width: parent.width
+                font.pointSize: 12;
+                font.bold : true;
+                font.italic: true;
+                font.letterSpacing: 1;
+                text: "Click to start slideshow";
+                opacity: 0;
+                style: Text.Raised;
+                color: "white";
+                wrapMode :Text.WordWrap
+
+              }
+
+            function updateText(which)
+            {   docktext.text=(function() { return custom.getText(which); })
+            }
 
             function orient() {
-
                 if ((animator.getdockX() +animator.getdockWidth()) < (0.25*animator.getrefWidth())){
-                    text.state = "right";
-                    console.log("dockname is");
-                    console.log(animator.dockername);
+                    textBox.state = "right";
                 }
 
                 else if((animator.getdockX() +animator.getdockWidth()) > (0.75*(animator.getrefWidth()))) {
 
-                        text.state = "left";
-                        console.log("dockname is");
-                        console.log(animator.dockername);
-                    }
+                        textBox.state = "left";
+                }
 
                 else{
 
-                    if((animator.getdockY()+animator.getdockHeight()) < animator.getrefHeight()) {text.state = "top";}
-                    else{text.state = "bottom";}
+                    if((animator.getdockY()+animator.getdockHeight()) < animator.getrefHeight()) {textBox.state = "top";}
+                    else{textBox.state = "bottom";}
                 }
                 show();
 
             }
 
-            function show(){opacity=1; showText = false ;}
+            function show()
+            {   docktext.opacity=1;
+                showText = false ;
+            }
 
             Behavior on opacity {
                     NumberAnimation { properties:"opacity"; duration: 100 }
                }
-            }
+
+        }
 
         MouseArea {
 
@@ -223,7 +221,7 @@ Item {
                                        break;
 
                                    case("MessageDock"):
-                                       viewport.state = 'scene';status
+                                       viewport.state = 'scene';
                                        break;
 
                                    case("SceneDock"):
@@ -245,7 +243,7 @@ Item {
 
             anchors.fill: parent;
             onClicked: {
-                if(!text.showText){ text.opacity = 0 ;}
+                if(textBox.showText){ textBox.opacity = 0 ;docktext.opacity=0;}
                 showTimer.start();
 
             }
@@ -260,7 +258,7 @@ Item {
                 PropertyChanges { target:animator; dockername: "ComponentsDock"}
                 StateChangeScript {
                          name: "myScript"
-                         script: { text.orient(); showTimer.stop();}
+                         script: { textBox.orient();textBox.updateText("default"); showTimer.stop();}
 
                 }
           },
@@ -270,7 +268,7 @@ Item {
                 PropertyChanges { target:animator; dockername : "ProjectDock"}
                 StateChangeScript {
                          name: "myScript"
-                         script: { text.orient();showTimer.stop();}
+                         script: { textBox.orient();textBox.updateText("project");showTimer.stop();}
 
                 }
             },
@@ -280,7 +278,7 @@ Item {
                 PropertyChanges { target:animator; dockername : "MessageDock"}
                 StateChangeScript {
                          name: "myScript"
-                         script: { text.orient();showTimer.stop();}
+                         script: { textBox.orient();textBox.updateText("message");showTimer.stop();}
 
                 }
             },
@@ -290,7 +288,7 @@ Item {
                 PropertyChanges { target:animator; dockername : "SceneDock"}
                 StateChangeScript {
                          name: "myScript"
-                         script: { text.orient();showTimer.stop();}
+                         script: { textBox.orient();textBox.updateText("scene");showTimer.stop();}
 
                 }
             },
@@ -300,7 +298,7 @@ Item {
                 PropertyChanges { target:animator; dockername : "PropertiesDock"}
                 StateChangeScript {
                          name: "myScript"
-                         script: { text.orient();showTimer.stop();}
+                         script: { textBox.orient();textBox.updateText("property");showTimer.stop();}
 
                 }
             }
