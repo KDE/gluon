@@ -24,6 +24,11 @@ namespace GluonEngine
 	 * grouped by similar scripts/names
 	 */
 	QString groupname;
+        /**
+         * This sets the object as group parent. If true, it doesn't hold
+         * any member object, and only holds its children
+         */
+        bool grouphead;
 	/**
 	 * This is the main object/group we target at this level
 	 * Can be used, to perform same operation/set property for all 
@@ -96,6 +101,18 @@ namespace GluonEngine
 	 * Returns the number of groups of children
 	 */
 	Q_INVOKABLE int groupCount();
+        /**
+         * Set object as grouphead
+         */
+        Q_INVOKABLE void setGroupHead( bool value );
+        /**
+         * Check if the object is a grouphead
+         */
+        Q_INVOKABLE bool isGroupHead();
+        /**
+         * Get the group name
+         */
+        Q_INVOKABLE QString getGroupName();
     };
 }
 

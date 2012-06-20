@@ -12,6 +12,7 @@ SceneGraphObject::SceneGraphObject()
     this->children.clear();
     this->childrengroup.clear();
     this->level = 0;
+    this->grouphead = false;
 }
 
 
@@ -67,13 +68,30 @@ int SceneGraphObject::groupCount()
 
 GluonEngine::GameObject* SceneGraphObject::getMember()
 {
-    return this->member;
+    if( !this->grouphead )
+        return this->member;
 }
 
 QList< SceneGraphObject* > SceneGraphObject::getChildren()
 {
     return this->children;
 }
+
+void SceneGraphObject::setGroupHead( bool value )
+{
+    this->grouphead = value;
+}
+
+bool GluonEngine::SceneGraphObject::isGroupHead()
+{
+    return this->grouphead;
+}
+
+QString SceneGraphObject::getGroupName()
+{
+    return this->groupname;
+}
+
 
 
 #include "scenegraphobject.moc"

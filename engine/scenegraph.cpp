@@ -1,10 +1,29 @@
+/******************************************************************************
+ * This file is part of the Gluon Development Platform
+ * Copyright (c) 2012 Vinay S Rao <sr.vinay@gmail.com>
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 #include "scenegraph.h"
 #include "scenegraphobject.h"
 
 #include "game.h"
 #include "gameproject.h"
-
 #include <core/gluonobject.h>
+
 #include <iostream>
 #include <QMetaProperty>
 
@@ -16,6 +35,7 @@ SceneGraph::SceneGraph()
 {
     this->root = new SceneGraphObject();
     this->root->setMember( GluonEngine::Game::instance()->currentScene()->sceneContents() );
+    this->tags = GluonEngine::Game::instance()->gameProject()->getTagObject();
     populate( this->root, 0 );
 }
 
@@ -23,6 +43,7 @@ SceneGraph::SceneGraph( GluonEngine::GameObject* parent )
 {
     this->root = new SceneGraphObject();
     this->root->setMember( parent );
+    this->tags = GluonEngine::Game::instance()->gameProject()->getTagObject();
     populate( this->root, 0 );
 }
 
@@ -33,16 +54,49 @@ SceneGraph::~SceneGraph()
 void SceneGraph::populate( SceneGraphObject* object, int level )
 {
     QList<SceneGraphObject*> children;
-    GluonEngine::GameObject* child;
+    QList<GluonEngine::GameObject*> members;
+    QHash<QString, QList<GluonEngine::GameObject*> > hash;
     for( int i = 0; i < object->getMember()->childCount(); i++ )
+        members.append( object->getMember()->childGameObject( i ) );
+    foreach( GluonEngine::GameObject* member, members )
     {
-        child = object->getMember()->childGameObject( i );
-        SceneGraphObject *newobject = new SceneGraphObject;
-        newobject->setParent( object );
-        newobject->setLevel( level + 1 );
-        newobject->setMember( child );
-        children.append( newobject );
-        populate( newobject, level + 1);
+        QString tags = this->tags->getTags( member->name() );
+        if( tags.isEmpty() )
+            continue;
+        QList<GluonEngine::GameObject*> list;
+        if( hash.contains( tags ) )
+            list = hash.value( tags );
+        list.append( member );
+        hash.insert( tags, list );
+    }
+    foreach( QString key, hash.keys() )
+    {
+        SceneGraphObject* group = new SceneGraphObject();
+        group->setGroupHead( true );
+        group->setParent( object );
+        group->setGroupName( key );
+        group->setLevel( level );
+        QList<GluonEngine::SceneGraphObject*> childrenofgroup;
+        foreach( GluonEngine::GameObject* member, hash.value( key ) )
+        {
+            SceneGraphObject* child = new SceneGraphObject();
+            child->setParent( group );
+            child->setLevel( level + 1 );
+            child->setMember( member );
+            childrenofgroup.append( child );
+            populate( child, level + 2 );
+            members.removeOne( member );
+        }
+        group->addChildren( childrenofgroup );
+    }
+    foreach( GluonEngine::GameObject* member, members )
+    {
+        SceneGraphObject* child = new SceneGraphObject();
+        child->setMember( member );
+        child->setParent( object );
+        child->setLevel( level );
+        children.append( child );
+        populate( child, level + 1 );
     }
     object->addChildren( children );
 }
@@ -51,7 +105,11 @@ void SceneGraph::debugprint( SceneGraphObject* object, int level )
 {
     for( int i = 0; i < level; i++ )
         cout << "  ";
-    QString name = object->getMember()->name();
+    QString name;
+    if( object->isGroupHead() )
+        name = object->getGroupName();
+    else
+        name = object->getMember()->name();
     cout << name.toUtf8().constData() << endl;
     foreach( SceneGraphObject *child, object->getChildren() )
         debugprint( child, level + 1 );

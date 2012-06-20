@@ -1,3 +1,22 @@
+/******************************************************************************
+ * This file is part of the Gluon Development Platform
+ * Copyright (c) 2012 Vinay S Rao <sr.vinay@gmail.com>
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
 #include "tagobject.h"
 #include "game.h"
 
@@ -121,7 +140,12 @@ QString TagObject::getTags( QString objectname )
         if( i.value().contains( objectname ) )
             list.append( i.key() );
     if( list.isEmpty() )
-        return getTags( getBaseName( objectname ) );
+    {
+        if( objectname.compare( getBaseName( objectname ) ) == 0 )
+            return QString("");
+        else
+            return getTags( getBaseName( objectname ) );
+    }
     return list.join( ", " );
 }
 
@@ -138,6 +162,7 @@ bool TagObject::writeToFile()
 
 bool TagObject::writeToFile( QString path )
 {
+    removeClones();
     QString dir = path.section( '/', 0, -2 );
     if( ! QDir( dir ).exists() )
         QDir().mkpath( dir );
@@ -217,5 +242,12 @@ QStringList TagObject::getObjectsFromScene( GluonEngine::GameObject* scene )
     return list;
 }
 
+void TagObject::removeClones()
+{
+    for( QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i )
+        foreach( QString object, i.value() )
+            if( object.compare( getBaseName( object ) ) != 0 )
+                i.value().remove( object );
+}
 
 #include "tagobject.moc"

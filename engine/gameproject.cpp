@@ -470,20 +470,9 @@ QList<Asset*> GameProject::assets() const
     return d->assets;
 }
 
-void GameProject::addTag( GluonEngine::GameObject *object, QString tag )
-{
-    d->tags->addTag( object, tag );
-}
-
 void GameProject::addTags( QString objectname, QString tags )
 {
     d->tags->addTags( objectname, tags );
-}
-
-
-void GameProject::removeTag( GluonEngine::GameObject *object )
-{
-    d->tags->clearTags( object->name() );
 }
 
 TagObject* GameProject::getTagObject()
@@ -495,11 +484,5 @@ QString GameProject::getTags( QString objectname )
 {
     return d->tags->getTags( objectname );
 }
-
-void GameProject::setTagObject( TagObject* tags )
-{
-    d->tags = tags;
-}
-
 
 #include "gameproject.moc"
