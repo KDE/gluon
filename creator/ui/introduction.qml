@@ -102,11 +102,11 @@ Item {
 
         Rectangle{
             id: textBox;
-            color: "Transparent";
+            color: "Blue ";
             property int i: 0;
             property bool showText: true ;
             width: topmost.width / 4;
-            height: topmost.height / 4;
+            height: topmost.height /6;
             x: topmost.width / 5;
             y: topmost.height / 5;
             states: [
@@ -117,6 +117,11 @@ Item {
                                 target: textBox;
                                 anchors.top: viewport.bottom;
                                 anchors.horizontalCenter: viewport.horizontalCenter;
+                    }
+                    StateChangeScript {
+                             name: "myScript1"
+                             script: { console.log("In top");}
+
                     }
 
                 },
@@ -129,6 +134,12 @@ Item {
                                 anchors.horizontalCenter: viewport.horizontalCenter
 
                     }
+                    StateChangeScript {
+                             name: "myScript1"
+                             script: { console.log("In bottom");}
+
+                    }
+
                 },
 
                 State {
@@ -136,8 +147,16 @@ Item {
                     AnchorChanges {
                                 target: textBox;
                                 anchors.left: viewport.right;
+                                anchors.verticalCenter: viewport.verticalCenter;
+
 
                     }
+                    StateChangeScript {
+                             name: "myScript1"
+                             script: { console.log("In right");}
+
+                    }
+
                 },
 
                 State {
@@ -145,6 +164,12 @@ Item {
                     AnchorChanges {
                                 target: textBox;
                                 anchors.right: viewport.left;
+                                anchors.verticalCenter: viewport.verticalCenter;
+
+                    }
+                    StateChangeScript {
+                             name: "myScript1"
+                             script: { console.log("In left");}
 
                     }
 
@@ -171,20 +196,33 @@ Item {
             }
 
             function orient() {
-                if ((animator.getdockX() +animator.getdockWidth()) < (0.25*animator.getrefWidth())){
-                    textBox.state = "right";
+                if (((animator.tRightMain() - animator.tRightDock()) > textBox.width)&&(animator.dHeight()-textBox.height > 0))
+                {
+                    textBox.state = 'right';
+                    console.log ("In If for right");
                 }
 
-                else if((animator.getdockX() +animator.getdockWidth()) > (0.75*(animator.getrefWidth()))) {
+                else if(((animator.dX()-animator.mX()) > textBox.width)&&(animator.dHeight()-textBox.height > 0))
+                {
 
-                        textBox.state = "left";
+                    console.log ("In If for left");
+                    textBox.state = 'left';
                 }
 
-                else{
+                else if (((animator.dY()-animator.mY()) > textBox.height)&&(animator.dWidth()- textBox.width >0))
+                {
+                        textBox.state = 'bottom';
+                        console.log ("In If for bottom");
 
-                    if((animator.getdockY()+animator.getdockHeight()) < animator.getrefHeight()) {textBox.state = "top";}
-                    else{textBox.state = "bottom";}
                 }
+
+                else
+                {
+                    textBox.state = "top";
+                    console.log ("In If for top");
+
+                }
+
                 show();
 
             }

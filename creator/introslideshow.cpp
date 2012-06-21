@@ -20,18 +20,33 @@
 #include "introslideshow.h"
 #include <QRect>
 #include <KDE/KApplication>
+#include <QTimer>
 
+class QTimer;
 class QRect;
 class KApplication;
 
 IntroSlideShow::IntroSlideShow()
 {
-
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(getWindow()));
+    timer->setSingleShot(true);
+    timer->start(1000);
 }
 
 IntroSlideShow::~IntroSlideShow()
 {
     delete this;
+}
+
+
+void IntroSlideShow::getWindow()
+{
+    mainWidth = kapp->activeWindow()->width();
+    mainHeight= kapp->activeWindow()->height();
+    mainX = kapp->activeWindow()->x();
+    mainY = kapp->activeWindow()->y();
+    qDebug()<< mainWidth << mainHeight << mainX << mainY ;
 }
 
 int IntroSlideShow::height() const
@@ -62,27 +77,52 @@ void IntroSlideShow::setDockername(QString name)
     updateDocker();
     emit dockernameChanged();
 
-
 }
 
-qreal IntroSlideShow::getdockY()
+qreal IntroSlideShow::bLeftDock()
 {
-    return dockY;
+    return (dockY+dockHeight);
 }
 
-qreal IntroSlideShow::getdockHeight()
+qreal IntroSlideShow::bLeftMain()
+{
+    return (mainY+mainHeight);
+}
+
+qreal IntroSlideShow::tRightDock()
+{
+    return (dockX+dockWidth);
+}
+qreal IntroSlideShow::tRightMain()
+{
+    return (mainX+mainWidth);
+}
+qreal IntroSlideShow::dWidth()
+{
+    return dockWidth;
+}
+qreal IntroSlideShow::dHeight()
 {
     return dockHeight;
 }
 
-qreal IntroSlideShow::getdockX()
+qreal IntroSlideShow::dX()
 {
     return dockX;
 }
 
-qreal IntroSlideShow::getdockWidth()
+qreal IntroSlideShow::dY()
 {
-    return dockWidth;
+    return dockY;
+}
+
+qreal IntroSlideShow::mX()
+{
+    return mainX;
+}
+qreal IntroSlideShow::mY()
+{
+    return mainY;
 }
 
 QString IntroSlideShow::dockername() const
@@ -90,23 +130,13 @@ QString IntroSlideShow::dockername() const
     return docker;
 }
 
-qreal IntroSlideShow::getrefWidth()
-{
-     return refWidth;
-}
-
-qreal IntroSlideShow::getrefHeight()
-{
-     return refHeight;
-}
-
 void IntroSlideShow::updateDocker()
 {
     QRect rectangle;
     rectangle= kapp->activeWindow()->findChild<QWidget*>(docker)->frameGeometry();
     setWidth(rectangle.width());
-    refWidth=kapp->activeWindow()->width() ;
-    refHeight= kapp->activeWindow()->height()/2 ;
+ //   refWidth=kapp->activeWindow()->width() ;
+  //  refHeight= kapp->activeWindow()->height()/2 ;
     dockX= rectangle.x();
     dockY= rectangle.y();
     dockWidth= rectangle.width();

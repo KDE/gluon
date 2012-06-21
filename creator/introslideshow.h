@@ -44,12 +44,16 @@ class IntroSlideShow: public QObject
             int width() const;
             int height() const;
             //TODO: change to properties instead of INVOKABLEs
-            Q_INVOKABLE qreal getdockX();
-            Q_INVOKABLE qreal getdockWidth();
-            Q_INVOKABLE qreal getrefWidth();
-            Q_INVOKABLE qreal getdockY();
-            Q_INVOKABLE qreal getdockHeight();
-            Q_INVOKABLE qreal getrefHeight();
+            Q_INVOKABLE qreal bLeftMain();
+            Q_INVOKABLE qreal bLeftDock();
+            Q_INVOKABLE qreal tRightDock();
+            Q_INVOKABLE qreal tRightMain();
+            Q_INVOKABLE qreal dWidth();
+            Q_INVOKABLE qreal dHeight();
+            Q_INVOKABLE qreal dX();
+            Q_INVOKABLE qreal dY();
+            Q_INVOKABLE qreal mX();
+            Q_INVOKABLE qreal mY();
             void setWidth(qreal width);
             void setHeight(qreal height);
             void setDockername(QString name);
@@ -61,16 +65,21 @@ class IntroSlideShow: public QObject
 
         private:
             QString docker;
-            qreal refWidth;
+            qreal mainWidth;
+            qreal mainX;
+            qreal mainY;
+            qreal mainHeight;
             qreal dockX;
             qreal dockWidth;
             qreal dockY;
             qreal dockHeight;
-            qreal refHeight;
             int m_width;
             int m_height;
             int m_x;
             int m_y;
+
+        public slots:
+            void getWindow();
 
         signals:
             void dockernameChanged();
