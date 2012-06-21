@@ -135,8 +135,6 @@ void IntroSlideShow::updateDocker()
     QRect rectangle;
     rectangle= kapp->activeWindow()->findChild<QWidget*>(docker)->frameGeometry();
     setWidth(rectangle.width());
- //   refWidth=kapp->activeWindow()->width() ;
-  //  refHeight= kapp->activeWindow()->height()/2 ;
     dockX= rectangle.x();
     dockY= rectangle.y();
     dockWidth= rectangle.width();

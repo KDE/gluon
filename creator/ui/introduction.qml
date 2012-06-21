@@ -102,9 +102,9 @@ Item {
 
         Rectangle{
             id: textBox;
-            color: "Blue ";
-            property int i: 0;
-            property bool showText: true ;
+            color: "Transparent";
+            opacity: 1;
+            property bool showText: false ;
             width: topmost.width / 4;
             height: topmost.height /6;
             x: topmost.width / 5;
@@ -118,12 +118,7 @@ Item {
                                 anchors.top: viewport.bottom;
                                 anchors.horizontalCenter: viewport.horizontalCenter;
                     }
-                    StateChangeScript {
-                             name: "myScript1"
-                             script: { console.log("In top");}
-
-                    }
-
+                    PropertyChanges { target:textBox; anchors.topMargin: 10}
                 },
 
                 State {
@@ -134,11 +129,7 @@ Item {
                                 anchors.horizontalCenter: viewport.horizontalCenter
 
                     }
-                    StateChangeScript {
-                             name: "myScript1"
-                             script: { console.log("In bottom");}
-
-                    }
+                    PropertyChanges { target:textBox; anchors.bottomMargin: 10}
 
                 },
 
@@ -149,13 +140,8 @@ Item {
                                 anchors.left: viewport.right;
                                 anchors.verticalCenter: viewport.verticalCenter;
 
-
                     }
-                    StateChangeScript {
-                             name: "myScript1"
-                             script: { console.log("In right");}
-
-                    }
+                    PropertyChanges { target:textBox; anchors.leftMargin: 10}
 
                 },
 
@@ -167,12 +153,7 @@ Item {
                                 anchors.verticalCenter: viewport.verticalCenter;
 
                     }
-                    StateChangeScript {
-                             name: "myScript1"
-                             script: { console.log("In left");}
-
-                    }
-
+                    PropertyChanges { target:textBox; anchors.rightMargin: 10}
                 }
             ]
 
@@ -183,11 +164,11 @@ Item {
                 font.bold : true;
                 font.italic: true;
                 font.letterSpacing: 1;
-                text: "Click to start slideshow";
-                opacity: 0;
+                text: "";
                 style: Text.Raised;
                 color: "white";
-                wrapMode :Text.WordWrap
+                wrapMode :Text.Wrap;
+                anchors.fill: textBox;
 
               }
 
@@ -199,28 +180,21 @@ Item {
                 if (((animator.tRightMain() - animator.tRightDock()) > textBox.width)&&(animator.dHeight()-textBox.height > 0))
                 {
                     textBox.state = 'right';
-                    console.log ("In If for right");
                 }
 
                 else if(((animator.dX()-animator.mX()) > textBox.width)&&(animator.dHeight()-textBox.height > 0))
                 {
-
-                    console.log ("In If for left");
-                    textBox.state = 'left';
+                     textBox.state = 'left';
                 }
 
                 else if (((animator.dY()-animator.mY()) > textBox.height)&&(animator.dWidth()- textBox.width >0))
                 {
                         textBox.state = 'bottom';
-                        console.log ("In If for bottom");
-
                 }
 
                 else
                 {
                     textBox.state = "top";
-                    console.log ("In If for top");
-
                 }
 
                 show();
@@ -228,63 +202,13 @@ Item {
             }
 
             function show()
-            {   docktext.opacity=1;
-                showText = false ;
+            {   textBox.opacity=1;
+                showText = true ;
             }
 
             Behavior on opacity {
-                    NumberAnimation { properties:"opacity"; duration: 100 }
-               }
-
-        }
-
-        MouseArea {
-
-
-            Timer {
-                id: showTimer
-                property int count: 0;
-                interval: 500
-                onTriggered:  {
-
-                     switch(animator.dockername){
-
-                                   case("ComponentsDock"):
-
-                                       viewport.state = 'project';
-                                       break;
-
-                                   case("ProjectDock"):
-                                       viewport.state = 'message';
-                                       break;
-
-                                   case("MessageDock"):
-                                       viewport.state = 'scene';
-                                       break;
-
-                                   case("SceneDock"):
-                                       viewport.state = 'property';
-                                       break;
-
-                                   case("PropertiesDock"):
-                                       viewport.state = 'default';
-                                       break;
-
-                                   default:
-                                       break;
-
-                }
-
-            }
-
-        }
-
-            anchors.fill: parent;
-            onClicked: {
-                if(textBox.showText){ textBox.opacity = 0 ;docktext.opacity=0;}
-                showTimer.start();
-
-            }
+                    NumberAnimation { properties:"opacity"; duration: 500 }
+             }
 
         }
 
@@ -341,6 +265,56 @@ Item {
                 }
             }
         ]
+
+    }
+
+
+    MouseArea {
+
+
+        Timer {
+            id: showTimer
+            interval: 500
+            onTriggered:  {
+
+                 switch(animator.dockername){
+
+                               case("ComponentsDock"):
+
+                                   viewport.state = 'project';
+                                   break;
+
+                               case("ProjectDock"):
+                                   viewport.state = 'message';
+                                   break;
+
+                               case("MessageDock"):
+                                   viewport.state = 'scene';
+                                   break;
+
+                               case("SceneDock"):
+                                   viewport.state = 'property';
+                                   break;
+
+                               case("PropertiesDock"):
+                                   viewport.state = 'default';
+                                   break;
+
+                               default:
+                                   break;
+
+            }
+
+        }
+
+    }
+
+        anchors.fill: parent;
+        onClicked: {
+            if(textBox.showText){ textBox.opacity = 0 ;}
+            showTimer.start();
+
+        }
 
     }
 
