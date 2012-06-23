@@ -271,6 +271,7 @@ Item {
 
     MouseArea {
 
+        id : mouseArea;
 
         Timer {
             id: showTimer
