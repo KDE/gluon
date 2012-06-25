@@ -70,9 +70,10 @@ Backend* Manager::backend(  )
 void Manager::initialize()
 {
     d->currentWorld = createWorld();
-    addResource< RenderTarget >( Defaults::RenderTarget, backend()->createRenderTarget() );
+    SpriteMesh* defaultSpriteMesh = createResource< SpriteMesh >( Defaults::SpriteMesh );
+    defaultSpriteMesh->initialize();
     createResource< Material >( Defaults::Material );
-    createResource< SpriteMesh >( Defaults::SpriteMesh );
+    addResource< RenderTarget >( Defaults::RenderTarget, backend()->createRenderTarget() );
 }
 
 World* Manager::createWorld( const QString& identifier )
