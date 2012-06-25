@@ -49,6 +49,9 @@ RenderWidget::RenderWidget( QWidget* parent, Qt::WindowFlags f ) :
 {
     setAttribute( Qt::WA_PaintOnScreen );
     setAttribute( Qt::WA_OpaquePaintEvent );
+
+    if( !Manager::instance()->backend()->initialize( this ) )
+        qFatal( Manager::instance()->backend()->errorString().toUtf8() );
 }
 
 RenderWidget::~RenderWidget()
@@ -61,14 +64,9 @@ void RenderWidget::paintEvent( QPaintEvent* event )
 {
     if( !d->surface )
     {
-        if( !Manager::instance()->backend()->initialize( this ) )
-            qFatal( Manager::instance()->backend()->errorString().toUtf8() );
-
         Manager::instance()->initialize();
         d->surface = Manager::instance()->backend()->createOutputSurface( this );
         d->surface->setSize( width(), height() );
-
-        d->surface->createDebug();
     }
 
     d->surface->renderContents();
