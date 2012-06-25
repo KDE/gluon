@@ -43,8 +43,6 @@ set(GluonGraphics_SRCS
     technique.cpp
     texture.cpp
     mesh.cpp
-    vertexattribute.cpp
-    vertexbuffer.cpp
     viewport.cpp
     spritemesh.cpp
 
@@ -70,8 +68,6 @@ set(GluonGraphics_HEADERS
     renderwidget.h
     technique.h
     texture.h
-    vertexbuffer.h
-    vertexattribute.h
     viewport.h
     texturedata.h
 )
