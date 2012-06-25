@@ -53,6 +53,7 @@ set(GluonGraphics_SRCS
     outputsurface.cpp
     shader.cpp
     meshdata.cpp
+    texturedata.cpp
 )
 
 set(GluonGraphics_HEADERS
@@ -72,6 +73,7 @@ set(GluonGraphics_HEADERS
     vertexbuffer.h
     vertexattribute.h
     viewport.h
+    texturedata.h
 )
 
 if(ASSIMP_FOUND)
