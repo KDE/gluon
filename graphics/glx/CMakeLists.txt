@@ -10,7 +10,7 @@ set( gluongraphics_backend_SRCS
     glxoutputsurface.cpp
     glxshader.cpp
     glxbuffer.cpp
-    glxtexture.cpp
+    glxtexturedata.cpp
     glxrendertarget.cpp
     glxmeshdata.cpp
 )

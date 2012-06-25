@@ -26,7 +26,7 @@
 namespace GluonGraphics
 {
     class Shader;
-    class Texture;
+    class TextureData;
     class Buffer;
     class OutputSurface;
     class RenderTarget;
@@ -94,7 +94,7 @@ namespace GluonGraphics
              *
              * \return A platform-specific implementation of a Texture object.
              */
-            virtual Texture* createTexture() = 0;
+            virtual TextureData* createTextureData() = 0;
             /**
              * Create a Buffer object.
              *

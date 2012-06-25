@@ -35,7 +35,7 @@
 #include "glxshader.h"
 #include "glxoutputsurface.h"
 #include "glxbuffer.h"
-#include "glxtexture.h"
+#include "glxtexturedata.h"
 #include "glxrendertarget.h"
 #include "glxmeshdata.h"
 
@@ -136,9 +136,9 @@ Buffer* GLXBackend::createBuffer()
     return new GLXBuffer();
 }
 
-Texture* GLXBackend::createTexture()
+TextureData* GLXBackend::createTextureData()
 {
-    return new GLXTexture();
+    return new GLXTextureData();
 }
 
 RenderTarget* GLXBackend::createRenderTarget()
