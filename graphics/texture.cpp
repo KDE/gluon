@@ -22,10 +22,15 @@
 
 #include "texture.h"
 
+#include <core/debughelper.h>
+
 #include "math.h"
 
 #include <QtGui/QImage>
 #include <QtCore/QUrl>
+#include "manager.h"
+#include "backend.h"
+#include "texturedata.h"
 
 using namespace GluonGraphics;
 
@@ -33,26 +38,55 @@ class Texture::Private
 {
     public:
         QImage image;
+        TextureData* data;
 };
 
 Texture::Texture( QObject* parent )
     : QObject( parent ), d( new Private )
 {
-
+    d->data = Manager::instance()->backend()->createTextureData();
 }
 
 Texture::~Texture()
 {
+    delete d->data;
     delete d;
 }
 
 bool Texture::load( const QUrl& url )
 {
-    // TODO: Add support for non-2D textures and non-RGBA colour formats. Also, find a way
-    // around the nasty const_cast .
-    d->image.load( url.toLocalFile() );
+    //TODO: Add support for non-2D textures and non-RGBA colour formats.
+    if( !d->image.load( url.toLocalFile() ) )
+    {
+        DEBUG_TEXT2( "Failed to load texture %1", url.toLocalFile() );
+        return false;
+    }
 
-    return false;
+    //Ensure we have 32-bit ARGB data
+    if( d->image.format() != QImage::Format_ARGB32 )
+        d->image = d->image.convertToFormat( QImage::Format_ARGB32 );
+
+    const int width = d->image.width();
+    const int height = d->image.height();
+
+    //TODO: Support big endian (?)
+    //Convert ARGB to RGBA
+    for( int y = 0; y < height; ++y )
+    {
+        uint* line = reinterpret_cast< uint* >( d->image.scanLine( y ) );
+        for( int x = 0; x < width; ++x )
+        {
+            line[x] = ((line[x] << 16) & 0xff0000) | ((line[x] >> 16) & 0xff) | (line[x] & 0xff00ff00);
+        }
+    }
+
+    //Mirror it since Qt uses different coords.
+    d->image = d->image.mirrored();
+
+    //Finally, load it into GPU memory.
+    d->data->setData( d->image.width(), d->image.height(), d->image.bits() );
+
+    return true;
 }
 
 QImage Texture::image() const
