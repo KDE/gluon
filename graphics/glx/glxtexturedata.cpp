@@ -17,18 +17,41 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "glxtexture.h"
+#include "glxtexturedata.h"
+#include <GL/gl.h>
 
 using namespace GluonGraphics;
 
-GLXTexture::GLXTexture( QObject* parent )
-    : GluonGraphics::Texture( parent )
+class GLXTextureData::Private
 {
+    public:
+        GLuint glTexture;
+};
 
+GLXTextureData::GLXTextureData() : d( new Private )
+{
+    glGenTextures(1, &d->glTexture);
 }
 
-GLXTexture::~GLXTexture()
+GLXTextureData::~GLXTextureData()
 {
-
+    glDeleteTextures(1, &d->glTexture);
 }
 
+void GLXTextureData::bind()
+{
+    glActiveTexture( GL_TEXTURE0 + textureLevel() );
+    glBindTexture( GL_TEXTURE_2D, d->glTexture );
+}
+
+void GLXTextureData::release()
+{
+    glActiveTexture( GL_TEXTURE0 + textureLevel() );
+    glBindTexture( GL_TEXTURE_2D, 0 );
+}
+
+void GLXTextureData::setData( int width, int height, void* data )
+{
+    glBindTexture( GL_TEXTURE_2D, d->glTexture );
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data );
+}

@@ -45,7 +45,7 @@ namespace GluonGraphics
 
             GLX::Context* context();
             virtual Buffer* createBuffer();
-            virtual Texture* createTexture();
+            virtual TextureData* createTextureData();
             virtual RenderTarget* createRenderTarget();
             virtual Shader* createShader();
             virtual OutputSurface* createOutputSurface( QWidget* widget );

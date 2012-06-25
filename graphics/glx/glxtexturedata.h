@@ -20,15 +20,24 @@
 #ifndef GLUONGRAPHICS_GLX_GLXTEXTURE_H
 #define GLUONGRAPHICS_GLX_GLXTEXTURE_H
 
-#include <graphics/texture.h>
+#include <graphics/texturedata.h>
 
 namespace GluonGraphics
 {
-    class GLXTexture : public GluonGraphics::Texture
+    class GLXTextureData : public GluonGraphics::TextureData
     {
         public:
-            explicit GLXTexture( QObject* parent = 0 );
-            virtual ~GLXTexture();
+            explicit GLXTextureData();
+            virtual ~GLXTextureData();
+
+            virtual void bind();
+            virtual void release();
+
+            virtual void setData( int width, int height, void* data );
+
+        private:
+            class Private;
+            Private* const d;
     };
 }
 
