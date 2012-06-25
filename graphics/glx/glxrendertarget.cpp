@@ -107,3 +107,9 @@ void GLXRenderTarget::resizeImpl()
     glBindRenderbufferEXT( GL_RENDERBUFFER, 0 );
     glBindTexture( GL_TEXTURE_2D, 0 );
 }
+
+void GLXRenderTarget::bindTexture()
+{
+    glActiveTexture( GL_TEXTURE0 + 0 );
+    glBindTexture( GL_TEXTURE_2D, d->imageBuffer );
+}

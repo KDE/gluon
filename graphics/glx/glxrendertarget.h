@@ -37,6 +37,7 @@ namespace GluonGraphics
 
         protected:
             virtual void resizeImpl();
+            virtual void bindTexture();
 
         private:
             class Private;
