@@ -28,6 +28,8 @@
 #include <QtGui/QApplication>
 #include <shader.h>
 #include <backend.h>
+#include <texture.h>
+#include <core/directoryprovider.h>
 
 int main( int argc, char* argv[] )
 {
@@ -41,10 +43,12 @@ int main( int argc, char* argv[] )
     //createResource< GluonGraphics::Material >( "Main" );
     //GluonGraphics::Manager::instance()->destroyResource< GluonGraphics::Material >( "Main" );
     //qDebug() << GluonGraphics::Manager::instance()->backend( widget )->information( GluonGraphics::Backend::VerboseInformation );
-
     GluonGraphics::RenderWidget widget;
     widget.show();
     //app.exec();
+
+    GluonGraphics::Texture* texture = GluonGraphics::Manager::instance()->createResource< GluonGraphics::Texture >( "test" );
+    texture->load( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/defaults/default.png" );
 
     //delete widget;
 
