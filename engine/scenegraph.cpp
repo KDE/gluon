@@ -88,6 +88,7 @@ void SceneGraph::populate( SceneGraphObject* object, int level )
             members.removeOne( member );
         }
         group->addChildren( childrenofgroup );
+        object->addChild( group );
     }
     foreach( GluonEngine::GameObject* member, members )
     {
@@ -116,7 +117,7 @@ void SceneGraph::debugprint( SceneGraphObject* object, int level )
     cout << "  ";
 }
 
-void SceneGraph::debugprint(SceneGraphObject* object)
+void SceneGraph::debugprint( SceneGraphObject* object )
 {
     debugprint( object, 0 );
 }
@@ -125,6 +126,24 @@ void SceneGraph::debugprint(SceneGraphObject* object)
 SceneGraphObject* SceneGraph::getRoot()
 {
     return this->root;
+}
+
+SceneGraphObject* SceneGraph::findChild( QString name )
+{
+    return findChild( this->root, name );
+}
+
+SceneGraphObject* SceneGraph::findChild( SceneGraphObject* object, QString name )
+{
+    if( object->isGroupHead() )
+        if( object->getGroupName().compare( name ) == 0 )
+            return object;
+    else
+        if( object->getMember()->name().compare( name ) == 0 )
+            return object;
+    foreach( GluonEngine::SceneGraphObject* obj, object->getChildren() )
+        findChild( obj, name );
+    return 0;
 }
 
 #include "scenegraph.moc"

@@ -1,13 +1,18 @@
 #include "scenegraphobject.h"
 
+#include "game.h"
+#include "gameproject.h"
+#include "tagobject.h"
+
 #include <core/gluonobject.h>
+#include <QMetaProperty>
 
 using namespace GluonEngine;
 
 SceneGraphObject::SceneGraphObject()
 {
     this->parent = 0;
-    this->groupname = "";
+    this->groupname = QString( "" );
     this->member = new GluonEngine::GameObject( 0 );
     this->children.clear();
     this->childrengroup.clear();
@@ -29,6 +34,12 @@ void SceneGraphObject::addChildren( QList< SceneGraphObject* > children )
 {
     this->children.append( children );
 }
+
+void SceneGraphObject::addChild( SceneGraphObject* child )
+{
+    this->children.append( child );
+}
+
 
 void SceneGraphObject::addChildrenGroup( QList< SceneGraphObject* > childrengroup )
 {
@@ -70,6 +81,7 @@ GluonEngine::GameObject* SceneGraphObject::getMember()
 {
     if( !this->grouphead )
         return this->member;
+    return 0;
 }
 
 QList< SceneGraphObject* > SceneGraphObject::getChildren()
@@ -90,6 +102,54 @@ bool GluonEngine::SceneGraphObject::isGroupHead()
 QString SceneGraphObject::getGroupName()
 {
     return this->groupname;
+}
+
+int SceneGraphObject::getLevel()
+{
+    return this->level;
+}
+
+int SceneGraphObject::compare( SceneGraphObject* object )
+{
+    /*
+     * 0 = Perfect match
+     * 1 = Levels, type match
+     * 2 = Type match
+     * 3 = Mismatch
+     */
+    if( this->isGroupHead() ^ object->isGroupHead() )
+        return 3;
+    if( this->isGroupHead() )
+    {
+        if( this->getLevel() == object->getLevel() )
+        {
+            if( this->getGroupName().compare( object->getGroupName() ) != 0 )
+                return 1;
+        }
+        else
+            return 2;
+    }
+    else
+    {
+        GluonEngine::TagObject *tags = GluonEngine::Game::instance()->gameProject()->getTagObject();
+        QString name1 = tags->getBaseName( this->getMember()->name() );
+        QString name2 = tags->getBaseName( object->getMember()->name() );
+        if( tags->getTags( name1 ).compare( tags->getTags( name2 ) ) != 0 )
+            return 3;
+        else
+        {
+            if( this->getLevel() != object->getLevel() )
+                return 2;
+            else
+                for( int i = 0; i < this->getMember()->metaObject()->propertyCount(); i++ )
+                {
+                    QMetaProperty property = this->getMember()->metaObject()->property( i );
+                    if( property.read( object->getMember() ) != property.read( this->getMember() ) )
+                        return 1;
+                }
+        }
+    }
+    return 0;
 }
 
 

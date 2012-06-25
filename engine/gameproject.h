@@ -23,7 +23,6 @@
 
 #include "gluon_engine_export.h"
 #include "scene.h"
-#include "tagobject.h"
 #include <graphics/texture.h>
 
 #include <core/gluonobject.h>
@@ -42,6 +41,7 @@ namespace GluonEngine
     class GameProjectPrivate;
     class TextureAsset;
     class Achievement;
+    class TagObject;
 
     /**
      * The GameProject class describes and contains a complete game project,

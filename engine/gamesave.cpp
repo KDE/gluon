@@ -90,7 +90,7 @@ void GameSave::load()
     QList<GluonObject*> objectlist;
     QString dir = QDir::homePath().append( "/Desktop/" );
     QString savefile = QFileDialog::getOpenFileName(0, tr("Load Game"), dir, tr("Save Files (*.gs)"));
-    QUrl filename(savefile);
+    QUrl filename( savefile );
     GluonEngine::Game::instance()->loadScene( filename );
     AchievementsManager am;
     am.load(dir);

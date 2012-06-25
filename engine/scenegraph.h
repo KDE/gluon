@@ -21,8 +21,9 @@
 #define GLUON_ENGINE_SCENEGRAPH_H
 
 #include <QObject>
-#include <engine/gameobject.h>
-#include <engine/tagobject.h>
+
+#include "gameobject.h"
+#include "tagobject.h"
 #include "gluon_engine_export.h"
 #include "scenegraphobject.h"
 
@@ -31,8 +32,19 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT SceneGraph: public QObject
     {
         Q_OBJECT
+        /**
+         * Root of the graph
+         */
 	GluonEngine::SceneGraphObject* root;
+        /**
+         * The object used to query tags associated with the objects
+         */
         GluonEngine::TagObject *tags;
+        /**
+         * Find the group/child from name
+         */
+        GluonEngine::SceneGraphObject* findChild( QString name );
+        GluonEngine::SceneGraphObject* findChild( SceneGraphObject *object, QString name );
 
     public:
         Q_INVOKABLE SceneGraph();
@@ -49,6 +61,9 @@ namespace GluonEngine
          * For testing; print the scene graph
          */
         Q_INVOKABLE void debugprint( SceneGraphObject *object, int level );
+        /**
+         * Display the scene graph
+         */
         Q_INVOKABLE void debugprint( SceneGraphObject *object );
     };
 }

@@ -20,10 +20,11 @@
 #ifndef GLUON_ENGINE_TAGOBJECT_H
 #define GLUON_ENGINE_TAGOBJECT_H
 
-#include <core/gluonobject.h>
-#include <engine/gameobject.h>
+#include "gameobject.h"
 #include "gluon_engine_export.h"
 #include "game.h"
+
+#include <core/gluonobject.h>
 
 #include <QHash>
 #include <QSet>

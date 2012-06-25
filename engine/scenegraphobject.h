@@ -3,7 +3,8 @@
 
 #include <QObject>
 #include <QList>
-#include <engine/gameobject.h>
+
+#include "gameobject.h"
 #include "gluon_engine_export.h"
 
 namespace GluonEngine
@@ -77,6 +78,7 @@ namespace GluonEngine
 	 * Add children to object, at this level
 	 */
 	Q_INVOKABLE void addChildren( QList<SceneGraphObject*> );
+        Q_INVOKABLE void addChild( SceneGraphObject* child );
         /**
          * Get the children
          */
@@ -113,6 +115,14 @@ namespace GluonEngine
          * Get the group name
          */
         Q_INVOKABLE QString getGroupName();
+        /**
+         * Get level
+         */
+        Q_INVOKABLE int getLevel();
+        /**
+         * Compare two objects by their properties,level and type
+         */
+        Q_INVOKABLE int compare( GluonEngine::SceneGraphObject* object );
     };
 }
 

@@ -19,8 +19,7 @@
 
 #include "tagobject.h"
 #include "game.h"
-
-#include <engine/gameobject.h>
+#include "gameobject.h"
 
 #include <QIODevice>
 #include <QFile>
