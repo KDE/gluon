@@ -98,6 +98,7 @@ namespace GluonGraphics
 
         protected:
             virtual void resizeImpl() = 0;
+            virtual void bindTexture() = 0;
 
         private:
             class Private;
