@@ -25,8 +25,6 @@
 #include <assimp/aiMesh.h>
 #include <assimp/aiPostProcess.h>
 
-#include "vertexattribute.h"
-
 using namespace GluonGraphics;
 
 class FileMesh::Private

@@ -26,15 +26,18 @@
 #include "backend.h"
 #include "shader.h"
 #include "spritemesh.h"
-
-#include <GL/gl.h>
+#include "texture.h"
 
 using namespace GluonGraphics;
 
 class RenderTarget::Private
 {
     public:
+        Private( RenderTarget* qq ) : q( qq ), mesh( 0 ), shader( 0 ), texture( 0 ) { }
         void createShader();
+
+        RenderTarget* q;
+
         int width;
         int height;
 
@@ -42,19 +45,19 @@ class RenderTarget::Private
 
         Mesh* mesh;
         Shader* shader;
+
+        Texture* texture;
 };
 
 RenderTarget::RenderTarget( QObject* parent )
-    : QObject( parent ), d( new Private )
+    : QObject( parent ), d( new Private( this ) )
 {
-    d->createShader();
     d->mesh = Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh );
 }
 
 RenderTarget::RenderTarget( int width, int height, QObject* parent )
-    : QObject( parent ), d( new Private )
+    : QObject( parent ), d( new Private( this ) )
 {
-    d->createShader();
     d->mesh = Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh );
     resize(width, height);
 }
@@ -101,16 +104,10 @@ void RenderTarget::renderContents()
 {
     update();
 
+    if( !d->shader )
+        d->createShader();
+
     d->shader->bind();
-    d->shader->setProperty( "modelMatrix", QMatrix4x4() );
-    d->shader->setProperty( "viewMatrix", QMatrix4x4() );
-    QMatrix4x4 proj;
-    proj.ortho( -.5f, .5f, -.5f, .5f, -.5f, .5f );
-    d->shader->setProperty( "projectionMatrix", proj );
-
-    bindTexture();
-    d->shader->setProperty( "texture0", QVariant::fromValue<int>( 0 ) );
-
     d->mesh->render( d->shader );
     d->shader->release();
 }
@@ -124,6 +121,14 @@ void RenderTarget::resize( int width, int height )
     d->height = height;
 
     resizeImpl();
+}
+
+Texture* RenderTarget::texture()
+{
+    if( !d->texture )
+        d->texture = new Texture( textureData(), this );
+
+    return d->texture;
 }
 
 void RenderTarget::Private::createShader()
@@ -140,11 +145,23 @@ void main() {\n\
 out_uv = uv0;\n\
 gl_Position = vec4(vertex, 1.0) * (modelMatrix * viewMatrix) * projectionMatrix; } " );
     shader->setSource( Shader::FragmentProgramSource, "uniform sampler2D texture0;\n\
+uniform sampler2D texture1;\n\
 varying vec2 out_uv;\n\
-void main() { gl_FragColor = texture2D(texture0, out_uv) + vec4(out_uv.x, out_uv.y, 1.0, 1.0); }");
+void main() { gl_FragColor = texture2D(texture0, out_uv) * texture2D(texture1, out_uv); }");
 
     if( !shader->build() )
+    {
         qWarning( shader->error().toUtf8() );
+        return;
+    }
+
+    shader->setUniform( "modelMatrix", QMatrix4x4() );
+    shader->setUniform( "viewMatrix", QMatrix4x4() );
+    QMatrix4x4 matrix;
+    matrix.ortho( -.5f, .5f, -.5f, .5f, -.5f, .5f );
+    shader->setUniform( "projectionMatrix", matrix );
+    shader->setUniform( "texture0", QVariant::fromValue< GluonGraphics::Texture* >( q->texture() ) );
+    shader->setUniform( "texture1", QVariant::fromValue< GluonGraphics::Texture* >( Manager::instance()->resource< Texture >( Manager::Defaults::Texture ) ) );
 }
 
 #include "rendertarget.moc"

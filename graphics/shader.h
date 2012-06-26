@@ -55,8 +55,10 @@ namespace GluonGraphics
             virtual bool bind() = 0;
             virtual void release() = 0;
 
-            virtual void setProperty( const QString& name, const QVariant& value ) = 0;
-            virtual void setProperty( const QString& name, Texture* texture, int textureID = 0 ) = 0;
+            virtual QHash< QString, QVariant > uniforms() const;
+            virtual bool hasUniform( const QString& name ) const;
+            virtual void setUniform( const QString& name, const QVariant& value );
+            virtual void setUniforms( const QHash< QString, QVariant >& properties );
 
             virtual QHash< QString, int > attributes() const;
             virtual bool hasAttribute( const QString& name ) const;
@@ -67,6 +69,7 @@ namespace GluonGraphics
         protected:
             void setError( const QString& error );
             void setAttributes( const QHash< QString, int >& attribs );
+            void setUniformNames( const QStringList& names );
 
         private:
             class Private;

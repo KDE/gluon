@@ -46,6 +46,7 @@ namespace GluonGraphics
                 static const QString RenderTarget;
                 static const QString Material;
                 static const QString SpriteMesh;
+                static const QString Texture;
             };
 
             Backend* backend();
@@ -103,8 +104,6 @@ namespace GluonGraphics
         m_resources.insert( prefixedIdentifier, newResource );
         newResource->setProperty( resourceIdentifierProperty, prefixedIdentifier );
 
-        DEBUG_FUNC_NAME
-        DEBUG_TEXT2( "Created resource %1", prefixedIdentifier );
         return newResource;
     }
 
@@ -116,9 +115,6 @@ namespace GluonGraphics
         {
             m_resources.insert( prefixedIdentifier, object );
             object->setProperty( resourceIdentifierProperty, prefixedIdentifier );
-
-            DEBUG_FUNC_NAME
-            DEBUG_TEXT2( "Added resource %1", prefixedIdentifier );
         }
     }
 
@@ -141,9 +137,6 @@ namespace GluonGraphics
         {
             m_resources.remove( prefixedIdentifier );
             delete resource;
-
-            DEBUG_FUNC_NAME
-            DEBUG_TEXT2( "Destroyed resource %1", prefixedIdentifier );
         }
     }
 

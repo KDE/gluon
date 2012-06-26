@@ -18,6 +18,7 @@
  */
 
 #include "glxrendertarget.h"
+#include "glxtexturedata.h"
 
 #include <GL/gl.h>
 #include <GL/glext.h>
@@ -32,7 +33,8 @@ class GLXRenderTarget::Private
             fbo( 0 ),
             previous( 0 ),
             imageBuffer( 0 ),
-            depthBuffer( 0 )
+            depthBuffer( 0 ),
+            textureData( 0 )
         { }
 
         bool bound;
@@ -41,6 +43,8 @@ class GLXRenderTarget::Private
 
         GLuint imageBuffer;
         GLuint depthBuffer;
+
+        GLXTextureData* textureData;
 };
 
 GLXRenderTarget::GLXRenderTarget( QObject* parent )
@@ -91,6 +95,11 @@ void GLXRenderTarget::resizeImpl()
     glGenTextures( 1, &d->imageBuffer );
     glBindTexture( GL_TEXTURE_2D, d->imageBuffer );
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, width(), height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, 0 );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+
+    if( d->textureData )
+        d->textureData->setTexture( d->imageBuffer );
 
     if( d->depthBuffer != 0 )
         glDeleteRenderbuffersEXT( 1, &d->depthBuffer );
@@ -108,8 +117,10 @@ void GLXRenderTarget::resizeImpl()
     glBindTexture( GL_TEXTURE_2D, 0 );
 }
 
-void GLXRenderTarget::bindTexture()
+TextureData* GLXRenderTarget::textureData()
 {
-    glActiveTexture( GL_TEXTURE0 + 0 );
-    glBindTexture( GL_TEXTURE_2D, d->imageBuffer );
+    if( !d->textureData )
+        d->textureData = new GLXTextureData( d->imageBuffer );
+
+    return d->textureData;
 }

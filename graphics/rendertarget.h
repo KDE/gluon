@@ -28,6 +28,8 @@
 namespace GluonGraphics
 {
     class MaterialInstance;
+    class Texture;
+    class TextureData;
 
     /**
      * A surface to render to.
@@ -79,6 +81,8 @@ namespace GluonGraphics
             int width();
             int height();
 
+            virtual Texture* texture();
+
         public Q_SLOTS:
             /**
              * Resize the RenderTarget and any attached framebuffers and
@@ -98,7 +102,7 @@ namespace GluonGraphics
 
         protected:
             virtual void resizeImpl() = 0;
-            virtual void bindTexture() = 0;
+            virtual TextureData* textureData() = 0;
 
         private:
             class Private;

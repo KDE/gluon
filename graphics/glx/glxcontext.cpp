@@ -120,6 +120,7 @@ bool Context::initialize( QWidget* widget )
     glClearColor( 0.f, 0.f, 0.f, 1.f );
     glEnable( GL_BLEND );
     glEnable( GL_DEPTH_TEST );
+    glEnable( GL_TEXTURE_2D );
 
     return true;
 }

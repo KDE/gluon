@@ -47,6 +47,13 @@ Texture::Texture( QObject* parent )
     d->data = Manager::instance()->backend()->createTextureData();
 }
 
+Texture::Texture(TextureData* data, QObject* parent)
+    : QObject(parent), d( new Private )
+{
+    d->data = data;
+}
+
+
 Texture::~Texture()
 {
     delete d->data;
@@ -58,6 +65,7 @@ bool Texture::load( const QUrl& url )
     //TODO: Add support for non-2D textures and non-RGBA colour formats.
     if( !d->image.load( url.toLocalFile() ) )
     {
+        DEBUG_BLOCK
         DEBUG_TEXT2( "Failed to load texture %1", url.toLocalFile() );
         return false;
     }
@@ -92,6 +100,11 @@ bool Texture::load( const QUrl& url )
 QImage Texture::image() const
 {
     return d->image;
+}
+
+TextureData* Texture::data() const
+{
+    return d->data;
 }
 
 #include "texture.moc"

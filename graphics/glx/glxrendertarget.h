@@ -22,7 +22,6 @@
 
 #include <graphics/rendertarget.h>
 
-
 namespace GluonGraphics
 {
     class GLXRenderTarget : public GluonGraphics::RenderTarget
@@ -37,7 +36,7 @@ namespace GluonGraphics
 
         protected:
             virtual void resizeImpl();
-            virtual void bindTexture();
+            virtual TextureData* textureData();
 
         private:
             class Private;

@@ -47,9 +47,6 @@ int main( int argc, char* argv[] )
     widget.show();
     //app.exec();
 
-    GluonGraphics::Texture* texture = GluonGraphics::Manager::instance()->createResource< GluonGraphics::Texture >( "test" );
-    texture->load( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/defaults/default.png" );
-
     //delete widget;
 
     //Create a widget to render the graphics on.
