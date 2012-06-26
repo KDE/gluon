@@ -28,12 +28,15 @@ namespace GluonGraphics
     {
         public:
             explicit GLXTextureData();
+            explicit GLXTextureData( unsigned int texture );
             virtual ~GLXTextureData();
 
-            virtual void bind();
+            virtual void bind( unsigned int unit );
             virtual void release();
 
             virtual void setData( int width, int height, void* data );
+
+            void setTexture( unsigned int texture );
 
         private:
             class Private;

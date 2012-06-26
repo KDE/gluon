@@ -32,6 +32,9 @@
 #include <QMatrix4x4>
 
 #include <graphics/mathutils.h>
+#include <graphics/texture.h>
+
+#include "glxtexturedata.h"
 
 using namespace GluonGraphics;
 
@@ -39,14 +42,17 @@ class GLXShader::Private
 {
     public:
         Private() : shaderProgram( 0 ), bound( false ) { }
+        void setUniform( GLint uniform, const QVariant& value );
 
         GLuint vertShader;
         GLuint fragShader;
         GLuint shaderProgram;
 
+        uint currentTextureUnit;
+
         bool bound;
 
-        QHash< QString, GLuint > uniforms;
+        QHash< QString, GLint > uniforms;
 };
 
 GLXShader::GLXShader() : d( new Private )
@@ -122,14 +128,14 @@ bool GLXShader::build()
         return false;
     }
 
-    int attribCount;
-    glGetProgramiv( d->shaderProgram, GL_ACTIVE_ATTRIBUTES, &attribCount );
+    int count;
+    glGetProgramiv( d->shaderProgram, GL_ACTIVE_ATTRIBUTES, &count );
     int maxNameLength;
     glGetProgramiv( d->shaderProgram, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxNameLength );
 
     QHash< QString, int > attributes;
     char* buffer = new char[ maxNameLength ];
-    for( int i = 0; i < attribCount; ++i )
+    for( int i = 0; i < count; ++i )
     {
         int length, size;
         GLenum type;
@@ -138,6 +144,28 @@ bool GLXShader::build()
     }
     delete[] buffer;
     setAttributes( attributes );
+
+    glGetProgramiv( d->shaderProgram, GL_ACTIVE_UNIFORMS, &count );
+    glGetProgramiv( d->shaderProgram, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxNameLength );
+
+    QStringList uniformNames;
+    buffer = new char[ maxNameLength ];
+    for( int i = 0; i < count; ++i )
+    {
+        int length, size;
+        GLenum type;
+        glGetActiveUniform( d->shaderProgram, i, maxNameLength, &length , &size, &type, buffer );
+
+        GLint uniformLoc = glGetUniformLocation( d->shaderProgram, buffer );
+        if( uniformLoc != -1 )
+        {
+            QString uniform( buffer );
+            uniformNames.append( uniform );
+            d->uniforms.insert( uniform, uniformLoc );
+        }
+    }
+    delete[] buffer;
+    setUniformNames( uniformNames );
 
     return true;
 }
@@ -151,6 +179,16 @@ bool GLXShader::bind()
         return true;
 
     glUseProgram( d->shaderProgram );
+
+    d->currentTextureUnit = 0;
+
+    QHash< QString, QVariant > unis = uniforms();
+    QHash< QString, QVariant >::iterator itr;
+    for( itr = unis.begin(); itr != unis.end(); ++itr )
+    {
+        d->setUniform( d->uniforms.value( itr.key() ), itr.value() );
+    }
+
     d->bound = true;
     return true;
 }
@@ -164,21 +202,8 @@ void GLXShader::release()
     d->bound = false;
 }
 
-void GLXShader::setProperty( const QString& name, const QVariant& value )
+void GLXShader::Private::setUniform( GLint uniform, const QVariant& value )
 {
-    if( !d->shaderProgram )
-        return;
-
-    GLuint uniform;
-    if( !d->uniforms.contains( name ) ) {
-        uniform = glGetUniformLocation( d->shaderProgram, name.toAscii().data() );
-        d->uniforms.insert( name, uniform );
-    }
-    else
-    {
-        uniform = d->uniforms.value( name );
-    }
-
     switch( value.type() )
     {
         case QVariant::UInt:
@@ -213,6 +238,12 @@ void GLXShader::setProperty( const QString& name, const QVariant& value )
             glUniform4f( uniform, vector.x(), vector.y(), vector.z(), vector.w() );
             break;
         }
+        case QVariant::Quaternion:
+        {
+            QQuaternion quat = value.value<QQuaternion>();
+            glUniform4f( uniform, quat.x(), quat.y(), quat.z(), quat.scalar() );
+            break;
+        }
         case QVariant::Matrix4x4:
         {
             QMatrix4x4 mat = value.value<QMatrix4x4>();
@@ -222,11 +253,13 @@ void GLXShader::setProperty( const QString& name, const QVariant& value )
             break;
         }
         default:
+            Texture* tex = value.value< GluonGraphics::Texture* >();
+            if( tex != 0 )
+            {
+                tex->data()->bind( currentTextureUnit );
+                glUniform1i( uniform, currentTextureUnit );
+                currentTextureUnit++;
+            }
             break;
     }
-}
-
-void GLXShader::setProperty( const QString& name, Texture* texture, int textureID )
-{
-
 }

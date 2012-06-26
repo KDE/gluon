@@ -33,25 +33,36 @@ GLXTextureData::GLXTextureData() : d( new Private )
     glGenTextures(1, &d->glTexture);
 }
 
+GLXTextureData::GLXTextureData( unsigned int texture ) : d( new Private )
+{
+    d->glTexture = texture;
+}
+
 GLXTextureData::~GLXTextureData()
 {
     glDeleteTextures(1, &d->glTexture);
 }
 
-void GLXTextureData::bind()
+void GLXTextureData::bind( unsigned int unit )
 {
-    glActiveTexture( GL_TEXTURE0 + textureLevel() );
+    glActiveTexture( GL_TEXTURE0 + unit );
     glBindTexture( GL_TEXTURE_2D, d->glTexture );
 }
 
 void GLXTextureData::release()
 {
-    glActiveTexture( GL_TEXTURE0 + textureLevel() );
     glBindTexture( GL_TEXTURE_2D, 0 );
 }
 
 void GLXTextureData::setData( int width, int height, void* data )
 {
     glBindTexture( GL_TEXTURE_2D, d->glTexture );
+    glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE );
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data );
+    glBindTexture( GL_TEXTURE_2D, 0 );
+}
+
+void GLXTextureData::setTexture(unsigned int texture)
+{
+    d->glTexture = texture;
 }

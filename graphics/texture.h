@@ -32,6 +32,7 @@ class QImage;
 class QUrl;
 namespace GluonGraphics
 {
+    class TextureData;
     /**
      * \brief A graphic used to give an item more surface detail.
      *
@@ -52,6 +53,7 @@ namespace GluonGraphics
             Q_OBJECT
         public:
             explicit Texture( QObject* parent = 0 );
+            explicit Texture( TextureData* data, QObject* parent = 0 );
             virtual ~Texture();
 
             /**
@@ -69,6 +71,8 @@ namespace GluonGraphics
              * \return The image used.
              */
             QImage image() const;
+
+            TextureData* data() const;
 
         private:
             class Private;

@@ -39,9 +39,6 @@ namespace GluonGraphics
             virtual bool bind();
             virtual void release();
 
-            virtual void setProperty( const QString& name, const QVariant& value );
-            virtual void setProperty( const QString& name, Texture* texture, int textureID = 0 );
-
         private:
             class Private;
             Private * const d;

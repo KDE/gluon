@@ -21,6 +21,8 @@
 
 #include <QtCore/QString>
 #include <QtCore/QHash>
+#include <QVariant>
+#include <QStringList>
 
 using namespace GluonGraphics;
 
@@ -28,6 +30,7 @@ class Shader::Private
 {
     public:
         QHash< Shader::SourceType, QString > sources;
+        QHash< QString, QVariant > uniforms;
         QHash< QString, int > attributes;
         QString error;
 };
@@ -58,6 +61,34 @@ QString Shader::error() const
     return d->error;
 }
 
+QHash< QString, QVariant > Shader::uniforms() const
+{
+    return d->uniforms;
+}
+
+bool Shader::hasUniform(const QString& name) const
+{
+    return d->uniforms.contains( name );
+}
+
+void Shader::setUniform(const QString& name, const QVariant& value)
+{
+    if( !d->uniforms.contains( name ) )
+        return;
+
+    d->uniforms[ name ] = value;
+}
+
+void Shader::setUniforms(const QHash< QString, QVariant >& uniforms)
+{
+    QHash< QString, QVariant >::const_iterator itr;
+    for( itr = uniforms.begin(); itr != uniforms.end(); ++itr )
+    {
+        if( d->uniforms.contains( itr.key() ) )
+            d->uniforms[ itr.key() ] = itr.value();
+    }
+}
+
 QHash< QString, int >
 Shader::attributes() const
 {
@@ -82,4 +113,13 @@ void Shader::setError( const QString& error )
 void Shader::setAttributes(const QHash< QString, int >& attribs)
 {
     d->attributes = attribs;
+}
+
+void Shader::setUniformNames(const QStringList& names)
+{
+    d->uniforms.clear();
+    foreach( const QString& name, names )
+    {
+        d->uniforms.insert( name, QVariant() );
+    }
 }

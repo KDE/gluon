@@ -51,7 +51,6 @@ set(GluonGraphics_SRCS
     outputsurface.cpp
     shader.cpp
     meshdata.cpp
-    texturedata.cpp
 )
 
 set(GluonGraphics_HEADERS

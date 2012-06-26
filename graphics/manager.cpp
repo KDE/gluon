@@ -31,6 +31,7 @@
 #include "rendertarget.h"
 #include "material.h"
 #include "spritemesh.h"
+#include "texture.h"
 
 using namespace GluonGraphics;
 
@@ -57,6 +58,7 @@ const QString Manager::Defaults::World( "_defaultWorld" );
 const QString Manager::Defaults::RenderTarget( "_defaultRenderTarget" );
 const QString Manager::Defaults::Material( "_defaultMaterial" );
 const QString Manager::Defaults::SpriteMesh( "_defaultSpriteMesh" );
+const QString Manager::Defaults::Texture( "_defaultTexture" );
 const char* Manager::resourceIdentifierProperty = "_GluonGraphics_ResourceIdentifier";
 
 Backend* Manager::backend(  )
@@ -73,6 +75,9 @@ void Manager::initialize()
     SpriteMesh* defaultSpriteMesh = createResource< SpriteMesh >( Defaults::SpriteMesh );
     defaultSpriteMesh->initialize();
     createResource< Material >( Defaults::Material );
+    Texture* defaultTexture = createResource< Texture >( Defaults::Texture );
+    defaultTexture->load( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/defaults/default.png" );
+
     addResource< RenderTarget >( Defaults::RenderTarget, backend()->createRenderTarget() );
 }
 

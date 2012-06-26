@@ -25,20 +25,13 @@ namespace GluonGraphics
     class TextureData
     {
         public:
-            TextureData();
-            virtual ~TextureData();
+            TextureData() { }
+            virtual ~TextureData() { }
 
-            virtual void bind() = 0;
+            virtual void bind( unsigned int unit ) = 0;
             virtual void release() = 0;
 
             virtual void setData( int width, int height, void* data ) = 0;
-
-            int textureLevel();
-            void setTextureLevel( int level );
-
-        private:
-            class Private;
-            Private* const d;
     };
 }
 

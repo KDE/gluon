@@ -20,8 +20,6 @@
 #include "mesh.h"
 
 #include "materialinstance.h"
-#include "vertexbuffer.h"
-#include "vertexattribute.h"
 #include "math.h"
 
 using namespace GluonGraphics;
