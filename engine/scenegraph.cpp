@@ -146,4 +146,14 @@ SceneGraphObject* SceneGraph::findChild( SceneGraphObject* object, QString name 
     return 0;
 }
 
+SceneGraphObject* SceneGraph::getBaseObject( GluonEngine::SceneGraphObject* object )
+{
+    return findChild( this->tags->getBaseName( object->getMember()->name() ) );
+}
+
+void SceneGraph::compare( SceneGraph* graph )
+{
+    
+}
+
 #include "scenegraph.moc"

@@ -66,7 +66,7 @@ void GameSave::save()
 {
     GluonCore::GluonObject *obj = GluonEngine::Game::instance()->currentScene()->sceneContents();
     bool pause_flag = Game::instance()->isPaused();
-    if( ! pause_flag )
+    if( !pause_flag )
         Game::instance()->setPause( true );
     QString dir = QDir::homePath().append( "/Desktop/" );
     QString savefile = QFileDialog::getSaveFileName(0, tr("Save Game"), dir, tr("Save Files (*.gs)"));
@@ -77,7 +77,7 @@ void GameSave::save()
     am.readFromProject( Game::instance()->gameProject()->achievements() );
     if( am.achievementsCount() > 0 )
         am.save(dir);
-    if(!GluonCore::GDLSerializer::instance()->write( filename, objectlist) )
+    if( !GluonCore::GDLSerializer::instance()->write( filename, objectlist) )
         qDebug() << "Error in writing to: " << filename.toString();
     if( ! pause_flag )
         Game::instance()->setPause( false );

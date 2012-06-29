@@ -45,6 +45,10 @@ namespace GluonEngine
          */
         GluonEngine::SceneGraphObject* findChild( QString name );
         GluonEngine::SceneGraphObject* findChild( SceneGraphObject *object, QString name );
+        /**
+         * Get base/template object
+         */
+        GluonEngine::SceneGraphObject* getBaseObject( GluonEngine::SceneGraphObject *object );
 
     public:
         Q_INVOKABLE SceneGraph();
@@ -65,6 +69,10 @@ namespace GluonEngine
          * Display the scene graph
          */
         Q_INVOKABLE void debugprint( SceneGraphObject *object );
+        /**
+         * Compare two scene graphs
+         */
+        Q_INVOKABLE void compare( SceneGraph* graph );
     };
 }
 
