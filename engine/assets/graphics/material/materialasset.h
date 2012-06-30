@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,7 +30,7 @@ namespace GluonGraphics
 
 namespace GluonEngine
 {
-    class GLUON_ASSET_MATERIAL_EXPORT MaterialAsset : public Asset
+    class MaterialAsset : public Asset
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )
@@ -43,7 +43,6 @@ namespace GluonEngine
             Q_INVOKABLE MaterialAsset( QObject* parent = 0 );
             virtual ~MaterialAsset();
 
-            virtual QIcon icon() const;
             virtual void load();
 
             virtual const QStringList supportedMimeTypes() const;
@@ -61,8 +60,8 @@ namespace GluonEngine
             void instanceCreated( GluonGraphics::MaterialInstance* );
 
         private:
-            class MaterialAssetPrivate;
-            MaterialAssetPrivate* d;
+            class Private;
+            Private* const d;
     };
 }
 

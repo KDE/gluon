@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,7 +22,7 @@
 #include <core/metainfo.h>
 #include <graphics/material.h>
 #include <graphics/materialinstance.h>
-#include <graphics/engine.h>
+#include <graphics/manager.h>
 
 #include <QtGui/QAction>
 
@@ -30,22 +30,17 @@ REGISTER_OBJECTTYPE( GluonEngine, MaterialAsset )
 
 using namespace GluonEngine;
 
-class MaterialAsset::MaterialAssetPrivate
+class MaterialAsset::Private
 {
     public:
-        MaterialAssetPrivate() : material( 0 ) {}
-        ~MaterialAssetPrivate() {}
-
-        QPixmap icon;
+        Private() : material( 0 ) { }
 
         GluonGraphics::Material* material;
-
         QList<QAction*> actions;
 };
 
 MaterialAsset::MaterialAsset( QObject* parent )
-    : Asset( parent )
-    , d( new MaterialAssetPrivate )
+    : Asset( parent ), d( new Private )
 {
     QAction* newInstance = new QAction( "New instance", 0 );
     connect( newInstance, SIGNAL(triggered(bool)), SLOT(createInstance()) );
@@ -59,14 +54,6 @@ MaterialAsset::~MaterialAsset()
     //    GluonGraphics::Engine::instance()->destroyMaterial(name());
     qDeleteAll( d->actions );
     delete d;
-}
-
-QIcon MaterialAsset::icon() const
-{
-    if( d->icon.isNull() )
-        return GluonEngine::Asset::icon();
-
-    return QIcon( d->icon );
 }
 
 const QStringList MaterialAsset::supportedMimeTypes() const
@@ -86,7 +73,7 @@ void MaterialAsset::load()
     if( !file().isEmpty() )
     {
         if( !d->material )
-            d->material = GluonGraphics::Engine::instance()->createMaterial( name() );
+            d->material = GluonGraphics::Manager::instance()->createResource< GluonGraphics::Material >( name() );
 
         if( d->material->load( absolutePath() ) )
         {
@@ -118,8 +105,8 @@ void MaterialAsset::setName( const QString& newName )
 {
     if( d->material )
     {
-        GluonGraphics::Engine::instance()->removeMaterial( name() );
-        GluonGraphics::Engine::instance()->addMaterial( newName, d->material );
+        GluonGraphics::Manager::instance()->removeResource< GluonGraphics::Material >( name() );
+        GluonGraphics::Manager::instance()->addResource< GluonGraphics::Material >( newName, d->material );
     }
     GluonEngine::Asset::setName( newName );
 }
@@ -134,12 +121,12 @@ void MaterialAsset::sanitize()
     GluonCore::GluonObject::sanitize();
 
     if( !d->material )
-        d->material = GluonGraphics::Engine::instance()->createMaterial( name() );
+        d->material = GluonGraphics::Manager::instance()->createResource< GluonGraphics::Material >( name() );
 
     QObjectList allChildren = children();
     foreach( QObject * child, allChildren )
     {
-        GluonGraphics::MaterialInstance* instance = qobject_cast<GluonGraphics::MaterialInstance*>( child );
+        GluonGraphics::MaterialInstance* instance = qobject_cast< GluonGraphics::MaterialInstance* >( child );
         if( instance && d->material )
             instance->setMaterial( d->material );
     }
@@ -152,7 +139,6 @@ void MaterialAsset::createInstance()
 
     GluonGraphics::MaterialInstance* instance = new GluonGraphics::MaterialInstance( this );
     instance->setName( "New Instance" );
-    instance->setPropertiesFromMaterial();
     instance->setMaterial( d->material );
 
     emit instanceCreated(instance);
