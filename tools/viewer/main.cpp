@@ -30,6 +30,8 @@
 #include <QtCore/QString>
 #include <QtCore/QTimer>
 
+#include <graphics/manager.h>
+
 class Player : public QObject
 {
     Q_OBJECT
@@ -44,7 +46,9 @@ class Player : public QObject
             m_renderWidget->installEventFilter(this);
             m_renderWidget->setFocus();
 
-            connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), m_renderWidget, SLOT(updateGL()) );
+            GluonGraphics::Manager::instance()->initialize();
+
+            connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), m_renderWidget, SLOT(update()) );
 
             GluonInput::InputManager::instance()->setFilteredObject( m_renderWidget );
             QTimer::singleShot(100, this, SLOT(startGame()));
