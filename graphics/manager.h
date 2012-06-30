@@ -70,6 +70,9 @@ namespace GluonGraphics
             T* resource( const QString& identifier ) const;
 
             template < typename T >
+            void removeResource( const QString& identifier );
+
+            template < typename T >
             void destroyResource( const QString& identifier );
 
             template < typename T >
@@ -126,6 +129,14 @@ namespace GluonGraphics
             return qobject_cast< T*>( m_resources.value( prefixedIdentifier ) );
 
         return 0;
+    }
+
+    template < typename T >
+    void Manager::removeResource( const QString& identifier )
+    {
+        QString prefixedIdentifier = PREFIX_IDENTIFIER( T, identifier );
+        if( m_resources.contains( prefixedIdentifier ) )
+            m_resources.remove( identifier );
     }
 
     template < typename T >
