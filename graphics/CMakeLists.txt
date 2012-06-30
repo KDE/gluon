@@ -7,7 +7,7 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-find_package(OpenGL)
+find_package(OpenGL REQUIRED)
 find_package(AssImp)
 
 include_directories(
@@ -99,8 +99,6 @@ endif()
 target_link_libraries(
     GluonGraphics
     ${GLUON_CORE_LIBS}
-
-    ${QT_QTOPENGL_LIBRARY}
     ${OPENGL_LIBRARIES}
 )
 
@@ -147,13 +145,6 @@ install(FILES
     resources/default.png
     DESTINATION ${SHARE_INSTALL_DIR}/gluon/defaults
 )
-
-# install(
-#     FILES
-#     default.gml
-#     default.png
-#     DESTINATION ${SHARE_INSTALL_DIR}/gluon/defaults
-# )
 
 if(BUILD_GLUON_TESTS)
     enable_testing()

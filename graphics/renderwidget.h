@@ -36,6 +36,9 @@ namespace GluonGraphics
             virtual void paintEvent( QPaintEvent* );
             virtual void resizeEvent(QResizeEvent* );
 
+        public Q_SLOTS:
+            virtual void update();
+
         private:
             class Private;
             Private* const d;

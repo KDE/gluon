@@ -29,6 +29,7 @@
 #include "backend.h"
 #include "shader.h"
 #include "meshdata.h"
+#include <QApplication>
 
 using namespace GluonGraphics;
 
@@ -76,6 +77,12 @@ void RenderWidget::resizeEvent( QResizeEvent* event )
     if( d->surface )
         d->surface->setSize( event->size().width(), event->size().height() );
     QWidget::resizeEvent( event );
+}
+
+void RenderWidget::update()
+{
+    QPaintEvent* ev = new QPaintEvent(geometry());
+    QApplication::sendEvent( this, ev );
 }
 
 #include "renderwidget.moc"
