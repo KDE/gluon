@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,13 +20,12 @@
 #ifndef GLUON_ENGINE_TEXTUREASSET_H
 #define GLUON_ENGINE_TEXTUREASSET_H
 
-#include "asset.h"
-
+#include <engine/asset.h>
 #include <graphics/texture.h>
 
 namespace GluonEngine
 {
-    class GLUON_ASSET_TEXTURE_EXPORT TextureAsset : public Asset
+    class TextureAsset : public Asset
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )
@@ -41,8 +40,6 @@ namespace GluonEngine
             Q_INVOKABLE TextureAsset( QObject* parent = 0 );
             virtual ~TextureAsset();
 
-            //             virtual QIcon icon() const;
-
             void load();
 
             virtual const QStringList supportedMimeTypes() const;
@@ -52,8 +49,8 @@ namespace GluonEngine
             virtual GluonGraphics::Texture* texture() const;
 
         private:
-            class TextureAssetPrivate;
-            TextureAssetPrivate* d;
+            class Private;
+            Private* const d;
     };
 
 }
