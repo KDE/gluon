@@ -78,12 +78,12 @@ Camera::setViewMatrix( const QMatrix4x4& matrix )
 
 void Camera::render()
 {
-    //world()->setActivateCamera( this );
-    //world()->render();
+    //Does nothing atm.
 }
 
 void Camera::renderContents()
 {
+    world()->setActiveCamera( this );
     world()->render();
 }
 

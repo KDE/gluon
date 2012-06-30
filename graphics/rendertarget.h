@@ -25,6 +25,7 @@
 #include "gluon_graphics_export.h"
 #include "renderpipelineitem.h"
 
+class QColor;
 namespace GluonGraphics
 {
     class MaterialInstance;
@@ -78,10 +79,12 @@ namespace GluonGraphics
             void addChild( RenderPipelineItem* item );
             void removeChild( RenderPipelineItem* item );
 
-            int width();
-            int height();
+            int width() const;
+            int height() const;
 
             virtual Texture* texture();
+
+            QColor backgroundColor() const;
 
         public Q_SLOTS:
             /**
@@ -99,6 +102,8 @@ namespace GluonGraphics
              * Render this render target. Reimplemented from Renderable::render().
              */
             virtual void renderContents();
+
+            void setBackroundColor( const QColor& color );
 
         protected:
             virtual void resizeImpl() = 0;

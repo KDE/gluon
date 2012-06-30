@@ -26,6 +26,4 @@ void main()
 	gl_FragColor = texture2D(texture0, out_uv0);
 }
     ")
-
-    texture0 int(0)
 }

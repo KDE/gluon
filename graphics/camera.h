@@ -97,9 +97,9 @@ namespace GluonGraphics
              */
             void setFrustrum( GluonGraphics::Frustrum* frustrum );
 
-            virtual void renderContents();
-
             virtual void render();
+
+            virtual void renderContents();
 
         private:
             class Private;

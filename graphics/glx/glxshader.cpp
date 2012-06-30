@@ -67,11 +67,12 @@ GLXShader::~GLXShader()
 
 bool GLXShader::build()
 {
+    const char* defines = "#define lowp \n#define mediump \n #define highp \n";
     GLuint vertShader = glCreateShader( GL_VERTEX_SHADER );
     QByteArray vertSourceArray = source( VertexProgramSource ).toLatin1();
-    const GLchar* vertSource[1] = { vertSourceArray.data() };
-    GLint vertSourceLength[1] = { vertSourceArray.size() };
-    glShaderSource( vertShader, 1, vertSource, vertSourceLength );
+    const GLchar* vertSource[2] = { defines, vertSourceArray.data() };
+    GLint vertSourceLength[2] = { 47, vertSourceArray.size() };
+    glShaderSource( vertShader, 2, vertSource, vertSourceLength );
     glCompileShader( vertShader );
 
     int status;
@@ -89,9 +90,9 @@ bool GLXShader::build()
 
     GLuint fragShader = glCreateShader( GL_FRAGMENT_SHADER );
     QByteArray fragSourceArray = source( FragmentProgramSource ).toLatin1();
-    const GLchar* fragSource[1] = { fragSourceArray.data() };
-    GLint fragSourceLength[1] = { fragSourceArray.size() };
-    glShaderSource( fragShader, 1, fragSource, fragSourceLength );
+    const GLchar* fragSource[2] = { defines, fragSourceArray.data() };
+    GLint fragSourceLength[2] = { 47, fragSourceArray.size() };
+    glShaderSource( fragShader, 2, fragSource, fragSourceLength );
     glCompileShader( fragShader );
 
     glGetShaderiv( fragShader, GL_COMPILE_STATUS, &status );
@@ -217,7 +218,7 @@ void GLXShader::Private::setUniform( GLint uniform, const QVariant& value )
         case QVariant::Color:
         {
             QColor color = value.value<QColor>();
-            glUniform4f( uniform, color.red() / 255.f, color.green() / 255.f, color.blue() / 255.f, color.alpha() / 255.f );
+            glUniform4f( uniform, color.redF(), color.greenF(), color.blueF(), color.alphaF() );
             break;
         }
         case QVariant::Vector2D:
