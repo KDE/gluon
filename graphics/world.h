@@ -26,6 +26,7 @@ namespace GluonGraphics
 {
     class Entity;
     class Sprite;
+    class Camera;
 
     class World : public QObject
     {
@@ -34,23 +35,29 @@ namespace GluonGraphics
             explicit World( QObject* parent = 0 );
             virtual ~World();
 
-            template < typename T >
-            T* createEntity()
-            {
-
-            }
+            template < typename T > T* createEntity();
             void addEntity( Entity* entity );
-            Entity* entity( int id );
-            void destroyEntity( int id );
+            Entity* entity( int index ) const;
+            int entityIndex( Entity* entity ) const;
+            void destroyEntity( int index );
             void destroyEntity( Entity* entity );
 
             void render();
+
+            Camera* activeCamera() const;
+            void setActiveCamera( Camera* cam );
 
         private:
             class Private;
             Private* const d;
     };
 
+    template < typename T > T* World::createEntity()
+    {
+        T* newEntity = new T( this );
+        addEntity( newEntity );
+        return newEntity;
+    }
 }
 
 #endif // GLUONGRAPHICS_WORLD_H

@@ -22,6 +22,7 @@
 
 #include <GL/gl.h>
 #include <GL/glext.h>
+#include <QColor>
 
 using namespace GluonGraphics;
 
@@ -70,7 +71,8 @@ void GLXRenderTarget::bind()
 
     glBindFramebufferEXT( GL_FRAMEBUFFER, d->fbo );
 
-    glClearColor( 1.f, 0.f, 0.f, 1.f );
+    QColor bgColor = backgroundColor();
+    glClearColor( bgColor.redF(), bgColor.greenF(), bgColor.blueF(), bgColor.alphaF() );
     glClear( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT );
 
     d->bound = true;

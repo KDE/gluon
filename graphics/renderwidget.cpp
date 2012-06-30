@@ -27,7 +27,6 @@
 #include "manager.h"
 #include "outputsurface.h"
 #include "backend.h"
-
 #include "shader.h"
 #include "meshdata.h"
 

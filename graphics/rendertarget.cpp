@@ -20,21 +20,23 @@
 #include "rendertarget.h"
 
 #include <QMatrix4x4>
+#include <QColor>
 
 #include "renderpipelineitem.h"
 #include "manager.h"
 #include "backend.h"
-#include "shader.h"
 #include "spritemesh.h"
 #include "texture.h"
+#include "material.h"
+#include "materialinstance.h"
 
 using namespace GluonGraphics;
 
 class RenderTarget::Private
 {
     public:
-        Private( RenderTarget* qq ) : q( qq ), mesh( 0 ), shader( 0 ), texture( 0 ) { }
-        void createShader();
+        Private( RenderTarget* qq ) : q( qq ), mesh( 0 ), materialInstance( 0 ), texture( 0 ) { }
+        void initialize();
 
         RenderTarget* q;
 
@@ -44,21 +46,21 @@ class RenderTarget::Private
         QList< RenderPipelineItem* > children;
 
         Mesh* mesh;
-        Shader* shader;
+        MaterialInstance* materialInstance;
 
         Texture* texture;
+
+        QColor backgroundColor;
 };
 
 RenderTarget::RenderTarget( QObject* parent )
     : QObject( parent ), d( new Private( this ) )
 {
-    d->mesh = Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh );
 }
 
 RenderTarget::RenderTarget( int width, int height, QObject* parent )
     : QObject( parent ), d( new Private( this ) )
 {
-    d->mesh = Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh );
     resize(width, height);
 }
 
@@ -78,14 +80,19 @@ void RenderTarget::removeChild(RenderPipelineItem* item)
     d->children.removeOne( item );
 }
 
-int RenderTarget::height()
+int RenderTarget::height() const
 {
     return d->height;
 }
 
-int RenderTarget::width()
+int RenderTarget::width() const
 {
     return d->width;
+}
+
+QColor RenderTarget::backgroundColor() const
+{
+    return d->backgroundColor;
 }
 
 void RenderTarget::update()
@@ -102,14 +109,14 @@ void RenderTarget::update()
 
 void RenderTarget::renderContents()
 {
+    if( !d->materialInstance )
+        d->initialize();
+
     update();
 
-    if( !d->shader )
-        d->createShader();
-
-    d->shader->bind();
-    d->mesh->render( d->shader );
-    d->shader->release();
+    d->materialInstance->bind();
+    d->mesh->render( d->materialInstance->shader() );
+    d->materialInstance->release();
 }
 
 void RenderTarget::resize( int width, int height )
@@ -131,37 +138,21 @@ Texture* RenderTarget::texture()
     return d->texture;
 }
 
-void RenderTarget::Private::createShader()
+void RenderTarget::setBackroundColor( const QColor& color )
 {
-    shader = Manager::instance()->backend()->createShader();
+    d->backgroundColor = color;
+}
 
-    shader->setSource( Shader::VertexProgramSource, "uniform mat4 modelMatrix;\n\
-uniform mat4 viewMatrix;\n\
-uniform mat4 projectionMatrix;\n\
-attribute vec3 vertex;\n\
-attribute vec2 uv0;\n\
-varying vec2 out_uv;\n\
-void main() {\n\
-out_uv = uv0;\n\
-gl_Position = vec4(vertex, 1.0) * (modelMatrix * viewMatrix) * projectionMatrix; } " );
-    shader->setSource( Shader::FragmentProgramSource, "uniform sampler2D texture0;\n\
-uniform sampler2D texture1;\n\
-varying vec2 out_uv;\n\
-void main() { gl_FragColor = texture2D(texture0, out_uv) * texture2D(texture1, out_uv); }");
-
-    if( !shader->build() )
-    {
-        qWarning( shader->error().toUtf8() );
-        return;
-    }
-
-    shader->setUniform( "modelMatrix", QMatrix4x4() );
-    shader->setUniform( "viewMatrix", QMatrix4x4() );
+void RenderTarget::Private::initialize()
+{
+    mesh = Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh );
+    materialInstance = Manager::instance()->resource< Material >( Manager::Defaults::Material )->createInstance();
+    materialInstance->setProperty( "modelMatrix", QMatrix4x4() );
+    materialInstance->setProperty( "viewMatrix", QMatrix4x4() );
     QMatrix4x4 matrix;
     matrix.ortho( -.5f, .5f, -.5f, .5f, -.5f, .5f );
-    shader->setUniform( "projectionMatrix", matrix );
-    shader->setUniform( "texture0", QVariant::fromValue< GluonGraphics::Texture* >( q->texture() ) );
-    shader->setUniform( "texture1", QVariant::fromValue< GluonGraphics::Texture* >( Manager::instance()->resource< Texture >( Manager::Defaults::Texture ) ) );
+    materialInstance->setProperty( "projectionMatrix", matrix );
+    materialInstance->setProperty( "texture0", QVariant::fromValue< Texture* >( q->texture() ) );
 }
 
 #include "rendertarget.moc"

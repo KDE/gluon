@@ -77,6 +77,9 @@ void Manager::initialize()
     createResource< Material >( Defaults::Material );
     Texture* defaultTexture = createResource< Texture >( Defaults::Texture );
     defaultTexture->load( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/defaults/default.png" );
+    Material* defaultMaterial = createResource< Material >( Defaults::Material );
+    defaultMaterial->load( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/defaults/default.gluonmaterial" );
+    defaultMaterial->build();
 
     addResource< RenderTarget >( Defaults::RenderTarget, backend()->createRenderTarget() );
 }

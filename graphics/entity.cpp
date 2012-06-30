@@ -22,8 +22,11 @@
 #include "mesh.h"
 #include "materialinstance.h"
 #include "manager.h"
+#include "world.h"
 
 #include <QtGui/QMatrix4x4>
+#include "camera.h"
+#include "frustrum.h"
 
 using namespace GluonGraphics;
 
@@ -98,16 +101,19 @@ Entity::render()
     if( !d->mesh )
         return;
 
-    //Camera* activeCam = Engine::instance()->activeCamera();
-    //if( !activeCam )
-    //    return;
+    Camera* activeCam = d->world->activeCamera();
+    if( !activeCam )
+        return;
 
     // TODO: Implement view frustum culling. After all, that is what that damn class is for... ;)
+    d->materialInstance->setProperty( "projectionMatrix", activeCam->frustrum()->projectionMatrix() );
+    d->materialInstance->setProperty( "viewMatrix", activeCam->transform() );
     d->materialInstance->setProperty( "modelMatrix", d->transform );
+
     if( !d->materialInstance->bind() )
         return;
 
-    //d->mesh->render();
+    d->mesh->render( d->materialInstance->shader() );
     d->materialInstance->release();
 }
 

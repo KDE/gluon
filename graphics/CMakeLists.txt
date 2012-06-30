@@ -142,6 +142,12 @@ install(FILES
     COMPONENT gluongraphics
 )
 
+install(FILES
+    resources/default.gluonmaterial
+    resources/default.png
+    DESTINATION ${SHARE_INSTALL_DIR}/gluon/defaults
+)
+
 # install(
 #     FILES
 #     default.gml

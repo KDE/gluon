@@ -30,53 +30,48 @@
 #include <backend.h>
 #include <texture.h>
 #include <core/directoryprovider.h>
+#include <world.h>
+#include <entity.h>
+#include <camera.h>
+#include <spritemesh.h>
+#include <materialinstance.h>
+#include <rendertarget.h>
+#include <QMatrix4x4>
+#include <frustrum.h>
+
+using namespace GluonGraphics;
 
 int main( int argc, char* argv[] )
 {
     QApplication app( argc, argv );
 
-    //GluonGraphics::RenderWidget widget;
-    //widget.show();
-
-    //GluonGraphics::Material* mat = new GluonGraphics::Material();
-    //GluonGraphics::Material* mat = GluonGraphics::Manager::instance()->createResource< GluonGraphics::Material >( "Main" );
-    //createResource< GluonGraphics::Material >( "Main" );
-    //GluonGraphics::Manager::instance()->destroyResource< GluonGraphics::Material >( "Main" );
-    //qDebug() << GluonGraphics::Manager::instance()->backend( widget )->information( GluonGraphics::Backend::VerboseInformation );
-    GluonGraphics::RenderWidget widget;
+    RenderWidget widget;
     widget.show();
-    //app.exec();
 
-    //delete widget;
+    Manager::instance()->initialize();
 
-    //Create a widget to render the graphics on.
-//     GluonGraphics::RenderWidget* widget = new GluonGraphics::RenderWidget();
-//     widget->show();
+    QMatrix4x4 mat;
 
-//     GluonGraphics::World* world = GluonGraphics::Manager::instance()->createWorld();
+    Entity* ent = Manager::instance()->currentWorld()->createEntity< Entity >();
+    mat.translate( -5, -5, 0 );
+    ent->setTransform( mat );
+    ent->setMesh( Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh ) );
+    ent->setMaterialInstance( Manager::instance()->resource< Material >( Manager::Defaults::Material )->createInstance() );
+    ent->materialInstance()->setProperty( "texture0", QVariant::fromValue( Manager::instance()->resource< Texture >( Manager::Defaults::Texture ) ) );
 
-    //Create a camera to view the scene from.
-//     GluonGraphics::Camera* cam = world->createEntity< GluonGraphics::Camera* >();
+    ent = Manager::instance()->currentWorld()->createEntity< Entity >();
+    mat.translate( 10, 10, 0 );
+    ent->setTransform( mat );
+    ent->setMesh( Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh ) );
+    ent->setMaterialInstance( Manager::instance()->resource< Material >( Manager::Defaults::Material )->createInstance() );
+    ent->materialInstance()->setProperty( "texture0", QVariant::fromValue( Manager::instance()->resource< Texture >( Manager::Defaults::Texture ) ) );
 
-    //Set the viewport
-//     cam->frustrum()->setOrthographic( -5.f, 5.f, -5.f, 5.f, -5.f, 5.f );
+    Camera* cam = Manager::instance()->currentWorld()->createEntity< Camera >();
+    mat.translate( -5, -5, -5 );
+    cam->setTransform( mat );
+    cam->frustrum()->setOrthographic(-10, 10, -10, 10, -10, 10);
 
-    //Activate the new camera
-    //GluonGraphics::Manager::instance()->setActiveCamera( cam );
-
-    //Create an item to display
-//     GluonGraphics::Item* item = GluonGraphics::Engine::instance()->createItem( "default" );
-//
-//     QMatrix4x4 mat;
-//     mat.translate( -1.5f, -1.5f );
-//     item->setTransform( mat );
-//
-//     item = GluonGraphics::Engine::instance()->createItem( "default" );
-//     mat.translate( 3.f, 3.f );
-//     item->setTransform( mat );
-//
-//     QTimer::singleShot( 0, widget, SLOT(updateGL()) );
-// return app.exec();
+    Manager::instance()->resource< RenderTarget >( Manager::Defaults::RenderTarget )->addChild( cam );
 
     app.exec();
 }

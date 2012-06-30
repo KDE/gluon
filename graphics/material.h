@@ -28,6 +28,7 @@ namespace GluonGraphics
 {
     class MaterialInstance;
     class Technique;
+    class Shader;
 
     /**
     * \brief Collection of techniques which describe how to render a surface.
@@ -150,7 +151,7 @@ namespace GluonGraphics
              *
              * \see MaterialInstance
              */
-            MaterialInstance* createInstance( const QString& name );
+            MaterialInstance* createInstance( const QString& name = QString() );
 
             /**
              * Retrieve an existing MaterialInstance.
@@ -160,6 +161,10 @@ namespace GluonGraphics
              * \return The named MaterialInstance or 0 if it was not found.
              */
             MaterialInstance* instance( const QString& name );
+
+        protected:
+            friend class MaterialInstance;
+            Shader* shader();
 
         private:
             class Private;

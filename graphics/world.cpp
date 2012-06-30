@@ -20,13 +20,16 @@
 #include "world.h"
 
 #include "entity.h"
+#include "camera.h"
 
 using namespace GluonGraphics;
 
 class World::Private
 {
     public:
+        Camera* activeCamera;
 
+        QList< Entity* > entities;
 };
 
 World::World( QObject* parent ) : d( new Private )
@@ -41,27 +44,56 @@ World::~World()
 
 void World::addEntity(Entity* entity)
 {
+    if( !entity )
+        return;
 
+    entity->setWorld( this );
+    d->entities.append( entity );
 }
 
-Entity* World::entity(int id)
+Entity* World::entity( int index ) const
 {
-    return 0;
+    if( index < 0 || index >= d->entities.size() )
+        return 0;
+
+    return d->entities.at( index );
 }
 
-void World::destroyEntity(int id)
+int World::entityIndex( Entity* entity ) const
 {
+    return d->entities.indexOf( entity );
+}
 
+void World::destroyEntity(int index )
+{
+    destroyEntity( entity( index ) );
 }
 
 void World::destroyEntity(Entity* entity)
 {
+    if( entity )
+        d->entities.removeOne( entity );
 
+    entity->deleteLater();
 }
 
 void World::render()
 {
+    const int count = d->entities.count();
+    for( int i = 0; i < count; ++i )
+    {
+        d->entities[i]->render();
+    }
+}
 
+Camera* World::activeCamera() const
+{
+    return d->activeCamera;
+}
+
+void World::setActiveCamera( Camera* cam )
+{
+    d->activeCamera = cam;
 }
 
 #include "world.moc"
