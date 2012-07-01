@@ -151,9 +151,19 @@ SceneGraphObject* SceneGraph::getBaseObject( GluonEngine::SceneGraphObject* obje
     return findChild( this->tags->getBaseName( object->getMember()->name() ) );
 }
 
-void SceneGraph::compare( SceneGraph* graph )
+void SceneGraph::compare( GluonEngine::SceneGraphObject* object )
 {
-    
+    GluonEngine::SceneGraphObject *cobject = this->refgraph->findChild( object->getMember()->name() );
+    if( cobject == 0 )
+        cobject = this->refgraph->getBaseObject( object );
+    object->diff = object->compare( cobject );
+    foreach( GluonEngine::SceneGraphObject* obj, object->getChildren() )
+        compare( obj );
+}
+
+void SceneGraph::compare()
+{
+    compare( this->root );
 }
 
 #include "scenegraph.moc"

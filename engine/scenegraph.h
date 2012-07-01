@@ -37,6 +37,10 @@ namespace GluonEngine
          */
 	GluonEngine::SceneGraphObject* root;
         /**
+         * The other graph that's referenced
+         */
+        GluonEngine::SceneGraph *refgraph;
+        /**
          * The object used to query tags associated with the objects
          */
         GluonEngine::TagObject *tags;
@@ -72,7 +76,11 @@ namespace GluonEngine
         /**
          * Compare two scene graphs
          */
-        Q_INVOKABLE void compare( SceneGraph* graph );
+        Q_INVOKABLE void compare();
+        /**
+         * Compare graphs, with a root object passed
+         */
+         Q_INVOKABLE void compare( GluonEngine::SceneGraphObject* object );
     };
 }
 

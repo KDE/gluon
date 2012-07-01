@@ -68,11 +68,6 @@ namespace GluonEngine
 	 */
 	QList<SceneGraphObject*> childrengroup;
 	/**
-	 * This value is 2 if not compared ( not present in other graph ),
-         * 1 if differs from similar object in the other graph and 0 otherwise.
-	 */
-	int diff;
-	/**
 	 * The level at which the object falls, to track groups properly
 	 * Maybe used for further functions, to perform operations at a given level
 	 */
@@ -81,7 +76,11 @@ namespace GluonEngine
     public:
         Q_INVOKABLE  SceneGraphObject();
         ~SceneGraphObject();
-	
+	/**
+         * This value is 2 if not compared ( not present in other graph ),
+         * 1 if differs from similar object in the other graph and 0 otherwise.
+         */
+        int diff;
 	/**
 	 * To set the parent of the member object
 	 */
