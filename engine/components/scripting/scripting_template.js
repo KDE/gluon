@@ -1,23 +1,30 @@
-this.initialize = function()
+function initialize()
 {
 }
 
-this.start = function()
+function start()
 {
 }
 
-this.update = function(time)
+function update(time)
 {
 }
 
-this.draw = function(timeLapse)
+function draw(timeLapse)
 {
 }
 
-this.stop = function()
+function stop()
 {
 }
 
-this.cleanup = function()
+function cleanup()
 {
 }
+
+self.initialize = initialize;
+self.start = start;
+self.update = update;
+self.draw = draw;
+self.stop = stop;
+self.cleanup = cleanup;
