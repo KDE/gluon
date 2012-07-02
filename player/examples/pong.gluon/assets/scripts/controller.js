@@ -1,29 +1,29 @@
-var gMiniumBreakInt = 50;
-var gCurrentlyBreakInt = 0;
-var gPlayer1Ref = null;
-var gPlayer2Ref = null;
-var gBallRef = null;
-var gLastScoreUpdateInt = 0;
-var gEndedGameBool = false;
+var gMiniumBreakInt = 50,
+gCurrentlyBreakInt = 0,
+gPlayer1Ref = null,
+gPlayer2Ref = null,
+gBallRef = null,
+gLastScoreUpdateInt = 0,
+gEndedGameBool = false;
 
-this.initialize = function()
+function initialize()
 {
-    this.Component.paused = false;
+    self.Component.paused = false;
 }
 
-this.start = function()
+function start()
 {
     Game.score = 0;
     Game.end = false;
 
-    var cameraWidth = this.Scene.sceneContents().Camera.CameraControllerComponent.visibleArea.width();
+    var cameraWidth = self.Scene.sceneContents().Camera.CameraControllerComponent.visibleArea.width();
     
     gPlayer1Ref = Game.clone(Game.getFromScene("Player1"));
-    gPlayer1Ref.setPosition(-cameraWidth + this.Scene.sceneContents().Player1.Player1SpriteRenderer.size.width(), 0);
+    gPlayer1Ref.setPosition(-cameraWidth + self.Scene.sceneContents().Player1.Player1SpriteRenderer.size.width(), 0);
     gPlayer1Ref.enabled = true;
 
     gPlayer2Ref = Game.clone(Game.getFromScene("Player2"));
-    gPlayer2Ref.setPosition(cameraWidth - this.Scene.sceneContents().Player2.Player2SpriteRenderer.size.width(), 0);
+    gPlayer2Ref.setPosition(cameraWidth - self.Scene.sceneContents().Player2.Player2SpriteRenderer.size.width(), 0);
     gPlayer2Ref.enabled = true;
 
     gBallRef = Game.clone(Game.getFromScene("Ball"));
@@ -31,28 +31,28 @@ this.start = function()
     gBallRef.enabled = true;
 }
 
-this.update = function(time)
+function update(time)
 {
     // if (Game.end == false) {
         // if (Game.score%6 == 0 && Game.score != gLastScoreUpdateInt) {
-            // this.updateScore(Game.score/6);
+            // self.updateScore(Game.score/6);
         // }
     // } else {
         // if (gEndedGameBool == false) {
-            // this.end();
+            // self.end();
         // }
 
-        // if (this.GameObject.Key_Reset.isActionHeld()) {
-            // this.resetGame();
+        // if (self.GameObject.Key_Reset.isActionHeld()) {
+            // self.resetGame();
         // }
     // }
 }
 
-this.updateScore = function(score) {
+function updateScore(score) {
     gLastScoreUpdateInt = score * 6;
 }
 
-this.end = function()
+function end()
 {
     gEndedGameBool = true;
     var score = Game.clone(Game.getFromScene("ScoreText"));
@@ -64,7 +64,11 @@ this.end = function()
     MessageHandler.publish("GameEnded");
 }
 
-this.resetGame = function()
+function resetGame()
 {
     // Game.resetCurrentScene();
 }
+
+self.initialize = initialize;
+self.start = start;
+self.update = update;

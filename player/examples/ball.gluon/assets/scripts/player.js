@@ -1,42 +1,34 @@
-var gMaxFrameJumpInt = 25;
-var gCurrentlyFrameJumpInt=0
-var gJumpingBool = false;
+var gMaxFrameJumpInt = 25,
+gCurrentlyFrameJumpInt=0,
+gJumpingBool = false;
 
-this.initialize = function()
-{
-}
-
-this.update = function(time)
+function update(time)
 {
     if(!Game.end)
     {
-        this.rotate();
-        this.jump();
+        rotate();
+        jump();
     }
 }
 
-this.draw = function()
+function rotate(time)
 {
+    self.GameObject.rotate(-2.5, new QVector3D(0,0,1));
 }
 
-this.rotate = function(time)
+function jump()
 {
-    this.GameObject.rotate(-2.5, new QVector3D(0,0,1));
-}
-
-this.jump = function()
-{
-    if (this.GameObject.Key_Jump.isActionHeld()) {
+    if (self.GameObject.Key_Jump.isActionHeld()) {
         gJumpingBool = true;
     }
 
     if (gJumpingBool) {
         if (gCurrentlyFrameJumpInt <= gMaxFrameJumpInt) {
-            this.GameObject.setPosition(this.GameObject.position.x(), this.GameObject.position.y()+0.7);
+            self.GameObject.setPosition(self.GameObject.position.x(), self.GameObject.position.y()+0.7);
         }
 
         if (gCurrentlyFrameJumpInt > gMaxFrameJumpInt) {
-            this.GameObject.setPosition(this.GameObject.position.x(), this.GameObject.position.y()-0.7);
+            self.GameObject.setPosition(self.GameObject.position.x(), self.GameObject.position.y()-0.7);
         }
 
         if (gCurrentlyFrameJumpInt >= gMaxFrameJumpInt*2) {
@@ -48,7 +40,9 @@ this.jump = function()
     }
 }
 
-this.partOfFrame = function(time)
+function partOfFrame(time)
 {
-    return  time/1000*25;
+    return time/1000*25;
 }
+
+self.update = update;

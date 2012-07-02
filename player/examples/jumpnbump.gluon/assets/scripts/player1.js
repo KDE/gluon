@@ -1,75 +1,67 @@
-var gMaxFrameJumpInt = 25;
-var gCurrentlyFrameJumpInt=0
-var gJumpingBool = false;
-this.speed = 30;
+var gMaxFrameJumpInt = 25,
+gCurrentlyFrameJumpInt=0,
+gJumpingBool = false,
+speed = 30;
 
-this.initialize = function()
+function move(time)
 {
-}
+    var addX = speed * (time/1000);
 
-this.move = function(time)
-{
-    var addX = this.speed * (time/1000);
-
-    if(this.GameObject.Key_Left.isActionHeld())
+    if(self.GameObject.Key_Left.isActionHeld())
     {
-        this.GameObject.translate(-addX, 0, 0);
+        self.GameObject.translate(-addX, 0, 0);
     }
 
-    else if(this.GameObject.Key_Right.isActionHeld())
+    else if(self.GameObject.Key_Right.isActionHeld())
     {
-        this.GameObject.translate(addX, 0, 0);
+        self.GameObject.translate(addX, 0, 0);
     }
 
-    var pos = this.GameObject.position;
+    var pos = self.GameObject.position;
     if(pos.x() < -30)
     {
-        this.GameObject.setPosition(-30, pos.y(), pos.z());
+        self.GameObject.setPosition(-30, pos.y(), pos.z());
     }
     else if(pos.x() > 30)
     {
-        this.GameObject.setPosition(30, pos.y(), pos.z());
+        self.GameObject.setPosition(30, pos.y(), pos.z());
     }
 
     if(pos.y() < -30)
     {
-        this.GameObject.translate(0, 5 * (time/1000), 0);
+        self.GameObject.translate(0, 5 * (time/1000), 0);
     }
     else
     {
-        // this.justSpawned = false;
+        // justSpawned = false;
     }
 }
 
-this.update = function(time)
+function update(time)
 {
-    if(this.Scene.paused)
+    if(self.Scene.paused)
         return;
 
-    this.move(time);
-    this.jump();
+    move(time);
+    jump();
 }
 
-this.draw = function()
+function rotate()
 {
+    self.GameObject.rotate(-2.5, new QVector3D(0,0,1));
 }
 
-this.rotate = function()
+function jump()
 {
-    this.GameObject.rotate(-2.5, new QVector3D(0,0,1));
-}
-
-this.jump = function()
-{
-    if (this.GameObject.Key_Jump.isActionHeld()) {
+    if (self.GameObject.Key_Jump.isActionHeld()) {
         gJumpingBool = true;
     }
 
     if (gJumpingBool) {
         if (gCurrentlyFrameJumpInt <= gMaxFrameJumpInt) {
-            this.GameObject.setPosition(this.GameObject.position.x(), this.GameObject.position.y()+0.7);
+            self.GameObject.setPosition(self.GameObject.position.x(), self.GameObject.position.y()+0.7);
         } else {
-            this.GameObject.setPosition(this.GameObject.position.x(), this.GameObject.position.y()-0.7);
+            self.GameObject.setPosition(self.GameObject.position.x(), self.GameObject.position.y()-0.7);
             if (gCurrentlyFrameJumpInt >= gMaxFrameJumpInt*2) {
                 gJumpingBool = false;
                 gCurrentlyFrameJumpInt = 0;
@@ -80,7 +72,9 @@ this.jump = function()
     }
 }
 
-this.partOfFrame = function(time)
+function partOfFrame(time)
 {
-    return  time/1000*25;
+    return time/1000*25;
 }
+
+self.update = update;

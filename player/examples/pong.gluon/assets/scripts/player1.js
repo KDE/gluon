@@ -1,52 +1,50 @@
-this.speed = 30;
-this.cameraHeight;
-this.player1Height;
-this.downcollide;
-this.upcollide;
+var speed = 30,
+cameraHeight,
+player1Height,
+downcollide,
+upcollide;
 
-this.initialize = function()
+function initialize()
 {
-    this.cameraHeight = this.Scene.sceneContents().Camera.CameraControllerComponent.visibleArea.height();
-    this.player1Height = this.Scene.sceneContents().Player1.Player1SpriteRenderer.size.height();
-    this.downcollide = -this.cameraHeight/2 + this.player1Height/2;
-    this.upcollide = this.cameraHeight/2 - this.player1Height/2;
+    cameraHeight = self.Scene.sceneContents().Camera.CameraControllerComponent.visibleArea.height();
+    player1Height = self.Scene.sceneContents().Player1.Player1SpriteRenderer.size.height();
+    downcollide = -cameraHeight/2 + player1Height/2;
+    upcollide = cameraHeight/2 - player1Height/2;
 }
 
-this.move = function(time)
+function move(time)
 {
-    var addY = this.speed * (time/1000);
+    var addY = speed * (time/1000);
 
-    if(this.GameObject.Key_W.isActionHeld())
+    if(self.GameObject.Key_W.isActionHeld())
     {
-        this.GameObject.translate(0, addY, 0);
+        self.GameObject.translate(0, addY, 0);
     } 
-    else if(this.GameObject.Key_S.isActionHeld())
+    else if(self.GameObject.Key_S.isActionHeld())
     {
-        this.GameObject.translate(0, -addY, 0);
+        self.GameObject.translate(0, -addY, 0);
     }
 
-    var pos = this.GameObject.position;
+    var pos = self.GameObject.position;
 
-    if(pos.y() < this.downcollide)
+    if(pos.y() < downcollide)
     {
-        this.GameObject.setPosition(pos.x(), this.downcollide, pos.z());
+        self.GameObject.setPosition(pos.x(), downcollide, pos.z());
     }
-    else if(pos.y() > this.upcollide)
+    else if(pos.y() > upcollide)
     {
-        this.GameObject.setPosition(pos.x(), this.upcollide, pos.z());
+        self.GameObject.setPosition(pos.x(), upcollide, pos.z());
     }
 }
 
-this.update = function(time)
+function update(time)
 {
-    if(this.Scene.paused)
+    if(self.Scene.paused)
         return;
 
-    this.move(time);
+    move(time);
 
 }
 
-this.draw = function()
-{
-}
-
+self.initialize = initialize;
+self.update = update;

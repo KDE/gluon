@@ -1,51 +1,51 @@
-this.snake = [];
-this.numRows = 50;
-this.numColumns = 50;
-this.table = [this.numRows * this.numColumns];
-this.links = [];
-this.directionArray = [];
-this.head = {row: 0, column: 0};
-this.scores = 0;
+var snake = [],
+numRows = 50,
+numColumns = 50;
+var table = [numRows * numColumns],
+links = [],
+directionArray = [],
+head = {row: 0, column: 0},
+scores = 0;
 
-this.rand = function(n)
+function rand(n)
 {
     return (Math.floor(Math.random() * n));
 }
 
-this.directions = function(direction)
+function directions(direction)
 {
-    if (this.directionArray[this.directionArray.length-1] != direction)
-        this.directionArray.push(direction);
+    if (directionArray[directionArray.length-1] != direction)
+        directionArray.push(direction);
 }
 
-this.isFree = function(row, column)
+function isFree(row, column)
 {
-    return table[row * this.numColumns + column] == undefined;
+    return table[row * numColumns + column] == undefined;
 }
 
-this.isHead = function(row, column)
+function isHead(row, column)
 {
     return head && head.column == column && head.row == row;
 }
 
-this.isCookie = function(row, column)
+function isCookie(row, column)
 {
     return cookie && cookie.row == row && cookie.column == column;
 }
 
-this.createCookie = function() {
+function createCookie() {
   
-    if (this.numRows * this.numColumns - this.snake.length < 10)
+    if (numRows * numColumns - snake.length < 10)
         return;
 
-    var column = rand(this.numColumns);
-    var row = rand(this.numRows);
+    var column = rand(numColumns);
+    var row = rand(numRows);
     while (!isFree(row, column)) {
         ++column;
-        if (column == this.numColumns) {
+        if (column == numColumns) {
             column = 0;
             ++row;
-            if (row == this.numRows)
+            if (row == numRows)
                 row = 0;
         }
     }
@@ -57,45 +57,45 @@ this.createCookie = function() {
     cookie.column = column;
 }
 
-this.initialize = function()
+function initialize()
 {
 }
 
-this.start = function()
+function start()
 {
-    this.table = [this.numRows * this.numColumns];
-    this.snake = [];
-    this.directionArray = [];
+    table = [numRows * numColumns];
+    snake = [];
+    directionArray = [];
 
-    for (var i = 0; i < this.numRows * this.numColumns; ++i) {
+    for (var i = 0; i < numRows * numColumns; ++i) {
         var bodyElement = Game.getFromScene("BodyElement"));
         links.push(Game.clone(bodyElement);
     }   
 
-    this.head = this.links[0];
-    this.snake.push(head);
-    this.head.row = numRows/2 -1;
-    this.head.column = numColumns/2 -1;
-    this.head.spawned = true;
+    head = links[0];
+    snake.push(head);
+    head.row = numRows/2 -1;
+    head.column = numColumns/2 -1;
+    head.spawned = true;
  
-    this.score = 0;
+    score = 0;
 
     for (var i = 0; i < 4; ++i) {
-        newLink = this.links[this.snake.length];
-        newLink.rotation = this.snake[this.snake.length-1].rotation;
-        this.snake.push(newLink);
+        newLink = links[snake.length];
+        newLink.rotation = snake[snake.length-1].rotation;
+        snake.push(newLink);
     }
 
-    var lastLink = this.snake[this.snake.length-1];
-    this.table[lastLink.row * this.numColumns + this.lastLink.column] = undefined;
+    var lastLink = snake[snake.length-1];
+    table[lastLink.row * numColumns + lastLink.column] = undefined;
 }
 
-this.move = function()
+function move()
 {
-    if (!this.head)
+    if (!head)
         return;
 
-    var dir = this.direction;
+    var dir = direction;
 
     if (directionArray.length) {
         dir = directionArray.shift();
@@ -108,8 +108,8 @@ this.move = function()
         return;
     }
 
-    var row = this.head.row;
-    var column = this.head.column;
+    var row = head.row;
+    var column = head.column;
 
     if (dir == 0) {
         row = row - 1;
@@ -122,11 +122,12 @@ this.move = function()
     }
 
     //validate the new position
-    if (row < 0 || row >= this.numRows
-        || column < 0 || column >= this.numColumns
-        || !isFree(row, column)) {
+    if (row < 0 || row >= numRows
+        || column < 0 || column >= numColumns
+        || !isFree(row, column))
+    {
         var turn = (dir - headDirection);
-        this.head.rotation += turn == -3 ? 1 : (turn == 3 ? -1 : turn );
+        head.rotation += turn == -3 ? 1 : (turn == 3 ? -1 : turn );
         headDirection = dir;
         // Stop the game
         return;
@@ -139,30 +140,30 @@ this.move = function()
     }
 
     // Move the head
-    this.head.row = row;
-    this.head.column = column;
-    this.table[row * this.numColumns + column] = this.head;
+    head.row = row;
+    head.column = column;
+    table[row * numColumns + column] = head;
 
     var turn = (dir - headDirection);
     head.rotation += turn == -3 ? 1 : (turn == 3 ? -1 : turn );
     headDirection = dir;
 
     if (isCookie(row, column)) {
-        ++this.score;
+        ++score;
         createCookie();
     }
 }
 
-this.update = function(time)
+function update(time)
 {
-    this.move();
+    move();
 }
 
-this.draw = function(timeLapse)
+function draw(timeLapse)
 {
 }
 
-this.stop = function()
+function stop()
 {
      activeGame = false;
      for(var i in snake)
@@ -174,6 +175,13 @@ this.stop = function()
      highScores.saveScore(lastScore);
 }
 
-this.cleanup = function()
+function ceanup()
 {
 }
+
+self.initialize = initialize;
+self.start = start;
+self.update = update;
+self.draw = draw;
+self.stop = stop;
+self.cleanup = cleanup;

@@ -1,67 +1,74 @@
-this.initialize = function()
+var AnimatedSprite,
+player,
+bulletCollider,
+playerCollider,
+dead,
+attack;
+
+function initialize ()
 {
-    this.Component.speed = this.Component.speed || 25;
+    Component().speed = Component().speed || 25;
 }
 
-this.start = function()
+function start()
 {
-    this.AnimatedSprite = this.GameObject.AnimatedSpriteRendererComponent;
-    this.player = this.Scene.sceneContents().Camera.Player;
-    this.bulletCollider = this.GameObject.BulletCollider;
-    this.playerCollider = this.GameObject.PlayerCollider;
-    this.dead = false;
-    this.attack = false;
+    AnimatedSprite = GameObject().AnimatedSpriteRendererComponent;
+    player = Scene().sceneContents().Camera.Player;
+    bulletCollider = GameObject().BulletCollider;
+    playerCollider = GameObject().PlayerCollider;
+    dead = false;
+    attack = false;
 }
 
-this.update = function(time)
+function update(time)
 {
-    if(!this.dead && !this.Scene.paused)
+    if(!dead && !Scene().paused)
     {
-        var playerPos = this.player.worldPosition();
-        var thisPos = this.GameObject.position;
+        var playerPos = player.worldPosition();
+        var thisPos = GameObject().position;
 
         var diff = new QVector3D(playerPos.x() - thisPos.x(), playerPos.y() - thisPos.y(), 0);
         diff.normalize();
 
-        var dist = this.Component.speed * (time / 1000);
+        var dist = Component().speed * (time / 1000);
         diff.setX(diff.x() * dist);
         diff.setY(diff.y() * dist);
 
-        this.GameObject.translate(diff);
-        this.setDirection(diff);
+        GameObject().translate(diff);
+        setDirection(diff);
 
-        if(this.bulletCollider.isColliding())
+        if(bulletCollider.isColliding())
         {
-            this.bulletCollider.collidesWith().destroy();
-            this.kill();
+            bulletCollider.collidesWith().destroy();
+            kill();
         }
 
-        if(this.playerCollider.isColliding())
+        if(playerCollider.isColliding())
         {
             MessageHandler.publish("playerHurt");
-            this.GameObject.translate(diff.multiply(-10));
+            GameObject().translate(diff.multiply(-10));
         }
 //         {
-//             this.attack = true;
-//             this.AnimatedSprite.animation = 3;
+//             attack = true;
+//             AnimatedSprite.animation = 3;
 //         }
 //         else
 //         {
-//             this.attack = false;
-//             this.AnimatedSprite.animation = 1;
+//             attack = false;
+//             AnimatedSprite.animation = 1;
 //         }
     }
 }
 
-this.kill = function()
+function kill()
 {
-    this.GameObject.AnimatedSpriteRendererComponent.animation = 6;
-    this.GameObject.AnimatedSpriteRendererComponent.loop = false;
-    this.dead = true;
-    this.Scene.score++;
+    GameObject().AnimatedSpriteRendererComponent.animation = 6;
+    GameObject().AnimatedSpriteRendererComponent.loop = false;
+    dead = true;
+    Scene.score++;
 }
 
-this.setDirection = function(direction)
+function setDirection(direction)
 {
     var angle = QVector3D.dotProduct(direction, new QVector3D(0, 1, 0));
     var dir = -1;
@@ -91,5 +98,9 @@ this.setDirection = function(direction)
         else
             dir = 3;
     }
-    this.AnimatedSprite.direction = dir;
+    AnimatedSprite.direction = dir;
 }
+
+self.initialize = initialize;
+self.start = start;
+self.update = update;

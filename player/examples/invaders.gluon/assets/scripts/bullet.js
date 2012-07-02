@@ -1,16 +1,18 @@
-this.speed = 30;
-this.life = 3000;
+var speed = 30,
+life = 3000;
 
-this.update = function(time)
+function update(time)
 {
     if(this.Scene.paused)
         return;
     
-    var addY = this.speed*(time/1000)
+    var addY = speed*(time/1000)
 
     this.GameObject.translate(0, addY, 0);
     
-    this.life -= time;
-    if(this.life <= 0)
+    life -= time;
+    if(life <= 0)
         this.GameObject.destroy();
 }
+
+self.update = update;

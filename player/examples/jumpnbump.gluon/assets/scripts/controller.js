@@ -1,17 +1,17 @@
-var gMiniumBreakInt = 50;
-var gCurrentlyBreakInt = 0;
-var gPlayerRef = null;
-var gPlayer2Ref = null;
-var gLastScoreUpdateInt = 0;
-var gEndedGameBool = false;
-var gStarRef = null;
+var gMiniumBreakInt = 50,
+gCurrentlyBreakInt = 0,
+gPlayerRef = null,
+gPlayer2Ref = null,
+gLastScoreUpdateInt = 0,
+gEndedGameBool = false,
+gStarRef = null;
 
-this.initialize = function()
+function initialize()
 {
-    this.Component.paused = false;
+    self.Component.paused = false;
 }
 
-this.start = function()
+function start()
 {
     Game.score = 0;
     Game.end = false;
@@ -25,24 +25,24 @@ this.start = function()
     gPlayer2Ref.enabled = true;
 }
 
-this.update = function(time)
+function update(time)
 {
     if (Game.end == false) {
         if (Game.score%6 == 0 && Game.score != gLastScoreUpdateInt) {
-            this.updateScore(Game.score/6);
+            updateScore(Game.score/6);
         }
     } else {
         if (gEndedGameBool == false) {
-            this.end();
+            end();
         }
 
-        if (this.GameObject.Key_Reset.isActionHeld()) {
-            this.resetGame();
+        if (self.GameObject.Key_Reset.isActionHeld()) {
+            resetGame();
         }
     }
 }
 
-this.updateScore = function(score) {
+function updateScore(score) {
     gLastScoreUpdateInt = score * 6;
     var star = Game.clone(gStarRef);
     star.setPosition(((score%6)*8)-20, Math.floor(score/6)*8);
@@ -50,7 +50,7 @@ this.updateScore = function(score) {
 
 }
 
-this.end = function()
+function end()
 {
     gEndedGameBool = true;
     var score = Game.clone(Game.getFromScene("ScoreText"));
@@ -61,7 +61,11 @@ this.end = function()
     resetText.enabled = true;
 }
 
-this.resetGame = function()
+function resetGame()
 {
     Game.resetCurrentScene();
 }
+
+self.initialize = initialize;
+self.start = start;
+self.update = update;
