@@ -24,24 +24,27 @@
 
 namespace GluonGraphics
 {
-    class GLXRenderTarget : public GluonGraphics::RenderTarget
+    namespace GLX
     {
+        class GLXRenderTarget : public GluonGraphics::RenderTarget
+        {
 
-        public:
-            explicit GLXRenderTarget( QObject* parent = 0 );
-            virtual ~GLXRenderTarget();
+            public:
+                explicit GLXRenderTarget( QObject* parent = 0 );
+                virtual ~GLXRenderTarget();
 
-            virtual void bind();
-            virtual void release();
+                virtual void bind();
+                virtual void release();
 
-        protected:
-            virtual void resizeImpl();
-            virtual TextureData* textureData();
+            protected:
+                virtual void resizeImpl();
+                virtual GluonGraphics::TextureData* textureData();
 
-        private:
-            class Private;
-            Private * const d;
-    };
+            private:
+                class Private;
+                Private * const d;
+        };
+    }
 }
 
 #endif // GLUONGRAPHICS_GLX_GLXRENDERTARGET_H

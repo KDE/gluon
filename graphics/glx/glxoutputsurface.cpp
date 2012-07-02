@@ -36,7 +36,7 @@
 #include <backend.h>
 #include <mathutils.h>
 
-using namespace GluonGraphics;
+using namespace GluonGraphics::GLX;
 
 class GLXOutputSurface::Private
 {

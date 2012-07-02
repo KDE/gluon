@@ -27,25 +27,25 @@ namespace GluonGraphics
     namespace GLX
     {
         class Context;
+
+        class GLXOutputSurface : public GluonGraphics::OutputSurface
+        {
+            Q_OBJECT
+            public:
+                GLXOutputSurface( GLX::Context* context, QWidget* container, QObject* parent = 0 );
+                virtual ~GLXOutputSurface();
+
+                virtual void createDebug();
+
+            public Q_SLOTS:
+                virtual void renderContents();
+                virtual void setSize(int width, int height);
+
+            private:
+                class Private;
+                const QScopedPointer< Private > d;
+        };
     }
-
-    class GLXOutputSurface : public GluonGraphics::OutputSurface
-    {
-        Q_OBJECT
-        public:
-            GLXOutputSurface( GLX::Context* context, QWidget* container, QObject* parent = 0 );
-            virtual ~GLXOutputSurface();
-
-            virtual void createDebug();
-
-        public Q_SLOTS:
-            virtual void renderContents();
-            virtual void setSize(int width, int height);
-
-        private:
-            class Private;
-            const QScopedPointer< Private > d;
-    };
 }
 
 #endif // GLUONGRAPHICS_GLXWINDOWSURFACE_H

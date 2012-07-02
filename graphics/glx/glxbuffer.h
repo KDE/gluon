@@ -24,24 +24,27 @@
 
 namespace GluonGraphics
 {
-    class GLXBuffer : public GluonGraphics::Buffer
+    namespace GLX
     {
-        public:
-            GLXBuffer();
-            virtual ~GLXBuffer();
+        class GLXBuffer : public GluonGraphics::Buffer
+        {
+            public:
+                GLXBuffer();
+                virtual ~GLXBuffer();
 
-            virtual void initialize( BufferType type, UpdateMode mode );
-            virtual void destroy();
-            virtual void setSize( int size );
-            virtual void setData( void* data, int size, int offset = 0 );
+                virtual void initialize( BufferType type, UpdateMode mode );
+                virtual void destroy();
+                virtual void setSize( int size );
+                virtual void setData( void* data, int size, int offset = 0 );
 
-            virtual void bind();
-            virtual void release();
+                virtual void bind();
+                virtual void release();
 
-        private:
-            class Private;
-            Private * const d;
-    };
+            private:
+                class Private;
+                Private * const d;
+        };
+    }
 }
 
 #endif // GLUONGRAPHICS_GLX_BUFFER_H

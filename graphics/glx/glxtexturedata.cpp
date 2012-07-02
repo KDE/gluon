@@ -20,7 +20,7 @@
 #include "glxtexturedata.h"
 #include <GL/gl.h>
 
-using namespace GluonGraphics;
+using namespace GluonGraphics::GLX;
 
 class GLXTextureData::Private
 {

@@ -24,24 +24,27 @@
 
 namespace GluonGraphics
 {
-    class GLXTextureData : public GluonGraphics::TextureData
+    namespace GLX
     {
-        public:
-            explicit GLXTextureData();
-            explicit GLXTextureData( unsigned int texture );
-            virtual ~GLXTextureData();
+        class GLXTextureData : public GluonGraphics::TextureData
+        {
+            public:
+                explicit GLXTextureData();
+                explicit GLXTextureData( unsigned int texture );
+                virtual ~GLXTextureData();
 
-            virtual void bind( unsigned int unit );
-            virtual void release();
+                virtual void bind( unsigned int unit );
+                virtual void release();
 
-            virtual void setData( int width, int height, void* data );
+                virtual void setData( int width, int height, void* data );
 
-            void setTexture( unsigned int texture );
+                void setTexture( unsigned int texture );
 
-        private:
-            class Private;
-            Private* const d;
-    };
+            private:
+                class Private;
+                Private* const d;
+        };
+    }
 }
 
 #endif // GLUONGRAPHICS_GLX_GLXTEXTURE_H

@@ -27,34 +27,34 @@ namespace GluonGraphics
     namespace GLX
     {
         class Context;
+
+        class GLXBackend : public GluonGraphics::Backend
+        {
+            Q_OBJECT
+            Q_INTERFACES( GluonGraphics::Backend )
+            public:
+                GLXBackend();
+                virtual ~GLXBackend();
+
+                virtual bool initialize( QWidget* widget );
+                virtual QString errorString();
+
+                virtual QString identifier();
+                virtual QString information( InformationLevel level );
+
+                Context* context();
+                virtual GluonGraphics::Buffer* createBuffer();
+                virtual GluonGraphics::TextureData* createTextureData();
+                virtual GluonGraphics::RenderTarget* createRenderTarget();
+                virtual GluonGraphics::Shader* createShader();
+                virtual GluonGraphics::OutputSurface* createOutputSurface( QWidget* widget );
+                virtual GluonGraphics::MeshData* createMeshData();
+
+            private:
+                class Private;
+                Private * const d;
+        };
     }
-
-    class GLXBackend : public GluonGraphics::Backend
-    {
-        Q_OBJECT
-        Q_INTERFACES( GluonGraphics::Backend )
-        public:
-            GLXBackend();
-            virtual ~GLXBackend();
-
-            virtual bool initialize( QWidget* widget );
-            virtual QString errorString();
-
-            virtual QString identifier();
-            virtual QString information( InformationLevel level );
-
-            GLX::Context* context();
-            virtual Buffer* createBuffer();
-            virtual TextureData* createTextureData();
-            virtual RenderTarget* createRenderTarget();
-            virtual Shader* createShader();
-            virtual OutputSurface* createOutputSurface( QWidget* widget );
-            virtual MeshData* createMeshData();
-
-        private:
-            class Private;
-            Private * const d;
-    };
 }
 
 #endif // GLUONGRAPHICS_GLXBACKEND_H

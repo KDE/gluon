@@ -35,8 +35,9 @@
 #include <graphics/texture.h>
 
 #include "glxtexturedata.h"
+#include "glxfunctions.h"
 
-using namespace GluonGraphics;
+using namespace GluonGraphics::GLX;
 
 class GLXShader::Private
 {

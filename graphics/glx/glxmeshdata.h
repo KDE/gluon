@@ -26,24 +26,27 @@
 
 namespace GluonGraphics
 {
-    class GLXMeshData : public GluonGraphics::MeshData
+    namespace GLX
     {
-        public:
-            GLXMeshData();
-            virtual ~GLXMeshData();
+        class GLXMeshData : public GluonGraphics::MeshData
+        {
+            public:
+                GLXMeshData();
+                virtual ~GLXMeshData();
 
-            virtual void render( Shader* shader );
-            virtual void setIndices( QVector< uint > indices );
-            virtual void setPrimitiveType( GluonGraphics::MeshData::PrimitiveType type );
-            virtual void setPrimitiveCount(int count, int vertexSize, int indexSize);
+                virtual void render( Shader* shader );
+                virtual void setIndices( QVector< uint > indices );
+                virtual void setPrimitiveType( GluonGraphics::MeshData::PrimitiveType type );
+                virtual void setPrimitiveCount(int count, int vertexSize, int indexSize);
 
-        protected:
-            virtual void setAttribute( const QString& name, QVariant::Type type, void* data, int size );
+            protected:
+                virtual void setAttribute( const QString& name, QVariant::Type type, void* data, int size );
 
-        private:
-            class Private;
-            Private * const d;
-    };
+            private:
+                class Private;
+                Private * const d;
+        };
+    }
 }
 
 #endif // GLUONGRAPHICS_GLXMESHDATA_H

@@ -25,6 +25,8 @@
 
 #include <GL/glx.h>
 
+#include "glxfunctions.h"
+
 using namespace GluonGraphics::GLX;
 
 class Context::Private
@@ -116,6 +118,8 @@ bool Context::initialize( QWidget* widget )
     }
 
     d->renderer = reinterpret_cast< const char* >( glGetString( GL_RENDERER ) );
+
+    GluonGraphics::GLX::initializeFunctions();
 
     glClearColor( 0.f, 0.f, 0.f, 1.f );
     glEnable( GL_BLEND );

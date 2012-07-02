@@ -18,13 +18,14 @@
  */
 
 #include "glxrendertarget.h"
-#include "glxtexturedata.h"
 
 #include <GL/gl.h>
-#include <GL/glext.h>
 #include <QColor>
 
-using namespace GluonGraphics;
+#include "glxtexturedata.h"
+#include "glxfunctions.h"
+
+using namespace GluonGraphics::GLX;
 
 class GLXRenderTarget::Private
 {
@@ -51,12 +52,12 @@ class GLXRenderTarget::Private
 GLXRenderTarget::GLXRenderTarget( QObject* parent )
     : GluonGraphics::RenderTarget( parent ), d( new Private )
 {
-    glGenFramebuffers( 1, &d->fbo );
+    glGenFramebuffersEXT( 1, &d->fbo );
 }
 
 GLXRenderTarget::~GLXRenderTarget()
 {
-    glDeleteFramebuffers( 1, &d->fbo );
+    glDeleteFramebuffersEXT( 1, &d->fbo );
 }
 
 void GLXRenderTarget::bind()
@@ -119,7 +120,7 @@ void GLXRenderTarget::resizeImpl()
     glBindTexture( GL_TEXTURE_2D, 0 );
 }
 
-TextureData* GLXRenderTarget::textureData()
+GluonGraphics::TextureData* GLXRenderTarget::textureData()
 {
     if( !d->textureData )
         d->textureData = new GLXTextureData( d->imageBuffer );
