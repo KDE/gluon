@@ -26,23 +26,22 @@ namespace GluonGraphics
 {
     namespace GLX
     {
-        class Context;
+
+        class GLXShader : public GluonGraphics::Shader
+        {
+            public:
+                explicit GLXShader(  );
+                virtual ~GLXShader();
+
+                virtual bool build();
+                virtual bool bind();
+                virtual void release();
+
+            private:
+                class Private;
+                Private * const d;
+        };
     }
-
-    class GLXShader : public GluonGraphics::Shader
-    {
-        public:
-            explicit GLXShader(  );
-            virtual ~GLXShader();
-
-            virtual bool build();
-            virtual bool bind();
-            virtual void release();
-
-        private:
-            class Private;
-            Private * const d;
-    };
 }
 
 #endif // GLUONGRAPHICS_GLXSHADER_H

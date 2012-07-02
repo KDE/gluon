@@ -39,14 +39,14 @@
 #include "glxrendertarget.h"
 #include "glxmeshdata.h"
 
-using namespace GluonGraphics;
+using namespace GluonGraphics::GLX;
 
 class GLXBackend::Private
 {
     public:
         Private() : context( 0 ) { }
 
-        GLX::Context* context;
+        Context* context;
 
         QString errorString;
 };
@@ -70,7 +70,7 @@ bool GLXBackend::initialize( QWidget* widget )
     if( d->context )
         return true;
 
-    d->context = new GLX::Context();
+    d->context = new Context();
 
     if( !d->context->initialize( widget ) )
     {
@@ -126,41 +126,41 @@ QString GLXBackend::information( Backend::InformationLevel level )
     return info.readAll();
 }
 
-GLX::Context* GLXBackend::context()
+Context* GLXBackend::context()
 {
     return d->context;
 }
 
-Buffer* GLXBackend::createBuffer()
+GluonGraphics::Buffer* GLXBackend::createBuffer()
 {
     return new GLXBuffer();
 }
 
-TextureData* GLXBackend::createTextureData()
+GluonGraphics::TextureData* GLXBackend::createTextureData()
 {
     return new GLXTextureData();
 }
 
-RenderTarget* GLXBackend::createRenderTarget()
+GluonGraphics::RenderTarget* GLXBackend::createRenderTarget()
 {
     return new GLXRenderTarget();
 }
 
-Shader* GLXBackend::createShader()
+GluonGraphics::Shader* GLXBackend::createShader()
 {
     return new GLXShader();
 }
 
-OutputSurface* GLXBackend::createOutputSurface( QWidget* widget )
+GluonGraphics::OutputSurface* GLXBackend::createOutputSurface( QWidget* widget )
 {
     return new GLXOutputSurface( d->context, widget, widget );
 }
 
-MeshData* GLXBackend::createMeshData()
+GluonGraphics::MeshData* GLXBackend::createMeshData()
 {
     return new GLXMeshData();
 }
 
-Q_EXPORT_PLUGIN2( gluongraphics_glx_backend, GluonGraphics::GLXBackend )
+Q_EXPORT_PLUGIN2( gluongraphics_glx_backend, GluonGraphics::GLX::GLXBackend )
 
 #include "glxbackend.moc"

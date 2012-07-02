@@ -24,12 +24,13 @@
 #include <QDebug>
 
 #include <GL/gl.h>
-#include <GL/glext.h>
+
+#include <graphics/shader.h>
 
 #include "glxbuffer.h"
-#include <shader.h>
+#include "glxfunctions.h"
 
-using namespace GluonGraphics;
+using namespace GluonGraphics::GLX;
 
 struct VertexAttribute
 {

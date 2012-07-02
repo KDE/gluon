@@ -22,7 +22,9 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 
-using namespace GluonGraphics;
+#include "glxfunctions.h"
+
+using namespace GluonGraphics::GLX;
 
 class GLXBuffer::Private
 {
@@ -59,12 +61,12 @@ void GLXBuffer::initialize( Buffer::BufferType type, Buffer::UpdateMode mode )
     d->target = type == Vertex ? GL_ARRAY_BUFFER : GL_ELEMENT_ARRAY_BUFFER;
     d->usage = mode == Static ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
 
-    glGenBuffers(1, &d->buffer);
+    glGenBuffersARB(1, &d->buffer);
 }
 
 void GLXBuffer::destroy()
 {
-    glDeleteBuffers(1, &d->buffer);
+    glDeleteBuffersARB(1, &d->buffer);
     d->buffer = 0;
 }
 
@@ -74,7 +76,7 @@ void GLXBuffer::setSize( int size )
         return;
 
     bind();
-    glBufferData( d->target, size, 0, d->usage );
+    glBufferDataARB( d->target, size, 0, d->usage );
     release();
     d->size = size;
 }
@@ -88,11 +90,11 @@ void GLXBuffer::setData( void* data, int size, int offset )
 
     if( offset + size > d->size )
     {
-        glBufferData( d->target, offset + size, 0, d->usage );
+        glBufferDataARB( d->target, offset + size, 0, d->usage );
         d->size = offset + size;
     }
 
-    glBufferSubData( d->target, offset, size, data );
+    glBufferSubDataARB( d->target, offset, size, data );
     release();
 }
 
@@ -101,13 +103,8 @@ void GLXBuffer::bind()
     if( !d->buffer || d->bound )
         return;
 
-    glBindBuffer( d->target, d->buffer );
+    glBindBufferARB( d->target, d->buffer );
     d->bound = true;
-
-    if( d->type == Vertex )
-    {
-
-    }
 }
 
 void GLXBuffer::release()
@@ -115,6 +112,6 @@ void GLXBuffer::release()
     if( !d->bound )
         return;
 
-    glBindBuffer( d->target, 0 );
+    glBindBufferARB( d->target, 0 );
     d->bound = false;
 }
