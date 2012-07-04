@@ -141,19 +141,14 @@ void Context::destroy()
 
 void Context::makeCurrent( QWidget* widget )
 {
-    if( d->current )
-        return;
-
     glXMakeCurrent( QX11Info::display(), widget->winId(), d->context );
     d->current = true;
 }
 
 void Context::clearCurrent()
 {
-    if( !d->current )
-        return;
-
     glXMakeCurrent( QX11Info::display(), None, NULL );
+    d->current = false;
 }
 
 bool Context::isCurrent() const
