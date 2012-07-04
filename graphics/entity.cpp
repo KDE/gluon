@@ -98,7 +98,7 @@ Entity::setWorld(World* world)
 void
 Entity::render()
 {
-    if( !d->mesh )
+    if( !d->mesh || !d->materialInstance )
         return;
 
     Camera* activeCam = d->world->activeCamera();
