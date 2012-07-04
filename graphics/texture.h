@@ -63,16 +63,16 @@ namespace GluonGraphics
              *
              * \return True if successful, false if not.
              */
-            bool load( const QUrl& url );
+            virtual bool load( const QUrl& url );
 
             /**
              * Retrieve the image used for this texture.
              *
              * \return The image used.
              */
-            QImage image() const;
+            virtual QImage image() const;
 
-            TextureData* data() const;
+            virtual TextureData* data() const;
 
         private:
             class Private;
