@@ -68,11 +68,13 @@ void PluginManager::loadPlugins()
 
         if( !d->loadedPlugins.contains( serviceName ) && loadPlugin )
         {
-            KPluginFactory* factory = KPluginLoader( service->library() ).factory();
+            KPluginLoader loader( service->library() );
+            KPluginFactory* factory = loader.factory();
 
             if( !factory )
             {
                 DEBUG_TEXT2( "KPluginFactory could not load the plugin: %1", service->library() )
+                DEBUG_TEXT( loader.errorString() );
                 continue;
             }
 
