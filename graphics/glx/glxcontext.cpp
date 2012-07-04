@@ -92,7 +92,8 @@ bool Context::initialize( QWidget* widget )
     }
 
     //Set it to current so we can initialize some properties.
-    makeCurrent( widget );
+    glXMakeCurrent( QX11Info::display(), widget->winId(), d->context );
+    glXMakeCurrent( QX11Info::display(), widget->winId(), d->context );
 
     //Set all the version related properties.
     d->glXVersion = d->parseVersion( glXGetClientString( QX11Info::display(), GLX_VERSION ) );
