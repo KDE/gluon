@@ -142,7 +142,10 @@ bool GLXShader::build()
         int length, size;
         GLenum type;
         glGetActiveAttrib( d->shaderProgram, i, maxNameLength, &length , &size, &type, buffer );
-        attributes.insert( QString( buffer ), i );
+        
+        GLint attribLocation = glGetAttribLocation( d->shaderProgram, buffer );
+        
+        attributes.insert( QString( buffer ), attribLocation );
     }
     delete[] buffer;
     setAttributes( attributes );
