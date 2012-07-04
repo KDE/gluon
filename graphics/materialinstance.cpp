@@ -57,7 +57,19 @@ MaterialInstance::bind()
     QList< QByteArray > dynamicProperties = dynamicPropertyNames();
     foreach( const QByteArray& propertyName, dynamicProperties )
     {
-        shader->setUniform( propertyName, property( propertyName ) );
+        QVariant prop = property( propertyName );
+        GluonCore::GluonObject* obj = GluonCore::GluonObjectFactory::instance()->wrappedObject( prop );
+        if( obj )
+        {
+            QVariant tex = obj->property( "texture" );
+            if( tex.isValid() )
+            {
+                shader->setUniform( propertyName, tex );
+                continue;
+            }
+        }
+
+        shader->setUniform( propertyName, prop );
     }
 
     return shader->bind();
