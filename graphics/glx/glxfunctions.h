@@ -68,6 +68,7 @@ namespace GluonGraphics
         extern PFNGLGETPROGRAMIVPROC glGetProgramiv;
         extern PFNGLGETPROGRAMINFOLOGPROC glGetProgramInfoLog;
         extern PFNGLGETACTIVEATTRIBPROC glGetActiveAttrib;
+        extern PFNGLGETATTRIBLOCATIONPROC glGetAttribLocation;
         extern PFNGLGETACTIVEUNIFORMPROC glGetActiveUniform;
         extern PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocation;
 
