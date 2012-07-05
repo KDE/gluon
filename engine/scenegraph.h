@@ -33,6 +33,10 @@ namespace GluonEngine
     {
         Q_OBJECT
         /**
+         * Initialization helper
+         */
+        void initHelper( bool ref );
+        /**
          * Root of the graph
          */
 	GluonEngine::SceneGraphObject* root;
@@ -47,16 +51,20 @@ namespace GluonEngine
         /**
          * Find the group/child from name
          */
-        GluonEngine::SceneGraphObject* findChild( QString name );
-        GluonEngine::SceneGraphObject* findChild( SceneGraphObject *object, QString name );
+        void findChild( QString name );
+        void findChild( SceneGraphObject *object, QString name );
         /**
          * Get base/template object
          */
-        GluonEngine::SceneGraphObject* getBaseObject( GluonEngine::SceneGraphObject *object );
+        void getBaseObject( GluonEngine::SceneGraphObject *object );
+        /**
+         * If this graph is a reference graph itself.
+         */
+        bool ref;
 
     public:
-        Q_INVOKABLE SceneGraph();
-        SceneGraph( GluonEngine::GameObject* parent );
+        Q_INVOKABLE SceneGraph( bool ref = false );
+        SceneGraph( GluonEngine::GameObject* parent, bool ref = false );
         ~SceneGraph();
 
         Q_INVOKABLE SceneGraphObject* getRoot();
@@ -81,6 +89,10 @@ namespace GluonEngine
          * Compare graphs, with a root object passed
          */
          Q_INVOKABLE void compare( GluonEngine::SceneGraphObject* object );
+         /**
+          * Convert the scenegraph into a writable scene
+          */
+         Q_INVOKABLE GluonEngine::GameObject* toScene();
     };
 }
 

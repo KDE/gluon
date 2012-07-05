@@ -98,8 +98,11 @@ void GameSave::load()
 
 void GameSave::scenegraph()
 {
-    SceneGraph *scene = new SceneGraph();
-    scene->debugprint( scene->getRoot() );
+    GluonEngine::SceneGraph *scene = new GluonEngine::SceneGraph();
+    QUrl filename( "/home/vsrao/Desktop/savefile.txt" );
+    QList<GluonObject*> objectlist;
+    objectlist.append( scene->toScene() );
+    GluonCore::GDLSerializer::instance()->write( filename, objectlist );
 }
 
 

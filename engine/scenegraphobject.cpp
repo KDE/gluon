@@ -22,8 +22,11 @@
 #include "game.h"
 #include "gameproject.h"
 #include "tagobject.h"
+#include "component.h"
 
 #include <core/gluonobject.h>
+#include <core/gluonobjectfactory.h>
+
 #include <QMetaProperty>
 
 using namespace GluonEngine;
@@ -161,20 +164,84 @@ int SceneGraphObject::compare( SceneGraphObject* object )
             if( this->getLevel() != object->getLevel() )
                 return 2;
             else
+            {
                 for( int i = 0; i < this->getMember()->metaObject()->propertyCount(); i++ )
                 {
-                    QMetaProperty property = this->getMember()->metaObject()->property( i );
-                    if( property.read( object->getMember() ) != property.read( this->getMember() ) )
+                    QMetaProperty property1 = this->getMember()->metaObject()->property( i );
+                    int index = object->getMember()->metaObject()->indexOfProperty( property1.name() );
+                    if( index == -1 )
+                        return 1;
+                    QMetaProperty property2 = object->getMember()->metaObject()->property( index );
+                    if( property1.read( this->getMember() ) != property2.read( object->getMember() ) )
                         return 1;
                 }
+                QList<QByteArray> dynamicProperties = this->getMember()->dynamicPropertyNames();
+                foreach( const QByteArray& name, dynamicProperties )
+                {
+                    if( object->getMember()->property( name ).isValid() )
+                    {
+                        if( this->getMember()->property( name ).isValid() != object->getMember()->property( name ).isValid() )
+                            return 1;
+                    }
+                    else
+                        return 1;
+                }
+                for( int i = 0; i < this->getMember()->components().count(); i++ )
+                {
+                    GluonEngine::Component* componentm = this->getMember()->components().at( i );
+                    int typem = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( componentm->metaObject()->className() );
+                    GluonEngine::Component* componento = object->getMember()->findComponentByType( typem );
+                    if( componento == 0 )
+                        return 1;
+                    if( componento->fullyQualifiedName().compare( componentm->fullyQualifiedName() ) !=0 )
+                        return 1;
+                }
+            }
         }
     }
     return 0;
 }
 
-bool SceneGraphObject::isBase()
+bool SceneGraphObject::checkIsBase()
 {
     return this->isBase;
+}
+
+GluonEngine::SceneGraphObject* SceneGraphObject::getRefObject()
+{
+    return this->refObject;
+}
+
+void SceneGraphObject::setRefObject( GluonEngine::SceneGraphObject* object )
+{
+    this->refObject = object;
+}
+
+void SceneGraphObject::modifyMember()
+{
+    this->modifiedMember = new GluonEngine::GameObject();
+    this->modifiedMember->setName( this->getMember()->name() );
+    GluonEngine::SceneGraphObject* parentobject = getParent();
+    if( parentobject != 0 )
+    {
+        this->modifiedMember->setParentGameObject( parentobject->getModifiedMember() );
+        this->modifiedMember->parentGameObject()->addChild( this->modifiedMember );
+    }
+}
+
+GluonEngine::GameObject* SceneGraphObject::getModifiedMember()
+{
+    return this->modifiedMember;
+}
+
+GluonEngine::SceneGraphObject* SceneGraphObject::getParent()
+{
+    if( this->parent == 0 )
+        return 0;
+    if( this->parent->isGroupHead() )
+        return this->parent->getParent();
+    else
+        return this->parent;
 }
 
 

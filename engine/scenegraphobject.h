@@ -25,12 +25,13 @@
 
 #include "gameobject.h"
 #include "gluon_engine_export.h"
+#include "game.h"
 
 namespace GluonEngine
 {
     /**
      * A single entry in a scene graph. This contains all the information necessary for
-     * further searching from within the scene graph. 
+     * further searching and operations from within the scene graph. 
      */
     class GLUON_ENGINE_EXPORT SceneGraphObject: public QObject
     {
@@ -72,13 +73,23 @@ namespace GluonEngine
 	 * Maybe used for further functions, to perform operations at a given level
 	 */
 	int level;
+        /**
+         * A reference to the object this is a clone of/resembles most
+         */
+        GluonEngine::SceneGraphObject* refObject;
+        /**
+         * This object is a copy of the GameObject, but has only the
+         * properties that are to be written. This is to ensure that
+         * the actual GameObject that's used is kept as is.
+         */
+        GluonEngine::GameObject* modifiedMember;
 	
     public:
         Q_INVOKABLE  SceneGraphObject();
         ~SceneGraphObject();
 	/**
          * This value is 2 if not compared ( not present in other graph ),
-         * 1 if differs from similar object in the other graph and 0 otherwise.
+         * 1 if it differs from the similar object in the other graph and 0 otherwise.
          */
         int diff;
 	/**
@@ -110,10 +121,6 @@ namespace GluonEngine
 	 * Add a group of children
 	 */
 	Q_INVOKABLE void addChildrenGroup( QList<SceneGraphObject*> );
-	/**
-	 * Called, to set the hash
-	 */
-	Q_INVOKABLE void setHash( long );
 	/**
 	 * Set the level of hierarchy, for easy access and further operations
 	 */
@@ -149,7 +156,28 @@ namespace GluonEngine
         /**
          * To check if this object is a template/base
          */
-        Q_INVOKABLE bool isBase();
+        Q_INVOKABLE bool checkIsBase();
+        /**
+         * Set the reference object
+         */
+        Q_INVOKABLE void setRefObject( GluonEngine::SceneGraphObject* object );
+        /**
+         * Get the reference object
+         */
+        Q_INVOKABLE GluonEngine::SceneGraphObject* getRefObject();
+        /**
+         * This function is used to modify the GameObject that's contained,
+         * to contain only the minimum number of required properties.
+         */
+        Q_INVOKABLE void modifyMember();
+        /**
+         * Returns the modified Game Object of the member
+         */
+        Q_INVOKABLE GluonEngine::GameObject* getModifiedMember();
+        /**
+         * Returns the parent SceneGraphObject
+         */
+        Q_INVOKABLE GluonEngine::SceneGraphObject* getParent();
     };
 }
 

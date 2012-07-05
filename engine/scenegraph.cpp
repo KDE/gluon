@@ -22,7 +22,9 @@
 
 #include "game.h"
 #include "gameproject.h"
+
 #include <core/gluonobject.h>
+#include <core/gdlserializer.h>
 
 #include <iostream>
 #include <QMetaProperty>
@@ -31,29 +33,46 @@ using namespace std;
 
 using namespace GluonEngine;
 
-SceneGraph::SceneGraph()
+// Pointer used for comparison
+GluonEngine::SceneGraphObject* cobject;
+
+SceneGraph::SceneGraph( bool ref )
 {
-    this->root = new SceneGraphObject();
+    this->root = new GluonEngine::SceneGraphObject();
     this->root->setMember( GluonEngine::Game::instance()->currentScene()->sceneContents() );
-    this->tags = GluonEngine::Game::instance()->gameProject()->getTagObject();
-    populate( this->root, 0 );
+    initHelper( ref );
 }
 
-SceneGraph::SceneGraph( GluonEngine::GameObject* parent )
+SceneGraph::SceneGraph( GluonEngine::GameObject* parent, bool ref )
 {
-    this->root = new SceneGraphObject();
+    this->root = new GluonEngine::SceneGraphObject();
     this->root->setMember( parent );
+    initHelper( ref );
+}
+
+void SceneGraph::initHelper( bool ref )
+{
+    this->ref = ref;
     this->tags = GluonEngine::Game::instance()->gameProject()->getTagObject();
+    GluonCore::GluonObjectList objects;
+    if( !ref )
+    {
+        // This is just to ensure reference graphs don't have references again.
+        if( GluonCore::GDLSerializer::instance()->read( GluonEngine::Game::instance()->currentScene()->absolutePath(), objects, 0 ) )
+            this->refgraph = new GluonEngine::SceneGraph( qobject_cast< GameObject*>( objects.at( 0 ) ), true );
+    }
     populate( this->root, 0 );
+    if( !ref )
+        compare();
 }
 
 SceneGraph::~SceneGraph()
 {
 }
 
-void SceneGraph::populate( SceneGraphObject* object, int level )
+void SceneGraph::populate( GluonEngine::SceneGraphObject* object, int level )
 {
-    QList<SceneGraphObject*> children;
+    QList<GluonEngine::SceneGraphObject*> children;
     QList<GluonEngine::GameObject*> members;
     QHash<QString, QList<GluonEngine::GameObject*> > hash;
     for( int i = 0; i < object->getMember()->childCount(); i++ )
@@ -71,7 +90,7 @@ void SceneGraph::populate( SceneGraphObject* object, int level )
     }
     foreach( QString key, hash.keys() )
     {
-        SceneGraphObject* group = new SceneGraphObject();
+        GluonEngine::SceneGraphObject* group = new GluonEngine::SceneGraphObject();
         group->setGroupHead( true );
         group->setParent( object );
         group->setGroupName( key );
@@ -79,7 +98,7 @@ void SceneGraph::populate( SceneGraphObject* object, int level )
         QList<GluonEngine::SceneGraphObject*> childrenofgroup;
         foreach( GluonEngine::GameObject* member, hash.value( key ) )
         {
-            SceneGraphObject* child = new SceneGraphObject();
+            GluonEngine::SceneGraphObject* child = new GluonEngine::SceneGraphObject();
             child->setParent( group );
             child->setLevel( level + 1 );
             child->setMember( member );
@@ -92,7 +111,7 @@ void SceneGraph::populate( SceneGraphObject* object, int level )
     }
     foreach( GluonEngine::GameObject* member, members )
     {
-        SceneGraphObject* child = new SceneGraphObject();
+        GluonEngine::SceneGraphObject* child = new GluonEngine::SceneGraphObject();
         child->setMember( member );
         child->setParent( object );
         child->setLevel( level );
@@ -102,7 +121,7 @@ void SceneGraph::populate( SceneGraphObject* object, int level )
     object->addChildren( children );
 }
 
-void SceneGraph::debugprint( SceneGraphObject* object, int level )
+void SceneGraph::debugprint( GluonEngine::SceneGraphObject* object, int level )
 {
     for( int i = 0; i < level; i++ )
         cout << "  ";
@@ -112,58 +131,84 @@ void SceneGraph::debugprint( SceneGraphObject* object, int level )
     else
         name = object->getMember()->name();
     cout << name.toUtf8().constData() << endl;
-    foreach( SceneGraphObject *child, object->getChildren() )
+    foreach( GluonEngine::SceneGraphObject *child, object->getChildren() )
         debugprint( child, level + 1 );
     cout << "  ";
 }
 
-void SceneGraph::debugprint( SceneGraphObject* object )
+void SceneGraph::debugprint( GluonEngine::SceneGraphObject* object )
 {
     debugprint( object, 0 );
 }
 
 
-SceneGraphObject* SceneGraph::getRoot()
+GluonEngine::SceneGraphObject* SceneGraph::getRoot()
 {
     return this->root;
 }
 
-SceneGraphObject* SceneGraph::findChild( QString name )
+void SceneGraph::findChild( QString name )
 {
-    return findChild( this->root, name );
+    cobject = 0;
+    findChild( getRoot(), name );
 }
 
-SceneGraphObject* SceneGraph::findChild( SceneGraphObject* object, QString name )
+void SceneGraph::findChild( SceneGraphObject* object, QString name )
 {
     if( object->isGroupHead() )
+    {
         if( object->getGroupName().compare( name ) == 0 )
-            return object;
+        {
+            cobject = object;
+            return;
+        }
+    }
     else
+    {
         if( object->getMember()->name().compare( name ) == 0 )
-            return object;
+        {
+            cobject = object;
+            return;
+        }
+    }
     foreach( GluonEngine::SceneGraphObject* obj, object->getChildren() )
         findChild( obj, name );
-    return 0;
 }
 
-SceneGraphObject* SceneGraph::getBaseObject( GluonEngine::SceneGraphObject* object )
+void SceneGraph::getBaseObject( GluonEngine::SceneGraphObject* object )
 {
-    return findChild( this->tags->getBaseName( object->getMember()->name() ) );
+    findChild( this->tags->getBaseName( object->getMember()->name() ) );
 }
 
 void SceneGraph::compare( GluonEngine::SceneGraphObject* object )
 {
-    GluonEngine::SceneGraphObject *cobject = this->refgraph->findChild( object->getMember()->name() );
-    if( cobject == 0 )
-        cobject = this->refgraph->getBaseObject( object );
-    object->diff = object->compare( cobject );
+    if( ! object->isGroupHead() )
+    {
+        this->refgraph->findChild( object->getMember()->name() );
+        if( ! cobject )
+            this->refgraph->getBaseObject( object );
+        if( ! cobject )
+            object->diff = 0;
+        else
+        {
+            object->setRefObject( cobject );
+            object->diff = ( object->compare( cobject ) == 0 ? 0 : 1 );
+            object->modifyMember();
+        }
+    }
     foreach( GluonEngine::SceneGraphObject* obj, object->getChildren() )
         compare( obj );
 }
 
 void SceneGraph::compare()
 {
-    compare( this->root );
+    compare( getRoot() );
 }
+
+GameObject* SceneGraph::toScene()
+{
+    return getRoot()->getModifiedMember();
+}
+
 
 #include "scenegraph.moc"
