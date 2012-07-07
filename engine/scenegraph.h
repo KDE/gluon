@@ -20,8 +20,6 @@
 #ifndef GLUON_ENGINE_SCENEGRAPH_H
 #define GLUON_ENGINE_SCENEGRAPH_H
 
-#include <QObject>
-
 #include "gameobject.h"
 #include "tagobject.h"
 #include "gluon_engine_export.h"
@@ -29,25 +27,13 @@
 
 namespace GluonEngine
 {
-    class GLUON_ENGINE_EXPORT SceneGraph: public QObject
+    class SceneGraphPrivate;
+    class GLUON_ENGINE_EXPORT SceneGraph
     {
-        Q_OBJECT
         /**
          * Initialization helper
          */
         void initHelper( bool ref );
-        /**
-         * Root of the graph
-         */
-	GluonEngine::SceneGraphObject* root;
-        /**
-         * The other graph that's referenced
-         */
-        GluonEngine::SceneGraph *refgraph;
-        /**
-         * The object used to query tags associated with the objects
-         */
-        GluonEngine::TagObject *tags;
         /**
          * Find the group/child from name
          */
@@ -57,16 +43,15 @@ namespace GluonEngine
          * Get base/template object
          */
         void getBaseObject( GluonEngine::SceneGraphObject *object );
-        /**
-         * If this graph is a reference graph itself.
-         */
-        bool ref;
 
     public:
         Q_INVOKABLE SceneGraph( bool ref = false );
         SceneGraph( GluonEngine::GameObject* parent, bool ref = false );
         ~SceneGraph();
 
+        /**
+         * Get the root of the scene graph
+         */
         Q_INVOKABLE SceneGraphObject* getRoot();
 
         /**
@@ -92,9 +77,10 @@ namespace GluonEngine
          /**
           * Convert the scenegraph into a writable scene
           */
-         Q_INVOKABLE GluonEngine::GameObject* toScene();
+         Q_INVOKABLE GluonCore::GluonObject* toScene();
+
+    private:
+        SceneGraphPrivate* p;
     };
 }
-
-Q_DECLARE_METATYPE( GluonEngine::SceneGraph* )
 #endif

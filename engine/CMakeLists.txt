@@ -79,7 +79,9 @@ set(GluonEngine_SRCS
     gameprivate.cpp
     gamesave.cpp
     scenegraph.cpp
+    scenegraphprivate.cpp
     scenegraphobject.cpp
+    scenegraphobjectprivate.cpp
     tagobject.cpp
     tagmanagerwindow.cpp
 )
@@ -109,7 +111,9 @@ set(GluonEngine_HEADERS
     game.h
     gamesave.h
     scenegraph.h
+    scenegraphprivate.h
     scenegraphobject.h
+    scenegraphobjectprivate.h
     tagobject.h
     tagmanagerwindow.h
     gluon_engine_export.h

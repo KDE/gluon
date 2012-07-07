@@ -20,7 +20,6 @@
 #ifndef GLUON_ENGINE_SCENEGRAPHOBJECT_H
 #define GLUON_ENGINE_SCENEGRAPHOBJECT_H
 
-#include <QObject>
 #include <QList>
 
 #include "gameobject.h"
@@ -29,61 +28,13 @@
 
 namespace GluonEngine
 {
+    class SceneGraphObjectPrivate;
     /**
      * A single entry in a scene graph. This contains all the information necessary for
      * further searching and operations from within the scene graph. 
      */
-    class GLUON_ENGINE_EXPORT SceneGraphObject: public QObject
+    class GLUON_ENGINE_EXPORT SceneGraphObject
     {
-        Q_OBJECT
-	/**
-	 * Parent of this group/object
-	 */
-	SceneGraphObject *parent;
-        /**
-         * If this object is to be a template for other objects
-         */
-        bool isBase;
-	/**
-	 * A group of objects, that come under the same level of hierarchy,
-	 * grouped by similar scripts/names
-	 */
-	QString groupname;
-        /**
-         * This sets the object as group parent. If true, it doesn't hold
-         * any member object, and only holds its children
-         */
-        bool grouphead;
-	/**
-	 * This is the main object/group we target at this level
-	 * Can be used, to perform same operation/set property for all 
-	 * objects that fall under this group
-	 */
-	GluonEngine::GameObject *member;
-	/**
-	 * Children of the present 'member', each individual objects
-	 */
-	QList<SceneGraphObject*> children;
-	/**
-	 * Children that fall to groups
-	 */
-	QList<SceneGraphObject*> childrengroup;
-	/**
-	 * The level at which the object falls, to track groups properly
-	 * Maybe used for further functions, to perform operations at a given level
-	 */
-	int level;
-        /**
-         * A reference to the object this is a clone of/resembles most
-         */
-        GluonEngine::SceneGraphObject* refObject;
-        /**
-         * This object is a copy of the GameObject, but has only the
-         * properties that are to be written. This is to ensure that
-         * the actual GameObject that's used is kept as is.
-         */
-        GluonEngine::GameObject* modifiedMember;
-	
     public:
         Q_INVOKABLE  SceneGraphObject();
         ~SceneGraphObject();
@@ -118,10 +69,6 @@ namespace GluonEngine
          */
         Q_INVOKABLE QList<SceneGraphObject*> getChildren();
 	/**
-	 * Add a group of children
-	 */
-	Q_INVOKABLE void addChildrenGroup( QList<SceneGraphObject*> );
-	/**
 	 * Set the level of hierarchy, for easy access and further operations
 	 */
 	Q_INVOKABLE void setLevel( int );
@@ -129,10 +76,6 @@ namespace GluonEngine
 	 * Returns the number of children(excluding those under a group
 	 */
 	Q_INVOKABLE int childCount();
-	/**
-	 * Returns the number of groups of children
-	 */
-	Q_INVOKABLE int groupCount();
         /**
          * Set object as grouphead
          */
@@ -180,8 +123,9 @@ namespace GluonEngine
          * Returns the parent SceneGraphObject
          */
         Q_INVOKABLE GluonEngine::SceneGraphObject* getParent();
+    private:
+        SceneGraphObjectPrivate* p;
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::SceneGraphObject* )
 #endif

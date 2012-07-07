@@ -15,38 +15,33 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- */
+ */ 
 
-#ifndef GLUON_ENGINE_GAMESAVE_H
-#define GLUON_ENGINE_GAMESAVE_H
-
-#include <core/gluonobject.h>
-#include "gluon_engine_export.h"
+#ifndef GLUON_ENGINE_SCENEGRAPHPRIVATE_H
+#define GLUON_ENGINE_SCENEGRAPHPRIVATE_H
 
 namespace GluonEngine
 {
-    /**
-     * For saving and loading game states, by serializing the 
-     * current scene.
-     */
-    class GLUON_ENGINE_EXPORT GameSave : public GluonCore::GluonObject
+    class SceneGraph;
+    class TagObject;
+    class SceneGraphObject;
+    class GameObject;
+    class SceneGraphPrivate
     {
-        Q_OBJECT
-        GLUON_OBJECT( GluonEngine::GameSave )
-    public:
-	Q_INVOKABLE GameSave();
-        ~GameSave();
+        public:
+            SceneGraphPrivate( SceneGraph* g, bool r = false );
+            SceneGraphPrivate( SceneGraph* g, GluonEngine::GameObject* obj, bool r = false );
+            ~SceneGraphPrivate();
 
-        Q_INVOKABLE void save();
-        Q_INVOKABLE void load();
-        Q_INVOKABLE void partialSave();
+            GluonEngine::SceneGraphObject* root;
+            GluonEngine::SceneGraph* refgraph;
+            GluonEngine::TagObject* tags;
+            bool ref;
+            SceneGraph* g;
 
-        /**
-         * Print the current contents of the scene, along with their properties.
-         */
-	Q_INVOKABLE void debugPrint(QObject *);
+        private:
+            void initHelper();
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::GameSave* )
 #endif

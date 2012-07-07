@@ -81,7 +81,7 @@ void GameSave::save()
         qDebug() << "Error in writing to: " << filename.toString();
     if( ! pause_flag )
         Game::instance()->setPause( false );
-    scenegraph();
+    partialSave();
 }
 
 void GameSave::load()
@@ -89,14 +89,14 @@ void GameSave::load()
     //TODO: Give developer option to present list of saved slots to choose from.
     QList<GluonObject*> objectlist;
     QString dir = QDir::homePath().append( "/Desktop/" );
-    QString savefile = QFileDialog::getOpenFileName(0, tr("Load Game"), dir, tr("Save Files (*.gs)"));
+    QString savefile = QFileDialog::getOpenFileName(0, tr("Load Game"), dir, tr( "Save Files (*.gs)" ) );
     QUrl filename( savefile );
     GluonEngine::Game::instance()->loadScene( filename );
     AchievementsManager am;
-    am.load(dir);
+    am.load( dir );
 }
 
-void GameSave::scenegraph()
+void GameSave::partialSave()
 {
     GluonEngine::SceneGraph *scene = new GluonEngine::SceneGraph();
     QUrl filename( "/home/vsrao/Desktop/savefile.txt" );
