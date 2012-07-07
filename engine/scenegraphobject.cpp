@@ -28,6 +28,7 @@
 #include <core/gluonobjectfactory.h>
 
 #include <QMetaProperty>
+#include <QDebug>
 
 using namespace GluonEngine;
 
@@ -155,45 +156,43 @@ int SceneGraphObject::compare( SceneGraphObject* object )
     else
     {
         GluonEngine::TagObject *tags = GluonEngine::Game::instance()->gameProject()->getTagObject();
-        QString name1 = tags->getBaseName( this->getMember()->name() );
+        QString name1 = tags->getBaseName( getMember()->name() );
         QString name2 = tags->getBaseName( object->getMember()->name() );
         if( tags->getTags( name1 ).compare( tags->getTags( name2 ) ) != 0 )
             return 3;
         else
         {
-            if( this->getLevel() != object->getLevel() )
+            if( getLevel() != object->getLevel() )
                 return 2;
             else
             {
-                for( int i = 0; i < this->getMember()->metaObject()->propertyCount(); i++ )
+                for( int i = 0; i < getMember()->metaObject()->propertyCount(); i++ )
                 {
-                    QMetaProperty property1 = this->getMember()->metaObject()->property( i );
+                    QMetaProperty property1 = getMember()->metaObject()->property( i );
                     int index = object->getMember()->metaObject()->indexOfProperty( property1.name() );
                     if( index == -1 )
                         return 1;
                     QMetaProperty property2 = object->getMember()->metaObject()->property( index );
-                    if( property1.read( this->getMember() ) != property2.read( object->getMember() ) )
+                    if( property1.read( getMember() ) != property2.read( object->getMember() ) )
                         return 1;
                 }
-                QList<QByteArray> dynamicProperties = this->getMember()->dynamicPropertyNames();
+                QList<QByteArray> dynamicProperties = getMember()->dynamicPropertyNames();
                 foreach( const QByteArray& name, dynamicProperties )
                 {
                     if( object->getMember()->property( name ).isValid() )
                     {
-                        if( this->getMember()->property( name ).isValid() != object->getMember()->property( name ).isValid() )
+                        if( getMember()->property( name ).isValid() != object->getMember()->property( name ).isValid() )
                             return 1;
                     }
                     else
                         return 1;
                 }
-                for( int i = 0; i < this->getMember()->components().count(); i++ )
+                for( int i = 0; i < getMember()->components().count(); i++ )
                 {
-                    GluonEngine::Component* componentm = this->getMember()->components().at( i );
+                    GluonEngine::Component* componentm = getMember()->components().at( i );
                     int typem = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( componentm->metaObject()->className() );
                     GluonEngine::Component* componento = object->getMember()->findComponentByType( typem );
                     if( componento == 0 )
-                        return 1;
-                    if( componento->fullyQualifiedName().compare( componentm->fullyQualifiedName() ) !=0 )
                         return 1;
                 }
             }
@@ -220,12 +219,36 @@ void SceneGraphObject::setRefObject( GluonEngine::SceneGraphObject* object )
 void SceneGraphObject::modifyMember()
 {
     this->modifiedMember = new GluonEngine::GameObject();
-    this->modifiedMember->setName( this->getMember()->name() );
+    this->modifiedMember->setName( getMember()->name() );
     GluonEngine::SceneGraphObject* parentobject = getParent();
     if( parentobject != 0 )
     {
         this->modifiedMember->setParentGameObject( parentobject->getModifiedMember() );
         this->modifiedMember->parentGameObject()->addChild( this->modifiedMember );
+    }
+    if( this->diff == 0 )
+        return;
+    for( int i = 0; i < getMember()->metaObject()->propertyCount(); i++ )
+    {
+        QMetaProperty property1 = getMember()->metaObject()->property( i );
+        int index = getRefObject()->getMember()->metaObject()->indexOfProperty( property1.name() );
+        if( index == -1 )
+            this->modifiedMember->setProperty( property1.name(), property1.read( getMember() ) );
+        else
+        {
+            QMetaProperty property2 = getRefObject()->getMember()->metaObject()->property( index );
+            if( property2.read( getRefObject()->getMember() ) != property1.read( getMember() ) )
+                this->modifiedMember->setProperty( property1.name(), property1.read( getMember() ) );
+        }
+    }
+    for( int i = 0; i < getMember()->components().count(); i++ )
+    {
+        GluonEngine::Component* componentm = getMember()->components().at( i );
+        GluonEngine::Component* componento = getRefObject()->getMember()->findComponent( componentm->fullyQualifiedName().split("/").last() );
+        if( componento == 0 )
+            return;
+        else
+            qDebug() << componento->fullyQualifiedName();
     }
 }
 

@@ -168,6 +168,8 @@ namespace GluonEngine
         /**
          * This function is used to modify the GameObject that's contained,
          * to contain only the minimum number of required properties.
+         * In essence, it creates a copy of the object that can be retrieved using
+         * getModifiedMember()
          */
         Q_INVOKABLE void modifyMember();
         /**
