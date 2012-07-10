@@ -11,7 +11,7 @@ option(BUILD_GRAPHICS_COMPONENTS "Build Components dependant on Gluon Graphics" 
 option(BUILD_GRAPHICS_ASSETS "Build Assets dependant on Gluon Graphics" ON)
 option(BUILD_INPUT_COMPONENTS "Build Components dependant on Gluon Input" ON)
 option(BUILD_INPUT_ASSETS "Build Assets dependant on Gluon Input" ON)
-option(BUILD_PHYSICS_COMPONENTS "Build Components related to physics" OFF)
+option(BUILD_PHYSICS_COMPONENTS "Build Components related to physics" ON)
 option(BUILD_PHYSICS_ASSETS "Build Assets related to physics" OFF)
 option(BUILD_OTHER_COMPONENTS "Build other Components" ON)
 option(BUILD_OTHER_ASSETS "Build other Assets" ON)
