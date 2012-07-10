@@ -108,7 +108,7 @@ void PropertyWidget::setObject( GluonCore::GluonObject* object )
         hlayout->addWidget( taglabel );
         hlayout->setObjectName( "hlayout" );
         tagedit = new QLineEdit;
-        QString tags = GluonEngine::Game::instance()->gameProject()->getTags( d->object->name() );
+        QString tags = GluonEngine::Game::instance()->gameProject()->tags( d->object->name() );
         tagedit->setText( tags );
         connect( tagedit, SIGNAL(editingFinished()), this, SLOT(slotTags()) );
         hlayout->addWidget( tagedit );

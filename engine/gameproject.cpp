@@ -475,14 +475,14 @@ void GameProject::addTags( QString objectname, QString tags )
     d->tags->addTags( objectname, tags );
 }
 
-TagObject* GameProject::getTagObject()
+TagObject* GameProject::tagObject()
 {
     return d->tags;
 }
 
-QString GameProject::getTags( QString objectname )
+QString GameProject::tags( QString objectname )
 {
-    return d->tags->getTags( objectname );
+    return d->tags->tags( objectname );
 }
 
 #include "gameproject.moc"

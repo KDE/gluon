@@ -83,6 +83,7 @@ set(GluonEngine_SRCS
     scenegraphobject.cpp
     scenegraphobjectprivate.cpp
     tagobject.cpp
+    tagobjectprivate.cpp
     tagmanagerwindow.cpp
 )
 
@@ -115,6 +116,7 @@ set(GluonEngine_HEADERS
     scenegraphobject.h
     scenegraphobjectprivate.h
     tagobject.h
+    tagobjectprivate.h
     tagmanagerwindow.h
     gluon_engine_export.h
     gluon_engine_metatypes.h

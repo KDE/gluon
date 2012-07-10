@@ -33,18 +33,31 @@ namespace GluonEngine
     {
         Q_OBJECT
         GLUON_OBJECT( GluonEngine::GameSave )
-    public:
-	Q_INVOKABLE GameSave();
-        ~GameSave();
+        public:
+            Q_INVOKABLE GameSave();
+            ~GameSave();
 
-        Q_INVOKABLE void save();
-        Q_INVOKABLE void load();
-        Q_INVOKABLE void partialSave();
+            /**
+            * Save the Game's engine state to a file.
+            */
+            Q_INVOKABLE void save();
+            /**
+            * Load a state from a file.
+            */
+            Q_INVOKABLE void load();
+            /**
+            * Save a minimal persistence file.
+            */
+            Q_INVOKABLE void partialSave();
+            /**
+            * Load from a minimal persistence file.
+            */
+            Q_INVOKABLE void partialLoad();
 
-        /**
-         * Print the current contents of the scene, along with their properties.
-         */
-	Q_INVOKABLE void debugPrint(QObject *);
+            /**
+            * Print the current contents of the scene, along with their properties.
+            */
+            Q_INVOKABLE void debugPrint(QObject *);
     };
 }
 

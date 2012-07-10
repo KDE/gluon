@@ -18,6 +18,8 @@
  */
 
 #include "tagobject.h"
+#include "tagobjectprivate.h"
+
 #include "game.h"
 #include "gameobject.h"
 
@@ -37,14 +39,8 @@ using namespace GluonEngine;
 REGISTER_OBJECTTYPE( GluonEngine, TagObject )
 
 TagObject::TagObject()
+    : t( new TagObjectPrivate( this ) )
 {
-    this->tags.clear();
-}
-
-TagObject::TagObject( GluonEngine::TagObject* other )
-{
-    for(QHash<QString, QSet<QString> >::iterator i = other->tags.begin(); i != other->tags.end(); ++i)
-        this->tags.insert( i.key(), i.value() );
 }
 
 TagObject::TagObject( QString path )
@@ -53,17 +49,16 @@ TagObject::TagObject( QString path )
 }
 TagObject::~TagObject()
 {
-
+    delete t;
 }
 
 void TagObject::addTag( GluonEngine::GameObject* object , QString tag )
 {
     QSet<QString> set;
-    if( this->tags.contains( tag ) )
-        set = this->tags[ tag ];
+    if( t->tags.contains( tag ) )
+        set = t->tags[ tag ];
     set.insert( object->name() );
-    this->tags.insert( tag, set );
-    printTags();
+    t->tags.insert( tag, set );
 }
 
 void TagObject::addTags( QString objectname, QString tags )
@@ -75,12 +70,11 @@ void TagObject::addTags( QString objectname, QString tags )
     foreach( QString tag, taglist )
     {
         QSet<QString> set;
-        if( this->tags.contains( tag ) )
-            set = this->tags[ tag ];
+        if( t->tags.contains( tag ) )
+            set = t->tags[ tag ];
         set.insert( objectname );
-        this->tags.insert( tag, set );
+        t->tags.insert( tag, set );
     }
-    printTags();
 }
 
 
@@ -94,7 +88,7 @@ void TagObject::removeTag( GluonEngine::GameObject* object )
 {
     QList< QString > list;
     QString objectname = object->name();
-    for(QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i)
+    for(QHash<QString, QSet<QString> >::iterator i = t->tags.begin(); i != t->tags.end(); ++i)
     {
         if( i.value().contains( objectname ) )
             i.value().remove( objectname );
@@ -102,61 +96,60 @@ void TagObject::removeTag( GluonEngine::GameObject* object )
             list.append( i.key() );
     }
     foreach( QString item, list )
-        this->tags.remove( item );
-    printTags();
+        t->tags.remove( item );
 }
 
-QList< QString > TagObject::getObjects( QString tag )
+QList< QString > TagObject::objects( QString tag )
 {
-    return this->tags[ tag ].toList();
+    return t->tags[ tag ].toList();
 }
 
-QList< QString > TagObject::getObjects( GameObject* scene, QString tag )
+QList< QString > TagObject::objects( GameObject* scene, QString tag )
 {
-    QList< QString > list = this->tags[ tag ].toList();
-    QStringList objectlist = getObjectsFromScene( scene );
+    QList< QString > list = t->tags[ tag ].toList();
+    QStringList objectlist = objectsFromScene( scene );
     foreach( QString object, objectlist )
-        if( list.contains( getBaseName( object ) ) )
+        if( list.contains( baseName( object ) ) )
             list.append( object );
     return list;
 }
 
 
-QList< QString > TagObject::getTags( GluonEngine::GameObject* object )
+QList< QString > TagObject::tags( GluonEngine::GameObject* object )
 {
     QString objectname = object->name();
     QList< QString> list;
-    for(QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i)
+    for(QHash<QString, QSet<QString> >::iterator i = t->tags.begin(); i != t->tags.end(); ++i)
         if( i.value().contains( objectname ) )
             list.append( i.key() );
     return list;
 }
 
-QString TagObject::getTags( QString objectname )
+QString TagObject::tags( QString objectname )
 {
     QStringList list;
-    for(QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i)
+    for(QHash<QString, QSet<QString> >::iterator i = t->tags.begin(); i != t->tags.end(); ++i)
         if( i.value().contains( objectname ) )
             list.append( i.key() );
     if( list.isEmpty() )
     {
-        if( objectname.compare( getBaseName( objectname ) ) == 0 )
+        if( objectname.compare( baseName( objectname ) ) == 0 )
             return QString("");
         else
-            return getTags( getBaseName( objectname ) );
+            return tags( baseName( objectname ) );
     }
     return list.join( ", " );
 }
 
 void TagObject::printTags()
 {
-    for(QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i)
+    for(QHash<QString, QSet<QString> >::iterator i = t->tags.begin(); i != t->tags.end(); ++i)
         qDebug() << i.key().toUtf8().constData() << ' ' << QStringList( i.value().toList() ).join(" ").toUtf8().constData();
 }
 
 bool TagObject::writeToFile()
 {
-    return writeToFile( this->path );
+    return writeToFile( t->path );
 }
 
 bool TagObject::writeToFile( QString path )
@@ -169,7 +162,7 @@ bool TagObject::writeToFile( QString path )
     if( !file.open( QIODevice::WriteOnly ) )
         return false;
     QTextStream out( &file );
-    for(QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i)
+    for(QHash<QString, QSet<QString> >::iterator i = t->tags.begin(); i != t->tags.end(); ++i)
         out << i.key().toUtf8().constData() << ' ' << QStringList( i.value().toList() ).join(" ").toUtf8().constData() << '\n';
     file.close();
     return true;
@@ -178,7 +171,7 @@ bool TagObject::writeToFile( QString path )
 
 bool TagObject::readFromFile()
 {
-    return readFromFile( this->path );
+    return readFromFile( t->path );
 }
 
 bool TagObject::readFromFile( QString path )
@@ -189,7 +182,7 @@ bool TagObject::readFromFile( QString path )
         writeToFile( path );
         return false;
     }
-    this->tags.clear();
+    t->tags.clear();
     QTextStream in( &file );
     QString line = in.readLine();
     while( ! line.isNull() )
@@ -197,24 +190,23 @@ bool TagObject::readFromFile( QString path )
         QList< QString > list = line.split(" ");
         QString key = list.first();
         list.pop_front();
-        this->tags[ key ] = list.toSet();
+        t->tags[ key ] = list.toSet();
         line = in.readLine();
     }
     file.close();
-    printTags();
     return true;
 }
 
 void TagObject::setPath( QUrl path )
 {
-    this->path = path.toLocalFile() + QString("/assets/tags/tags.gs");
+    t->path = path.toLocalFile() + QString("/assets/tags/tags.gs");
     readFromFile();
 }
 
 void TagObject::clearTags( QString objectname )
 {
     QStringList list;
-    for(QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i)
+    for(QHash<QString, QSet<QString> >::iterator i = t->tags.begin(); i != t->tags.end(); ++i)
         if( i.value().contains( objectname ) )
         {
             i.value().remove( objectname );
@@ -222,30 +214,30 @@ void TagObject::clearTags( QString objectname )
                 list.append( i.key () );
         }
     foreach( QString key, list )
-        this->tags.remove( key );
+        t->tags.remove( key );
 }
 
-QString TagObject::getBaseName( QString objectname )
+QString TagObject::baseName( QString objectname )
 {
     QStringList list = objectname.split( QRegExp("\\W+"), QString::SkipEmptyParts );
     if( !list.isEmpty() )
         return list.first();
 }
 
-QStringList TagObject::getObjectsFromScene( GluonEngine::GameObject* scene )
+QStringList TagObject::objectsFromScene( GluonEngine::GameObject* scene )
 {
     QStringList list;
     list.append( scene->name() );
     for( int i = 0; i < scene->childCount(); i++ )
-        list.append( getObjectsFromScene( scene->childGameObject( i ) ) );
+        list.append( objectsFromScene( scene->childGameObject( i ) ) );
     return list;
 }
 
 void TagObject::removeClones()
 {
-    for( QHash<QString, QSet<QString> >::iterator i = this->tags.begin(); i != this->tags.end(); ++i )
+    for( QHash<QString, QSet<QString> >::iterator i = t->tags.begin(); i != t->tags.end(); ++i )
         foreach( QString object, i.value() )
-            if( object.compare( getBaseName( object ) ) != 0 )
+            if( object.compare( baseName( object ) ) != 0 )
                 i.value().remove( object );
 }
 

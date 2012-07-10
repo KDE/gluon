@@ -41,6 +41,7 @@ SceneGraphObject::SceneGraphObject()
 
 SceneGraphObject::~SceneGraphObject()
 {
+    delete p;
 }
 
 void SceneGraphObject::setParent( SceneGraphObject* parent )
@@ -59,11 +60,11 @@ void SceneGraphObject::addChild( SceneGraphObject* child )
 }
 
 
-void SceneGraphObject::setMember( GluonEngine::GameObject* object )
+void SceneGraphObject::setGameObject( GluonEngine::GameObject* object )
 {
-    p->member = object;
-    GluonEngine::TagObject *tags = GluonEngine::Game::instance()->gameProject()->getTagObject();
-    if( p->member->name().compare( tags->getBaseName( p->member->name() ) ) == 0 )
+    p->gameobject = object;
+    GluonEngine::TagObject *tags = GluonEngine::Game::instance()->gameProject()->tagObject();
+    if( p->gameobject->name().compare( tags->baseName( p->gameobject->name() ) ) == 0 )
         p->isBase = true;
     else
         p->isBase = false;
@@ -85,14 +86,14 @@ int SceneGraphObject::childCount()
     return p->children.length();
 }
 
-GluonEngine::GameObject* SceneGraphObject::getMember()
+GluonEngine::GameObject* SceneGraphObject::gameObject()
 {
     if( !p->grouphead )
-        return p->member;
+        return p->gameobject;
     return 0;
 }
 
-QList< SceneGraphObject* > SceneGraphObject::getChildren()
+QList< SceneGraphObject* > SceneGraphObject::children()
 {
     return p->children;
 }
@@ -107,12 +108,12 @@ bool GluonEngine::SceneGraphObject::isGroupHead()
     return p->grouphead;
 }
 
-QString SceneGraphObject::getGroupName()
+QString SceneGraphObject::groupName()
 {
     return p->groupname;
 }
 
-int SceneGraphObject::getLevel()
+int SceneGraphObject::level()
 {
     return p->level;
 }
@@ -129,9 +130,9 @@ int SceneGraphObject::compare( SceneGraphObject* object )
         return 3;
     if( isGroupHead() )
     {
-        if( getLevel() == object->getLevel() )
+        if( level() == object->level() )
         {
-            if( getGroupName().compare( object->getGroupName() ) != 0 )
+            if( groupName().compare( object->groupName() ) != 0 )
                 return 1;
         }
         else
@@ -139,42 +140,42 @@ int SceneGraphObject::compare( SceneGraphObject* object )
     }
     else
     {
-        GluonEngine::TagObject *tags = GluonEngine::Game::instance()->gameProject()->getTagObject();
-        QString name1 = tags->getBaseName( getMember()->name() );
-        QString name2 = tags->getBaseName( object->getMember()->name() );
-        if( tags->getTags( name1 ).compare( tags->getTags( name2 ) ) != 0 )
+        GluonEngine::TagObject *tags = GluonEngine::Game::instance()->gameProject()->tagObject();
+        QString name1 = tags->baseName( gameObject()->name() );
+        QString name2 = tags->baseName( object->gameObject()->name() );
+        if( tags->tags( name1 ).compare( tags->tags( name2 ) ) != 0 )
             return 3;
         else
         {
-            if( getLevel() != object->getLevel() )
+            if( level() != object->level() )
                 return 2;
             else
             {
-                for( int i = 0; i < getMember()->metaObject()->propertyCount(); i++ )
+                for( int i = 0; i < gameObject()->metaObject()->propertyCount(); i++ )
                 {
-                    QMetaProperty property1 = getMember()->metaObject()->property( i );
-                    int index = object->getMember()->metaObject()->indexOfProperty( property1.name() );
+                    QMetaProperty property1 = gameObject()->metaObject()->property( i );
+                    int index = object->gameObject()->metaObject()->indexOfProperty( property1.name() );
                     if( index == -1 )
                         return 1;
-                    QMetaProperty property2 = object->getMember()->metaObject()->property( index );
-                    if( property1.read( getMember() ) != property2.read( object->getMember() ) )
+                    QMetaProperty property2 = object->gameObject()->metaObject()->property( index );
+                    if( property1.read( gameObject() ) != property2.read( object->gameObject() ) )
                         return 1;
                 }
-                QList<QByteArray> dynamicProperties = getMember()->dynamicPropertyNames();
+                QList<QByteArray> dynamicProperties = gameObject()->dynamicPropertyNames();
                 foreach( const QByteArray& name, dynamicProperties )
                 {
-                    if( object->getMember()->property( name ).isValid() )
+                    if( object->gameObject()->property( name ).isValid() )
                     {
-                        if( getMember()->property( name ).isValid() != object->getMember()->property( name ).isValid() )
+                        if( gameObject()->property( name ).isValid() != object->gameObject()->property( name ).isValid() )
                             return 1;
                     }
                     else
                         return 1;
                 }
-                for( int i = 0; i < getMember()->components().count(); i++ )
+                for( int i = 0; i < gameObject()->components().count(); i++ )
                 {
-                    GluonEngine::Component* componentm = getMember()->components().at( i );
-                    GluonEngine::Component* componento = getRefObject()->getMember()->findComponent( componentm->fullyQualifiedName().split("/").last() );
+                    GluonEngine::Component* componentm = gameObject()->components().at( i );
+                    GluonEngine::Component* componento = refObject()->gameObject()->findComponent( componentm->name() );
                     if( componento == 0 )
                         return 1;
                 }
@@ -184,12 +185,12 @@ int SceneGraphObject::compare( SceneGraphObject* object )
     return 0;
 }
 
-bool SceneGraphObject::checkIsBase()
+bool SceneGraphObject::isBase()
 {
     return p->isBase;
 }
 
-GluonEngine::SceneGraphObject* SceneGraphObject::getRefObject()
+GluonEngine::SceneGraphObject* SceneGraphObject::refObject()
 {
     return p->refobject;
 }
@@ -199,60 +200,78 @@ void SceneGraphObject::setRefObject( GluonEngine::SceneGraphObject* object )
     p->refobject = object;
 }
 
-void SceneGraphObject::modifyMember()
+void SceneGraphObject::modifyGameObject()
 {
-    p->modifiedmember = new GluonEngine::GameObject();
-    p->modifiedmember->setName( getMember()->name() );
-    GluonEngine::SceneGraphObject* parentobject = getParent();
+    p->modifiedgameobject = new GluonEngine::GameObject();
+    p->modifiedgameobject->setName( gameObject()->name() );
+    GluonEngine::SceneGraphObject* parentobject = parent();
     if( parentobject != 0 )
     {
-        p->modifiedmember->setParentGameObject( parentobject->getModifiedMember() );
-        p->modifiedmember->parentGameObject()->addChild( p->modifiedmember );
+        p->modifiedgameobject->setParentGameObject( parentobject->modifiedGameObject() );
+        p->modifiedgameobject->parentGameObject()->addChild( p->modifiedgameobject );
     }
     if( diff == 0 )
         return;
-    for( int i = 0; i < getMember()->metaObject()->propertyCount(); i++ )
+    for( int i = 0; i < gameObject()->metaObject()->propertyCount(); i++ )
     {
-        QMetaProperty property1 = getMember()->metaObject()->property( i );
-        int index = getRefObject()->getMember()->metaObject()->indexOfProperty( property1.name() );
+        QMetaProperty property1 = gameObject()->metaObject()->property( i );
+        int index = refObject()->gameObject()->metaObject()->indexOfProperty( property1.name() );
         if( index == -1 )
-            p->modifiedmember->setProperty( property1.name(), property1.read( getMember() ) );
+            p->modifiedgameobject->setProperty( property1.name(), property1.read( gameObject() ) );
         else
         {
-            QMetaProperty property2 = getRefObject()->getMember()->metaObject()->property( index );
-            if( property2.read( getRefObject()->getMember() ) != property1.read( getMember() ) )
-                p->modifiedmember->setProperty( property1.name(), property1.read( getMember() ) );
+            QMetaProperty property2 = refObject()->gameObject()->metaObject()->property( index );
+            if( property2.read( refObject()->gameObject() ) != property1.read( gameObject() ) )
+                p->modifiedgameobject->setProperty( property1.name(), property1.read( gameObject() ) );
         }
     }
-    for( int i = 0; i < getMember()->components().count(); i++ )
+    for( int i = 0; i < gameObject()->components().count(); i++ )
     {
-        GluonEngine::Component* componentm = getMember()->components().at( i );
-        GluonEngine::Component* componento = getRefObject()->getMember()->findComponent( componentm->fullyQualifiedName().split("/").last() );
+        GluonEngine::Component* componentm = gameObject()->components().at( i );
+        GluonEngine::Component* componento = refObject()->gameObject()->findComponent( componentm->name() );
         if( componento == 0 )
-            p->modifiedmember->addComponent( componentm );
+            p->modifiedgameobject->addComponent( componentm );
         else
         {
-            int typem = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( componentm->fullyQualifiedName() );
-            int typeo = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( componento->fullyQualifiedName() );
+            int typem = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( componentm->name() );
+            int typeo = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( componento->name() );
             if( typem != typeo )
-                p->modifiedmember->addComponent( componentm );
+                p->modifiedgameobject->addComponent( componentm );
         }
     }
 }
 
-GluonEngine::GameObject* SceneGraphObject::getModifiedMember()
+GluonEngine::GameObject* SceneGraphObject::modifiedGameObject()
 {
-    return p->modifiedmember;
+    return p->modifiedgameobject;
 }
 
-GluonEngine::SceneGraphObject* SceneGraphObject::getParent()
+GluonEngine::SceneGraphObject* SceneGraphObject::parent()
 {
     if( p->parent == 0 )
         return 0;
     if( p->parent->isGroupHead() )
-        return p->parent->getParent();
+        return p->parent->parent();
     else
         return p->parent;
+}
+
+void SceneGraphObject::buildGameObject()
+{
+    for( int i = 0; i < refObject()->gameObject()->metaObject()->propertyCount(); i++ )
+    {
+        QMetaProperty propertyo = refObject()->gameObject()->metaObject()->property( i );
+        int index = gameObject()->metaObject()->indexOfProperty( propertyo.name() );
+        if( index == -1 )
+            gameObject()->setProperty( propertyo.name(), propertyo.read( refObject()->gameObject() ) );
+    }
+    for( int i = 0; i < refObject()->gameObject()->components().count(); i++ )
+    {
+        GluonEngine::Component* componento = refObject()->gameObject()->components().at( i );
+        GluonEngine::Component* componentm = gameObject()->findComponent( componento->name() );
+        if( componentm == 0 )
+            gameObject()->addComponent( componento );
+    }
 }
 
 

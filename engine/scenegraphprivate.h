@@ -20,6 +20,8 @@
 #ifndef GLUON_ENGINE_SCENEGRAPHPRIVATE_H
 #define GLUON_ENGINE_SCENEGRAPHPRIVATE_H
 
+#include <QUrl>
+
 namespace GluonEngine
 {
     class SceneGraph;
@@ -33,6 +35,8 @@ namespace GluonEngine
             SceneGraphPrivate( SceneGraph* g, GluonEngine::GameObject* obj, bool r = false );
             ~SceneGraphPrivate();
 
+            void setRefGraph( QUrl pathtoref );
+
             GluonEngine::SceneGraphObject* root;
             GluonEngine::SceneGraph* refgraph;
             GluonEngine::TagObject* tags;
@@ -40,7 +44,7 @@ namespace GluonEngine
             SceneGraph* g;
 
         private:
-            void initHelper();
+            void initHelper( bool r );
     };
 }
 

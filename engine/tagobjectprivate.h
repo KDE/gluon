@@ -17,32 +17,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */ 
 
-#ifndef GLUON_ENGINE_SCENEGRAPHOBJECTPRIVATE_H
-#define GLUON_ENGINE_SCENEGRAPHOBJECTPRIVATE_H
+#ifndef GLUON_ENGINE_TAGOBJECTPRIVATE_H
+#define GLUON_ENGINE_TAGOBJECTPRIVATE_H
 
-#include <QList>
+#include <QHash>
 #include <QString>
 
 namespace GluonEngine
 {
-    class SceneGraphObject;
-    class GameObject;
-    class SceneGraphObjectPrivate
+    class TagObject;
+    class TagObjectPrivate
     {
         public:
-            SceneGraphObjectPrivate( SceneGraphObject* o );
-            ~SceneGraphObjectPrivate();
+            TagObjectPrivate( TagObject* t );
+            ~TagObjectPrivate();
 
-            SceneGraphObject* parent;
-            bool isBase;
-            QString groupname;
-            bool grouphead;
-            GluonEngine::GameObject* gameobject;
-            QList<SceneGraphObject*> children;
-            int level;
-            SceneGraphObject* refobject;
-            GluonEngine::GameObject* modifiedgameobject;
-            SceneGraphObject* o;
+            QHash<QString, QSet<QString> > tags;
+            QString path;
+
+            TagObject* t;
     };
 }
 
