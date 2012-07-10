@@ -51,9 +51,8 @@
 #include "lib/dockmanager.h"
 #include "lib/filemanager.h"
 #include "lib/widgets/filearea.h"
-
 #include "gluoncreatorsettings.h"
-#include "dialogs/projectselectiondialog.h"
+//#include "dialogs/projectselectiondialog.h"
 #include "dialogs/configdialog.h"
 
 using namespace GluonCreator;
@@ -63,8 +62,9 @@ class MainWindow::Private
     public:
         bool modified;
         QString fileName;
+       
         KRecentFilesAction* recentFiles;
-        ProjectSelectionDialog* projectDialog;
+    //    ProjectSelectionDialog* projectDialog;
 
         FileArea* mainArea;
 };
@@ -72,7 +72,10 @@ class MainWindow::Private
 MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlags flags )
     : KParts::MainWindow( parent, flags ), d( new Private )
 {
-    kapp->setActiveWindow(this);
+
+    WelcomeDialogPage *w= new WelcomeDialogPage;
+    w->show();
+    //kapp->setActiveWindow(this); 
     d->modified = false;
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
@@ -92,16 +95,16 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
     setCorner( Qt::BottomRightCorner, Qt::RightDockWidgetArea );
 
     d->mainArea = new FileArea( this );
-    setCentralWidget( d->mainArea );
+//    / setCentralWidget( w->stackedWidget );
 
     setupActions();
     setupGUI();
-    loadView();
+//    loadView();
     stateChanged( "initial" );
 
-    d->projectDialog = new ProjectSelectionDialog( this );
-    d->projectDialog->setModal( true );
-    connect( d->projectDialog, SIGNAL(accepted()), SLOT(projectDialogAccepted()) );
+  //  d->projectDialog = new ProjectSelectionDialog( this );
+  //  d->projectDialog->setModal( true );
+  //  connect( d->projectDialog, SIGNAL(accepted()), SLOT(projectDialogAccepted()) );
 
     DockManager::instance()->setDocksEnabled( false );
     DockManager::instance()->setDocksLocked( GluonCreator::Settings::lockLayout() );
@@ -145,6 +148,7 @@ void MainWindow::openProject( const KUrl& url )
 
 void MainWindow::loadView()
 {
+  //  w->show();
     qmlRegisterType<IntroSlideShow>("Intro",1,0,"IntroSlideShow");
     view = new QDeclarativeView( QUrl::fromLocalFile( KGlobal::dirs()->locate( "appdata", "introduction.qml" ) ), this );
     view->setStyleSheet("background: transparent");
@@ -233,7 +237,7 @@ void MainWindow::saveProjectAs()
 {
     d->fileName = KFileDialog::getSaveFileName( KUrl(), i18n( "*%1|Gluon Project Files", GluonEngine::projectFilename ), 0, QString(), KFileDialog::ConfirmOverwrite );
     if( !d->fileName.isEmpty() )
-        saveProject();
+        saveProject(); 
 }
 
 void MainWindow::setupActions()
@@ -419,19 +423,19 @@ void MainWindow::addAsset()
 
 void GluonCreator::MainWindow::showNewProjectDialog()
 {
-    d->projectDialog->setPage( ProjectSelectionDialog::NewProjectPage );
+  //  d->projectDialog->setPage( ProjectSelectionDialog::NewProjectPage );
 //    d->projectDialog->show();
 }
 
 void MainWindow::showOpenProjectDialog()
 {
-    d->projectDialog->setPage( ProjectSelectionDialog::OpenProjectPage );
-    d->projectDialog->show();
+  //  d->projectDialog->setPage( ProjectSelectionDialog::OpenProjectPage );
+  //  d->projectDialog->show();
 }
 
 void MainWindow::projectDialogAccepted()
 {
-    openProject( d->projectDialog->fileName() );
+   // openProject( d->projectDialog->fileName() );
 }
 
 void MainWindow::partChanged( KParts::Part* part )

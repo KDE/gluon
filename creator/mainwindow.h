@@ -27,6 +27,7 @@
 #include <QtDeclarative/QDeclarativeView>
 #include <KDE/KStandardDirs>
 #include <QtDeclarative/QDeclarativeItem>
+#include <dialogs/welcomedialogpage.h>
 
 class KStandardDirs;
 class QDeclarativeView;
@@ -72,6 +73,7 @@ namespace GluonCreator
         private:
             void setupActions();
             QDeclarativeView* view;
+	    WelcomeDialogPage *w;
             class Private;
             Private* const d;
     };

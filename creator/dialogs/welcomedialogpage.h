@@ -23,23 +23,55 @@
 #define GLUON_CREATOR_WELCOMEDIALOGPAGE_H
 
 #include <KDE/KPageWidgetItem>
+#include <KDE/KPageWidget>
 #include <KDE/KColorScheme>
+#include <QWidget>
+#include <QListWidget>
+#include <QListWidgetItem>
+#include <KDE/KDialog>
+#include <QLayoutItem>
+#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QPushButton>
+#include <QStackedWidget>
+#include <QSignalMapper>
+ #include <QtGui>
+ #include "newprojectdialogpage.h"
+#include <dialogs/openprojectdialogpage.h>
+#include "recentprojectsdialogpage.h"
 
 class QLabel;
-
 namespace GluonCreator
 {
-    class WelcomeDialogPage : public KPageWidgetItem
+
+    class WelcomeDialogPage : public QDialog
     {
-            Q_OBJECT
         public:
             WelcomeDialogPage();
             ~WelcomeDialogPage();
-
+	    QStackedWidget *stackedWidget;
+	    void getUi();
+	    
+        public slots:
+            void projectRequested(QString);
+	    void okClicked();
+	    void new_clicked();
+	    
         private:
 
-            class WelcomeDialogPagePrivate;
-            WelcomeDialogPagePrivate* const d;
+            QWidget* widget;
+	    QString fileName;
+	    RecentProjectsDialogPage* rp;
+	    OpenProjectDialogPage *op;
+	    NewProjectDialogPage *np;
+            QLabel *label1,*label2, *label3;
+            QListWidget *contentsWidget;
+	    QSignalMapper *mapper;
+            KPageWidget *page,*page2,*page3;
+            QListWidgetItem *listWidgetItem;
+            QListWidget *listWidget;
+            QHBoxLayout* hlayout;
+            QGridLayout* grid;
     };
 }
 

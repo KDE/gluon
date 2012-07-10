@@ -40,7 +40,6 @@ set(gluoncreator_SRCS
     dialogs/configdialog.cpp
     dialogs/newprojectdialogpage.cpp
     dialogs/openprojectdialogpage.cpp
-    dialogs/projectselectiondialog.cpp
     dialogs/welcomedialogpage.cpp
     dialogs/recentprojectsdialogpage.cpp
 )

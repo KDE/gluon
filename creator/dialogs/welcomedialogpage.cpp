@@ -30,60 +30,97 @@
 
 #include <KDE/KLocalizedString>
 #include <KDE/KIcon>
+#include <QVBoxLayout>
+#include <KDE/KApplication>
 #include <KDE/KLineEdit>
 #include <KDE/KUrlRequester>
 #include <KDE/KMessageBox>
 #include <KDE/KSqueezedTextLabel>
-
-#include <QtGui/QGroupBox>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QFormLayout>
+#include <QWidget>
+#include <QComboBox>
 #include <QtGui/QLabel>
-//#include <QtGui/QLabel>
-#include <QtCore/QScopedPointer>
+#include <QString>
+#include <QDebug>
+
+#include <kpagewidget.h>
 
 class QLabel;
-
 using namespace GluonCreator;
 
-class WelcomeDialogPage::WelcomeDialogPagePrivate
-{
-    public:
-        WelcomeDialogPagePrivate( WelcomeDialogPage* qq )
-            : textView(0)
-        {
-        }
-
-    public:
-        QLabel *textView ;
-
-    private:
-        WelcomeDialogPage* q;
-};
-
 WelcomeDialogPage::WelcomeDialogPage()
-    : KPageWidgetItem( new QWidget, i18n( "Welcome Dialog" ) ),
-      d( new WelcomeDialogPagePrivate( this ) )
 {
+  getUi();
+}
 
-    QVBoxLayout* layout = new QVBoxLayout( widget() );
-    QGroupBox* box = new QGroupBox(widget() );
+void WelcomeDialogPage::getUi()
 
-    widget()->setLayout( layout );
-    layout->addWidget( box );
-
-    QFormLayout* boxLayout = new QFormLayout( box );
-    box->setLayout( boxLayout );
-
-    d->textView = new QLabel( box );
-    d->textView->setWordWrap (true);
-    d->textView->setText( i18n( "Gluon Creator is a tool that allows designers and artists to easily prototype and create games.With some minimal configuration , it allows for a multitude of games to be created. And what's more, we are free and open source!So here's what more you can do with creator" ) );
-    boxLayout->addRow(d->textView );
-
+{
+    QWidget *firstPageWidget = new QWidget();
+    KPageWidget* page_recent =  new KPageWidget;
+    KPageWidget* page_new =  new KPageWidget;
+    KPageWidget* page_open =  new KPageWidget;
+    np= new NewProjectDialogPage;
+    rp = new RecentProjectsDialogPage; 
+    op= new OpenProjectDialogPage;
+    label1 = new QLabel("new to creator\n click to start tour");
+    label2 = new QLabel("get latest updates\n www.gamingfreedom.org");
+    label3 = new QLabel("Login details");
+    QGridLayout *flayout = new QGridLayout;
+    QPushButton* push_new= new QPushButton("&new project");
+    QPushButton* push_open= new QPushButton("&open project");
+    QWidget * buttonWidget= new QWidget;
+    QVBoxLayout *buttonLayout = new QVBoxLayout;
+    KDialog *dialog_new = new KDialog( this );
+    KDialog *dialog_open = new KDialog( this );
+    mapper= new QSignalMapper;
+    stackedWidget = new QStackedWidget;
+    QVBoxLayout *layout = new QVBoxLayout;
+    
+    page_new->addPage(np);
+    page_recent->addPage(rp);
+    page_open ->addPage(op);
+    buttonLayout->addWidget(push_new);
+    buttonLayout->addWidget(push_open);
+    buttonWidget->setLayout(buttonLayout);
+    flayout->addWidget(buttonWidget,0,0);
+    flayout->addWidget(page_recent,0,1);
+    flayout->addWidget(label1,1,0);
+    flayout->addWidget(label2,1,1);
+    flayout->addWidget(label3,1,2);
+    
+    firstPageWidget->setLayout(flayout);
+    dialog_new->setMainWidget(page_new);
+    dialog_open->setMainWidget(page_open);
+    stackedWidget->addWidget(firstPageWidget);
+    stackedWidget->addWidget(dialog_new);
+    stackedWidget->addWidget(dialog_open);
+    
+    layout->addWidget(stackedWidget);
+    setLayout(layout);
+    mapper->setMapping(push_new, 1);
+    mapper->setMapping(push_open, 2);
+    connect(push_new, SIGNAL(clicked()), this, SLOT(new_clicked()));
+    connect(push_open, SIGNAL(clicked()), mapper, SLOT(map()));
+    connect(mapper, SIGNAL(mapped(int)), stackedWidget, SLOT(setCurrentIndex(int)));
+     
 }
 
 WelcomeDialogPage::~WelcomeDialogPage()
 {
-    delete d;
+
+}
+
+void WelcomeDialogPage::new_clicked()
+{
+  NewProjectDialogPage* page = static_cast<NewProjectDialogPage*>( q->currentPage() );
+                if( page )
+  fileName = page->createProject();
+  mapper->map();
+}
+
+void WelcomeDialogPage::projectRequested(QString project){
+
+            fileName = project;
+            this->accept();
 }
 
