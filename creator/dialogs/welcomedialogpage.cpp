@@ -37,6 +37,7 @@
 #include <KDE/KMessageBox>
 #include <KDE/KSqueezedTextLabel>
 #include <QWidget>
+
 #include <QComboBox>
 #include <QtGui/QLabel>
 #include <QString>
@@ -63,12 +64,17 @@ void WelcomeDialogPage::getUi()
     np= new NewProjectDialogPage;
     rp = new RecentProjectsDialogPage; 
     op= new OpenProjectDialogPage;
-    label1 = new QLabel("new to creator\n click to start tour");
-    label2 = new QLabel("get latest updates\n www.gamingfreedom.org");
-    label3 = new QLabel("Login details");
+    label1 = new QPushButton("&new to creator\n click to start tour");
+    label2 = new QPushButton("&get latest updates\n www.gamingfreedom.org");
+    label3 = new QPushButton("&Login details");
     QGridLayout *flayout = new QGridLayout;
     QPushButton* push_new= new QPushButton("&new project");
     QPushButton* push_open= new QPushButton("&open project");
+    push_new->setFlat(true);
+    push_open->setFlat(true);
+    label1->setFlat(true);
+    label2->setFlat(true);
+    label3->setFlat(true);
     QWidget * buttonWidget= new QWidget;
     QVBoxLayout *buttonLayout = new QVBoxLayout;
     dialog_new = new KDialog( this );
@@ -105,13 +111,19 @@ void WelcomeDialogPage::getUi()
     connect(push_open, SIGNAL(clicked()), mapper, SLOT(map()));
     connect(mapper, SIGNAL(mapped(int)), stackedWidget, SLOT(setCurrentIndex(int)));
     if(rp->widget()->isActiveWindow()){ recent_clicked();}
-    // connect(this, SIGNAL(accepted()), this, SIGNAL(onAccepted()));
+    connect(label2,SIGNAL(clicked()),this, SLOT(webUpdates()));
+// connect(this, SIGNAL(accepted()), this, SIGNAL(onAccepted()));
 
 }
 
 WelcomeDialogPage::~WelcomeDialogPage()
 {
+}
 
+void WelcomeDialogPage::webUpdates()
+{
+  QWidget *test = new QWidget;
+  test->show();
 }
 
 void WelcomeDialogPage::recent_clicked()

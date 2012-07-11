@@ -36,8 +36,8 @@
 #include <QPushButton>
 #include <QStackedWidget>
 #include <QSignalMapper>
- #include <QtGui>
- #include "newprojectdialogpage.h"
+#include <QtGui>
+#include "newprojectdialogpage.h"
 #include <dialogs/openprojectdialogpage.h>
 #include "recentprojectsdialogpage.h"
 
@@ -63,6 +63,7 @@ namespace GluonCreator
         public slots:
             void projectRequested(QString);
 	    void new_clicked();
+	    void webUpdates();
 	    
         private:
 
@@ -73,7 +74,7 @@ namespace GluonCreator
 	    RecentProjectsDialogPage* rp;
 	    OpenProjectDialogPage *op;
 	    NewProjectDialogPage *np;
-            QLabel *label1,*label2, *label3;
+            QPushButton *label1,*label2, *label3;
             QSignalMapper *mapper;
             QListWidget *listWidget;
             QHBoxLayout* hlayout;
