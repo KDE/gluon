@@ -55,6 +55,7 @@ WelcomeDialogPage::WelcomeDialogPage()
 void WelcomeDialogPage::getUi()
 
 {
+    
     QWidget *firstPageWidget = new QWidget();
     KPageWidget* page_recent =  new KPageWidget;
     KPageWidget* page_new =  new KPageWidget;
@@ -70,8 +71,8 @@ void WelcomeDialogPage::getUi()
     QPushButton* push_open= new QPushButton("&open project");
     QWidget * buttonWidget= new QWidget;
     QVBoxLayout *buttonLayout = new QVBoxLayout;
-    KDialog *dialog_new = new KDialog( this );
-    KDialog *dialog_open = new KDialog( this );
+    dialog_new = new KDialog( this );
+    dialog_open = new KDialog( this );
     mapper= new QSignalMapper;
     stackedWidget = new QStackedWidget;
     QVBoxLayout *layout = new QVBoxLayout;
@@ -100,9 +101,12 @@ void WelcomeDialogPage::getUi()
     mapper->setMapping(push_new, 1);
     mapper->setMapping(push_open, 2);
     connect(push_new, SIGNAL(clicked()), this, SLOT(new_clicked()));
+    connect(push_new, SIGNAL(clicked()), mapper, SLOT(map()));
     connect(push_open, SIGNAL(clicked()), mapper, SLOT(map()));
     connect(mapper, SIGNAL(mapped(int)), stackedWidget, SLOT(setCurrentIndex(int)));
-     
+    if(rp->widget()->isActiveWindow()){ recent_clicked();}
+    // connect(this, SIGNAL(accepted()), this, SIGNAL(onAccepted()));
+
 }
 
 WelcomeDialogPage::~WelcomeDialogPage()
@@ -110,12 +114,15 @@ WelcomeDialogPage::~WelcomeDialogPage()
 
 }
 
+void WelcomeDialogPage::recent_clicked()
+{
+  fileName = rp->selectedItem();
+}
+
 void WelcomeDialogPage::new_clicked()
 {
-  NewProjectDialogPage* page = static_cast<NewProjectDialogPage*>( q->currentPage() );
-                if( page )
-  fileName = page->createProject();
-  mapper->map();
+    fileName= np->createProject();
+    qDebug()<<fileName;
 }
 
 void WelcomeDialogPage::projectRequested(QString project){
@@ -124,3 +131,7 @@ void WelcomeDialogPage::projectRequested(QString project){
             this->accept();
 }
 
+QString WelcomeDialogPage::getfileName() const
+{
+    return fileName;
+}

@@ -84,6 +84,7 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
     FileManager::instance()->initialize( this );
     connect( FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), SLOT(partChanged(KParts::Part*)) );
     connect( FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), DockManager::instance(), SLOT(updateDockActions()) );
+   // connect( w, SIGNAL(accepted()), SLOT(projectDialogAccepted()) );
 
     PluginManager::instance()->setMainWindow( this );
     PluginManager::instance()->loadPlugins();
@@ -95,23 +96,22 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
     setCorner( Qt::BottomRightCorner, Qt::RightDockWidgetArea );
 
     d->mainArea = new FileArea( this );
-//    / setCentralWidget( w->stackedWidget );
+//    setCentralWidget( w->stackedWidget );
 
     setupActions();
     setupGUI();
-//    loadView();
+    loadView();
     stateChanged( "initial" );
 
   //  d->projectDialog = new ProjectSelectionDialog( this );
   //  d->projectDialog->setModal( true );
-  //  connect( d->projectDialog, SIGNAL(accepted()), SLOT(projectDialogAccepted()) );
-
+   
     DockManager::instance()->setDocksEnabled( false );
     DockManager::instance()->setDocksLocked( GluonCreator::Settings::lockLayout() );
 
     if( fileName.isEmpty() )
     {
-        showNewProjectDialog();
+      // showNewfwProjectDialog();
     }
     else
     {
@@ -148,13 +148,13 @@ void MainWindow::openProject( const KUrl& url )
 
 void MainWindow::loadView()
 {
-  //  w->show();
-    qmlRegisterType<IntroSlideShow>("Intro",1,0,"IntroSlideShow");
+
+    /*qmlRegisterType<IntroSlideShow>("Intro",1,0,"IntroSlideShow");
     view = new QDeclarativeView( QUrl::fromLocalFile( KGlobal::dirs()->locate( "appdata", "introduction.qml" ) ), this );
     view->setStyleSheet("background: transparent");
     view->setResizeMode( QDeclarativeView::SizeRootObjectToView );
     view->setGeometry(this->rect());
-    view->show();
+    view->show();*/
 
 }
 
@@ -435,7 +435,7 @@ void MainWindow::showOpenProjectDialog()
 
 void MainWindow::projectDialogAccepted()
 {
-   // openProject( d->projectDialog->fileName() );
+//    openProject( w->getfileName() );
 }
 
 void MainWindow::partChanged( KParts::Part* part )

@@ -29,6 +29,7 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <KDE/KDialog>
+#include <QMouseEvent>
 #include <QLayoutItem>
 #include <QHBoxLayout>
 #include <QGridLayout>
@@ -51,24 +52,29 @@ namespace GluonCreator
             ~WelcomeDialogPage();
 	    QStackedWidget *stackedWidget;
 	    void getUi();
+	    void recent_clicked();
+	    QString getfileName() const;
+	    
+    signals:
+	    void onNew();
+	    void clicked();
+	    void loadProj();
 	    
         public slots:
             void projectRequested(QString);
-	    void okClicked();
 	    void new_clicked();
 	    
         private:
 
             QWidget* widget;
+	    KDialog *dialog_new;
+	    KDialog *dialog_open;
 	    QString fileName;
 	    RecentProjectsDialogPage* rp;
 	    OpenProjectDialogPage *op;
 	    NewProjectDialogPage *np;
             QLabel *label1,*label2, *label3;
-            QListWidget *contentsWidget;
-	    QSignalMapper *mapper;
-            KPageWidget *page,*page2,*page3;
-            QListWidgetItem *listWidgetItem;
+            QSignalMapper *mapper;
             QListWidget *listWidget;
             QHBoxLayout* hlayout;
             QGridLayout* grid;

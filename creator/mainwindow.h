@@ -43,7 +43,6 @@ namespace GluonCreator
         public:
             explicit MainWindow( const QString& fileName = QString(), QWidget* parent = 0, Qt::WindowFlags flags = 0 );
             ~MainWindow();
-            void loadView();
             virtual bool queryClose();
             virtual void closeEvent( QCloseEvent* event );
 
@@ -58,7 +57,7 @@ namespace GluonCreator
             void playGame();
             void pauseGame();
             void stopGame();
-
+	    void loadView();
             void historyChanged();
             void cleanChanged( bool );
 
