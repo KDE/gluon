@@ -47,24 +47,27 @@ namespace GluonCreator
 
     class WelcomeDialogPage : public QDialog
     {
-        public:
+    Q_OBJECT  
+    public:
             WelcomeDialogPage();
             ~WelcomeDialogPage();
 	    QStackedWidget *stackedWidget;
 	    void getUi();
 	    void recent_clicked();
 	    QString getfileName() const;
-	    
+            QPushButton *label1,*label2, *label3;
+
+    public slots:
+            void projectRequested(QString);
+	    void new_clicked();
+	    void webUpdates();
+	
     signals:
 	    void onNew();
 	    void clicked();
 	    void loadProj();
 	    
-        public slots:
-            void projectRequested(QString);
-	    void new_clicked();
-	    void webUpdates();
-	    
+           
         private:
 
             QWidget* widget;
@@ -74,7 +77,6 @@ namespace GluonCreator
 	    RecentProjectsDialogPage* rp;
 	    OpenProjectDialogPage *op;
 	    NewProjectDialogPage *np;
-            QPushButton *label1,*label2, *label3;
             QSignalMapper *mapper;
             QListWidget *listWidget;
             QHBoxLayout* hlayout;

@@ -36,16 +36,10 @@
 #include <KDE/KUrlRequester>
 #include <KDE/KMessageBox>
 #include <KDE/KSqueezedTextLabel>
-#include <QWidget>
-
-#include <QComboBox>
-#include <QtGui/QLabel>
+#include <QWebView>
 #include <QString>
 #include <QDebug>
-
-#include <kpagewidget.h>
-
-class QLabel;
+class QWebView;
 using namespace GluonCreator;
 
 WelcomeDialogPage::WelcomeDialogPage()
@@ -122,7 +116,8 @@ WelcomeDialogPage::~WelcomeDialogPage()
 
 void WelcomeDialogPage::webUpdates()
 {
-  QWidget *test = new QWidget;
+  QWebView *test = new QWebView();
+  test->load(QUrl("http://www.gamingfreedom.org"));
   test->show();
 }
 

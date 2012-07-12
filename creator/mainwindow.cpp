@@ -25,6 +25,7 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QTimer>
 #include <QWidget>
+#include <QDebug>
 #include <KDE/KFileDialog>
 #include <KDE/KStandardAction>
 #include <KDE/KActionCollection>
@@ -73,7 +74,7 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
     : KParts::MainWindow( parent, flags ), d( new Private )
 {
 
-    WelcomeDialogPage *w= new WelcomeDialogPage;
+    w= new WelcomeDialogPage;
     w->show();
     //kapp->setActiveWindow(this); 
     d->modified = false;
@@ -84,7 +85,7 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
     FileManager::instance()->initialize( this );
     connect( FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), SLOT(partChanged(KParts::Part*)) );
     connect( FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), DockManager::instance(), SLOT(updateDockActions()) );
-   // connect( w, SIGNAL(accepted()), SLOT(projectDialogAccepted()) );
+    connect( w->label1, SIGNAL(clicked()), this,SLOT(loadView()));
 
     PluginManager::instance()->setMainWindow( this );
     PluginManager::instance()->loadPlugins();
@@ -100,7 +101,6 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
 
     setupActions();
     setupGUI();
-    loadView();
     stateChanged( "initial" );
 
   //  d->projectDialog = new ProjectSelectionDialog( this );
@@ -149,12 +149,16 @@ void MainWindow::openProject( const KUrl& url )
 void MainWindow::loadView()
 {
 
-    /*qmlRegisterType<IntroSlideShow>("Intro",1,0,"IntroSlideShow");
+    w->close();
+    kapp->setActiveWindow(this);
+    qDebug()<< kapp->activeWindow();
+    qmlRegisterType<IntroSlideShow>("Intro",1,0,"IntroSlideShow");
+  
     view = new QDeclarativeView( QUrl::fromLocalFile( KGlobal::dirs()->locate( "appdata", "introduction.qml" ) ), this );
     view->setStyleSheet("background: transparent");
     view->setResizeMode( QDeclarativeView::SizeRootObjectToView );
     view->setGeometry(this->rect());
-    view->show();*/
+    view->show();
 
 }
 
