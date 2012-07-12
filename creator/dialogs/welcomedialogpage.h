@@ -53,12 +53,12 @@ namespace GluonCreator
             ~WelcomeDialogPage();
 	    QStackedWidget *stackedWidget;
 	    void getUi();
-	    void recent_clicked();
 	    QString getfileName() const;
             QPushButton *label1,*label2, *label3;
-
+	    KDialog *dialog_new;
+	    
     public slots:
-            void projectRequested(QString);
+            void newProjectRequested(QString);
 	    void new_clicked();
 	    void webUpdates();
 	
@@ -71,7 +71,7 @@ namespace GluonCreator
         private:
 
             QWidget* widget;
-	    KDialog *dialog_new;
+	    
 	    KDialog *dialog_open;
 	    QString fileName;
 	    RecentProjectsDialogPage* rp;

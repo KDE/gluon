@@ -104,9 +104,9 @@ void WelcomeDialogPage::getUi()
     connect(push_new, SIGNAL(clicked()), mapper, SLOT(map()));
     connect(push_open, SIGNAL(clicked()), mapper, SLOT(map()));
     connect(mapper, SIGNAL(mapped(int)), stackedWidget, SLOT(setCurrentIndex(int)));
-    if(rp->widget()->isActiveWindow()){ recent_clicked();}
+    connect( rp->getListWidget(), SIGNAL(doubleClicked(QModelIndex)),rp, SLOT(projectDoubleClicked(QModelIndex)) );
+    connect( rp, SIGNAL(projectRequested(QString)),SLOT(newProjectRequested(QString)) );
     connect(label2,SIGNAL(clicked()),this, SLOT(webUpdates()));
-// connect(this, SIGNAL(accepted()), this, SIGNAL(onAccepted()));
 
 }
 
@@ -121,21 +121,18 @@ void WelcomeDialogPage::webUpdates()
   test->show();
 }
 
-void WelcomeDialogPage::recent_clicked()
-{
-  fileName = rp->selectedItem();
-}
-
 void WelcomeDialogPage::new_clicked()
 {
     fileName= np->createProject();
     qDebug()<<fileName;
 }
 
-void WelcomeDialogPage::projectRequested(QString project){
-
+void WelcomeDialogPage::newProjectRequested(QString project){
+qDebug()<<"in project requested";
             fileName = project;
-            this->accept();
+qDebug()<<fileName;	    
+      this->accept();
+  
 }
 
 QString WelcomeDialogPage::getfileName() const

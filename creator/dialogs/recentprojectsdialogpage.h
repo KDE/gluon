@@ -23,6 +23,7 @@
 #define GLUON_CREATOR_RECENTPROJECTSDIALOGPAGE_H
 
 #include <KDE/KPageWidgetItem>
+#include <QListWidget>
 
 namespace GluonCreator
 {
@@ -33,6 +34,8 @@ namespace GluonCreator
             RecentProjectsDialogPage();
             ~RecentProjectsDialogPage();
             QString selectedItem() const;
+	    QListWidget* getListWidget();
+	    
         Q_SIGNALS:
             void projectRequested( const QString& url );
         private:

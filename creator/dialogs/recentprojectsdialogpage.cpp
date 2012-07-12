@@ -97,4 +97,11 @@ QString RecentProjectsDialogPage::selectedItem() const
     return QString();
 }
 
+QListWidget* RecentProjectsDialogPage::getListWidget()
+{
+  return d->widget;
+  
+}
+
+
 #include "recentprojectsdialogpage.moc"
