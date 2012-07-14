@@ -3,7 +3,6 @@
 *.so
 *.o
 *.a
-*.kdev4
 .svn/
 build
 release-build
@@ -21,4 +20,8 @@ CMakeLists.txt.user.*
 
 #QtCreator
 qtcreator-build
+
+#KDevelop
+.kdev4
+*.kdev4
 
