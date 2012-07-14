@@ -35,6 +35,7 @@ namespace GluonEngine
             ~ScenePrivate();
 
             void loadContents( const QUrl& file );
+            void loadContents( GameObject* load );
             void unloadContents();
 
             Scene* q;

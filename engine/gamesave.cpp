@@ -50,18 +50,6 @@ GameSave::~GameSave()
 {
 }
 
-void GameSave::debugPrint( QObject* obj)
-{
-    for(int i = 0; i < obj->metaObject()->propertyCount(); i++)
-    {
-        QMetaProperty property = obj->metaObject()->property( i );
-        cout << property.name() << ": " << property.read( obj ).toString().toUtf8().constData() << ' ';
-    }
-    cout << endl;
-    foreach ( QObject *ob, obj->children() )
-        debugPrint( ob );
-}
-
 void GameSave::save()
 {
     GluonCore::GluonObject *obj = GluonEngine::Game::instance()->currentScene()->sceneContents();
@@ -118,11 +106,7 @@ void GameSave::partialLoad()
         GluonEngine::GameObject* load = qobject_cast<GluonEngine::GameObject*>( objects.at( 0 )->child( 0 ) );
         load->setParentGameObject( 0 );
         GluonEngine::SceneGraph *scene = new GluonEngine::SceneGraph( load );
-        int index = objects.at( 0 )->metaObject()->indexOfProperty( "refers" );
-        QMetaProperty property = objects.at( 0 )->metaObject()->property( index );
-        QUrl url( property.read( objects.at( 0 ) ).toString() ); 
-        scene->setRefGraph( url );
-        qDebug() << property.read( objects.at( 0 ) ).toUrl().toString();
+        scene->setRefGraph( objects.at( 0 )->property( "refers" ).toUrl() );
         load = scene->forLoad();
         QList<GluonObject*> objectlist;
         objectlist.append( load );

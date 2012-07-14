@@ -46,11 +46,12 @@ void SceneGraphPrivate::initHelper( bool r )
     ref = r;
     root = new GluonEngine::SceneGraphObject();
     tags = GluonEngine::Game::instance()->gameProject()->tagObject();
+    GluonEngine::GameProject* project = GluonEngine::Game::instance()->gameProject();
     if( !ref )
     {
         // This is just to ensure reference graphs don't have references again.
         GluonCore::GluonObjectList objects;
-        if( GluonCore::GDLSerializer::instance()->read( GluonEngine::Game::instance()->currentScene()->absolutePath(), objects, 0 ) )
+        if( GluonCore::GDLSerializer::instance()->read( GluonEngine::Game::instance()->currentScene()->absolutePath(), objects, project, 0 ) )
             this->refgraph = new GluonEngine::SceneGraph( qobject_cast< GameObject*>( objects.at( 0 ) ), true );
     }
 }
@@ -63,6 +64,7 @@ SceneGraphPrivate::~SceneGraphPrivate()
 void SceneGraphPrivate::setRefGraph( QUrl pathtoref ) 
 {
     GluonCore::GluonObjectList objects;
-    if( GluonCore::GDLSerializer::instance()->read( pathtoref, objects, 0 ) )
+    GluonEngine::GameProject* project = GluonEngine::Game::instance()->gameProject();
+    if( GluonCore::GDLSerializer::instance()->read( pathtoref, objects, project, 0 ) )
         refgraph = new GluonEngine::SceneGraph( qobject_cast< GameObject*>( objects.at( 0 ) ), true );
 }

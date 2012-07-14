@@ -106,27 +106,6 @@ void SceneGraph::populate( GluonEngine::SceneGraphObject* object, int level )
     object->addChildren( children );
 }
 
-void SceneGraph::debugprint( GluonEngine::SceneGraphObject* object, int level )
-{
-    for( int i = 0; i < level; i++ )
-        cout << "  ";
-    QString name;
-    if( object->isGroupHead() )
-        name = object->groupName();
-    else
-        name = object->gameObject()->name();
-    cout << name.toUtf8().constData() << endl;
-    foreach( GluonEngine::SceneGraphObject *child, object->children() )
-        debugprint( child, level + 1 );
-    cout << "  ";
-}
-
-void SceneGraph::debugprint( GluonEngine::SceneGraphObject* object )
-{
-    debugprint( object, 0 );
-}
-
-
 GluonEngine::SceneGraphObject* SceneGraph::root()
 {
     return p->root;
@@ -194,7 +173,7 @@ GluonCore::GluonObject* SceneGraph::toScene()
 {
     GluonCore::GluonObject* scene = new GluonCore::GluonObject( GluonEngine::Game::instance()->gameProject()->fullyQualifiedName() );
     const char* refers = "refers";
-    scene->setProperty( refers, GluonEngine::Game::instance()->currentScene()->absolutePath().toLocalFile() );
+    scene->setProperty( refers, GluonEngine::Game::instance()->currentScene()->absolutePath() );
     scene->addChild( root()->modifiedGameObject() );
     return scene;
 }
@@ -231,13 +210,6 @@ GluonCore::GluonObject* SceneGraph::forSave()
 
 GluonEngine::GameObject* SceneGraph::forLoad()
 {
-    GluonEngine::GameObject* obj = p->refgraph->root()->gameObject();
-    for( int i = 0; i < obj->components().count(); i++ )
-    {
-        Component* component = obj->components().at( i );
-        for( int j = 0; j < component->metaObject()->propertyCount(); j++ )
-            cout << component->metaObject()->property( j ).name();
-    }
     build();
     return root()->gameObject();
 }

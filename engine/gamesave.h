@@ -53,11 +53,6 @@ namespace GluonEngine
             * Load from a minimal persistence file.
             */
             Q_INVOKABLE void partialLoad();
-
-            /**
-            * Print the current contents of the scene, along with their properties.
-            */
-            Q_INVOKABLE void debugPrint(QObject *);
     };
 }
 

@@ -39,33 +39,37 @@ namespace GluonEngine
             Q_INVOKABLE  SceneGraphObject();
             ~SceneGraphObject();
             /**
-            * This value is 2 if not compared ( not present in other graph ),
-            * 1 if it differs from the similar object in the other graph and 0 otherwise.
+            * This value is 2 if not compared ( not present in the reference graph ),
+            * 1 if it differs from the similar object in the other graph and 0 if it's a perfect match.
             */
             int diff;
             /**
-            * To set the parent of the member object
+            * Sets the parent of the current object
             */
-            Q_INVOKABLE void setParent( SceneGraphObject* );
+            Q_INVOKABLE void setParent( SceneGraphObject* parent );
             /**
-            * To set the member object
+            * This sets the GameObject contained within, as:
+            * @param: object
             */
             Q_INVOKABLE void setGameObject( GluonEngine::GameObject *object );
             /**
-            * To get the member object
+            * Returns the GameObject that's contained within this SceneGraphObject
             */
             Q_INVOKABLE GluonEngine::GameObject* gameObject();
             /**
-            * To set the group names
+            * Sets the name of the group the object belongs to, if any
             */
-            Q_INVOKABLE void setGroupName( QString );
+            Q_INVOKABLE void setGroupName( QString groupname );
             /**
             * Add children to object, at this level
             */
             Q_INVOKABLE void addChildren( QList<SceneGraphObject*> );
+            /**
+             * Add a child to the object
+             */
             Q_INVOKABLE void addChild( SceneGraphObject* child );
             /**
-            * Get the children
+            * Returns the children of the object
             */
             Q_INVOKABLE QList<SceneGraphObject*> children();
             /**
@@ -73,23 +77,23 @@ namespace GluonEngine
             */
             Q_INVOKABLE void setLevel( int );
             /**
-            * Returns the number of children(excluding those under a group
+            * Returns the number of children of the object
             */
             Q_INVOKABLE int childCount();
             /**
-            * Set object as grouphead
+            * Make the object, the head of a group
             */
             Q_INVOKABLE void setGroupHead( bool value );
             /**
-            * Check if the object is a grouphead
+            * Check if the object is the head of a group
             */
             Q_INVOKABLE bool isGroupHead();
             /**
-            * Get the group name
+            * Returns the name of the group the object belongs to
             */
             Q_INVOKABLE QString groupName();
             /**
-            * Get level
+            * Get level of the object in the hierarchy of the graph ( height )
             */
             Q_INVOKABLE int level();
             /**
@@ -97,7 +101,8 @@ namespace GluonEngine
             */
             Q_INVOKABLE int compare( GluonEngine::SceneGraphObject* object );
             /**
-            * To check if this object is a template/base
+            * To check if this object is a template/base object.
+            * In other words, it forms as a reference for other objects.
             */
             Q_INVOKABLE bool isBase();
             /**
@@ -112,15 +117,16 @@ namespace GluonEngine
             * This function is used to modify the GameObject that's contained,
             * to contain only the minimum number of required properties.
             * In essence, it creates a copy of the object that can be retrieved using
-            * getModifiedMember()
+            * modifiedGameObject()
             */
             Q_INVOKABLE void modifyGameObject();
             /**
-             * This function builds a gameobject from a partial save.
+             * This function builds a gameobject from a partial save. It adds properties and
+             * components that are necessary for the scene.
              */
             Q_INVOKABLE void buildGameObject();
             /**
-            * Returns the modified Game Object of the member
+            * Returns the modified GameObject of the contained GameObject
             */
             Q_INVOKABLE GluonEngine::GameObject* modifiedGameObject();
             /**

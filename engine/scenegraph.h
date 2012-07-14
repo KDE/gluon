@@ -47,7 +47,13 @@ namespace GluonEngine
         void baseObject( GluonEngine::SceneGraphObject *object );
 
     public:
+        /**
+         * Use this, when the graph is to be populated with existing contents on the screen.
+         */
         Q_INVOKABLE SceneGraph( bool ref = false );
+        /**
+         * Use this, when the graph is to be populated with contents read from a file.
+         */ 
         Q_INVOKABLE SceneGraph( GluonEngine::GameObject* parent, bool ref = false );
         ~SceneGraph();
 
@@ -66,14 +72,6 @@ namespace GluonEngine
          */
         Q_INVOKABLE void setRefGraph( QUrl pathtoref );
         /**
-         * For testing; print the scene graph
-         */
-        Q_INVOKABLE void debugprint( SceneGraphObject *object, int level );
-        /**
-         * Display the scene graph
-         */
-        Q_INVOKABLE void debugprint( SceneGraphObject *object );
-        /**
          * Compare two scene graphs.
          */
         Q_INVOKABLE void compare();
@@ -89,7 +87,7 @@ namespace GluonEngine
           */
          Q_INVOKABLE void build();
          /**
-          * Convenience function for build()
+          * See: build()
           */
          Q_INVOKABLE void build( GluonEngine::SceneGraphObject* object );
          /**

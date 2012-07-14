@@ -51,7 +51,7 @@ GameProjectPrivate::GameProjectPrivate( const GameProjectPrivate& other )
     , icon( other.icon )
     , screenshot( other.screenshot )
     , userName( other.userName )
-    , tags( other.tags )
+    , tags()
 {
 }
 

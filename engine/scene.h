@@ -93,6 +93,10 @@ namespace GluonEngine
              */
 	    virtual void loadScene( QUrl );
             /**
+             * Load a scene from a given game object hierarchy
+             */
+            virtual void loadScene( GluonEngine::GameObject* );
+            /**
              *  Set this scene to the entry point of the current project.
              */
             void setEntryPoint( );

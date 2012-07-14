@@ -32,6 +32,7 @@ namespace GluonEngine
     class GameObject;
     class Scene;
     class GamePrivate;
+    class GameProject;
 
     class GLUON_ENGINE_EXPORT Game : public GluonCore::Singleton<Game>
     {
@@ -137,11 +138,16 @@ namespace GluonEngine
 	     * Load a scene from a saved file.
 	     */
 	    void loadScene( QUrl );
+            /**
+             * Load scene from a passed game object hierarchy
+             */
+            void loadScene( GameObject* );
 
             // This allows the reset scene call to emit the Game::currentSceneChanged signal
             // which ensures that Creator doesn't crash when resetting the scene
-            friend void Scene::resetScene();
-	    friend void Scene::loadScene( QUrl );
+            friend void GluonEngine::Scene::resetScene();
+	    friend void GluonEngine::Scene::loadScene( QUrl );
+            friend void GluonEngine::Scene::loadScene( GameObject* );
 
         Q_SIGNALS:
             void showDebug( const QString& debugText );

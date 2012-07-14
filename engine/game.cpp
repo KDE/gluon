@@ -72,9 +72,14 @@ Game::getCurrentTick()
     return d->time.elapsed();
 }
 
-void Game::loadScene(QUrl filename)
+void Game::loadScene( QUrl filename )
 {
     d->currentScene->loadScene( filename );
+}
+
+void Game::loadScene( GameObject* load )
+{
+    d->currentScene->loadScene( load );
 }
 
 void

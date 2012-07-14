@@ -42,6 +42,7 @@ namespace GluonEngine
     class TextureAsset;
     class Achievement;
     class TagObject;
+    class Scene;
 
     /**
      * The GameProject class describes and contains a complete game project,

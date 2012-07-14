@@ -166,7 +166,7 @@ int SceneGraphObject::compare( SceneGraphObject* object )
                 {
                     if( object->gameObject()->property( name ).isValid() )
                     {
-                        if( gameObject()->property( name ).isValid() != object->gameObject()->property( name ).isValid() )
+                        if( gameObject()->property( name ) != object->gameObject()->property( name ) )
                             return 1;
                     }
                     else
@@ -225,6 +225,11 @@ void SceneGraphObject::modifyGameObject()
                 p->modifiedgameobject->setProperty( property1.name(), property1.read( gameObject() ) );
         }
     }
+    foreach( const QByteArray& prop, refObject()->gameObject()->dynamicPropertyNames() )
+    {
+        if( gameObject()->property( prop ) == QVariant::Invalid )
+            gameObject()->setProperty( prop, refObject()->gameObject()->property( prop ) );
+    }
     for( int i = 0; i < gameObject()->components().count(); i++ )
     {
         GluonEngine::Component* componentm = gameObject()->components().at( i );
@@ -260,17 +265,20 @@ void SceneGraphObject::buildGameObject()
 {
     for( int i = 0; i < refObject()->gameObject()->metaObject()->propertyCount(); i++ )
     {
-        QMetaProperty propertyo = refObject()->gameObject()->metaObject()->property( i );
-        int index = gameObject()->metaObject()->indexOfProperty( propertyo.name() );
+        QMetaProperty property = refObject()->gameObject()->metaObject()->property( i );
+        int index = gameObject()->metaObject()->indexOfProperty( property.name() );
         if( index == -1 )
-            gameObject()->setProperty( propertyo.name(), propertyo.read( refObject()->gameObject() ) );
+            gameObject()->setProperty( property.name(), property.read( refObject()->gameObject() ) );
+    }
+    foreach( const QByteArray& prop, refObject()->gameObject()->dynamicPropertyNames() )
+    {
+        if( gameObject()->property( prop ) == QVariant::Invalid )
+            gameObject()->setProperty( prop, refObject()->gameObject()->property( prop ) );
     }
     for( int i = 0; i < refObject()->gameObject()->components().count(); i++ )
     {
         GluonEngine::Component* componento = refObject()->gameObject()->components().at( i );
-        GluonEngine::Component* componentm = gameObject()->findComponent( componento->name() );
-        if( componentm == 0 )
-            gameObject()->addComponent( componento );
+        gameObject()->addComponent( componento );
     }
 }
 
