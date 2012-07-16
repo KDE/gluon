@@ -133,6 +133,11 @@ namespace GluonEngine
             * Returns the parent SceneGraphObject
             */
             Q_INVOKABLE GluonEngine::SceneGraphObject* parent();
+            /**
+             * Use this method to check if a QVariant is the '0' equivalent.
+             * eg: "" for QString, 0 for int, <> for lists
+             */
+            Q_INVOKABLE bool isIdentity( QVariant var );
 
         private:
             SceneGraphObjectPrivate* p;

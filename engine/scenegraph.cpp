@@ -30,6 +30,7 @@
 
 #include <iostream>
 #include <QMetaProperty>
+#include <QDebug>
 
 using namespace std;
 
@@ -186,6 +187,7 @@ void SceneGraph::setRefGraph( QUrl pathtoref )
 void SceneGraph::build()
 {
     build( root() );
+    qDebug() << root()->gameObject()->name() << " : " << p->refgraph->root()->gameObject()->name();
 }
 
 void SceneGraph::build( SceneGraphObject* object )

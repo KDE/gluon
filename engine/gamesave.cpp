@@ -72,17 +72,17 @@ void GameSave::save()
 
     //These are only for testing purposes.
     partialSave();
-    partialLoad();
 }
 
 void GameSave::load()
 {
     //TODO: Give developer option to present list of saved slots to choose from.
     QList<GluonObject*> objectlist;
-    QString dir = QDir::homePath().append( "/Desktop/" );
+    QString dir = QDir::homePath().append( "/Desktop" );
     QString savefile = QFileDialog::getOpenFileName( 0, tr("Load Game"), dir, tr( "Save Files (*.gs)" ) );
     QUrl filename( savefile );
-    GluonEngine::Game::instance()->loadScene( filename );
+//     GluonEngine::Game::instance()->loadScene( filename );
+    partialLoad();
     AchievementsManager am;
     am.load( dir );
 }
@@ -108,6 +108,8 @@ void GameSave::partialLoad()
         GluonEngine::SceneGraph *scene = new GluonEngine::SceneGraph( load );
         scene->setRefGraph( objects.at( 0 )->property( "refers" ).toUrl() );
         load = scene->forLoad();
+        load->setGameProject( Game::instance()->gameProject() );
+//         GluonEngine::Game::instance()->loadScene( load );
         QList<GluonObject*> objectlist;
         objectlist.append( load );
         QUrl loadfilename( "/home/vsrao/Desktop/loadfile.txt" );

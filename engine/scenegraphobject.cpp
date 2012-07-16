@@ -30,6 +30,11 @@
 
 #include <QMetaProperty>
 #include <QDebug>
+#include <QVariant>
+#include <QVector2D>
+#include <QVector3D>
+#include <QVector4D>
+#include <QQuaternion>
 
 using namespace GluonEngine;
 
@@ -216,14 +221,9 @@ void SceneGraphObject::modifyGameObject()
     {
         QMetaProperty property1 = gameObject()->metaObject()->property( i );
         int index = refObject()->gameObject()->metaObject()->indexOfProperty( property1.name() );
-        if( index == -1 )
-            p->modifiedgameobject->setProperty( property1.name(), property1.read( gameObject() ) );
-        else
-        {
-            QMetaProperty property2 = refObject()->gameObject()->metaObject()->property( index );
-            if( property2.read( refObject()->gameObject() ) != property1.read( gameObject() ) )
+        QMetaProperty property2 = refObject()->gameObject()->metaObject()->property( index );
+        if( property2.read( refObject()->gameObject() ) != property1.read( gameObject() ) )
                 p->modifiedgameobject->setProperty( property1.name(), property1.read( gameObject() ) );
-        }
     }
     foreach( const QByteArray& prop, refObject()->gameObject()->dynamicPropertyNames() )
     {
@@ -267,7 +267,9 @@ void SceneGraphObject::buildGameObject()
     {
         QMetaProperty property = refObject()->gameObject()->metaObject()->property( i );
         int index = gameObject()->metaObject()->indexOfProperty( property.name() );
-        if( index == -1 )
+        QMetaProperty propertym = gameObject()->metaObject()->property( index );
+        qDebug() << property.name() << " : " << propertym.read( gameObject() );
+        if( isIdentity( propertym.read( gameObject() ) ) )
             gameObject()->setProperty( property.name(), property.read( refObject()->gameObject() ) );
     }
     foreach( const QByteArray& prop, refObject()->gameObject()->dynamicPropertyNames() )
@@ -282,5 +284,96 @@ void SceneGraphObject::buildGameObject()
     }
 }
 
+bool SceneGraphObject::isIdentity( QVariant var )
+{
+    switch( var.type() )
+    {
+        case QVariant::Bool:
+        {
+            return true;
+            break;
+        }
+        case QVariant::Int:
+        {
+            if( var.toInt() == 0 )
+                return true;
+            break;
+        }
+        case QVariant::UInt:
+        {
+            if( var.toUInt() == 0 )
+                return true;
+            break;
+        }
+        case QVariant::LongLong:
+        {
+            if( var.toLongLong() == 0 )
+                return true;
+            break;
+        }
+        case 137: //float
+        case QVariant::Double:
+        {
+            if( var.toFloat() == float( 0 ) )
+                return true;
+            break;
+        }
+        case QVariant::String:
+        {
+            if( var.toString().isEmpty() )
+                return true;
+            break;
+        }
+        case QVariant::Url:
+        {
+            if( var.toUrl().isEmpty() )
+                return true;
+            break;
+        }
+        case QVariant::Vector2D:
+        {
+            QVector2D v = var.value<QVector2D>();
+            if( v.isNull() )
+                return true;
+            break;
+        }
+        case QVariant::Vector3D:
+        {
+            QVector3D v = var.value<QVector3D>();
+            if( v.isNull() )
+                return true;
+            break;
+        }
+        case QVariant::Vector4D:
+        {
+            QVector4D v = var.value<QVector4D>();
+            if( v.isNull() )
+                return true;
+            break;
+        }
+        case QVariant::Quaternion:
+        {
+            QQuaternion v = var.value< QQuaternion >();
+            if( v.isNull() || v.isIdentity() )
+                return true;
+            break;
+        }
+        case QVariant::SizeF:
+        {
+            if( var.toSizeF().isNull() )
+                return true;
+            break;
+        }
+        case QVariant::List:
+        {
+            if( var.toList().isEmpty() )
+                return true;
+            break;
+        }
+        default:
+            return false;
+    }
+    return false;
+}
 
 #include "scenegraphobject.moc"
