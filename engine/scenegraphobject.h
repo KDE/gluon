@@ -141,6 +141,10 @@ namespace GluonEngine
 
         private:
             SceneGraphObjectPrivate* p;
+            /**
+             * Use this function to set properties of one component onto another.
+             */
+            void copyComponentProperties( GluonEngine::Component* copy, GluonEngine::Component* original );
     };
 }
 

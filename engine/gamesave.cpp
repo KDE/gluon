@@ -105,11 +105,11 @@ void GameSave::partialLoad()
     {
         GluonEngine::GameObject* load = qobject_cast<GluonEngine::GameObject*>( objects.at( 0 )->child( 0 ) );
         load->setParentGameObject( 0 );
+        load->setParent( 0 );
         GluonEngine::SceneGraph *scene = new GluonEngine::SceneGraph( load );
         scene->setRefGraph( objects.at( 0 )->property( "refers" ).toUrl() );
         load = scene->forLoad();
-        load->setGameProject( Game::instance()->gameProject() );
-//         GluonEngine::Game::instance()->loadScene( load );
+        GluonEngine::Game::instance()->loadScene( load );
         QList<GluonObject*> objectlist;
         objectlist.append( load );
         QUrl loadfilename( "/home/vsrao/Desktop/loadfile.txt" );

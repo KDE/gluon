@@ -235,13 +235,21 @@ void SceneGraphObject::modifyGameObject()
         GluonEngine::Component* componentm = gameObject()->components().at( i );
         GluonEngine::Component* componento = refObject()->gameObject()->findComponent( componentm->name() );
         if( componento == 0 )
-            p->modifiedgameobject->addComponent( componentm );
+        {
+            GluonEngine::Component* newcomponent = qobject_cast< GluonEngine::Component* >( GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( componento->metaObject()->className() ) );
+            copyComponentProperties( newcomponent, componento );
+            p->modifiedgameobject->addComponent( newcomponent );
+        }
         else
         {
             int typem = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( componentm->name() );
             int typeo = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( componento->name() );
             if( typem != typeo )
-                p->modifiedgameobject->addComponent( componentm );
+            {
+                GluonEngine::Component* newcomponent = qobject_cast< GluonEngine::Component* >( GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( componento->metaObject()->className() ) );
+                copyComponentProperties( newcomponent, componento );
+                p->modifiedgameobject->addComponent( newcomponent );
+            }
         }
     }
 }
@@ -268,7 +276,6 @@ void SceneGraphObject::buildGameObject()
         QMetaProperty property = refObject()->gameObject()->metaObject()->property( i );
         int index = gameObject()->metaObject()->indexOfProperty( property.name() );
         QMetaProperty propertym = gameObject()->metaObject()->property( index );
-        qDebug() << property.name() << " : " << propertym.read( gameObject() );
         if( isIdentity( propertym.read( gameObject() ) ) )
             gameObject()->setProperty( property.name(), property.read( refObject()->gameObject() ) );
     }
@@ -276,11 +283,18 @@ void SceneGraphObject::buildGameObject()
     {
         if( gameObject()->property( prop ) == QVariant::Invalid )
             gameObject()->setProperty( prop, refObject()->gameObject()->property( prop ) );
+        else
+        {
+            if( isIdentity( gameObject()->property( prop ) ) )
+                gameObject()->setProperty( prop, refObject()->gameObject()->property( prop ) );
+        }
     }
     for( int i = 0; i < refObject()->gameObject()->components().count(); i++ )
     {
         GluonEngine::Component* componento = refObject()->gameObject()->components().at( i );
-        gameObject()->addComponent( componento );
+        GluonEngine::Component* newcomponent = qobject_cast< GluonEngine::Component* >( GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( componento->metaObject()->className() ) );
+        copyComponentProperties( newcomponent, componento );
+        gameObject()->addComponent( newcomponent );
     }
 }
 
@@ -320,7 +334,7 @@ bool SceneGraphObject::isIdentity( QVariant var )
         }
         case QVariant::String:
         {
-            if( var.toString().isEmpty() )
+            if( var.toString().isEmpty() || var.toString().isNull() )
                 return true;
             break;
         }
@@ -374,6 +388,19 @@ bool SceneGraphObject::isIdentity( QVariant var )
             return false;
     }
     return false;
+}
+
+void SceneGraphObject::copyComponentProperties( GluonEngine::Component* copy, GluonEngine::Component* original )
+{
+    for( int i = 0; i < original->metaObject()->propertyCount(); i++ )
+    {
+        QMetaProperty property = original->metaObject()->property( i );
+        copy->setProperty( property.name(), property.read( original ) );
+    }
+    foreach( const QByteArray& prop, original->dynamicPropertyNames() )
+    {
+        copy->setProperty( prop, original->property( prop ) );
+    }
 }
 
 #include "scenegraphobject.moc"
