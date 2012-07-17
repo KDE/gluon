@@ -27,7 +27,7 @@
 #include <QtDeclarative/QDeclarativeView>
 #include <KDE/KStandardDirs>
 #include <QtDeclarative/QDeclarativeItem>
-#include <dialogs/welcomedialogpage.h>
+#include <dialogs/welcomedialog.h>
 
 class KStandardDirs;
 class QDeclarativeView;

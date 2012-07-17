@@ -78,4 +78,9 @@ OpenProjectDialogPage::~OpenProjectDialogPage()
     delete d;
 }
 
+KFileWidget* OpenProjectDialogPage::getFileWidget()
+{
+  return d->fileWidget;
+}
+
 #include "creator/dialogs/openprojectdialogpage.moc"

@@ -53,7 +53,6 @@
 #include "lib/filemanager.h"
 #include "lib/widgets/filearea.h"
 #include "gluoncreatorsettings.h"
-//#include "dialogs/projectselectiondialog.h"
 #include "dialogs/configdialog.h"
 
 using namespace GluonCreator;
@@ -63,10 +62,7 @@ class MainWindow::Private
     public:
         bool modified;
         QString fileName;
-       
         KRecentFilesAction* recentFiles;
-    //    ProjectSelectionDialog* projectDialog;
-
         FileArea* mainArea;
 };
 
@@ -74,9 +70,8 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
     : KParts::MainWindow( parent, flags ), d( new Private )
 {
 
-    w= new WelcomeDialogPage;
+    w= new WelcomeDialogPage();
     w->show();
-    //kapp->setActiveWindow(this); 
     d->modified = false;
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
@@ -84,8 +79,9 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
 
     FileManager::instance()->initialize( this );
     connect( FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), SLOT(partChanged(KParts::Part*)) );
-    connect( FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), DockManager::instance(), SLOT(updateDockActions()) );
+    connect( FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), DockManager::instance(), SLOT(updateDockActions()));
     connect( w->label1, SIGNAL(clicked()), this,SLOT(loadView()));
+    connect( w, SIGNAL(accepted()), this,SLOT(projectDialogAccepted()));
 
     PluginManager::instance()->setMainWindow( this );
     PluginManager::instance()->loadPlugins();
@@ -95,17 +91,12 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
     setCorner( Qt::BottomLeftCorner, Qt::LeftDockWidgetArea );
     setCorner( Qt::TopRightCorner, Qt::RightDockWidgetArea );
     setCorner( Qt::BottomRightCorner, Qt::RightDockWidgetArea );
-
+  
     d->mainArea = new FileArea( this );
-//    setCentralWidget( w->stackedWidget );
-
+    setCentralWidget(d->mainArea);
     setupActions();
     setupGUI();
     stateChanged( "initial" );
-
-  //  d->projectDialog = new ProjectSelectionDialog( this );
-  //  d->projectDialog->setModal( true );
-   
     DockManager::instance()->setDocksEnabled( false );
     DockManager::instance()->setDocksLocked( GluonCreator::Settings::lockLayout() );
 
@@ -178,6 +169,7 @@ void MainWindow::openProject( const QString& fileName )
 
 void MainWindow::openProject()
 {
+    qDebug() << "in open project" ;
     statusBar()->showMessage( i18n( "Opening project..." ) );
     FileManager::instance()->openFile( d->fileName, "view", i18nc( "View Game Tab", "View" ), QString(), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ), false );
     //TODO: Editor view needs to be implemented
@@ -438,8 +430,9 @@ void MainWindow::showOpenProjectDialog()
 }
 
 void MainWindow::projectDialogAccepted()
-{
-//    openProject( w->getfileName() );
+{ qDebug()<< "in accept slot";
+  qDebug()<< "FILENAME IS" << w->getfileName();
+  openProject( w->getfileName() );
 }
 
 void MainWindow::partChanged( KParts::Part* part )

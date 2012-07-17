@@ -24,24 +24,13 @@
 
 #include <KDE/KPageWidgetItem>
 #include <KDE/KPageWidget>
+#include <kconfiggroup.h>
 #include <KDE/KColorScheme>
-#include <QWidget>
-#include <QListWidget>
-#include <QListWidgetItem>
 #include <KDE/KDialog>
-#include <QMouseEvent>
-#include <QLayoutItem>
-#include <QHBoxLayout>
-#include <QGridLayout>
-#include <QPushButton>
-#include <QStackedWidget>
-#include <QSignalMapper>
 #include <QtGui>
 #include "newprojectdialogpage.h"
-#include <dialogs/openprojectdialogpage.h>
-#include "recentprojectsdialogpage.h"
+#include "openprojectdialogpage.h"
 
-class QLabel;
 namespace GluonCreator
 {
 
@@ -52,33 +41,40 @@ namespace GluonCreator
             WelcomeDialogPage();
             ~WelcomeDialogPage();
 	    QStackedWidget *stackedWidget;
-	    void getUi();
+	    
+	    void getRecentProjects();
 	    QString getfileName() const;
-            QPushButton *label1,*label2, *label3;
-	    KDialog *dialog_new;
+            QPushButton *label1,*label2, *label3, *download;
+	    QLabel *newLabel,*recentLabel;
+	    KDialog *dialogNew;
 	    
     public slots:
-            void newProjectRequested(QString);
-	    void new_clicked();
+            void ProjectRequested(QString);
+	    void projectDoubleClicked( const QModelIndex& index );
+	    void newClicked();
 	    void webUpdates();
-	
+	    void cancelClicked();
+ 	    
     signals:
 	    void onNew();
 	    void clicked();
 	    void loadProj();
+	    void projectRequested( const QString& url );
 	    
            
         private:
 
-            QWidget* widget;
-	    
-	    KDialog *dialog_open;
+            void initializeUi();
+	    QWidget* widget;
+	    QPixmap *image;
+	    QLabel *imageLabel;
+	    KDialog *dialogOpen;
 	    QString fileName;
-	    RecentProjectsDialogPage* rp;
 	    OpenProjectDialogPage *op;
 	    NewProjectDialogPage *np;
             QSignalMapper *mapper;
-            QListWidget *listWidget;
+            QListWidget *recentListWidget;
+            QListWidget *newListWidget;
             QHBoxLayout* hlayout;
             QGridLayout* grid;
     };

@@ -20,7 +20,7 @@
  */
 
 #include "newprojectdialogpage.h"
-
+#include <QDebug>
 #include <core/gluon_global.h>
 #include <engine/gameproject.h>
 #include <engine/scene.h>
@@ -186,7 +186,7 @@ void NewProjectDialogPage::validateByProjectName()
 }
 
 void NewProjectDialogPage::validateByProjectLocation()
-{
+{	
     validateData();
 }
 
@@ -194,7 +194,7 @@ void NewProjectDialogPage::validateData()
 {
     KUrl url = d->location->url();
     if( !url.isLocalFile() || url.isEmpty() )
-    {
+    {	
         d->locationValidLabel->setText( i18n( "Invalid location" ) );
         setForeground( d->locationValidLabel, KColorScheme::NegativeText );
         emit validationFinished( false );
@@ -204,7 +204,7 @@ void NewProjectDialogPage::validateData()
     QString appName = d->name->text();
 
     if( appName.isEmpty() )
-    {
+    {	
         d->locationValidLabel->setText( i18n( "Empty project name" ) );
         setForeground( d->locationValidLabel, KColorScheme::NegativeText );
         emit validationFinished( false );
@@ -212,7 +212,7 @@ void NewProjectDialogPage::validateData()
     }
 
     if( appName == "." || appName == ".." )
-    {
+    {	
         d->locationValidLabel->setText( i18n( "Invalid project name" ) );
         setForeground( d->locationValidLabel, KColorScheme::NegativeText );
         emit validationFinished( false );

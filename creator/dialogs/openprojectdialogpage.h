@@ -23,6 +23,7 @@
 #define GLUON_CREATOR_OPENPROJECTDIALOGPAGE_H
 
 #include <KDE/KPageWidgetItem>
+#include <KFileWidget>
 
 namespace GluonCreator
 {
@@ -32,6 +33,8 @@ namespace GluonCreator
         public:
             OpenProjectDialogPage();
             ~OpenProjectDialogPage();
+	     KFileWidget* getFileWidget();
+	     
         Q_SIGNALS:
             void projectRequested( const QString& url );
         private:

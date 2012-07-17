@@ -36,12 +36,10 @@ set(gluoncreator_SRCS
     main.cpp
     mainwindow.cpp
     introslideshow.cpp
-
     dialogs/configdialog.cpp
     dialogs/newprojectdialogpage.cpp
     dialogs/openprojectdialogpage.cpp
-    dialogs/welcomedialogpage.cpp
-    dialogs/recentprojectsdialogpage.cpp
+    dialogs/welcomedialog.cpp
 )
 
 kde4_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)
