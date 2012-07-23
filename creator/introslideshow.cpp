@@ -46,7 +46,6 @@ void IntroSlideShow::getWindow()
     mainHeight= kapp->activeWindow()->height();
     mainX = kapp->activeWindow()->x();
     mainY = kapp->activeWindow()->y();
-    qDebug()<< mainWidth << mainHeight << mainX << mainY ;
 }
 
 int IntroSlideShow::height() const
@@ -93,14 +92,17 @@ qreal IntroSlideShow::tRightDock()
 {
     return (dockX+dockWidth);
 }
+
 qreal IntroSlideShow::tRightMain()
 {
     return (mainX+mainWidth);
 }
+
 qreal IntroSlideShow::dWidth()
 {
     return dockWidth;
 }
+
 qreal IntroSlideShow::dHeight()
 {
     return dockHeight;

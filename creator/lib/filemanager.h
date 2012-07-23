@@ -93,7 +93,6 @@ namespace GluonCreator
             ~FileManager();
 
 	    class Private;
-            KParts::ReadWritePart rw ;
 	    QList<KParts::ReadWritePart> rwList;
 	    Private* const d;
     };

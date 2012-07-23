@@ -20,6 +20,7 @@
 
 #include "filemanager.h"
 #include <engine/asset.h>
+#include <QDebug>
 #include <QtCore/QMetaClassInfo>
 #include <KDE/KParts/PartManager>
 #include <KDE/KMimeType>
@@ -111,8 +112,6 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
     if( parts.count() > 0 )
     {
         part = parts.first()->createInstance<KParts::ReadWritePart>( 0, partParams );
-	rw = parts.first()->createInstance<KParts::ReadWritePart>( 0, partParams );
-	rwList.append(rw);
         if( !part )
             part = parts.first()->createInstance<KParts::ReadOnlyPart>( 0, partParams );
     }
@@ -125,7 +124,9 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
 
         Private::OpenedFile openFile;
         openFile.part = part;
-        openFile.closable = closeable;
+	KParts::ReadWritePart * rw = qobject_cast<KParts::ReadWritePart *>(part);
+	qDebug() << rw;
+	openFile.closable = closeable;
 
         d->files.insert( fullName, openFile );
         d->partManager->addPart( part, true );
@@ -141,12 +142,13 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
 
 void FileManager::SaveAll()
 {
-    for(int i= 0; i < rwList.size(); i++ )
-    {
-      KParts::ReadWritePart temp = rwList.at(i);
-      qDebug() << temp.metaObject()->className();
-      temp.save();
-    }
+  qDebug() << "In Save All";
+  QList<Private::OpenedFile> listopen = d->files.values();
+    foreach( Private::OpenedFile open,listopen )
+	{
+	  KParts::ReadWritePart * rw = qobject_cast<KParts::ReadWritePart *>(open.part);
+	  if(rw){ rw->save();}
+	}
 }
 
 void FileManager::closeFile( const QString& file, bool force )
