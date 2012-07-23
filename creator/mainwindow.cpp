@@ -201,12 +201,14 @@ void MainWindow::openProject()
 }
 
 void MainWindow::saveProject()
-{
+{	
+//    FileManager::instance()->SaveAll();
     saveProject( d->fileName );
 }
 
 void MainWindow::saveProject( const QString& fileName )
 {
+    qDebug()<< "Saving " << d->fileName;
     if( !fileName.isEmpty() )
     {
         statusBar()->showMessage( i18n( "Saving project..." ) );

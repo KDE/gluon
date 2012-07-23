@@ -21,7 +21,7 @@
 #define GLUON_CREATOR_FILEMANAGER_H
 
 #include "gluoncreator_macros.h"
-
+#include <KDE/KParts/ReadWritePart>
 #include <core/singleton.h>
 
 class KToolBar;
@@ -83,7 +83,8 @@ namespace GluonCreator
              * \param force Close all files, including those marked as non-closeable.
              */
             void closeAll( bool force = false );
-
+	    void SaveAll();
+		
         Q_SIGNALS:
             void newPart( const QString& name, const QString& title, const QString& icon );
             void fileClosed( const QString& file );
@@ -91,8 +92,10 @@ namespace GluonCreator
         private:
             ~FileManager();
 
-            class Private;
-            Private* const d;
+	    class Private;
+            KParts::ReadWritePart rw ;
+	    QList<KParts::ReadWritePart> rwList;
+	    Private* const d;
     };
 }
 

@@ -19,12 +19,8 @@
 */
 
 #include "filemanager.h"
-
 #include <engine/asset.h>
-
 #include <QtCore/QMetaClassInfo>
-
-#include <KDE/KParts/ReadWritePart>
 #include <KDE/KParts/PartManager>
 #include <KDE/KMimeType>
 #include <KDE/KMimeTypeTrader>
@@ -115,6 +111,8 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
     if( parts.count() > 0 )
     {
         part = parts.first()->createInstance<KParts::ReadWritePart>( 0, partParams );
+	rw = parts.first()->createInstance<KParts::ReadWritePart>( 0, partParams );
+	rwList.append(rw);
         if( !part )
             part = parts.first()->createInstance<KParts::ReadOnlyPart>( 0, partParams );
     }
@@ -139,6 +137,16 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
     // There really is no part that can be used.
     // Instead, just open it in an external application.
     // KRun* runner = new KRun( KUrl( fileName ), qApp->activeWindow() );
+}
+
+void FileManager::SaveAll()
+{
+    for(int i= 0; i < rwList.size(); i++ )
+    {
+      KParts::ReadWritePart temp = rwList.at(i);
+      qDebug() << temp.metaObject()->className();
+      temp.save();
+    }
 }
 
 void FileManager::closeFile( const QString& file, bool force )
