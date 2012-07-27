@@ -21,7 +21,7 @@
 #include <QRect>
 #include <KDE/KApplication>
 #include <QTimer>
-
+#include <dialogs/welcomedialog.h>
 class QTimer;
 class QRect;
 class KApplication;
@@ -37,6 +37,12 @@ IntroSlideShow::IntroSlideShow()
 IntroSlideShow::~IntroSlideShow()
 {
     delete this;
+}
+
+void IntroSlideShow::afterSlideshow()
+{
+  GluonCreator::WelcomeDialogPage *options= new GluonCreator::WelcomeDialogPage;
+  options->show();
 }
 
 

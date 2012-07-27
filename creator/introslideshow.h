@@ -53,7 +53,8 @@ class IntroSlideShow: public QObject
             Q_INVOKABLE qreal dY();
             Q_INVOKABLE qreal mX();
             Q_INVOKABLE qreal mY();
-            void setWidth(qreal width);
+	    Q_INVOKABLE void afterSlideshow();
+	    void setWidth(qreal width);
             void setHeight(qreal height);
             void setDockername(QString name);
             void updateDocker();

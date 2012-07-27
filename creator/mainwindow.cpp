@@ -202,13 +202,12 @@ void MainWindow::openProject()
 
 void MainWindow::saveProject()
 {	
-//    FileManager::instance()->SaveAll();
+    FileManager::instance()->SaveAll();
     saveProject( d->fileName );
 }
 
 void MainWindow::saveProject( const QString& fileName )
 {
-  FileManager::instance()->SaveAll();
     if( !fileName.isEmpty() )
     {
         statusBar()->showMessage( i18n( "Saving project..." ) );

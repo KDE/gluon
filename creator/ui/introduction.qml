@@ -25,8 +25,7 @@ Item {
 
     Rectangle {
         id: topOverlay;
-
-        anchors.top: parent.top;
+	anchors.top: parent.top;
         anchors.left: parent.left;
         anchors.right: parent.right;
         anchors.bottom: viewport.top;
@@ -45,7 +44,7 @@ Item {
         color: "black";
      }
 
-    Rectangle {
+     Rectangle {
         id: rightOverlay;
 
         anchors.top: topOverlay.bottom;
@@ -90,6 +89,7 @@ Item {
             id :custom;
         }
 
+// accessing properties of IntroSlideShow class like this
         width: animator.width;
         height: animator.height;
         x: animator.x;
@@ -102,11 +102,11 @@ Item {
 
         Rectangle{
             id: textBox;
-            color: "Transparent";
+	    color: "Transparent";
             opacity: 1;
             property bool showText: false ;
             width: topmost.width / 4;
-            height: topmost.height /6;
+            height: topmost.height /5;
             x: topmost.width / 5;
             y: topmost.height / 5;
             states: [
@@ -160,6 +160,7 @@ Item {
             Text {
                 id : docktext;
                 width: parent.width
+                height : 0.75 * parent.height
                 font.pointSize: 12;
                 font.bold : true;
                 font.italic: true;
@@ -172,11 +173,83 @@ Item {
 
               }
 
+            Rectangle {
+		id: exitButton
+		opacity:0
+		anchors.margins : 20;
+		radius: 5
+		anchors.leftMargin: 0
+		color : "transparent"
+		border.color: "white"
+		border.width : 2
+		height: parent.height / 6;
+		anchors.left: textBox.left
+		anchors.right: textBox.horizontalCenter
+		anchors.bottom:textBox.bottom
+		MouseArea{
+		    anchors.fill: parent
+		    onClicked: {
+		    animator.afterSlideshow();
+		}
+	    }
+		Text {
+		    id : exitButtonText;
+		    anchors.horizontalCenter: exitButton.horizontalCenter
+		    anchors.margins : 20;
+		    font.pointSize: 12;
+		    font.bold : true;
+		    font.letterSpacing:1;
+		    text: "Exit";
+		    style: Text.Raised;
+		    color: "white";
+		    wrapMode :Text.Wrap;
+              }
+	    }
+	
+            Rectangle {
+		id: repeatButton
+		opacity:0
+		anchors.margins : 20;
+		radius: 5
+		color : "transparent"
+		border.color: "white"
+		border.width : 2
+		height: parent.height / 6;
+		anchors.right: textBox.right
+		anchors.left: textBox.horizontalCenter
+		anchors.bottom:textBox.bottom
+		MouseArea{
+		  anchors.fill: parent
+		  onClicked: {
+		  viewport.state = 'default'
+		  exitButton.opacity = 0;
+		  repeatButton.opacity= 0;
+		}
+	    }
+		Text {
+		    id : repeatButtonText;
+		    anchors.horizontalCenter: repeatButton.horizontalCenter
+		    font.pointSize: 12;
+		    font.bold : true;
+		    font.letterSpacing:1;
+		    text: "Repeat";
+		    style: Text.Raised;
+		    color: "white";
+		    wrapMode :Text.Wrap;
+              }
+	    }
+
             function updateText(which)
             {   docktext.text=(function() { return custom.getText(which); })
             }
 
-            function orient() {
+            function postSlideshow()
+            { 
+	      exitButton.opacity = 1;
+	      repeatButton.opacity = 1;
+	    }
+
+	    function orient() {
                 if (((animator.tRightMain() - animator.tRightDock()) > textBox.width)&&(animator.dHeight()-textBox.height > 0))
                 {
                     textBox.state = 'right';
@@ -258,12 +331,24 @@ Item {
         State {
                 name: "property"
                 PropertyChanges { target:animator; dockername : "PropertiesDock"}
-                StateChangeScript {
+		StateChangeScript {
                          name: "myScript"
                          script: { textBox.orient();textBox.updateText("property");showTimer.stop();}
 
                 }
-            }
+            },
+	    
+        State {
+                name: "final"
+                PropertyChanges { target:animator; dockername : "PropertiesDock"}
+		PropertyChanges { target:mouseArea; enabled: false;}
+                StateChangeScript {
+                         name: "myScript"
+                         script: { textBox.orient();textBox.updateText("final"); showTimer.stop();textBox.postSlideshow();}
+
+                }
+          }
+
         ]
 
     }
@@ -272,12 +357,10 @@ Item {
     MouseArea {
 
         id : mouseArea;
-
         Timer {
             id: showTimer
             interval: 500
             onTriggered:  {
-
                  switch(animator.dockername){
 
                                case("ComponentsDock"):
@@ -296,16 +379,16 @@ Item {
                                case("SceneDock"):
                                    viewport.state = 'property';
                                    break;
-
-                               case("PropertiesDock"):
-                                   viewport.state = 'default';
+                               
+			       case("PropertiesDock"):
+                                   viewport.state = 'final';
                                    break;
 
-                               default:
+			       default:
                                    break;
 
             }
-
+  
         }
 
     }
@@ -314,9 +397,7 @@ Item {
         onClicked: {
             if(textBox.showText){ textBox.opacity = 0 ;}
             showTimer.start();
-
-        }
-
-    }
+	}
+}
 
 }
