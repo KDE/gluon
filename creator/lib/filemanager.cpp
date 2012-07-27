@@ -124,10 +124,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
 
         Private::OpenedFile openFile;
         openFile.part = part;
-	KParts::ReadWritePart * rw = qobject_cast<KParts::ReadWritePart *>(part);
-	qDebug() << rw;
 	openFile.closable = closeable;
-
         d->files.insert( fullName, openFile );
         d->partManager->addPart( part, true );
         emit newPart( fullName, fullTitle, icon );
@@ -142,7 +139,6 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
 
 void FileManager::SaveAll()
 {
-  qDebug() << "In Save All";
   QList<Private::OpenedFile> listopen = d->files.values();
     foreach( Private::OpenedFile open,listopen )
 	{

@@ -82,7 +82,6 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
     connect( FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), DockManager::instance(), SLOT(updateDockActions()));
     connect( w->label1, SIGNAL(clicked()), this,SLOT(loadView()));
     connect( w, SIGNAL(accepted()), this,SLOT(projectDialogAccepted()));
-
     PluginManager::instance()->setMainWindow( this );
     PluginManager::instance()->loadPlugins();
 

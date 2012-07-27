@@ -45,6 +45,8 @@ namespace GluonCreator
             ~MainWindow();
             virtual bool queryClose();
             virtual void closeEvent( QCloseEvent* event );
+            QDeclarativeView* view;
+	    WelcomeDialogPage *w;
 
         public slots:
             void openProject();
@@ -60,19 +62,14 @@ namespace GluonCreator
 	    void loadView();
             void historyChanged();
             void cleanChanged( bool );
-
             void addAsset();
-
             void showNewProjectDialog();
             void showOpenProjectDialog();
             void projectDialogAccepted();
-
             void partChanged( KParts::Part* part );
 
         private:
             void setupActions();
-            QDeclarativeView* view;
-	    WelcomeDialogPage *w;
             class Private;
             Private* const d;
     };

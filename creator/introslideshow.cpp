@@ -22,6 +22,8 @@
 #include <KDE/KApplication>
 #include <QTimer>
 #include <dialogs/welcomedialog.h>
+#include <mainwindow.h>
+#include <QDebug>
 class QTimer;
 class QRect;
 class KApplication;
@@ -40,9 +42,10 @@ IntroSlideShow::~IntroSlideShow()
 }
 
 void IntroSlideShow::afterSlideshow()
-{
-  GluonCreator::WelcomeDialogPage *options= new GluonCreator::WelcomeDialogPage;
-  options->show();
+{	
+    GluonCreator::MainWindow *main = qobject_cast<GluonCreator::MainWindow *>(kapp->activeWindow());
+    main->view->hide();
+    main->w->show();
 }
 
 

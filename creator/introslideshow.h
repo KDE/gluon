@@ -23,7 +23,6 @@
 #include <QtDeclarative/QDeclarativeItem>
 #include <QString>
 #include <QtGlobal>
-
 class QDeclarativeItem;
 class QString;
 
@@ -63,6 +62,17 @@ class IntroSlideShow: public QObject
             void setY(int y);
             int y() const;
 
+        public slots:
+            void getWindow();
+	
+	signals:
+            void dockernameChanged();
+            void widthChanged();
+            void heightChanged();
+            void alignmentChanged();
+            void xChanged();
+            void yChanged();
+
         private:
             QString docker;
             qreal mainWidth;
@@ -77,17 +87,6 @@ class IntroSlideShow: public QObject
             int m_height;
             int m_x;
             int m_y;
-
-        public slots:
-            void getWindow();
-
-        signals:
-            void dockernameChanged();
-            void widthChanged();
-            void heightChanged();
-            void alignmentChanged();
-            void xChanged();
-            void yChanged();
 };
 
 #endif // IntroSlideShow_H
