@@ -140,11 +140,9 @@ this.damagePlayer = function()
     }
 }
 
-this.serialize = function()
+this.serialize = function( persistenceObject )
 {
-    var persistenceObject = new Object();
     persistenceObject.health = this.Scene.currentHealth;
-    return persistenceObject;
 }
 
 this.restore = function( persistenceObject )

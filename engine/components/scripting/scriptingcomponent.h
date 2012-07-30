@@ -66,7 +66,7 @@ namespace GluonEngine
             class ScriptingComponentPrivate;
             ScriptingComponentPrivate* const d;
             QScriptValue restoreComponent();
-            void serializeComponent( QScriptValue object );
+            void serializeComponent( GluonCore::GluonObject* obj );
     };
 }
 
