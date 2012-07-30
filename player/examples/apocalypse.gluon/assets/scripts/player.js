@@ -139,3 +139,15 @@ this.damagePlayer = function()
         MessageHandler.publish("playerDied");
     }
 }
+
+this.serialize = function()
+{
+    var persistenceObject = new Object();
+    persistenceObject.health = this.Scene.currentHealth;
+    return persistenceObject;
+}
+
+this.restore = function( persistenceObject )
+{
+    this.Scene.currentHealth = persistenceObject.health;
+}

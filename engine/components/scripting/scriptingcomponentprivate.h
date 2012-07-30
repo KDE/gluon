@@ -47,6 +47,8 @@ namespace GluonEngine
             QScriptValue drawFunction;
             QScriptValue stopFunction;
             QScriptValue cleanupFunction;
+            QScriptValue serializeFunction;
+            QScriptValue restoreFunction;
     };
 }
 

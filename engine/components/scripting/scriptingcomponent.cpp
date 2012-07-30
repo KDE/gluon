@@ -26,6 +26,8 @@
 #include "scene.h"
 
 #include <core/messagehandler.h>
+#include <core/gdlserializer.h>
+#include <QDebug>
 
 REGISTER_OBJECTTYPE( GluonEngine, ScriptingComponent )
 
@@ -183,6 +185,43 @@ void ScriptingComponent::cleanup()
                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
     }
     GluonEngine::Component::cleanup();
+}
+
+void ScriptingComponent::restore()
+{
+    QScriptValue object = restoreComponent();
+    QScriptValueList list;
+    list.append( object );
+    if( d->restoreFunction.isFunction() )
+    {
+        d->restoreFunction.call( d->scriptObject, list );
+    }
+}
+
+void ScriptingComponent::serialize()
+{
+    if( d->serializeFunction.isFunction() )
+    {
+        QScriptValue object = d->serializeFunction.call( d->scriptObject );
+        serializeComponent( object );
+    }
+}
+
+QScriptValue ScriptingComponent::restoreComponent()
+{
+    QScriptValue object;
+    return object;
+}
+
+void ScriptingComponent::serializeComponent( QScriptValue object )
+{
+    GluonCore::GluonObjectList list;
+    QString dir = GluonEngine::Game::instance()->gameProject()->dirname().toLocalFile() + QString( "/assets/saves/" ) + name() + QString( ".gluonsave" );
+    qDebug() << dir;
+    QUrl filename( dir );
+    GluonCore::GluonObject* obj = new GluonCore::GluonObject( object.toQObject() );
+    list.append( obj );
+    GluonCore::GDLSerializer::instance()->write( filename, list );
 }
 
 #include "scriptingcomponent.moc"

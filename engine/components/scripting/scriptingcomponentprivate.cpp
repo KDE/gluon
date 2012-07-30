@@ -67,6 +67,8 @@ void ScriptingComponent::ScriptingComponentPrivate::updateScriptObject()
     drawFunction = scriptObject.property( "draw" );
     stopFunction = scriptObject.property( "stop" );
     cleanupFunction = scriptObject.property( "cleanup" );
+    serializeFunction = scriptObject.property( "serialize" );
+    restoreFunction = scriptObject.property( "restore" );
 }
 
 QScriptValue ScriptingComponent::ScriptingComponentPrivate::debug( QScriptContext* context, QScriptEngine* /* engine */ )

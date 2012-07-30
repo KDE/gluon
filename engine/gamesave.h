@@ -25,6 +25,8 @@
 
 namespace GluonEngine
 {
+    class GameObject;
+
     /**
      * For saving and loading game states, by serializing the 
      * current scene.
@@ -40,19 +42,34 @@ namespace GluonEngine
             /**
             * Save the Game's engine state to a file.
             */
-            Q_INVOKABLE void save();
+            void save();
+
             /**
             * Load a state from a file.
             */
-            Q_INVOKABLE void load();
+            void load();
+
             /**
             * Save a minimal persistence file.
             */
-            Q_INVOKABLE void partialSave();
+            void partialSave();
+
             /**
             * Load from a minimal persistence file.
             */
-            Q_INVOKABLE void partialLoad();
+            void partialLoad();
+
+            /**
+             * Serialize all the components of a given object and of all its children.
+             * @param: object is the game object whose components are to be serialized.
+             */
+            void serializeComponents( GluonEngine::GameObject* object );
+
+            /**
+             * Restore all the components of a given object and of all its children to a saved state.
+             * @param: object is the game object whose components are to be restored.
+             */
+            void restoreComponents( GluonEngine::GameObject* object );
     };
 }
 

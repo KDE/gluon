@@ -236,7 +236,8 @@ void SceneGraphObject::modifyGameObject()
         GluonEngine::Component* componento = refObject()->gameObject()->findComponent( componentm->name() );
         if( componento == 0 )
         {
-            GluonEngine::Component* newcomponent = qobject_cast< GluonEngine::Component* >( GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( componento->metaObject()->className() ) );
+            GluonEngine::Component* newcomponent = qobject_cast< GluonEngine::Component* >
+                                ( GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( componento->metaObject()->className() ) );
             copyComponentProperties( newcomponent, componento );
             p->modifiedgameobject->addComponent( newcomponent );
         }
@@ -246,7 +247,8 @@ void SceneGraphObject::modifyGameObject()
             int typeo = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( componento->name() );
             if( typem != typeo )
             {
-                GluonEngine::Component* newcomponent = qobject_cast< GluonEngine::Component* >( GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( componento->metaObject()->className() ) );
+                GluonEngine::Component* newcomponent = qobject_cast< GluonEngine::Component* >
+                                ( GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( componento->metaObject()->className() ) );
                 copyComponentProperties( newcomponent, componento );
                 p->modifiedgameobject->addComponent( newcomponent );
             }
@@ -292,7 +294,8 @@ void SceneGraphObject::buildGameObject()
     for( int i = 0; i < refObject()->gameObject()->components().count(); i++ )
     {
         GluonEngine::Component* componento = refObject()->gameObject()->components().at( i );
-        GluonEngine::Component* newcomponent = qobject_cast< GluonEngine::Component* >( GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( componento->metaObject()->className() ) );
+        GluonEngine::Component* newcomponent = qobject_cast< GluonEngine::Component* >
+                                ( GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( componento->metaObject()->className() ) );
         copyComponentProperties( newcomponent, componento );
         gameObject()->addComponent( newcomponent );
     }

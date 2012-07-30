@@ -140,6 +140,19 @@ namespace GluonEngine
             virtual void stop() {}
 
             /**
+             * The restore function is run when the present state of the game
+             * is to be replaced by a state that was serialized onto a persistence
+             * file. i.e, it's called when a save() is called through the Game's instance.
+             */
+            virtual void restore() {}
+
+            /**
+             * The serialize function is run when the Game's state is to be saved on to
+             * a persistence file.
+             */
+            virtual void serialize() {}
+
+            /**
              * The cleanup function is called whenever an object is no longer
              * needed. This happens mostly during scene changes.
              */

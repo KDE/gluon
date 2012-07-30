@@ -51,6 +51,8 @@ namespace GluonEngine
             virtual void draw( int timeLapse = 0 );
             virtual void stop();
             virtual void cleanup();
+            virtual void serialize();
+            virtual void restore();
 
             ScriptingAsset* script() const;
 
@@ -63,6 +65,8 @@ namespace GluonEngine
         private:
             class ScriptingComponentPrivate;
             ScriptingComponentPrivate* const d;
+            QScriptValue restoreComponent();
+            void serializeComponent( QScriptValue object );
     };
 }
 

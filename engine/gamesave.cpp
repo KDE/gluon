@@ -24,6 +24,7 @@
 #include "achievementsmanager.h"
 #include "scenegraph.h"
 #include <engine/gameproject.h>
+#include "component.h"
 #include <core/gluonobject.h>
 #include <core/gdlserializer.h>
 
@@ -57,7 +58,7 @@ void GameSave::save()
     if( !pause_flag )
         Game::instance()->setPause( true );
     QString dir = QDir::homePath().append( "/Desktop/" );
-    QString savefile = QFileDialog::getSaveFileName(0, tr("Save Game"), dir, tr("Save Files (*.gs)"));
+    QString savefile = QFileDialog::getSaveFileName(0, tr("Save Game"), dir, tr("Save Files (*.gluonsave)"));
     QUrl filename( savefile );
     QList<GluonObject*> objectlist;
     objectlist.append( obj );
@@ -79,7 +80,7 @@ void GameSave::load()
     //TODO: Give developer option to present list of saved slots to choose from.
     QList<GluonObject*> objectlist;
     QString dir = QDir::homePath().append( "/Desktop" );
-    QString savefile = QFileDialog::getOpenFileName( 0, tr("Load Game"), dir, tr( "Save Files (*.gs)" ) );
+    QString savefile = QFileDialog::getOpenFileName( 0, tr("Load Game"), dir, tr( "Save Files (*.gluonsave)" ) );
     QUrl filename( savefile );
 //     GluonEngine::Game::instance()->loadScene( filename );
     partialLoad();
@@ -94,6 +95,7 @@ void GameSave::partialSave()
     QList<GluonObject*> objectlist;
     objectlist.append( scene->forSave() );
     GluonCore::GDLSerializer::instance()->write( filename, objectlist );
+    serializeComponents( GluonEngine::Game::instance()->currentScene()->sceneContents() );
 }
 
 void GameSave::partialLoad()
@@ -109,13 +111,31 @@ void GameSave::partialLoad()
         GluonEngine::SceneGraph *scene = new GluonEngine::SceneGraph( load );
         scene->setRefGraph( objects.at( 0 )->property( "refers" ).toUrl() );
         load = scene->forLoad();
-        GluonEngine::Game::instance()->loadScene( load );
+        GluonEngine::Scene *newscene = new GluonEngine::Scene();
+        newscene->loadScene( load );
+        GluonEngine::Game::instance()->setCurrentScene( newscene );
         QList<GluonObject*> objectlist;
         objectlist.append( load );
         QUrl loadfilename( "/home/vsrao/Desktop/loadfile.txt" );
         GluonCore::GDLSerializer::instance()->write( loadfilename, objectlist );
+        restoreComponents( load );
     }
 }
 
+void GameSave::restoreComponents( GluonEngine::GameObject* object )
+{
+    for( int i = 0; i < object->components().count(); i++ )
+        object->components().at( i )->restore();
+    for( int i = 0; i < object->childCount(); i++ )
+        restoreComponents( object->childGameObject( i ) );
+}
+
+void GameSave::serializeComponents( GluonEngine::GameObject* object )
+{
+    for( int i = 0; i < object->components().count(); i++ )
+        object->components().at( i )->serialize();
+    for( int i = 0; i < object->childCount(); i++ )
+        serializeComponents( object->childGameObject( i ) );
+}
 
 #include "gamesave.moc"
