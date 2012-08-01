@@ -20,7 +20,7 @@
 
 #include "gameobject.h"
 #include "gameobjectprivate.h"
-
+#include <QDebug>
 #include "component.h"
 #include "game.h"
 #include "scene.h"
@@ -425,6 +425,7 @@ void GameObject::addChild( GluonObject* child )
         addChild( qobject_cast<GameObject*>( child ) );
     else
         GluonCore::GluonObject::addChild( child );
+	
 }
 
 void
@@ -432,11 +433,12 @@ GameObject::addChild( GameObject* addThis )
 {
     if( !addThis )
     {
-        DEBUG_BLOCK
+	qDebug() << "IN IF OF GAME OBJECT ADD CHILD";
+	DEBUG_BLOCK
         DEBUG_TEXT( QString( "Fail-add! you're trying to add a NULL GameObject" ) )
     }
     else if( !d->children.contains( addThis ) )
-    {
+    {	qDebug() << "IN GAME OBJECT ADD CHILD";
         d->children.append( addThis );
         connect( addThis, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
 

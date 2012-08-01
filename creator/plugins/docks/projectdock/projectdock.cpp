@@ -357,7 +357,7 @@ void ProjectDock::deleteActionTriggered()
 
 void ProjectDock::createNewFolder()
 {
-    if( !d->currentContextIndex.isValid() )
+    if( !d->currentContextIndex.isValid())
         d->currentContextIndex = d->model->index( 0, 0 );
 
     GluonCore::GluonObject *newFolder = new GluonCore::GluonObject( i18n( "New Folder" ) );

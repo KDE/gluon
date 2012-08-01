@@ -33,7 +33,7 @@
 #include <engine/prefabinstance.h>
 
 #include <KDE/KLocalizedString>
-
+#include <QDebug>
 #include <QtCore/QMimeData>
 
 using namespace GluonCreator;
@@ -53,14 +53,21 @@ class SceneModel::SceneModelPrivate
 
 SceneModel::SceneModel( QObject* parent ): QAbstractItemModel( parent ), d( new SceneModelPrivate )
 {
+    qDebug() << "initial rowcount is"<<  this->rowCount();
     setSupportedDragActions( Qt::MoveAction );
     connect( HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SIGNAL(layoutChanged()) );
-    //   new ModelTest(this, this);
+    connect( this , SIGNAL(layoutChanged()), this, SIGNAL(lhc()));
+    connect( this , SIGNAL(layoutChanged()), this, SLOT(onChanged()));  
 }
 
 SceneModel::~SceneModel()
 {
     delete d;
+}
+
+void SceneModel::onChanged()
+{
+  qDebug() << "now rowcount is"<<  this->rowCount();
 }
 
 GluonEngine::GameObject* SceneModel::rootGameObject()
@@ -399,6 +406,7 @@ bool SceneModel::insertRows( int row, int count, const QModelIndex& parent )
 
     endInsertRows();
     return true;
+    
 }
 
 bool SceneModel::insertRows( int row, const QList<GluonEngine::GameObject*> &children, const QModelIndex& parent )

@@ -18,7 +18,7 @@
  */
 
 #include "newobjectcommand.h"
-
+#include <QDebug>
 #include <engine/gameobject.h>
 #include <engine/component.h>
 
@@ -51,14 +51,15 @@ NewObjectCommand::~NewObjectCommand()
 void NewObjectCommand::undo()
 {
     setCommandDirection( "undo" );
+    qDebug()<< "IN UNDO OF ADD NEW OBJECT";
     d->applied = false;
-    if( d->parent->children().indexOf( object() ) != -1 )
+  //  if( d->parent->children().indexOf( object() ) != -1 )
         d->parent->removeChild( object() );
 
     GluonEngine::GameObject* obj = qobject_cast<GluonEngine::GameObject*>( object() );
     if( obj )
     {
-        if( obj->parentGameObject()->childIndex( obj ) != -1 )
+        if( obj->parentGameObject()->childIndex( obj ) != -1 )		// if item matches true
             obj->parentGameObject()->removeChild( obj );
     }
 
@@ -71,6 +72,7 @@ void NewObjectCommand::undo()
 void NewObjectCommand::redo()
 {
     setCommandDirection( "redo" );
+    qDebug()<< "IN REDO OF ADD NEW OBJECT";
     d->applied = true;
     object()->setParent( d->parent );
 

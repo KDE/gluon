@@ -22,7 +22,7 @@
 #define GLUON_CREATOR_OBJECTMANAGER_H
 
 #include "gluoncreator_macros.h"
-
+#include "deleteobjectcommand.h"
 #include <core/singleton.h>
 
 namespace GluonCore
@@ -50,7 +50,8 @@ namespace GluonCreator
     {
             Q_OBJECT
             GLUON_SINGLETON( ObjectManager )
-
+	public:
+	    DeleteObjectCommand *justDeleted;
         public Q_SLOTS:
             GluonEngine::Component* createNewComponent( const QString& type, GluonEngine::GameObject* parent );
             GluonEngine::Scene* createNewScene();

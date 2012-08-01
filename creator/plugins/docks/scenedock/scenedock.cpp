@@ -53,6 +53,7 @@ class SceneDock::SceneDockPrivate
 
         SceneModel* model;
         QTreeView* view;
+
 };
 
 
@@ -64,12 +65,13 @@ SceneDock::SceneDock( const QString& title, QWidget* parent, Qt::WindowFlags fla
 
     d->view = new QTreeView( this );
     d->model = Models::instance()->sceneModel();
-
+    
     if( GluonEngine::Game::instance()->currentScene() )
         d->model->setRootGameObject( GluonEngine::Game::instance()->currentScene()->sceneContents() );
 
     connect( GluonEngine::Game::instance(), SIGNAL(currentSceneChanged(GluonEngine::Scene*)), SLOT(sceneChanged(GluonEngine::Scene*)) );
-    connect( GluonEngine::Game::instance(), SIGNAL(updated(int)), d->model, SIGNAL(layoutChanged()) );
+    connect( GluonEngine::Game::instance(), SIGNAL(updated(int)), d->model, SIGNAL(layoutChanged()));
+    connect(d->model,SIGNAL(lhc()),d->view,SLOT(expandAll()));
 
     d->view->setModel( d->model );
     d->view->setHeaderHidden( true );

@@ -18,8 +18,9 @@
  */
 
 #include "deleteobjectcommand.h"
-
+#include <QDebug>
 #include <engine/gameobject.h>
+#include <../plugins/docks/scenedock/scenedock.h>
 
 using namespace GluonCreator;
 
@@ -56,19 +57,23 @@ void DeleteObjectCommand::undo()
     setCommandDirection( "undo" );
     if( d->parent )
     {
-        if( d->parent->childIndex( d->object ) == -1 )
+  
+      if( d->parent->childIndex( d->object ) == -1 )
             d->parent->addChild( d->object );
     }
 
     d->applied = true;
     AbstractUndoCommand::undo();
+    
+  
 }
 
 void DeleteObjectCommand::redo()
 {
+    qDebug() << "REDO COMMAND";
     setCommandDirection( "redo" );
     if( d->parent )
-    {
+    { qDebug() << "REDO COMMAND ka if";
         if( d->parent->childIndex( d->object ) != -1 )
             d->parent->removeChild( d->object );
     }

@@ -22,7 +22,6 @@
 
 #include "selectionmanager.h"
 #include "newobjectcommand.h"
-#include "deleteobjectcommand.h"
 #include "propertychangedcommand.h"
 #include "historymanager.h"
 
@@ -252,7 +251,8 @@ void ObjectManager::deleteGameObject( GluonEngine::GameObject* object )
         qDebug() << "Could not add the game object to the scene tree";
 
     emit gameObjectDeleted();
-    HistoryManager::instance()->addCommand( new DeleteObjectCommand( object, object->parentGameObject() ) );
+    justDeleted = new DeleteObjectCommand( object, object->parentGameObject() );
+    HistoryManager::instance()->addCommand( justDeleted);
 }
 
 GluonEngine::Scene* ObjectManager::createNewScene()

@@ -21,7 +21,7 @@
 #define GLUONCREATOR_HISTORYMANAGER_H
 
 #include "gluoncreator_macros.h"
-
+#include <lib/objectmanager.h>
 #include <core/singleton.h>
 
 class KActionCollection;
