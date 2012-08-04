@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -242,6 +243,7 @@ void ObjectManager::createObjectCommand(GluonGraphics::MaterialInstance* materia
 
 void ObjectManager::deleteGameObject( GluonEngine::GameObject* object )
 {
+    GluonEngine::GameObject* parent = object->parentGameObject();
     if( !object && !object->parentGameObject() )
     {
         qDebug() << "No parent game object for the object specified for deleting";
@@ -251,7 +253,7 @@ void ObjectManager::deleteGameObject( GluonEngine::GameObject* object )
         qDebug() << "Could not add the game object to the scene tree";
 
     emit gameObjectDeleted();
-    justDeleted = new DeleteObjectCommand( object, object->parentGameObject() );
+    justDeleted = new DeleteObjectCommand( object, parent);
     HistoryManager::instance()->addCommand( justDeleted);
 }
 

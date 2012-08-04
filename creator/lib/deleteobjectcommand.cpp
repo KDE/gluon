@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (C) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -54,8 +55,8 @@ DeleteObjectCommand::~DeleteObjectCommand()
 
 void DeleteObjectCommand::undo()
 {
-    setCommandDirection( "undo" );
-    if( d->parent )
+     setCommandDirection( "undo" );
+     if( d->parent )
     {
   
       if( d->parent->childIndex( d->object ) == -1 )
@@ -70,10 +71,9 @@ void DeleteObjectCommand::undo()
 
 void DeleteObjectCommand::redo()
 {
-    qDebug() << "REDO COMMAND";
     setCommandDirection( "redo" );
     if( d->parent )
-    { qDebug() << "REDO COMMAND ka if";
+    { 
         if( d->parent->childIndex( d->object ) != -1 )
             d->parent->removeChild( d->object );
     }

@@ -221,7 +221,7 @@ void NodeEditor::deleteThisSceneObject( QString objectName, QString objectParent
     if( parent->child( objectName ) != NULL )
     {
         _skipNextUpdate = true;
-        if( qobject_cast<GluonEngine::GameObject*>( parent->findItemByName( objectName ) ) != NULL ) GluonCreator::ObjectManager::instance()->deleteGameObject( qobject_cast<GluonEngine::GameObject*>( parent->findItemByName( objectName ) ) );
+      //  if( qobject_cast<GluonEngine::GameObject*>( parent->findItemByName( objectName ) ) != NULL ) GluonCreator::ObjectManager::instance()->deleteGameObject( qobject_cast<GluonEngine::GameObject*>( parent->findItemByName( objectName ) ) );
         if( qobject_cast<GluonEngine::Component*>( parent->findItemByName( objectName ) ) != NULL ) parent->removeChild( parent->findItemByName( objectName ) );
     }
 }

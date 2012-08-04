@@ -53,21 +53,13 @@ class SceneModel::SceneModelPrivate
 
 SceneModel::SceneModel( QObject* parent ): QAbstractItemModel( parent ), d( new SceneModelPrivate )
 {
-    qDebug() << "initial rowcount is"<<  this->rowCount();
     setSupportedDragActions( Qt::MoveAction );
     connect( HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SIGNAL(layoutChanged()) );
-    connect( this , SIGNAL(layoutChanged()), this, SIGNAL(lhc()));
-    connect( this , SIGNAL(layoutChanged()), this, SLOT(onChanged()));  
 }
 
 SceneModel::~SceneModel()
 {
     delete d;
-}
-
-void SceneModel::onChanged()
-{
-  qDebug() << "now rowcount is"<<  this->rowCount();
 }
 
 GluonEngine::GameObject* SceneModel::rootGameObject()
