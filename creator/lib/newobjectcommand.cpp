@@ -1,7 +1,8 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
- *
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -51,11 +52,8 @@ NewObjectCommand::~NewObjectCommand()
 void NewObjectCommand::undo()
 {
     setCommandDirection( "undo" );
-    qDebug()<< "IN UNDO OF ADD NEW OBJECT";
     d->applied = false;
-  //  if( d->parent->children().indexOf( object() ) != -1 )
-        d->parent->removeChild( object() );
-
+  
     GluonEngine::GameObject* obj = qobject_cast<GluonEngine::GameObject*>( object() );
     if( obj )
     {
@@ -66,13 +64,12 @@ void NewObjectCommand::undo()
     GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>( object() );
     if( comp )
         comp->gameObject()->removeComponent( comp );
-    AbstractUndoCommand::undo();
+    AbstractUndoCommand::undo();	
 }
 
 void NewObjectCommand::redo()
 {
     setCommandDirection( "redo" );
-    qDebug()<< "IN REDO OF ADD NEW OBJECT";
     d->applied = true;
     object()->setParent( d->parent );
 

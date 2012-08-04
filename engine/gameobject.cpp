@@ -433,12 +433,11 @@ GameObject::addChild( GameObject* addThis )
 {
     if( !addThis )
     {
-	qDebug() << "IN IF OF GAME OBJECT ADD CHILD";
 	DEBUG_BLOCK
         DEBUG_TEXT( QString( "Fail-add! you're trying to add a NULL GameObject" ) )
     }
     else if( !d->children.contains( addThis ) )
-    {	qDebug() << "IN GAME OBJECT ADD CHILD";
+    {	
         d->children.append( addThis );
         connect( addThis, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
 

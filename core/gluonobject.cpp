@@ -1,7 +1,8 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2009 Dan Leinir Turthra Jensen <admin@leinir.dk>
- *
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -351,12 +352,13 @@ void GluonObject::addChildAt(GluonObject* child, int position)
 
 void GluonObject::addChild( GluonObject* child )
 {
-    GluonObject* parent = qobject_cast<GluonObject*>( child->parent() );
+  //Commenting these lines leads to Undo/redo to work properly when a new child is added to the scene docker. 
+  /* GluonObject* parent = qobject_cast<GluonObject*>( child->parent() );
     if( parent )
     {
         parent->removeChild( child );
         disconnect( child, SIGNAL(showDebug(QString)), parent, SIGNAL(showDebug(QString)) );
-    }
+    }*/
 
     child->setParent( this );
 
