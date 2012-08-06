@@ -250,7 +250,7 @@ void ObjectManager::deleteGameObject( GluonEngine::GameObject* object )
     }
 
     if( !object->parentGameObject()->removeChild( object ) )
-        qDebug() << "Could not add the game object to the scene tree";
+        qDebug() << "Could not add eelithe game object to the scene tree";
 
     emit gameObjectDeleted();
     justDeleted = new DeleteObjectCommand( object, parent);
@@ -314,6 +314,7 @@ void ObjectManager::assetDeleted( GluonEngine::Asset* asset )
 {
     if( asset )
         assetDeleted( asset->absolutePath().toLocalFile() );
+  
 }
 
 ObjectManager::ObjectManager( QObject* parent )

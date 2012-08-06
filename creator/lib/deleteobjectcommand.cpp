@@ -30,12 +30,12 @@ class DeleteObjectCommand::DeleteObjectCommandPrivate
     public:
         DeleteObjectCommandPrivate() : object( 0 ), parent( 0 ), applied( false ) { }
 
-        GluonEngine::GameObject* object;
-        GluonEngine::GameObject* parent;
+        GluonCore::GluonObject* object;
+        GluonCore::GluonObject* parent;
         bool applied;
 };
 
-DeleteObjectCommand::DeleteObjectCommand( GluonEngine::GameObject* object, GluonEngine::GameObject* parent )
+DeleteObjectCommand::DeleteObjectCommand( GluonCore::GluonObject* object,GluonCore::GluonObject* parent )
     : d( new DeleteObjectCommandPrivate )
 {
     d->object = object;
@@ -59,14 +59,16 @@ void DeleteObjectCommand::undo()
      if( d->parent )
     {
   
-      if( d->parent->childIndex( d->object ) == -1 )
-            d->parent->addChild( d->object );
+	if(GluonEngine::GameObject* obj = qobject_cast<GluonEngine::GameObject*>( d->parent ))
+	{
+	  if(d->parent->childIndex( obj ) == -1)d->parent->addChild( obj );
+	}
+    else { d->parent->addChild( d->object );}
+      
     }
-
+    
     d->applied = true;
     AbstractUndoCommand::undo();
-    
-  
 }
 
 void DeleteObjectCommand::redo()
