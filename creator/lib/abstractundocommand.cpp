@@ -18,7 +18,7 @@
 */
 
 #include "abstractundocommand.h"
-
+#include <QDebug>
 #include "selectionmanager.h"
 
 #include <engine/savable.h>
@@ -100,6 +100,8 @@ AbstractUndoCommand::setCommandDirection( const QString& direction )
 
 void
 AbstractUndoCommand::setObject( GluonCore::GluonObject* obj )
-{
+{   
     d->object = obj;
+    qDebug()<< "d->object is: " <<obj;
+  
 }

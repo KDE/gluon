@@ -19,17 +19,18 @@
 
 #ifndef GLUON_CREATOR_NEWOBJECTCOMMAND_H
 #define GLUON_CREATOR_NEWOBJECTCOMMAND_H
-
+#include <QObject>
 #include "abstractundocommand.h"
 
 namespace GluonCreator
 {
     class GLUONCREATOR_EXPORT NewObjectCommand : public AbstractUndoCommand
     {
-        public:
+        
+	public:
             NewObjectCommand( GluonCore::GluonObject* newObject );
             virtual ~NewObjectCommand();
-
+	    GluonCore::GluonObject* childInUse;
             virtual void undo();
             virtual void redo();
 

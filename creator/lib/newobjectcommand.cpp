@@ -35,6 +35,7 @@ class NewObjectCommand::NewObjectCommandPrivate
 NewObjectCommand::NewObjectCommand( GluonCore::GluonObject* newObject ) : d( new NewObjectCommandPrivate )
 {
     setObject( newObject );
+    childInUse = newObject;
     d->parent = qobject_cast<GluonCore::GluonObject*>( newObject->parent() );
     d->applied = true;
 
@@ -53,12 +54,18 @@ void NewObjectCommand::undo()
 {
     setCommandDirection( "undo" );
     d->applied = false;
-  
-    GluonEngine::GameObject* obj = qobject_cast<GluonEngine::GameObject*>( object() );
+    GluonCore::GluonObject* obj = object();
     if( obj )
-    {
-        if( obj->parentGameObject()->childIndex( obj ) != -1 )		// if item matches true
-            obj->parentGameObject()->removeChild( obj );
+    {	
+	if(GluonEngine::GameObject* obj = qobject_cast<GluonEngine::GameObject*>( object() ))
+	{   
+	    if( obj->parentGameObject()->childIndex( obj ) != -1 )	
+		obj->parentGameObject()->removeChild( obj );
+	}
+	else
+	{
+	    childInUse->removeChild(childInUse);
+	}
     }
 
     GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>( object() );
@@ -69,6 +76,7 @@ void NewObjectCommand::undo()
 
 void NewObjectCommand::redo()
 {
+    qDebug()<<"Redo New Command"; 
     setCommandDirection( "redo" );
     d->applied = true;
     object()->setParent( d->parent );

@@ -24,6 +24,7 @@
 #include "metainfo.h"
 
 #include <QtGui/QColor>
+#include <QList>
 #include <QtGui/QVector2D>
 #include <QtGui/QVector3D>
 #include <QtCore/QVariant>
@@ -46,6 +47,7 @@ class GluonObject::Private
         QString name;
         GluonObject* gameProject;
         MetaInfo* metaInfo;
+	QList<GluonObject*> children;
 };
 
 GluonObject::GluonObject( QObject* parent )
@@ -349,6 +351,11 @@ void GluonObject::addChildAt(GluonObject* child, int position)
     for(i = latterChildren.begin(); i != latterChildren.end(); ++i)
         addChild( qobject_cast<GluonObject*>(*i) );
 }
+int
+GluonObject::childIndex( GluonObject* child ) const
+{
+    return d->children.indexOf( child );
+}
 
 void GluonObject::addChild( GluonObject* child )
 {
@@ -361,7 +368,7 @@ void GluonObject::addChild( GluonObject* child )
     }*/
 
     child->setParent( this );
-
+    d->children.append( child );
     //Make sure to update the child's name to avoid name conflicts.
     child->setName( child->name() );
     connect( child, SIGNAL(showDebug(QString)), SIGNAL(showDebug(QString)) );
