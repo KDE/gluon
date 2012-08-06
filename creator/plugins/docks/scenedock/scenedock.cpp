@@ -153,11 +153,11 @@ void SceneDock::deleteSelection()
         {
             foreach( const QModelIndex & index, range.indexes() )
             {
-                GluonEngine::GameObject* obj = static_cast<GluonEngine::GameObject*>( index.internalPointer() );
-                if( obj && obj->parentGameObject() )
+                GluonCore::GluonObject* obj = static_cast<GluonCore::GluonObject*>( index.internalPointer() );
+                if( obj && obj->parent() )
                 {
                     ObjectManager::instance()->deleteGameObject( obj );
-                }
+		}
             }
 
             d->view->reset();

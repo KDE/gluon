@@ -60,7 +60,7 @@ namespace GluonCreator
             void createAssets( const QStringList& fileNames, GluonCore::GluonObject* = 0 );
             void createObjectCommand( GluonGraphics::MaterialInstance* materialInstance );
 
-            void deleteGameObject( GluonEngine::GameObject* object );
+            void deleteGameObject( GluonCore::GluonObject* object );
             void changeProperty( GluonCore::GluonObject* object, QString& property, QVariant& oldValue, QVariant& newValue );
             QString humanifyClassName( const QString& fixThis, bool justRemoveNamespace = false ) const;
             void watchCurrentAssets();

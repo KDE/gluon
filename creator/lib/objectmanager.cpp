@@ -241,19 +241,20 @@ void ObjectManager::createObjectCommand(GluonGraphics::MaterialInstance* materia
     HistoryManager::instance()->addCommand( new NewObjectCommand( materialInstance ) );
 }
 
-void ObjectManager::deleteGameObject( GluonEngine::GameObject* object )
+void ObjectManager::deleteGameObject( GluonCore::GluonObject* object )
 {
-    GluonEngine::GameObject* parent = object->parentGameObject();
-    if( !object && !object->parentGameObject() )
+    GluonCore::GluonObject* parentToDel = qobject_cast<GluonCore::GluonObject*>( object->parent());
+    if( !object && !parentToDel)
     {
         qDebug() << "No parent game object for the object specified for deleting";
     }
-
-    if( !object->parentGameObject()->removeChild( object ) )
-        qDebug() << "Could not add eelithe game object to the scene tree";
+    
+    if( !parentToDel->removeChild(object) )
+        qDebug() << "Could not add the game object to the scene tree";
 
     emit gameObjectDeleted();
-    justDeleted = new DeleteObjectCommand( object, parent);
+
+    justDeleted = new DeleteObjectCommand( object, parentToDel);
     HistoryManager::instance()->addCommand( justDeleted);
 }
 
