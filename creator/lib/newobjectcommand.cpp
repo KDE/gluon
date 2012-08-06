@@ -58,7 +58,7 @@ void NewObjectCommand::undo()
     if( obj )
     {	
 	if(GluonEngine::GameObject* obj = qobject_cast<GluonEngine::GameObject*>( object() ))
-	{   
+ 	{   
 	    if( obj->parentGameObject()->childIndex( obj ) != -1 )	
 		obj->parentGameObject()->removeChild( obj );
 	}

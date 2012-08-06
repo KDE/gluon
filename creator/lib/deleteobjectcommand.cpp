@@ -57,13 +57,13 @@ void DeleteObjectCommand::undo()
 {
      setCommandDirection( "undo" );
      if( d->parent )
-    {
-  
-	if(GluonEngine::GameObject* obj = qobject_cast<GluonEngine::GameObject*>( d->parent ))
-	{
-	  if(d->parent->childIndex( obj ) == -1)d->parent->addChild( obj );
+    {	GluonEngine::GameObject* obj = qobject_cast<GluonEngine::GameObject*>( d->parent );
+	if(obj)
+	{ 
+	  GluonEngine::GameObject* objChild = qobject_cast<GluonEngine::GameObject*>( d->object );
+	  if(obj->childIndex( objChild ) == -1)d->parent->addChild( objChild );
 	}
-    else { d->parent->addChild( d->object );}
+	else  d->parent->addChild( d->object );
       
     }
     

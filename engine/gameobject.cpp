@@ -498,7 +498,7 @@ GameObject::childCount() const
 int
 GameObject::childIndex( GameObject* child ) const
 {
-    return d->children.indexOf( child );
+  return d->children.indexOf( child );
 }
 
 void
