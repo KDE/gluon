@@ -18,11 +18,9 @@
  */
 
 #include "spherecollisioncomponent.h"
-
 #include "gameobject.h"
 #include "game.h"
 #include "scene.h"
-
 #include <core/debughelper.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, SphereCollisionComponent )

@@ -1,12 +1,12 @@
  cmake_minimum_required(VERSION 2.8)
 
 find_package(Bullet)
-include_directories(${BULLET_INCLUDE_DIRS})  
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_CORE_INCLUDE_DIRS})
+include_directories(${BULLET_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_CORE_INCLUDE_DIRS})
 
 set(spherecollisioncomponent_SRCS
     spherecollisioncomponent.cpp
-)
+    physicsworld.cpp
+   )
 
 qt4_automoc(${spherecollisioncomponent_SRCS})
 add_library(gluon_component_physics SHARED ${spherecollisioncomponent_SRCS})
