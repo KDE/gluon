@@ -145,11 +145,19 @@ void
 ScriptingEngine::Private::appendScript( const GluonEngine::ScriptingAsset* asset, QString name )
 {
     // Build the bit of script to add
-    QString tmpScript = QString( "%2 = function() {\n%1};\n" ).arg( asset->data()->text() ).arg( name );
+    QString tmpScript = QString( "function %2() {\n"
+        "var self = {};\n"
+        "function Component() { return self.Component; };\n"
+        "function GameObject() { return self.GameObject; };\n"
+        "function Scene() { return self.Scene; };\n"
+        "function GameProject() { return self.GameProject; };\n"
+        "function debug(text) { self.Component.debug(text); };\n"
+        "%1\n"
+        "return self;\n"
+        "};\n" ).arg( asset->data()->text() ).arg( name );
     QUrl tmpUrl = asset->file();
     QScriptValue evaluated = engine()->evaluate( tmpScript, tmpUrl.toLocalFile(), 0 );
     scriptInstances.insert( asset, evaluated );
-    /// \TODO Add all those lines to the reverse map...
 }
 
 bool

@@ -1,28 +1,34 @@
+var collider,
+life;
 
-this.initialize = function()
+function initialize()
 {
-    this.Component.direction = this.Component.direction || new QVector3D(0.0, 1.0, 0.0);
-    this.Component.speed = this.Component.speed || 50.0;
-    this.Component.life = this.Component.life || 10;
+    self.Component.direction = self.Component.direction || new QVector3D(0.0, 1.0, 0.0);
+    self.Component.speed = self.Component.speed || 50.0;
+    self.Component.life = self.Component.life || 10;
 }
 
-this.start = function()
+function start()
 {
-    this.collider = this.GameObject.SphereCollisionComponent;
-    this.life = this.Component.life;
+    collider = self.GameObject.SphereCollisionComponent;
+    life = self.Component.life;
 }
 
-this.update = function(time)
+function update(time)
 {
-    if(this.Scene.paused)
+    if(self.Scene.paused)
         return;
     
     var move = new QVector3D();
-    move.setX(this.Component.direction.x() * (this.Component.speed * (time/1000)));
-    move.setY(this.Component.direction.y() * (this.Component.speed * (time/1000)));
-    this.GameObject.translate(move);
+    move.setX(self.Component.direction.x() * (self.Component.speed * (time/1000)));
+    move.setY(self.Component.direction.y() * (self.Component.speed * (time/1000)));
+    self.GameObject.translate(move);
 
-    this.life -= (time/1000);
-    if(this.life <= 0)
-        this.GameObject.destroy();
+    life -= (time/1000);
+    if(life <= 0)
+        self.GameObject.destroy();
 }
+
+self.initialize = initialize;
+self.start = start;
+self.update = update;
