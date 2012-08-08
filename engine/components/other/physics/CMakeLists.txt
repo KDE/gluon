@@ -6,6 +6,7 @@ include_directories(${BULLET_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_C
 set(spherecollisioncomponent_SRCS
     spherecollisioncomponent.cpp
     physicsworld.cpp
+    boxcollisioncomponent.cpp
    )
 
 qt4_automoc(${spherecollisioncomponent_SRCS})
