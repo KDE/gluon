@@ -300,6 +300,17 @@ void Game::resetCurrentScene()
     }
 }
 
+void Game::loadScene( GluonEngine::GameObject* load )
+{
+    d->currentScene->loadScene( load );
+}
+
+void Game::loadScene( QUrl filename )
+{
+    d->currentScene->loadScene( filename );
+}
+
+
 GluonEngine::GameProject*
 Game::gameProject() const
 {

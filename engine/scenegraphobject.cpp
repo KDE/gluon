@@ -68,22 +68,11 @@ void SceneGraphObject::addChild( SceneGraphObject* child )
 void SceneGraphObject::setGameObject( GluonEngine::GameObject* object )
 {
     p->gameobject = object;
-    GluonEngine::TagObject *tags = GluonEngine::Game::instance()->gameProject()->tagObject();
-    if( p->gameobject->name().compare( tags->baseName( p->gameobject->name() ) ) == 0 )
-        p->isBase = true;
-    else
-        p->isBase = false;
 }
 
 void SceneGraphObject::setGroupName( QString groupname )
 {
     p->groupname = groupname;
-}
-
-
-void SceneGraphObject::setLevel( int level )
-{
-    p->level = level;
 }
 
 int SceneGraphObject::childCount()
@@ -118,30 +107,18 @@ QString SceneGraphObject::groupName()
     return p->groupname;
 }
 
-int SceneGraphObject::level()
-{
-    return p->level;
-}
-
 int SceneGraphObject::compare( SceneGraphObject* object )
 {
     /*
-     * 0 = Perfect match
-     * 1 = Levels, type match
-     * 2 = Type match
-     * 3 = Mismatch
+     * Return 0 only if perfect match
+     * 1 otherwise
      */
     if( isGroupHead() ^ object->isGroupHead() )
-        return 3;
+        return 1;
     if( isGroupHead() )
     {
-        if( level() == object->level() )
-        {
-            if( groupName().compare( object->groupName() ) != 0 )
-                return 1;
-        }
-        else
-            return 2;
+        if( groupName().compare( object->groupName() ) != 0 )
+            return 1;
     }
     else
     {
@@ -149,50 +126,40 @@ int SceneGraphObject::compare( SceneGraphObject* object )
         QString name1 = tags->baseName( gameObject()->name() );
         QString name2 = tags->baseName( object->gameObject()->name() );
         if( tags->tags( name1 ).compare( tags->tags( name2 ) ) != 0 )
-            return 3;
+            return 1;
         else
         {
-            if( level() != object->level() )
-                return 2;
-            else
+            for( int i = 0; i < gameObject()->metaObject()->propertyCount(); i++ )
             {
-                for( int i = 0; i < gameObject()->metaObject()->propertyCount(); i++ )
+                QMetaProperty property1 = gameObject()->metaObject()->property( i );
+                int index = object->gameObject()->metaObject()->indexOfProperty( property1.name() );
+                if( index == -1 )
+                    return 1;
+                QMetaProperty property2 = object->gameObject()->metaObject()->property( index );
+                if( property1.read( gameObject() ) != property2.read( object->gameObject() ) )
+                    return 1;
+            }
+            QList<QByteArray> dynamicProperties = gameObject()->dynamicPropertyNames();
+            foreach( const QByteArray& name, dynamicProperties )
+            {
+                if( object->gameObject()->property( name ).isValid() )
                 {
-                    QMetaProperty property1 = gameObject()->metaObject()->property( i );
-                    int index = object->gameObject()->metaObject()->indexOfProperty( property1.name() );
-                    if( index == -1 )
-                        return 1;
-                    QMetaProperty property2 = object->gameObject()->metaObject()->property( index );
-                    if( property1.read( gameObject() ) != property2.read( object->gameObject() ) )
+                    if( gameObject()->property( name ) != object->gameObject()->property( name ) )
                         return 1;
                 }
-                QList<QByteArray> dynamicProperties = gameObject()->dynamicPropertyNames();
-                foreach( const QByteArray& name, dynamicProperties )
-                {
-                    if( object->gameObject()->property( name ).isValid() )
-                    {
-                        if( gameObject()->property( name ) != object->gameObject()->property( name ) )
-                            return 1;
-                    }
-                    else
-                        return 1;
-                }
-                for( int i = 0; i < gameObject()->components().count(); i++ )
-                {
-                    GluonEngine::Component* componentm = gameObject()->components().at( i );
-                    GluonEngine::Component* componento = refObject()->gameObject()->findComponent( componentm->name() );
-                    if( componento == 0 )
-                        return 1;
-                }
+                else
+                    return 1;
+            }
+            for( int i = 0; i < gameObject()->components().count(); i++ )
+            {
+                GluonEngine::Component* componentm = gameObject()->components().at( i );
+                GluonEngine::Component* componento = refObject()->gameObject()->findComponent( componentm->name() );
+                if( componento == 0 )
+                    return 1;
             }
         }
     }
     return 0;
-}
-
-bool SceneGraphObject::isBase()
-{
-    return p->isBase;
 }
 
 GluonEngine::SceneGraphObject* SceneGraphObject::refObject()

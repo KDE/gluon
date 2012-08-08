@@ -27,7 +27,6 @@ SceneGraphObjectPrivate::SceneGraphObjectPrivate( SceneGraphObject* ob )
 {
     parent = 0;
     groupname = QString( "" );
-    level = 0;
     grouphead = false;
 }
 

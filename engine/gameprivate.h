@@ -46,6 +46,7 @@ namespace GluonEngine
 
             static Scene* findSceneInChildren( QObject* object );
             void performSceneChange();
+            void performSceneLoad();
 
             Game* q;
 

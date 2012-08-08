@@ -81,6 +81,11 @@ namespace GluonCore
              * @return  The list of the plugin directory locations
              */
             QStringList pluginDirectoryPaths() const;
+            
+            /**
+             * Returns the directory where the games are saved
+             */
+            QString saveGamesDirectory();
 
         private:
             class DirectoryProviderPrivate;

@@ -21,23 +21,16 @@
 
 #include "gameobject.h"
 #include "game.h"
-#include "achievementsmanager.h"
 #include "scenegraph.h"
-#include <engine/gameproject.h>
+#include "gameproject.h"
 #include "component.h"
+
 #include <core/gluonobject.h>
 #include <core/gdlserializer.h>
 
-#include <QList>
-#include <QtCore/QMetaProperty>
 #include <QDir>
 #include <QFileDialog>
-#include <QObject>
 #include <QDebug>
-
-#include <iostream>
-
-using namespace std;
 
 using namespace GluonEngine;
 
@@ -54,47 +47,34 @@ GameSave::~GameSave()
 void GameSave::save()
 {
     GluonCore::GluonObject *obj = GluonEngine::Game::instance()->currentScene()->sceneContents();
-    bool pause_flag = Game::instance()->isPaused();
-    if( !pause_flag )
+    bool pause = Game::instance()->isPaused();
+    if( !pause )
         Game::instance()->setPause( true );
     QString dir = QDir::homePath().append( "/Desktop/" );
     QString savefile = QFileDialog::getSaveFileName(0, tr("Save Game"), dir, tr("Save Files (*.gluonsave)"));
     QUrl filename( savefile );
-    QList<GluonObject*> objectlist;
-    objectlist.append( obj );
-    AchievementsManager am;
-    am.readFromProject( Game::instance()->gameProject()->achievements() );
-    if( am.achievementsCount() > 0 )
-        am.save(dir);
-    if( !GluonCore::GDLSerializer::instance()->write( filename, objectlist ) )
+    if( !GluonCore::GDLSerializer::instance()->write( filename, GluonCore::GluonObjectList() << obj ) )
         qDebug() << "Error in writing to: " << filename.toString();
-    if( ! pause_flag )
+    if( ! pause )
         Game::instance()->setPause( false );
-
-    //These are only for testing purposes.
     partialSave();
 }
 
 void GameSave::load()
 {
-    //TODO: Give developer option to present list of saved slots to choose from.
-    QList<GluonObject*> objectlist;
-    QString dir = QDir::homePath().append( "/Desktop" );
-    QString savefile = QFileDialog::getOpenFileName( 0, tr("Load Game"), dir, tr( "Save Files (*.gluonsave)" ) );
-    QUrl filename( savefile );
-//     GluonEngine::Game::instance()->loadScene( filename );
+    // TODO: Give developer option to present list of saved slots to choose from.
+    // GluonEngine::Game::instance()->loadScene( filename );
     partialLoad();
-    AchievementsManager am;
-    am.load( dir );
 }
 
 void GameSave::partialSave()
 {
     GluonEngine::SceneGraph *scene = new GluonEngine::SceneGraph();
     QUrl filename( "/home/vsrao/Desktop/savefile.txt" );
-    QList<GluonObject*> objectlist;
+    GluonCore::GluonObjectList objectlist;
     objectlist.append( scene->forSave() );
-    GluonCore::GDLSerializer::instance()->write( filename, objectlist );
+    if( ! GluonCore::GDLSerializer::instance()->write( filename, objectlist ) )
+        qDebug() << "Couldn't save to preset location";
     serializeComponents( GluonEngine::Game::instance()->currentScene()->sceneContents() );
 }
 
@@ -107,17 +87,12 @@ void GameSave::partialLoad()
     {
         GluonEngine::GameObject* load = qobject_cast<GluonEngine::GameObject*>( objects.at( 0 )->child( 0 ) );
         load->setParentGameObject( 0 );
-        load->setParent( 0 );
         GluonEngine::SceneGraph *scene = new GluonEngine::SceneGraph( load );
         scene->setRefGraph( objects.at( 0 )->property( "refers" ).toUrl() );
         load = scene->forLoad();
-        GluonEngine::Scene *newscene = new GluonEngine::Scene();
-        newscene->loadScene( load );
-        GluonEngine::Game::instance()->setCurrentScene( newscene );
-        QList<GluonObject*> objectlist;
-        objectlist.append( load );
+        GluonEngine::Game::instance()->loadScene( load );
         QUrl loadfilename( "/home/vsrao/Desktop/loadfile.txt" );
-        GluonCore::GDLSerializer::instance()->write( loadfilename, objectlist );
+        GluonCore::GDLSerializer::instance()->write( loadfilename, GluonCore::GluonObjectList() << load );
         restoreComponents( load );
     }
 }

@@ -88,6 +88,12 @@ namespace GluonEngine
              * Resets the current scene to its initial conditions
              */
             void resetCurrentScene();
+            
+            /**
+             * Loads a different scene, replacing the current scene
+             */
+            void loadScene( GluonEngine::GameObject* scene );
+            void loadScene( QUrl filename );
 
             void runGame()
             {
@@ -138,6 +144,8 @@ namespace GluonEngine
             // This allows the reset scene call to emit the Game::currentSceneChanged signal
             // which ensures that Creator doesn't crash when resetting the scene
             friend void GluonEngine::Scene::resetScene();
+            friend void GluonEngine::Scene::loadScene( GluonEngine::GameObject* load );
+            friend void GluonEngine::Scene::loadScene( QUrl );
 
         Q_SIGNALS:
             void showDebug( const QString& debugText );

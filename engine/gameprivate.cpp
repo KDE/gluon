@@ -73,6 +73,20 @@ void GamePrivate::performSceneChange()
     emit q->currentSceneChanged( currentScene );
 }
 
+void GamePrivate::performSceneLoad()
+{
+    if( currentScene )
+    {
+        q->stopAll();
+        q->cleanupAll();
+    }
+    
+    currentScene = newScene;
+    newScene = 0;
+    if( gameRunning )
+        q->initializeAll();
+}
+
 QList<const GluonCore::GluonObject*>
 GamePrivate::listAllChildren( const GluonCore::GluonObject* root ) const
 {

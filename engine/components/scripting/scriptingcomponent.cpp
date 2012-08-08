@@ -190,9 +190,9 @@ void ScriptingComponent::cleanup()
 
 void ScriptingComponent::restore()
 {
-    QScriptValue object = restoreComponent();
     if( d->restoreFunction.isFunction() )
     {
+        QScriptValue object = restoreComponent();
         d->restoreFunction.call( d->scriptObject, QScriptValueList() << object );
     }
 }
@@ -202,9 +202,9 @@ void ScriptingComponent::serialize()
     if( d->serializeFunction.isFunction() )
     {
         QScriptEngine* engine = ScriptingEngine::instance()->scriptEngine();
-        GluonCore::GluonObject* obj = new GluonCore::GluonObject( QString( "persistenceObject" ) );
+        GluonCore::GluonObject* obj = new GluonCore::GluonObject( gameObject()->name() );
         QScriptValue persistenceObject = engine->newQObject( obj, QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties );
-        d->serializeFunction.call( d->scriptObject, QScriptValueList() << persistenceObject );
+        persistenceObject = d->serializeFunction.call( d->scriptObject, QScriptValueList() << persistenceObject );
         serializeComponent( obj );
     }
 }
@@ -215,7 +215,8 @@ QScriptValue ScriptingComponent::restoreComponent()
     dir += gameObject()->name() + QString( ".gluonsave" );
     GluonCore::GluonObjectList list;
     QUrl filename( dir );
-    GluonCore::GDLSerializer::instance()->read( filename, list );
+    if( ! GluonCore::GDLSerializer::instance()->read( filename, list ) )
+        return 0;
     QScriptEngine* engine = ScriptingEngine::instance()->scriptEngine();
     QScriptValue object = engine->newQObject( list.at( 0 ), QScriptEngine::QtOwnership, QScriptEngine::AutoCreateDynamicProperties );
     return object;
@@ -223,16 +224,13 @@ QScriptValue ScriptingComponent::restoreComponent()
 
 void ScriptingComponent::serializeComponent( GluonCore::GluonObject* obj )
 {
-    GluonCore::GluonObjectList list;
     QString dir = QDir::homePath() + QString( "/.gluon/" ) + GluonEngine::Game::instance()->gameProject()->name() + QString( "/saves/" );
     QDir directory( dir );
     if( !directory.exists() )
       directory.mkpath( dir );
     dir += gameObject()->name() + QString( ".gluonsave" );
-    qDebug() << dir;
     QUrl filename( dir );
-    list.append( obj );
-    GluonCore::GDLSerializer::instance()->write( filename, list );
+    GluonCore::GDLSerializer::instance()->write( filename, GluonCore::GluonObjectList() << obj );
 }
 
 #include "scriptingcomponent.moc"

@@ -6,16 +6,17 @@ this.initialize = function()
     
     MessageHandler.subscribe("fireBullet", this.fireBullet, this);
     MessageHandler.subscribe("playerHurt", this.damagePlayer, this);
-}
 
-this.start = function()
-{
     this.animatedSprite = this.GameObject.AnimatedSpriteRendererComponent;
     this.background = this.GameObject.parentGameObject().Background.SpriteRendererComponent.material;
     this.bullet = this.Scene.sceneContents().Bullet;
     this.crosshair = this.Scene.sceneContents().Camera.Crosshair;
     this.renderTarget = this.Scene.sceneContents().Camera.CameraControllerComponent.renderTargetMaterial;
-    
+    this.lightIntensity = this.background.lightIntensity;
+}
+
+this.start = function()
+{
     this.scaleX = this.background.textureParameters.z();
     this.scaleY = this.background.textureParameters.w();
     this.moveX = 0.0;
@@ -143,9 +144,12 @@ this.damagePlayer = function()
 this.serialize = function( persistenceObject )
 {
     persistenceObject.health = this.Scene.currentHealth;
+    persistenceObject.score = this.Scene.score;
+    return persistenceObject;
 }
 
 this.restore = function( persistenceObject )
 {
     this.Scene.currentHealth = persistenceObject.health;
+    this.Scene.score = persistenceObject.score;
 }

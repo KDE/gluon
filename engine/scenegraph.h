@@ -65,18 +65,14 @@ namespace GluonEngine
         /**
          * Populate the scene graph with all the scene contents
          */
-        Q_INVOKABLE void populate( SceneGraphObject *object, int level );
+        Q_INVOKABLE void populate( SceneGraphObject *object );
         /**
          * Set the reference graph explicitly
          * @param: pathtoref is the url from which the reference scene is built.
          */
         Q_INVOKABLE void setRefGraph( QUrl pathtoref );
         /**
-         * Compare two scene graphs.
-         */
-        Q_INVOKABLE void compare();
-        /**
-         * Compare graphs, with a root object passed
+         * Compare two scene graphs
          */
          Q_INVOKABLE void compare( GluonEngine::SceneGraphObject* object );
          /**
@@ -84,10 +80,6 @@ namespace GluonEngine
           * and adding missing components.
           * 
           * See also: compare()
-          */
-         Q_INVOKABLE void build();
-         /**
-          * See: build()
           */
          Q_INVOKABLE void build( GluonEngine::SceneGraphObject* object );
          /**

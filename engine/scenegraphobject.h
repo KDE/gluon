@@ -61,7 +61,7 @@ namespace GluonEngine
             */
             Q_INVOKABLE void setGroupName( QString groupname );
             /**
-            * Add children to object, at this level
+            * Add children to object
             */
             Q_INVOKABLE void addChildren( QList<SceneGraphObject*> );
             /**
@@ -72,10 +72,6 @@ namespace GluonEngine
             * Returns the children of the object
             */
             Q_INVOKABLE QList<SceneGraphObject*> children();
-            /**
-            * Set the level of hierarchy, for easy access and further operations
-            */
-            Q_INVOKABLE void setLevel( int );
             /**
             * Returns the number of children of the object
             */
@@ -93,18 +89,9 @@ namespace GluonEngine
             */
             Q_INVOKABLE QString groupName();
             /**
-            * Get level of the object in the hierarchy of the graph ( height )
-            */
-            Q_INVOKABLE int level();
-            /**
-            * Compare two objects by their properties,level and type
+            * Compare two objects by their properties,components and type
             */
             Q_INVOKABLE int compare( GluonEngine::SceneGraphObject* object );
-            /**
-            * To check if this object is a template/base object.
-            * In other words, it forms as a reference for other objects.
-            */
-            Q_INVOKABLE bool isBase();
             /**
             * Set the reference object
             */
@@ -142,7 +129,7 @@ namespace GluonEngine
         private:
             SceneGraphObjectPrivate* p;
             /**
-             * Use this function to set properties of one component onto another.
+             * Use this function to copy properties of one component onto another.
              */
             void copyComponentProperties( GluonEngine::Component* copy, GluonEngine::Component* original );
     };

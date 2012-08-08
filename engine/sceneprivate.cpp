@@ -88,10 +88,8 @@ ScenePrivate::loadContents( const QUrl& file )
     sceneContents->setName( q->name() );
 }
 
-void ScenePrivate::loadContents( GameObject* load )
+void ScenePrivate::loadContents( GluonEngine::GameObject* load )
 {
-    // Old scene contents must be deleted before attempting to load new ones, otherwise we'll
-    // suddenly have two objects named the same, and that will fail badly
     if( sceneContents )
     {
         q->removeChild( sceneContents );

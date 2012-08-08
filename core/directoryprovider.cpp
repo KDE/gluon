@@ -145,4 +145,16 @@ QStringList DirectoryProvider::pluginDirectoryPaths() const
     return pluginDirectoryPaths;
 }
 
+QString DirectoryProvider::saveGamesDirectory()
+{
+    QString savedirectory;
+#if defined( Q_OS_WIN )
+    savedirectory += QString( "/Documents/My Games/gluon/" );
+#else
+    savedirectory += QString( "/.gluon/" );
+#endif
+    return savedirectory;
+}
+
+
 #include "directoryprovider.moc"

@@ -42,13 +42,13 @@ GluonEngine::SceneGraphObject* cobject;
 SceneGraph::SceneGraph( bool ref ) 
     : p( new SceneGraphPrivate( this, ref ) )
 {
-    populate( p->root, 0 );
+    populate( p->root );
 }
 
 SceneGraph::SceneGraph( GluonEngine::GameObject* parent, bool ref )
     : p( new SceneGraphPrivate( this, parent, ref ) )
 {
-    populate( p->root, 0 );
+    populate( p->root );
 }
 
 SceneGraph::~SceneGraph()
@@ -56,13 +56,14 @@ SceneGraph::~SceneGraph()
     delete p;
 }
 
-void SceneGraph::populate( GluonEngine::SceneGraphObject* object, int level )
+void SceneGraph::populate( GluonEngine::SceneGraphObject* object )
 {
     QList<GluonEngine::SceneGraphObject*> children;
     QList<GluonEngine::GameObject*> members;
     QHash<QString, QList<GluonEngine::GameObject*> > hash;
     for( int i = 0; i < object->gameObject()->childCount(); i++ )
         members.append( object->gameObject()->childGameObject( i ) );
+    
     foreach( GluonEngine::GameObject* member, members )
     {
         QString tags = p->tags->tags( member->name() );
@@ -74,36 +75,36 @@ void SceneGraph::populate( GluonEngine::SceneGraphObject* object, int level )
         list.append( member );
         hash.insert( tags, list );
     }
+    
     foreach( QString key, hash.keys() )
     {
         GluonEngine::SceneGraphObject* group = new GluonEngine::SceneGraphObject();
         group->setGroupHead( true );
         group->setParent( object );
         group->setGroupName( key );
-        group->setLevel( level );
         QList<GluonEngine::SceneGraphObject*> childrenofgroup;
         foreach( GluonEngine::GameObject* member, hash.value( key ) )
         {
             GluonEngine::SceneGraphObject* child = new GluonEngine::SceneGraphObject();
             child->setParent( group );
-            child->setLevel( level + 1 );
             child->setGameObject( member );
             childrenofgroup.append( child );
-            populate( child, level + 2 );
+            populate( child );
             members.removeOne( member );
         }
         group->addChildren( childrenofgroup );
         object->addChild( group );
     }
+    
     foreach( GluonEngine::GameObject* member, members )
     {
         GluonEngine::SceneGraphObject* child = new GluonEngine::SceneGraphObject();
         child->setGameObject( member );
         child->setParent( object );
-        child->setLevel( level );
         children.append( child );
-        populate( child, level + 1 );
+        populate( child );
     }
+    
     object->addChildren( children );
 }
 
@@ -157,17 +158,12 @@ void SceneGraph::compare( GluonEngine::SceneGraphObject* object )
         else
         {
             object->setRefObject( cobject );
-            object->diff = ( object->compare( cobject ) == 0 ? 0 : 1 );
+            object->diff = object->compare( cobject );
             object->modifyGameObject();
         }
     }
     foreach( GluonEngine::SceneGraphObject* obj, object->children() )
         compare( obj );
-}
-
-void SceneGraph::compare()
-{
-    compare( root() );
 }
 
 GluonCore::GluonObject* SceneGraph::toScene()
@@ -182,12 +178,6 @@ GluonCore::GluonObject* SceneGraph::toScene()
 void SceneGraph::setRefGraph( QUrl pathtoref )
 {
     p->setRefGraph( pathtoref );
-}
-
-void SceneGraph::build()
-{
-    build( root() );
-    qDebug() << root()->gameObject()->name() << " : " << p->refgraph->root()->gameObject()->name();
 }
 
 void SceneGraph::build( SceneGraphObject* object )
@@ -206,13 +196,13 @@ void SceneGraph::build( SceneGraphObject* object )
 
 GluonCore::GluonObject* SceneGraph::forSave()
 {
-    compare();
+    compare( root() );
     return toScene();
 }
 
 GluonEngine::GameObject* SceneGraph::forLoad()
 {
-    build();
+    build( root() );
     return root()->gameObject();
 }
 

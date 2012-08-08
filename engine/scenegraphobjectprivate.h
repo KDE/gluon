@@ -34,12 +34,10 @@ namespace GluonEngine
             ~SceneGraphObjectPrivate();
 
             SceneGraphObject* parent;
-            bool isBase;
             QString groupname;
             bool grouphead;
             GluonEngine::GameObject* gameobject;
             QList<SceneGraphObject*> children;
-            int level;
             SceneGraphObject* refobject;
             GluonEngine::GameObject* modifiedgameobject;
             SceneGraphObject* o;
