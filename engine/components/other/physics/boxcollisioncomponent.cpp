@@ -1,22 +1,23 @@
-#include<BulletCollision/CollisionShapes/btSphereShape.h>
+ 
+#include<BulletCollision/CollisionShapes/btBoxShape.h>
 #include<bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h>
 #include<BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h>
-#include "spherecollisioncomponent.h"
+#include "boxcollisioncomponent.h"
 #include "physicsworld.h"
 
-REGISTER_OBJECTTYPE( GluonEngine, SphereCollisionComponent )
+REGISTER_OBJECTTYPE( GluonEngine, BoxCollisionComponent )
 
 using namespace GluonEngine;
 
-class SphereCollisionComponent::SphereCollisionComponentPrivate
+class BoxCollisionComponent::BoxCollisionComponentPrivate
 {
     public:
-        SphereCollisionComponentPrivate() :
+             BoxCollisionComponentPrivate() :
             collisionGroup( 0 ),
             targetGroup( 0 ),
             radius( 1.0f ),
             collides( 0 ),
-            sphere(0)
+            box(0)
         {
         }
 
@@ -25,43 +26,43 @@ class SphereCollisionComponent::SphereCollisionComponentPrivate
         btScalar radius;
         btScalar radiusSquared;
         GameObject* collides;
-        btCollisionShape* sphere;
+        btCollisionShape* box;
 
         int componentType;
         const char* typeName;
 
-         QVector<Component*>  collisionComponents;
+         QVector<Component*> collisionComponents;
 };
 
-SphereCollisionComponent::SphereCollisionComponent( QObject* parent )
+   BoxCollisionComponent::BoxCollisionComponent( QObject* parent )
   : Component( parent )
-  , d( new SphereCollisionComponentPrivate )
+  , d( new BoxCollisionComponentPrivate )
 {
-     d->componentType = qMetaTypeId<GluonEngine::SphereCollisionComponent*>();
+     d->componentType = qMetaTypeId<GluonEngine::BoxCollisionComponent*>();
 }
 
-SphereCollisionComponent::~SphereCollisionComponent()
+ BoxCollisionComponent::~BoxCollisionComponent()
 {
     delete d;
 }
 
-QString SphereCollisionComponent::category() const
+QString BoxCollisionComponent::category() const
 {
     return QString( "Physics" );
  }
 
-void  SphereCollisionComponent::initialize()
+void  BoxCollisionComponent::initialize()
 {
-    d-> sphere= new btSphereShape( d->radius ) ;
+    d-> box= new btBoxShape( d->radius ) ;
     btDefaultMotionState* sphereMotionState =new btDefaultMotionState(btTransform(btQuaternion(0,0,0,1),btVector3(0,0,0)));
     btScalar mass = 1;
     //btRigidBody::setDamping (1, 1);
-    btRigidBody::btRigidBodyConstructionInfo  sphereRigidBodyCI(mass,sphereMotionState,d->sphere,btVector3(0,0,0));
-    btRigidBody* sphereRigidBody = new btRigidBody(sphereRigidBodyCI);
-    physicsworld::dynamicsWorld->addRigidBody(sphereRigidBody);
+    btRigidBody::btRigidBodyConstructionInfo  sphereRigidBodyCI(mass,sphereMotionState,d->box,btVector3(0,0,0));
+    btRigidBody* boxRigidBody = new btRigidBody(boxRigidBodyCI);
+    physicsworld::dynamicsWorld->addRigidBody(boxRigidBody);
 }
 
-void SphereCollisionComponent::start()
+void BoxCollisionComponent::start()
  {
  //   void btCollisionAlgorithm::processCollision (btCollisionObject *body0, btCollisionObject *body1, const btDispatcherInfo &dispatchInfo, btManifoldResult *resultOut);
 
@@ -75,7 +76,7 @@ void SphereCollisionComponent::start()
              if( component->enabled() && component->gameObject()->enabled() )
               {
                   connect( component, SIGNAL(destroyed(QObject*)), SLOT(componentDestroyed(QObject*)) );
-                  static_cast<SphereCollisionComponent*>( component )->addComponent( this );
+                  static_cast<BoxCollisionComponent*>( component )->addComponent( this );
               }
               else
               {
@@ -85,17 +86,15 @@ void SphereCollisionComponent::start()
           }
       }
 
-void SphereCollisionComponent::update( int /* elapsedMilliseconds */)
+void BoxCollisionComponent::update( int /* elapsedMilliseconds */)
 {
     d->collides = 0;
       //our position
     QVector3D position = gameObject()->position();
      //Eliminate the Z-axis
     position.setZ( 0 );
-    //check wheteher the object id colliding with any other in the physics world
+
     physicsworld::dynamicsWorld->contactTest(d, ContactDestroyedCallback &resultCallback);
-    //checkwhether the object is colliding with any other shape in the physics world
-    physicsworld::dynamicsWorld->contactPairTest(d,/*btcollisionobject*(boxobject)*/,ContactDestroyedCallback &resultCallback);
     //Our radius, squared
     btScalar radius = d->radiusSquared;
     //Walk through the list
@@ -103,19 +102,19 @@ void SphereCollisionComponent::update( int /* elapsedMilliseconds */)
     Component** data = d->collisionComponents.data();
      for( int i = 0; i < componentCount; ++i )
       {
-          SphereCollisionComponent* sphere = qobject_cast< SphereCollisionComponent* >( data[i] );
+          BoxCollisionComponent* box = qobject_cast< BoxCollisionComponent* >( data[i] );
              if( sphere && sphere != this )
              {
                  //See if we are in the same group
-                  if( sphere->collisionGroup() == d->targetGroup )
+                  if( box->collisionGroup() == d->targetGroup )
                   {
                       //Get the object's position
-                      QVector3D otherPosition = sphere->gameObject()->position();
+                      QVector3D otherPosition = box->gameObject()->position();
                       //Eliminate the Z axis
                       position.setZ( 0 );
 
                       //Get the object's radius
-                      btScalar otherRadius = sphere->radiusSquared();
+                      btScalar otherRadius = box->radiusSquared();
 
                       //Calculate the distance between our position and theirs
                       //Note that this is the squared distance to avoid a costly squareroot op
@@ -125,71 +124,71 @@ void SphereCollisionComponent::update( int /* elapsedMilliseconds */)
                       //have a collision.
                       if( dist < ( otherRadius + radius ) )
                       {
-                          d->collides = sphere->gameObject();
+                          d->collides = box->gameObject();
                       }
                   }
               }
           }
       }
 
-void SphereCollisionComponent::stop()
+void BoxCollisionComponent::stop()
 {
 
 }
 
-void SphereCollisionComponent::cleanup()
+void BoxCollisionComponent::cleanup()
 {
 
-    delete sphereShape;
+    delete boxShape;
 }
 
-int SphereCollisionComponent::collisionGroup() const
+int BoxCollisionComponent::collisionGroup() const
 {
     return d->collisionGroup;
 }
 
-float SphereCollisionComponent::radius() const
+float BoxCollisionComponent::radius() const
 {
     return d->radius;
 }
 
-float SphereCollisionComponent::radiusSquared() const
+float BoxCollisionComponent::radiusSquared() const
 {
     return d->radiusSquared;
 }
 
-bool SphereCollisionComponent::isColliding() const
+bool BoxCollisionComponent::isColliding() const
 {
      return d->collides != 0;
 }
 
-QObject* SphereCollisionComponent::collidesWith() const
+QObject* BoxCollisionComponent::collidesWith() const
 {
     return d->collides;
  }
 
-void SphereCollisionComponent::setCollisionGroup( int group )
+void BoxCollisionComponent::setCollisionGroup( int group )
 {
     d->collisionGroup = group;
 }
 
-int SphereCollisionComponent::targetGroup() const
+int BoxCollisionComponent::targetGroup() const
 {
     return d->targetGroup;
 }
 
- void SphereCollisionComponent::setTargetGroup( int group )
+ void BoxCollisionComponent::setTargetGroup( int group )
 {
     d->targetGroup = group;
 }
 
- void SphereCollisionComponent::setRadius( btScalar radius )
+ void BoxCollisionComponent::setRadius( btScalar radius )
 {
     d->radius = radius;
     d->radiusSquared = radius * radius;
 }
 
- void SphereCollisionComponent::componentDestroyed( QObject* obj )
+ void BoxCollisionComponent::componentDestroyed( QObject* obj )
 {
      if( !obj )
       return;
@@ -199,7 +198,7 @@ int SphereCollisionComponent::targetGroup() const
          d->collisionComponents.remove( d->collisionComponents.indexOf( comp ) );
 }
 
- void SphereCollisionComponent::addComponent( SphereCollisionComponent* comp )
+ void BoxCollisionComponent::addComponent( BoxCollisionComponent* comp )
 {
     if( comp )
     {
@@ -211,7 +210,7 @@ int SphereCollisionComponent::targetGroup() const
      }
 }
 
-    Q_EXPORT_PLUGIN2( gluon_component_spherecollision, GluonEngine::SphereCollisionComponent )
+    Q_EXPORT_PLUGIN2( gluon_component_boxcollision, GluonEngine::BoxCollisionComponent )
 
 
-#include "spherecollisioncomponent.moc"
+#include "boxcollisioncomponent.moc"

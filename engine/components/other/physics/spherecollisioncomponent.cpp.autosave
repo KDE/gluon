@@ -55,7 +55,7 @@ void  SphereCollisionComponent::initialize()
     d-> sphere= new btSphereShape( d->radius ) ;
     btDefaultMotionState* sphereMotionState =new btDefaultMotionState(btTransform(btQuaternion(0,0,0,1),btVector3(0,0,0)));
     btScalar mass = 1;
-    //btRigidBody::setDamping (1, 1);
+    btRigidBody::setDamping (1, 1);
     btRigidBody::btRigidBodyConstructionInfo  sphereRigidBodyCI(mass,sphereMotionState,d->sphere,btVector3(0,0,0));
     btRigidBody* sphereRigidBody = new btRigidBody(sphereRigidBodyCI);
     physicsworld::dynamicsWorld->addRigidBody(sphereRigidBody);

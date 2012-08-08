@@ -24,6 +24,10 @@ physicsworld::physicsworld( QObject* parent ): GluonCore::Singleton< physicsworl
 
     dynamicsWorld->addRigidBody(btRigidBody);
 
+    //void contactTest (btCollisionObject *colObj, ContactResultCallback &resultCallback  );
+
+    //void contactPairTest (btCollisionObject *colObjA, btCollisionObject *colObjB, ContactResultCallback  &resultCallback);
+
     delete dynamicsWorld;
     delete solver ;
     delete dispatcher;
