@@ -38,25 +38,18 @@ namespace GluonEngine
 
             virtual void cleanup();
 
-             Q_INVOKABLE bool isColliding() const;
-
-            Q_INVOKABLE QObject* collidesWith() const;
 
 
        public Q_SLOTS:
 
-        void setCollisionGroup( int group );
-
-        void setRadius( float radius );
+        void setCollisionGroup( int );
 
         void componentDestroyed( QObject* obj );
 
         void addComponent( SphereCollisionComponent*  comp );
 
-        void setTargetGroup( int group );
 
-
-    private:
+ private:
         class SphereCollisionComponentPrivate;
         SphereCollisionComponentPrivate* const d;
     };

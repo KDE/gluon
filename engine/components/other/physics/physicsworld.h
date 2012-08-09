@@ -16,7 +16,7 @@ class physicsworld : public GluonCore::Singleton<physicsworld> //Inherit templat
         physicsworld ();
        ~physicsworld();
 
-  private:
+  public:
           btDiscreteDynamicsWorld* dynamicsWorld;
 
 }; 

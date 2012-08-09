@@ -1,4 +1,5 @@
 #include "physicsworld.h"
+#include<BulletDynamics/btBulletDynamicsCommon.h>
 #include<bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h>
 
 using namespace GluonEngine;
@@ -24,9 +25,9 @@ physicsworld::physicsworld( QObject* parent ): GluonCore::Singleton< physicsworl
 
     dynamicsWorld->addRigidBody(btRigidBody);
 
-    //void contactTest (btCollisionObject *colObj, ContactResultCallback &resultCallback  );
+    void contactTest (btCollisionObject *colObj, ContactDestroyedCallback &resultCallback );
 
-    //void contactPairTest (btCollisionObject *colObjA, btCollisionObject *colObjB, ContactResultCallback  &resultCallback);
+    void contactPairTest (btCollisionObject *colObjA, btCollisionObject *colObjB, ContactDestroyedCallback  &resultCallback);
 
     delete dynamicsWorld;
     delete solver ;
