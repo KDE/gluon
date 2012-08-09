@@ -31,9 +31,9 @@ namespace GluonEngine
 
 namespace GluonCreator
 {
-    class GLUONCREATOR_EXPORT DeleteObjectCommand : public AbstractUndoCommand
+    class GLUONCREATOR_EXPORT DeleteObjectCommand : public QObject,public AbstractUndoCommand
     {
-        
+        Q_OBJECT
 	public:
             DeleteObjectCommand( GluonCore::GluonObject* object, GluonCore::GluonObject* parent );
             virtual ~DeleteObjectCommand();

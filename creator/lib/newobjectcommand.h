@@ -24,9 +24,9 @@
 
 namespace GluonCreator
 {
-    class GLUONCREATOR_EXPORT NewObjectCommand : public AbstractUndoCommand
+    class GLUONCREATOR_EXPORT NewObjectCommand : public QObject,public AbstractUndoCommand
     {
-        
+        Q_OBJECT
 	public:
             NewObjectCommand( GluonCore::GluonObject* newObject );
             virtual ~NewObjectCommand();

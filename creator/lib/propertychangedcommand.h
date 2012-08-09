@@ -26,8 +26,9 @@ class QVariant;
 
 namespace GluonCreator
 {
-    class PropertyChangedCommand : public AbstractUndoCommand
+    class PropertyChangedCommand : public QObject , public AbstractUndoCommand
     {
+	Q_OBJECT
         public:
             PropertyChangedCommand( GluonCore::GluonObject* object, QString property, QVariant oldValue, QVariant newValue );
             virtual ~PropertyChangedCommand();
