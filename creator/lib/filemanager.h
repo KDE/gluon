@@ -1,6 +1,7 @@
 /*****************************************************************************
 * This file is part of the Gluon Development Platform
 * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+* Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public
@@ -84,7 +85,9 @@ namespace GluonCreator
              */
             void closeAll( bool force = false );
 	    void SaveAll();
-		
+	    void UndoOnEditor();
+	    void RedoOnEditor();
+	    
         Q_SIGNALS:
             void newPart( const QString& name, const QString& title, const QString& icon );
             void fileClosed( const QString& file );

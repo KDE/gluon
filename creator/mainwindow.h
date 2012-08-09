@@ -55,6 +55,8 @@ namespace GluonCreator
             void saveProject();
             void saveProject( const QString& fileName );
             void saveProjectAs();
+	    void onUndo();
+	    void onRedo();
             void showPreferences();
             void playGame();
             void pauseGame();

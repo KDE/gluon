@@ -2,6 +2,7 @@
 * This file is part of the Gluon Development Platform
 * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
 * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
+* Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public
@@ -21,12 +22,16 @@
 #include "filemanager.h"
 #include <engine/asset.h>
 #include <QDebug>
+#include <KDE/KStandardAction>
+#include <QWidget>
 #include <QtCore/QMetaClassInfo>
 #include <KDE/KParts/PartManager>
 #include <KDE/KMimeType>
 #include <KDE/KMimeTypeTrader>
 #include <KDE/KService>
 #include <KDE/KActionCollection>
+#include <KDE/KApplication>
+#include <QAction>
 
 using namespace GluonCreator;
 
@@ -77,6 +82,7 @@ void FileManager::openAsset( GluonEngine::Asset* asset )
 
 void FileManager::openFile( const QString& fileName, const QString& name, const QString& title, const QString& icon,  const QString& partName, const QVariantList& partParams, bool closeable )
 {
+    qDebug()<< "Active window on opening file is"<< kapp->activeWindow();
     if( fileName.isEmpty() )
         return;
 
@@ -121,7 +127,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
         // Add the part if it is found
         KUrl url( fileName );
         part->openUrl( url );
-
+	qDebug()<<" This parts widget is " << part->widget(); 
         Private::OpenedFile openFile;
         openFile.part = part;
 	openFile.closable = closeable;
@@ -146,6 +152,33 @@ void FileManager::SaveAll()
 	  if(rw){ rw->save();}
 	}
 }
+
+void FileManager::UndoOnEditor()
+{
+  QList<Private::OpenedFile> listopen = d->files.values();
+    foreach( Private::OpenedFile open,listopen )
+	{
+	  QWidget* widget = open.part->widget();
+	  if(widget->hasFocus())
+	    {	QAction *undoAction = open.part->action("edit_undo");
+		undoAction->activate(QAction::Trigger);
+	    }
+	}
+}
+
+void FileManager::RedoOnEditor()
+{
+  QList<Private::OpenedFile> listopen = d->files.values();
+    foreach( Private::OpenedFile open,listopen )
+	{
+	  QWidget* widget = open.part->widget();
+	  if(widget->hasFocus())
+	    {	QAction *redoAction = open.part->action("edit_redo");
+		redoAction->activate(QAction::Trigger);
+	    }
+	}
+}
+
 
 void FileManager::closeFile( const QString& file, bool force )
 {

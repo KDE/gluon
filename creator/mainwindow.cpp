@@ -204,6 +204,16 @@ void MainWindow::saveProject()
     FileManager::instance()->SaveAll();
     saveProject( d->fileName );
 }
+void MainWindow::onUndo()
+{
+  FileManager::instance()->UndoOnEditor();
+}
+
+void MainWindow::onRedo()
+{
+  FileManager::instance()->RedoOnEditor();
+}
+
 
 void MainWindow::saveProject( const QString& fileName )
 {
@@ -264,13 +274,12 @@ void MainWindow::setupActions()
     undo->setText( i18n( "Undo Project Action" ) );
     undo->setShortcut( KShortcut( "Ctrl+Alt+Z" ) );
     connect( HistoryManager::instance(), SIGNAL(canUndoChanged(bool)), undo, SLOT(setEnabled(bool)) );
+    connect( undo, SIGNAL(triggered(bool)), SLOT(onUndo()));
 
     KAction* redo = KStandardAction::redo( HistoryManager::instance(), SLOT(redo()), actionCollection() );
     redo->setText( i18n( "Redo Project Action" ) );
-    undo->setShortcut( KShortcut( "Ctrl+Alt+Shift+Z" ) );
     connect( HistoryManager::instance(), SIGNAL(canRedoChanged(bool)), redo, SLOT(setEnabled(bool)) );
-
-    connect( HistoryManager::instance(), SIGNAL(cleanChanged(bool)), SLOT(cleanChanged(bool)) );
+    connect( redo, SIGNAL(triggered(bool)), SLOT(onRedo()));
 
     d->recentFiles = new KRecentFilesAction( KIcon( "document-open-recent" ), i18n( "Recent Projects" ), actionCollection() );
     connect( d->recentFiles, SIGNAL(urlSelected(KUrl)), SLOT(openProject(KUrl)) );
