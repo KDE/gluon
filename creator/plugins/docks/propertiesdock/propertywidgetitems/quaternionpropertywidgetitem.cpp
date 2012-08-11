@@ -23,6 +23,7 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QDebug>
 #include <QDoubleSpinBox>
 #include <QtGui/QQuaternion>
 #include <cfloat>
@@ -90,6 +91,7 @@ QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem( QWidget* parent, Qt:
 
     setEditWidget( base );
 }
+
 
 QuaternionPropertyWidgetItem::~QuaternionPropertyWidgetItem()
 {

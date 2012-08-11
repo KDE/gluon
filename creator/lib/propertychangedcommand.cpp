@@ -18,9 +18,10 @@
  */
 
 #include "propertychangedcommand.h"
-
+#include <QDebug>
 #include <core/gluonobject.h>
-
+#include <QMetaObject>
+#include <QMetaProperty>
 #include <QtCore/QVariant>
 
 using namespace GluonCreator;
@@ -51,14 +52,18 @@ PropertyChangedCommand::~PropertyChangedCommand()
 void PropertyChangedCommand::undo()
 {
     setCommandDirection( "undo" );
+    qDebug()<<"On redo, old value is"<<d->oldValue;
     object()->setProperty( d->property.toUtf8(), d->oldValue );
+    emit onUndo(object(),d->property,d->oldValue);
     AbstractUndoCommand::undo();
 }
 
 void PropertyChangedCommand::redo()
 {
+    qDebug()<<"On redo, new value is"<<d->newValue;
     setCommandDirection( "redo" );
     object()->setProperty( d->property.toUtf8(), d->newValue );
+    emit onRedo(object(),d->property,d->newValue);
     AbstractUndoCommand::redo();
 }
 

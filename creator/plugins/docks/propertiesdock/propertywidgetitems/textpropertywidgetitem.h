@@ -21,7 +21,7 @@
 
 #ifndef GLUON_CREATOR_TEXTPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_TEXTPROPERTYWIDGETITEM_H
-
+#include <QDebug>
 #include <creator/lib/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
@@ -32,7 +32,7 @@ namespace GluonCreator
         public:
             explicit TextPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~TextPropertyWidgetItem();
-
+	    void update(){qDebug()<< "In update of text!";}
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

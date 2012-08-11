@@ -20,10 +20,11 @@
 
 #ifndef GLUON_CREATOR_PROPERTYWIDGETCONTAINER_H
 #define GLUON_CREATOR_PROPERTYWIDGETCONTAINER_H
-
+#include "propertywidgetitem.h"
 #include <QtGui/QWidget>
+#include <core/gluonobject.h>
 #include <QtCore/QString>
-
+#include <QList>
 namespace GluonCore
 {
     class GluonObject;
@@ -42,7 +43,6 @@ namespace GluonCreator
         public:
             explicit PropertyWidgetContainer( GluonCore::GluonObject* theObject, QWidget* parent = 0, Qt::WindowFlags f = 0 );
             virtual ~PropertyWidgetContainer();
-
             void setObject( GluonCore::GluonObject* theObject );
 
             bool expanded() const;
@@ -51,7 +51,7 @@ namespace GluonCreator
 
             bool enabled() const;
             Q_SLOT void setEnabled( const bool& newEnabled );
-
+	    void getItemsListpub();
             QString title() const;
             void setTitle( const QString& newTitle );
 
@@ -61,11 +61,13 @@ namespace GluonCreator
 
         Q_SIGNALS:
             void propertyChanged( QObject* object, const QString& property, const QVariant& oldValue, const QVariant& newValue );
+	    void propChangedContainer(GluonCore::GluonObject* object, const QString& property, const QVariant& newValue);
 
         public Q_SLOTS:
             void upTriggered();
             void downTriggered();
             void delTriggered();
+	    void onChanged(GluonCore::GluonObject*, const QString& property, const QVariant& newValue);
             void addPropertyTriggered();
             void propertyCreated( GluonCore::GluonObject* propertyCreatedOn, QString createdPropertyName );
             void objectDeleted( QObject* obj );

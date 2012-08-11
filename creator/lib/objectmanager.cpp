@@ -175,9 +175,13 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, GluonCore::GluonOb
     HistoryManager::instance()->addCommand( new NewObjectCommand( newAsset ) );
 }
 
-void ObjectManager::changeProperty( GluonCore::GluonObject* object, QString& property, QVariant& oldValue, QVariant& newValue )
+void ObjectManager::changeProperty(GluonCore::GluonObject* object, QString property, QVariant oldValue, QVariant newValue, const char* type)
 {
-    HistoryManager::instance()->addCommand( new PropertyChangedCommand( object, property, oldValue, newValue ) );
+    PropertyChangedCommand* justChanged  = new PropertyChangedCommand( object, property, oldValue, newValue);
+    HistoryManager::instance()->addCommand( justChanged );
+    connect(justChanged,SIGNAL(onUndo(GluonCore::GluonObject*,QString,QVariant)),this,SIGNAL(propchanged(GluonCore::GluonObject*,QString,QVariant)));
+    connect(justChanged,SIGNAL(onRedo(GluonCore::GluonObject*,QString,QVariant)),this,SIGNAL(propchanged(GluonCore::GluonObject*,QString,QVariant)));
+ 
 }
 
 GluonEngine::Component* ObjectManager::createNewComponent( const QString& type, GluonEngine::GameObject* parent )

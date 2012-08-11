@@ -21,8 +21,8 @@
 
 #ifndef GLUON_CREATOR_FLOATPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_FLOATPROPERTYWIDGETITEM_H
-
-#include "widgets/propertywidgetitem.h"
+#include <QDebug>
+#include <creator/lib/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
 {
@@ -32,7 +32,7 @@ namespace GluonCreator
         public:
             explicit FloatPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~FloatPropertyWidgetItem();
-
+	    void update(){qDebug()<< "In update of float!";}
             virtual QList<QString> supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

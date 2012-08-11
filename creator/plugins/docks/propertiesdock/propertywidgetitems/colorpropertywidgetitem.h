@@ -21,7 +21,7 @@
 
 #ifndef GLUON_CREATOR_COLORPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_COLORPROPERTYWIDGETITEM_H
-
+#include <QDebug>
 #include <creator/lib/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
@@ -33,7 +33,7 @@ namespace GluonCreator
         public:
             explicit ColorPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~ColorPropertyWidgetItem();
-
+	    void update(){qDebug()<< "In update of color!";}
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

@@ -19,7 +19,7 @@
 
 #ifndef GLUON_CREATOR_QURLPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_QURLPROPERTYWIDGETITEM_H
-
+#include <QDebug>
 #include <creator/lib/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
@@ -30,7 +30,7 @@ namespace GluonCreator
         public:
             explicit QUrlPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~QUrlPropertyWidgetItem();
-
+	    void update(){qDebug()<< "In update of qurl!";}
             virtual GluonCreator::PropertyWidgetItem* instantiate();
             virtual QStringList supportedDataTypes() const;
 

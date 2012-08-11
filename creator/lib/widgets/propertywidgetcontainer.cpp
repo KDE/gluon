@@ -20,17 +20,17 @@
  */
 
 #include "propertywidgetcontainer.h"
-#include "propertywidgetitem.h"
 #include "propertywidgetitemnewcustomproperty.h"
 #include "prefabcontrols.h"
-
+#include <QtCore/qglobal.h>
 #include "selectionmanager.h"
 #include "objectmanager.h"
 #include "models/models.h"
 #include "models/scenemodel.h"
-
+#include <QDebug>
 #include <core/gluonobject.h>
-
+#include <creator/lib/historymanager.h>
+#include <creator/lib/propertychangedcommand.h>
 #include <engine/gameobject.h>
 #include <engine/prefab.h>
 #include <engine/abstractprefabinstance.h>
@@ -126,6 +126,8 @@ namespace GluonCreator
 
             PropertyWidgetContainer* parent;
             GluonCore::GluonObject* object;
+  	    QList<GluonCreator::PropertyWidgetItem*> getItemsList(){ return itemsList;};
+
             void appendMetaObject( QObject* object );
             void addPropertyItem( QString name, PropertyWidgetItem* item );
 
@@ -136,6 +138,7 @@ namespace GluonCreator
             QWidget* containerWidget;
             QGridLayout* containerLayout;
             QHash<QString, QWidget*> items;
+	    QList<PropertyWidgetItem*> itemsList ;
 
             QToolButton* expander;
             QCheckBox* enabler;
@@ -157,6 +160,7 @@ PropertyWidgetContainer::PropertyWidgetContainer( GluonCore::GluonObject* theObj
     layout->setSpacing( 0 );
     layout->setContentsMargins( 0, 0, 0, 0 );
     setLayout( layout );
+    connect(this, SIGNAL(propChangedContainer(GluonCore::GluonObject*,QString,QVariant)),this, SLOT(onChanged(GluonCore::GluonObject*,QString,QVariant)));
 
     d = new PropertyWidgetContainerPrivate( this );
     setObject( theObject );
@@ -165,6 +169,10 @@ PropertyWidgetContainer::PropertyWidgetContainer( GluonCore::GluonObject* theObj
 PropertyWidgetContainer::~PropertyWidgetContainer()
 {
     delete d;
+}
+void PropertyWidgetContainer::getItemsListpub()
+{
+  
 }
 
 void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
@@ -263,6 +271,18 @@ PropertyWidgetContainer::upTriggered()
         }
     }
 }
+void
+PropertyWidgetContainer::onChanged(GluonCore::GluonObject* object, const QString& property, const QVariant& newValue)
+{
+  foreach( PropertyWidgetItem* tempItem,d->itemsList )
+	{
+	    if(tempItem->editProperty() == property)
+	    {qDebug()<<"Prop changed has name"<<tempItem->editProperty();
+	     tempItem->update(newValue); 
+	    }
+	  
+	}
+}	
 
 void
 PropertyWidgetContainer::downTriggered()
@@ -421,6 +441,7 @@ PropertyWidgetContainer::removeMenuItem( QAction* menuItem )
         d->menu->removeAction( menuItem );
 }
 
+
 void
 PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject( QObject* object )
 {
@@ -429,7 +450,7 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject( QObje
 
     const QMetaObject* metaObject = object->metaObject();
     QMetaProperty metaProperty;
-
+  
     int count = metaObject->propertyCount();
     for( int i = 0; i < count; ++i )
     {
@@ -449,22 +470,28 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject( QObje
             continue;
 
         PropertyWidgetItem* editWidget;
+	 
         if( !metaProperty.isEnumType() )
         {
             editWidget = PropertyWidgetItemFactory::instance()->create( object, metaProperty.typeName(), parent->parentWidget() );
+	    itemsList.append(editWidget);
         }
         else
         {
             QMetaEnum enumerator = metaProperty.enumerator();
             if( strcmp( enumerator.scope(), "Qt" ) )
-                editWidget = PropertyWidgetItemFactory::instance()->create( object, metaProperty.typeName(), parent->parentWidget() );
-            else
-                editWidget = PropertyWidgetItemFactory::instance()->create( object, enumerator.name(), parent->parentWidget() );
-        }
-
+	      {	editWidget = PropertyWidgetItemFactory::instance()->create( object, metaProperty.typeName(), parent->parentWidget() );
+		itemsList.append(editWidget);
+	      }
+	      else
+	      { editWidget = PropertyWidgetItemFactory::instance()->create( object, enumerator.name(), parent->parentWidget() );
+		itemsList.append(editWidget);
+	      }
+	}
+        
         editWidget->setEditObject( object );
-        editWidget->setEditProperty( metaProperty.name() );
-
+        editWidget->setEditProperty( metaProperty.name());
+//	qDebug()<<"The typename of property added is "<< editWidget->typeName();
         addPropertyItem( metaProperty.name(), editWidget );
     }
 
@@ -477,7 +504,7 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject( QObje
             continue;
 
         PropertyWidgetItem* editWidget = PropertyWidgetItemFactory::instance()->create( object, object->property( propName ).typeName(), parent->parentWidget() );
-        editWidget->setEditObject( object );
+	editWidget->setEditObject( object );
         editWidget->setEditProperty( thePropName );
 
         addPropertyItem( thePropName, editWidget );
@@ -493,7 +520,7 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::addPropertyItem( QStrin
     nameLabel->setTextElideMode( Qt::ElideRight );
     nameLabel->setText( humanifyString( name ) );
     nameLabel->setToolTip( nameLabel->fullText() );
-
+    
     item->setMinimumWidth( 150 );
     item->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Fixed );
     // Yeah, looks a bit funny, but this makes it possible to connect to either the pwi container... or the pwi view ;)
@@ -502,7 +529,6 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::addPropertyItem( QStrin
     int row = containerLayout->rowCount();
     containerLayout->addWidget( nameLabel, row, 0 );
     containerLayout->addWidget( item, row, 1 );
-
     items.insert( name, item );
 }
 

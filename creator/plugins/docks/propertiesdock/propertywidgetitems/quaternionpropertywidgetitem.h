@@ -21,7 +21,7 @@
 
 #ifndef GLUON_CREATOR_QUATERNIONPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_QUATERNIONPROPERTYWIDGETITEM_H
-
+#include <QDebug>
 #include <creator/lib/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
@@ -32,9 +32,9 @@ namespace GluonCreator
             Q_OBJECT
         public:
             explicit QuaternionPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
-            ~QuaternionPropertyWidgetItem();
-
-            virtual QStringList supportedDataTypes() const;
+            ~QuaternionPropertyWidgetItem();	    
+	    void update(){qDebug()<< "In update of quaternion!";}
+	    virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 
         public Q_SLOTS:

@@ -22,10 +22,10 @@
 #define GLUON_CREATOR_PROPERTYWIDGET_H
 
 #include "lib/gluoncreator_macros.h"
-
+#include "propertywidgetcontainer.h"
 #include <QtGui/QWidget>
 #include <QtGui/QScrollArea>
-
+#include <QDebug>
 namespace GluonCore
 {
     class GluonObject;
@@ -45,16 +45,19 @@ namespace GluonCreator
         public:
             PropertyWidget( QWidget* parent = 0 );
             virtual ~PropertyWidget();
-
+	    PropertyWidgetContainer* container;
             GluonCore::GluonObject* object() const;
             void clear();
-
             void setObject( GluonCore::GluonObject* object );
             void appendObject( GluonCore::GluonObject* obj, bool useColor = false );
 
         Q_SIGNALS:
+//	    void onContainer(GluonCore::GluonObject* obj);
             void propertyChanged( QObject* object, const QString& property, const QVariant& oldValue, const QVariant& newValue );
+	    void propChangedSignal( GluonCore::GluonObject* object, const QString property, const QVariant newValue);
 
+	public Q_SLOTS:
+	    void onpropChangedSignal( GluonCore::GluonObject* object, const QString property, const QVariant newValue);
         private:
             class PropertyWidgetPrivate;
             PropertyWidgetPrivate* const d;

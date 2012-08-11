@@ -30,13 +30,16 @@ namespace GluonCreator
     {
 	Q_OBJECT
         public:
-            PropertyChangedCommand( GluonCore::GluonObject* object, QString property, QVariant oldValue, QVariant newValue );
+            PropertyChangedCommand( GluonCore::GluonObject* object, QString property, QVariant oldValue, QVariant newValue);
             virtual ~PropertyChangedCommand();
 
             virtual void undo();
             virtual void redo();
+    Q_SIGNALS:
+	    void onUndo(GluonCore::GluonObject* object, QString property, QVariant newValue);
+	    void onRedo(GluonCore::GluonObject* object, QString property, QVariant newValue);
 
-        private:
+    private:
             class PropertyChangedCommandPrivate;
             PropertyChangedCommandPrivate* d;
     };

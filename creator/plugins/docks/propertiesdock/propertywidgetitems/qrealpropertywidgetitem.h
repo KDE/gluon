@@ -18,7 +18,7 @@
  */
 #ifndef QREALPROPERTYWIDGETITEM_H
 #define QREALPROPERTYWIDGETITEM_H
-
+#include <QDebug>
 #include <creator/lib/widgets/propertywidgetitem.h>
 
 class QDoubleSpinBox;
@@ -31,7 +31,7 @@ namespace GluonCreator
         public:
             explicit QRealPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~QRealPropertyWidgetItem();
-
+	    void update(){qDebug()<< "In update of qreal!";}
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

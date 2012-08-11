@@ -21,7 +21,7 @@
 
 #ifndef GLUON_CREATOR_INTPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_INTPROPERTYWIDGETITEM_H
-
+#include <QDebug>
 #include <creator/lib/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
@@ -32,7 +32,7 @@ namespace GluonCreator
         public:
             explicit IntPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~IntPropertyWidgetItem();
-
+	    void update(){qDebug()<< "In update of int!";}
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

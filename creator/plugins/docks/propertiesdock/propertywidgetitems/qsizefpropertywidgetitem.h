@@ -21,7 +21,8 @@
 
 #ifndef GLUON_CREATOR_QSIZEFPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_QSIZEFPROPERTYWIDGETITEM_H
-
+#include <QDebug>
+#include <QVariant>
 #include <creator/lib/widgets/propertywidgetitem.h>
 
 class QDoubleSpinBox;
@@ -33,7 +34,7 @@ namespace GluonCreator
         public:
             explicit QSizeFPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~QSizeFPropertyWidgetItem();
-
+	    void update(QVariant newValue);
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

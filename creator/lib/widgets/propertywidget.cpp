@@ -57,12 +57,20 @@ class PropertyWidget::PropertyWidgetPrivate
 PropertyWidget::PropertyWidget( QWidget* parent ): QScrollArea( parent ), d( new PropertyWidgetPrivate )
 {
     setFrameShape( QFrame::NoFrame );
+    connect(this, SIGNAL(propChangedSignal(GluonCore::GluonObject*, const QString, const QVariant )),this,SLOT(onpropChangedSignal(GluonCore::GluonObject*,QString,QVariant)));
+//    connect(this,SIGNAL(onContainer(GluonCore::GluonObject*)), this, SLOT(onpropChangedSignal(GluonCore::GluonObject*,QString,QVariant)));
 }
 
 PropertyWidget::~PropertyWidget()
 {
     delete d;
 }
+
+void PropertyWidget::onpropChangedSignal(GluonCore::GluonObject* object, const QString property, const QVariant newValue)
+{
+  qDebug()<< "In property widget";
+}
+
 
 GluonCore::GluonObject* PropertyWidget::object() const
 {
@@ -111,12 +119,15 @@ void PropertyWidget::clear()
 {
     widget()->deleteLater();
 }
+// Adds respective properties onto propertywidget, which sits on properties docker
 
 void PropertyWidget::appendObject( GluonCore::GluonObject* obj, bool first )
-{
+{  
+    container = new PropertyWidgetContainer( obj, this ) ;
+    connect(this,SIGNAL(propChangedSignal(GluonCore::GluonObject*,QString,QVariant)),container,SIGNAL(propChangedContainer(GluonCore::GluonObject*,QString,QVariant)));
+//    emit onContainer(obj);
     // Don't append any kind of GameObject
     if( !first && qobject_cast< GluonEngine::GameObject* >(obj) )
         return;
-
-    d->layout->addWidget( new PropertyWidgetContainer( obj, this ) );
+    d->layout->addWidget(container );
 }

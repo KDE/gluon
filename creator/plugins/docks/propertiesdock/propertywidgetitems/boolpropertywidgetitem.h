@@ -21,7 +21,7 @@
 
 #ifndef GLUON_CREATOR_BOOLPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_BOOLPROPERTYWIDGETITEM_H
-
+#include <QDebug>
 #include <creator/lib/widgets/propertywidgetitem.h>
 namespace GluonCreator
 {
@@ -31,7 +31,7 @@ namespace GluonCreator
         public:
             explicit BoolPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~BoolPropertyWidgetItem();
-
+	    void update(){qDebug()<< "In update of bool!";}
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

@@ -20,7 +20,7 @@
 
 #ifndef GLUONCREATOR_QVARIANTLISTPROPERTYWIDGETITEM_H
 #define GLUONCREATOR_QVARIANTLISTPROPERTYWIDGETITEM_H
-
+#include <QDebug>
 #include "creator/lib/widgets/propertywidgetitem.h"
 
 class QMenu;
@@ -35,7 +35,7 @@ namespace GluonCreator
         public:
             explicit QVariantListPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             virtual ~QVariantListPropertyWidgetItem();
-
+	    void update(){qDebug()<< "In update of qvariantlist!";}
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

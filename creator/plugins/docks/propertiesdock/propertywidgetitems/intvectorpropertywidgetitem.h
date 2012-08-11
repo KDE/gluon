@@ -19,7 +19,7 @@
 
 #ifndef GLUONCREATOR_INTVECTORPROPERTYWIDGETITEM_H
 #define GLUONCREATOR_INTVECTORPROPERTYWIDGETITEM_H
-
+#include <QDebug>
 #include <creator/lib/widgets/propertywidgetitem.h>
 
 class QSpinBox;
@@ -34,7 +34,7 @@ namespace GluonCreator
         public:
             explicit IntVectorPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             virtual ~IntVectorPropertyWidgetItem();
-
+	    void update(){qDebug()<< "In update of intvector!";}
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

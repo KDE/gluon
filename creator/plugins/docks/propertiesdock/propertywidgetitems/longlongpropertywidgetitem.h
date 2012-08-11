@@ -19,7 +19,7 @@
 
 #ifndef GLUON_CREATOR_LONGLONGPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_LONGLONGPROPERTYWIDGETITEM_H
-
+#include <QDebug>
 #include <creator/lib/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
@@ -31,7 +31,7 @@ namespace GluonCreator
         public:
             explicit LongLongPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~LongLongPropertyWidgetItem();
-
+	    void update(){qDebug()<< "In update of longlong!";}
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

@@ -20,7 +20,7 @@
 
 #ifndef GLUON_CREATOR_VECTORPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_VECTORPROPERTYWIDGETITEM_H
-
+#include <QDebug>
 #include <creator/lib/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
@@ -32,7 +32,7 @@ namespace GluonCreator
         public:
             explicit VectorPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~VectorPropertyWidgetItem();
-
+	    void update(){qDebug()<< "In update of vector!";}
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

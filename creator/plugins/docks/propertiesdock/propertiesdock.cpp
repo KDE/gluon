@@ -23,9 +23,14 @@
 #include <creator/lib/widgets/propertywidget.h>
 #include <creator/lib/objectmanager.h>
 #include <creator/lib/historymanager.h>
-
+#include <QList>
+#include <QMetaObject>
+#include <QMetaProperty>
+#include <creator/lib/widgets/propertywidgetitem.h>
+#include <QDebug>
 #include <engine/game.h>
 #include <engine/component.h>
+
 
 using namespace GluonCreator;
 
@@ -44,12 +49,12 @@ PropertiesDock::PropertiesDock( const QString& title, QWidget* parent, Qt::Windo
     , d( new PropertiesDockPrivate( new PropertyWidget( this ) ) )
 {
     setObjectName( "PropertiesDock" );
-
     setWidget( d->widget );
-
     connect( SelectionManager::instance(), SIGNAL(selectionChanged(SelectionManager::SelectionList)), SLOT(selectionChanged(SelectionManager::SelectionList)) );
     connect( d->widget, SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)), SLOT(propertyChanged(QObject*,QString,QVariant,QVariant)) );
     connect( ObjectManager::instance(), SIGNAL(newComponent(GluonEngine::Component*)), SLOT(newComponent(GluonEngine::Component*)) );
+    connect( ObjectManager::instance(), SIGNAL(propchanged(GluonCore::GluonObject*,QString,QVariant)),d->widget,SIGNAL(propChangedSignal(GluonCore::GluonObject*,QString,QVariant)));
+  
 }
 
 PropertiesDock::~PropertiesDock()
@@ -71,13 +76,23 @@ void PropertiesDock::newComponent( GluonEngine::Component* comp )
         d->widget->setObject( d->widget->object() );
     }
 }
-
+  
 void PropertiesDock::propertyChanged( QObject* object, QString property, QVariant oldValue, QVariant newValue )
 {
-    GluonCore::GluonObject* obj = qobject_cast<GluonCore::GluonObject*>( object );
+    const QMetaObject *metaobject = object->metaObject();
+    const char* type;
+    int count = metaobject->propertyCount();
+    for (int i=0; i<count; ++i) {
 
+	QMetaProperty metaproperty = metaobject->property(i);
+	const char *name = metaproperty.name();
+//	qDebug()<<name;
+//	if(name == property){qDebug()<<"Property just changed is type, now at a different location"<<metaproperty.typeName(); type = metaproperty.typeName();}
+    }
+    
+    GluonCore::GluonObject* obj = qobject_cast<GluonCore::GluonObject*>( object );
     if( obj )
-        ObjectManager::instance()->changeProperty( obj, property, oldValue, newValue );
+        ObjectManager::instance()->changeProperty( obj, property, oldValue, newValue,type);
 }
 
 

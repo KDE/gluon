@@ -19,7 +19,7 @@
 
 #ifndef GLUON_CREATOR_STRINGLISTPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_STRINGLISTPROPERTYWIDGETITEM_H
-
+#include <QDebug>
 #include <creator/lib/widgets/propertywidgetitem.h>
 
 class KLineEdit;
@@ -35,7 +35,7 @@ namespace GluonCreator
         public:
             explicit StringListPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             virtual ~StringListPropertyWidgetItem();
-
+	    void update(){qDebug()<< "In update of stringlist!";}
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

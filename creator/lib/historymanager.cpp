@@ -43,12 +43,15 @@ class HistoryManager::HistoryManagerPrivate
 void HistoryManager::addCommand( QUndoCommand* command )
 {
     d->stack->push( command );
+    qDebug()<<"stack index after adding is " <<d->stack->index();
+    
     emit historyChanged( command );
 }
 
 void HistoryManager::redo()
 {
     d->stack->redo();
+    qDebug()<<"stack index"<<d->stack->index();
     const QUndoCommand* command = d->stack->command( d->stack->index() - 1 );
     emit historyChanged( command );
 }
@@ -56,6 +59,7 @@ void HistoryManager::redo()
 void HistoryManager::undo()
 {
     d->stack->undo();
+    qDebug()<<"undo stack index"<<d->stack->index();
     const QUndoCommand* command = d->stack->command( d->stack->index() );
     emit historyChanged( command );	
 }

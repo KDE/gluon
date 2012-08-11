@@ -21,7 +21,7 @@
 
 #ifndef GLUONCREATOR_QFONTPROPERTYWIDGETITEM_H
 #define GLUONCREATOR_QFONTPROPERTYWIDGETITEM_H
-
+#include <QDebug>
 #include <creator/lib/widgets/propertywidgetitem.h>
 namespace GluonCreator
 {
@@ -31,7 +31,7 @@ namespace GluonCreator
         public:
             explicit QFontPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~QFontPropertyWidgetItem();
-
+	    void update(){qDebug()<< "In update of qfont!";}
             virtual GluonCreator::PropertyWidgetItem* instantiate();
             virtual QStringList supportedDataTypes() const;
 
