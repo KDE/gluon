@@ -181,6 +181,7 @@ namespace GluonCore
             Q_INVOKABLE GluonObject( QObject* parent = 0 );
             explicit GluonObject( const QString& name, QObject* parent = 0 );
             virtual ~GluonObject();
+	    int countCalls;
 	    int childIndex( GluonObject* child ) const;
             /**
              * Take a name in the format accepted by the GluonObject name property, and transform

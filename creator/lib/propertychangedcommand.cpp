@@ -55,7 +55,7 @@ void PropertyChangedCommand::undo()
     qDebug()<<"On undo, old value is"<<d->oldValue;
     object()->setProperty( d->property.toUtf8(), d->oldValue );
     emit onUndo(object(),d->property,d->oldValue);
-    AbstractUndoCommand::undo();
+ //   AbstractUndoCommand::undo();
 }
 
 void PropertyChangedCommand::redo()
@@ -64,6 +64,6 @@ void PropertyChangedCommand::redo()
     setCommandDirection( "redo" );
     object()->setProperty( d->property.toUtf8(), d->newValue );
     emit onRedo(object(),d->property,d->newValue);
-    AbstractUndoCommand::redo();
+   // AbstractUndoCommand::redo();
 }
 

@@ -91,10 +91,10 @@ void PropertiesDock::propertyChanged( QObject* object, QString property, QVarian
     }
     
     GluonCore::GluonObject* obj = qobject_cast<GluonCore::GluonObject*>( object );
-    qDebug()<<"COUNT CALLS IS"<<countCalls;
-    if( (obj) && (countCalls==0))
+    qDebug()<<"COUNT CALLS FOR THIS OBJECT IS"<<obj->countCalls;
+    if( (obj) && (obj->countCalls==0))
     {  ObjectManager::instance()->changeProperty( obj, property, oldValue, newValue);
-	countCalls++;
+	obj->countCalls++;
     }
 }
 

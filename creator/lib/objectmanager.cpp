@@ -179,9 +179,23 @@ void ObjectManager::changeProperty(GluonCore::GluonObject* object, QString prope
 {
     PropertyChangedCommand* justChanged  = new PropertyChangedCommand( object, property, oldValue, newValue);
     HistoryManager::instance()->addCommand( justChanged );
+//    connect(justChanged,SIGNAL(onUndo(GluonCore::GluonObject*,QString,QVariant)),this,SLOT(setCallsToOne(GluonCore::GluonObject*)));
     connect(justChanged,SIGNAL(onUndo(GluonCore::GluonObject*,QString,QVariant)),this,SIGNAL(propchanged(GluonCore::GluonObject*,QString,QVariant)));
+ //   connect(justChanged,SIGNAL(onRedo(GluonCore::GluonObject*,QString,QVariant)),this,SLOT(setCallsToZero(GluonCore::GluonObject*)));
     connect(justChanged,SIGNAL(onRedo(GluonCore::GluonObject*,QString,QVariant)),this,SIGNAL(propchanged(GluonCore::GluonObject*,QString,QVariant)));
- 
+}
+
+void ObjectManager::setCallsToZero(GluonCore::GluonObject* obj)
+{
+ qDebug()<<"Setting calls to zero!";
+  obj->countCalls = 0;
+}
+
+void ObjectManager::setCallsToOne(GluonCore::GluonObject* obj )
+{
+  qDebug()<<"called from undo signal, Setting calls to one!";
+  obj->countCalls = 1;
+
 }
 
 GluonEngine::Component* ObjectManager::createNewComponent( const QString& type, GluonEngine::GameObject* parent )

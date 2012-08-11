@@ -66,8 +66,10 @@ namespace GluonCreator
             void assetDirty( const QString& file );
             void assetDeleted( const QString& file );
             void assetDeleted( GluonEngine::Asset* asset );
+	    void setCallsToZero(GluonCore::GluonObject*);
+	    void setCallsToOne(GluonCore::GluonObject*);
 
-        Q_SIGNALS:
+	Q_SIGNALS:
             void newObject( GluonCore::GluonObject* );
             void newScene( GluonEngine::Scene* );
             void newGameObject( GluonEngine::GameObject* );
