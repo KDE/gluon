@@ -175,7 +175,7 @@ void ObjectManager::setupAsset( GluonEngine::Asset* newAsset, GluonCore::GluonOb
     HistoryManager::instance()->addCommand( new NewObjectCommand( newAsset ) );
 }
 
-void ObjectManager::changeProperty(GluonCore::GluonObject* object, QString property, QVariant oldValue, QVariant newValue, const char* type)
+void ObjectManager::changeProperty(GluonCore::GluonObject* object, QString property, QVariant oldValue, QVariant newValue)
 {
     PropertyChangedCommand* justChanged  = new PropertyChangedCommand( object, property, oldValue, newValue);
     HistoryManager::instance()->addCommand( justChanged );

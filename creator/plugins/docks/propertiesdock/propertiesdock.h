@@ -37,6 +37,7 @@ namespace GluonCreator
         public:
             explicit PropertiesDock( const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0 );
             ~PropertiesDock();
+	    int countCalls;
 
         public slots:
             void selectionChanged( SelectionManager::SelectionList selection );

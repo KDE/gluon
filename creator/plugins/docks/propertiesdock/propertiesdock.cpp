@@ -50,6 +50,7 @@ PropertiesDock::PropertiesDock( const QString& title, QWidget* parent, Qt::Windo
 {
     setObjectName( "PropertiesDock" );
     setWidget( d->widget );
+    countCalls = 0;
     connect( SelectionManager::instance(), SIGNAL(selectionChanged(SelectionManager::SelectionList)), SLOT(selectionChanged(SelectionManager::SelectionList)) );
     connect( d->widget, SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)), SLOT(propertyChanged(QObject*,QString,QVariant,QVariant)) );
     connect( ObjectManager::instance(), SIGNAL(newComponent(GluonEngine::Component*)), SLOT(newComponent(GluonEngine::Component*)) );
@@ -80,7 +81,6 @@ void PropertiesDock::newComponent( GluonEngine::Component* comp )
 void PropertiesDock::propertyChanged( QObject* object, QString property, QVariant oldValue, QVariant newValue )
 {
     const QMetaObject *metaobject = object->metaObject();
-    const char* type;
     int count = metaobject->propertyCount();
     for (int i=0; i<count; ++i) {
 
@@ -91,8 +91,11 @@ void PropertiesDock::propertyChanged( QObject* object, QString property, QVarian
     }
     
     GluonCore::GluonObject* obj = qobject_cast<GluonCore::GluonObject*>( object );
-    if( obj )
-        ObjectManager::instance()->changeProperty( obj, property, oldValue, newValue,type);
+    qDebug()<<"COUNT CALLS IS"<<countCalls;
+    if( (obj) && (countCalls==0))
+    {  ObjectManager::instance()->changeProperty( obj, property, oldValue, newValue);
+	countCalls++;
+    }
 }
 
 
