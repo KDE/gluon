@@ -98,6 +98,12 @@ QuaternionPropertyWidgetItem::~QuaternionPropertyWidgetItem()
     delete d;
 }
 
+void QuaternionPropertyWidgetItem::update(QVariant newValue)
+{
+qDebug()<<"in update of qquaternion!";
+setEditValue(newValue);
+}
+
 QStringList
 QuaternionPropertyWidgetItem::supportedDataTypes() const
 {
@@ -113,9 +119,8 @@ QuaternionPropertyWidgetItem::instantiate()
 }
 
 void QuaternionPropertyWidgetItem::setEditValue( const QVariant& value )
-{
+{   qDebug()<<"In set edit value for QQuaternion!";
     d->value = value.value<QQuaternion>();
-
     d->x->setValue( d->value.x() * sqrt( 1 - d->value.scalar() * d->value.scalar() ) );
     d->y->setValue( d->value.y() * sqrt( 1 - d->value.scalar() * d->value.scalar() ) );
     d->z->setValue( d->value.z() * sqrt( 1 - d->value.scalar() * d->value.scalar() ) );

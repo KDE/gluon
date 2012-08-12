@@ -23,7 +23,7 @@
 #include "lib/gluoncreator_macros.h"
 
 #include "propertywidgetitemfactory.h"
-
+#include <QDebug>
 #include <QtCore/QVariant>
 #include <QtGui/QWidget>
 

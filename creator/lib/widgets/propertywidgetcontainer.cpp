@@ -277,7 +277,7 @@ PropertyWidgetContainer::onChanged(GluonCore::GluonObject* object, const QString
   foreach( PropertyWidgetItem* tempItem,d->itemsList )
 	{
 	    if(tempItem->editProperty() == property)
-	    {qDebug()<<"Prop changed has name"<<tempItem->editProperty();
+	    {
 	     tempItem->update(newValue); 
 	    }
 	  

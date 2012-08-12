@@ -89,14 +89,12 @@ QSizeFPropertyWidgetItem::instantiate()
 void
 QSizeFPropertyWidgetItem::setEditValue( const QVariant& value )
 {
-    qDebug()<< "in set edit value";
     d->value = value.toSizeF();
     d->height->setValue( d->value.height() );
     d->width->setValue( d->value.width() );
 }
 void QSizeFPropertyWidgetItem::update(QVariant newValue)
 {
-  qDebug()<< "In update of qsizef!";
   setEditValue(newValue);
   
 }

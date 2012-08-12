@@ -22,6 +22,7 @@
 #ifndef GLUON_CREATOR_QUATERNIONPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_QUATERNIONPROPERTYWIDGETITEM_H
 #include <QDebug>
+#include<QVariant>
 #include <creator/lib/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
@@ -33,7 +34,7 @@ namespace GluonCreator
         public:
             explicit QuaternionPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~QuaternionPropertyWidgetItem();	    
-	    void update(){qDebug()<< "In update of quaternion!";}
+	    void update(QVariant newValue);
 	    virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 
