@@ -184,7 +184,7 @@ void ObjectManager::changeProperty(GluonCore::GluonObject* object, QString prope
     connect(justChanged,SIGNAL(onRedo(GluonCore::GluonObject*,QString,QVariant)),this,SIGNAL(propchanged(GluonCore::GluonObject*,QString,QVariant)));
 }
 
-void ObjectManager::enableForOthers(GluonCore::GluonObject* )
+void ObjectManager::enableForOthers(GluonCore::GluonObject* obj )
 {
  qDebug()<<"Setting calls to zero!";
  obj->onRedo =  true;

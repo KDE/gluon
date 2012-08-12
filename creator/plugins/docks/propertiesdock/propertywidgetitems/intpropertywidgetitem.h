@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,6 +23,8 @@
 #ifndef GLUON_CREATOR_INTPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_INTPROPERTYWIDGETITEM_H
 #include <QDebug>
+#include <QtGui/QSpinBox>
+#include <QVariant>
 #include <creator/lib/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
@@ -32,13 +35,14 @@ namespace GluonCreator
         public:
             explicit IntPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~IntPropertyWidgetItem();
-	    void update(){qDebug()<< "In update of int!";}
+	    void update(QVariant value);
+	    QSpinBox* spinBox;
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 
         public Q_SLOTS:
             void setEditProperty( const QString& propertyName );
-            void setEditValue( const QVariant& value );
+            void setEditValue( const QVariant value );
 
         private Q_SLOTS:
             void intValueChanged( int value );

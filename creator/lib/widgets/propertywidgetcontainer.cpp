@@ -273,14 +273,13 @@ PropertyWidgetContainer::upTriggered()
     }
 }
 void
-PropertyWidgetContainer::onChanged(GluonCore::GluonObject* object, const QString& property, const QVariant& newValue)
-{
+PropertyWidgetContainer::onChanged(GluonCore::GluonObject* object, const QString& property, const QVariant newValue)
+{ 
   foreach( PropertyWidgetItem* tempItem,d->itemsList )
 	{
 	    if(tempItem->editProperty() == property)
-	    {
-	     qDebug()<<"Property changed has name "<<tempItem->editProperty();
-	     tempItem->update(newValue); 
+	    {	qDebug()<<"Property changed has name "<<tempItem->editProperty();
+		tempItem->update(newValue); 
 	    }
 	  
 	}

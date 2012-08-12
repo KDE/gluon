@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,9 +24,6 @@
 #include <core/gluonobject.h>
 #include <core/metainfo.h>
 
-#include <knuminput.h>
-
-#include <QtGui/QDoubleSpinBox>
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, QRealPropertyWidgetItem )
 
 using namespace GluonCreator;
@@ -48,6 +46,12 @@ QRealPropertyWidgetItem::supportedDataTypes() const
     supportedTypes.append( "double" );
     return supportedTypes;
 }
+void QRealPropertyWidgetItem::update(QVariant value)
+{
+    qDebug()<<"in update of qreal";
+    setEditValue(value);
+  
+}
 
 PropertyWidgetItem*
 QRealPropertyWidgetItem::instantiate()
@@ -62,7 +66,7 @@ QRealPropertyWidgetItem::setEditProperty( const QString& value )
     delete editWidget();
 
     GluonCore::GluonObject* theObject = qobject_cast<GluonCore::GluonObject*>( editObject() );
-    bool noPropertyRange = true;;
+    bool noPropertyRange = true;
     if( theObject )
     {
         if( theObject->hasMetaInfo() )
@@ -79,7 +83,7 @@ QRealPropertyWidgetItem::setEditProperty( const QString& value )
 
     if( noPropertyRange )
     {
-        QDoubleSpinBox* spinBox = new QDoubleSpinBox( this );
+        spinBox = new QDoubleSpinBox( this );
         spinBox->setMinimum( -FLT_MAX );
         spinBox->setMaximum( FLT_MAX );
         spinBox->setSingleStep( 0.01f );
@@ -94,6 +98,7 @@ QRealPropertyWidgetItem::setEditProperty( const QString& value )
 void
 QRealPropertyWidgetItem::setEditValue( const QVariant& value )
 {
+    spinBox->setValue(value.toDouble());
     editWidget()->setProperty( "value", value );
 }
 

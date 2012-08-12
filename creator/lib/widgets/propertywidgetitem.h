@@ -49,7 +49,7 @@ namespace GluonCreator
         public:
             explicit PropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             virtual ~PropertyWidgetItem();
-	    virtual void update(QVariant newValue){}		//CALLING THIS WOULD CALL UPDATE ON ANY PROPERTY THAT INHERITS THIS
+	    virtual void update(QVariant newValue){qDebug()<<"In parent";}		//CALLING THIS WOULD CALL UPDATE ON ANY PROPERTY THAT INHERITS THIS
             QWidget* editWidget() const;
             QObject* editObject() const;
             QString editProperty() const;

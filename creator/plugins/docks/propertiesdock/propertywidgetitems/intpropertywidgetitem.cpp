@@ -2,7 +2,8 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
- *
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -20,10 +21,7 @@
 
 
 #include "intpropertywidgetitem.h"
-
-#include <QtGui/QSpinBox>
 #include <QtCore/QDebug>
-
 #include <core/gluonobject.h>
 #include <core/metainfo.h>
 
@@ -57,9 +55,11 @@ IntPropertyWidgetItem::instantiate()
 }
 
 void
-IntPropertyWidgetItem::setEditValue( const QVariant& value )
+IntPropertyWidgetItem::setEditValue( const QVariant value )
 {
-    editWidget()->setProperty( "value", value );
+  qDebug()<<"In set edit value for int";
+  spinBox->setValue(value.toInt());
+  editWidget()->setProperty( "value", value );
 }
 
 void
@@ -74,9 +74,14 @@ IntPropertyWidgetItem::uintValueChanged( int value )
     PropertyWidgetItem::valueChanged( qVariantFromValue<uint>( value ) );
 }
 
+void IntPropertyWidgetItem::update(QVariant value)
+{
+  
+}
+
 void IntPropertyWidgetItem::setEditProperty( const QString& propertyName )
 {
-    QSpinBox* spinBox = new QSpinBox( this );
+    spinBox = new QSpinBox( this );
     setEditWidget( spinBox );
 
     qDebug() << editObject()->property( propertyName.toUtf8() ).typeName();

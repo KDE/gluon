@@ -68,7 +68,7 @@ namespace GluonCreator
             void upTriggered();
             void downTriggered();
             void delTriggered();
-	    void onChanged(GluonCore::GluonObject*, const QString& property, const QVariant& newValue);
+	    void onChanged(GluonCore::GluonObject*, const QString& property, const QVariant newValue);
             void addPropertyTriggered();
             void propertyCreated( GluonCore::GluonObject* propertyCreatedOn, QString createdPropertyName );
             void objectDeleted( QObject* obj );

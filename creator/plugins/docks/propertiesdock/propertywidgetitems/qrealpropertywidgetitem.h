@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,7 +20,10 @@
 #ifndef QREALPROPERTYWIDGETITEM_H
 #define QREALPROPERTYWIDGETITEM_H
 #include <QDebug>
+#include <QVariant>
 #include <creator/lib/widgets/propertywidgetitem.h>
+#include <knuminput.h>
+#include <QtGui/QDoubleSpinBox>
 
 class QDoubleSpinBox;
 
@@ -31,8 +35,9 @@ namespace GluonCreator
         public:
             explicit QRealPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~QRealPropertyWidgetItem();
-	    void update(){qDebug()<< "In update of qreal!";}
-            virtual QStringList supportedDataTypes() const;
+	    void update(QVariant value);
+	    QDoubleSpinBox* spinBox;
+	    virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 
         public Q_SLOTS:
