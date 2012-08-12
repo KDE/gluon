@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +21,6 @@
 
 #include "boolpropertywidgetitem.h"
 
-#include <QtGui/QCheckBox>
 
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, BoolPropertyWidgetItem )
 
@@ -29,13 +29,18 @@ using namespace GluonCreator;
 BoolPropertyWidgetItem::BoolPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f )
     : PropertyWidgetItem( parent, f )
 {
-    setEditWidget( new QCheckBox( this ) );
+    check = new QCheckBox( this );
+    setEditWidget(check);
     connect( editWidget(), SIGNAL(toggled(bool)), SLOT(toggled(bool)) );
 }
 
 BoolPropertyWidgetItem::~BoolPropertyWidgetItem()
 {
 
+}
+void BoolPropertyWidgetItem::update(QVariant value)
+{
+   setEditValue(value);     
 }
 
 QStringList
@@ -55,6 +60,11 @@ BoolPropertyWidgetItem::instantiate()
 void
 BoolPropertyWidgetItem::setEditValue( const QVariant& value )
 {
+    if(value.toBool())
+      check->setCheckState(Qt::Checked);
+    else
+    check->setCheckState(Qt::Unchecked);
+
     editWidget()->setProperty( "checked", value );
 }
 

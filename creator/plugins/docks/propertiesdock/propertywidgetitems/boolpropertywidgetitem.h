@@ -2,7 +2,8 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
- *
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -22,6 +23,8 @@
 #ifndef GLUON_CREATOR_BOOLPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_BOOLPROPERTYWIDGETITEM_H
 #include <QDebug>
+#include <QVariant>
+#include <QtGui/QCheckBox>
 #include <creator/lib/widgets/propertywidgetitem.h>
 namespace GluonCreator
 {
@@ -31,9 +34,10 @@ namespace GluonCreator
         public:
             explicit BoolPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~BoolPropertyWidgetItem();
-	    void update(){qDebug()<< "In update of bool!";}
+	    void update(QVariant value);
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
+	    QCheckBox* check;
 
         public Q_SLOTS:
             void setEditValue( const QVariant& value );

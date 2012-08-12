@@ -2,7 +2,8 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
- *
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -20,15 +21,14 @@
 
 #include "textpropertywidgetitem.h"
 
-#include <KDE/KLineEdit>
-
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, TextPropertyWidgetItem )
 
 using namespace GluonCreator;
 
 TextPropertyWidgetItem::TextPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f ): PropertyWidgetItem( parent, f )
 {
-    setEditWidget( new KLineEdit( this ) );
+    lineEdit = new KLineEdit( this );
+    setEditWidget(lineEdit);
     connect( editWidget(), SIGNAL(textEdited(QString)), SLOT(textEdited(QString)) );
 }
 
@@ -44,6 +44,10 @@ TextPropertyWidgetItem::supportedDataTypes() const
     supportedTypes.append( "QString" );
     return supportedTypes;
 }
+void TextPropertyWidgetItem::update(QVariant value)
+{
+  setEditValue(value); 
+}
 
 PropertyWidgetItem*
 TextPropertyWidgetItem::instantiate()
@@ -54,6 +58,7 @@ TextPropertyWidgetItem::instantiate()
 void
 TextPropertyWidgetItem::setEditValue( const QVariant& value )
 {
+    lineEdit->setText(value.toString());
     editWidget()->setProperty( "text", value );
 }
 

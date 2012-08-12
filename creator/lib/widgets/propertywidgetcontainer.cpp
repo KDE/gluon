@@ -213,13 +213,14 @@ void PropertyWidgetContainer::setObject( GluonCore::GluonObject* theObject )
     PropertyWidgetItem* nameWidget = PropertyWidgetItemFactory::instance()->create( theObject, "QString", parentWidget() );
     nameWidget->setEditObject( theObject );
     nameWidget->setEditProperty( "name" );
+    d->itemsList.append(nameWidget);
     d->addPropertyItem( "name", nameWidget );
 
     PropertyWidgetItem* descriptionWidget = PropertyWidgetItemFactory::instance()->create( theObject, "QString", parentWidget() );
     descriptionWidget->setEditObject( theObject );
     descriptionWidget->setEditProperty( "description" );
     d->addPropertyItem( "description", descriptionWidget );
-
+    d->itemsList.append(descriptionWidget);
     QFrame* separator = new QFrame( this );
     separator->setFrameShape( QFrame::HLine );
     d->containerLayout->addWidget( separator, d->containerLayout->rowCount(), 0, 1, 2 );
