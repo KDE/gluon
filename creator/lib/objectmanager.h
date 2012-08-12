@@ -2,7 +2,8 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
- *
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -66,8 +67,7 @@ namespace GluonCreator
             void assetDirty( const QString& file );
             void assetDeleted( const QString& file );
             void assetDeleted( GluonEngine::Asset* asset );
-	    void setCallsToZero(GluonCore::GluonObject*);
-	    void setCallsToOne(GluonCore::GluonObject*);
+	    void enableForOthers(GluonCore::GluonObject*);
 
 	Q_SIGNALS:
             void newObject( GluonCore::GluonObject* );

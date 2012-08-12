@@ -1,7 +1,8 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2009 Dan Leinir Turthra Jensen <admin@leinir.dk>
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>\
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -52,12 +53,9 @@ namespace GluonCreator
             void appendObject( GluonCore::GluonObject* obj, bool useColor = false );
 
         Q_SIGNALS:
-//	    void onContainer(GluonCore::GluonObject* obj);
             void propertyChanged( QObject* object, const QString& property, const QVariant& oldValue, const QVariant& newValue );
 	    void propChangedSignal( GluonCore::GluonObject* object, const QString property, const QVariant newValue);
 
-	public Q_SLOTS:
-	    void onpropChangedSignal( GluonCore::GluonObject* object, const QString property, const QVariant newValue);
         private:
             class PropertyWidgetPrivate;
             PropertyWidgetPrivate* const d;

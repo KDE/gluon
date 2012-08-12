@@ -2,7 +2,8 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
- *
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -81,13 +82,12 @@ void PropertiesDock::newComponent( GluonEngine::Component* comp )
 void PropertiesDock::propertyChanged( QObject* object, QString property, QVariant oldValue, QVariant newValue )
 {
     GluonCore::GluonObject* obj = qobject_cast<GluonCore::GluonObject*>( object );
-    qDebug()<<"COUNT CALLS FOR THIS OBJECT IS"<<obj->countCalls;
     if( (obj) && (obj->countCalls==0))
     {  ObjectManager::instance()->changeProperty( obj, property, oldValue, newValue);
 	obj->countCalls++;
 	obj->onRedo = false;
     }
-    if(obj->onRedo){obj->countCalls=0; qDebug()<<"When I did redo, I set the call tracer back to zero, hence count calls is now"<< obj->countCalls;}
+    if(obj->onRedo){obj->countCalls=0;}
 }
 
 

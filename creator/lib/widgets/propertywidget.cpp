@@ -3,6 +3,7 @@
  * Copyright (c) 2009 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -57,20 +58,12 @@ class PropertyWidget::PropertyWidgetPrivate
 PropertyWidget::PropertyWidget( QWidget* parent ): QScrollArea( parent ), d( new PropertyWidgetPrivate )
 {
     setFrameShape( QFrame::NoFrame );
-    connect(this, SIGNAL(propChangedSignal(GluonCore::GluonObject*, const QString, const QVariant )),this,SLOT(onpropChangedSignal(GluonCore::GluonObject*,QString,QVariant)));
-//    connect(this,SIGNAL(onContainer(GluonCore::GluonObject*)), this, SLOT(onpropChangedSignal(GluonCore::GluonObject*,QString,QVariant)));
 }
 
 PropertyWidget::~PropertyWidget()
 {
     delete d;
 }
-
-void PropertyWidget::onpropChangedSignal(GluonCore::GluonObject* object, const QString property, const QVariant newValue)
-{
-  qDebug()<< "In property widget";
-}
-
 
 GluonCore::GluonObject* PropertyWidget::object() const
 {
