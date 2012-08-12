@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,9 +21,7 @@
 
 
 #include "qfontpropertywidgetitem.h"
-
-#include <KFontRequester>
-
+#include <QFont>
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, QFontPropertyWidgetItem );
 
 using namespace GluonCreator;
@@ -30,13 +29,18 @@ using namespace GluonCreator;
 QFontPropertyWidgetItem::QFontPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f )
     : PropertyWidgetItem( parent, f )
 {
-    KFontRequester* theFontReq = new KFontRequester( this );
+    theFontReq = new KFontRequester( this );
     connect( theFontReq, SIGNAL(fontSelected(QFont)), this, SLOT(fontChanged(QFont)) );
     setEditWidget( theFontReq );
 }
 
 QFontPropertyWidgetItem::~QFontPropertyWidgetItem()
 {
+}
+
+void QFontPropertyWidgetItem::update(QVariant value)
+{
+  setEditValue(value);
 }
 
 QStringList
@@ -56,8 +60,12 @@ QFontPropertyWidgetItem::instantiate()
 void
 QFontPropertyWidgetItem::setEditValue( const QVariant& value )
 {
-    editWidget()->setProperty( "font", value );
-    GluonCreator::PropertyWidgetItem::setEditValue( value );
+  theFontReq->setFont(value);
+  QFont font = qobject_cast<QFont>(value);
+  if (font)
+    theFontReq->setFont(font);
+  editWidget()->setProperty( "font", value );
+   
 }
 
 void QFontPropertyWidgetItem::fontChanged( const QFont& value )

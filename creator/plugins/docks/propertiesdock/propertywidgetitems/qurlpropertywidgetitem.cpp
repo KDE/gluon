@@ -1,7 +1,8 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
- *
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -21,7 +22,6 @@
 
 #include <QtCore/QUrl>
 #include <QtGui/QLayout>
-#include <KLineEdit>
 
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, QUrlPropertyWidgetItem )
 
@@ -30,14 +30,18 @@ using namespace GluonCreator;
 QUrlPropertyWidgetItem::QUrlPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f )
     : PropertyWidgetItem( parent, f )
 {
-    KLineEdit* input = new KLineEdit( this );
-    //input->setInputMask("");
+    input = new KLineEdit( this );
     connect( input, SIGNAL(editingFinished()), this, SLOT(urlValueChanged()) );
     setEditWidget( input );
 }
 
 QUrlPropertyWidgetItem::~QUrlPropertyWidgetItem()
 { }
+
+void QUrlPropertyWidgetItem::update(QVariant value)
+{
+    setEditValue(value);
+}
 
 GluonCreator::PropertyWidgetItem*
 QUrlPropertyWidgetItem::instantiate()
@@ -56,6 +60,7 @@ QUrlPropertyWidgetItem::supportedDataTypes() const
 void
 QUrlPropertyWidgetItem::setEditValue( const QVariant& value )
 {
+    input->setText(value.value<QUrl>().toString());
     editWidget()->setProperty( "text", value.value<QUrl>().toString() );
 }
 

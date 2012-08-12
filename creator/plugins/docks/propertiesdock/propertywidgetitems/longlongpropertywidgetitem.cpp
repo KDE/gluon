@@ -1,7 +1,8 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2011 Felix Rohrbach <fxrh@gmx.de>
- *
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -18,12 +19,8 @@
  */
 
 #include "longlongpropertywidgetitem.h"
-
 #include <core/debughelper.h>
-
 #include <QtGui/QLineEdit>
-#include <QtGui/QDoubleSpinBox>
-
 #include <limits.h>
 
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, LongLongPropertyWidgetItem )
@@ -53,12 +50,13 @@ PropertyWidgetItem* LongLongPropertyWidgetItem::instantiate()
 
 void LongLongPropertyWidgetItem::setEditValue( const QVariant& value )
 {
+    spinBox->setValue(value.toLongLong());
     editWidget()->setProperty( "value", value );
 }
 
 void LongLongPropertyWidgetItem::setEditProperty( const QString& propertyName )
 {
-    QDoubleSpinBox* spinBox = new QDoubleSpinBox( this );
+    spinBox = new QDoubleSpinBox( this );
     spinBox->setRange( LLONG_MIN, LLONG_MAX );
     spinBox->setDecimals(0);
     setEditWidget( spinBox );
@@ -67,6 +65,11 @@ void LongLongPropertyWidgetItem::setEditProperty( const QString& propertyName )
 
     PropertyWidgetItem::setEditProperty( propertyName );
 }
+void LongLongPropertyWidgetItem::update(QVariant value)
+{
+    setEditValue(value);
+}
+
 
 void LongLongPropertyWidgetItem::doubleValueChanged( double value )
 {

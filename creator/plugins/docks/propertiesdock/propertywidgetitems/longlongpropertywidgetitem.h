@@ -1,7 +1,8 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2011 Felix Rohrbach <fxrh@gmx.de>
- *
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -20,6 +21,8 @@
 #ifndef GLUON_CREATOR_LONGLONGPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_LONGLONGPROPERTYWIDGETITEM_H
 #include <QDebug>
+#include <QtGui/QDoubleSpinBox>
+#include <QVariant>
 #include <creator/lib/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
@@ -31,7 +34,8 @@ namespace GluonCreator
         public:
             explicit LongLongPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~LongLongPropertyWidgetItem();
-	    void update(){qDebug()<< "In update of longlong!";}
+	    void update(QVariant value);
+	    QDoubleSpinBox* spinBox;
             virtual QStringList supportedDataTypes() const;
             virtual PropertyWidgetItem* instantiate();
 

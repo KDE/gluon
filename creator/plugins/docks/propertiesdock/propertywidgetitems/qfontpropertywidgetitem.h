@@ -2,7 +2,8 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Dan Leinir Turthra Jensen <admin@leinir.dk>
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
- *
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -22,7 +23,10 @@
 #ifndef GLUONCREATOR_QFONTPROPERTYWIDGETITEM_H
 #define GLUONCREATOR_QFONTPROPERTYWIDGETITEM_H
 #include <QDebug>
+#include <QVariant>
+#include <KFontRequester>
 #include <creator/lib/widgets/propertywidgetitem.h>
+
 namespace GluonCreator
 {
     class QFontPropertyWidgetItem : public GluonCreator::PropertyWidgetItem
@@ -31,7 +35,8 @@ namespace GluonCreator
         public:
             explicit QFontPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             ~QFontPropertyWidgetItem();
-	    void update(){qDebug()<< "In update of qfont!";}
+	    KFontRequester* theFontReq;
+	    void update(QVariant value);
             virtual GluonCreator::PropertyWidgetItem* instantiate();
             virtual QStringList supportedDataTypes() const;
 
