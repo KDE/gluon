@@ -56,6 +56,7 @@ GluonObject::GluonObject( QObject* parent )
 {
     qRegisterMetaType< QList<QUrl> >();
     countCalls = 0;
+    onRedo = false;
     // Get a nice name first time the object is created...
     QString theClassName( metaObject()->className() );
     if( theClassName.contains( ':' ) )

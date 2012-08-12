@@ -278,6 +278,7 @@ PropertyWidgetContainer::onChanged(GluonCore::GluonObject* object, const QString
 	{
 	    if(tempItem->editProperty() == property)
 	    {
+	     qDebug()<<"Property changed has name "<<tempItem->editProperty();
 	     tempItem->update(newValue); 
 	    }
 	  
@@ -506,12 +507,12 @@ PropertyWidgetContainer::PropertyWidgetContainerPrivate::appendMetaObject( QObje
         PropertyWidgetItem* editWidget = PropertyWidgetItemFactory::instance()->create( object, object->property( propName ).typeName(), parent->parentWidget() );
 	editWidget->setEditObject( object );
         editWidget->setEditProperty( thePropName );
-
+	itemsList.append(editWidget);
         addPropertyItem( thePropName, editWidget );
     }
 }
 
-void
+void	
 PropertyWidgetContainer::PropertyWidgetContainerPrivate::addPropertyItem( QString name, PropertyWidgetItem* item )
 {
 

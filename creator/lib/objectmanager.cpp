@@ -181,14 +181,15 @@ void ObjectManager::changeProperty(GluonCore::GluonObject* object, QString prope
     HistoryManager::instance()->addCommand( justChanged );
 //    connect(justChanged,SIGNAL(onUndo(GluonCore::GluonObject*,QString,QVariant)),this,SLOT(setCallsToOne(GluonCore::GluonObject*)));
     connect(justChanged,SIGNAL(onUndo(GluonCore::GluonObject*,QString,QVariant)),this,SIGNAL(propchanged(GluonCore::GluonObject*,QString,QVariant)));
- //   connect(justChanged,SIGNAL(onRedo(GluonCore::GluonObject*,QString,QVariant)),this,SLOT(setCallsToZero(GluonCore::GluonObject*)));
+   connect(justChanged,SIGNAL(onRedo(GluonCore::GluonObject*,QString,QVariant)),this,SLOT(setCallsToZero(GluonCore::GluonObject*)));
     connect(justChanged,SIGNAL(onRedo(GluonCore::GluonObject*,QString,QVariant)),this,SIGNAL(propchanged(GluonCore::GluonObject*,QString,QVariant)));
 }
 
 void ObjectManager::setCallsToZero(GluonCore::GluonObject* obj)
 {
  qDebug()<<"Setting calls to zero!";
-  obj->countCalls = 0;
+ obj->onRedo =  true;
+  
 }
 
 void ObjectManager::setCallsToOne(GluonCore::GluonObject* obj )

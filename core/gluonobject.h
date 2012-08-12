@@ -182,6 +182,7 @@ namespace GluonCore
             explicit GluonObject( const QString& name, QObject* parent = 0 );
             virtual ~GluonObject();
 	    int countCalls;
+	    bool onRedo;
 	    int childIndex( GluonObject* child ) const;
             /**
              * Take a name in the format accepted by the GluonObject name property, and transform

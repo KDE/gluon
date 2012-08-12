@@ -80,22 +80,14 @@ void PropertiesDock::newComponent( GluonEngine::Component* comp )
   
 void PropertiesDock::propertyChanged( QObject* object, QString property, QVariant oldValue, QVariant newValue )
 {
-    const QMetaObject *metaobject = object->metaObject();
-    int count = metaobject->propertyCount();
-    for (int i=0; i<count; ++i) {
-
-	QMetaProperty metaproperty = metaobject->property(i);
-	const char *name = metaproperty.name();
-//	qDebug()<<name;
-//	if(name == property){qDebug()<<"Property just changed is type, now at a different location"<<metaproperty.typeName(); type = metaproperty.typeName();}
-    }
-    
     GluonCore::GluonObject* obj = qobject_cast<GluonCore::GluonObject*>( object );
     qDebug()<<"COUNT CALLS FOR THIS OBJECT IS"<<obj->countCalls;
     if( (obj) && (obj->countCalls==0))
     {  ObjectManager::instance()->changeProperty( obj, property, oldValue, newValue);
 	obj->countCalls++;
+	obj->onRedo = false;
     }
+    if(obj->onRedo){obj->countCalls=0; qDebug()<<"When I did redo, I set the call tracer back to zero, hence count calls is now"<< obj->countCalls;}
 }
 
 

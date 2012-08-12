@@ -51,6 +51,11 @@ ColorPropertyWidgetItem::~ColorPropertyWidgetItem()
 {
     delete d;
 }
+void ColorPropertyWidgetItem::update(QVariant value)
+{
+    qDebug()<<"In update of colour property";
+    setEditValue(value);
+}
 
 QStringList
 ColorPropertyWidgetItem::supportedDataTypes() const

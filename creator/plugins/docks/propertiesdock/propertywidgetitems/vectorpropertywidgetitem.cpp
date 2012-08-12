@@ -29,6 +29,7 @@
 #include <core/gluonvarianttypes.h>
 #include <QVector2D>
 
+
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, VectorPropertyWidgetItem )
 
 using namespace GluonCreator;
@@ -85,6 +86,12 @@ VectorPropertyWidgetItem::VectorPropertyWidgetItem( QWidget* parent, Qt::WindowF
 VectorPropertyWidgetItem::~VectorPropertyWidgetItem()
 {
     delete d;
+}
+
+void VectorPropertyWidgetItem::update(QVariant value)
+{
+    qDebug()<<"In update fo QVector";
+    setEditValue(value);
 }
 
 QStringList
