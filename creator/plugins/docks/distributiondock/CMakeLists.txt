@@ -16,7 +16,7 @@ include_directories(
     ${GLUON_PLAYER_INCLUDE_DIRS}
 )
 
-target_link_libraries(gluon_creator_dockplugin_distributiondock ${GLUON_CREATOR_LIBS} ${GLUON_PLAYER_LIBS})
+target_link_libraries(gluon_creator_dockplugin_distributiondock ${GLUON_CREATOR_LIBS} ${GLUON_PLAYER_LIBS} ${QT_QTWEBKIT_LIBRARY})
 
 install(TARGETS gluon_creator_dockplugin_distributiondock DESTINATION ${PLUGIN_INSTALL_DIR})
 install(FILES gluon_creator_dockplugin_distributiondock.desktop DESTINATION ${SERVICES_INSTALL_DIR})

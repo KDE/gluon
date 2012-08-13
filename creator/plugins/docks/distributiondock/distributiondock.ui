@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>DistributionDock</class>
  <widget class="QWidget" name="DistributionDock">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>362</width>
-    <height>578</height>
+    <width>445</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +20,38 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="loginPage">
       <layout class="QVBoxLayout" name="verticalLayout_11">
+       <item>
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string> If you have account on gamingfreedom.org, you are half way through already, else you can create one at the click of a button here. Once registered and logged in, you will have option to upload your new game, if it's your first time , or change existing game details  / do version control in your game
+
+</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
@@ -68,6 +99,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QCommandLinkButton" name="registerButton">
+         <property name="text">
+          <string>Register on gamingfreedom.org</string>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -75,7 +116,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>470</height>
+           <height>40</height>
           </size>
          </property>
         </spacer>
@@ -94,8 +135,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>340</width>
-            <height>556</height>
+            <width>305</width>
+            <height>465</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
@@ -247,6 +288,114 @@
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QWidget" name="welcomePage">
+      <widget class="QPushButton" name="loginChanged">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>50</y>
+         <width>91</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Change</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="versionControl">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>80</y>
+         <width>131</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Upload Newer Version</string>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="checkHistory">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>110</y>
+         <width>131</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Check Revision History</string>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="uploadNew">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>140</y>
+         <width>111</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Upload a new game</string>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="changeDetails">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>170</y>
+         <width>121</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Change Game Details</string>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QWidget" name="horizontalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>211</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLabel" name="label_13">
+          <property name="text">
+           <string>You are logged in as </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="loginName">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
    </item>

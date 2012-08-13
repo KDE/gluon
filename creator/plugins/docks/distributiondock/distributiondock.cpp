@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2011 Shantanu Tushar <shaan7in@gmail.com>
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33,7 +34,8 @@
 #include <player/lib/archive/archiver.h>
 
 #include <KDE/KLocalizedString>
-
+#include <QWebView>
+#include <QDebug>
 #include <QtGui/QPushButton>
 #include <QtCore/QStateMachine>
 #include <QtCore/QHistoryState>
@@ -58,7 +60,8 @@ class DistributionDock::DistributionDockPrivate
 
         QState* loggedOutState;
         QState* loggingInState;
-        QState* loggedInState;
+        QState* optionState;
+	QState* loggedInState;
         QState* fetchingState;
         QState* editingState;
         QState* createState;
@@ -223,15 +226,22 @@ void DistributionDock::initEditGameProvider()
     connect( d->editGameJob, SIGNAL(failed()), SLOT(editGameFailed()) );
     d->editGameJob->start();
 }
+void DistributionDock::registerOnline()
+{
+  QWebView *test = new QWebView();
+  test->load(QUrl("http://test.gamingfreedom.org/usermanager/new.php"));
+  test->show();
+}
 
 void DistributionDock::initGuiStates()
 {
     d->loggedOutState = new QState();
     d->loggingInState = new QState();
     d->loggedInState = new QState();
+    d->optionState = new QState( d->loggedInState );
     d->fetchingState = new QState( d->loggedInState );
-    d->editingState = new QState( d->loggedInState );
-    d->loggedInState->setInitialState( d->fetchingState );
+    d->editingState = new QState( d->loggedInState);
+    d->loggedInState->setInitialState( d->optionState );
     d->createState = new QState( d->editingState );
     d->updateState = new QState( d->editingState );
     d->editingState->setInitialState( d->createState );
@@ -244,6 +254,7 @@ void DistributionDock::initGuiStates()
     d->machine.addState( d->loggedOutState );
     d->machine.addState( d->loggingInState );
     d->machine.addState( d->loggedInState );
+    d->machine.addState(d->optionState);
     d->machine.addState( d->fetchingState );
     d->machine.addState( d->editingState );
     d->machine.addState( d->createState );
@@ -260,12 +271,18 @@ void DistributionDock::initGuiStates()
     d->loggingInState->assignProperty( d->ui.loginButton, "text", i18n( "Logging In" ) );
     d->loggingInState->assignProperty( d->ui.loginPage, "enabled", false );
 
-    d->loggedInState->assignProperty( d->ui.stackedWidget, "currentIndex", d->ui.stackedWidget->indexOf( d->ui.gamePage ) );
+    d->loggedInState->assignProperty( d->ui.stackedWidget, "currentIndex", d->ui.stackedWidget->indexOf( d->ui.welcomePage ) );
 
-    d->fetchingState->assignProperty( d->ui.basicGroupBox, "enabled", false );
-    d->fetchingState->assignProperty( d->ui.detailsGroupBox, "enabled", false );
+    d->optionState->assignProperty( d->ui.loginChanged, "enabled", true );
+    d->optionState->assignProperty( d->ui.changeDetails, "enabled", true );
+    d->optionState->addTransition(d->ui.loginChanged, SIGNAL(clicked()), d->loggedOutState);
+    d->optionState->addTransition(d->ui.changeDetails, SIGNAL(clicked()), d->fetchingState);
 
     d->editingState->assignProperty( d->ui.gamePage, "enabled", true );
+
+    d->fetchingState->assignProperty( d->ui.detailsGroupBox, "enabled", false );
+    d->fetchingState->assignProperty( d->ui.basicGroupBox, "enabled", false );
+    d->fetchingState->assignProperty( d->ui.detailsGroupBox, "enabled", false );
 
     d->createState->assignProperty( d->ui.basicGroupBox, "enabled", true );
     d->createState->assignProperty( d->ui.detailsGroupBox, "enabled", false );
@@ -290,11 +307,23 @@ void DistributionDock::initGuiStates()
     d->uploadingState->addTransition( this, SIGNAL(gameUploadFinished()), d->uploadFinishedState );
 
     connect( d->loggingInState, SIGNAL(entered()), this, SLOT(doLogin()) );
+    connect( d->optionState, SIGNAL(entered()), this, SLOT(setLoginName()));
     connect( d->fetchingState, SIGNAL(entered()), this, SLOT(updateUiFromGameProject()) );
+    connect( d->fetchingState, SIGNAL(entered()), this, SLOT(onFetch()));
     connect( d->uploadingState, SIGNAL(entered()), this, SLOT(createOrUpdateGame()) );
     connect( d->updateState, SIGNAL(entered()), SLOT(initEditGameProvider()) );
 
     d->machine.start();
+}
+void DistributionDock::onFetch()
+{
+    d->ui.stackedWidget->setCurrentIndex( d->ui.stackedWidget->indexOf( d->ui.gamePage ));
+    d->fetchingState->addTransition(d->editingState);
+}
+
+void DistributionDock::setLoginName()
+{
+  d->ui.loginName->setText(d->ui.usernameEdit->text());
 }
 
 void DistributionDock::gameDetailsFetched( )

@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2011 Shantanu Tushar <shaan7in@gmail.com>
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com> 
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -58,8 +59,11 @@ namespace GluonCreator
             void gameDetailsFetched();
             void updateLicenses();
             void licensesFetched();
-            QString createArchive( );
+	    void setLoginName();
+	    void onFetch();
+	    QString createArchive( );
             void uploadGameArchive();
+	    void registerOnline();
 
         Q_SIGNALS:
             void switchToCreateMode();

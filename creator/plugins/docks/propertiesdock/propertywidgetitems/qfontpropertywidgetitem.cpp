@@ -60,10 +60,10 @@ QFontPropertyWidgetItem::instantiate()
 void
 QFontPropertyWidgetItem::setEditValue( const QVariant& value )
 {
-  theFontReq->setFont(value);
-  QFont font = qobject_cast<QFont>(value);
-  if (font)
-    theFontReq->setFont(font);
+  
+//  QFont font = qobject_cast<QFont>(value.toString());
+ // if (font)
+ //..   theFontReq->setFont(font);
   editWidget()->setProperty( "font", value );
    
 }
