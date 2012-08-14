@@ -39,6 +39,7 @@
 #include <QtGui/QPushButton>
 #include <QtCore/QStateMachine>
 #include <QtCore/QHistoryState>
+#include <../../tools/distributionwizard/distributionwizard.h>
 
 using namespace GluonCreator;
 
@@ -307,6 +308,7 @@ void DistributionDock::initGuiStates()
     d->uploadingState->addTransition( this, SIGNAL(gameUploadFinished()), d->uploadFinishedState );
 
     connect( d->loggingInState, SIGNAL(entered()), this, SLOT(doLogin()) );
+    connect( d->ui.uploadNew, SIGNAL(clicked()), this, SLOT(testWizard()));
     connect( d->optionState, SIGNAL(entered()), this, SLOT(setLoginName()));
     connect( d->fetchingState, SIGNAL(entered()), this, SLOT(updateUiFromGameProject()) );
     connect( d->fetchingState, SIGNAL(entered()), this, SLOT(onFetch()));
@@ -319,6 +321,12 @@ void DistributionDock::onFetch()
 {
     d->ui.stackedWidget->setCurrentIndex( d->ui.stackedWidget->indexOf( d->ui.gamePage ));
     d->fetchingState->addTransition(d->editingState);
+}
+
+void DistributionDock::testWizard()
+{
+  DistributionWizard* wizard = new DistributionWizard();
+  wizard->startWizard();
 }
 
 void DistributionDock::setLoginName()
@@ -391,4 +399,4 @@ void DistributionDock::uploadGameArchive()
     uploadJob->start();
 }
 
-#include "distributiondock.moc"
+//#include "distributiondock.moc"

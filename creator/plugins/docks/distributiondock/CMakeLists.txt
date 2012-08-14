@@ -1,6 +1,7 @@
 set(distributiondock_SRCS
     distributiondock.cpp
     distributiondockplugin.cpp
+    ../../tools/distributionwizard/distributionwizard.cpp
 )
 
 kde4_add_ui_files(
