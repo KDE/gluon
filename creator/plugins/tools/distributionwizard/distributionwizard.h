@@ -20,7 +20,6 @@
 #define DISTRIBUTIONWIZARD_H
 
 #include "mainwindow.h"
-#include "../../../build/creator/plugins/tools/distributionwizard/ui_distributionwizard.h"
 #include <QWizard>
 #include <QWizardPage>
 
@@ -34,8 +33,21 @@ class DistributionWizard: public QObject
             DistributionWizard();
             virtual ~DistributionWizard();
             void startWizard();
-	    Ui::Wizard wizard;
-	    QWizard wizardobj;
+	    void updateCategories();
+	    void updateLicenses();
+	    void uploadGame();
+	    void updateUi();
+	    class DistributionWizardPrivate;
+	    DistributionWizardPrivate* const d;
+
+	public slots:
+	    void categoriesFetched();
+	    void uploadFinished();
+	    void licensesFetched();
+	private:
+	    QStringList categoryIds;
+	    QStringList licenseIds;
+  
 };
 
 #endif // DISTRIBUTIONWIZARD_H

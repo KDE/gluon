@@ -9,15 +9,13 @@ kde4_add_ui_files(
     distributionwizard.ui
 )
 
-kde4_add_plugin(gluon_creator_toolplugin_distributionwizard ${distributionwizard_SRCS})
-
 include_directories(
- #   ${CMAKE_CURRENT_SOURCE_DIR}
+#    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${GLUON_PLAYER_INCLUDE_DIRS}
 )
 
-
+kde4_add_plugin(gluon_creator_toolplugin_distributionwizard ${distributionwizard_SRCS})
 
 install(TARGETS gluon_creator_toolplugin_distributionwizard
         DESTINATION ${PLUGIN_INSTALL_DIR}

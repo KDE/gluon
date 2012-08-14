@@ -297,7 +297,7 @@ void DistributionDock::initGuiStates()
     d->uploadingState->assignProperty( d->ui.createUpdateButton, "text", i18n( "Uploading" ) );
     d->uploadingState->assignProperty( d->ui.gamePage, "enabled", false );
 
-    d->loggedOutState->addTransition( d->ui.loginButton, SIGNAL(clicked()), d->loggingInState );
+    d->loggedOutState->addTransition( d->ui.loginButton, SIGNAL(clicked()), d->loggingInState);
     d->loggingInState->addTransition( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFinished()), d->loggedInState );
     d->loggingInState->addTransition( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFailed()), d->loggedOutState );
     d->fetchingState->addTransition( this, SIGNAL(switchToCreateMode()), d->createState );

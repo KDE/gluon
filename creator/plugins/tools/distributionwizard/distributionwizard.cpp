@@ -18,19 +18,116 @@
  */
 
 #include "distributionwizard.h"
-DistributionWizard::DistributionWizard()
+#include <player/lib/serviceprovider.h>
+#include <player/lib/addgamejob.h>
+#include <player/lib/categorylistjob.h>
+#include <player/lib/editgamejob.h>
+#include <player/lib/gamedetaillistjob.h>
+#include <player/lib/licensejob.h>
+#include <player/lib/gamedetailsjob.h>
+#include <player/lib/gameuploadjob.h>
+#include <player/lib/archive/archiver.h>
+#include "ui_distributionwizard.h"
+
+#include <QDebug>
+
+class DistributionWizard::DistributionWizardPrivate
 {
-  wizard.setupUi(&wizardobj);
+   public:
+        DistributionWizardPrivate()
+        {
+        }
+    Ui::Wizard wizard;
+    QWizard wizardobj;
+
+};
+
+DistributionWizard::DistributionWizard():QObject(),d( new DistributionWizardPrivate() )
+{
+  d->wizard.setupUi(&d->wizardobj);
+//  updateCategories();
+ // updateLicenses();
 }
 
 DistributionWizard::~DistributionWizard()
 {
-  delete this;
+  delete d;
 }
 
 void DistributionWizard::startWizard()
 {
-   wizardobj.show();
+
+  d->wizardobj.show();
+}
+void DistributionWizard::updateCategories()
+{
+   /* GluonPlayer::CategoryListJob* categoryListJob = GluonPlayer::ServiceProvider::instance()->fetchCategories();
+    connect( categoryListJob, SIGNAL(succeeded()), SLOT(categoriesFetched()) );
+    categoryListJob->start();*/
+}
+
+void DistributionWizard::uploadGame()
+{
+/*    GluonPlayer::AddGameJob* addGameJob = GluonPlayer::ServiceProvider::instance()->addGame(wizard.nameEdit->text(),categoryIds.at( wizard.categoryComboBox->currentIndex()));
+    connect( addGameJob, SIGNAL(succeeded()), SLOT(uploadFinished()));
+//    connect( addGameJob, SIGNAL(failed()), SLOT(newGameUploadFailed()) );
+//    addGameJob->start();*/
+}
+
+void DistributionWizard::uploadFinished()
+{
+/*    QString id = qobject_cast<GluonPlayer::AddGameJob*>( sender() )->data().toString();
+    wizard.gameIdEdit->setText( id );
+    GluonEngine::Game::instance()->gameProject()->setProperty( "id", id );
+    updateUi();
+    emit gameUploadFinished();*/
+}
+
+void DistributionWizard::updateUi()
+{
+/*    GluonPlayer::GameDetailsJob* gameDetailsJob = GluonPlayer::ServiceProvider::instance()->fetchOneGame( id );
+    connect( gameDetailsJob, SIGNAL(succeeded()), SLOT(gameDetailsFetched()) ) ;
+    gameDetailsJob->start();*/
+
+}
+
+void DistributionWizard::categoriesFetched()
+{	
+/*    QList<GluonPlayer::CategoryItem*> categories = qobject_cast<GluonPlayer::CategoryListJob*>( sender() )->data().value< QList<GluonPlayer::CategoryItem*> >();
+    wizard.categoryComboBox->clear();
+    categoryIds.clear();
+
+    foreach( GluonPlayer::CategoryItem * category, categories )
+    {
+        QString categoryString = category->name();
+        if( categoryString.startsWith( QLatin1String("Gluon"), Qt::CaseInsensitive ) )
+        {   
+            categoryIds.append( category->id() );
+            wizard.categoryComboBox->addItem( categoryString );
+        }
+    }
+*/
+}
+
+void DistributionWizard::updateLicenses()
+{
+  /*  GluonPlayer::LicenseJob* licenseJob = GluonPlayer::ServiceProvider::instance()->fetchLicenses();
+    connect( licenseJob, SIGNAL(succeeded()), SLOT(licensesFetched()) );
+    licenseJob->start();*/
+}
+
+
+void DistributionWizard::licensesFetched()
+{/*
+    QList<GluonPlayer::LicenseItem*> licenses = qobject_cast<GluonPlayer::LicenseJob*>( sender() )->data().value< QList<GluonPlayer::LicenseItem*> >();
+    wizard.licenseComboBox->clear();
+    licenseIds.clear();
+
+    foreach( GluonPlayer::LicenseItem * license, licenses )
+    {
+        licenseIds.append( license->id() );
+        wizard.licenseComboBox->addItem( license->licenseName() );
+    }*/
 }
 
 #include "distributionwizard.moc"

@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>496</width>
-    <height>317</height>
+    <width>524</width>
+    <height>350</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,8 +58,8 @@
      <rect>
       <x>10</x>
       <y>-20</y>
-      <width>361</width>
-      <height>171</height>
+      <width>381</width>
+      <height>201</height>
      </rect>
     </property>
     <property name="title">
@@ -71,7 +71,7 @@
        <x>10</x>
        <y>20</y>
        <width>160</width>
-       <height>131</height>
+       <height>161</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -90,16 +90,16 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="label_7">
         <property name="text">
-         <string>Version</string>
+         <string>Name</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_7">
+       <widget class="QLabel" name="label_6">
         <property name="text">
-         <string>TextLabel</string>
+         <string>Version</string>
         </property>
        </widget>
       </item>
@@ -125,24 +125,27 @@
        <x>190</x>
        <y>20</y>
        <width>160</width>
-       <height>135</height>
+       <height>162</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QLineEdit" name="lineEdit"/>
+       <widget class="QLineEdit" name="gameIdEdit"/>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox"/>
+       <widget class="QComboBox" name="categoryComboBox"/>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_2"/>
+       <widget class="QLineEdit" name="nameEdit"/>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_3"/>
+       <widget class="QLineEdit" name="versionEdit_2"/>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox_2"/>
+       <widget class="QLineEdit" name="homePageEdit"/>
+      </item>
+      <item>
+       <widget class="QComboBox" name="licenseComboBox"/>
       </item>
      </layout>
     </widget>
@@ -152,7 +155,7 @@
    <property name="subTitle">
     <string>A few words about your game</string>
    </property>
-   <widget class="QPlainTextEdit" name="plainTextEdit">
+   <widget class="QPlainTextEdit" name="descriptionEdit">
     <property name="geometry">
      <rect>
       <x>3</x>
@@ -167,7 +170,7 @@
    <property name="subTitle">
     <string>Enter Game Changelog</string>
    </property>
-   <widget class="QPlainTextEdit" name="plainTextEdit_2">
+   <widget class="QPlainTextEdit" name="changelogEdit">
     <property name="geometry">
      <rect>
       <x>10</x>
