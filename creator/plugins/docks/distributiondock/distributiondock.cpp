@@ -39,9 +39,8 @@
 #include <QtGui/QPushButton>
 #include <QtCore/QStateMachine>
 #include <QtCore/QHistoryState>
-#include <../../tools/distributionwizard/distributionwizard.h>
-
-using namespace GluonCreator;
+#include "distributionwizard/distributionwizard.h"
+using namespace GluonCreator;	
 
 class DistributionDock::DistributionDockPrivate
 {

@@ -18,7 +18,9 @@
  */
 
 #include "distributionwizard.h"
+#include <ui_distributionwizard.h>
 #include <player/lib/serviceprovider.h>
+#include <engine/game.h>
 #include <player/lib/addgamejob.h>
 #include <player/lib/categorylistjob.h>
 #include <player/lib/editgamejob.h>
@@ -27,7 +29,6 @@
 #include <player/lib/gamedetailsjob.h>
 #include <player/lib/gameuploadjob.h>
 #include <player/lib/archive/archiver.h>
-#include "ui_distributionwizard.h"
 
 #include <QDebug>
 
@@ -45,8 +46,8 @@ class DistributionWizard::DistributionWizardPrivate
 DistributionWizard::DistributionWizard():QObject(),d( new DistributionWizardPrivate() )
 {
   d->wizard.setupUi(&d->wizardobj);
-//  updateCategories();
- // updateLicenses();
+ // updateCategories();
+//  updateLicenses();
 }
 
 DistributionWizard::~DistributionWizard()
@@ -61,23 +62,23 @@ void DistributionWizard::startWizard()
 }
 void DistributionWizard::updateCategories()
 {
-   /* GluonPlayer::CategoryListJob* categoryListJob = GluonPlayer::ServiceProvider::instance()->fetchCategories();
+  /*  GluonPlayer::CategoryListJob* categoryListJob = GluonPlayer::ServiceProvider::instance()->fetchCategories();
     connect( categoryListJob, SIGNAL(succeeded()), SLOT(categoriesFetched()) );
     categoryListJob->start();*/
 }
 
 void DistributionWizard::uploadGame()
 {
-/*    GluonPlayer::AddGameJob* addGameJob = GluonPlayer::ServiceProvider::instance()->addGame(wizard.nameEdit->text(),categoryIds.at( wizard.categoryComboBox->currentIndex()));
+/*    GluonPlayer::AddGameJob* addGameJob = GluonPlayer::ServiceProvider::instance()->addGame(d->wizard.nameEdit->text(),categoryIds.at( d->wizard.categoryComboBox->currentIndex()));
     connect( addGameJob, SIGNAL(succeeded()), SLOT(uploadFinished()));
-//    connect( addGameJob, SIGNAL(failed()), SLOT(newGameUploadFailed()) );
-//    addGameJob->start();*/
+ //   connect( addGameJob, SIGNAL(failed()), SLOT(newGameUploadFailed()) );
+    addGameJob->start();*/
 }
 
 void DistributionWizard::uploadFinished()
 {
-/*    QString id = qobject_cast<GluonPlayer::AddGameJob*>( sender() )->data().toString();
-    wizard.gameIdEdit->setText( id );
+  /*  QString id = qobject_cast<GluonPlayer::AddGameJob*>( sender() )->data().toString();
+    d->wizard.gameIdEdit->setText( id );
     GluonEngine::Game::instance()->gameProject()->setProperty( "id", id );
     updateUi();
     emit gameUploadFinished();*/

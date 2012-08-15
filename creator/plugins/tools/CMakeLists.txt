@@ -1,5 +1,4 @@
-#add_subdirectory(projectinspector)
-add_subdirectory(distributionwizard)
+add_subdirectory(projectinspector)
 
 if(BUILD_GLUON_CREATOR_VCS)
     add_subdirectory(vcs)

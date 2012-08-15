@@ -1,12 +1,13 @@
 set(distributiondock_SRCS
     distributiondock.cpp
     distributiondockplugin.cpp
-    ../../tools/distributionwizard/distributionwizard.cpp
+    distributionwizard/distributionwizard.cpp
 )
 
 kde4_add_ui_files(
     distributiondock_SRCS
     distributiondock.ui
+    distributionwizard/distributionwizard.ui
 )
 
 kde4_add_plugin(gluon_creator_dockplugin_distributiondock ${distributiondock_SRCS})

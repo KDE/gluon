@@ -28,7 +28,6 @@ class QWizard;
 class DistributionWizard: public QObject
 {
         Q_OBJECT
-
         public:
             DistributionWizard();
             virtual ~DistributionWizard();
