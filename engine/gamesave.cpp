@@ -27,11 +27,14 @@
 
 #include <core/gluonobject.h>
 #include <core/gdlserializer.h>
+#include <core/directoryprovider.h>
 
 #include <QDir>
 #include <QFileDialog>
 #include <QDebug>
 
+#include <iostream>
+using namespace std;
 using namespace GluonEngine;
 
 REGISTER_OBJECTTYPE( GluonEngine, GameSave )
@@ -46,18 +49,12 @@ GameSave::~GameSave()
 
 void GameSave::save()
 {
-    GluonCore::GluonObject *obj = GluonEngine::Game::instance()->currentScene()->sceneContents();
     bool pause = Game::instance()->isPaused();
     if( !pause )
         Game::instance()->setPause( true );
-    QString dir = QDir::homePath().append( "/Desktop/" );
-    QString savefile = QFileDialog::getSaveFileName(0, tr("Save Game"), dir, tr("Save Files (*.gluonsave)"));
-    QUrl filename( savefile );
-    if( !GluonCore::GDLSerializer::instance()->write( filename, GluonCore::GluonObjectList() << obj ) )
-        qDebug() << "Error in writing to: " << filename.toString();
+    partialSave();
     if( ! pause )
         Game::instance()->setPause( false );
-    partialSave();
 }
 
 void GameSave::load()
@@ -70,20 +67,22 @@ void GameSave::load()
 void GameSave::partialSave()
 {
     GluonEngine::SceneGraph *scene = new GluonEngine::SceneGraph();
-    QUrl filename( "/home/vsrao/Desktop/savefile.txt" );
-    GluonCore::GluonObjectList objectlist;
-    objectlist.append( scene->forSave() );
-    if( ! GluonCore::GDLSerializer::instance()->write( filename, objectlist ) )
+    QString savefile = GluonCore::DirectoryProvider::instance()->saveGamesDirectory();
+    savefile += GluonEngine::Game::gameProject()->name() + ".gluonsave";
+    QUrl savefilename( savefile );
+    if( ! GluonCore::GDLSerializer::instance()->write( savefilename, GluonCore::GluonObjectList() << scene->forSave() ) )
         qDebug() << "Couldn't save to preset location";
     serializeComponents( GluonEngine::Game::instance()->currentScene()->sceneContents() );
 }
 
 void GameSave::partialLoad()
 {
-    QUrl filename( "/home/vsrao/Desktop/savefile.txt" );
+    QString loadfile = GluonCore::DirectoryProvider::instance()->saveGamesDirectory();
+    loadfile += GluonEngine::Game::gameProject()->name() + ".gluonsave";
+    QUrl loadfilename( loadfile );
     GluonCore::GluonObjectList objects;
     GluonEngine::GameProject* project = GluonEngine::Game::instance()->gameProject();
-    if( GluonCore::GDLSerializer::instance()->read( filename, objects, project, 0 ) )
+    if( GluonCore::GDLSerializer::instance()->read( loadfilename, objects, project, 0 ) )
     {
         GluonEngine::GameObject* load = qobject_cast<GluonEngine::GameObject*>( objects.at( 0 )->child( 0 ) );
         load->setParentGameObject( 0 );
@@ -91,8 +90,6 @@ void GameSave::partialLoad()
         scene->setRefGraph( objects.at( 0 )->property( "refers" ).toUrl() );
         load = scene->forLoad();
         GluonEngine::Game::instance()->loadScene( load );
-        QUrl loadfilename( "/home/vsrao/Desktop/loadfile.txt" );
-        GluonCore::GDLSerializer::instance()->write( loadfilename, GluonCore::GluonObjectList() << load );
         restoreComponents( load );
     }
 }

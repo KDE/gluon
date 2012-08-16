@@ -300,9 +300,9 @@ void Game::resetCurrentScene()
     }
 }
 
-void Game::loadScene( GluonEngine::GameObject* load )
+void Game::loadScene( GluonEngine::GameObject* newSceneContents )
 {
-    d->currentScene->loadScene( load );
+    d->currentScene->loadScene( newSceneContents );
 }
 
 void Game::loadScene( QUrl filename )

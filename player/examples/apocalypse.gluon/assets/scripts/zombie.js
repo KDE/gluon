@@ -1,16 +1,17 @@
 this.initialize = function()
 {
     this.Component.speed = this.Component.speed || 25;
-}
-
-this.start = function()
-{
     this.AnimatedSprite = this.GameObject.AnimatedSpriteRendererComponent;
     this.player = this.Scene.sceneContents().Camera.Player;
     this.bulletCollider = this.GameObject.BulletCollider;
     this.playerCollider = this.GameObject.PlayerCollider;
     this.dead = false;
     this.attack = false;
+}
+
+this.start = function()
+{
+
 }
 
 this.update = function(time)

@@ -27,6 +27,7 @@
 
 #include <core/messagehandler.h>
 #include <core/gdlserializer.h>
+#include <core/directoryprovider.h>
 #include <QDebug>
 #include <qdir.h>
 
@@ -211,7 +212,7 @@ void ScriptingComponent::serialize()
 
 QScriptValue ScriptingComponent::restoreComponent()
 {
-    QString dir = QDir::homePath() + QString( "/.gluon/" ) + GluonEngine::Game::instance()->gameProject()->name() + QString( "/saves/" );
+    QString dir = GluonCore::DirectoryProvider::instance()->saveGamesDirectory();
     dir += gameObject()->name() + QString( ".gluonsave" );
     GluonCore::GluonObjectList list;
     QUrl filename( dir );
@@ -224,10 +225,7 @@ QScriptValue ScriptingComponent::restoreComponent()
 
 void ScriptingComponent::serializeComponent( GluonCore::GluonObject* obj )
 {
-    QString dir = QDir::homePath() + QString( "/.gluon/" ) + GluonEngine::Game::instance()->gameProject()->name() + QString( "/saves/" );
-    QDir directory( dir );
-    if( !directory.exists() )
-      directory.mkpath( dir );
+    QString dir = GluonCore::DirectoryProvider::instance()->saveGamesDirectory();
     dir += gameObject()->name() + QString( ".gluonsave" );
     QUrl filename( dir );
     GluonCore::GDLSerializer::instance()->write( filename, GluonCore::GluonObjectList() << obj );

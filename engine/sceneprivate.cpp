@@ -88,7 +88,7 @@ ScenePrivate::loadContents( const QUrl& file )
     sceneContents->setName( q->name() );
 }
 
-void ScenePrivate::loadContents( GluonEngine::GameObject* load )
+void ScenePrivate::loadContents( GluonEngine::GameObject* newSceneContents )
 {
     if( sceneContents )
     {
@@ -98,7 +98,7 @@ void ScenePrivate::loadContents( GluonEngine::GameObject* load )
         sceneContents = 0;
     }
 
-    sceneContents = load;
+    sceneContents = newSceneContents;
 
     sceneContents->setParent( q );
     sceneContents->sanitize();

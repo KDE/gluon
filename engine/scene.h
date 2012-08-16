@@ -95,7 +95,7 @@ namespace GluonEngine
             /**
              * Load a scene from a given game object hierarchy
              */
-            virtual void loadScene( GluonEngine::GameObject* );
+            virtual void loadScene( GluonEngine::GameObject* newSceneContents );
             /**
              *  Set this scene to the entry point of the current project.
              */

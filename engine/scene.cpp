@@ -81,10 +81,11 @@ void Scene::loadScene( QUrl filename )
     if( Game::instance()->isRunning() )
     {
         sceneContents()->initialize();
+        sceneContents()->start();
     }
 }
 
-void Scene::loadScene( GluonEngine::GameObject* load )
+void Scene::loadScene( GluonEngine::GameObject* newSceneContents )
 {
     if( !d->sceneContentsLoaded )
         return;
@@ -95,7 +96,7 @@ void Scene::loadScene( GluonEngine::GameObject* load )
         sceneContents()->cleanup();
     }
     
-    d->loadContents( load );
+    d->loadContents( newSceneContents );
     
     if( Game::instance()->isRunning() )
     {

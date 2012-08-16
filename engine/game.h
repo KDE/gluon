@@ -91,8 +91,15 @@ namespace GluonEngine
             
             /**
              * Loads a different scene, replacing the current scene
+             * @param: The game object hierarchy which is to replace the
+             * current scene
              */
-            void loadScene( GluonEngine::GameObject* scene );
+            void loadScene( GluonEngine::GameObject* newSceneContents );
+            
+            /**
+             * Loads a different scene, replacing the current scene
+             * @param: filename from which the scene is to be built
+             */
             void loadScene( QUrl filename );
 
             void runGame()
@@ -144,7 +151,7 @@ namespace GluonEngine
             // This allows the reset scene call to emit the Game::currentSceneChanged signal
             // which ensures that Creator doesn't crash when resetting the scene
             friend void GluonEngine::Scene::resetScene();
-            friend void GluonEngine::Scene::loadScene( GluonEngine::GameObject* load );
+            friend void GluonEngine::Scene::loadScene( GluonEngine::GameObject* newSceneContents );
             friend void GluonEngine::Scene::loadScene( QUrl );
 
         Q_SIGNALS:
