@@ -68,7 +68,7 @@ void GameSave::partialSave()
 {
     GluonEngine::SceneGraph *scene = new GluonEngine::SceneGraph();
     QString savefile = GluonCore::DirectoryProvider::instance()->saveGamesDirectory();
-    savefile += GluonEngine::Game::gameProject()->name() + ".gluonsave";
+    savefile += GluonEngine::Game::instance()->gameProject()->name() + ".gluonsave";
     QUrl savefilename( savefile );
     if( ! GluonCore::GDLSerializer::instance()->write( savefilename, GluonCore::GluonObjectList() << scene->forSave() ) )
         qDebug() << "Couldn't save to preset location";
@@ -78,7 +78,7 @@ void GameSave::partialSave()
 void GameSave::partialLoad()
 {
     QString loadfile = GluonCore::DirectoryProvider::instance()->saveGamesDirectory();
-    loadfile += GluonEngine::Game::gameProject()->name() + ".gluonsave";
+    loadfile += GluonEngine::Game::instance()->gameProject()->name() + ".gluonsave";
     QUrl loadfilename( loadfile );
     GluonCore::GluonObjectList objects;
     GluonEngine::GameProject* project = GluonEngine::Game::instance()->gameProject();
