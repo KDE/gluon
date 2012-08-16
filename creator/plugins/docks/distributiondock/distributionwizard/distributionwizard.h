@@ -34,7 +34,6 @@ class DistributionWizard: public QObject
             void startWizard();
 	    void updateCategories();
 	    void updateLicenses();
-	    void uploadGame();
 	    void updateUi();
 	    class DistributionWizardPrivate;
 	    DistributionWizardPrivate* const d;
@@ -42,11 +41,26 @@ class DistributionWizard: public QObject
 	public slots:
 	    void categoriesFetched();
 	    void uploadFinished();
+	    void editGamefailed();
+	    void editGameFinished();
 	    void licensesFetched();
+	    void gamedetailsFetched();
+	    void pageChanged(int pageId);
+	    void uploadGameArchive();
+	    void finalUploading();
+	
 	private:
 	    QStringList categoryIds;
 	    QStringList licenseIds;
-  
+	    QString apiKey;
+	    QString gameid;
+	    QString gameName;
+	    QString chosenCategory;
+	    QString description;
+	    QString changeLog;
+	    QString homepage;
+	    QString version;
+	    QString chosenLicense;
 };
 
 #endif // DISTRIBUTIONWIZARD_H
