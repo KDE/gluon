@@ -85,7 +85,6 @@ void DistributionWizard::pageChanged(int pageId)
       {
 	case(1):
 	  { apiKey = d->wizard.apiKeyEdit->text(); 
-	    qDebug()<<"API Key filled by you is"<<apiKey;
 	    d->wizard.gameIdEdit->setEnabled(false);
 	    d->wizard.versionEdit_2->setEnabled(false);
 	    d->wizard.homePageEdit->setEnabled(false);
@@ -108,6 +107,7 @@ void DistributionWizard::pageChanged(int pageId)
 		    countUploads++;
 		}
 	      }
+	    updateUi();
 	  }
           break;
 
@@ -116,7 +116,6 @@ void DistributionWizard::pageChanged(int pageId)
 	    homepage = d->wizard.nexthomePageEdit->text();
 	    version = d->wizard.nextversionEdit->text(); 
 	    chosenLicense = licenseIds.at( d->wizard.nextlicenseComboBox->currentIndex());
-	    updateUi();
 	  }
 
 	case(4):

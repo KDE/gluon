@@ -308,6 +308,7 @@ void DistributionDock::initGuiStates()
 
     connect( d->loggingInState, SIGNAL(entered()), this, SLOT(doLogin()) );
     connect( d->ui.uploadNew, SIGNAL(clicked()), this, SLOT(testWizard()));
+    connect( d->ui.registerButton, SIGNAL(clicked()), this, SLOT(registerOnline()));
     connect( d->optionState, SIGNAL(entered()), this, SLOT(setLoginName()));
     connect( d->fetchingState, SIGNAL(entered()), this, SLOT(updateUiFromGameProject()) );
     connect( d->fetchingState, SIGNAL(entered()), this, SLOT(onFetch()));

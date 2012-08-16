@@ -20,7 +20,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="loginPage">
       <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -99,12 +99,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QCommandLinkButton" name="registerButton">
+        <widget class="QPushButton" name="registerButton">
          <property name="text">
-          <string>Register on gamingfreedom.org</string>
-         </property>
-         <property name="checkable">
-          <bool>false</bool>
+          <string>Register Online Now</string>
          </property>
         </widget>
        </item>
@@ -341,9 +338,9 @@
        <widget class="QWidget" name="verticalLayoutWidget">
         <property name="geometry">
          <rect>
-          <x>-10</x>
-          <y>60</y>
-          <width>171</width>
+          <x>0</x>
+          <y>50</y>
+          <width>151</width>
           <height>141</height>
          </rect>
         </property>
@@ -391,9 +388,6 @@
         </layout>
        </widget>
       </widget>
-      <zorder>groupBox</zorder>
-      <zorder>loginName</zorder>
-      <zorder>loginName</zorder>
      </widget>
     </widget>
    </item>
