@@ -61,6 +61,7 @@ class DistributionWizard: public QObject
 	    QString homepage;
 	    QString version;
 	    QString chosenLicense;
+	    int countUploads;
 };
 
 #endif // DISTRIBUTIONWIZARD_H

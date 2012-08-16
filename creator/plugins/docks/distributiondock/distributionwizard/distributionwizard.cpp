@@ -46,6 +46,7 @@ class DistributionWizard::DistributionWizardPrivate
 
 DistributionWizard::DistributionWizard():QObject(),d( new DistributionWizardPrivate() )
 {
+  countUploads = 0;
   d->wizard.setupUi(&d->wizardobj);
   connect(&d->wizardobj,SIGNAL(currentIdChanged( int)),this,SLOT(pageChanged(int)));
   updateCategories();
@@ -53,8 +54,6 @@ DistributionWizard::DistributionWizard():QObject(),d( new DistributionWizardPriv
 }
 void DistributionWizard::uploadGameArchive()
 {
-//    const QString id = d->ui.idEdit->text();
-
     if( gameid.isEmpty() || apiKey.isEmpty() )
     {
         return;
@@ -67,7 +66,6 @@ void DistributionWizard::uploadGameArchive()
 
     GluonPlayer::GameUploadJob* uploadJob = GluonPlayer::ServiceProvider::instance()->uploadGame( gameid, archivePath );
     connect( uploadJob, SIGNAL(succeeded()), SLOT(editGameFinished()) );
-//    connect( uploadJob, SIGNAL(failed()), SLOT(editGameFailed()) );
     uploadJob->setApiKey(apiKey );
     uploadJob->start();
 }
@@ -83,7 +81,6 @@ DistributionWizard::~DistributionWizard()
 }
 void DistributionWizard::pageChanged(int pageId)
 {
-  qDebug()<< "Page id of new page is"<<pageId;
   switch(pageId)
       {
 	case(1):
@@ -95,31 +92,43 @@ void DistributionWizard::pageChanged(int pageId)
 	    d->wizard.licenseComboBox->setEnabled(false);
 	  }
           break;
+	  
 	case(2):
 	  {
 	    if( d->wizard.gameIdEdit->text().isEmpty() )
 	      {
 		gameName = d->wizard.nameEdit->text();
-		chosenCategory = categoryIds.at( d->wizard.categoryComboBox->currentIndex() );
-		GluonPlayer::AddGameJob* addGameJob = GluonPlayer::ServiceProvider::instance()->addGame( gameName,chosenCategory );
-		connect( addGameJob, SIGNAL(succeeded()), SLOT(uploadFinished()));
-//		connect( addGameJob, SIGNAL(failed()), SLOT(newGameUploadFailed()) );
-		addGameJob->start();
+		chosenCategory = categoryIds.at( d->wizard.categoryComboBox->currentIndex());
+		
+		if(countUploads == 0)
+		{	
+		    GluonPlayer::AddGameJob* addGameJob = GluonPlayer::ServiceProvider::instance()->addGame( gameName,chosenCategory );
+		    connect( addGameJob, SIGNAL(succeeded()), SLOT(uploadFinished()));
+		    addGameJob->start();
+		    countUploads++;
+		}
 	      }
 	  }
           break;
+
 	case(3):
-	  { homepage = d->wizard.nexthomePageEdit->text();
+	  { 
+	    homepage = d->wizard.nexthomePageEdit->text();
 	    version = d->wizard.nextversionEdit->text(); 
 	    chosenLicense = licenseIds.at( d->wizard.nextlicenseComboBox->currentIndex());
-	    chosenCategory = categoryIds.at( d->wizard.nextCategory->currentIndex());
 	    updateUi();
 	  }
+
 	case(4):
-	  { description = d->wizard.descriptionEdit->toPlainText();}
+	   description = d->wizard.descriptionEdit->toPlainText();
+
 	case(5):
-	  { changeLog = d->wizard.changelogEdit->toPlainText();}
+	  { 
+	    changeLog = d->wizard.changelogEdit->toPlainText();
+	    finalUploading();
+	  }
 	  break;
+	  
 	default:
 	  break;
 
@@ -128,8 +137,7 @@ void DistributionWizard::pageChanged(int pageId)
 
 void DistributionWizard::startWizard()
 {
-
-  d->wizardobj.show();
+    d->wizardobj.show();
 }
 void DistributionWizard::updateCategories()
 {
@@ -142,10 +150,7 @@ void DistributionWizard::updateCategories()
 void DistributionWizard::uploadFinished()
 {
     QString id = qobject_cast<GluonPlayer::AddGameJob*>( sender() )->data().toString();
-//    d->wizard.gameIdEdit->setText( id );
     GluonEngine::Game::instance()->gameProject()->setProperty( "id", id );
-    qDebug()<<"ID OF GAME IS NOW "<<id;
-//    updateUi();
 }
 
 void DistributionWizard::updateUi()
@@ -156,7 +161,6 @@ void DistributionWizard::updateUi()
     QString id = GluonEngine::Game::instance()->gameProject()->property( "id" ).toString();
     d->wizard.gameIdEdit->setText( id );
     gameid = id;
-    qDebug()<<"IN UPDATE UI,ID OF GAME IS NOW "<<id;
 
     if( id.isEmpty() )
     {
@@ -194,7 +198,7 @@ void DistributionWizard::finalUploading()
 
 void DistributionWizard::editGamefailed()
 {
-  qDebug()<< "Failed";
+  qDebug()<< "Uploading Failed";
 }
 
 void DistributionWizard::gamedetailsFetched()
@@ -203,8 +207,6 @@ void DistributionWizard::gamedetailsFetched()
     d->wizard.nextversionEdit->setText( gameDetails->version() );
     d->wizard.nexthomePageEdit->setText( gameDetails->homePage() );
     d->wizard.licenseComboBox->setCurrentIndex( licenseIds.indexOf( gameDetails->license() ) );
-  //  d->ui.descriptionEdit->setPlainText( gameDetails->gameDescription() );
-  //  d->ui.changelogEdit->setPlainText( gameDetails->changelog() );
 }
 
 

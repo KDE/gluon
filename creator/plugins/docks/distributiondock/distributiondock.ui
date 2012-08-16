@@ -20,7 +20,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="loginPage">
       <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -290,112 +290,110 @@
       </layout>
      </widget>
      <widget class="QWidget" name="welcomePage">
-      <widget class="QPushButton" name="loginChanged">
+      <widget class="QGroupBox" name="groupBox">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>50</y>
-         <width>91</width>
-         <height>24</height>
+         <x>-10</x>
+         <y>-10</y>
+         <width>461</width>
+         <height>391</height>
         </rect>
        </property>
-       <property name="text">
-        <string>Change</string>
+       <property name="title">
+        <string/>
        </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
+       <widget class="QWidget" name="horizontalLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>301</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QLabel" name="label_13">
+           <property name="text">
+            <string>You are logged in as </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="loginName">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="loginChanged">
+           <property name="text">
+            <string>Change</string>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="verticalLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>-10</x>
+          <y>60</y>
+          <width>171</width>
+          <height>141</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_12">
+         <item>
+          <widget class="QPushButton" name="uploadNew">
+           <property name="text">
+            <string>Upload a new game</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="changeDetails">
+           <property name="text">
+            <string>Change Game Details</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="versionControl">
+           <property name="text">
+            <string>Upload Newer Version</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="checkHistory">
+           <property name="text">
+            <string>Check Revision History</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </widget>
-      <widget class="QPushButton" name="versionControl">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>80</y>
-         <width>131</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Upload Newer Version</string>
-       </property>
-       <property name="flat">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="checkHistory">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>110</y>
-         <width>131</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Check Revision History</string>
-       </property>
-       <property name="flat">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="uploadNew">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>140</y>
-         <width>111</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Upload a new game</string>
-       </property>
-       <property name="flat">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="changeDetails">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>170</y>
-         <width>121</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Change Game Details</string>
-       </property>
-       <property name="flat">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QWidget" name="horizontalLayoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>211</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_6">
-        <item>
-         <widget class="QLabel" name="label_13">
-          <property name="text">
-           <string>You are logged in as </string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="loginName">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
+      <zorder>groupBox</zorder>
+      <zorder>loginName</zorder>
+      <zorder>loginName</zorder>
      </widget>
     </widget>
    </item>
