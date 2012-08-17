@@ -21,7 +21,7 @@
 #ifndef GLUON_PLAYER_COMMENTITEMSMODEL_H
 #define GLUON_PLAYER_COMMENTITEMSMODEL_H
 
-#include "lib/gluon_player_export.h"
+#include "player/lib/gluon_player_export.h"
 
 #include <attica/providermanager.h>
 #include <attica/provider.h>

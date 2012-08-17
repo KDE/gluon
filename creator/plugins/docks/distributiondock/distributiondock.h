@@ -21,14 +21,14 @@
   #ifndef GLUON_CREATOR_DISTRIBUTIONDOCK_H
   #define GLUON_CREATOR_DISTRIBUTIONDOCK_H
 
+ 
   #include <QtGui/QDockWidget>
   #include <QListView>
-  #include <player/desktop/delegates/commentitemsviewdelegate.h>
   #include <player/lib/models/commentitemsmodel.h>
-  #include <player/desktop/views/newcommentform.h>
+  #include <player/lib/ratingjob.h>
   #include <engine/projectmetadata.h>
-
-
+//  #include <player/desktop/delegates/commentitemsviewdelegate.h>
+ 
   namespace GluonPlayer
   {
       class CategoryItem;
@@ -51,6 +51,7 @@
 	      virtual ~DistributionDock();
 	      class DistributionDockPrivate;
 	      DistributionDockPrivate* const d;
+	      GluonPlayer::RatingJob* ratejob;
 	      void loadComments();
 	      void initGuiStates();
 	      void fetchExistingGameDetails();
@@ -70,8 +71,10 @@
 	      void gameDetailsFetched();
 	      void updateLicenses();
 	      void licensesFetched();
+	      void commentsFetched();
 	      void setLoginName();
 	      void onFetch();
+	      void uploadReview();
 	      void testWizard();
 	      QString createArchive( );
 	      void uploadGameArchive();
@@ -79,16 +82,17 @@
 	      void goBack();
 	      void changedetailsChosen();
 	      
-	      void addNewComment( QModelIndex parentIndex, QString title, QString body );
-	      void cancelNewComment( );
-	      void showReplyForm( const QModelIndex& index );
-	      void commentFailed( );
+//	      void addNewComment( QModelIndex parentIndex, QString title, QString body );
+//	      void cancelNewComment( );
+//	      void showReplyForm( const QModelIndex& index );
+//	      void commentFailed( );
 
 
 	  Q_SIGNALS:
 	      void switchToCreateMode();
 	      void switchToUpdateMode();
 	      void gameUploadFinished();
+	      void rate();
 
       };
 

@@ -20,7 +20,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="loginPage">
       <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -125,8 +125,8 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>10</y>
-         <width>451</width>
+         <y>0</y>
+         <width>421</width>
          <height>31</height>
         </rect>
        </property>
@@ -625,13 +625,6 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QPushButton" name="backbutton">
-          <property name="text">
-           <string>Back</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </widget>
       <widget class="QGroupBox" name="groupBox_2">
@@ -751,15 +744,9 @@
          <string/>
         </property>
        </widget>
-       <zorder>verticalLayoutWidget_4</zorder>
-       <zorder>label_16</zorder>
-       <zorder>verticalLayoutWidget_5</zorder>
-       <zorder>monthDownloadLabel</zorder>
-       <zorder>label_19</zorder>
-       <zorder>playtimeLabel</zorder>
       </widget>
      </widget>
-     <widget class="QWidget" name="evenstPage">
+     <widget class="QWidget" name="eventsPage">
       <widget class="QWidget" name="horizontalLayoutWidget_6">
        <property name="geometry">
         <rect>
@@ -785,11 +772,17 @@
        </property>
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>70</y>
-         <width>391</width>
-         <height>311</height>
+         <x>0</x>
+         <y>40</y>
+         <width>431</width>
+         <height>351</height>
         </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="currentIndex">
         <number>2</number>
@@ -799,8 +792,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>381</width>
-          <height>220</height>
+          <width>421</width>
+          <height>260</height>
          </rect>
         </property>
         <attribute name="label">
@@ -812,15 +805,45 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>381</width>
-          <height>220</height>
+          <width>421</width>
+          <height>260</height>
          </rect>
         </property>
         <attribute name="label">
          <string>Comments</string>
         </attribute>
+        <widget class="QWidget" name="verticalLayoutWidget_7">
+         <property name="geometry">
+          <rect>
+           <x>-1</x>
+           <y>9</y>
+           <width>381</width>
+           <height>201</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_15">
+          <item>
+           <layout class="QVBoxLayout" name="timeLine">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetMaximumSize</enum>
+            </property>
+            <item>
+             <widget class="QListView" name="commentsListView"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
        </widget>
        <widget class="QWidget" name="reviewTab">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>421</width>
+          <height>260</height>
+         </rect>
+        </property>
         <attribute name="label">
          <string>New Review</string>
         </attribute>
@@ -837,14 +860,37 @@
         <widget class="QPushButton" name="submitButton">
          <property name="geometry">
           <rect>
-           <x>230</x>
-           <y>190</y>
+           <x>320</x>
+           <y>230</y>
            <width>91</width>
            <height>24</height>
           </rect>
          </property>
          <property name="text">
           <string>Submit</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_15">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>200</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Rate this Game (on a scale of 1-100)</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="ratingEdit">
+         <property name="geometry">
+          <rect>
+           <x>230</x>
+           <y>200</y>
+           <width>51</width>
+           <height>23</height>
+          </rect>
          </property>
         </widget>
        </widget>
