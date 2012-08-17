@@ -22,6 +22,12 @@
   #define GLUON_CREATOR_DISTRIBUTIONDOCK_H
 
   #include <QtGui/QDockWidget>
+  #include <QListView>
+  #include <player/desktop/delegates/commentitemsviewdelegate.h>
+  #include <player/lib/models/commentitemsmodel.h>
+  #include <player/desktop/views/newcommentform.h>
+  #include <engine/projectmetadata.h>
+
 
   namespace GluonPlayer
   {
@@ -45,7 +51,7 @@
 	      virtual ~DistributionDock();
 	      class DistributionDockPrivate;
 	      DistributionDockPrivate* const d;
-
+	      void loadComments();
 	      void initGuiStates();
 	      void fetchExistingGameDetails();
 
@@ -70,13 +76,20 @@
 	      QString createArchive( );
 	      void uploadGameArchive();
 	      void registerOnline();
+	      void goBack();
+	      void changedetailsChosen();
+	      
+	      void addNewComment( QModelIndex parentIndex, QString title, QString body );
+	      void cancelNewComment( );
+	      void showReplyForm( const QModelIndex& index );
+	      void commentFailed( );
+
 
 	  Q_SIGNALS:
 	      void switchToCreateMode();
 	      void switchToUpdateMode();
 	      void gameUploadFinished();
 
-//	  private:
       };
 
   }

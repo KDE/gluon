@@ -32,10 +32,12 @@
 #include <player/lib/gamedetailsjob.h>
 #include <player/lib/gameuploadjob.h>
 #include <player/lib/archive/archiver.h>
-
+#include <engine/projectmetadata.h>
+#include <KToolBar>
 #include <KDE/KLocalizedString>
 #include <QWebView>
 #include <QDebug>
+#include <KPushButton>
 #include <QtGui/QPushButton>
 #include <QtCore/QStateMachine>
 #include <QtCore/QHistoryState>
@@ -52,15 +54,27 @@ class DistributionDock::DistributionDockPrivate
 
         QString currentGameId;
         QWidget widget;
+	KPushButton *statsButton;
+	KPushButton *eventsButton;
+	KPushButton *backButton1;
+	KPushButton *backButton2;
         Ui::DistributionDock ui;
         QStringList categoryIds;
         GluonPlayer::EditGameJob* editGameJob;
         QStateMachine machine;
         QStringList licenseIds;
+        QListView* m_commentsView;
+        GluonKDEPlayer::CommentItemsViewDelegate* m_commentsDelegate;
+	GluonPlayer::CommentItemsModel* m_commentsModel;
+        NewCommentForm* m_newCommentForm;
 
         QState* loggedOutState;
         QState* loggingInState;
         QState* optionState;
+	QState* parentSocialState;
+	QState* initial;
+	QState* statsState;
+	QState* eventState;
 	QState* loggedInState;
         QState* fetchingState;
         QState* editingState;
@@ -69,22 +83,56 @@ class DistributionDock::DistributionDockPrivate
         QState* uploadingState;
         QHistoryState* stateBeforeUploading;
         QState* uploadFinishedState;
+
 };
 
 DistributionDock::DistributionDock( const QString& title, QWidget* parent, Qt::WindowFlags flags )
     : QDockWidget( title, parent, flags ), d( new DistributionDockPrivate() )
 {
     setObjectName( "Distribution Dock" );
-
     d->ui.setupUi( &d->widget );
+    KToolBar* toolBar = new KToolBar( this );
+    toolBar->setIconDimensions( 16 );
+    QAction* changeDetailsAction = toolBar->addAction( KIcon( "document-change" ), i18n( "Change Game Details" ), this, SLOT(changedetailsChosen()));
+    QAction* uploadNewAction = toolBar->addAction( KIcon( "document-upload" ), i18n( "Upload New Game" ), this, SLOT(testWizard()));
+    setWidget( &d->widget );
+    
+    d->m_commentsView =  new QListView( this );
+    d->m_commentsDelegate =  new CommentItemsViewDelegate( m_commentsView, this );
+    d->m_commentsModel =  new GluonPlayer::CommentItemsModel( metaData->projectId());
+    d->m_newCommentForm =  new NewCommentForm( this );
 
+    d->ui.menuLayout->addWidget(toolBar);
+    d->statsButton = new KPushButton(this);
+    d->eventsButton = new KPushButton(this);
+    d->statsButton->setIcon( KIcon( "go-next-view" ) );
+    d->eventsButton->setIcon( KIcon( "go-next-view" ) );
+    d->statsButton->setText( i18nc( "View", "View" ) );
+    d->eventsButton->setText( i18nc( "View", "View" ) );
+    d->statsButton->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+    d->eventsButton->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+    d->ui.buttonsLayout->addWidget(d->statsButton);
+    d->ui.buttonsLayout->addWidget(d->eventsButton);
+    d->backButton1 = new KPushButton(this);
+    d->backButton2 = new KPushButton(this);
+    d->backButton1->setIcon( KIcon( "go-previous-view" ) );
+    d->backButton2->setIcon( KIcon( "go-previous-view" ) );
+    d->backButton1->setText( i18nc( "Go Back", "Back" ) );
+    d->backButton2->setText( i18nc("Go Back", "Back" ) );
+    d->backButton1->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+    d->backButton2->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+    d->ui.buttonlayout1->addWidget(d->backButton1);
+    d->ui.buttonlayout2->addWidget(d->backButton2);
     initGuiStates();
-
     updateCategories();
     updateLicenses();
     loadCredentials();
+    
 
-    setWidget( &d->widget );
+}
+void DistributionDock::changedetailsChosen()
+{
+  qDebug()<<"change details is chosen";
 }
 
 DistributionDock::~DistributionDock()
@@ -238,10 +286,15 @@ void DistributionDock::initGuiStates()
     d->loggedOutState = new QState();
     d->loggingInState = new QState();
     d->loggedInState = new QState();
-    d->optionState = new QState( d->loggedInState );
+    d->optionState = new QState();
+    d->parentSocialState = new QState( d->loggedInState );
+    d->statsState = new QState( d->parentSocialState);
+    d->eventState = new QState( d->parentSocialState );
+    d->initial = new QState( d->parentSocialState );
     d->fetchingState = new QState( d->loggedInState );
     d->editingState = new QState( d->loggedInState);
-    d->loggedInState->setInitialState( d->optionState );
+    d->loggedInState->setInitialState( d->parentSocialState );
+    d->parentSocialState->setInitialState(d->initial);
     d->createState = new QState( d->editingState );
     d->updateState = new QState( d->editingState );
     d->editingState->setInitialState( d->createState );
@@ -254,6 +307,10 @@ void DistributionDock::initGuiStates()
     d->machine.addState( d->loggedOutState );
     d->machine.addState( d->loggingInState );
     d->machine.addState( d->loggedInState );
+    d->machine.addState(d->parentSocialState);
+    d->machine.addState(d->initial);
+    d->machine.addState(d->statsState);
+    d->machine.addState(d->eventState);
     d->machine.addState(d->optionState);
     d->machine.addState( d->fetchingState );
     d->machine.addState( d->editingState );
@@ -271,12 +328,25 @@ void DistributionDock::initGuiStates()
     d->loggingInState->assignProperty( d->ui.loginButton, "text", i18n( "Logging In" ) );
     d->loggingInState->assignProperty( d->ui.loginPage, "enabled", false );
 
-    d->loggedInState->assignProperty( d->ui.stackedWidget, "currentIndex", d->ui.stackedWidget->indexOf( d->ui.welcomePage ) );
+    d->loggedInState->assignProperty( d->ui.stackedWidget, "currentIndex", d->ui.stackedWidget->indexOf( d->ui.parentSocialPage ) );
+    d->initial->assignProperty(d->statsButton,"enabled",true);
+    d->initial->assignProperty(d->eventsButton,"enabled",true);
+    d->initial->addTransition(d->statsButton, SIGNAL(clicked()), d->statsState);
+    d->initial->addTransition(d->eventsButton, SIGNAL(clicked()), d->eventState);
+
+    d->statsState->assignProperty( d->ui.stackedWidget, "currentIndex", d->ui.stackedWidget->indexOf( d->ui.statsPage ) );
+    d->statsState->addTransition(d->backButton1, SIGNAL(clicked()), d->loggedOutState);
+    d->eventState->assignProperty( d->ui.stackedWidget, "currentIndex", d->ui.stackedWidget->indexOf( d->ui.eventsPage ) );
+    d->eventState->addTransition(d->backButton2, SIGNAL(clicked()), d->loggedOutState);
+
 
     d->optionState->assignProperty( d->ui.loginChanged, "enabled", true );
     d->optionState->assignProperty( d->ui.changeDetails, "enabled", true );
     d->optionState->addTransition(d->ui.loginChanged, SIGNAL(clicked()), d->loggedOutState);
     d->optionState->addTransition(d->ui.changeDetails, SIGNAL(clicked()), d->fetchingState);
+
+//    d->parentSocialState->addTransition(d->ui.statsButton, SIGNAL(clicked()), d->loggedOutState);
+ //   d->optionState->addTransition(d->ui.eventsButton, SIGNAL(clicked()), d->fetchingState);
 
     d->editingState->assignProperty( d->ui.gamePage, "enabled", true );
 
@@ -306,8 +376,10 @@ void DistributionDock::initGuiStates()
                                     d->fetchingState );
     d->uploadingState->addTransition( this, SIGNAL(gameUploadFinished()), d->uploadFinishedState );
 
-    connect( d->loggingInState, SIGNAL(entered()), this, SLOT(doLogin()) );
+    connect( d->loggingInState, SIGNAL(entered()), this, SLOT(doLogin()));
     connect( d->ui.uploadNew, SIGNAL(clicked()), this, SLOT(testWizard()));
+    connect( d->backButton1, SIGNAL(clicked()), this, SLOT(goBack()));
+    connect( d->backButton2, SIGNAL(clicked()), this, SLOT(goBack()));
     connect( d->ui.registerButton, SIGNAL(clicked()), this, SLOT(registerOnline()));
     connect( d->optionState, SIGNAL(entered()), this, SLOT(setLoginName()));
     connect( d->fetchingState, SIGNAL(entered()), this, SLOT(updateUiFromGameProject()) );
@@ -321,6 +393,11 @@ void DistributionDock::onFetch()
 {
     d->ui.stackedWidget->setCurrentIndex( d->ui.stackedWidget->indexOf( d->ui.gamePage ));
     d->fetchingState->addTransition(d->editingState);
+}
+void DistributionDock::goBack()
+{
+    qDebug()<<"IN GO BACK SLOT";
+    d->ui.stackedWidget->setCurrentIndex(d->ui.stackedWidget->indexOf(d->ui.parentSocialPage));
 }
 
 void DistributionDock::testWizard()
@@ -345,7 +422,8 @@ void DistributionDock::gameDetailsFetched( )
     d->ui.licenseList->setCurrentIndex( d->licenseIds.indexOf( gameDetails->license() ) );
     d->ui.descriptionEdit->setPlainText( gameDetails->gameDescription() );
     d->ui.changelogEdit->setPlainText( gameDetails->changelog() );
-
+    
+    
     emit switchToUpdateMode();
 }
 
