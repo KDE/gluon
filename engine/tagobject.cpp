@@ -241,4 +241,9 @@ void TagObject::removeClones()
                 i.value().remove( object );
 }
 
+QString TagObject::path()
+{
+    return t->path;
+}
+
 #include "tagobject.moc"

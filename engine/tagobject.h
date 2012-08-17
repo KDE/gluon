@@ -91,6 +91,10 @@ namespace GluonEngine
             */
             Q_INVOKABLE void setPath( QUrl path );
             /**
+             * Returns the path the tags are accessed from
+             */
+            QString path();
+            /**
             * Serialize the tags and objects. If path is not specified,
             * the default assets/tags/ is used
             */

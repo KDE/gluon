@@ -140,6 +140,8 @@ GameProject::saveToFile()
     achievementsManager.makeTemplate();
     QString saveDirectory = projectDir + "/.cache";
     achievementsManager.save(saveDirectory);
+    if( d->tags->path().isEmpty() )
+        d->tags->setPath( dirname() );
     d->tags->writeToFile();
     return true;
 }
