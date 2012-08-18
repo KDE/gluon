@@ -56,7 +56,7 @@ namespace GluonPlayer
     {
             Q_OBJECT
         public:
-            enum Column
+            enum Roles
             {
                 AuthorRole = Qt::UserRole,
                 TitleRole,

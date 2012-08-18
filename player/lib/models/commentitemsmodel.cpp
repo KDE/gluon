@@ -116,9 +116,11 @@ void CommentItemsModel::processFetchedComments( Attica::BaseJob* job )
             Attica::Comment p( commentsJob->itemList().at( i ) );
             addComment( p, d->m_rootNode );
         }
+        beginResetModel();
+        treeTraversal(d->m_rootNode);
+        endResetModel();
 
         d->m_isOnline = true;
-        reset();    //Reset the model to notify views to reload comments
     }
     else
     {
@@ -166,7 +168,6 @@ void CommentItemsModel::treeTraversal( GluonCore::GluonObject* obj )
         GluonObject* gobj = qobject_cast<GluonObject*>( child );
         if( gobj )
         {
-            gobj->dumpObjectTree();
             d->m_nodes.append( gobj );
             treeTraversal( gobj );
         }
