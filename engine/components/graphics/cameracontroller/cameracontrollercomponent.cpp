@@ -100,6 +100,10 @@ void CameraControllerComponent::initialize()
         rt->addChild( d->camera );
     }
 
+    d->camera->setVisibleArea( d->visibleArea );
+    d->camera->setNearPlane( d->nearPlane );
+    d->camera->setFarPlane( d->farPlane );
+
 //     if( !d->material )
 //     {
 //         d->material = GluonGraphics::Engine::instance()->mainRenderTarget()->materialInstance();
@@ -160,8 +164,8 @@ void CameraControllerComponent::setVisibleArea( const QSizeF& area )
 {
     d->visibleArea = area;
 
-//     if( d->camera )
-//         d->camera->frustrum()->setOrthoAdjusted( d->visibleArea, GluonGraphics::Engine::instance()->currentViewport()->aspectRatio(), d->nearPlane, d->farPlane );
+    if( d->camera )
+        d->camera->setVisibleArea( area );
 }
 
 QSizeF CameraControllerComponent::visibleArea()
@@ -188,16 +192,16 @@ void CameraControllerComponent::setNearPlane( float nearValue )
 {
     d->nearPlane = nearValue;
 
-//     if( d->camera )
-//         d->camera->frustrum()->setOrthoAdjusted( d->visibleArea, GluonGraphics::Engine::instance()->currentViewport()->aspectRatio(), d->nearPlane, d->farPlane );
+    if( d->camera )
+        d->camera->setNearPlane( nearValue );
 }
 
 void CameraControllerComponent::setFarPlane( float farValue )
 {
     d->farPlane = farValue;
 
-//     if( d->camera )
-//         d->camera->frustrum()->setOrthoAdjusted( d->visibleArea, GluonGraphics::Engine::instance()->currentViewport()->aspectRatio(), d->nearPlane, d->farPlane );
+    if( d->camera )
+        d->camera->setFarPlane( farValue );
 }
 
 void CameraControllerComponent::setRenderTargetMaterial( GluonGraphics::MaterialInstance* material )
