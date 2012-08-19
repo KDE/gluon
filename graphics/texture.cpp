@@ -74,22 +74,8 @@ bool Texture::load( const QUrl& url )
     if( d->image.format() != QImage::Format_ARGB32 )
         d->image = d->image.convertToFormat( QImage::Format_ARGB32 );
 
-    const int width = d->image.width();
-    const int height = d->image.height();
 
-    //TODO: Support big endian (?)
-    //Convert ARGB to RGBA
-    for( int y = 0; y < height; ++y )
-    {
-        uint* line = reinterpret_cast< uint* >( d->image.scanLine( y ) );
-        for( int x = 0; x < width; ++x )
-        {
-            line[x] = ((line[x] << 16) & 0xff0000) | ((line[x] >> 16) & 0xff) | (line[x] & 0xff00ff00);
-        }
-    }
-
-    //Mirror it since Qt uses different coords.
-    d->image = d->image.mirrored();
+    qImageToGL( &d->image );
 
     //Finally, load it into GPU memory.
     d->data->setData( d->image.width(), d->image.height(), d->image.bits() );
@@ -105,6 +91,26 @@ QImage Texture::image() const
 TextureData* Texture::data() const
 {
     return d->data;
+}
+
+void Texture::qImageToGL( QImage* image )
+{
+    const int width = image->width();
+    const int height = image->height();
+
+    //TODO: Support big endian (?)
+    //Convert ARGB to RGBA
+    for( int y = 0; y < height; ++y )
+    {
+        uint* line = reinterpret_cast< uint* >( image->scanLine( y ) );
+        for( int x = 0; x < width; ++x )
+        {
+            line[x] = ((line[x] << 16) & 0xff0000) | ((line[x] >> 16) & 0xff) | (line[x] & 0xff00ff00);
+        }
+    }
+
+    //Mirror it since Qt uses different coords.
+    *image = image->mirrored();
 }
 
 #include "texture.moc"
