@@ -51,6 +51,8 @@ set(GluonGraphics_SRCS
     outputsurface.cpp
     shader.cpp
     meshdata.cpp
+
+    qtquickrenderer.cpp
 )
 
 set(GluonGraphics_HEADERS
@@ -99,12 +101,13 @@ endif()
 target_link_libraries(
     GluonGraphics
     ${GLUON_CORE_LIBS}
-    ${OPENGL_LIBRARIES}
+    ${QT_QTDECLARATIVE_LIBRARIES}
 )
 
 set(GLUON_GRAPHICS_LIBS
     GluonGraphics
     ${GLUON_CORE_LIBS}
+    ${QT_QTDECLARATIVE_LIBRARY}
     CACHE INTERNAL "Libraries required for Gluon Graphics"
 )
 
