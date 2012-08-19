@@ -26,7 +26,7 @@ void main()
 {
     mediump vec4 texColor = texture2D(texture0, out_uv0);
     mediump vec4 color = materialColor * texColor;
-    gl_FragColor = vec4(color.r, color.g, color.b, texColor.a * materialColor.a);
+    gl_FragColor = vec4(color.r, color.g, color.b, texColor.a);
 }
 ")
 
