@@ -35,7 +35,7 @@ using namespace GluonGraphics;
 class QtQuickRenderer::Private
 {
     public:
-        Private() : scene( 0 ), buffer( 0 ), data( 0 ) { }
+        Private() : buffer( 0 ), scene( 0 ), data( 0 ) { }
         QImage* buffer;
         QDeclarativeView* scene;
 
@@ -113,7 +113,7 @@ bool QtQuickRenderer::load( const QUrl& url )
     }
 
     d->data = Manager::instance()->backend()->createTextureData();
-    d->data->setScalingMode( TextureData::NearestScalingMode );
+    d->data->setFilteringMode( TextureData::NearestFilteringMode );
     d->buffer = new QImage( 1024, 1024, QImage::Format_ARGB32 );
 
     return true;

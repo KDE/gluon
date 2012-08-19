@@ -25,10 +25,10 @@ using namespace GluonGraphics::GLX;
 class GLXTextureData::Private
 {
     public:
-        Private() : glTexture( 0 ), mode( UnknownScalingMode ) { }
+        Private() : glTexture( 0 ), mode( UnknownFilteringMode ) { }
 
         GLuint glTexture;
-        ScalingMode mode;
+        FilteringMode mode;
 };
 
 GLXTextureData::GLXTextureData() : d( new Private )
@@ -59,15 +59,15 @@ void GLXTextureData::release()
 
 void GLXTextureData::setData( int width, int height, void* data )
 {
-    if( d->mode == UnknownScalingMode )
-        setScalingMode( TrilinearScalingMode );
+    if( d->mode == UnknownFilteringMode )
+        setFilteringMode( TrilinearFilteringMode );
 
     glBindTexture( GL_TEXTURE_2D, d->glTexture );
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data );
     glBindTexture( GL_TEXTURE_2D, 0 );
 }
 
-void GLXTextureData::setScalingMode( GluonGraphics::TextureData::FilteringMode mode )
+void GLXTextureData::setFilteringMode( GluonGraphics::TextureData::FilteringMode mode )
 {
     glBindTexture( GL_TEXTURE_2D, d->glTexture );
     switch( mode )
