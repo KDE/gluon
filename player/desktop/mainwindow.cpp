@@ -262,6 +262,13 @@ void MainWindow::closeEvent( QCloseEvent* event )
     QWidget::closeEvent( event );
 }
 
+void MainWindow::resizeEvent( QResizeEvent* event )
+{
+    m_viewportWidth = event->size().width();
+    m_viewportHeight = event->size().height();
+
+}
+
 void MainWindow::showGames()
 {
     m_gamesOverlay->setGeometry( geometry() );
@@ -292,7 +299,7 @@ void MainWindow::openProject()
     d->widget = new GluonGraphics::RenderWidget( this );
     setCentralWidget( d->widget );
 
-    connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), d->widget, SLOT(updateGL()) );
+    connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), d->widget, SLOT(update()) );
     connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), SLOT(countFrames(int)) );
     connect( GluonEngine::Game::instance(), SIGNAL(updated(int)), SLOT(updateTitle(int)) );
 

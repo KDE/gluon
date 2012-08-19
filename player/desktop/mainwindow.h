@@ -26,7 +26,6 @@
 #include "gamedetailsoverlay.h"
 
 #include <engine/gameproject.h>
-#include <graphics/engine.h>
 #include <core/gluon_global.h>
 
 #include <KDE/KXmlGuiWindow>
