@@ -20,10 +20,6 @@
 #include "filemesh.h"
 
 #include <QVector>
-#include <assimp/assimp.hpp>
-#include <assimp/aiScene.h>
-#include <assimp/aiMesh.h>
-#include <assimp/aiPostProcess.h>
 
 using namespace GluonGraphics;
 
