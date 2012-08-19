@@ -72,12 +72,19 @@ RenderTarget::~RenderTarget()
 void RenderTarget::addChild(RenderPipelineItem* item)
 {
     if( !d->children.contains(item) )
+    {
         d->children.append(item);
+        item->setParentItem( this );
+    }
 }
 
 void RenderTarget::removeChild(RenderPipelineItem* item)
 {
-    d->children.removeOne( item );
+    if( d->children.contains( item ) )
+    {
+        d->children.removeOne( item );
+        item->setParentItem( 0 );
+    }
 }
 
 int RenderTarget::height() const
