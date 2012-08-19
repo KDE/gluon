@@ -41,7 +41,7 @@ namespace GluonCore
 
 namespace GluonPlayer
 {
-
+    class CommentItem;
     /**
      *\brief Model which contains a list of comments
      *
@@ -55,6 +55,8 @@ namespace GluonPlayer
     class GLUON_PLAYER_EXPORT CommentItemsModel : public QAbstractListModel
     {
             Q_OBJECT
+            Q_PROPERTY(QString gameId READ gameId WRITE setGameId NOTIFY gameIdChanged)
+
         public:
             enum Roles
             {
@@ -62,7 +64,9 @@ namespace GluonPlayer
                 TitleRole,
                 BodyRole,
                 DateTimeRole,
-                RatingRole
+                RatingRole,
+                DepthRole,
+                ParentIdRole
             };
 
             /**
@@ -76,15 +80,8 @@ namespace GluonPlayer
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
             virtual Qt::ItemFlags flags( const QModelIndex& index ) const;
-            virtual bool setData( const QModelIndex& index, const QVariant& value, int role = Qt::EditRole );
-            virtual bool insertRows( int row, int count, const QModelIndex& parent = QModelIndex() );
 
-            /**
-             * check if we are connected to the online service
-             * @return true if connected, false otherwise
-             */
-
-            bool isOnline();
+            Q_INVOKABLE void uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message );
 
             /**
              * used to add and upload a new comment to the server.
@@ -94,24 +91,30 @@ namespace GluonPlayer
              * @param   subject         the subject (title) of the comment
              * @param   message         the message (body) of the comment
              */
-            void uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message );
+            Q_INVOKABLE void uploadComment( const QString& parentId, const QString& subject, const QString& message );
+
+            QString gameId() const;
+            void setGameId(const QString &id);
 
         private Q_SLOTS:
-            void providersUpdated();
-            void processFetchedComments( Attica::BaseJob* );
             void addCommentFinished( Attica::BaseJob* job );
+            void processFetchedComments();
+            void uploadCommentFinished();
 
         Q_SIGNALS:
             /** signal which is emitted when the comment failed to be added
              */
             void addCommentFailed();
+            void commentListFetchFailed();
+            void gameIdChanged();
 
         private:
             void updateData();
             void loadData();
             void saveData();
-            GluonCore::GluonObject* addComment( Attica::Comment comment, GluonCore::GluonObject* parent );
+            GluonCore::GluonObject* addComment( CommentItem* comment, GluonCore::GluonObject* parent );
             void treeTraversal( GluonCore::GluonObject* obj );
+            void clear();
 
             class Private;
             Private* const d;

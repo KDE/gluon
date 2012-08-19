@@ -123,7 +123,7 @@ void CommentItemsViewDelegate::updateItemWidgets( const QList<QWidget*> widgets,
     KPushButton* replyButton = qobject_cast<KPushButton*>( widgets.at( DelegateCommentReplyButton ) );
     if( replyButton )
     {
-        replyButton->setVisible( const_cast<GluonPlayer::CommentItemsModel*>( model )->isOnline() );
+        replyButton->setVisible( true );
         replyButton->setIcon( KIcon( "edit-undo" ) );
         replyButton->setSizePolicy( QSizePolicy::Maximum, QSizePolicy::MinimumExpanding );
         replyButton->resize( m_buttonSize );

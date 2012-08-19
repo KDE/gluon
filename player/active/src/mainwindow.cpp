@@ -24,7 +24,7 @@
 
 #include <lib/gamemetadata.h>
 #include <lib/gamemanager.h>
-#include <lib/models/commentsmodel.h>
+#include <lib/models/commentitemsmodel.h>
 #include <lib/serviceprovider.h>
 #include <lib/models/allgameitemsmodel.h>
 #include <lib/models/gameitem.h>
@@ -49,7 +49,7 @@ MainWindow::MainWindow()
     declarativeView()->rootContext()->setContextProperty( "mainWindow",
                                                           this );
     qmlRegisterType<GluonPlayer::GameMetadata>( "org.kde.gluon.playercomponents", 1, 0, "GameMetadata" );
-    qmlRegisterType<GluonPlayer::CommentsModel>( "org.kde.gluon.playercomponents", 1, 0, "CommentsModel" );
+    qmlRegisterType<GluonPlayer::CommentItemsModel>( "org.kde.gluon.playercomponents", 1, 0, "CommentItemsModel" );
     qmlRegisterUncreatableType<GluonPlayer::GameItem>( "org.kde.gluon.playercomponents", 1, 0, "GameItem", "To be used only for enums" );
     qmlRegisterUncreatableType<GluonPlayer::GameDownloadJob>( "org.kde.gluon.playercomponents", 1, 0, "GameDownloadJob", "Get an instance from serviceProvider" );
 

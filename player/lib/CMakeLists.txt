@@ -46,7 +46,6 @@ set(libGluonPlayer_SRCS
     models/achievementsmodel.cpp
     models/allgameitemsmodel.cpp
     models/commentitemsmodel.cpp
-    models/commentsmodel.cpp
     models/downloadablegamesmodel.cpp
     models/gameitem.cpp
     models/gameitemsmodel.cpp
