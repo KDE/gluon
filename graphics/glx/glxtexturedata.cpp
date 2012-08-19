@@ -25,7 +25,10 @@ using namespace GluonGraphics::GLX;
 class GLXTextureData::Private
 {
     public:
+        Private() : glTexture( 0 ), mode( UnknownScalingMode ) { }
+
         GLuint glTexture;
+        ScalingMode mode;
 };
 
 GLXTextureData::GLXTextureData() : d( new Private )
@@ -56,10 +59,39 @@ void GLXTextureData::release()
 
 void GLXTextureData::setData( int width, int height, void* data )
 {
+    if( d->mode == UnknownScalingMode )
+        setScalingMode( TrilinearScalingMode );
+
     glBindTexture( GL_TEXTURE_2D, d->glTexture );
-    glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE );
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data );
     glBindTexture( GL_TEXTURE_2D, 0 );
+}
+
+void GLXTextureData::setScalingMode( GluonGraphics::TextureData::FilteringMode mode )
+{
+    glBindTexture( GL_TEXTURE_2D, d->glTexture );
+    switch( mode )
+    {
+        case NearestFilteringMode:
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+            glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE );
+            break;
+        case BilinearFilteringMode:
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+            glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE );
+            break;
+        case TrilinearFilteringMode:
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+            glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE );
+            break;
+        default:
+            break;
+    }
+    glBindTexture( GL_TEXTURE_2D, 0 );
+    d->mode = mode;
 }
 
 void GLXTextureData::setTexture(unsigned int texture)
