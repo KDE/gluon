@@ -127,6 +127,11 @@ void RenderTarget::resize( int width, int height )
     d->width = width;
     d->height = height;
 
+    Q_FOREACH( RenderPipelineItem* item, d->children )
+    {
+        item->resize( width, height );
+    }
+
     resizeImpl();
 }
 
