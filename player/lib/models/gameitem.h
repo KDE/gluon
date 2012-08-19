@@ -47,8 +47,8 @@ namespace GluonPlayer
             };
 
             explicit GameItem( const QString& gameName, const QString& description, int rating,
-                               const Status& status, const QString& id, const QString& genre, const QUrl& uri,
-                               QObject* parent = 0 );
+                               const Status& status, const QString& id, const QString& genre, const QUrl& cacheUri,
+                               const QUrl& uri, QObject* parent = 0 );
             virtual ~GameItem();
 
             QString gameName() const;
@@ -62,6 +62,8 @@ namespace GluonPlayer
             QString id() const;
             QString genre() const;
             void setGenre( const QString& genre );
+            QUrl cacheUri() const;
+            void setCacheUri( const QString& cacheUri );
             QUrl uri() const;
             void setUri( const QString& uri );
 

@@ -1,69 +1,72 @@
-this.xdir = 10;
-this.ydir = -5;
+var xdir = 10,
+ydir = -5,
 
-this.bullet = null;
-this.bulletChance = 0.005;
-this.alive = true;
-this.deathAnimTime = 439; // The length of the quiet explosion sound
-this.deathAnimTimeRemaining = this.deathAnimTime;
+bullet = null,
+bulletChance = 0.005,
+alive = true,
+deathAnimTime = 439; // The length of the quiet explosion sound
+var deathAnimTimeRemaining = deathAnimTime;
 
-this.start = function()
+function start()
 {
-    this.bullet = Game.getFromScene("Bullet");    
+    bullet = Game.getFromScene("Bullet");    
 }
 
-this.update = function(time)
+function update(time)
 {
-    if(this.Scene.paused)
+    if(self.Scene.paused)
         return;
-    
-    if(!this.alive)
+
+    if(!alive)
     {
-        this.playDeathAnim(time);
+        playDeathAnim(time);
         return;
     }
-        
-    this.GameObject.translate(this.xdir * (time/1000), 0, 0);
-    
-    var position = this.GameObject.position;
+
+    self.GameObject.translate(xdir * (time/1000), 0, 0);
+
+    var position = self.GameObject.position;
     if(position.x() > 35 || position.x() < -35) {
-            this.GameObject.translate(0, this.ydir, 0);
-            this.xdir = -this.xdir;
+            self.GameObject.translate(0, ydir, 0);
+            xdir = -xdir;
     }
-    
-    if(this.GameObject.BulletCollider.isColliding() || this.GameObject.PlayerCollider.isColliding())
+
+    if(self.GameObject.BulletCollider.isColliding() || self.GameObject.PlayerCollider.isColliding())
     {
-	if(this.GameObject.BulletCollider.isColliding())
-	    this.GameObject.BulletCollider.collidesWith().destroy();
-	
-        this.alive = false;
-        this.GameObject.SpriteRenderer.setMaterial("Invaders/Assets/Main Material/Enemy_Fade");
-        this.GameObject.Kapow.play();
+        if(self.GameObject.BulletCollider.isColliding())
+            self.GameObject.BulletCollider.collidesWith().destroy();
+
+        alive = false;
+        self.GameObject.SpriteRenderer.setMaterial("Invaders/Assets/Main Material/Enemy_Fade");
+        self.GameObject.Kapow.play();
     }
-        
-    if(Game.random() < this.bulletChance)
+
+    if(Game.random() < bulletChance)
     {
-        var newBullet = Game.clone(this.bullet);
-        newBullet.position = this.GameObject.position;
+        var newBullet = Game.clone(bullet);
+        newBullet.position = self.GameObject.position;
         newBullet.enabled = true;
         newBullet.Collider.collisionGroup = 2;
         newBullet.rotate(180, new QVector3D(0, 0, 1));
     }
 }
 
-this.playDeathAnim = function(time)
+function playDeathAnim(time)
 {
-    var scaleVal = 1 + (this.deathAnimTimeRemaining / this.deathAnimTime);
-    this.GameObject.setScale(new QVector3D(scaleVal, scaleVal, 1));
+    var scaleVal = 1 + (deathAnimTimeRemaining / deathAnimTime);
+    self.GameObject.setScale(new QVector3D(scaleVal, scaleVal, 1));
     
-    var color = this.GameObject.SpriteRenderer.material.materialColor;
+    var color = self.GameObject.SpriteRenderer.material.materialColor;
     color.setAlpha(255 * (scaleVal - 1));
-    this.GameObject.SpriteRenderer.material.materialColor = color;
+    self.GameObject.SpriteRenderer.material.materialColor = color;
     
-    this.deathAnimTimeRemaining = this.deathAnimTimeRemaining - time;
-    if(this.deathAnimTimeRemaining < 0)
+    deathAnimTimeRemaining = deathAnimTimeRemaining - time;
+    if(deathAnimTimeRemaining < 0)
     {
-        this.GameObject.destroy();
+        self.GameObject.destroy();
         MessageHandler.publish("enemyDied");
     }
 }
+
+self.start = start;
+self.update = update;

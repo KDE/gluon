@@ -19,7 +19,7 @@
 
 import QtQuick 1.1
 import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.gluon.player 1.0 as Gluon
+import org.kde.gluon.playercomponents 1.0 as Gluon
 
 ListView {
     id: commentsListView
@@ -27,12 +27,18 @@ ListView {
 
     model: Gluon.CommentsModel { id: commentsModel }
     delegate: CommentDelegate {
-        addCommentForm: AddCommentForm {
-            id: commentForm
-            onAccepted: commentsModel.uploadComment(ParentIdRole, commentForm.subjectText, commentForm.bodyText );
+        onReplyComment: {
+            commentForm.parentId = parentCommentId
+            commentForm.open()
         }
     }
 
     spacing: 10
     clip: true
+
+    AddCommentForm {
+        id: commentForm
+        property string parentId
+        onAccepted: commentsModel.uploadComment(parentId, commentForm.subjectText, commentForm.bodyText );
+    }
 }

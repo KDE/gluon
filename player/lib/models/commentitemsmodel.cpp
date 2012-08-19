@@ -20,7 +20,9 @@
 
 #include "commentitemsmodel.h"
 
+#include "allgameitemsmodel.h"
 #include "atticamanager.h"
+#include "gamemanager.h"
 
 #include <engine/gameproject.h>
 
@@ -181,13 +183,11 @@ bool dateTimeLessThan( GluonCore::GluonObject* go1, GluonCore::GluonObject* go2 
 
 void CommentItemsModel::loadData()
 {
-    // TODO: ~/.gluon/games/$gamebundle/* will be used later
-    QDir gluonDir = QDir::home();
-    gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
-    gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
+    AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());
+    QString gameCachePath = model->data(d->m_gameId, AllGameItemsModel::CacheUriRole).toString();
 
     GluonCore::GluonObjectList list;
-    if( !GluonCore::GDLSerializer::instance()->read( QUrl( gluonDir.absoluteFilePath( "comments.gdl" ) ), list ) )
+    if( !GluonCore::GDLSerializer::instance()->read( QUrl( gameCachePath + "/comments.gdl" ), list ) )
         return;
 
     d->m_rootNode = list.at( 0 );
@@ -198,12 +198,16 @@ void CommentItemsModel::loadData()
 void CommentItemsModel::saveData()
 {
     qDebug() << "Saving data!";
-    QDir gluonDir = QDir::home();
-    gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
-    gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
-    QString filename = gluonDir.absoluteFilePath( "comments.gdl" );
 
-    GluonCore::GDLSerializer::instance()->write( QUrl::fromLocalFile( filename ), GluonCore::GluonObjectList() << d->m_rootNode );
+    AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());
+    QString gameCachePath = model->data(d->m_gameId, AllGameItemsModel::CacheUriRole).toUrl().toLocalFile();
+
+    QDir gameCacheDir;
+    gameCacheDir.mkpath( gameCachePath );
+    gameCacheDir.cd( gameCachePath );
+    QString filename = gameCacheDir.absoluteFilePath( "comments.gdl" );
+
+    GluonCore::GDLSerializer::instance()->write( QUrl::fromLocalFile(filename), GluonCore::GluonObjectList() << d->m_rootNode );
 }
 
 CommentItemsModel::~CommentItemsModel()

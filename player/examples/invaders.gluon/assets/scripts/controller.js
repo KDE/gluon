@@ -1,18 +1,18 @@
-this.gameEnded = false;
+var gameEnded = false;
 
-this.initialize = function()
+function initialize()
 {
     Game.score = Game.score || 0;
-    this.Scene.paused = false;
-    this.Scene.enemies = 28;
-    this.Scene.lives = 5;
-    this.Scene.sceneScore = 0;
+    Scene().paused = false;
+    Scene().enemies = 28;
+    Scene().lives = 5;
+    Scene().sceneScore = 0;
 
-    MessageHandler.subscribe("playerDied", this.playerDied, this);
-    MessageHandler.subscribe("enemyDied", this.enemyDied, this);
+    MessageHandler.subscribe("playerDied", playerDied, self);
+    MessageHandler.subscribe("enemyDied", enemyDied, self);
 }
 
-this.start = function()
+function start()
 {
     var enemy = Game.getFromScene("Enemy");
     for(var y = 40; y >= 10; y -= 10)
@@ -25,50 +25,54 @@ this.start = function()
         }
     }
 
-    this.createPlayer();
+    createPlayer();
 }
 
-this.cleanup = function()
+function cleanup()
 {
-    if(this.Scene.resetting && this.Scene.lives <= 0)
-        Game.score -= this.Scene.sceneScore;
-    MessageHandler.unsubscribe("playerDied", this.playerDied, this);
-    MessageHandler.unsubscribe("enemyDied", this.enemyDied, this);
+    if(self.Scene.resetting && self.Scene.lives <= 0)
+        Game.score -= self.Scene.sceneScore;
+    MessageHandler.unsubscribe("playerDied", playerDied, self);
+    MessageHandler.unsubscribe("enemyDied", enemyDied, self);
 }
 
-this.playerDied = function()
+function playerDied()
 {
-    this.Scene.lives--;
+    self.Scene.lives--;
 
-    if(this.Scene.lives <= 0)
+    if(self.Scene.lives <= 0)
     {
-        this.Scene.paused = true;
-        this.Scene.gameEnded = true;
+        self.Scene.paused = true;
+        self.Scene.gameEnded = true;
         MessageHandler.publish("GameEnded");
     }
     else
     {
-        this.createPlayer();
+        createPlayer();
     }
 }
 
-this.enemyDied = function()
+function enemyDied()
 {
-    this.Scene.enemies--;
-    this.Scene.sceneScore++;
+    self.Scene.enemies--;
+    self.Scene.sceneScore++;
     Game.score++;
 
-    if(this.Scene.enemies <= 0)
+    if(self.Scene.enemies <= 0)
     {
-        this.Scene.paused = true;
-        this.Scene.gameEnded = true;
+        self.Scene.paused = true;
+        self.Scene.gameEnded = true;
         MessageHandler.publish("GameEnded");
     }
 }
 
-this.createPlayer = function()
+function createPlayer()
 {
     var newPlayer = Game.clone(Game.getFromScene("Player"));
     newPlayer.position = new QVector3D(0, -50, 2);
     newPlayer.enabled = true;
 }
+
+self.initialize = initialize;
+self.start = start;
+self.cleanup = cleanup;

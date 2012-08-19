@@ -17,14 +17,14 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-import QtQuick 1.0
+import QtQuick 1.1
 import org.kde.plasma.components 0.1 as PlasmaComponents
 import org.kde.plasma.mobilecomponents 0.1 as MobileComponents
 import org.kde.plasma.core 0.1 as PlasmaCore
 
 Item {
     id: commentDelegateRootItem
-    property QtObject addCommentForm
+    signal replyComment(string parentCommentId)
     width: parent.width
     height: 128
 
@@ -44,10 +44,12 @@ Item {
                 width: parent.width
                 height: parent.rowHeight
 
-                PlasmaComponents.Label {
+                Text {
                     height: parent.height
                     width: parent.width - ratingItem.width
                     text: TitleRole
+                    font.pointSize: 14
+                    elide: Text.ElideRight
                 }
 
                 RatingItem {
@@ -58,25 +60,35 @@ Item {
                 }
             }
 
-            PlasmaComponents.TextArea {
+            Item {
+                id: spacer
+                width: parent.width
+                height: 6
+            }
+
+            Item {
                 width: parent.width
                 height: parent.rowHeight*4
-                wrapMode: TextEdit.Wrap
-                readOnly: true
-                text: BodyRole
+                clip: true
+                Text {
+                    width: parent.width
+                    text: BodyRole
+                    elide: Text.ElideRight
+                    maximumLineCount: 100
+                }
             }
 
             Row {
                 width: parent.width
                 height: parent.rowHeight
 
-                PlasmaComponents.Label {
+                Text {
                     height: parent.height
                     width: (parent.width-commentReplyButton.width)/2
                     text: AuthorRole
                 }
 
-                PlasmaComponents.Label {
+                Text {
                     height: parent.height
                     width: (parent.width-commentReplyButton.width)/2
                     text: DateTimeRole
@@ -89,9 +101,8 @@ Item {
                     width: height
 
                     onClicked: {
-                        commentDelegateRootItem.addCommentForm.parentId = ParentIdRole
-                        commentDelegateRootItem.addCommentForm.open()
-                    }
+                        commentDelegateRootItem.replyComment(ParentIdRole)
+                   }
                 }
             }
         }

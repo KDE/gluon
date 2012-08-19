@@ -60,6 +60,7 @@ namespace GluonPlayer
                 RatingRole,
                 GenreRole,
                 StatusRole,
+                CacheUriRole,
                 UriRole
             };
 

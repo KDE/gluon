@@ -1,51 +1,54 @@
-this.speed = 10;
-this.life = 3000;
-this.angle = 90;
-this.direction = 0;
-this.cameraWidth;
-this.player1Width;
-this.player2Width;
-this.leftcollide;
-this.rightcollide;
+var speed = 10,
+life = 3000,
+angle = 90,
+direction = 0,
+cameraWidth,
+player1Width,
+player2Width,
+leftcollide,
+rightcollide;
 
-this.initialize = function()
+function initialize()
 {
-    this.cameraWidth = this.Scene.sceneContents().Camera.CameraControllerComponent.visibleArea.width();
-    this.player1Width = this.Scene.sceneContents().Player1.Player1SpriteRenderer.size.width();
-    this.player2Width = this.Scene.sceneContents().Player2.Player2SpriteRenderer.size.width();
-    this.leftcollide = -this.cameraWidth + (this.player1Width);
-    this.rightcollide = this.cameraWidth - (this.player2Width);    
+    cameraWidth = self.Scene.sceneContents().Camera.CameraControllerComponent.visibleArea.width();
+    player1Width = self.Scene.sceneContents().Player1.Player1SpriteRenderer.size.width();
+    player2Width = self.Scene.sceneContents().Player2.Player2SpriteRenderer.size.width();
+    leftcollide = -cameraWidth + player1Width;
+    rightcollide = cameraWidth - player2Width;
 }
 
-this.update = function(time)
+function update(time)
 {
-    if(this.Scene.paused)
+    if(self.Scene.paused)
         return;
     
-    var addX = this.speed*(time/1000);
-    var addY = addX * (1 - this.angle/90);
+    var addX = speed*(time/1000);
+    var addY = addX * (1 - angle/90);
 
-    var pos = this.GameObject.position;
-    if (this.direction == 0)
+    var pos = self.GameObject.position;
+    if (direction == 0)
     {
-        if (pos.x() < this.leftcollide)
+        if (pos.x() < leftcollide)
         {
-            this.direction = 1;
+            direction = 1;
         }
         else
         {
-            this.GameObject.translate(-addX, addY, 0);
+            GameObject.translate(-addX, addY, 0);
         }
     }
-    else if(this.direction == 1)
+    else if(direction == 1)
     {
-        if (pos.x() > this.rightcollide)
+        if (pos.x() > rightcollide)
         {
-            this.direction = 0;
+            direction = 0;
         }
         else
         {
-            this.GameObject.translate(addX, addY, 0);
+            GameObject.translate(addX, addY, 0);
         }
     }
 }
+
+self.initialize = initialize;
+self.update = update;

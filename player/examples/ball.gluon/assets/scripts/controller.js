@@ -1,81 +1,93 @@
-this.initialize = function()
+var miniumBreak,
+currentlyBreak,
+lastScoreUpdate,
+endedGame,
+trapReference,
+starReference,
+playerReference;
+
+function initialize()
 {
-    this.Component.paused = false;
+    self.Component.paused = false;
 }
 
-this.start = function()
+function start()
 {
     Game.score = 0;
     Game.end = false;
-    
-    this.miniumBreak = 50;
-    this.currentlyBreak = 0;
-    this.lastScoreUpdate = 0;
-    this.endedGame = false;
 
-    this.trapReference = this.Scene.sceneContents().Trap;
-    this.starReference = this.Scene.sceneContents().Star;
-    this.playerReference = this.Scene.sceneContents().Player;
-    this.playerReference.setPosition(-25, -40);
-    this.playerReference.enabled = true;
+    miniumBreak = 50;
+    currentlyBreak = 0;
+    lastScoreUpdate = 0;
+    endedGame = false;
+
+    trapReference = self.Scene.sceneContents().Trap;
+    starReference = self.Scene.sceneContents().Star;
+    playerReference = self.Scene.sceneContents().Player;
+    playerReference.setPosition(-25, -40);
+    playerReference.enabled = true;
 }
 
-this.update = function(time)
+function update(time)
 {
     if( !Game.end )
     {
-        this.deployTrap();
-        if( Game.score % 6 == 0 && Game.score != this.lastScoreUpdate )
-            this.updateScore(Game.score/6);
+        deployTrap();
+        if( Game.score % 6 == 0 && Game.score != self.lastScoreUpdate )
+            updateScore(Game.score/6);
     }
     else
     {
-        if( !this.endedGame )
-            this.end();
+        if( !endedGame )
+            end();
     }
 
-    if (this.GameObject.Key_Reset.isActionStarted())
-        this.resetGame();
+    if (self.GameObject.Key_Reset.isActionStarted())
+        resetGame();
 }
 
-this.deployTrap = function()
+function deployTrap()
 {
-    this.currentlyBreak++;
-    if(this.currentlyBreak >= this.miniumBreak)
+    currentlyBreak++;
+    if(currentlyBreak >= miniumBreak)
     {
         if( Game.random() > 0.8)
         {
-            var trap = Game.clone(this.trapReference);
+            var trap = Game.clone(trapReference);
             trap.setPosition(50, -40);
             trap.enabled = true;
-            this.currentlyBreak = 0;
+            currentlyBreak = 0;
         }
     }
 }
 
-this.updateScore = function(score)
+function updateScore(score)
 {
-    this.lastScoreUpdate = score * 6;
+    lastScoreUpdate = score * 6;
     
-    var star = Game.clone(this.starReference);
+    var star = Game.clone(starReference);
     star.setPosition(((score % 6) * 8) - 20, Math.floor(score / 6) * 8);
     star.enabled = true;
 }
 
-this.end = function()
+function end()
 {
-    this.endedGame = true;
+    endedGame = true;
     
-    var score = Game.clone(this.Scene.sceneContents().ScoreText);
+    var score = Game.clone(self.Scene.sceneContents().ScoreText);
     score.setPosition(-30, 0);
     score.enabled = true;
     
-    var resetText = Game.clone(this.Scene.sceneContents().ResetText);
+    var resetText = Game.clone(self.Scene.sceneContents().ResetText);
     resetText.setPosition(-5, -10);
     resetText.enabled = true;
 }
 
-this.resetGame = function()
+function resetGame()
 {
     Game.resetCurrentScene();
 }
+
+self.initialize = initialize;
+self.start = start;
+self.update = update;

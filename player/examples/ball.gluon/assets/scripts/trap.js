@@ -1,26 +1,20 @@
-this.initialize = function()
-{
-}
-
-this.update = function(time)
+function update(time)
 {
     if(Game.end)
         return;
-    
-    this.GameObject.setPosition(this.GameObject.position.x()-0.5, this.GameObject.position.y());
-    if (this.GameObject.Collider.isColliding())
+
+    self.GameObject.setPosition(self.GameObject.position.x()-0.5, self.GameObject.position.y());
+    if (self.GameObject.Collider.isColliding())
     {
-        this.GameObject.destroy();
+        self.GameObject.destroy();
         Game.end = true;
     }
 
-    if (this.GameObject.position.x() < -50)
+    if (self.GameObject.position.x() < -50)
     {
         ++Game.score;
-        this.GameObject.destroy();
+        self.GameObject.destroy();
     }
 }
 
-this.draw = function()
-{
-}
+self.update = update;
