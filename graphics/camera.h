@@ -74,14 +74,20 @@ namespace GluonGraphics
              *
              * \return The view matrix.
              */
-            QMatrix4x4 viewMatrix();
+            QMatrix4x4 viewMatrix() const;
 
             /**
              * Retrieve the frustum used by this camera.
              *
              * \return The frustum used.
              */
-            Frustrum* frustrum();
+            Frustrum* frustrum() const;
+
+            QSizeF visibleArea() const;
+
+            float nearPlane() const;
+
+            float farPlane() const;
 
         public Q_SLOTS:
             /**
@@ -96,6 +102,14 @@ namespace GluonGraphics
              * \param frustum The frustum to use.
              */
             void setFrustrum( GluonGraphics::Frustrum* frustrum );
+
+            void setVisibleArea( QSizeF area );
+
+            void setNearPlane( float near );
+
+            void setFarPlane( float far );
+
+            virtual void resize( int width, int height );
 
             virtual void render();
 
