@@ -25,6 +25,14 @@ namespace GluonGraphics
     class TextureData
     {
         public:
+            enum FilteringMode
+            {
+                UnknownFilteringMode,
+                NearestFilteringMode,
+                BilinearFilteringMode,
+                TrilinearFilteringMode
+            };
+
             TextureData() { }
             virtual ~TextureData() { }
 
@@ -32,6 +40,7 @@ namespace GluonGraphics
             virtual void release() = 0;
 
             virtual void setData( int width, int height, void* data ) = 0;
+            virtual void setFilteringMode( FilteringMode mode ) = 0;
     };
 }
 

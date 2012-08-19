@@ -37,6 +37,7 @@ namespace GluonGraphics
                 virtual void release();
 
                 virtual void setData( int width, int height, void* data );
+                virtual void setFilteringMode( FilteringMode mode );
 
                 void setTexture( unsigned int texture );
 
