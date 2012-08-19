@@ -66,6 +66,9 @@ const QStringList TextureAsset::supportedMimeTypes() const
 
 void TextureAsset::load()
 {
+    if( isLoaded() )
+        return;
+
     if( !file().isEmpty() )
     {
         if( !d->texture )
