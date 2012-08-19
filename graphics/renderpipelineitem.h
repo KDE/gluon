@@ -32,11 +32,17 @@ namespace GluonGraphics
     class GLUON_GRAPHICS_EXPORT RenderPipelineItem
     {
         public:
+            RenderPipelineItem() : m_parent( 0 ) { }
             virtual ~RenderPipelineItem() { }
 
             virtual void renderContents() = 0;
-
             virtual void resize(int width, int height) = 0;
+
+            virtual RenderPipelineItem* parentItem() const { return m_parent; }
+            void setParentItem( RenderPipelineItem* parent ) { m_parent = parent; }
+
+        private:
+            RenderPipelineItem* m_parent;
     };
 }
 
