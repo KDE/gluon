@@ -9,16 +9,17 @@
         { GluonEngine::Scene("Game")
             file string("scenes/game.gluonscene")
             paused bool(false)
-            enemies float(28)
-            lives float(5)
+            enemies int(28)
+            lives int(5)
+            sceneScore int(0)
         }
     }
     { GluonCore::GluonObject("Assets")
         { GluonCore::GluonObject("Interface")
-            { GluonEngine::UiAsset("Menu Interface")
+            { GluonEngine::QtQuickAsset("Menu Interface")
                 file string("assets/interface/menu_interface.qml")
             }
-            { GluonEngine::UiAsset("Game Interface")
+            { GluonEngine::QtQuickAsset("Game Interface")
                 file string("assets/interface/game_interface.qml")
             }
         }
