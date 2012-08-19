@@ -35,6 +35,8 @@ namespace GluonGraphics
             virtual ~RenderPipelineItem() { }
 
             virtual void renderContents() = 0;
+
+            virtual void resize(int width, int height) = 0;
     };
 }
 
