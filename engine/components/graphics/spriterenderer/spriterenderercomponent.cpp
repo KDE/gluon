@@ -103,11 +103,8 @@ void SpriteRendererComponent::initialize()
             texture = qobject_cast<Asset*>( GluonCore::GluonObjectFactory::instance()->wrappedObject( d->material->property( "texture0" ) ) );
 
         if( texture )
-        {
-            debug("Texture!");
             texture->load();
-            d->material->setProperty( "texture0", QVariant::fromValue( GluonGraphics::Manager::instance()->resource< GluonGraphics::Texture >( texture->data()->text() ) ) );
-        }
+
         d->entity->setMaterialInstance( d->material );
     }
 }
@@ -121,7 +118,7 @@ void SpriteRendererComponent::draw( int /* timeLapse */ )
     if( d->entity )
     {
         QMatrix4x4 transform = gameObject()->transform();
-        transform.scale( d->size.width() / 2, d->size.height() / 2 );
+        transform.scale( d->size.width(), d->size.height() );
         d->entity->setTransform( transform );
     }
 }
