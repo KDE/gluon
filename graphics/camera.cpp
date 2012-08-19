@@ -32,6 +32,12 @@ class Camera::Private
     public:
         Frustrum* frustrum;
         QMatrix4x4 viewMatrix;
+
+        QSizeF visibleArea;
+        float nearPlane;
+        float farPlane;
+
+        float aspect;
 };
 
 Camera::Camera( QObject* parent )
@@ -53,13 +59,13 @@ Camera::~Camera()
 }
 
 Frustrum*
-Camera::frustrum()
+Camera::frustrum() const
 {
     return d->frustrum;
 }
 
 QMatrix4x4
-Camera::viewMatrix()
+Camera::viewMatrix() const
 {
     return d->viewMatrix;
 }
@@ -76,6 +82,24 @@ Camera::setViewMatrix( const QMatrix4x4& matrix )
     d->viewMatrix = matrix;
 }
 
+void Camera::setVisibleArea( QSizeF area )
+{
+    d->visibleArea = area;
+    d->frustrum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane );
+}
+
+void Camera::setNearPlane( float near )
+{
+    d->nearPlane = near;
+    d->frustrum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane );
+}
+
+void Camera::setFarPlane( float far )
+{
+    d->farPlane = far;
+    d->frustrum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane );
+}
+
 void Camera::render()
 {
     //Does nothing atm.
@@ -85,6 +109,12 @@ void Camera::renderContents()
 {
     world()->setActiveCamera( this );
     world()->render();
+}
+
+void Camera::resize( int width, int height )
+{
+    d->aspect = float(width) / float(height);
+    d->frustrum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane  );
 }
 
 #include "camera.moc"
