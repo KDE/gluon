@@ -78,7 +78,6 @@ namespace GluonGraphics
         extern PFNGLISRENDERBUFFEREXTPROC glIsRenderbufferEXT;
         extern PFNGLBINDRENDERBUFFEREXTPROC glBindRenderbufferEXT;
         extern PFNGLRENDERBUFFERSTORAGEEXTPROC glRenderbufferStorageEXT;
-        extern PFNGLGETRENDERBUFFERPARAMETERIVEXTPROC glGetRenderbufferParamterivEXT;
 
         //Framebuffers
         extern PFNGLGENFRAMEBUFFERSEXTPROC glGenFramebuffersEXT;
@@ -91,7 +90,6 @@ namespace GluonGraphics
         extern PFNGLFRAMEBUFFERTEXTURE3DEXTPROC glFramebufferTexture3DEXT;
         extern PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC glFramebufferRenderbufferEXT;
         extern PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC glGetFramebufferAttachmentParameterivEXT;
-        extern PFNGLGENERATEMIPMAPEXTPROC glGenerateMipMapEXT;
     }
 }
 
