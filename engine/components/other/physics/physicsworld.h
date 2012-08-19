@@ -7,19 +7,19 @@
 
 namespace GluonEngine
 {
-class physicsworld : public GluonCore::Singleton<physicsworld> //Inherit template
+class PhysicsWorld : public GluonCore::Singleton<PhysicsWorld> //Inherit template
  {
     Q_OBJECT
-    GLUON_SINGLETON(physicsworld) //Declare constructor and disable copying
+    GLUON_SINGLETON(PhysicsWorld) //Declare constructor and disable copying
 
-  public:
+  /*public:
         physicsworld ();
        ~physicsworld();
+*/
+       public:
 
-  public:
           btDiscreteDynamicsWorld* dynamicsWorld;
-
-}; 
+};
 
 }
 

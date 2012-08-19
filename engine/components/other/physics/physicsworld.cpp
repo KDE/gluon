@@ -5,9 +5,9 @@
 using namespace GluonEngine;
 
 
-GLUON_DEFINE_SINGLETON(physicsworld) //Define the static variables
+GLUON_DEFINE_SINGLETON(PhysicsWorld) //Define the static variables
 
-physicsworld::physicsworld( QObject* parent ): GluonCore::Singleton< physicsworld >( parent ) //Constructor definition
+PhysicsWorld::PhysicsWorld( QObject* parent ): GluonCore::Singleton< PhysicsWorld >( parent ) //Constructor definition
 {
 
     // Build the broadphase
@@ -21,13 +21,16 @@ physicsworld::physicsworld( QObject* parent ): GluonCore::Singleton< physicsworl
     // The actual physics solver
     btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver;
 
-   dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher,broadphase,solver,collisionConfiguration);
+     dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher,broadphase,solver,collisionConfiguration);
 
-    dynamicsWorld->addRigidBody(btRigidBody);
+     //dynamicsWorld->addRigidBody(btRigidBody);------------------------------------------------------------------------------------------------
 
-    void contactTest (btCollisionObject *colObj, ContactDestroyedCallback &resultCallback );
 
-    void contactPairTest (btCollisionObject *colObjA, btCollisionObject *colObjB, ContactDestroyedCallback  &resultCallback);
+     void contactTest (btCollisionObject *colObj, btCollisionWorld::ContactResultCallback &resultCallback );
+
+     void contactPairTest (btCollisionObject *colObjA, btCollisionObject *colObjB,btCollisionWorld::ContactResultCallback &resultCallback);
+
+
 
     delete dynamicsWorld;
     delete solver ;

@@ -2,7 +2,7 @@
 #define GLUON_ENGINE_SPHERECOLLISIONCOMPONENT_H
 
 #include <engine/component.h>
-
+#include<bullet/LinearMath/btScalar.h>
 
 namespace GluonEngine
 {
@@ -13,12 +13,12 @@ namespace GluonEngine
             Q_INTERFACES( GluonEngine::Component )
             GLUON_OBJECT( GluonEngine::SphereCollisionComponent )
 
-            Q_PROPERTY( int collisionGroup READ collisionGroup WRITE setCollisionGroup )
-            Q_PROPERTY( int targetGroup READ targetGroup WRITE setTargetGroup )
-            Q_PROPERTY( float radius READ radius WRITE setRadius )
+             Q_PROPERTY( int collisionGroup READ collisionGroup WRITE setCollisionGroup )
+             Q_PROPERTY( int targetGroup READ targetGroup WRITE setTargetGroup )
+             Q_PROPERTY( float radius READ radius /*WRITE setRadius*/ )
 
-            Q_CLASSINFO( "org.gluon.category", "Physics" )
-            Q_CLASSINFO( "org.gluon.icon", "application-x-executable" )
+              Q_CLASSINFO( "org.gluon.category", "Physics" )
+              Q_CLASSINFO( "org.gluon.icon", "application-x-executable" )
 
              public:
 
@@ -32,17 +32,29 @@ namespace GluonEngine
 
             virtual void start();
 
-            virtual void update(  );
+            virtual void update(int elapsedMilliseconds );
 
             virtual void stop();
 
             virtual void cleanup();
 
+             int collisionGroup() const;
+
+              btScalar radius( )const ;
+
+            // float radiusSquared() const;
+
+             int targetGroup() const;
+
 
 
        public Q_SLOTS:
 
+       // void setRadius( btScalar radius );
+
         void setCollisionGroup( int );
+
+        void setTargetGroup( int group );
 
         void componentDestroyed( QObject* obj );
 
