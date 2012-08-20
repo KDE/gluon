@@ -1,5 +1,5 @@
-#ifndef GLUON_ENGINE_SPHERECOLLISIONCOMPONENT_H
-#define GLUON_ENGINE_SPHERECOLLISIONCOMPONENT_H
+#ifndef GLUON_ENGINE_BOXCOLLISIONCOMPONENT_H
+#define GLUON_ENGINE_BOXCOLLISIONCOMPONENT_H
 
 #include <engine/component.h>
 #include <engine/gluon_engine_export.h>
@@ -8,24 +8,24 @@
 namespace GluonEngine
 {
 
-    class GLUON_COMPONENT_PHYSICS_EXPORT SphereCollisionComponent : public Component
+    class GLUON_COMPONENT_PHYSICS_EXPORT  BoxCollisionComponent : public Component
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Component )
-            GLUON_OBJECT( GluonEngine::SphereCollisionComponent )
+            GLUON_OBJECT( GluonEngine::BoxCollisionComponent )
 
              Q_PROPERTY( int collisionGroup READ collisionGroup WRITE setCollisionGroup )
              Q_PROPERTY( int targetGroup READ targetGroup WRITE setTargetGroup )
-             Q_PROPERTY( float radius READ radius /*WRITE setRadius*/ )
+             Q_PROPERTY( btVector3 boxHalfExtents READ boxHalfExtents )
 
               Q_CLASSINFO( "org.gluon.category", "Physics" )
               Q_CLASSINFO( "org.gluon.icon", "application-x-executable" )
 
              public:
 
-            Q_INVOKABLE SphereCollisionComponent( QObject* parent = 0 );      // constructor
+            Q_INVOKABLE BoxCollisionComponent( QObject* parent = 0 );      // constructor
 
-            virtual ~SphereCollisionComponent();    //destructor
+            virtual ~BoxCollisionComponent();    //destructor
 
             virtual QString category() const;
 
@@ -41,9 +41,7 @@ namespace GluonEngine
 
              int collisionGroup() const;
 
-              btScalar radius( )const ;
-
-            // float radiusSquared() const;
+              btVector3 boxHalfExtents( )const ;
 
              int targetGroup() const;
 
@@ -59,16 +57,16 @@ namespace GluonEngine
 
         void componentDestroyed( QObject* obj );
 
-        void addComponent( SphereCollisionComponent*  comp );
+        void addComponent( BoxCollisionComponent*  comp );
 
 
  private:
-        class SphereCollisionComponentPrivate;
-        SphereCollisionComponentPrivate* const d;
+        class BoxCollisionComponentPrivate;
+        BoxCollisionComponentPrivate* const d;
     };
 
 }
 
-Q_DECLARE_METATYPE( GluonEngine::SphereCollisionComponent* )
+Q_DECLARE_METATYPE( GluonEngine::BoxCollisionComponent* )
 
-#endif // GLUON_ENGINE_SphereCollisionComponent_H
+#endif   // GLUON_ENGINE_BoxCollisionComponent_H
