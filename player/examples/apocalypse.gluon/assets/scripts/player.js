@@ -1,35 +1,47 @@
-this.initialize = function()
+var animatedSprite,
+background,
+bullet,
+crosshair,
+renderTarget,
+
+scaleX,
+scaleY,
+moveX,
+moveY,
+lightIntensity;
+
+function initialize()
 {
-    this.Component.backgroundDivisor = this.Component.backgroundDivisor || 50;
-    this.Component.speed = this.Component.speed || 20;
-    this.Component.health = this.Component.health || 100;
+    self.Component.backgroundDivisor = self.Component.backgroundDivisor || 50;
+    self.Component.speed = self.Component.speed || 20;
+    self.Component.health = self.Component.health || 100;
     
-    MessageHandler.subscribe("fireBullet", this.fireBullet, this);
-    MessageHandler.subscribe("playerHurt", this.damagePlayer, this);
+    MessageHandler.subscribe("fireBullet", fireBullet, self);
+    MessageHandler.subscribe("playerHurt", damagePlayer, self);
 }
 
-this.start = function()
+function start()
 {
-    this.animatedSprite = this.GameObject.AnimatedSpriteRendererComponent;
-    this.background = this.GameObject.parentGameObject().Background.SpriteRendererComponent.material;
-    this.bullet = this.Scene.sceneContents().Bullet;
-    this.crosshair = this.Scene.sceneContents().Camera.Crosshair;
-    this.renderTarget = this.Scene.sceneContents().Camera.CameraControllerComponent.renderTargetMaterial;
-    
-    this.scaleX = this.background.textureParameters.z();
-    this.scaleY = this.background.textureParameters.w();
-    this.moveX = 0.0;
-    this.moveY = 0.0;
-    this.lightIntensity = this.background.lightIntensity;
+    animatedSprite = self.GameObject.AnimatedSpriteRendererComponent;
+    background = self.GameObject.parentGameObject().Background.SpriteRendererComponent.material;
+    bullet = self.Scene.sceneContents().Bullet;
+    crosshair = self.Scene.sceneContents().Camera.Crosshair;
+    renderTarget = self.Scene.sceneContents().Camera.CameraControllerComponent.renderTargetMaterial;
 
-    this.Scene.currentHealth = this.Component.health;
-    this.renderTarget.saturation = 1.0;
-    this.background.lightIntensity = 1500;
+    scaleX = background.textureParameters.z();
+    scaleY = background.textureParameters.w();
+    moveX = 0.0;
+    moveY = 0.0;
+    lightIntensity = background.lightIntensity;
+
+    self.Scene.currentHealth = self.Component.health;
+    renderTarget.saturation = 1.0;
+    background.lightIntensity = 1500;
 }
 
-this.update = function(time)
+function update(time)
 {
-    if(this.Scene.paused)
+    if(self.Scene.paused)
         return;
     
     var dt = time / 1000;
@@ -37,105 +49,110 @@ this.update = function(time)
     var translateX = 0;
     var translateY = 0;
     
-    if(this.GameObject.Key_Left.isActionHeld())
-        translateX = -this.Component.speed * dt;
+    if(self.GameObject.Key_Left.isActionHeld())
+        translateX = -self.Component.speed * dt;
     
-    if(this.GameObject.Key_Right.isActionHeld())
-        translateX = this.Component.speed * dt;
+    if(self.GameObject.Key_Right.isActionHeld())
+        translateX = self.Component.speed * dt;
     
-    if(this.GameObject.Key_Up.isActionHeld())
-        translateY = this.Component.speed * dt;
+    if(self.GameObject.Key_Up.isActionHeld())
+        translateY = self.Component.speed * dt;
     
-    if(this.GameObject.Key_Down.isActionHeld())
-        translateY = -this.Component.speed * dt;
+    if(self.GameObject.Key_Down.isActionHeld())
+        translateY = -self.Component.speed * dt;
     
-    //this.GameObject.debug(translateX);
-    //this.GameObject.debug(translateY);
+    //self.GameObject.debug(translateX);
+    //self.GameObject.debug(translateY);
     
-    this.moveX += translateX / this.Component.backgroundDivisor;
-    this.moveY += translateY / this.Component.backgroundDivisor;
-    this.background.textureParameters = new QVector4D(this.moveX, this.moveY, this.scaleX, this.scaleY);
+    moveX += translateX / self.Component.backgroundDivisor;
+    moveY += translateY / self.Component.backgroundDivisor;
+    background.textureParameters = new QVector4D(moveX, moveY, scaleX, scaleY);
    
-    this.GameObject.parentGameObject().translate(translateX / this.scaleX, translateY / this.scaleY, 0);
+    self.GameObject.parentGameObject().translate(translateX / scaleX, translateY / scaleY, 0);
     
-    this.setDirection();
+    setDirection();
     
     if(translateX == 0 && translateY == 0)
     {
-	if(this.animatedSprite.animation != 0)
-	    this.animatedSprite.animation = 0;
+	if(animatedSprite.animation != 0)
+	    animatedSprite.animation = 0;
     }
     else
     {
-        if(this.animatedSprite.animation != 1)
-            this.animatedSprite.animation = 1;
+        if(animatedSprite.animation != 1)
+            animatedSprite.animation = 1;
     }
 }
 
-this.cleanup = function()
+function cleanup()
 {
-    MessageHandler.unsubscribe("fireBullet", this.fireBullet, this);
-    MessageHandler.unsubscribe("playerHurt", this.damagePlayer, this);
+    MessageHandler.unsubscribe("fireBullet", fireBullet, self);
+    MessageHandler.unsubscribe("playerHurt", damagePlayer, self);
 }
 
-this.fireBullet = function() 
+function fireBullet() 
 {
-    var newBullet = Game.clone(this.bullet);
+    var newBullet = Game.clone(bullet);
     newBullet.enabled = true;
 
-    var newPosition = this.GameObject.worldPosition();
-    newPosition.setZ(this.bullet.position.z());
+    var newPosition = self.GameObject.worldPosition();
+    newPosition.setZ(bullet.position.z());
     newBullet.setPosition(newPosition);
 
     var dir = new QVector3D();
-    dir.setX(this.crosshair.worldPosition().x() - newPosition.x());
-    dir.setY(this.crosshair.worldPosition().y() - newPosition.y());
+    dir.setX(crosshair.worldPosition().x() - newPosition.x());
+    dir.setY(crosshair.worldPosition().y() - newPosition.y());
     dir.normalize();
     newBullet.ScriptingComponent.direction = dir;
 }
 
-this.setDirection = function()
+function setDirection()
 {
-    var dir = this.crosshair.worldPosition().subtract(this.GameObject.worldPosition());
+    var dir = crosshair.worldPosition().subtract(self.GameObject.worldPosition());
     dir.normalize();
 
     var angle = QVector3D.dotProduct(dir, new QVector3D(0, 1, 0));
     if(dir.x() < 0)
     {
         if(angle > 0.75)
-            this.animatedSprite.direction = 7;
+            animatedSprite.direction = 7;
         else if(angle > 0.25)
-            this.animatedSprite.direction = 0;
+            animatedSprite.direction = 0;
         else if(angle > -0.25)
-            this.animatedSprite.direction = 1;
+            animatedSprite.direction = 1;
         else if(angle > -0.75)
-            this.animatedSprite.direction = 2;
+            animatedSprite.direction = 2;
         else
-            this.animatedSprite.direction = 3;
+            animatedSprite.direction = 3;
     }
     else
     {
         if(angle > 0.75)
-            this.animatedSprite.direction = 7;
+            animatedSprite.direction = 7;
         else if(angle > 0.25)
-            this.animatedSprite.direction = 6;
+            animatedSprite.direction = 6;
         else if(angle > -0.25)
-            this.animatedSprite.direction = 5;
+            animatedSprite.direction = 5;
         else if(angle > -0.75)
-            this.animatedSprite.direction = 4;
+            animatedSprite.direction = 4;
         else
-            this.animatedSprite.direction = 3;
+            animatedSprite.direction = 3;
     }
 }
 
-this.damagePlayer = function()
+function damagePlayer()
 {
-    this.Scene.currentHealth -= 1;
-    this.background.lightIntensity = (this.Scene.currentHealth / this.Component.health) * (this.lightIntensity); // / 2) + this.lightIntensity / 2;
-    this.renderTarget.saturation = this.Scene.currentHealth / this.Component.health;
+    self.Scene.currentHealth -= 1;
+    background.lightIntensity = (self.Scene.currentHealth / self.Component.health) * (lightIntensity); // / 2) + lightIntensity / 2;
+    renderTarget.saturation = self.Scene.currentHealth / self.Component.health;
 
-    if(this.Scene.currentHealth < 0)
+    if(self.Scene.currentHealth < 0)
     {
         MessageHandler.publish("playerDied");
     }
 }
+
+self.initialize = initialize;
+self.start = start;
+self.update = update;
+self.cleanup = cleanup;

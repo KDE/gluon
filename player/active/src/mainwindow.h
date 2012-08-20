@@ -23,7 +23,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "kdeclarativemainwindow.h"
+#include <kdeclarativemainwindow.h>
 
 class QResizeEvent;
 

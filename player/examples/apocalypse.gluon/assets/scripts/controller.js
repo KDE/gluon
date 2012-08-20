@@ -1,91 +1,102 @@
-this.initialize = function()
-{
-    this.Component.minSpawnRate = this.Component.minSpawnRate || 1000;
-    this.Component.maxSpawnRate = this.Component.maxSpawnRate || 80;
-    this.Component.spawnRateChange = this.Component.spawnRateChange || 2000;
+var zombie,
+camera,
+currentSpawnRate,
+timeToSpawn,
+timeToSpawnChange,
+spawnArea;
 
-    MessageHandler.subscribe("playerDied", this.playerDied, this);
+function initialize()
+{
+    self.Component.minSpawnRate = self.Component.minSpawnRate || 1000;
+    self.Component.maxSpawnRate = self.Component.maxSpawnRate || 80;
+    self.Component.spawnRateChange = self.Component.spawnRateChange || 2000;
+
+    MessageHandler.subscribe("playerDied", playerDied, self);
 }
 
-this.start = function()
+function start()
 {
-    this.zombie = this.Scene.sceneContents().Zombie;
-    this.camera = this.Scene.sceneContents().Camera;
-    this.currentSpawnRate = this.Component.minSpawnRate;
-    this.timeToSpawn = this.currentSpawnRate;
-    this.timeToSpawnChange = this.Component.spawnRateChange;
+    zombie = self.Scene.sceneContents().Zombie;
+    camera = self.Scene.sceneContents().Camera;
+    currentSpawnRate = self.Component.minSpawnRate;
+    timeToSpawn = currentSpawnRate;
+    timeToSpawnChange = self.Component.spawnRateChange;
 
-    this.Scene.score = 0;
-    this.Scene.paused = false;
+    self.Scene.score = 0;
+    self.Scene.paused = false;
     
-    this.spawnArea = { minX: -60, minY: -60, maxX: 60, maxY: 60 }
+    spawnArea = { minX: -60, minY: -60, maxX: 60, maxY: 60 }
 }
 
-this.update = function(time)
+function update(time)
 {
-    if(this.Scene.paused)
+    if(self.Scene.paused)
         return;
     
-    this.timeToSpawn -= time;
-    this.timeToSpawnChange -= time;
+    timeToSpawn -= time;
+    timeToSpawnChange -= time;
 
-    if(this.timeToSpawn <= 0)
+    if(timeToSpawn <= 0)
     {
-	this.spawnZombie();
-	this.timeToSpawn = this.currentSpawnRate;
+        spawnZombie();
+        timeToSpawn = currentSpawnRate;
     }
-    
-    if(this.timeToSpawnChange <= 0)
+
+    if(timeToSpawnChange <= 0)
     {
-	this.currentSpawnRate -= this.currentSpawnRate / 10;
-        this.timeToSpawnChange = this.Component.spawnRateChange;
+        currentSpawnRate -= currentSpawnRate / 10;
+        timeToSpawnChange = self.Component.spawnRateChange;
         
-        if(this.currentSpawnRate < this.Component.maxSpawnRate)
+        if(currentSpawnRate < self.Component.maxSpawnRate)
         {
-            this.currentSpawnRate = this.Component.maxSpawnRate;
-            this.timeToSpawnChange = 1000000;
+            currentSpawnRate = Component.maxSpawnRate;
+            timeToSpawnChange = 1000000;
         }
     }
 }
 
-this.cleanup = function()
+function cleanup()
 {
-    MessageHandler.unsubscribe("playerDied", this.playerDied, this);
+    MessageHandler.unsubscribe("playerDied", playerDied, self);
 }
 
-this.spawnZombie = function()
+function spawnZombie()
 {
-    var newZombie = Game.clone(this.zombie);
+    var newZombie = Game.clone(zombie);
     newZombie.enabled = true;
 
     var side = Math.floor(Game.random() * 4);
     var position = new QVector3D();
-    position.setZ(this.zombie.position.z());
+    position.setZ(zombie.position.z());
     switch(side)
     {
         case 0:
-            position.setY(this.spawnArea.maxY);
-            position.setX(this.spawnArea.minX + Game.random() * (this.spawnArea.maxX - this.spawnArea.minX));
+            position.setY(spawnArea.maxY);
+            position.setX(spawnArea.minX + Game.random() * (spawnArea.maxX - spawnArea.minX));
             break;
         case 1:
-            position.setX(this.spawnArea.maxX);
-            position.setY(this.spawnArea.minY + Game.random() * (this.spawnArea.maxY - this.spawnArea.minY));
+            position.setX(spawnArea.maxX);
+            position.setY(spawnArea.minY + Game.random() * (spawnArea.maxY - spawnArea.minY));
             break;
         case 2:
-            position.setY(this.spawnArea.minY);
-            position.setX(this.spawnArea.minX + Game.random() * (this.spawnArea.maxX - this.spawnArea.minX));
+            position.setY(spawnArea.minY);
+            position.setX(spawnArea.minX + Game.random() * (spawnArea.maxX - spawnArea.minX));
             break;
         case 3:
-            position.setX(this.spawnArea.minX);
-            position.setY(this.spawnArea.minY + Game.random() * (this.spawnArea.maxY - this.spawnArea.minY));
+            position.setX(spawnArea.minX);
+            position.setY(spawnArea.minY + Game.random() * (spawnArea.maxY - spawnArea.minY));
             break;
     }
-    position.setX(position.x() + this.camera.position.x());
-    position.setY(position.y() + this.camera.position.y());
+    position.setX(position.x() + camera.position.x());
+    position.setY(position.y() + camera.position.y());
     newZombie.position = position;
 }
 
-this.playerDied = function()
+function playerDied()
 {
-    this.Scene.paused = true;
+    self.Scene.paused = true;
 }
+
+self.initialize = initialize;
+self.start = start;
+self.update = update;

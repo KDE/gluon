@@ -1,34 +1,43 @@
-this.initialize = function()
+var Mouse,
+zDepth,
+radius,
+fireInterval;
+
+function initialize()
 {
-    this.Component.mouseSpeed = this.Component.mouseSpeed || 0.05;
-    this.Component.fireInterval = this.Component.fireInterval || 20;
-    this.Mouse = this.GameObject.Button_Fire;
-    this.zDepth = this.GameObject.position.z();
-    this.radius = 45;
+    self.Component.mouseSpeed = self.Component.mouseSpeed || 0.05;
+    self.Component.fireInterval = self.Component.fireInterval || 20;
+    Mouse = self.GameObject.Button_Fire;
+    zDepth = self.GameObject.position.z();
+    radius = 45;
 }
 
-this.start = function()
+function start()
 {
-    this.fireInterval = this.Component.fireInterval;
+    fireInterval = self.Component.fireInterval;
 }
 
-this.update = function(time)
+function update(time)
 {
-    if(this.Scene.paused)
+    if(self.Scene.paused)
         return;
     
-    var x = this.GameObject.Button_Fire.normalizedXAxis() * this.radius;
-    var y = -this.GameObject.Button_Fire.normalizedYAxis() * this.radius;
+    var x = self.GameObject.Button_Fire.normalizedXAxis() * radius;
+    var y = -self.GameObject.Button_Fire.normalizedYAxis() * radius;
 
-    this.GameObject.setPosition(x, y, this.zDepth);
+    self.GameObject.setPosition(x, y, zDepth);
     
-    if(this.GameObject.Button_Fire.isActionHeld())
+    if(self.GameObject.Button_Fire.isActionHeld())
     {
-        this.fireInterval -= time;
-        if(this.fireInterval <= 0)
+        fireInterval -= time;
+        if(fireInterval <= 0)
         {
             MessageHandler.publish("fireBullet");
-            this.fireInterval = this.Component.fireInterval;
+            fireInterval = self.Component.fireInterval;
         }
     }
 }
+
+self.initialize = initialize;
+self.start = start;
+self.update = update;
