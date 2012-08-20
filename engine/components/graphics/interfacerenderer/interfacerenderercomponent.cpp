@@ -19,10 +19,12 @@
 
 #include "interfacerenderercomponent.h"
 #include <asset.h>
+#include <game.h>
 
 #include <graphics/manager.h>
 #include <graphics/rendertarget.h>
 #include <graphics/qtquickrenderer.h>
+#include <input/inputmanager.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, InterfaceRendererComponent )
 
@@ -31,14 +33,17 @@ using namespace GluonEngine;
 class InterfaceRendererComponent::Private
 {
     public:
-        Private() : renderer( 0 ) { }
+        Private( InterfaceRendererComponent* qq ) : q( qq ), renderer( 0 ), asset( 0 ) { }
+        void setRenderer( const QString& name );
+
+        InterfaceRendererComponent* q;
 
         GluonGraphics::QtQuickRenderer* renderer;
         Asset* asset;
 };
 
 InterfaceRendererComponent::InterfaceRendererComponent( QObject* parent )
-    : Component( parent ), d( new Private )
+    : Component( parent ), d( new Private( this ) )
 {
 
 }
@@ -55,14 +60,16 @@ QString InterfaceRendererComponent::category() const
 
 void InterfaceRendererComponent::initialize()
 {
-    d->asset->load();
-    d->renderer = GluonGraphics::Manager::instance()->resource< GluonGraphics::QtQuickRenderer >( d->asset->data()->text() );
-    GluonGraphics::Manager::instance()->resource< GluonGraphics::RenderTarget >( GluonGraphics::Manager::Defaults::RenderTarget )->addChild( d->renderer );
+    if( d->asset )
+    {
+        d->asset->load();
+        d->setRenderer( d->asset->data()->text() );
+    }
 }
 
 void InterfaceRendererComponent::cleanup()
 {
-    GluonGraphics::Manager::instance()->resource< GluonGraphics::RenderTarget >( GluonGraphics::Manager::Defaults::RenderTarget )->removeChild( d->renderer );
+    d->setRenderer( QString() );
 }
 
 Asset* InterfaceRendererComponent::qtQuickFile() const
@@ -73,6 +80,31 @@ Asset* InterfaceRendererComponent::qtQuickFile() const
 void InterfaceRendererComponent::setQtQuickFile( Asset* asset )
 {
     d->asset = asset;
+    if( asset )
+        d->setRenderer( asset->data()->text() );
+}
+
+void InterfaceRendererComponent::sendEvent(QEvent* event)
+{
+    if( Game::instance()->isRunning() && !Game::instance()->isPaused() )
+        d->renderer->deliverEvent( event );
+}
+
+void InterfaceRendererComponent::Private::setRenderer(const QString& name)
+{
+    if( renderer )
+    {
+        GluonGraphics::Manager::instance()->resource< GluonGraphics::RenderTarget >( GluonGraphics::Manager::Defaults::RenderTarget )->removeChild( renderer );
+        disconnect( GluonInput::InputManager::instance(), SIGNAL(eventFiltered(QEvent*)), q, SLOT(sendEvent(QEvent*)) );
+    }
+
+    renderer = GluonGraphics::Manager::instance()->resource< GluonGraphics::QtQuickRenderer >( name );
+
+    if( renderer )
+    {
+        GluonGraphics::Manager::instance()->resource< GluonGraphics::RenderTarget >( GluonGraphics::Manager::Defaults::RenderTarget )->addChild( renderer );
+        connect( GluonInput::InputManager::instance(), SIGNAL(eventFiltered(QEvent*)), q, SLOT(sendEvent(QEvent*)) );
+    }
 }
 
 Q_EXPORT_PLUGIN2( gluon_component_interfacerenderer, GluonEngine::InterfaceRendererComponent );

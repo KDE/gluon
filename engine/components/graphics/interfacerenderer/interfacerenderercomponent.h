@@ -48,6 +48,9 @@ namespace GluonEngine
             Asset* qtQuickFile() const;
             void setQtQuickFile( Asset* asset );
 
+        public Q_SLOTS:
+            void sendEvent( QEvent* event );
+
         private:
             class Private;
             Private* const d;
