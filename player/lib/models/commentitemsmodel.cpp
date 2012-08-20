@@ -158,10 +158,10 @@ bool dateTimeLessThan( GluonCore::GluonObject* go1, GluonCore::GluonObject* go2 
 void CommentItemsModel::loadData()
 {
     AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());
-    QString gameCachePath = model->data(d->m_gameId, AllGameItemsModel::CacheUriRole).toString();
+    QString gameCachePath = model->data(d->m_gameId, AllGameItemsModel::CacheUriRole).toUrl().toLocalFile();
 
     GluonCore::GluonObjectList list;
-    if( !GluonCore::GDLSerializer::instance()->read( QUrl( gameCachePath + "/comments.gdl" ), list ) )
+    if( gameCachePath.isEmpty() || !GluonCore::GDLSerializer::instance()->read( QUrl( gameCachePath + "/comments.gdl" ), list ) )
         return;
 
     d->m_rootNode = list.at( 0 );
@@ -171,7 +171,7 @@ void CommentItemsModel::loadData()
 
 void CommentItemsModel::saveData()
 {
-    if (m_gameId.isEmpty()) {
+    if (d->m_gameId.isEmpty()) {
         qDebug() << "Failed to save the comment data for empty game id.";
         return;
     }

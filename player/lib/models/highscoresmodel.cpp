@@ -136,7 +136,7 @@ void HighScoresModel::loadData()
 
 void HighScoresModel::saveData()
 {
-    if (m_gameId.isEmpty()) {
+    if (d->m_gameId.isEmpty()) {
         qDebug() << "Failed to save the high scores data for empty game id.";
         return;
     }
