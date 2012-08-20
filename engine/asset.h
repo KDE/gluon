@@ -179,7 +179,7 @@ namespace GluonEngine
              */
             virtual bool isLoaded() const;
 
-            void reload();
+            virtual void reload();
 
             /**
              * Filter the fully qualified name of an object.
