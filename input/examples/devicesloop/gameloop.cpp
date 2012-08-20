@@ -23,6 +23,8 @@
 #include <QtCore/QDebug>
 #include <QtCore/QCoreApplication>
 
+#include "input/inputdevice.h"
+
 GameLoop::GameLoop( QList<InputDevice*> inputList )
     : m_inputList( inputList )
 {

@@ -20,6 +20,7 @@
 #include "gameloop.h"
 
 #include "input/inputmanager.h"
+#include "input/inputdevice.h"
 
 #include <QtGui/QApplication>
 #include <QtCore/QDebug>

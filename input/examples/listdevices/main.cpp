@@ -22,6 +22,7 @@
  */
 
 #include "input/inputmanager.h"
+#include "input/inputdevice.h"
 
 #include <QtCore/QDebug>
 
