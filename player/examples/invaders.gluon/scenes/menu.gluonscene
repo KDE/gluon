@@ -39,6 +39,7 @@
         scale vector3d(1;1;1)
         expanded bool(false)
         { GluonEngine::InterfaceRendererComponent("Interface")
+            enabled bool(true)
             qtquickfile GluonEngine::QtQuickAsset("Invaders/Assets/Interface/Menu Interface")
         }
         { GluonEngine::KeyboardInputComponent("Key_Up")
