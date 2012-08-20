@@ -167,6 +167,7 @@ void CommentItemsModel::loadData()
     d->m_rootNode = list.at( 0 );
     treeTraversal( d->m_rootNode );
     qSort( d->m_nodes.begin(), d->m_nodes.end(), dateTimeLessThan );
+    qDebug()<<"Last comment for this game is"<<d->m_nodes.at(d->m_nodes.count()-1)->property("Body");
 }
 
 void CommentItemsModel::saveData()

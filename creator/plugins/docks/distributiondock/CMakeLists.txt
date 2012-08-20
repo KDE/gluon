@@ -2,7 +2,7 @@ set(distributiondock_SRCS
     distributiondock.cpp
     distributiondockplugin.cpp
     distributionwizard/distributionwizard.cpp
-    commentsDelegate.cpp
+    commentitemsviewdelegate.cpp
 )
 
 kde4_add_ui_files(

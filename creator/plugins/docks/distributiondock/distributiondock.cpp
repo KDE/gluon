@@ -20,7 +20,7 @@
 
 #include "distributiondock.h"
 #include "ui_distributiondock.h"
-#include "commentsDelegate.h"
+#include "commentitemsviewdelegate.h"
 #include <engine/game.h>
 #include <player/lib/serviceprovider.h>
 #include <player/lib/addgamejob.h>
@@ -63,7 +63,7 @@ class DistributionDock::DistributionDockPrivate
         QStateMachine machine;
         QStringList licenseIds;
         QListView* m_commentsView;
-        CommentsDelegate* m_commentsDelegate;
+        CommentItemsViewDelegate* m_commentsDelegate;
 	GluonPlayer::CommentItemsModel* m_commentsModel;
 
         QState* loggedOutState;
@@ -379,7 +379,7 @@ void DistributionDock::initGuiStates()
 void DistributionDock::commentsFetched()
 { 
     d->m_commentsView =  new QListView( this );
-    d->m_commentsDelegate =  new CommentsDelegate( d->ui.commentsListView, this );
+    d->m_commentsDelegate =  new CommentItemsViewDelegate( d->ui.commentsListView, this );
     QString id = GluonEngine::Game::instance()->gameProject()->property( "id" ).toString();
     qDebug()<<"ID IS "<<id;
     if(!id.isEmpty())
