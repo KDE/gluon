@@ -41,10 +41,15 @@ namespace GluonGraphics
 
             virtual void resize( int width, int height );
 
+        public Q_SLOTS:
+            void deliverEvent( QEvent* event );
+
         private:
             class Private;
             Private * const d;
     };
 }
+
+Q_DECLARE_METATYPE( GluonGraphics::QtQuickRenderer* );
 
 #endif // QTQUICKRENDERTARGET_H
