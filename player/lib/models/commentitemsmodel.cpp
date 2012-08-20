@@ -101,20 +101,15 @@ void CommentItemsModel::processFetchedComments()
     QList<CommentItem*> list = qobject_cast<CommentsListJob*>(sender())->data().value< QList<CommentItem*> >();
     qDebug() << list.count() << " comments Successfully Fetched from the server!";
     foreach(CommentItem *comment, list) {
-	if ((lastcachedDateTime < comment->dateTime())) 
-	  {	
-	    qDebug()<<"Here starts new comments,with content"<< comment->text();
-	    qDebug()<<"Newest comment has date time"<< comment->dateTime();
-	    emit increment() ;
-	  }
         addComment(comment, d->m_rootNode);
     }
-    
+    checkLast();
     emit newNotifications(newComment);
     beginResetModel();
     treeTraversal(d->m_rootNode);
     endResetModel();
     d->m_isOnline = true;
+    saveData();     //Save data before exiting
 }
 
 void CommentItemsModel::addCommentFinished( Attica::BaseJob* job )
@@ -140,11 +135,24 @@ GluonObject* CommentItemsModel::addComment( CommentItem* comment, GluonObject* p
     newComment->setProperty( "Rating", comment->score() );
     newComment->setProperty( "Depth", parent->property("Depth").toInt() + 1 );
     newComment->setProperty( "ParentId", parent->name() );
+    d->m_nodes.append(newComment);
+    commentsList.append(comment);
+
     foreach( QObject *child, comment->children() ) {
         addComment( static_cast<CommentItem*>(child), newComment );
     }
 
     return newComment;
+}
+
+void CommentItemsModel::checkLast()
+{
+  if ((lastcachedDateTime < commentsList.at(commentsList.count()-1)->dateTime()) && (lastCachedText != commentsList.at(commentsList.count()-1)->text())) 
+      {	
+	qDebug()<<"Here starts new comments,with content"<< commentsList.at(commentsList.count()-1)->text();
+	qDebug()<<"Newest comment has date time"<< commentsList.at(commentsList.count()-1)->dateTime();
+	emit increment() ;
+      }
 }
 
 void CommentItemsModel::treeTraversal( GluonCore::GluonObject* obj )
@@ -182,7 +190,9 @@ void CommentItemsModel::loadData()
     d->m_rootNode = list.at( 0 );
     treeTraversal( d->m_rootNode );
     qSort( d->m_nodes.begin(), d->m_nodes.end(), dateTimeLessThan );
+    foreach(GluonCore::GluonObject* obj ,d->m_nodes) {qDebug()<<"comments in order are"<< obj->property("Body").toString();}
     lastcachedDateTime = QDateTime::fromString(d->m_nodes.at(d->m_nodes.count()-1)->property("DateTime").toString(),Qt::TextDate); 
+    lastCachedText = d->m_nodes.at(d->m_nodes.count()-1)->property("Body").toString(); 
     qDebug()<<"Last cached comment has body"<<d->m_nodes.at(d->m_nodes.count()-1)->property("Body").toString();	//"dddmmmdyyyy"
 }
 
@@ -200,7 +210,6 @@ void CommentItemsModel::saveData()
 
 CommentItemsModel::~CommentItemsModel()
 {
-    saveData();     //Save data before exiting
 }
 
 QVariant CommentItemsModel::data( const QModelIndex& index, int role ) const

@@ -391,9 +391,18 @@ void DistributionDock::commentsFetched()
 
 void DistributionDock::showNotifications(int number)
 {
-   d->ui.notificationsButton->setPalette(QPalette(qApp->palette().highlight().color()));
-   d->ui.notificationsButton->setToolTip("You have "+ QString::number(number)+" notifications");
-   d->ui.notificationsButton->setText(QString::number(number));
+   if(!number)
+    {
+      d->ui.notificationsButton->setEnabled(false);;
+      d->ui.notificationsButton->setToolTip("You have "+ QString::number(number)+" notifications");
+    }
+  else
+    {
+      d->ui.notificationsButton->setPalette(QPalette(qApp->palette().highlight().color()));
+      d->ui.notificationsButton->setToolTip("You have "+ QString::number(number)+" notifications");
+      d->ui.notificationsButton->setText(QString::number(number));
+    }
+   
 }
 
 void DistributionDock::uploadReview()

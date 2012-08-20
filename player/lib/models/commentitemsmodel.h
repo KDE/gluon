@@ -119,11 +119,14 @@ namespace GluonPlayer
             GluonCore::GluonObject* addComment( CommentItem* comment, GluonCore::GluonObject* parent );
             void treeTraversal( GluonCore::GluonObject* obj );
             void clear();
+	    void checkLast();
 
             class Private;
             Private* const d;
 	    QDateTime lastcachedDateTime;
+	    QString lastCachedText;
 	    int newComment;
+	    QList<CommentItem*> commentsList;
     };
 }
 
