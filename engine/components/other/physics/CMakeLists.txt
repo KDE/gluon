@@ -4,7 +4,7 @@ find_package(Bullet)
 include_directories(${BULLET_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_CORE_INCLUDE_DIRS})
 
 set(spherecollisioncomponent_SRCS
-    spherecollisioncomponent.cpp
+    spherecollisioncomponent.cpp 
     physicsworld.cpp
     boxcollisioncomponent.cpp
    )

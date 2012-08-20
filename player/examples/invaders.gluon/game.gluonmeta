@@ -1,6 +1,6 @@
 { GluonEngine::ProjectMetaData("GluonObject")
     projectName string("Invaders")
     projectDescription string("Invaders Game")
-    projectFilePath string("/usr/share/gluon/games/invaders.gluon/game.gluonproject")
+    projectFilePath string("/home/shiva/kde/src/gluon/player/examples/invaders.gluon/game.gluonproject")
     projectId string("128637")
 }
