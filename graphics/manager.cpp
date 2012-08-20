@@ -152,13 +152,11 @@ void Manager::Private::createBackend()
 
 void Manager::Private::aboutToQuit()
 {
-    q->destroyWorld( Defaults::World );
-    q->destroyResource< RenderTarget >( Defaults::RenderTarget );
-    q->destroyResource< Material >( Defaults::Material );
-
-    delete backend;
     qDeleteAll( worlds );
+    worlds.clear();
     qDeleteAll( q->m_resources );
+    q->m_resources.clear();
+    delete backend;
 }
 
 #include "manager.moc"
