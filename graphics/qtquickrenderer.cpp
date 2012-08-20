@@ -19,9 +19,16 @@
 
 #include "qtquickrenderer.h"
 
-#include <QDeclarativeView>
+#include <QtCore>
+#include <QGraphicsScene>
 #include <QDeclarativeError>
+#include <QDeclarativeEngine>
+#include <QDeclarativeComponent>
+#include <QDeclarativeItem>
+#include <QPainter>
 #include <QMatrix4x4>
+#include <QMouseEvent>
+#include <QGraphicsSceneMouseEvent>
 
 #include "texturedata.h"
 #include "spritemesh.h"
@@ -35,15 +42,21 @@ using namespace GluonGraphics;
 class QtQuickRenderer::Private
 {
     public:
-        Private() : buffer( 0 ), scene( 0 ), data( 0 ) { }
+        Private() : buffer( 0 ), root( 0 ), data( 0 ) { }
         QImage* buffer;
-        QDeclarativeView* scene;
+
+        QGraphicsScene* scene;
+        QDeclarativeItem* root;
 
         SpriteMesh* mesh;
         MaterialInstance* material;
 
         TextureData* data;
+
+        static QDeclarativeEngine* engine;
 };
+
+QDeclarativeEngine* QtQuickRenderer::Private::engine = 0;
 
 QtQuickRenderer::QtQuickRenderer( QObject* parent )
     : Texture( parent ), d( new Private )
@@ -56,6 +69,9 @@ QtQuickRenderer::QtQuickRenderer( QObject* parent )
     d->material->setProperty( "viewMatrix", QMatrix4x4() );
     d->material->setProperty( "modelMatrix", QMatrix4x4() );
     d->material->setProperty( "texture0", QVariant::fromValue< Texture* >( this ) );
+
+    if( !d->engine )
+        d->engine = new QDeclarativeEngine( this );
 }
 
 QtQuickRenderer::~QtQuickRenderer()
@@ -67,7 +83,7 @@ QtQuickRenderer::~QtQuickRenderer()
 
 void QtQuickRenderer::update()
 {
-    if( !d->scene )
+    if( !d->root )
         return;
 
     d->buffer->fill( Qt::transparent );
@@ -82,7 +98,7 @@ void QtQuickRenderer::update()
 
 void QtQuickRenderer::renderContents()
 {
-    if( !d->scene )
+    if( !d->root )
         return;
 
     update();
@@ -94,18 +110,22 @@ void QtQuickRenderer::renderContents()
 
 bool QtQuickRenderer::load( const QUrl& url )
 {
-    if( d->scene )
+    if( d->root )
         return true;
 
-    d->scene = new QDeclarativeView;
-    d->scene->setResizeMode( QDeclarativeView::SizeRootObjectToView );
-    d->scene->setSource( url );
-    d->scene->setGeometry( 0, 0, 1024, 1024 );
+    d->scene = new QGraphicsScene( 0, 0, 1024, 1024, this );
 
-    if( d->scene->errors().count() > 0 )
+    QDeclarativeComponent comp( d->engine, url );
+    d->root = qobject_cast<QDeclarativeItem*>(comp.create());
+    d->root->setWidth( 1024 );
+    d->root->setHeight( 1024 );
+
+    d->scene->addItem( d->root );
+
+    if( comp.errors().count() > 0 )
     {
         DEBUG_BLOCK
-        Q_FOREACH( QDeclarativeError error, d->scene->errors() )
+        Q_FOREACH( QDeclarativeError error, comp.errors() )
         {
             DEBUG_TEXT( error.toString() );
         }
@@ -135,7 +155,85 @@ void QtQuickRenderer::resize( int width, int height )
         delete d->buffer;
 
     d->buffer = new QImage( width, height, QImage::Format_ARGB32 );
-    d->scene->setGeometry( 0, 0, width, height );
+    d->scene->setSceneRect( 0, 0, width, height );
+    d->root->setWidth( width );
+    d->root->setHeight( height );
+}
+
+void QtQuickRenderer::deliverEvent(QEvent* event)
+{
+    QRect bounds = d->scene->sceneRect().toRect();
+    int screenX = 0;
+    int screenY = 0;
+
+    // Convert the event and deliver it to the scene.
+    switch( event->type() )
+    {
+        case QEvent::MouseButtonPress:
+        case QEvent::MouseButtonRelease:
+        case QEvent::MouseButtonDblClick:
+        case QEvent::MouseMove:
+        {
+            QMouseEvent* ev = static_cast<QMouseEvent*>( event );
+
+            screenX = qRound( qBound( 0, ev->globalPos().x(), bounds.width() - 1 ) );
+            screenY = qRound( qBound( 0, ev->globalPos().y(), bounds.height() - 1 ) );
+            QPoint pressedPos = QPoint( screenX, screenY );
+
+            QEvent::Type type;
+            if( ev->type() == QEvent::MouseButtonPress )
+                type = QEvent::GraphicsSceneMousePress;
+            else if( ev->type() == QEvent::MouseButtonRelease )
+                type = QEvent::GraphicsSceneMouseRelease;
+            else if( ev->type() == QEvent::MouseButtonDblClick )
+                type = QEvent::GraphicsSceneMouseDoubleClick;
+            else
+                type = QEvent::GraphicsSceneMouseMove;
+
+            QGraphicsSceneMouseEvent e( type );
+            e.setPos( QPointF( ev->pos().x(), ev->pos().y() ) );
+            e.setScenePos( QPointF( ev->pos().x(), ev->pos().y() ) );
+            e.setScreenPos( QPoint( screenX, screenY ) );
+            e.setButtonDownScreenPos( ev->button(), pressedPos );
+            e.setButtonDownScenePos( ev->button(), QPointF( pressedPos.x() + bounds.x(), pressedPos.y() + bounds.y() ) );
+            e.setButtons( ev->buttons() );
+            e.setButton( ev->button() );
+            e.setModifiers( ev->modifiers() );
+            e.setAccepted( false );
+            QCoreApplication::sendEvent( d->scene, &e );
+        }
+        break;
+        case QEvent::Wheel:
+        {
+            QWheelEvent* ev = static_cast<QWheelEvent*>( event );
+            QGraphicsSceneWheelEvent e( QEvent::GraphicsSceneWheel );
+            e.setPos( QPointF( ev->pos().x(), ev->pos().y() ) );
+            e.setScenePos( QPointF( ev->pos().x(), ev->pos().y() ) );
+            e.setScreenPos( QPoint( screenX, screenY ) );
+            e.setButtons( ev->buttons() );
+            e.setModifiers( ev->modifiers() );
+            e.setDelta( ev->delta() );
+            e.setOrientation( ev->orientation() );
+            e.setAccepted( false );
+            QCoreApplication::sendEvent( d->scene, &e );
+        }
+        break;
+
+        case QEvent::Leave:
+        case QEvent::Enter:
+        case QEvent::MetaCall:
+            //These events should not be resent to the scene, it will in fact cause issues if they try.
+            break;
+
+        default:
+        {
+            // Send the event directly without any conversion.
+            // Typically used for keyboard, focus, and enter/leave events.
+            QCoreApplication::sendEvent( d->scene, event );
+        }
+        break;
+
+    }
 }
 
 #include "qtquickrenderer.moc"
