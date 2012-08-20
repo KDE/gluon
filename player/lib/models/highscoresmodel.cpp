@@ -20,6 +20,9 @@
 
 #include "highscoresmodel.h"
 
+#include "allgameitemsmodel.h"
+#include "gamemanager.h"
+
 #include <engine/gameproject.h>
 
 #include <core/gluonobject.h>
@@ -133,11 +136,20 @@ void HighScoresModel::loadData()
 
 void HighScoresModel::saveData()
 {
+    if (d->m_gameId.isEmpty()) {
+        qDebug() << "Failed to save the high scores data for empty game id.";
+        return;
+    }
+
     qDebug() << "Saving high scores data!";
-    QDir gluonDir = QDir::home();
-    gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
-    gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
-    QString filename = gluonDir.absoluteFilePath( "highscores.gdl" );
+
+    AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());
+    QString gameCachePath = model->data(d->m_gameId, AllGameItemsModel::CacheUriRole).toUrl().toLocalFile();
+
+    QDir gameCacheDir;
+    gameCacheDir.mkpath( gameCachePath );
+    gameCacheDir.cd( gameCachePath );
+    QString filename = gameCacheDir.absoluteFilePath( "highscores.gdl" );
 
     GluonCore::GDLSerializer::instance()->write( QUrl::fromLocalFile( filename ), GluonCore::GluonObjectList() << d->m_rootNode );
 }

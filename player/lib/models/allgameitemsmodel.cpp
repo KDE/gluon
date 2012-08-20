@@ -65,6 +65,7 @@ AllGameItemsModel::AllGameItemsModel( QObject* parent )
     roles[RatingRole] = "Rating";
     roles[GenreRole] = "Genre";
     roles[StatusRole] = "Status";
+    roles[CacheUriRole] = "CacheUriRole";
     roles[UriRole] = "UriRole";
     setRoleNames( roles );
 
@@ -146,20 +147,22 @@ QString AllGameItemsModel::addGameFromDirectory( const QString& directoryPath )
         project.loadFromFile( projectFileName );
         id = project.property( "id" ).toString();
 
+        QUrl cacheUri = QUrl::fromLocalFile(QDir::homePath() + GluonEngine::projectSuffix + "/games/" + project.name().toLower());
+
         if( d->listIndexForId.contains( id ) )
         {
             //FIXME: Get genre when project supports it
             GameItem* gameItem = new GameItem( project.name(),  project.description(), 0,
-                                               GluonPlayer::GameItem::Installed, id, "Gluon Game", projectFileName,
-                                               this );
+                                               GluonPlayer::GameItem::Installed, id, "Gluon Game", cacheUri,
+                                               projectFileName, this );
             addOrUpdateGameFromFetchedGameItem( gameItem );
         }
         else
         {
             //FIXME: Get genre when project supports it
             GameItem* gameItem = new GameItem( project.name(),  project.description(), 0,
-                                               GluonPlayer::GameItem::Installed, id, "Gluon Game", projectFileName,
-                                               this );
+                                               GluonPlayer::GameItem::Installed, id, "Gluon Game", cacheUri,
+                                               projectFileName, this );
             addGameItemToList( gameItem );
             fetchAndUpdateExistingGameItem( gameItem ); //New game on disk, fetch social info from OCS server
         }
@@ -275,6 +278,8 @@ QVariant AllGameItemsModel::data( const QModelIndex& index, int role ) const
             return d->gameItems.at( index.row() )->genre();
         case StatusRole:
             return d->gameItems.at( index.row() )->status();
+        case CacheUriRole:
+            return d->gameItems.at( index.row() )->cacheUri();
         case UriRole:
             return d->gameItems.at( index.row() )->uri();
         default:
@@ -332,8 +337,9 @@ void AllGameItemsModel::processFetchedGamesList()
     QList<GameDetailItem*> list = job->data().value< QList<GameDetailItem*> >();
     foreach( GameDetailItem * c, list )
     {
+        QUrl cacheUri = QUrl::fromLocalFile(QDir::homePath() + GluonEngine::projectSuffix + "/games/" + c->gameName().toLower());
         GameItem* gameItem = new GameItem( c->gameName(), c->gameDescription(), c->rating(), GameItem::Downloadable,
-                                           c->id(), c->categoryName(), c->homePage(), this );
+                                           c->id(), c->categoryName(), cacheUri, c->homePage(), this );
 
         addOrUpdateGameFromFetchedGameItem( gameItem );
     }
@@ -352,9 +358,10 @@ void AllGameItemsModel::processFetchedGameDetails()
 {
     GameDetailsJob* job = qobject_cast<GameDetailsJob*>( sender() );
     GameDetailItem* gameDetails = job->data().value<GameDetailItem*>();
+    QUrl cacheUri = QUrl::fromLocalFile(QDir::homePath() + GluonEngine::projectSuffix + "/games/" + gameDetails->gameName().toLower());
     GameItem* gameItem = new GameItem( gameDetails->gameName(), gameDetails->gameDescription(), gameDetails->rating(),
                                        GameItem::Downloadable, gameDetails->id(), gameDetails->categoryName(),
-                                       gameDetails->homePage(), this );
+                                       cacheUri, gameDetails->homePage(), this );
     addOrUpdateGameFromFetchedGameItem( gameItem );
 }
 

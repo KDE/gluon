@@ -34,11 +34,12 @@ class GameItem::Private
         Status status;
         QString id;
         QString genre;
+        QUrl cacheUri;
         QUrl uri;
 };
 
 GameItem::GameItem( const QString& gameName, const QString& gameDescription, int rating,
-                    const Status& status, const QString& id, const QString &genre, const QUrl& uri, QObject* parent )
+                    const Status& status, const QString& id, const QString &genre, const QUrl& cacheUri, const QUrl& uri, QObject* parent )
     : QObject( parent )
     , d( new Private() )
 {
@@ -49,6 +50,7 @@ GameItem::GameItem( const QString& gameName, const QString& gameDescription, int
     d->id = id;
     d->genre = genre;
     d->uri = uri;
+    d->cacheUri = cacheUri;
 }
 
 GameItem::~GameItem()
@@ -108,6 +110,16 @@ QString GameItem::genre() const
 void GameItem::setGenre(const QString& genre)
 {
     d->genre = genre;
+}
+
+QUrl GameItem::cacheUri() const
+{
+    return d->cacheUri;
+}
+
+void GameItem::setCacheUri( const QString& cacheUri )
+{
+    d->cacheUri = cacheUri;
 }
 
 QUrl GameItem::uri() const

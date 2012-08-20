@@ -20,7 +20,12 @@
 
 #include "commentitemsmodel.h"
 
-#include "atticamanager.h"
+#include "allgameitemsmodel.h"
+#include "gamemanager.h"
+
+#include "serviceprovider.h"
+#include <commentslistjob.h>
+#include <commentuploadjob.h>
 
 #include <engine/gameproject.h>
 
@@ -56,7 +61,7 @@ CommentItemsModel::CommentItemsModel( QString gameId, QObject* parent )
     : QAbstractListModel( parent )
     , d(new Private)
 {
-    d->m_rootNode = new GluonObject( "Comment" );
+    d->m_rootNode = new GluonObject( "Comment", this );
     d->m_isOnline = false;
     d->m_gameId = gameId;
     d->m_columnNames << tr( "Author" ) << tr( "Title" ) << tr( "Body" ) << tr( "DateTime" ) << tr( "Rating" );
@@ -70,60 +75,32 @@ CommentItemsModel::CommentItemsModel( QString gameId, QObject* parent )
     roles[BodyRole] = "body";
     roles[DateTimeRole] = "dateTime";
     roles[RatingRole] = "rating";
+    roles[DepthRole] = "depth";
+    roles[ParentIdRole] = "parentId";
     setRoleNames( roles );
 }
 
 void CommentItemsModel::updateData()
 {
-    if( AtticaManager::instance()->isProviderValid() )
-    {
-        providersUpdated();
-    }
-    else
-    {
-        connect( AtticaManager::instance(), SIGNAL(gotProvider()), SLOT(providersUpdated()) );
-    }
+    clear();
+    CommentsListJob *commentListJob = ServiceProvider::instance()->fetchCommentList(d->m_gameId, 0, 0);
+    connect(commentListJob, SIGNAL(succeeded()), SLOT(processFetchedComments()));
+    connect(commentListJob, SIGNAL(failed()), SIGNAL(commentListFetchFailed()));
+    commentListJob->start();
 }
 
-void CommentItemsModel::providersUpdated()
+void CommentItemsModel::processFetchedComments()
 {
-    if( AtticaManager::instance()->isProviderValid() )
-    {
-        Attica::ListJob<Attica::Comment> *job =
-            AtticaManager::instance()->provider().requestComments( Attica::Comment::ContentComment,
-                    d->m_gameId, "0", 0, 100 );
-        connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedComments(Attica::BaseJob*)) );
-        job->start();
+    QList<CommentItem*> list = qobject_cast<CommentsListJob*>(sender())->data().value< QList<CommentItem*> >();
+    qDebug() << list.count() << " comments Successfully Fetched from the server!";
+    foreach(CommentItem *comment, list) {
+        addComment(comment, d->m_rootNode);
     }
-    else
-    {
-        qDebug() << "No providers found.";
-    }
-}
 
-void CommentItemsModel::processFetchedComments( Attica::BaseJob* job )
-{
-    qDebug() << "Comments Successfully Fetched from the server!";
-
-    Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment> *>( job );
-    if( commentsJob->metadata().error() == Attica::Metadata::NoError )
-    {
-        //No error, try to remove exising comments (if any)
-        //and add new comments
-
-        for( int i = 0; i < commentsJob->itemList().count(); ++i )
-        {
-            Attica::Comment p( commentsJob->itemList().at( i ) );
-            addComment( p, d->m_rootNode );
-        }
-
-        d->m_isOnline = true;
-        reset();    //Reset the model to notify views to reload comments
-    }
-    else
-    {
-        qDebug() << "Could not fetch information";
-    }
+    beginResetModel();
+    treeTraversal(d->m_rootNode);
+    endResetModel();
+    d->m_isOnline = true;
 }
 
 void CommentItemsModel::addCommentFinished( Attica::BaseJob* job )
@@ -139,18 +116,19 @@ void CommentItemsModel::addCommentFinished( Attica::BaseJob* job )
     }
 }
 
-GluonObject* CommentItemsModel::addComment( Attica::Comment comment, GluonObject* parent )
+GluonObject* CommentItemsModel::addComment( CommentItem* comment, GluonObject* parent )
 {
-    GluonObject* newComment = new GluonObject( comment.id(), parent );
-    newComment->setProperty( "Author", comment.user() );
-    newComment->setProperty( "Title", comment.subject() );
-    newComment->setProperty( "Body", comment.text() );
-    newComment->setProperty( "DateTime", comment.date().toString() );
-    newComment->setProperty( "Rating", comment.score() );
+    GluonObject* newComment = new GluonObject( comment->id(), parent );
+    newComment->setProperty( "Author", comment->user() );
+    newComment->setProperty( "Title", comment->subject() );
+    newComment->setProperty( "Body", comment->text() );
+    newComment->setProperty( "DateTime", comment->dateTime().toString() );
+    newComment->setProperty( "Rating", comment->score() );
+    newComment->setProperty( "Depth", parent->property("Depth").toInt() + 1 );
+    newComment->setProperty( "ParentId", parent->name() );
 
-    foreach( const Attica::Comment & child, comment.children() )
-    {
-        addComment( child, newComment );
+    foreach( QObject *child, comment->children() ) {
+        addComment( static_cast<CommentItem*>(child), newComment );
     }
 
     return newComment;
@@ -166,7 +144,6 @@ void CommentItemsModel::treeTraversal( GluonCore::GluonObject* obj )
         GluonObject* gobj = qobject_cast<GluonObject*>( child );
         if( gobj )
         {
-            gobj->dumpObjectTree();
             d->m_nodes.append( gobj );
             treeTraversal( gobj );
         }
@@ -180,13 +157,11 @@ bool dateTimeLessThan( GluonCore::GluonObject* go1, GluonCore::GluonObject* go2 
 
 void CommentItemsModel::loadData()
 {
-    // TODO: ~/.gluon/games/$gamebundle/* will be used later
-    QDir gluonDir = QDir::home();
-    gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
-    gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
+    AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());
+    QString gameCachePath = model->data(d->m_gameId, AllGameItemsModel::CacheUriRole).toUrl().toLocalFile();
 
     GluonCore::GluonObjectList list;
-    if( !GluonCore::GDLSerializer::instance()->read( QUrl( gluonDir.absoluteFilePath( "comments.gdl" ) ), list ) )
+    if( gameCachePath.isEmpty() || !GluonCore::GDLSerializer::instance()->read( QUrl( gameCachePath + "/comments.gdl" ), list ) )
         return;
 
     d->m_rootNode = list.at( 0 );
@@ -196,13 +171,22 @@ void CommentItemsModel::loadData()
 
 void CommentItemsModel::saveData()
 {
-    qDebug() << "Saving data!";
-    QDir gluonDir = QDir::home();
-    gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
-    gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
-    QString filename = gluonDir.absoluteFilePath( "comments.gdl" );
+    if (d->m_gameId.isEmpty()) {
+        qDebug() << "Failed to save the comment data for empty game id.";
+        return;
+    }
 
-    GluonCore::GDLSerializer::instance()->write( QUrl::fromLocalFile( filename ), GluonCore::GluonObjectList() << d->m_rootNode );
+    qDebug() << "Saving data!";
+
+    AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());
+    QString gameCachePath = model->data(d->m_gameId, AllGameItemsModel::CacheUriRole).toUrl().toLocalFile();
+
+    QDir gameCacheDir;
+    gameCacheDir.mkpath( gameCachePath );
+    gameCacheDir.cd( gameCachePath );
+    QString filename = gameCacheDir.absoluteFilePath( "comments.gdl" );
+
+    GluonCore::GDLSerializer::instance()->write( QUrl::fromLocalFile(filename), GluonCore::GluonObjectList() << d->m_rootNode );
 }
 
 CommentItemsModel::~CommentItemsModel()
@@ -212,17 +196,26 @@ CommentItemsModel::~CommentItemsModel()
 
 QVariant CommentItemsModel::data( const QModelIndex& index, int role ) const
 {
-    if( role == Qt::DisplayRole || role == Qt::EditRole )
-    {
-        GluonObject* node;
-        node = static_cast<GluonObject*>( index.internalPointer() );
+    if (index.row() >= rowCount())
+        return QVariant();
 
-        return node->property( d->m_columnNames.at( index.column() ).toUtf8() );
+    switch (role) {
+        case AuthorRole:
+            return d->m_nodes.at(index.row())->property( "Author" );
+        case TitleRole:
+            return d->m_nodes.at(index.row())->property( "Title" );
+        case BodyRole:
+            return d->m_nodes.at(index.row())->property( "Body" );
+        case DateTimeRole:
+            return d->m_nodes.at(index.row())->property( "DateTime" );
+        case RatingRole:
+            return d->m_nodes.at(index.row())->property( "Rating" );
+        case DepthRole:
+            return d->m_nodes.at(index.row())->property( "Depth" );
+        case ParentIdRole:
+            return d->m_nodes.at(index.row())->property( "ParentId" );
     }
-    else if( role >= Qt::UserRole )
-    {
-        return d->m_nodes.at( index.row() )->property( d->m_columnNames.at( role - Qt::UserRole ).toUtf8() );
-    }
+
     return QVariant();
 }
 
@@ -247,59 +240,51 @@ Qt::ItemFlags CommentItemsModel::flags( const QModelIndex& index ) const
     return QAbstractItemModel::flags( index );
 }
 
-bool CommentItemsModel::setData( const QModelIndex& index, const QVariant& value, int role )
-{
-    if( index.isValid() && role == Qt::EditRole )
-    {
-        GluonObject* node;
-        node = static_cast<GluonObject*>( index.internalPointer() );
-
-        node->setProperty( d->m_columnNames.at( index.column() ).toUtf8(), value );
-        emit dataChanged( index, index );
-        return true;
-    }
-
-    return false;
-}
-
-bool CommentItemsModel::insertRows( int row, int count, const QModelIndex& parent )
-{
-    if( count != 1 )  // Do not support more than one row at a time
-    {
-        qDebug() << "Can insert only one comment at a time";
-        return false;
-    }
-    if( row != rowCount( parent ) )
-    {
-        qDebug() << "Can only add a comment to the end of existing comments";
-        return false;
-    }
-
-    beginInsertRows( parent, row, row );
-    GluonObject* parentNode;
-    parentNode = static_cast<GluonObject*>( parent.internalPointer() );
-
-    GluonObject* newNode = new GluonObject( "Comment", parentNode );
-    parentNode->addChild( newNode );
-    endInsertRows();
-
-    return true;
-}
-
-bool CommentItemsModel::isOnline()
-{
-    return d->m_isOnline;
-}
-
 void CommentItemsModel::uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message )
 {
-    GluonObject* parentNode = static_cast<GluonObject*>( parentIndex.internalPointer() );
-    Attica::PostJob* job =
-        AtticaManager::instance()->provider().addNewComment( Attica::Comment::ContentComment,
-                d->m_gameId, "0", parentNode->name(), subject,
-                message );
-    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(addCommentFinished(Attica::BaseJob*)) );
-    job->start();
+    uploadComment(d->m_nodes.at(parentIndex.row())->name(), subject, message);
+}
+
+void CommentItemsModel::uploadComment( const QString &parentId, const QString& subject, const QString& message )
+{
+    if( d->m_gameId.isEmpty() )
+    {
+        qDebug() << "Invalid game id, can't upload comment";
+        return;
+    }
+    CommentUploadJob *commentsUploadJob = ServiceProvider::instance()->uploadComment(d->m_gameId,
+                                                                                   parentId,
+                                                                                   subject, message);
+    connect(commentsUploadJob, SIGNAL(succeeded()), SLOT(uploadCommentFinished()));
+    connect(commentsUploadJob, SIGNAL(failed()), SIGNAL(addCommentFailed()));
+    commentsUploadJob->start();
+}
+
+QString CommentItemsModel::gameId() const
+{
+    return d->m_gameId;
+}
+
+void CommentItemsModel::setGameId( const QString& id )
+{
+    if (id.isEmpty())
+        return;
+    d->m_gameId = id;
+    updateData();   // Fetch latest comments from the web serviceprovider
+    emit gameIdChanged();
+}
+
+void CommentItemsModel::clear()
+{
+    if (d->m_rootNode) {
+        qDeleteAll(d->m_rootNode->children());
+    }
+    d->m_nodes.clear();
+}
+
+void CommentItemsModel::uploadCommentFinished()
+{
+    updateData();
 }
 
 #include "commentitemsmodel.moc"
