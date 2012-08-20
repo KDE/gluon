@@ -20,6 +20,7 @@
 #include "touchinputcomponent.h"
 
 #include <input/inputmanager.h>
+#include <input/touch.h>
 #include <core/debughelper.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, TouchInputComponent );
