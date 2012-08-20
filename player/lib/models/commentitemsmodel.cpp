@@ -171,6 +171,11 @@ void CommentItemsModel::loadData()
 
 void CommentItemsModel::saveData()
 {
+    if (m_gameId.isEmpty()) {
+        qDebug() << "Failed to save the comment data for empty game id.";
+        return;
+    }
+
     qDebug() << "Saving data!";
 
     AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());

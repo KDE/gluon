@@ -136,6 +136,11 @@ void HighScoresModel::loadData()
 
 void HighScoresModel::saveData()
 {
+    if (m_gameId.isEmpty()) {
+        qDebug() << "Failed to save the high scores data for empty game id.";
+        return;
+    }
+
     qDebug() << "Saving high scores data!";
 
     AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());
