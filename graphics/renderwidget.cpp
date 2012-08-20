@@ -23,13 +23,13 @@
 #include <QDebug>
 #include <QVector3D>
 #include <QMatrix4x4>
+#include <QApplication>
 
 #include "manager.h"
 #include "outputsurface.h"
 #include "backend.h"
 #include "shader.h"
 #include "meshdata.h"
-#include <QApplication>
 
 using namespace GluonGraphics;
 
@@ -79,9 +79,19 @@ void RenderWidget::resizeEvent( QResizeEvent* event )
     QWidget::resizeEvent( event );
 }
 
+void RenderWidget::enterEvent(QEvent* event)
+{
+    setFocus();
+}
+
+void RenderWidget::leaveEvent(QEvent* event)
+{
+    clearFocus();
+}
+
 void RenderWidget::update()
 {
-    QPaintEvent* ev = new QPaintEvent(geometry());
+    QPaintEvent* ev = new QPaintEvent( geometry() );
     QApplication::sendEvent( this, ev );
 }
 
