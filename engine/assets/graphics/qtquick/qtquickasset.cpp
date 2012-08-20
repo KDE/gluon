@@ -20,6 +20,7 @@
 #include "qtquickasset.h"
 
 #include <graphics/manager.h>
+#include <graphics/rendertarget.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, QtQuickAsset )
 
@@ -60,8 +61,7 @@ void QtQuickAsset::load()
 
     if( !file().isEmpty() )
     {
-        if( !d->renderer )
-            d->renderer = GluonGraphics::Manager::instance()->createResource< GluonGraphics::QtQuickRenderer >( name() );
+        d->renderer = GluonGraphics::Manager::instance()->createResource< GluonGraphics::QtQuickRenderer >( name() );
 
         if( d->renderer->load( absolutePath() ) )
         {
@@ -76,8 +76,27 @@ void QtQuickAsset::load()
 
 void QtQuickAsset::unload()
 {
-    GluonGraphics::Manager::instance()->destroyResource< GluonGraphics::QtQuickRenderer >( name() );
-    d->renderer = 0;
+    if( d->renderer )
+    {
+        GluonGraphics::RenderTarget* parent = dynamic_cast< GluonGraphics::RenderTarget* >( d->renderer->parentItem() );
+        if( parent )
+            parent->removeChild( d->renderer );
+
+        GluonGraphics::Manager::instance()->destroyResource< GluonGraphics::QtQuickRenderer >( name() );
+        d->renderer = 0;
+
+        setLoaded( false );
+    }
+}
+
+void QtQuickAsset::reload()
+{
+    GluonGraphics::RenderTarget* parent = dynamic_cast< GluonGraphics::RenderTarget* >( d->renderer->parentItem() );
+
+    GluonEngine::Asset::reload();
+
+    if( parent )
+        parent->addChild( d->renderer );
 }
 
 void QtQuickAsset::setName( const QString& newName )

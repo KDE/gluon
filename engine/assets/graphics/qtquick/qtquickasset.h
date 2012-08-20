@@ -43,6 +43,7 @@ namespace GluonEngine
 
             virtual void load();
             virtual void unload();
+            virtual void reload();
 
             const QStringList supportedMimeTypes() const;
 
