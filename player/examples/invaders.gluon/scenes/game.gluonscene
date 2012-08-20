@@ -179,4 +179,12 @@
             keyCode int(16777220)
         }
     }
+    { GluonEngine::GameObject("Interface")
+        enabled bool(true)
+        scale vector3d(1;1;1)
+        { GluonEngine::InterfaceRendererComponent("InterfaceRendererComponent")
+            enabled bool(true)
+            qtquickfile GluonEngine::QtQuickAsset("Invaders/Assets/Interface/Game Interface")
+        }
+    }
 }
