@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Shantanu Tushar <shaan7in@gmail.com>
  * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
+ * Copyright (C) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -100,6 +101,7 @@ namespace GluonPlayer
             void addCommentFinished( Attica::BaseJob* job );
             void processFetchedComments();
             void uploadCommentFinished();
+	    void calculateNewStuff();
 
         Q_SIGNALS:
             /** signal which is emitted when the comment failed to be added
@@ -107,6 +109,8 @@ namespace GluonPlayer
             void addCommentFailed();
             void commentListFetchFailed();
             void gameIdChanged();
+	    void increment();
+	    void newNotifications(int number);
 
         private:
             void updateData();
@@ -118,6 +122,8 @@ namespace GluonPlayer
 
             class Private;
             Private* const d;
+	    QDateTime lastcachedDateTime;
+	    int newComment;
     };
 }
 

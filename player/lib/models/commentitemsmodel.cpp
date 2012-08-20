@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Shantanu Tushar <shaan7in@gmail.com>
  * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
+ * Copyright (C) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32,7 +33,7 @@
 #include <core/gluonobject.h>
 #include <core/gdlserializer.h>
 #include <core/gluon_global.h>
-
+#include <QDebug>
 #include <attica/listjob.h>
 
 #include <QtCore/QStringList>
@@ -64,11 +65,12 @@ CommentItemsModel::CommentItemsModel( QString gameId, QObject* parent )
     d->m_rootNode = new GluonObject( "Comment", this );
     d->m_isOnline = false;
     d->m_gameId = gameId;
+    newComment = 0;
     d->m_columnNames << tr( "Author" ) << tr( "Title" ) << tr( "Body" ) << tr( "DateTime" ) << tr( "Rating" );
 
     loadData();     // Load comments stored locally
     updateData();   // Fetch latest comments from the web service
-
+    connect(this, SIGNAL(increment()),this,SLOT(calculateNewStuff()));
     QHash<int, QByteArray> roles;
     roles[AuthorRole] = "author";
     roles[TitleRole] = "title";
@@ -78,6 +80,11 @@ CommentItemsModel::CommentItemsModel( QString gameId, QObject* parent )
     roles[DepthRole] = "depth";
     roles[ParentIdRole] = "parentId";
     setRoleNames( roles );
+}
+
+void CommentItemsModel::calculateNewStuff()
+{
+    newComment++;
 }
 
 void CommentItemsModel::updateData()
@@ -94,9 +101,16 @@ void CommentItemsModel::processFetchedComments()
     QList<CommentItem*> list = qobject_cast<CommentsListJob*>(sender())->data().value< QList<CommentItem*> >();
     qDebug() << list.count() << " comments Successfully Fetched from the server!";
     foreach(CommentItem *comment, list) {
+	if ((lastcachedDateTime < comment->dateTime())) 
+	  {	
+	    qDebug()<<"Here starts new comments,with content"<< comment->text();
+	    qDebug()<<"Newest comment has date time"<< comment->dateTime();
+	    emit increment() ;
+	  }
         addComment(comment, d->m_rootNode);
     }
-
+    
+    emit newNotifications(newComment);
     beginResetModel();
     treeTraversal(d->m_rootNode);
     endResetModel();
@@ -126,7 +140,6 @@ GluonObject* CommentItemsModel::addComment( CommentItem* comment, GluonObject* p
     newComment->setProperty( "Rating", comment->score() );
     newComment->setProperty( "Depth", parent->property("Depth").toInt() + 1 );
     newComment->setProperty( "ParentId", parent->name() );
-
     foreach( QObject *child, comment->children() ) {
         addComment( static_cast<CommentItem*>(child), newComment );
     }
@@ -152,38 +165,38 @@ void CommentItemsModel::treeTraversal( GluonCore::GluonObject* obj )
 
 bool dateTimeLessThan( GluonCore::GluonObject* go1, GluonCore::GluonObject* go2 )
 {
-    return go1->property( "DateTime" ).toString() < go2->property( "DateTime" ).toString();
+    return QDateTime::fromString(go1->property( "DateTime" ).toString())  < QDateTime::fromString(go2->property( "DateTime" ).toString());
 }
 
 void CommentItemsModel::loadData()
 {
-    AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());
-    QString gameCachePath = model->data(d->m_gameId, AllGameItemsModel::CacheUriRole).toString();
+    // TODO: ~/.gluon/games/$gamebundle/* will be used later
+    QDir gluonDir = QDir::home();
+    gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
+    gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
 
     GluonCore::GluonObjectList list;
-    if( !GluonCore::GDLSerializer::instance()->read( QUrl( gameCachePath + "/comments.gdl" ), list ) )
+    if( !GluonCore::GDLSerializer::instance()->read( QUrl( gluonDir.absoluteFilePath( "comments.gdl" ) ), list ) )
         return;
 
     d->m_rootNode = list.at( 0 );
     treeTraversal( d->m_rootNode );
     qSort( d->m_nodes.begin(), d->m_nodes.end(), dateTimeLessThan );
-    qDebug()<<"Last comment for this game is"<<d->m_nodes.at(d->m_nodes.count()-1)->property("Body");
+    lastcachedDateTime = QDateTime::fromString(d->m_nodes.at(d->m_nodes.count()-1)->property("DateTime").toString(),Qt::TextDate); 
+    qDebug()<<"Last cached comment has body"<<d->m_nodes.at(d->m_nodes.count()-1)->property("Body").toString();	//"dddmmmdyyyy"
 }
 
 void CommentItemsModel::saveData()
 {
     qDebug() << "Saving data!";
+    QDir gluonDir = QDir::home();
+    gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
+    gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
+    QString filename = gluonDir.absoluteFilePath( "comments.gdl" );
 
-    AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());
-    QString gameCachePath = model->data(d->m_gameId, AllGameItemsModel::CacheUriRole).toUrl().toLocalFile();
-
-    QDir gameCacheDir;
-    gameCacheDir.mkpath( gameCachePath );
-    gameCacheDir.cd( gameCachePath );
-    QString filename = gameCacheDir.absoluteFilePath( "comments.gdl" );
-
-    GluonCore::GDLSerializer::instance()->write( QUrl::fromLocalFile(filename), GluonCore::GluonObjectList() << d->m_rootNode );
+    GluonCore::GDLSerializer::instance()->write( QUrl::fromLocalFile( filename ), GluonCore::GluonObjectList() << d->m_rootNode );
 }
+
 
 CommentItemsModel::~CommentItemsModel()
 {

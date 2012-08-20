@@ -363,15 +363,13 @@ void DistributionDock::initGuiStates()
 
     connect( d->loggingInState, SIGNAL(entered()), this, SLOT(doLogin()));
     connect( d->ui.uploadNew, SIGNAL(clicked()), this, SLOT(testWizard()));
-//    connect( d->backButton1, SIGNAL(clicked()), this, SLOT(goBack()));
-//    connect( d->backButton2, SIGNAL(clicked()), this, SLOT(goBack()));
     connect( d->ui.registerButton, SIGNAL(clicked()), this, SLOT(registerOnline()));
     connect( d->optionState, SIGNAL(entered()), this, SLOT(setLoginName()));
     connect( d->fetchingState, SIGNAL(entered()), this, SLOT(updateUiFromGameProject()) );
     connect( d->fetchingState, SIGNAL(entered()), this, SLOT(onFetch()));
     connect( d->uploadingState, SIGNAL(entered()), this, SLOT(createOrUpdateGame()) );
     connect( d->updateState, SIGNAL(entered()), SLOT(initEditGameProvider()) );
-    connect( d->eventState, SIGNAL(entered()), SLOT(commentsFetched()));
+    connect( d->initial, SIGNAL(entered()), SLOT(commentsFetched()));
     connect(d->ui.submitButton,SIGNAL(clicked()),SLOT(uploadReview()));
 
     d->machine.start();
@@ -388,7 +386,16 @@ void DistributionDock::commentsFetched()
       }
    d->ui.commentsListView->setItemDelegate( d->m_commentsDelegate );
    d->ui.commentsListView->setModel( d->m_commentsModel );
+   connect(d->m_commentsModel,SIGNAL(newNotifications(int)),this, SLOT(showNotifications(int)));
 }
+
+void DistributionDock::showNotifications(int number)
+{
+   d->ui.notificationsButton->setPalette(QPalette(qApp->palette().highlight().color()));
+   d->ui.notificationsButton->setToolTip("You have "+ QString::number(number)+" notifications");
+   d->ui.notificationsButton->setText(QString::number(number));
+}
+
 void DistributionDock::uploadReview()
 {
     uint ratingVal = d->ui.ratingEdit->text().toUInt();

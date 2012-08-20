@@ -27,7 +27,6 @@
   #include <player/lib/models/commentitemsmodel.h>
   #include <player/lib/ratingjob.h>
   #include <engine/projectmetadata.h>
-//  #include <player/desktop/delegates/commentitemsviewdelegate.h>
  
   namespace GluonPlayer
   {
@@ -81,12 +80,7 @@
 	      void registerOnline();
 	      void goBack();
 	      void changedetailsChosen();
-	      
-//	      void addNewComment( QModelIndex parentIndex, QString title, QString body );
-//	      void cancelNewComment( );
-//	      void showReplyForm( const QModelIndex& index );
-//	      void commentFailed( );
-
+	      void showNotifications(int);
 
 	  Q_SIGNALS:
 	      void switchToCreateMode();
