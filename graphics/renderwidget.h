@@ -33,8 +33,11 @@ namespace GluonGraphics
             explicit RenderWidget( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             virtual ~RenderWidget();
 
-            virtual void paintEvent( QPaintEvent* );
-            virtual void resizeEvent(QResizeEvent* );
+            virtual void paintEvent( QPaintEvent* event );
+            virtual void resizeEvent( QResizeEvent* event );
+
+            virtual void enterEvent( QEvent* event );
+            virtual void leaveEvent( QEvent* event );
 
         public Q_SLOTS:
             virtual void update();
