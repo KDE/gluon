@@ -157,7 +157,7 @@ void MainWindow::openProject()
     statusBar()->showMessage( i18n( "Opening project..." ) );
     FileManager::instance()->openFile( d->fileName, "view", i18nc( "View Game Tab", "View" ), QString(), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ), false );
     //TODO: Editor view needs to be implemented
-    FileManager::instance()->openFile( d->fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), QString(), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ), false );
+    //FileManager::instance()->openFile( d->fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), QString(), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ), false );
     d->mainArea->setActiveTab( "view" );
 
     GluonEngine::Game::instance()->initializeAll();
