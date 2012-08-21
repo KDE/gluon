@@ -393,6 +393,7 @@ void DistributionDock::showNotifications(int number)
 {
    if(!number)
     {
+      d->ui.notificationsButton->setText(QString::number(number));
       d->ui.notificationsButton->setEnabled(false);;
       d->ui.notificationsButton->setToolTip("You have "+ QString::number(number)+" notifications");
     }

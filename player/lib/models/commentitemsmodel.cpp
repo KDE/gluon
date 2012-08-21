@@ -127,7 +127,9 @@ void CommentItemsModel::addCommentFinished( Attica::BaseJob* job )
 
 GluonObject* CommentItemsModel::addComment( CommentItem* comment, GluonObject* parent )
 {
+  //  qDebug()<< "This comment has id, in the comment type array" << comment->id();
     GluonObject* newComment = new GluonObject( comment->id(), parent );
+    newComment->setProperty( "Id", comment->id().toInt() );
     newComment->setProperty( "Author", comment->user() );
     newComment->setProperty( "Title", comment->subject() );
     newComment->setProperty( "Body", comment->text() );
@@ -137,7 +139,8 @@ GluonObject* CommentItemsModel::addComment( CommentItem* comment, GluonObject* p
     newComment->setProperty( "ParentId", parent->name() );
     d->m_nodes.append(newComment);
     commentsList.append(comment);
-
+//    qDebug()<<"parent id for this comment is, in the gluon object array"<<newComment->property("ParentId").toString().toInt();
+    
     foreach( QObject *child, comment->children() ) {
         addComment( static_cast<CommentItem*>(child), newComment );
     }
@@ -147,8 +150,17 @@ GluonObject* CommentItemsModel::addComment( CommentItem* comment, GluonObject* p
 
 void CommentItemsModel::checkLast()
 {
-  if ((lastcachedDateTime < commentsList.at(commentsList.count()-1)->dateTime()) && (lastCachedText != commentsList.at(commentsList.count()-1)->text())) 
+    if ((lastcachedDateTime < commentsList.at(commentsList.count()-1)->dateTime()) && (lastCachedText != commentsList.at(commentsList.count()-1)->text())) 
       {	
+	if(d->m_nodes.at(d->m_nodes.count()-1)->property("ParentId").toString().toInt())
+	  {
+	    qDebug()<<"Aha! A new child comment";
+	    foreach( CommentItem *testParent, commentsList ) 
+	    {
+	     if( testParent->id().toInt() == d->m_nodes.at(d->m_nodes.count()-1)->property("ParentId").toString().toInt()){qDebug()<<"With parent as "<<testParent->text();}
+	      
+	    }
+	  }
 	qDebug()<<"Here starts new comments,with content"<< commentsList.at(commentsList.count()-1)->text();
 	qDebug()<<"Newest comment has date time"<< commentsList.at(commentsList.count()-1)->dateTime();
 	emit increment() ;

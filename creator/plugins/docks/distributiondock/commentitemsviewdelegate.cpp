@@ -190,23 +190,6 @@ void CommentItemsViewDelegate::paint( QPainter* painter, const QStyleOptionViewI
         painter->setPen( QPen( option.palette.text().color() ) );
     }
 
-    /* const GluonPlayer::GameItemsModel* realmodel = qobject_cast<const GluonPlayer::GameItemsModel*>(index.model());
-
-    int height = option.rect.height();
-    QPoint point(option.rect.left() + margin, option.rect.top() + ((height - PreviewHeight) / 2));
-
-    QImage image = KIcon("gluon-cretor").pixmap(32, 32).toImage();
-    if (!image.isNull()) {
-        point.setX((PreviewWidth - image.width())/2 + 5);
-        point.setY(option.rect.top() + ((height - image.height()) / 2));
-        painter->drawImage(point, image);
-
-        QPoint framePoint(point.x() - 5, point.y() - 5);
-        painter->drawPixmap(framePoint, KIcon("gluon-creator").pixmap(32, 32).scaled(image.width() + 10, image.height() + 10));
-    } else {
-        QRect rect(point, QSize(PreviewWidth, PreviewHeight));
-        painter->drawText(rect, Qt::AlignCenter | Qt::TextWordWrap, i18n("Loading Preview"));
-    } */
     painter->restore();
 }
 
