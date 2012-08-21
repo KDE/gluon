@@ -69,6 +69,12 @@ namespace GluonPlayer
                 DepthRole,
                 ParentIdRole
             };
+	    enum commentType
+            {
+                FreshParent                    = 1,    ///Game is available on the OCS server
+                FreshChild                     = 2,    ///Game is present on the local filesystem
+//                Installed                       = Downloadable | Local, ///Game was installed from the OCS server
+            };
 
             /**
              * @param gameId The game ID which will be used to perform the lookup in the online
