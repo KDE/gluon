@@ -68,6 +68,7 @@ set(GLUON_CORE_INCLUDE_DIRS
 add_subdirectory(examples)
 
 set(GluonCore_SRCS
+    axisalignedbox.cpp
     directoryprovider.cpp
     debughelper.cpp
     gluonobject.cpp
@@ -95,6 +96,7 @@ set(GluonCore_SRCS
 )
 
 set(GluonCore_HEADERS
+    axisalignedbox.h
     debughelper.h
     gluon_core_export.h
     gluonobject.h

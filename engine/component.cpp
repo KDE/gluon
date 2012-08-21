@@ -25,6 +25,7 @@
 #include "asset.h"
 
 #include <core/debughelper.h>
+#include <core/axisalignedbox.h>
 
 #include <QtCore/QString>
 #include <QtCore/QMetaProperty>
@@ -83,6 +84,18 @@ Component::sanitize()
     }
 
     GluonObject::sanitize();
+}
+
+GluonCore::AxisAlignedBox
+Component::boundingBox()
+{
+    return GluonCore::AxisAlignedBox( transformationCenter(), QVector3D() );
+}
+
+QVector3D
+Component::transformationCenter()
+{
+    return QVector3D();
 }
 
 // Property getter-setters

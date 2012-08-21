@@ -31,6 +31,11 @@
  * \defgroup Component Component
  */
 
+namespace GluonCore
+{
+    class AxisAlignedBox;
+}
+
 namespace GluonEngine
 {
     class GameObject;
@@ -144,6 +149,23 @@ namespace GluonEngine
              * needed. This happens mostly during scene changes.
              */
             virtual void cleanup() {}
+
+            /**
+             * Return a bounding box. The center is set to the transformation center.
+             * @return A bounding box
+             * @see transformationCenter
+             */
+            virtual GluonCore::AxisAlignedBox boundingBox();
+
+            /**
+             * The offset of the transformation center from the center of the component.
+             * The transformation center is also the position of the attached game object.
+             * This value only makes sense if the component has extent. By default,
+             * it returns a null vector.
+             * @return The offset of the GameObject from the center of the component.
+             * @see boundingBox, gameObject
+             */
+            virtual QVector3D transformationCenter();
 
             /**
              * The description of the Component instance. An arbitrary value
