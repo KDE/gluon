@@ -28,7 +28,6 @@
 #include <QString>
 #include <QTextStream>
 #include <QDir>
-#include <QDebug>
 
 #include <iostream>
 
@@ -141,12 +140,6 @@ QString TagObject::tags( QString objectname )
     return list.join( ", " );
 }
 
-void TagObject::printTags()
-{
-    for(QHash<QString, QSet<QString> >::iterator i = t->tags.begin(); i != t->tags.end(); ++i)
-        qDebug() << i.key().toUtf8().constData() << ' ' << QStringList( i.value().toList() ).join(" ").toUtf8().constData();
-}
-
 bool TagObject::writeToFile()
 {
     return writeToFile( t->path );
@@ -199,7 +192,12 @@ bool TagObject::readFromFile( QString path )
 
 void TagObject::setPath( QUrl path )
 {
-    t->path = path.toLocalFile() + QString("/assets/tags/tags.gs");
+    t->path = path.toString();
+#ifdef Q_OS_WIN
+     t->path += QString( "\\assets\\tags\\tags.gs" );
+#else
+     t->path += QString( "/assets/tags/tags.gs" );
+#endif
     readFromFile();
 }
 

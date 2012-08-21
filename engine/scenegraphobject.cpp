@@ -29,7 +29,6 @@
 #include <core/gluonobjectfactory.h>
 
 #include <QMetaProperty>
-#include <QDebug>
 #include <QVariant>
 #include <QVector2D>
 #include <QVector3D>
@@ -372,5 +371,3 @@ void SceneGraphObject::copyComponentProperties( GluonEngine::Component* copy, Gl
         copy->setProperty( prop, original->property( prop ) );
     }
 }
-
-#include "scenegraphobject.moc"

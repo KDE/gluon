@@ -48,8 +48,6 @@ namespace GluonCreator
             void showPreferences();
 
             void playGame();
-            void saveGame();
-            void loadGame();
             void pauseGame();
             void stopGame();
 

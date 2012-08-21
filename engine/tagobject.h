@@ -105,10 +105,6 @@ namespace GluonEngine
             */
             Q_INVOKABLE bool readFromFile();
             Q_INVOKABLE bool readFromFile( QString path );
-            /**
-            * For testing purposes, print all the tags+objects
-            */
-            Q_INVOKABLE void printTags();
         private:
             TagObjectPrivate* t;
     };

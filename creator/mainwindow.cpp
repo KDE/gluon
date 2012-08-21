@@ -282,14 +282,6 @@ void MainWindow::setupActions()
     actionCollection()->addAction( "game_pause", pause );
     connect( pause, SIGNAL(triggered(bool)), SLOT(pauseGame()) );
 
-    KAction* savegame = new KAction( KIcon( "document-save" ), i18n( "Save Game" ), actionCollection() );
-    actionCollection()->addAction( "game_savegame", savegame );
-    connect( savegame, SIGNAL(triggered(bool)), SLOT(saveGame()) );
-
-    KAction* loadgame = new KAction( KIcon( "media-playback-start" ), i18n( "Load Game" ), actionCollection() );
-    actionCollection()->addAction( "game_loadgame", loadgame );
-    connect( loadgame, SIGNAL(triggered(bool)), SLOT(loadGame()) );
-
     KAction* stop = new KAction( KIcon( "media-playback-stop" ), i18n( "Stop Game" ), actionCollection() );
     actionCollection()->addAction( "game_stop", stop );
     connect( stop, SIGNAL(triggered(bool)), SLOT(stopGame()) );
@@ -303,18 +295,6 @@ void MainWindow::setupActions()
     lockLayout->setCheckable( true );
     lockLayout->setChecked( GluonCreator::Settings::lockLayout() );
     connect( lockLayout, SIGNAL(triggered(bool)), DockManager::instance(), SLOT(setDocksLocked(bool)) );
-}
-
-void MainWindow::saveGame()
-{
-    GluonEngine::GameSave *s = new GluonEngine::GameSave();
-    s->save();
-}
-
-void MainWindow::loadGame()
-{
-    GluonEngine::GameSave *s = new GluonEngine::GameSave();
-    s->load();
 }
 
 void MainWindow::showPreferences()

@@ -28,11 +28,7 @@
 #include <core/gluonobject.h>
 #include <core/gdlserializer.h>
 
-#include <iostream>
 #include <QMetaProperty>
-#include <QDebug>
-
-using namespace std;
 
 using namespace GluonEngine;
 
@@ -205,7 +201,3 @@ GluonEngine::GameObject* SceneGraph::forLoad()
     build( root() );
     return root()->gameObject();
 }
-
-
-
-#include "scenegraph.moc"

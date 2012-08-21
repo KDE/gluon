@@ -29,12 +29,8 @@
 #include <core/gdlserializer.h>
 #include <core/directoryprovider.h>
 
-#include <QDir>
-#include <QFileDialog>
 #include <QDebug>
 
-#include <iostream>
-using namespace std;
 using namespace GluonEngine;
 
 REGISTER_OBJECTTYPE( GluonEngine, GameSave )
