@@ -2,13 +2,12 @@
 #define GLUON_ENGINE_SPHERECOLLISIONCOMPONENT_H
 
 #include <engine/component.h>
-#include <engine/gluon_engine_export.h>
 #include<bullet/LinearMath/btScalar.h>
 
 namespace GluonEngine
 {
 
-    class GLUON_COMPONENT_PHYSICS_EXPORT SphereCollisionComponent : public Component
+    class GLUON_COMPONENT_PHYSICS_EXPORT   SphereCollisionComponent : public Component
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Component )

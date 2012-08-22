@@ -78,15 +78,15 @@ void  SphereCollisionComponent::initialize()
 {
     //creating a sphereshape
     d->sphere= new btSphereShape( d->radius ) ;
-    //setting default motionstate making unused Quaterion 1is set for non used coordinate
+    //setting default motionstate by using Quaterion 1is set for non used coordinate
     btDefaultMotionState* sphereMotionState =new btDefaultMotionState(btTransform(btQuaternion(0,0,0,1),btVector3(0,0,0)));
     //setting default mass 1 not zero  because need minimum inertia
-    btScalar mass = 1;
-    //construction info of sphere Rigidbody
-    btRigidBody::btRigidBodyConstructionInfo  sphereRigidBodyCI(mass,sphereMotionState,d->sphere,btVector3(0,0,0));
+    btScalar spheremass = 1;
+    //construction information  of sphere Rigidbody
+    btRigidBody::btRigidBodyConstructionInfo  sphereRigidBodyCI(spheremass,sphereMotionState,d->sphere,btVector3(0,0,0));
     //construction of the rigid body
     btRigidBody* sphereRigidBody = new btRigidBody(sphereRigidBodyCI);
-    //setting up default
+    //setting up default demping factors
      sphereRigidBody->setDamping(1,1);
     //adding rigidbody to the world
      PhysicsWorld::instance()->dynamicsWorld->addRigidBody(sphereRigidBody);
@@ -95,26 +95,26 @@ void  SphereCollisionComponent::initialize()
      //setting default motionstate making unused Quaterion
       btDefaultMotionState* sphereMotionState1 =new btDefaultMotionState(btTransform(btQuaternion(0,0,0,1),btVector3(0,0,0)));
      //setting default mass 1 not zero  because need minimum inertia
-      btScalar mass1 = 1;
-      //construction info of sphere Rigidbody
-      btRigidBody::btRigidBodyConstructionInfo  sphereRigidBodyCI1(mass1,sphereMotionState1,d->sphere1,btVector3(0,0,0));
+      btScalar spheremass1 = 1;
+      //construction info of sphere Rigidbody1
+      btRigidBody::btRigidBodyConstructionInfo  sphereRigidBodyCI1(spheremass1,sphereMotionState1,d->sphere1,btVector3(0,0,0));
      //construction of the rigid body
       btRigidBody* sphereRigidBody1 = new btRigidBody(sphereRigidBodyCI1);
-      //setting up default
+      //setting up default damping factor
       sphereRigidBody1->setDamping (1, 1);
       //adding rigidbody to the world
        PhysicsWorld::instance()->dynamicsWorld->addRigidBody(sphereRigidBody1);
-       btVector3 boxHalfExtents;
+       btVector3 boxHalfExtents();
       // creation of the box shape
-       d->box=new btBoxShape( boxHalfExtents);
-       //setSafeMargin(boxHalfExtents,.1f);
+       d->box=new btBoxShape( boxHalfExtents());
       // adding box shape to world
+       btScalar boxmass;
        btDefaultMotionState* boxMotionState =new btDefaultMotionState(btTransform(btQuaternion(0,0,0,1),btVector3(0,0,0)));
       //construction info
-       btRigidBody::btRigidBodyConstructionInfo  boxRigidBodyCI(mass,boxMotionState,d->box,btVector3(0,0,0));
+       btRigidBody::btRigidBodyConstructionInfo  boxRigidBodyCI(boxmass,boxMotionState,d->box,btVector3(0,0,0));
        //box rigidbody
-        btRigidBody* boxRigidBody = new btRigidBody(boxRigidBodyCI);
-       //set damping to default
+        btRigidBody* boxRigidBody = new btRigidBody(sphereRigidBodyCI);
+       //set damping to default factor
         boxRigidBody->setDamping(1,1);
        //adding box to world
         PhysicsWorld::instance()->dynamicsWorld->addRigidBody(boxRigidBody);
@@ -164,63 +164,61 @@ void SphereCollisionComponent::update( int  elapsedMilliseconds )
      btCollisionObject*sphere1;
 
      btCollisionObject*box;
-       //data about colllision of game objects
+
      Component** data = d->collisionComponents.data();
-    //declaration of spherecollision object for  contact Test
+
      btCollisionObject* sphere;
-    // Variable drawn from structure provides collision information after test to world
+
      btDrawingResult renderCallback;
 
      for( int i = 0; i < componentCount; ++i )
      {
          SphereCollisionComponent* Sphere = qobject_cast< SphereCollisionComponent* >( data[i] );
-          // checking if the collision group and target group are same
+
          if( d->collisionGroup == d->targetGroup )
          {
-             // contactTest checks collision between sphere and all objects of the world
              PhysicsWorld::instance()->dynamicsWorld->contactTest(sphere,renderCallback);
-             // nummanifolds get the number of contactpoints between sphere and and objects in world
-             int  numManifolds =PhysicsWorld::instance()->dynamicsWorld->getDispatcher()->getNumManifolds();
+
+              int  numManifolds =PhysicsWorld::instance()->dynamicsWorld->getDispatcher()->getNumManifolds();
 
              PhysicsWorld::instance()-> dynamicsWorld->performDiscreteCollisionDetection();
 
              Component* component;
-              // numManifolds >0 shows collision has occured since contactpoints are present
+
              if(numManifolds>0 )
              {
-                  //non blockable signal emitted before object is desroyed and  remove that index of  component using Slot
-                 connect(  component, SIGNAL(destroyed(QObject*)), SLOT(setCollisionGroup(int numManifolds)) );
+                 //non blockable signal emitted before object is desroyed and  remove that index of  component using Slot
+                  connect(  component, SIGNAL(destroyed(QObject*)), SLOT(setCollisionGroup(int numManifolds)) );
                  //append the component,so  counter  gives the count  of enabled components
                   static_cast<SphereCollisionComponent*>( component )->addComponent( this );
                }
 
-                //contactPairTest checks whether the object is colliding with other sphere object in the world
+                 //check whether the object is colliding with  other sphere
                PhysicsWorld::instance()->dynamicsWorld->contactPairTest(sphere,sphere1,renderCallback);
-              {
-                   btPersistentManifold* contactManifold =PhysicsWorld::instance()->dynamicsWorld->getDispatcher() ->getManifoldByIndexInternal(i);
 
-                   d->sphere =static_cast<btCollisionShape*>(contactManifold->getBody0());
+               btPersistentManifold* contactManifold =PhysicsWorld::instance()->dynamicsWorld->getDispatcher() ->getManifoldByIndexInternal(i);
 
-                   d-> sphere1=static_cast<btCollisionShape*>(contactManifold->getBody1());
-                //get number of contactpoints between two spheres
-                   d-> numContacts = contactManifold->getNumContacts();
-                }
+               d->sphere =static_cast<btCollisionShape*>(contactManifold->getBody0());
+
+               d-> sphere1=static_cast<btCollisionShape*>(contactManifold->getBody1());
+
+               d-> numContacts = contactManifold->getNumContacts();
 
                //checkwhether the object is colliding with box shape in the physics world
 
-                 PhysicsWorld::instance()->dynamicsWorld->contactPairTest(sphere,box,renderCallback);
+               PhysicsWorld::instance()->dynamicsWorld->contactPairTest(sphere,box,renderCallback);
 
-                 for (int j=0;j<numManifolds;j++)
-                 {
+                for (int j=0;j<numManifolds;j++)
+                {
 
-                   btPersistentManifold* contactManifold =PhysicsWorld::instance()->dynamicsWorld->getDispatcher() ->getManifoldByIndexInternal(j);
+                     btPersistentManifold* contactManifold =PhysicsWorld::instance()->dynamicsWorld->getDispatcher() ->getManifoldByIndexInternal(j);
 
-                   d->sphere =static_cast<btCollisionShape*>(contactManifold->getBody0());
+                      d->sphere =static_cast<btCollisionShape*>(contactManifold->getBody0());
 
-                   d-> box=static_cast<btCollisionShape*>(contactManifold->getBody1());
-                  //get number of contact points between sphere and the box
-                   d->numContacts = contactManifold->getNumContacts();
-                  }
+                      d-> box=static_cast<btCollisionShape*>(contactManifold->getBody1());
+
+                      d->numContacts = contactManifold->getNumContacts();
+                 }
 
                 d->collides =Sphere->gameObject();
              }
@@ -267,8 +265,7 @@ int SphereCollisionComponent::targetGroup() const
       return;
 
      Component* comp = static_cast<Component*>( obj );
-      //if object is destroyed remove the index of it
-     if( d->collisionComponents.contains( comp ) )
+      if( d->collisionComponents.contains( comp ) )
 
           d->collisionComponents.remove( d->collisionComponents.indexOf( comp ) );
 }
@@ -276,7 +273,7 @@ int SphereCollisionComponent::targetGroup() const
  void SphereCollisionComponent::addComponent( SphereCollisionComponent* comp )
 {
     if( comp )
-    {   // add the components which are not destroyed in collision
+    {
          if( !d->collisionComponents.contains( comp ) )
           {
                d->collisionComponents.append( comp );

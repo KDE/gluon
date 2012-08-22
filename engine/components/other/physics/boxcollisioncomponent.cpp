@@ -20,7 +20,6 @@ class BoxCollisionComponent::BoxCollisionComponentPrivate
             BoxCollisionComponentPrivate() :
             collisionGroup( 0 ),
             targetGroup( 0 ),
-            boxHalfExtents(0),
             collides( 0 ),
             box(0),
             box1(0),
@@ -31,7 +30,6 @@ class BoxCollisionComponent::BoxCollisionComponentPrivate
 
         int collisionGroup;
         int targetGroup;
-        btVector3 boxHalfExtents;
         int  numContacts;
         GameObject* collides;
         btCollisionShape* box;
@@ -40,10 +38,10 @@ class BoxCollisionComponent::BoxCollisionComponentPrivate
 
         int componentType;
         const char* typeName;
+        btVector3 boxHalfExtents();
 
          QVector<Component*>  collisionComponents;
 };
-
 
 struct btDrawingResult : public btCollisionWorld::ContactResultCallback
 {
@@ -71,47 +69,48 @@ BoxCollisionComponent::~BoxCollisionComponent()
 
 QString BoxCollisionComponent::category() const
 {
-    return QString( "Physics" );
+     return QString( "Physics" );
 }
 
 void  BoxCollisionComponent::initialize()
 {
-   //creating a boxshape
-    d->box= new btBoxShape(d->boxHalfExtents) ;
+     //creating a boxshape
+    d->box= new btBoxShape(d->boxHalfExtents()) ;
     //setting default motionstate making unused Quaterion 1is set for non used coordinate
     btDefaultMotionState* boxMotionState =new btDefaultMotionState(btTransform(btQuaternion(0,0,0,1),btVector3(0,0,0)));
     //setting default mass 1 not zero  because need minimum inertia
-    btScalar mass = 1;
-    //construction info of boxRigidbody
-    btRigidBody::btRigidBodyConstructionInfo  boxRigidBodyCI(mass,boxMotionState,d->box,btVector3(0,0,0));
-    //construction of the rigid body
+     btScalar boxmass = 1;
+    //constructioninfo of box Rigidbody
+    btRigidBody::btRigidBodyConstructionInfo  boxRigidBodyCI(boxmass,boxMotionState,d->box,btVector3(0,0,0));
+    //construction of the rigid body according to info provided
     btRigidBody* boxRigidBody = new btRigidBody(boxRigidBodyCI);
-    //setting up default
+    //setting up default damping value
      boxRigidBody->setDamping(1,1);
     //adding rigidbody to the world
      PhysicsWorld::instance()->dynamicsWorld->addRigidBody(boxRigidBody);
      //creating a new boxshape
-     d->box1=new btBoxShape(d->boxHalfExtents);
-     //setting default motionstate making unused Quaterion
+     d->box=new btBoxShape(d->boxHalfExtents());
+     //setting default motionstate making unused dimension zero using bullet  Quaterion
       btDefaultMotionState* boxMotionState1 =new btDefaultMotionState(btTransform(btQuaternion(0,0,0,1),btVector3(0,0,0)));
      //setting default mass 1 not zero  because need minimum inertia
-      btScalar mass1 = 1;
-      //construction info of box Rigidbody
-      btRigidBody::btRigidBodyConstructionInfo  boxRigidBodyCI1(mass1,boxMotionState1,d->box1,btVector3(0,0,0));
-     //construction of the rigid body
+      btScalar boxmass1 = 1;
+      //constructioninfo of boxRigidbody
+      btRigidBody::btRigidBodyConstructionInfo  boxRigidBodyCI1(boxmass1,boxMotionState1,d->box1,btVector3(0,0,0));
+     //construction of the rigid body according to info
       btRigidBody* boxRigidBody1 = new btRigidBody(boxRigidBodyCI1);
-      //setting up default
+      //setting up default damping factor
        boxRigidBody1->setDamping (1, 1);
       //adding rigidbody to the world
        PhysicsWorld::instance()->dynamicsWorld->addRigidBody(boxRigidBody1);
       // creation of the sphere shape
        btScalar radius ;
+       btScalar spheremass;
        d->sphere=new btSphereShape( radius);
       // adding box shape to world
        btDefaultMotionState* sphereMotionState =new btDefaultMotionState(btTransform(btQuaternion(0,0,0,1),btVector3(0,0,0)));
-      //construction info
-       btRigidBody::btRigidBodyConstructionInfo  sphereRigidBodyCI(mass,sphereMotionState,d->sphere,btVector3(0,0,0));
-       //sphere rigidbody
+      //construction info of sphere
+       btRigidBody::btRigidBodyConstructionInfo  sphereRigidBodyCI(spheremass,sphereMotionState,d->sphere,btVector3(0,0,0));
+       //box rigidbody
         btRigidBody* sphereRigidBody = new btRigidBody(sphereRigidBodyCI);
        //set damping to default
         boxRigidBody->setDamping(1,1);
@@ -126,7 +125,7 @@ void BoxCollisionComponent::start()
 
     int counter = 0;
 
-    foreach( Component *component, d->collisionComponents )
+    foreach(Component *component, d->collisionComponents )
     {
         //check whether the component is enabled and instance of the component is enabled
          if( component->enabled() && component->gameObject()->enabled() )
@@ -150,37 +149,34 @@ void BoxCollisionComponent::update( int  elapsedMilliseconds )
     int timestep=elapsedMilliseconds;
 
     d->collides = 0;
-
+    //simulating in construted world
     PhysicsWorld::instance()->dynamicsWorld->stepSimulation((timestep/1000),1,(1/60));
-
-    //our position
+   //our position
     QVector3D position = gameObject()->position();
     //Eliminate the Z-axis
      position.setZ( 0 );
-   //check wheteher the object is colliding with any other in the physics world
-     int componentCount = d->collisionComponents.count();
-
-     btCollisionObject*box1;
-
+    //checking  the number of objects  the physics world
+    int componentCount = d->collisionComponents.count();
+     btCollisionObject*box;
      btCollisionObject*sphere;
-       //data about colllision of game objects
-     Component** data = d->collisionComponents.data();
-    //declaration of box collision object for  contact Test
-     btCollisionObject* box;
-    // Variable drawn from structure provides collision information after test to world
+     //data of colllisioncomponets of game objects
+      Component** data = d->collisionComponents.data();
+     //declaration of spherecollision object for contactpair Test
+      btCollisionObject* box1;
+     // Variable drawn from structure provides collision information after test to world
      btDrawingResult renderCallback;
 
      for( int i = 0; i < componentCount; ++i )
      {
          BoxCollisionComponent* Box = qobject_cast< BoxCollisionComponent* >( data[i] );
-          // checking if the collision group and target group are same
+         // checking if the collision group and target group are same
          if( d->collisionGroup == d->targetGroup )
          {
-             // contactTest checks collision between box and all objects of the world
+              // contactTest checks collision between box and all objects of the world
              PhysicsWorld::instance()->dynamicsWorld->contactTest(box,renderCallback);
              // nummanifolds get the number of contactpoints between box and and objects in world
              int  numManifolds =PhysicsWorld::instance()->dynamicsWorld->getDispatcher()->getNumManifolds();
-
+             //check whether collision appears between individual components
              PhysicsWorld::instance()-> dynamicsWorld->performDiscreteCollisionDetection();
 
              Component* component;
@@ -193,7 +189,7 @@ void BoxCollisionComponent::update( int  elapsedMilliseconds )
                   static_cast<BoxCollisionComponent*>( component )->addComponent( this );
                }
 
-                //contactPairTest checks whether the object is colliding with other sphere object in the world
+                //contactPairTest checks whether the object is colliding with other box object in the world
                PhysicsWorld::instance()->dynamicsWorld->contactPairTest(box,box1,renderCallback);
               {
                    btPersistentManifold* contactManifold =PhysicsWorld::instance()->dynamicsWorld->getDispatcher() ->getManifoldByIndexInternal(i);
@@ -201,7 +197,7 @@ void BoxCollisionComponent::update( int  elapsedMilliseconds )
                    d->box =static_cast<btCollisionShape*>(contactManifold->getBody0());
 
                    d-> box1=static_cast<btCollisionShape*>(contactManifold->getBody1());
-                //get number of contactpoints between two boxess
+                //get number of contactpoints between two boxes
                    d-> numContacts = contactManifold->getNumContacts();
                 }
 
@@ -244,12 +240,6 @@ int BoxCollisionComponent::collisionGroup()const
     return d->collisionGroup;
 }
 
-btVector3 BoxCollisionComponent::boxHalfExtents( )const
-{
-    return  d->boxHalfExtents;
-}
-
-
 void BoxCollisionComponent::setCollisionGroup( int numManifolds )
 {
     d->collisionGroup = numManifolds;
@@ -269,7 +259,7 @@ int BoxCollisionComponent::targetGroup() const
       //if object is destroyed remove the index of it
      if( d->collisionComponents.contains( comp ) )
 
-          d->collisionComponents.remove( d->collisionComponents.indexOf( comp ) );
+       d->collisionComponents.remove( d->collisionComponents.indexOf( comp ) );
 }
 
  void BoxCollisionComponent::addComponent( BoxCollisionComponent* comp )
@@ -284,8 +274,4 @@ int BoxCollisionComponent::targetGroup() const
            }
      }
 }
-
-Q_EXPORT_PLUGIN2( gluon_component_physics, GluonEngine::BoxCollisionComponent )
-
 #include "boxcollisioncomponent.moc"
-

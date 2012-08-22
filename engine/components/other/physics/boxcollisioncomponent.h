@@ -10,20 +10,20 @@ namespace GluonEngine
 
     class GLUON_COMPONENT_PHYSICS_EXPORT  BoxCollisionComponent : public Component
     {
-            Q_OBJECT
-            Q_INTERFACES( GluonEngine::Component )
-            GLUON_OBJECT( GluonEngine::BoxCollisionComponent )
+          Q_OBJECT
+          Q_INTERFACES( GluonEngine::Component )
+          GLUON_OBJECT( GluonEngine::BoxCollisionComponent )
 
-             Q_PROPERTY( int collisionGroup READ collisionGroup WRITE setCollisionGroup )
-             Q_PROPERTY( int targetGroup READ targetGroup WRITE setTargetGroup )
-             Q_PROPERTY( btVector3 boxHalfExtents READ boxHalfExtents )
+           Q_PROPERTY( int collisionGroup READ collisionGroup WRITE setCollisionGroup )
+           Q_PROPERTY( int targetGroup READ targetGroup WRITE setTargetGroup )
 
-              Q_CLASSINFO( "org.gluon.category", "Physics" )
-              Q_CLASSINFO( "org.gluon.icon", "application-x-executable" )
 
-             public:
+            Q_CLASSINFO( "org.gluon.category", "Physics" )
+            Q_CLASSINFO( "org.gluon.icon", "application-x-executable" )
 
-            Q_INVOKABLE BoxCollisionComponent( QObject* parent = 0 );      // constructor
+        public:
+
+             Q_INVOKABLE BoxCollisionComponent( QObject* parent = 0 );
 
             virtual ~BoxCollisionComponent();    //destructor
 
@@ -39,25 +39,21 @@ namespace GluonEngine
 
             virtual void cleanup();
 
-             int collisionGroup() const;
+            int collisionGroup() const;
 
-              btVector3 boxHalfExtents( )const ;
-
-             int targetGroup() const;
+            int targetGroup() const;
 
 
 
        public Q_SLOTS:
 
-       // void setRadius( btScalar radius );
+            void setCollisionGroup( int );
 
-        void setCollisionGroup( int );
+           void setTargetGroup( int group );
 
-        void setTargetGroup( int group );
+            void componentDestroyed( QObject* obj );
 
-        void componentDestroyed( QObject* obj );
-
-        void addComponent( BoxCollisionComponent*  comp );
+            void addComponent( BoxCollisionComponent*  comp );
 
 
  private:
@@ -69,4 +65,4 @@ namespace GluonEngine
 
 Q_DECLARE_METATYPE( GluonEngine::BoxCollisionComponent* )
 
-#endif   // GLUON_ENGINE_BoxCollisionComponent_H
+#endif   // GLUON_ENGINE_BoxCollisionComponent_H 

@@ -20,23 +20,20 @@ PhysicsWorld::PhysicsWorld( QObject* parent ): GluonCore::Singleton< PhysicsWorl
 
     // The actual physics solver
     btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver;
-
+     //creation of the world
      dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher,broadphase,solver,collisionConfiguration);
-
-     //dynamicsWorld->addRigidBody(btRigidBody);------------------------------------------------------------------------------------------------
-
 
      void contactTest (btCollisionObject *colObj, btCollisionWorld::ContactResultCallback &resultCallback );
 
      void contactPairTest (btCollisionObject *colObjA, btCollisionObject *colObjB,btCollisionWorld::ContactResultCallback &resultCallback);
 
 
-
-    delete dynamicsWorld;
-    delete solver ;
-    delete dispatcher;
-    delete collisionConfiguration;
-    delete broadphase;
+     //cleaning bullet stuff after use should always be done manually
+      delete dynamicsWorld;
+      delete solver ;
+      delete dispatcher;
+      delete collisionConfiguration;
+      delete broadphase;
 }
 
 
