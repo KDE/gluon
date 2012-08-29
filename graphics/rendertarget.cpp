@@ -71,7 +71,7 @@ RenderTarget::~RenderTarget()
 
 void RenderTarget::addChild(RenderPipelineItem* item)
 {
-    if( !d->children.contains(item) )
+    if( item && !d->children.contains(item) )
     {
         d->children.append(item);
         item->setParentItem( this );
@@ -80,7 +80,7 @@ void RenderTarget::addChild(RenderPipelineItem* item)
 
 void RenderTarget::removeChild(RenderPipelineItem* item)
 {
-    if( d->children.contains( item ) )
+    if( item && d->children.contains( item ) )
     {
         d->children.removeOne( item );
         item->setParentItem( 0 );
