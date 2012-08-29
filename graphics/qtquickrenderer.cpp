@@ -71,7 +71,7 @@ QtQuickRenderer::QtQuickRenderer( QObject* parent )
     d->material->setProperty( "texture0", QVariant::fromValue< Texture* >( this ) );
 
     if( !d->engine )
-        d->engine = new QDeclarativeEngine( this );
+        d->engine = new QDeclarativeEngine( QCoreApplication::instance() );
 }
 
 QtQuickRenderer::~QtQuickRenderer()
