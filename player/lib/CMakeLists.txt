@@ -53,6 +53,8 @@ set(libGluonPlayer_SRCS
     models/gameviewitem.cpp
     models/highscoresmodel.cpp
     models/installedgamesmodel.cpp
+    models/savegamesmodel.cpp
+    models/savegamesmodel.h
 )
 
 qt4_automoc(${libGluonPlayer_SRCS})
