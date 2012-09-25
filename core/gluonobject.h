@@ -408,14 +408,14 @@ namespace GluonCore
                     if( item )
                     {
                         items << item;
-                        items << item->findItemsByType<T>();
+                        items << item->template findItemsByType<T>();
                     }
                     else
                     {
                         GluonObject* obj = qobject_cast<GluonObject*>( child );
                         if( obj )
                         {
-                            items << obj->findItemsByType<T>();
+                            items << obj->template findItemsByType<T>();
                         }
                     }
                 }
