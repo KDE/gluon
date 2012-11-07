@@ -18,6 +18,7 @@
  */
 
 #include "gamesave.h"
+#include "gamesaveprivate.h"
 
 #include "gameobject.h"
 #include "game.h"
@@ -27,15 +28,15 @@
 
 #include <core/gluonobject.h>
 #include <core/gdlserializer.h>
-#include <core/directoryprovider.h>
 
 #include <QDebug>
 
 using namespace GluonEngine;
 
-REGISTER_OBJECTTYPE( GluonEngine, GameSave )
+GLUON_DEFINE_SINGLETON( GameSave )
 
-GameSave::GameSave()
+GameSave::GameSave( QObject *parent ) : GluonCore::GluonObject( parent )
+    , g( new GameSavePrivate( this ) )
 {
 }
 
@@ -55,16 +56,13 @@ void GameSave::save()
 
 void GameSave::load()
 {
-    // TODO: Give developer option to present list of saved slots to choose from.
-    // GluonEngine::Game::instance()->loadScene( filename );
     partialLoad();
 }
 
 void GameSave::partialSave()
 {
     GluonEngine::SceneGraph *scene = new GluonEngine::SceneGraph();
-    QString savefile = GluonCore::DirectoryProvider::instance()->saveGamesDirectory();
-    savefile += GluonEngine::Game::instance()->gameProject()->name() + ".gluonsave";
+    QString savefile = g->saveGamesDirectory + GluonEngine::Game::instance()->gameProject()->name() + ".gluonsave";
     QUrl savefilename( savefile );
     if( ! GluonCore::GDLSerializer::instance()->write( savefilename, GluonCore::GluonObjectList() << scene->forSave() ) )
         qDebug() << "Couldn't save to preset location";
@@ -73,8 +71,7 @@ void GameSave::partialSave()
 
 void GameSave::partialLoad()
 {
-    QString loadfile = GluonCore::DirectoryProvider::instance()->saveGamesDirectory();
-    loadfile += GluonEngine::Game::instance()->gameProject()->name() + ".gluonsave";
+    QString loadfile = g->saveGamesDirectory + GluonEngine::Game::instance()->gameProject()->name() + ".gluonsave";
     QUrl loadfilename( loadfile );
     GluonCore::GluonObjectList objects;
     GluonEngine::GameProject* project = GluonEngine::Game::instance()->gameProject();

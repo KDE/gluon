@@ -17,38 +17,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_PLAYER_SAVEGAMESMODEL_H
-#define GLUON_PLAYER_SAVEGAMESMODEL_H
+#include "gamesaveprivate.h"
+#include "gamesave.h"
 
-#include "lib/gluon_player_export.h"
-#include <engine/achievementsmanager.h>
+#include "game.h"
+#include "gameproject.h"
 
-#include <QtCore/QAbstractItemModel>
+#include <core/directoryprovider.h>
+#include <QDir>
+#include <QFileInfo>
 
-class QStringList;
+using namespace GluonEngine;
 
-namespace GluonEngine
+GameSavePrivate::GameSavePrivate( GameSave* sg )
+    : s( sg )
 {
-    class ProjectMetaData;
+    saveGamesDirectory = GluonCore::DirectoryProvider::instance()->saveGamesDirectory();
+    userName = GluonEngine::Game::instance()->gameProject()->userName();
+    saveGamesDirectory += '/' + userName;
 }
 
-namespace GluonPlayer
+GameSavePrivate::~GameSavePrivate()
 {
-    class GLUON_PLAYER_EXPORT SaveGamesModel : public QAbstractItemModel
-    {
-        Q_OBJECT
-        
-        public:
-            SaveGamesModel( GluonEngine::ProjectMetaData* metaData, const QString& userName, QObject* parent = 0 );
-            virtual ~SaveGamesModel();
-            
-            QStringList saveGames();
-            
-        private:
-            class SaveGamesModelPrivate;
-            SaveGamesModelPrivate* s;
-    };
 }
-
-
-#endif

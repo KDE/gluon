@@ -78,6 +78,7 @@ set(GluonEngine_SRCS
     game.cpp
     gameprivate.cpp
     gamesave.cpp
+    gamesaveprivate.cpp
     scenegraph.cpp
     scenegraphprivate.cpp
     scenegraphobject.cpp
@@ -110,6 +111,7 @@ set(GluonEngine_HEADERS
 
     game.h
     gamesave.h
+    gamesaveprivate.h
     scenegraph.h
     scenegraphprivate.h
     scenegraphobject.h

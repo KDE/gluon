@@ -20,25 +20,48 @@
 #include "savegamesmodel.h"
 
 #include <engine/projectmetadata.h>
+#include <engine/game.h>
+#include <core/directoryprovider.h>
+
+#include <QDir>
 
 using namespace GluonPlayer;
+using namespace GluonEngine;
 
 class SaveGamesModel::SaveGamesModelPrivate
 {
     public:
-        SaveGamesModelPrivate() {}
+        SaveGamesModelPrivate( SaveGamesModel *s )
+            : sgm( s )
+        {
+        }
         ~SaveGamesModelPrivate() {}
+        
+        QString userName;
         QString saveGamesDirectory;
+        QStringList saveGamesList;
+        
+        SaveGamesModel *sgm;
 };
 
 SaveGamesModel::SaveGamesModel( GluonEngine::ProjectMetaData* metaData, const QString& userName, QObject* parent )
-    : QAbstractItemModel( parent )
+    : QAbstractItemModel( parent ), s( new SaveGamesModelPrivate( this ) )
 {
+    s->saveGamesDirectory = GluonCore::DirectoryProvider::instance()->saveGamesDirectory();
+    s->userName = GluonEngine::Game::instance()->gameProject()->userName();
+    s->saveGamesDirectory += '/' + userName;
     
+    QDir saveDir( s->saveGamesDirectory );
+    s->saveGamesList = saveDir.entryList( QStringList( "*.gluonsave" ), QDir::Files | QDir::NoSymLinks );
 }
 
 SaveGamesModel::~SaveGamesModel()
 {
+}
+
+QStringList SaveGamesModel::saveGames()
+{
+    return s->saveGamesList;
 }
 
 #include "savegamesmodel.moc"

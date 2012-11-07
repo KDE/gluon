@@ -26,6 +26,7 @@
 namespace GluonEngine
 {
     class GameObject;
+    class GameSavePrivate;
 
     /**
      * For saving and loading game states, by serializing the 
@@ -34,9 +35,8 @@ namespace GluonEngine
     class GLUON_ENGINE_EXPORT GameSave : public GluonCore::GluonObject
     {
         Q_OBJECT
-        GLUON_OBJECT( GluonEngine::GameSave )
         public:
-            Q_INVOKABLE GameSave();
+            Q_INVOKABLE GameSave( QObject *parent );
             ~GameSave();
 
             /**
@@ -70,6 +70,14 @@ namespace GluonEngine
              * @param: object is the game object whose components are to be restored.
              */
             void restoreComponents( GluonEngine::GameObject* object );
+            
+            /**
+             * Returns the most recent save's directory ( the full path )
+             */
+            QString latestSave();
+            
+        private:
+            GameSavePrivate *g;
     };
 }
 
