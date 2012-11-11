@@ -21,8 +21,8 @@
 
 #include <QMatrix4x4>
 #include <QColor>
+#include <QtAlgorithms>
 
-#include "renderpipelineitem.h"
 #include "manager.h"
 #include "backend.h"
 #include "spritemesh.h"
@@ -36,7 +36,9 @@ class RenderTarget::Private
 {
     public:
         Private( RenderTarget* qq ) : q( qq ), mesh( 0 ), materialInstance( 0 ), texture( 0 ) { }
+
         void initialize();
+        void sortChildren();
 
         RenderTarget* q;
 
@@ -51,6 +53,8 @@ class RenderTarget::Private
         Texture* texture;
 
         QColor backgroundColor;
+
+        static bool compareZDepth( RenderChainItem* first, RenderChainItem* second );
 };
 
 RenderTarget::RenderTarget( QObject* parent )
@@ -75,6 +79,7 @@ void RenderTarget::addChild(RenderChainItem* item)
     {
         d->children.append(item);
         item->setParentItem( this );
+        d->sortChildren();
     }
 }
 
@@ -84,6 +89,7 @@ void RenderTarget::removeChild(RenderChainItem* item)
     {
         d->children.removeOne( item );
         item->setParentItem( 0 );
+        d->sortChildren();
     }
 }
 
@@ -150,7 +156,7 @@ Texture* RenderTarget::texture()
     return d->texture;
 }
 
-void RenderTarget::setBackroundColor( const QColor& color )
+void RenderTarget::setBackgroundColor( const QColor& color )
 {
     d->backgroundColor = color;
 }
@@ -165,6 +171,16 @@ void RenderTarget::Private::initialize()
     matrix.ortho( -.5f, .5f, -.5f, .5f, -.5f, .5f );
     materialInstance->setProperty( "projectionMatrix", matrix );
     materialInstance->setProperty( "texture0", QVariant::fromValue< Texture* >( q->texture() ) );
+}
+
+void RenderTarget::Private::sortChildren()
+{
+    qStableSort(children.begin(), children.end(), Private::compareZDepth);
+}
+
+bool RenderTarget::Private::compareZDepth( RenderChainItem* first, RenderChainItem* second )
+{
+    return first->zDepth() < second->zDepth();
 }
 
 #include "rendertarget.moc"
