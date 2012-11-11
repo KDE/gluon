@@ -103,7 +103,7 @@ namespace GluonGraphics
              */
             virtual void renderContents();
 
-            void setBackroundColor( const QColor& color );
+            void setBackgroundColor( const QColor& color );
 
         protected:
             virtual void resizeImpl() = 0;
