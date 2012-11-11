@@ -61,6 +61,9 @@ QDeclarativeEngine* QtQuickRenderer::Private::engine = 0;
 QtQuickRenderer::QtQuickRenderer( QObject* parent )
     : Texture( parent ), d( new Private )
 {
+    //TODO: Make this configureable
+    setZDepth( 1.0f );
+
     d->mesh = Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh );
     d->material = Manager::instance()->resource< Material >( Manager::Defaults::Material )->createInstance();
     QMatrix4x4 proj;
