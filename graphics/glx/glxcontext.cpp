@@ -125,7 +125,6 @@ bool Context::initialize( QWidget* widget )
     glClearColor( 0.f, 0.f, 0.f, 1.f );
     glEnable( GL_BLEND );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    glEnable( GL_DEPTH_TEST );
 
     return true;
 }
