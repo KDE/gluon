@@ -83,6 +83,7 @@ void SpriteRendererComponent::initialize()
     {
         d->entity = GluonGraphics::Manager::instance()->currentWorld()->createEntity< GluonGraphics::Entity >();
         d->entity->setMesh( GluonGraphics::Manager::instance()->resource< GluonGraphics::SpriteMesh >( GluonGraphics::Manager::Defaults::SpriteMesh ) );
+        d->entity->setVisible( enabled() );
     }
 
     if( d->material )
@@ -182,6 +183,14 @@ void SpriteRendererComponent::setMaterial( GluonGraphics::MaterialInstance* mate
 void SpriteRendererComponent::setMaterial( const QString& path )
 {
     setMaterial( qobject_cast<GluonGraphics::MaterialInstance*>( Game::instance()->gameProject()->findGlobalItemByName( path ) ) );
+}
+
+void SpriteRendererComponent::setEnabled( bool newEnabled )
+{
+    if( d->entity )
+        d->entity->setVisible( newEnabled );
+
+    GluonEngine::Component::setEnabled( newEnabled );
 }
 
 Q_EXPORT_PLUGIN2( gluon_component_spriterenderer, GluonEngine::SpriteRendererComponent );

@@ -60,6 +60,7 @@ namespace GluonEngine
             virtual void setSize( const QSizeF& size );
             virtual void setMaterial( GluonGraphics::MaterialInstance* material );
             virtual void setMaterial( const QString& path );
+            virtual void setEnabled( bool newEnabled );
 
         private:
             class SpriteRendererComponentPrivate;
