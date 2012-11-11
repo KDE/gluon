@@ -35,12 +35,13 @@ REGISTER_OBJECTTYPE( GluonGraphics, Entity );
 class Entity::Private
 {
     public:
-        Private() : world( 0 ), mesh( 0 ), materialInstance( 0 ) { }
+        Private() : world( 0 ), mesh( 0 ), materialInstance( 0 ), visible( true ) { }
 
         World* world;
         QMatrix4x4 transform;
         Mesh* mesh;
         MaterialInstance* materialInstance;
+        bool visible;
 };
 
 Entity::Entity( QObject* parent )
@@ -89,6 +90,11 @@ Entity::hasMaterialInstance() const
     return d->materialInstance != 0;
 }
 
+bool Entity::isVisible() const
+{
+    return d->visible;
+}
+
 void
 Entity::setWorld(World* world)
 {
@@ -98,7 +104,7 @@ Entity::setWorld(World* world)
 void
 Entity::render()
 {
-    if( !d->mesh || !d->materialInstance )
+    if( !d->mesh || !d->materialInstance || !d->visible )
         return;
 
     Camera* activeCam = d->world->activeCamera();
@@ -133,6 +139,11 @@ void
 Entity::setMaterialInstance( MaterialInstance* instance )
 {
     d->materialInstance = instance;
+}
+
+void Entity::setVisible( bool visible )
+{
+    d->visible = visible;
 }
 
 #include "entity.moc"
