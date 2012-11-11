@@ -52,6 +52,7 @@ set(GluonGraphics_SRCS
     shader.cpp
     meshdata.cpp
     renderchainitem.cpp
+    sprite.cpp
 
     qtquickrenderer.cpp
 )
