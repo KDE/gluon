@@ -79,6 +79,8 @@ namespace GluonGraphics
 
             virtual bool hasMaterialInstance() const;
 
+            virtual bool isVisible() const;
+
         public Q_SLOTS:
             virtual void setWorld( World* world );
 
@@ -116,6 +118,8 @@ namespace GluonGraphics
              * \param material The material instance to use.
              */
             virtual void setMaterialInstance( MaterialInstance* material );
+
+            virtual void setVisible( bool visible );
 
         private:
             class Private;
