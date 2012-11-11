@@ -22,7 +22,7 @@
 
 #include "gluon_graphics_export.h"
 #include "entity.h"
-#include "renderpipelineitem.h"
+#include "renderchainitem.h"
 
 class QRectF;
 class QSizeF;
@@ -39,7 +39,7 @@ namespace GluonGraphics
      * volume (a.k.a. frustrum). These are used to determine
      * what to render and where to render it.
      */
-    class GLUON_GRAPHICS_EXPORT Camera : public Entity, public RenderPipelineItem
+    class GLUON_GRAPHICS_EXPORT Camera : public Entity, public RenderChainItem
     {
             Q_OBJECT
 

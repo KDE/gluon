@@ -22,27 +22,33 @@
 
 #include "gluon_graphics_export.h"
 
+class QMatrix4x4;
+
 namespace GluonGraphics
 {
     /**
-     * \brief The interface that needs to be implemented by objects that want to participate in rendering.
+     * \brief Abstract base class for objects that want to participate in the render chain.
      *
      *
      */
-    class GLUON_GRAPHICS_EXPORT RenderPipelineItem
+    class GLUON_GRAPHICS_EXPORT RenderChainItem
     {
         public:
-            RenderPipelineItem() : m_parent( 0 ) { }
-            virtual ~RenderPipelineItem() { }
+            RenderChainItem();
+            virtual ~RenderChainItem();
 
             virtual void renderContents() = 0;
             virtual void resize(int width, int height) = 0;
 
-            virtual RenderPipelineItem* parentItem() const { return m_parent; }
-            void setParentItem( RenderPipelineItem* parent ) { m_parent = parent; }
+            float zDepth() const;
+            void setZDepth( float z );
+
+            RenderChainItem* parentItem() const;
+            void setParentItem( RenderChainItem* parent );
 
         private:
-            RenderPipelineItem* m_parent;
+            class Private;
+            Private * const d;
     };
 }
 

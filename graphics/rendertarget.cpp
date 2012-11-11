@@ -43,7 +43,7 @@ class RenderTarget::Private
         int width;
         int height;
 
-        QList< RenderPipelineItem* > children;
+        QList< RenderChainItem* > children;
 
         Mesh* mesh;
         MaterialInstance* materialInstance;
@@ -69,7 +69,7 @@ RenderTarget::~RenderTarget()
     delete d;
 }
 
-void RenderTarget::addChild(RenderPipelineItem* item)
+void RenderTarget::addChild(RenderChainItem* item)
 {
     if( item && !d->children.contains(item) )
     {
@@ -78,7 +78,7 @@ void RenderTarget::addChild(RenderPipelineItem* item)
     }
 }
 
-void RenderTarget::removeChild(RenderPipelineItem* item)
+void RenderTarget::removeChild(RenderChainItem* item)
 {
     if( item && d->children.contains( item ) )
     {
@@ -106,7 +106,7 @@ void RenderTarget::update()
 {
     bind();
 
-    Q_FOREACH( RenderPipelineItem* item, d->children )
+    Q_FOREACH( RenderChainItem* item, d->children )
     {
         item->renderContents();
     }
@@ -134,7 +134,7 @@ void RenderTarget::resize( int width, int height )
     d->width = width;
     d->height = height;
 
-    Q_FOREACH( RenderPipelineItem* item, d->children )
+    Q_FOREACH( RenderChainItem* item, d->children )
     {
         item->resize( width, height );
     }

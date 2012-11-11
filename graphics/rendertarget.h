@@ -23,7 +23,7 @@
 #include <QtCore/QObject>
 
 #include "gluon_graphics_export.h"
-#include "renderpipelineitem.h"
+#include "renderchainitem.h"
 
 class QColor;
 namespace GluonGraphics
@@ -45,7 +45,7 @@ namespace GluonGraphics
      * Note that this class always renders its target as a 1x1 full
      * screen quad.
      */
-    class GLUON_GRAPHICS_EXPORT RenderTarget : public QObject, public RenderPipelineItem
+    class GLUON_GRAPHICS_EXPORT RenderTarget : public QObject, public RenderChainItem
     {
             Q_OBJECT
         public:
@@ -76,8 +76,8 @@ namespace GluonGraphics
              */
             virtual void release() = 0;
 
-            void addChild( RenderPipelineItem* item );
-            void removeChild( RenderPipelineItem* item );
+            void addChild( RenderChainItem* item );
+            void removeChild( RenderChainItem* item );
 
             int width() const;
             int height() const;
