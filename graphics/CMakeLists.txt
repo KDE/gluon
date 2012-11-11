@@ -51,6 +51,7 @@ set(GluonGraphics_SRCS
     outputsurface.cpp
     shader.cpp
     meshdata.cpp
+    renderchainitem.cpp
 
     qtquickrenderer.cpp
 )

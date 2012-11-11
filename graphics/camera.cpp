@@ -102,7 +102,7 @@ void Camera::setFarPlane( float far )
 
 void Camera::render()
 {
-    //Does nothing atm.
+    //TODO: Render a dummy object for the camera.
 }
 
 void Camera::renderContents()

@@ -17,39 +17,48 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef QTQUICKRENDERTARGET_H
-#define QTQUICKRENDERTARGET_H
-
 #include "renderchainitem.h"
-#include "texture.h"
 
-namespace GluonGraphics
+#include <QMatrix4x4>
+
+using namespace GluonGraphics;
+
+class RenderChainItem::Private
 {
-    class QtQuickRenderer : public Texture, public RenderChainItem
-    {
-        Q_OBJECT
-        public:
-            explicit QtQuickRenderer( QObject* parent = 0 );
-            virtual ~QtQuickRenderer();
+    public:
+        Private() : parent( 0 ), zDepth( 0 ) { }
 
-            virtual void update();
-            virtual void renderContents();
+        RenderChainItem* parent;
+        float zDepth;
+};
 
-            virtual bool load( const QUrl& url );
-            virtual QImage image() const;
-            virtual TextureData* data() const;
+RenderChainItem::RenderChainItem()
+    : d( new Private )
+{
 
-            virtual void resize( int width, int height );
-
-        public Q_SLOTS:
-            void deliverEvent( QEvent* event );
-
-        private:
-            class Private;
-            Private * const d;
-    };
 }
 
-Q_DECLARE_METATYPE( GluonGraphics::QtQuickRenderer* );
+RenderChainItem::~RenderChainItem()
+{
+    delete d;
+}
 
-#endif // QTQUICKRENDERTARGET_H
+RenderChainItem* RenderChainItem::parentItem() const
+{
+    return d->parent;
+}
+
+void RenderChainItem::setParentItem( RenderChainItem* parent )
+{
+    d->parent = parent;
+}
+
+float RenderChainItem::zDepth() const
+{
+    return d->zDepth;
+}
+
+void RenderChainItem::setZDepth( float z )
+{
+    d->zDepth = z;
+}
