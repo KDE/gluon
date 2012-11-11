@@ -19,6 +19,9 @@
 
 #include "world.h"
 
+#include <QVector3D>
+#include <QMatrix4x4>
+
 #include "entity.h"
 #include "camera.h"
 
@@ -27,9 +30,13 @@ using namespace GluonGraphics;
 class World::Private
 {
     public:
+        void sortEntities();
+
         Camera* activeCamera;
 
         QList< Entity* > entities;
+
+        static bool compareEntityZDepth( Entity* first, Entity* second );
 };
 
 World::World( QObject* parent ) : d( new Private )
@@ -79,6 +86,8 @@ void World::destroyEntity(Entity* entity)
 
 void World::render()
 {
+    d->sortEntities();
+
     const int count = d->entities.count();
     for( int i = 0; i < count; ++i )
     {
@@ -94,6 +103,22 @@ Camera* World::activeCamera() const
 void World::setActiveCamera( Camera* cam )
 {
     d->activeCamera = cam;
+}
+
+void World::Private::sortEntities()
+{
+    qStableSort(entities.begin(), entities.end(), Private::compareEntityZDepth);
+}
+
+bool World::Private::compareEntityZDepth( Entity* first, Entity* second )
+{
+    QVector3D posFirst;
+    QVector3D posSecond;
+
+    posFirst = posFirst * first->transform();
+    posSecond = posSecond * second->transform();
+
+    return posFirst.z() < posSecond.z();
 }
 
 #include "world.moc"
