@@ -195,7 +195,7 @@ namespace GluonEngine
              * @param newEnabled The new value for the parameter
              * @see enabled
              */
-            void setEnabled( bool newEnabled );
+            virtual void setEnabled( bool newEnabled );
 
             /**
              * Returns a pointer to the GameObject instance this instance of
