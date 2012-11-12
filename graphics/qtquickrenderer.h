@@ -23,6 +23,7 @@
 #include "renderchainitem.h"
 #include "texture.h"
 
+class QDeclarativeContext;
 namespace GluonGraphics
 {
     class QtQuickRenderer : public Texture, public RenderChainItem
@@ -38,6 +39,8 @@ namespace GluonGraphics
             virtual bool load( const QUrl& url );
             virtual QImage image() const;
             virtual TextureData* data() const;
+
+            QDeclarativeContext* context() const;
 
             virtual void resize( int width, int height );
 
