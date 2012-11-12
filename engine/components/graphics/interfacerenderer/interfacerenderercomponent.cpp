@@ -18,13 +18,18 @@
  */
 
 #include "interfacerenderercomponent.h"
-#include <asset.h>
-#include <game.h>
+
+#include <QDeclarativeContext>
+#include <QDeclarativeEngine>
 
 #include <graphics/manager.h>
 #include <graphics/rendertarget.h>
 #include <graphics/qtquickrenderer.h>
 #include <input/inputmanager.h>
+
+#include <asset.h>
+#include <game.h>
+#include <gameobject.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, InterfaceRendererComponent )
 
@@ -104,6 +109,13 @@ void InterfaceRendererComponent::Private::setRenderer(const QString& name)
     {
         GluonGraphics::Manager::instance()->resource< GluonGraphics::RenderTarget >( GluonGraphics::Manager::Defaults::RenderTarget )->addChild( renderer );
         connect( GluonInput::InputManager::instance(), SIGNAL(eventFiltered(QEvent*)), q, SLOT(sendEvent(QEvent*)) );
+
+        QDeclarativeContext* context = renderer->context();
+        context->setContextProperty( "Game", Game::instance() );
+        context->setContextProperty( "GameProject", q->gameProject() );
+        context->setContextProperty( "Scene", q->gameObject()->scene() );
+        context->setContextProperty( "GameObject", q->gameObject() );
+        context->setContextProperty( "Component", q );
     }
 }
 
