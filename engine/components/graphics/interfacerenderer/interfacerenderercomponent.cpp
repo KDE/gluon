@@ -18,10 +18,12 @@
  */
 
 #include "interfacerenderercomponent.h"
+#include "textureimageprovider.h"
 
 #include <QDeclarativeContext>
 #include <QDeclarativeEngine>
 
+#include <core/messagehandler.h>
 #include <graphics/manager.h>
 #include <graphics/rendertarget.h>
 #include <graphics/qtquickrenderer.h>
@@ -116,6 +118,9 @@ void InterfaceRendererComponent::Private::setRenderer(const QString& name)
         context->setContextProperty( "Scene", q->gameObject()->scene() );
         context->setContextProperty( "GameObject", q->gameObject() );
         context->setContextProperty( "Component", q );
+
+        if( !context->engine()->imageProvider( "texture" ) )
+            context->engine()->addImageProvider( "texture", new TextureImageProvider() );
     }
 }
 
