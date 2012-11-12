@@ -34,9 +34,6 @@ else()
     option(INSTALL_CMAKE_FILES "Install the *.cmake files into the CMake root" OFF)
 endif()
 
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-
 set(GLUON_BUILD_ALL TRUE
     CACHE INTERNAL "Build all of Gluon"
 )
@@ -48,6 +45,8 @@ if(NOT MSVC)
 endif(NOT MSVC)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
 
 ##### Gluon Libraries #####
 
@@ -91,6 +90,9 @@ set(KDE_FAILED FALSE)
 ######## KDE Parts ########
 if(BUILD_GLUON_PLAYER_ACTIVE OR BUILD_GLUON_CREATOR OR WITH_KDE)
     find_package(KDE4)
+    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+
     if(NOT KDE4_FOUND)
         set(BUILD_GLUON_PLAYER_ACTIVE OFF)
         set(BUILD_GLUON_CREATOR OFF)
