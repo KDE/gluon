@@ -25,10 +25,13 @@
 #include <QDeclarativeEngine>
 #include <QDeclarativeComponent>
 #include <QDeclarativeItem>
+#include <QDeclarativeContext>
 #include <QPainter>
 #include <QMatrix4x4>
 #include <QMouseEvent>
 #include <QGraphicsSceneMouseEvent>
+
+#include <core/messagehandler.h>
 
 #include "texturedata.h"
 #include "spritemesh.h"
@@ -43,9 +46,13 @@ class QtQuickRenderer::Private
 {
     public:
         Private() : buffer( 0 ), root( 0 ), data( 0 ) { }
+
+        void createEngine();
+
         QImage* buffer;
 
         QGraphicsScene* scene;
+        QDeclarativeContext* context;
         QDeclarativeItem* root;
 
         SpriteMesh* mesh;
@@ -61,7 +68,7 @@ QDeclarativeEngine* QtQuickRenderer::Private::engine = 0;
 QtQuickRenderer::QtQuickRenderer( QObject* parent )
     : Texture( parent ), d( new Private )
 {
-    //TODO: Make this configureable
+    //TODO: Make this configurable
     setZDepth( 1.0f );
 
     d->mesh = Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh );
@@ -74,7 +81,7 @@ QtQuickRenderer::QtQuickRenderer( QObject* parent )
     d->material->setProperty( "texture0", QVariant::fromValue< Texture* >( this ) );
 
     if( !d->engine )
-        d->engine = new QDeclarativeEngine( QCoreApplication::instance() );
+        d->createEngine();
 }
 
 QtQuickRenderer::~QtQuickRenderer()
@@ -117,9 +124,10 @@ bool QtQuickRenderer::load( const QUrl& url )
         return true;
 
     d->scene = new QGraphicsScene( 0, 0, 1024, 1024, this );
+    d->context = new QDeclarativeContext( d->engine->rootContext(), this );
 
     QDeclarativeComponent comp( d->engine, url );
-    d->root = qobject_cast<QDeclarativeItem*>(comp.create());
+    d->root = qobject_cast<QDeclarativeItem*>( comp.create( d->context ) );
     d->root->setWidth( 1024 );
     d->root->setHeight( 1024 );
 
@@ -150,6 +158,11 @@ QImage QtQuickRenderer::image() const
 TextureData* QtQuickRenderer::data() const
 {
     return d->data;
+}
+
+QDeclarativeContext* QtQuickRenderer::context() const
+{
+    return d->context;
 }
 
 void QtQuickRenderer::resize( int width, int height )
@@ -237,6 +250,14 @@ void QtQuickRenderer::deliverEvent(QEvent* event)
         break;
 
     }
+}
+
+void QtQuickRenderer::Private::createEngine()
+{
+    engine = new QDeclarativeEngine( QCoreApplication::instance() );
+
+    engine->rootContext()->setContextProperty( "MessageHandler", GluonCore::MessageHandler::instance() );
+    engine->rootContext()->setContextProperty( "ObjectFactory", GluonCore::GluonObjectFactory::instance() );
 }
 
 #include "qtquickrenderer.moc"
