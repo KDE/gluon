@@ -65,7 +65,7 @@ RenderTarget::RenderTarget( QObject* parent )
 RenderTarget::RenderTarget( int width, int height, QObject* parent )
     : QObject( parent ), d( new Private( this ) )
 {
-    resize(width, height);
+    resize( width, height );
 }
 
 RenderTarget::~RenderTarget()
@@ -75,10 +75,11 @@ RenderTarget::~RenderTarget()
 
 void RenderTarget::addChild(RenderChainItem* item)
 {
-    if( item && !d->children.contains(item) )
+    if( item && !d->children.contains( item ) )
     {
-        d->children.append(item);
+        d->children.append( item );
         item->setParentItem( this );
+        item->resize( d->width, d->height );
         d->sortChildren();
     }
 }
@@ -112,7 +113,7 @@ void RenderTarget::update()
 {
     bind();
 
-    Q_FOREACH( RenderChainItem* item, d->children )
+    foreach( RenderChainItem* item, d->children )
     {
         item->renderContents();
     }
@@ -140,7 +141,7 @@ void RenderTarget::resize( int width, int height )
     d->width = width;
     d->height = height;
 
-    Q_FOREACH( RenderChainItem* item, d->children )
+    foreach( RenderChainItem* item, d->children )
     {
         item->resize( width, height );
     }
@@ -175,7 +176,7 @@ void RenderTarget::Private::initialize()
 
 void RenderTarget::Private::sortChildren()
 {
-    qStableSort(children.begin(), children.end(), Private::compareZDepth);
+    qStableSort( children.begin(), children.end(), Private::compareZDepth );
 }
 
 bool RenderTarget::Private::compareZDepth( RenderChainItem* first, RenderChainItem* second )
