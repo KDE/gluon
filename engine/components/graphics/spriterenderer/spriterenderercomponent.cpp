@@ -83,7 +83,7 @@ void SpriteRendererComponent::initialize()
     {
         d->entity = GluonGraphics::Manager::instance()->currentWorld()->createEntity< GluonGraphics::Entity >();
         d->entity->setMesh( GluonGraphics::Manager::instance()->resource< GluonGraphics::SpriteMesh >( GluonGraphics::Manager::Defaults::SpriteMesh ) );
-        d->entity->setVisible( enabled() );
+        d->entity->setVisible( false );
     }
 
     if( d->material )
@@ -118,6 +118,9 @@ void SpriteRendererComponent::draw( int /* timeLapse */ )
 {
     if( d->entity )
     {
+        if( !d->entity->isVisible() )
+            d->entity->setVisible( true );
+
         QMatrix4x4 transform = gameObject()->transform();
         transform.scale( d->size.width(), d->size.height() );
         d->entity->setTransform( transform );
