@@ -53,8 +53,8 @@ namespace GluonGraphics
             Material* material();
 
         private:
-            class TechniquePrivate;
-            TechniquePrivate* const d;
+            class Private;
+            Private* const d;
     };
 
 }

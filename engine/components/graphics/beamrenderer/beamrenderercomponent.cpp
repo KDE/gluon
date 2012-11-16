@@ -54,9 +54,9 @@ class BeamRendererComponent::Private
         void loadMaterial( GluonGraphics::MaterialInstance* material );
         void acquireReleaseMaterial( GluonGraphics::MaterialInstance* acquire, GluonGraphics::MaterialInstance* release );
 
-        GluonGraphics::Item* baseItem;
-        GluonGraphics::Item* beamItem;
-        GluonGraphics::Item* tipItem;
+        GluonGraphics::Entity* baseItem;
+        GluonGraphics::Entity* beamItem;
+        GluonGraphics::Entity* tipItem;
 
         GluonGraphics::MaterialInstance* baseMaterial;
         GluonGraphics::MaterialInstance* beamMaterial;

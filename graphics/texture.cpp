@@ -22,81 +22,95 @@
 
 #include "texture.h"
 
-#include "glheaders.h"
+#include <core/debughelper.h>
+
 #include "math.h"
 
-#include <QtOpenGL/QGLContext>
 #include <QtGui/QImage>
 #include <QtCore/QUrl>
+#include "manager.h"
+#include "backend.h"
+#include "texturedata.h"
 
 using namespace GluonGraphics;
 
-class Texture::TexturePrivate
+class Texture::Private
 {
     public:
-        TexturePrivate()
-            : glTexture( 0 )
-        { }
-        uint glTexture;
         QImage image;
+        TextureData* data;
 };
 
 Texture::Texture( QObject* parent )
-    : QObject( parent )
-    , d( new TexturePrivate )
+    : QObject( parent ), d( new Private )
 {
-
+    d->data = Manager::instance()->backend()->createTextureData();
 }
 
-Texture::Texture( const Texture& other, QObject* parent )
-    : QObject( parent )
-    , d( new TexturePrivate() )
+Texture::Texture(TextureData* data, QObject* parent)
+    : QObject(parent), d( new Private )
 {
-    *d = *other.d;
+    d->data = data;
 }
+
 
 Texture::~Texture()
 {
-    glDeleteTextures( 1, &d->glTexture );
+    delete d->data;
     delete d;
 }
 
 bool Texture::load( const QUrl& url )
 {
-    // TODO: Add support for non-2D textures and non-RGBA colour formats. Also, find a way
-    // around the nasty const_cast .
-    if( !QGLContext::currentContext() || !QGLContext::currentContext()->isValid() )
+    //TODO: Add support for non-2D textures and non-RGBA colour formats.
+    if( !d->image.load( url.toLocalFile() ) )
+    {
+        DEBUG_BLOCK
+        DEBUG_TEXT2( "Failed to load texture %1", url.toLocalFile() );
         return false;
+    }
 
-    QGLContext* context = const_cast<QGLContext*>( QGLContext::currentContext() );
+    //Ensure we have 32-bit ARGB data
+    if( d->image.format() != QImage::Format_ARGB32 )
+        d->image = d->image.convertToFormat( QImage::Format_ARGB32 );
 
-    if( d->glTexture )
-        context->deleteTexture( d->glTexture );
 
-    d->image.load( url.toLocalFile() );
+    qImageToGL( &d->image );
 
-    d->glTexture = context->bindTexture( d->image );
+    //Finally, load it into GPU memory.
+    d->data->setData( d->image.width(), d->image.height(), d->image.bits() );
 
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-#if !defined(GLUON_GRAPHICS_GLES) && !defined(QT_OPENGL_ES)
-    glTexParameterf( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE );
-#endif
-
-    if( d->glTexture != 0 )
-        return true;
-
-    return false;
-}
-
-uint Texture::glTexture() const
-{
-    return d->glTexture;
+    return true;
 }
 
 QImage Texture::image() const
 {
     return d->image;
+}
+
+TextureData* Texture::data() const
+{
+    return d->data;
+}
+
+void Texture::qImageToGL( QImage* image )
+{
+    const int width = image->width();
+    const int height = image->height();
+
+    //TODO: Support big endian (?)
+    //Convert ARGB to RGBA
+    for( int y = 0; y < height; ++y )
+    {
+        uint* line = reinterpret_cast< uint* >( image->scanLine( y ) );
+        for( int x = 0; x < width; ++x )
+        {
+            line[x] = ((line[x] << 16) & 0xff0000) | ((line[x] >> 16) & 0xff) | (line[x] & 0xff00ff00);
+        }
+    }
+
+    //Mirror it since Qt uses different coords.
+    *image = image->mirrored();
 }
 
 #include "texture.moc"

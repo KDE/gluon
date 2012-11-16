@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2011 Giulio Camuffo <giuliocamuffo@gmail.com>
+ * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,27 +17,39 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef VERTEXATTRIBUTEPRIVATE_H
-#define VERTEXATTRIBUTEPRIVATE_H
+#ifndef GLUONGRAPHICS_BUFFER_H
+#define GLUONGRAPHICS_BUFFER_H
 
-#include <QtCore/QVector>
-#include <QtCore/QString>
+#include <QVariant>
 
 namespace GluonGraphics
 {
-    class VertexAttributePrivate
+    class Buffer
     {
         public:
-            VertexAttributePrivate();
-            ~VertexAttributePrivate();
+            enum UpdateMode
+            {
+                Static,
+                Dynamic
+            };
 
-            QVector<float> data;
-            QString name;
-            int location;
-            quintptr offset;
-            int size;
+            enum BufferType
+            {
+                Vertex,
+                Index
+            };
+
+            Buffer() { }
+            virtual ~Buffer() { }
+
+            virtual void initialize( BufferType type, UpdateMode mode ) = 0;
+            virtual void destroy() = 0;
+            virtual void setSize(int size) = 0;
+            virtual void setData( void* data, int size, int offset = 0 ) = 0;
+            virtual void bind() = 0;
+            virtual void release() = 0;
     };
-};
 
-#endif
+}
 
+#endif // GLUONGRAPHICS_BUFFER_H

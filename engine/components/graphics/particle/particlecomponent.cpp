@@ -56,7 +56,7 @@ class ParticleColliderComponent::Private
         {
         }
 
-        GluonGraphics::Item* item;
+        GluonGraphics::Entity* item;
         GluonGraphics::MaterialInstance* material;
 
         QColor color;

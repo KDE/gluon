@@ -42,7 +42,7 @@ static void DbgHelper_output( int color, int indent, const QString& prefix, cons
     }
 
 #ifndef DBGHELPER_USES_PRINTF
-    qDebug() << text;
+    qDebug() << text.toAscii();
 #else
     fprintf( stderr, "%s\n", qPrintable( text ) );
 #endif

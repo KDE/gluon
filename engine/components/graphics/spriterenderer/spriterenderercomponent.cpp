@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,15 +23,17 @@
 #include <engine/asset.h>
 #include <engine/game.h>
 
-#include <graphics/item.h>
-#include <graphics/engine.h>
+#include <graphics/manager.h>
+#include <graphics/entity.h>
 #include <graphics/material.h>
 #include <graphics/spritemesh.h>
 #include <graphics/materialinstance.h>
 #include <graphics/texture.h>
+#include <graphics/mesh.h>
 
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
+#include <graphics/world.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, SpriteRendererComponent )
 
@@ -40,21 +42,14 @@ using namespace GluonEngine;
 class SpriteRendererComponent::SpriteRendererComponentPrivate
 {
     public:
-        SpriteRendererComponentPrivate()
-            : item( 0 )
-            , texture( 0 )
-            , material( 0 )
-
-            , color( QColor( 255, 255, 255 ) )
-            , size( QSizeF( 1.0f, 1.0f ) )
+        SpriteRendererComponentPrivate() : entity( 0 ), texture( 0 ), material( 0 ), size( QSizeF( 1.0f, 1.0f ) )
         {
         }
 
-        GluonGraphics::Item* item;
+        GluonGraphics::Entity* entity;
         GluonEngine::Asset* texture;
         GluonGraphics::MaterialInstance* material;
 
-        QColor color;
         QSizeF size;
 };
 
@@ -84,9 +79,11 @@ QString SpriteRendererComponent::category() const
 
 void SpriteRendererComponent::initialize()
 {
-    if( !d->item )
+    if( !d->entity )
     {
-        d->item = GluonGraphics::Engine::instance()->createItem( "default" );
+        d->entity = GluonGraphics::Manager::instance()->currentWorld()->createEntity< GluonGraphics::Entity >();
+        d->entity->setMesh( GluonGraphics::Manager::instance()->resource< GluonGraphics::SpriteMesh >( GluonGraphics::Manager::Defaults::SpriteMesh ) );
+        d->entity->setVisible( false );
     }
 
     if( d->material )
@@ -108,7 +105,8 @@ void SpriteRendererComponent::initialize()
 
         if( texture )
             texture->load();
-        d->item->setMaterialInstance( d->material );
+
+        d->entity->setMaterialInstance( d->material );
     }
 }
 
@@ -118,20 +116,23 @@ void SpriteRendererComponent::start()
 
 void SpriteRendererComponent::draw( int /* timeLapse */ )
 {
-    if( d->item )
+    if( d->entity )
     {
+        if( !d->entity->isVisible() )
+            d->entity->setVisible( true );
+
         QMatrix4x4 transform = gameObject()->transform();
-        transform.scale( d->size.width() / 2, d->size.height() / 2 );
-        d->item->setTransform( transform );
+        transform.scale( d->size.width(), d->size.height() );
+        d->entity->setTransform( transform );
     }
 }
 
 void SpriteRendererComponent::cleanup()
 {
-    if( d->item )
+    if( d->entity )
     {
-        GluonGraphics::Engine::instance()->destroyItem( d->item );
-        d->item = 0;
+        GluonGraphics::Manager::instance()->currentWorld()->destroyEntity( d->entity );
+        d->entity = 0;
     }
 }
 
@@ -169,15 +170,15 @@ void SpriteRendererComponent::setMaterial( GluonGraphics::MaterialInstance* mate
             materialAsset->ref();
     }
 
-    if( d->item )
+    if( d->entity )
     {
         if( material )
         {
-            d->item->setMaterialInstance( material );
+            d->entity->setMaterialInstance( material );
         }
         else
         {
-            d->item->setMaterialInstance( GluonGraphics::Engine::instance()->material( "default" )->instance( "default" ) );
+            d->entity->setMaterialInstance( GluonGraphics::Manager::instance()->resource< GluonGraphics::Material >( "default" )->instance( "default" ) );
         }
     }
 }
@@ -185,6 +186,14 @@ void SpriteRendererComponent::setMaterial( GluonGraphics::MaterialInstance* mate
 void SpriteRendererComponent::setMaterial( const QString& path )
 {
     setMaterial( qobject_cast<GluonGraphics::MaterialInstance*>( Game::instance()->gameProject()->findGlobalItemByName( path ) ) );
+}
+
+void SpriteRendererComponent::setEnabled( bool newEnabled )
+{
+    if( d->entity )
+        d->entity->setVisible( newEnabled );
+
+    GluonEngine::Component::setEnabled( newEnabled );
 }
 
 Q_EXPORT_PLUGIN2( gluon_component_spriterenderer, GluonEngine::SpriteRendererComponent );

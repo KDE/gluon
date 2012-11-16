@@ -32,6 +32,7 @@ class QImage;
 class QUrl;
 namespace GluonGraphics
 {
+    class TextureData;
     /**
      * \brief A graphic used to give an item more surface detail.
      *
@@ -52,7 +53,7 @@ namespace GluonGraphics
             Q_OBJECT
         public:
             explicit Texture( QObject* parent = 0 );
-            Texture( const Texture& other, QObject* parent = 0 );
+            explicit Texture( TextureData* data, QObject* parent = 0 );
             virtual ~Texture();
 
             /**
@@ -62,29 +63,26 @@ namespace GluonGraphics
              *
              * \return True if successful, false if not.
              */
-            bool load( const QUrl& url );
-
-            /**
-             * Retrieve the OpenGL texture id.
-             *
-             * \return The OpenGL texture ID for this texture.
-             */
-            uint glTexture() const;
+            virtual bool load( const QUrl& url );
 
             /**
              * Retrieve the image used for this texture.
              *
              * \return The image used.
              */
-            QImage image() const;
+            virtual QImage image() const;
+
+            virtual TextureData* data() const;
+
+        protected:
+            void qImageToGL( QImage* image );
 
         private:
-            class TexturePrivate;
-            TexturePrivate* const d;
+            class Private;
+            Private* const d;
     };
 }
 
-Q_DECLARE_METATYPE( GluonGraphics::Texture )
 Q_DECLARE_METATYPE( GluonGraphics::Texture* )
 
 #endif // GLUON_GRAPHICS_TEXTURE_H

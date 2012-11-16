@@ -22,6 +22,7 @@
 #include "keyboardinputcomponent.h"
 
 #include <input/inputmanager.h>
+#include <input/keyboard.h>
 #include <core/debughelper.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, KeyboardInputComponent );

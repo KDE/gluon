@@ -1,10 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Rivo Laks <rivolaks@hot.ee>
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,52 +19,80 @@
 
 #include "renderwidget.h"
 
-#include "engine.h"
-#include "camera.h"
-#include "frustrum.h"
-#include "viewport.h"
-#include "glheaders.h"
+#include <QResizeEvent>
+#include <QDebug>
+#include <QVector3D>
+#include <QMatrix4x4>
+#include <QApplication>
+
+#include "manager.h"
+#include "outputsurface.h"
+#include "backend.h"
+#include "shader.h"
+#include "meshdata.h"
 
 using namespace GluonGraphics;
 
-class RenderWidget::RenderWidgetPrivate
+class RenderWidget::Private
 {
+    public:
+        Private() : surface( 0 ) { }
 
+        OutputSurface* surface;
+
+        Shader* shader;
+        MeshData* data;
 };
 
-RenderWidget::RenderWidget( QWidget* parent, const QGLWidget* shareWidget, Qt::WindowFlags f ) :
-    QGLWidget( parent, shareWidget, f ),
-    d( new RenderWidgetPrivate )
+RenderWidget::RenderWidget( QWidget* parent, Qt::WindowFlags f ) :
+    QWidget( parent, f ), d( new Private )
 {
+    setAttribute( Qt::WA_PaintOnScreen );
+    setAttribute( Qt::WA_OpaquePaintEvent );
 
+    if( !Manager::instance()->backend()->initialize( this ) )
+        qFatal( Manager::instance()->backend()->errorString().toUtf8() );
 }
 
 RenderWidget::~RenderWidget()
 {
+    delete d->surface;
     delete d;
 }
 
-void RenderWidget::initializeGL()
+void RenderWidget::paintEvent( QPaintEvent* event )
 {
-    glEnable( GL_DEPTH_TEST );
-    glEnable( GL_BLEND );
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
+    if( !d->surface )
+    {
+        Manager::instance()->initialize();
+        d->surface = Manager::instance()->backend()->createOutputSurface( this );
+        d->surface->setSize( width(), height() );
+    }
 
-    Engine::instance()->initialize();
+    d->surface->renderContents();
 }
 
-void RenderWidget::paintGL()
+void RenderWidget::resizeEvent( QResizeEvent* event )
 {
-    //glDisable(GL_SCISSOR_TEST);
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    //glEnable(GL_SCISSOR_TEST);
-    Engine::instance()->render();
+    if( d->surface )
+        d->surface->setSize( event->size().width(), event->size().height() );
+    QWidget::resizeEvent( event );
 }
 
-void RenderWidget::resizeGL( int w, int h )
+void RenderWidget::enterEvent(QEvent* event)
 {
-    Engine::instance()->currentViewport()->setSize( 0, w, 0, h );
+    setFocus();
+}
+
+void RenderWidget::leaveEvent(QEvent* event)
+{
+    clearFocus();
+}
+
+void RenderWidget::update()
+{
+    QPaintEvent* ev = new QPaintEvent( geometry() );
+    QApplication::sendEvent( this, ev );
 }
 
 #include "renderwidget.moc"

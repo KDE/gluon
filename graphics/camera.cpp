@@ -1,10 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Rivo Laks <rivolaks@hot.ee>
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,30 +20,34 @@
 #include "camera.h"
 
 #include "frustrum.h"
-#include "engine.h"
 #include "viewport.h"
+#include "world.h"
 
 #include <QtGui/QMatrix4x4>
 
 using namespace GluonGraphics;
 
-class Camera::CameraPrivate
+class Camera::Private
 {
     public:
         Frustrum* frustrum;
         QMatrix4x4 viewMatrix;
+
+        QSizeF visibleArea;
+        float nearPlane;
+        float farPlane;
+
+        float aspect;
 };
 
 Camera::Camera( QObject* parent )
-    : QObject( parent ),
-      d( new CameraPrivate )
+    : Entity( parent ), d( new Private )
 {
     d->frustrum = new Frustrum;
 }
 
 Camera::Camera( Frustrum* frustum, QObject* parent )
-    : QObject( parent ),
-      d( new CameraPrivate )
+    : Entity( parent ), d( new Private )
 {
     d->frustrum = frustum;
 }
@@ -59,13 +59,13 @@ Camera::~Camera()
 }
 
 Frustrum*
-Camera::frustrum()
+Camera::frustrum() const
 {
     return d->frustrum;
 }
 
 QMatrix4x4
-Camera::viewMatrix()
+Camera::viewMatrix() const
 {
     return d->viewMatrix;
 }
@@ -80,6 +80,41 @@ void
 Camera::setViewMatrix( const QMatrix4x4& matrix )
 {
     d->viewMatrix = matrix;
+}
+
+void Camera::setVisibleArea( QSizeF area )
+{
+    d->visibleArea = area;
+    d->frustrum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane );
+}
+
+void Camera::setNearPlane( float near )
+{
+    d->nearPlane = near;
+    d->frustrum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane );
+}
+
+void Camera::setFarPlane( float far )
+{
+    d->farPlane = far;
+    d->frustrum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane );
+}
+
+void Camera::render()
+{
+    //TODO: Render a dummy object for the camera.
+}
+
+void Camera::renderContents()
+{
+    world()->setActiveCamera( this );
+    world()->render();
+}
+
+void Camera::resize( int width, int height )
+{
+    d->aspect = float(width) / float(height);
+    d->frustrum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane  );
 }
 
 #include "camera.moc"

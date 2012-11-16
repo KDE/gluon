@@ -1,9 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,37 +17,53 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "vertex.h"
+#include "sprite.h"
 
-#include <QtCore/QVariant>
+#include "manager.h"
+#include "spritemesh.h"
+#include "world.h"
+#include "camera.h"
 
 using namespace GluonGraphics;
 
-class Vertex::VertexPrivate
+class Sprite::Private
 {
     public:
+        Private() : type( AllAxisSpriteType ) { }
 
+        SpriteType type;
 };
 
-Vertex::Vertex()
-    : d( new VertexPrivate )
+Sprite::Sprite( QObject* parent )
+    : Entity( parent ), d( new Private )
 {
-
+    setMesh( Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh ) );
 }
 
-Vertex::~Vertex()
+Sprite::~Sprite()
 {
-
+    delete d;
 }
 
-QVariant
-Vertex::attribute( const QString& /* name */ ) const
+void Sprite::render()
 {
-    return QVariant();
-}
+    if( !isVisible() )
+        return;
 
-void
-Vertex::setAttribute( const QString& /* name */, const QVariant& /* value */ )
-{
+    Camera* activeCam = world()->activeCamera();
+    if( !activeCam )
+        return;
 
+    switch( d->type )
+    {
+        case AllAxisSpriteType:
+            break;
+        case BillboardSpriteType:
+            break;
+        case FixedSpriteType:
+            //Do nothing to change the model matrix.
+            break;
+    }
+
+    GluonGraphics::Entity::render();
 }

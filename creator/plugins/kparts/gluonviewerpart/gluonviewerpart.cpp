@@ -1,5 +1,4 @@
-/*
-*****************************************************************************
+/******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
@@ -23,7 +22,7 @@
 
 #include <graphics/renderwidget.h>
 #include <graphics/viewport.h>
-#include <graphics/engine.h>
+#include <graphics/manager.h>
 
 #include <engine/gameproject.h>
 #include <engine/game.h>
@@ -44,11 +43,8 @@ using namespace GluonGraphics;
 class GluonViewerPart::GluonViewerPartPrivate
 {
     public:
-        GluonViewerPartPrivate()
-            : widget( new GluonGraphics::RenderWidget() )
-            , project(0)
-            , autoplay(true)
-        {}
+        GluonViewerPartPrivate() : project(0), autoplay(true) { }
+
         GluonGraphics::RenderWidget* widget;
         GluonEngine::GameProject* project;
 
@@ -62,13 +58,11 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* /* parentWidget */, QOb
     KComponentData data( "gluonviewerpart", "gluoncreator" );
     setComponentData( data );
 
+    d->widget = new GluonGraphics::RenderWidget();
     setWidget( d->widget );
 
-    connect( GluonGraphics::Engine::instance(), SIGNAL(currentViewportChanging(Viewport*)),
-             SLOT(newViewport(Viewport*)) );
-    connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), d->widget, SLOT(updateGL()) );
-
-    newViewport( GluonGraphics::Engine::instance()->currentViewport() );
+    GluonGraphics::Manager::instance()->initialize();
+    connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), d->widget, SLOT(update()) );
 
     foreach( const QVariant & arg, args )
     {
@@ -135,23 +129,18 @@ void GluonViewerPart::startGame()
 
 void GluonViewerPart::setSolid()
 {
-    glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 }
 
 void GluonViewerPart::setWireframe()
 {
-    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 }
 
 void GluonViewerPart::setPoints()
 {
-    glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
 }
 
 void GluonViewerPart::newViewport( Viewport* viewport )
 {
-    disconnect( GluonGraphics::Engine::instance()->currentViewport(), 0, this, SLOT(redraw()) );
-    connect( viewport, SIGNAL(viewportSizeChanged(int,int,int,int)), SLOT(redraw()) );
 }
 
 void GluonViewerPart::redraw()

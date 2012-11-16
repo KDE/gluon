@@ -1,0 +1,44 @@
+Class Relations
+===================================
+
+Manager
+    + World
+        + Item
+        + Sprite ( Item + SpriteMesh + Orientation )
+        + Camera
+        + ParticleSystem
+    + Backend
+        - GLXBackend
+        - AGLBackend 
+        - WGLBackend
+    + Mesh
+        + Buffer
+            - GLXBuffer
+            - AGLBuffer
+            - WGLBuffer
+        + SpriteMesh
+        + FileMesh
+    + Texture
+        - GLXTexture
+        - AGLTexture
+        - WGLTexture
+    + Material
+        + Shader
+            - GLXShader
+            - AGLShader
+            - WGLShader
+    + RenderTarget
+        - GLXRenderTarget
+        - AGLRenderTarget
+        - WGLRenderTarget
+        ... Camera
+
+OutputWidget
+    + OutputSurface
+        + Viewport
+            ... RenderTarget
+
+Pipeline
+====================================
+
+Camera -> RenderTarget -> Viewport -> OutputSurface -> OutputWidget

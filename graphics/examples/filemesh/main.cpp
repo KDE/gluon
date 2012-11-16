@@ -61,7 +61,7 @@ int main( int argc, char* argv[] )
     tex->load( QUrl( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/examples/graphics/duck.tga" ) );
 
     //Create an item to display
-    GluonGraphics::Item* item = GluonGraphics::Engine::instance()->createItem( "duck" );
+    GluonGraphics::Entity* item = GluonGraphics::Engine::instance()->createItem( "duck" );
 
     //Apply the texture to the item.
     item->materialInstance()->setProperty( "texture0", "duck" );

@@ -45,7 +45,7 @@ class MeshRendererComponent::Private
         {
         }
 
-        GluonGraphics::Item* item;
+        GluonGraphics::Entity* item;
         GluonGraphics::MaterialInstance* material;
         GluonEngine::Asset* mesh;
 };

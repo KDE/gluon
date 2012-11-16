@@ -1,6 +1,6 @@
 /*****************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,191 +19,169 @@
 
 #include "rendertarget.h"
 
-#include "texture.h"
-#include "vertexbuffer.h"
-#include "vertexattribute.h"
-#include "materialinstance.h"
-#include "engine.h"
-#include "viewport.h"
+#include <QMatrix4x4>
+#include <QColor>
+#include <QtAlgorithms>
 
-#include <QtOpenGL/QGLFramebufferObject>
-#include <QtGui/QMatrix4x4>
+#include "manager.h"
+#include "backend.h"
+#include "spritemesh.h"
+#include "texture.h"
+#include "material.h"
+#include "materialinstance.h"
 
 using namespace GluonGraphics;
 
 class RenderTarget::Private
 {
     public:
-        Private( RenderTarget* qq )
-            : q( qq ), frameBuffer( 0 ), texture( 0 ), renderable( true ), material( 0 ), vertexData( 0 ),
-              modelMatrix( QMatrix4x4() ), viewMatrix( QMatrix4x4() )
-        { }
-        ~Private() { }
+        Private( RenderTarget* qq ) : q( qq ), mesh( 0 ), materialInstance( 0 ), texture( 0 ) { }
 
-        void createVertexData();
+        void initialize();
+        void sortChildren();
 
-        RenderTarget* const q;
+        RenderTarget* q;
 
-        QGLFramebufferObject* frameBuffer;
+        int width;
+        int height;
+
+        QList< RenderChainItem* > children;
+
+        Mesh* mesh;
+        MaterialInstance* materialInstance;
+
         Texture* texture;
 
-        bool renderable;
+        QColor backgroundColor;
 
-        MaterialInstance* material;
-
-        VertexBuffer* vertexData;
-
-        const QMatrix4x4 modelMatrix;
-        const QMatrix4x4 viewMatrix;
-        QMatrix4x4 projectionMatrix;
+        static bool compareZDepth( RenderChainItem* first, RenderChainItem* second );
 };
 
 RenderTarget::RenderTarget( QObject* parent )
     : QObject( parent ), d( new Private( this ) )
 {
-    d->createVertexData();
-    d->projectionMatrix.ortho( -1, 1, -1, 1, -1, 1 );
 }
 
 RenderTarget::RenderTarget( int width, int height, QObject* parent )
     : QObject( parent ), d( new Private( this ) )
 {
-    d->frameBuffer = new QGLFramebufferObject( width, height, QGLFramebufferObject::Depth );
-    d->createVertexData();
-    d->projectionMatrix.ortho( -1, 1, -1, 1, -1, 1 );
+    resize( width, height );
 }
 
 RenderTarget::~RenderTarget()
 {
-    if( d->vertexData )
-        delete d->vertexData;
-    if( d->frameBuffer )
-        delete d->frameBuffer;
     delete d;
 }
 
-bool RenderTarget::isRenderable() const
+void RenderTarget::addChild(RenderChainItem* item)
 {
-    return d->renderable;
-}
-
-void RenderTarget::setRenderable( bool render )
-{
-    if( render )
+    if( item && !d->children.contains( item ) )
     {
-        if( !d->renderable )
-            d->createVertexData();
-        d->renderable = true;
-    }
-    else
-    {
-        if( d->renderable )
-        {
-            delete d->vertexData;
-            d->vertexData = 0;
-        }
-        d->renderable = false;
+        d->children.append( item );
+        item->setParentItem( this );
+        item->resize( d->width, d->height );
+        d->sortChildren();
     }
 }
 
-void RenderTarget::setFramebufferObject( QGLFramebufferObject* fbo )
+void RenderTarget::removeChild(RenderChainItem* item)
 {
-    d->frameBuffer = fbo;
-
-    emit framebufferChanged();
+    if( item && d->children.contains( item ) )
+    {
+        d->children.removeOne( item );
+        item->setParentItem( 0 );
+        d->sortChildren();
+    }
 }
 
-void RenderTarget::setMaterialInstance( MaterialInstance* material )
+int RenderTarget::height() const
 {
-    Q_ASSERT( material );
-    d->material = material;
-    d->material->setUseCustomViewProjMatrices( true );
-    d->material->setProperty( "modelMatrix", d->modelMatrix );
-    d->material->setProperty( "viewMatrix", d->viewMatrix );
-    d->material->setProperty( "projectionMatrix", d->projectionMatrix );
+    return d->height;
+}
 
-    if( d->frameBuffer )
-        d->material->setProperty( "texture0", d->frameBuffer->texture() );
+int RenderTarget::width() const
+{
+    return d->width;
+}
+
+QColor RenderTarget::backgroundColor() const
+{
+    return d->backgroundColor;
+}
+
+void RenderTarget::update()
+{
+    bind();
+
+    foreach( RenderChainItem* item, d->children )
+    {
+        item->renderContents();
+    }
+
+    release();
+}
+
+void RenderTarget::renderContents()
+{
+    if( !d->materialInstance )
+        d->initialize();
+
+    update();
+
+    d->materialInstance->bind();
+    d->mesh->render( d->materialInstance->shader() );
+    d->materialInstance->release();
 }
 
 void RenderTarget::resize( int width, int height )
 {
-    if( d->frameBuffer && QGLContext::currentContext() )
-    {
-        QGLFramebufferObject::Attachment attachment = d->frameBuffer->attachment();
-
-        delete d->frameBuffer;
-        d->frameBuffer = new QGLFramebufferObject( width, height, attachment );
-        d->material->setProperty( "texture0", d->frameBuffer->texture() );
-
-        emit framebufferChanged();
-    }
-}
-
-void RenderTarget::bind()
-{
-    if( d->frameBuffer )
-    {
-        if( !d->frameBuffer->bind() )
-            qDebug() << "Failed to bind FBO";
-        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    }
-}
-
-void RenderTarget::release()
-{
-    if( d->frameBuffer )
-        d->frameBuffer->release();
-
-}
-
-MaterialInstance* RenderTarget::materialInstance()
-{
-    return d->material;
-}
-
-QGLFramebufferObject* RenderTarget::framebufferObject() const
-{
-    return d->frameBuffer;
-}
-
-void RenderTarget::render()
-{
-    if( !d->renderable )
+    if( width == d->width && height == d->height )
         return;
 
-    d->material->bind();
-    d->vertexData->render( VertexBuffer::RM_TRIANGLES, d->material );
-    d->material->release();
+    d->width = width;
+    d->height = height;
+
+    foreach( RenderChainItem* item, d->children )
+    {
+        item->resize( width, height );
+    }
+
+    resizeImpl();
 }
 
-void RenderTarget::Private::createVertexData()
+Texture* RenderTarget::texture()
 {
-    if( vertexData )
-        delete vertexData;
+    if( !d->texture )
+        d->texture = new Texture( textureData(), this );
 
-    vertexData = new VertexBuffer( VertexBuffer::BM_STATIC_DRAW, q );
+    return d->texture;
+}
 
-    VertexAttribute vert( "vertex", 3 );
-    vert << -1.0f << -1.0f << 0.0f;
-    vert << -1.0f <<  1.0f << 0.0f;
-    vert <<  1.0f <<  1.0f << 0.0f;
-    vert <<  1.0f << -1.0f << 0.0f;
-    vertexData->addAttribute( vert );
+void RenderTarget::setBackgroundColor( const QColor& color )
+{
+    d->backgroundColor = color;
+}
 
-    VertexAttribute uv0( "uv0", 2 );
-    uv0 << 0.0f << 0.0f;
-    uv0 << 0.0f << 1.0f;
-    uv0 << 1.0f << 1.0f;
-    uv0 << 1.0f << 0.0f;
-    vertexData->addAttribute( uv0 );
+void RenderTarget::Private::initialize()
+{
+    mesh = Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh );
+    materialInstance = Manager::instance()->resource< Material >( Manager::Defaults::Material )->createInstance();
+    materialInstance->setProperty( "modelMatrix", QMatrix4x4() );
+    materialInstance->setProperty( "viewMatrix", QMatrix4x4() );
+    QMatrix4x4 matrix;
+    matrix.ortho( -.5f, .5f, -.5f, .5f, -.5f, .5f );
+    materialInstance->setProperty( "projectionMatrix", matrix );
+    materialInstance->setProperty( "texture0", QVariant::fromValue< Texture* >( q->texture() ) );
+}
 
-    QVector<uint> indices;
-    indices << 0 << 1 << 2;
-    indices << 0 << 2 << 3;
-    vertexData->setIndices( indices );
+void RenderTarget::Private::sortChildren()
+{
+    qStableSort( children.begin(), children.end(), Private::compareZDepth );
+}
 
-    vertexData->initialize();
+bool RenderTarget::Private::compareZDepth( RenderChainItem* first, RenderChainItem* second )
+{
+    return first->zDepth() < second->zDepth();
 }
 
 #include "rendertarget.moc"

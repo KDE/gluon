@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,45 +19,37 @@
 
 #include "textureasset.h"
 
-#include <graphics/engine.h>
-
 #include <QtGui/QImageReader>
+
+#include <graphics/manager.h>
+#include <graphics/texture.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, TextureAsset )
 
 using namespace GluonEngine;
 
-class TextureAsset::TextureAssetPrivate
+class TextureAsset::Private
 {
     public:
-        TextureAssetPrivate()
-            : texture( 0 )
-        {}
-        ~TextureAssetPrivate() {}
+        Private() : texture( 0 ) { }
 
-        QPixmap icon;
         GluonGraphics::Texture* texture;
 };
 
 TextureAsset::TextureAsset( QObject* parent )
-    : Asset( parent )
-    , d( new TextureAssetPrivate )
+    : Asset( parent ), d( new Private )
 {
 }
 
 TextureAsset::~TextureAsset()
 {
-    d->texture = 0;
+    if( d->texture )
+    {
+        GluonGraphics::Manager::instance()->destroyResource< GluonGraphics::Texture >( name() );
+        d->texture = 0;
+    }
     delete d;
 }
-
-// QIcon TextureAsset::icon() const
-// {
-//     if( d->icon.isNull() )
-//         return GluonEngine::Asset::icon();
-//
-//     return QIcon( d->icon );
-// }
 
 const QStringList TextureAsset::supportedMimeTypes() const
 {
@@ -74,21 +66,17 @@ const QStringList TextureAsset::supportedMimeTypes() const
 
 void TextureAsset::load()
 {
+    if( isLoaded() )
+        return;
+
     if( !file().isEmpty() )
     {
         if( !d->texture )
-            d->texture = GluonGraphics::Engine::instance()->createTexture( name() );
-
-        if( !d->texture )
-        {
-            debug( QString( "Error creating texture %1" ).arg( name() ) );
-            return;
-        }
+            d->texture = GluonGraphics::Manager::instance()->createResource< GluonGraphics::Texture >( name() );
 
         if( d->texture->load( absolutePath() ) )
         {
             mimeData()->setText( name() );
-            //d->icon = QPixmap::fromImage(d->texture->image().scaled(QSize(128, 128), Qt::KeepAspectRatio));
             setLoaded( true );
             return;
         }
@@ -99,17 +87,16 @@ void TextureAsset::load()
 
 void TextureAsset::setName( const QString& newName )
 {
-    GluonGraphics::Engine::instance()->removeTexture( name() );
+    GluonGraphics::Manager::instance()->removeResource< GluonGraphics::Texture >( name() );
     if( d->texture )
-        GluonGraphics::Engine::instance()->addTexture( newName, d->texture );
+        GluonGraphics::Manager::instance()->addResource< GluonGraphics::Texture >( newName, d->texture );
     GluonEngine::Asset::setName( newName );
 }
 
 GluonGraphics::Texture* TextureAsset::texture() const
 {
-    return GluonGraphics::Engine::instance()->texture( name() );
+    return GluonGraphics::Manager::instance()->resource< GluonGraphics::Texture >( name() );
 }
-
 
 Q_EXPORT_PLUGIN2( gluon_asset_texture, GluonEngine::TextureAsset )
 

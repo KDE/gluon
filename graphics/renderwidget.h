@@ -1,10 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Rivo Laks <rivolaks@hot.ee>
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,29 +22,29 @@
 
 #include "gluon_graphics_export.h"
 
-#ifdef Q_OS_WIN
-#include <windows.h>
-#include <GL/GLee.h>
-#endif
-
-#include <QtOpenGL/QGLWidget>
+#include <QtGui/QWidget>
 
 namespace GluonGraphics
 {
-    class GLUON_GRAPHICS_EXPORT RenderWidget : public QGLWidget
+    class GLUON_GRAPHICS_EXPORT RenderWidget : public QWidget
     {
             Q_OBJECT
         public:
-            explicit RenderWidget( QWidget* parent = 0, const QGLWidget* shareWidget = 0, Qt::WindowFlags f = 0 );
+            explicit RenderWidget( QWidget* parent = 0, Qt::WindowFlags f = 0 );
             virtual ~RenderWidget();
 
-            virtual void initializeGL();
-            virtual void paintGL();
-            virtual void resizeGL( int w, int h );
+            virtual void paintEvent( QPaintEvent* event );
+            virtual void resizeEvent( QResizeEvent* event );
+
+            virtual void enterEvent( QEvent* event );
+            virtual void leaveEvent( QEvent* event );
+
+        public Q_SLOTS:
+            virtual void update();
 
         private:
-            class RenderWidgetPrivate;
-            RenderWidgetPrivate* const d;
+            class Private;
+            Private* const d;
     };
 }
 

@@ -1,6 +1,6 @@
 /*****************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,20 +20,17 @@
 #ifndef GLUONGRAPHICS_RENDERTARGET_H
 #define GLUONGRAPHICS_RENDERTARGET_H
 
-#include "gluon_graphics_export.h"
-
-#ifdef Q_OS_WIN
-#include <windows.h>
-#include <GL/GLee.h>
-#endif
-
 #include <QtCore/QObject>
 
-class QGLFramebufferObject;
+#include "gluon_graphics_export.h"
+#include "renderchainitem.h"
 
+class QColor;
 namespace GluonGraphics
 {
     class MaterialInstance;
+    class Texture;
+    class TextureData;
 
     /**
      * A surface to render to.
@@ -48,7 +45,7 @@ namespace GluonGraphics
      * Note that this class always renders its target as a 1x1 full
      * screen quad.
      */
-    class GLUON_GRAPHICS_EXPORT RenderTarget : public QObject
+    class GLUON_GRAPHICS_EXPORT RenderTarget : public QObject, public RenderChainItem
     {
             Q_OBJECT
         public:
@@ -67,58 +64,29 @@ namespace GluonGraphics
             virtual ~RenderTarget();
 
             /**
-             * Can this render target be rendered to screen directly?
-             *
-             * \return True if the render target can be rendered to screen
-             * directly. False if otherwise.
-             */
-            bool isRenderable() const;
-
-            /**
-             * Retrieve the current framebuffer object.
-             *
-             * \return The current framebuffer object for this render target.
-             */
-            QGLFramebufferObject* framebufferObject() const;
-
-            /**
              * Bind this render target, so that the next calls issues by the
              * rest of the system will be rendered to this target. This only
              * works if a Framebuffer Object has been set for this target.
              */
-            void bind();
+            virtual void bind() = 0;
 
             /**
              * Release the render target, causing all following calls to be
              * rendered directly to screen.
              */
-            void release();
+            virtual void release() = 0;
 
-            /**
-             * Retrieve the MaterialInstance used to render this RenderTarget.
-             *
-             * \return The MaterialInstance used for rendering this RenderTarget.
-             */
-            MaterialInstance* materialInstance();
+            void addChild( RenderChainItem* item );
+            void removeChild( RenderChainItem* item );
+
+            int width() const;
+            int height() const;
+
+            virtual Texture* texture();
+
+            QColor backgroundColor() const;
 
         public Q_SLOTS:
-            /**
-             * Set whether this render target can be rendered to screen
-             * directly. If render is true, the render target will contain
-             * surface data for rendering.
-             *
-             * \param render True to set the render target to be renderable,
-             * false to disable this.
-             */
-            void setRenderable( bool render );
-
-            /**
-             * Set the framebuffer object this RenderTarget should use.
-             *
-             * \param fbo The new framebuffer object to use.
-             */
-            void setFramebufferObject( QGLFramebufferObject* fbo );
-
             /**
              * Resize the RenderTarget and any attached framebuffers and
              * textures.
@@ -126,24 +94,20 @@ namespace GluonGraphics
              * \param width The new width of the RenderTarget.
              * \param height The new height of the RenderTarget.
              */
-            void resize( int width, int height );
+            virtual void resize( int width, int height );
+
+            virtual void update();
 
             /**
-             * Set the material instance that will be used to render this render
-             * target.
-             *
-             * \param material The material instance to be used for rendering.
+             * Render this render target. Reimplemented from Renderable::render().
              */
-            void setMaterialInstance( MaterialInstance* material );
+            virtual void renderContents();
 
-            /**
-             * Render this render target to screen. This will only do
-             * something if renderable == true.
-             */
-            void render();
+            void setBackgroundColor( const QColor& color );
 
-        Q_SIGNALS:
-            void framebufferChanged();
+        protected:
+            virtual void resizeImpl() = 0;
+            virtual TextureData* textureData() = 0;
 
         private:
             class Private;

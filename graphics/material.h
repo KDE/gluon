@@ -28,6 +28,7 @@ namespace GluonGraphics
 {
     class MaterialInstance;
     class Technique;
+    class Shader;
 
     /**
     * \brief Collection of techniques which describe how to render a surface.
@@ -150,7 +151,7 @@ namespace GluonGraphics
              *
              * \see MaterialInstance
              */
-            MaterialInstance* createInstance( const QString& name );
+            MaterialInstance* createInstance( const QString& name = QString() );
 
             /**
              * Retrieve an existing MaterialInstance.
@@ -161,19 +162,13 @@ namespace GluonGraphics
              */
             MaterialInstance* instance( const QString& name );
 
-            /**
-             * Retrieve the internal OpenGL Program identifier.
-             *
-             * \return The OpenGL identifier for the program or
-             * 0 if build was not yet called.
-             */
-            uint glProgram();
-
-            QHash<QString, QVariant> uniformList();
+        protected:
+            friend class MaterialInstance;
+            Shader* shader();
 
         private:
-            class MaterialPrivate;
-            MaterialPrivate* const d;
+            class Private;
+            Private* const d;
     };
 }
 

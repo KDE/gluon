@@ -157,7 +157,7 @@ void MainWindow::openProject()
     statusBar()->showMessage( i18n( "Opening project..." ) );
     FileManager::instance()->openFile( d->fileName, "view", i18nc( "View Game Tab", "View" ), QString(), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ), false );
     //TODO: Editor view needs to be implemented
-    // FileManager::instance()->openFile( fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), "gluon_editor_part", QVariantList() << QString( "autoplay=false" ), false );
+    //FileManager::instance()->openFile( d->fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), QString(), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ), false );
     d->mainArea->setActiveTab( "view" );
 
     GluonEngine::Game::instance()->initializeAll();
@@ -338,9 +338,10 @@ void MainWindow::playGame( )
         stateChanged( "playing", StateReverse );
 
         setFocus();
-        GluonEngine::Game::instance()->gameProject()->deleteLater();
+        GluonEngine::GameProject* oldProject = GluonEngine::Game::instance()->gameProject();
         GluonEngine::Game::instance()->setGameProject(0);
         FileManager::instance()->closeFile("view", true);
+        delete oldProject;
         openProject( );
         GluonEngine::Game::instance()->setCurrentScene( currentSceneName );
         GluonEngine::Game::instance()->initializeAll();

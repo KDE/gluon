@@ -19,8 +19,6 @@
 
 #include "viewport.h"
 
-#include "glheaders.h"
-#include "engine.h"
 #include "camera.h"
 #include "frustrum.h"
 
@@ -28,7 +26,7 @@
 
 using namespace GluonGraphics;
 
-class Viewport::ViewportPrivate
+class Viewport::Private
 {
     public:
         float left;
@@ -39,8 +37,7 @@ class Viewport::ViewportPrivate
 };
 
 Viewport::Viewport( QObject* parent )
-    : QObject( parent ),
-      d( new ViewportPrivate )
+    : QObject( parent ), d( new Private )
 {
 }
 
@@ -120,7 +117,7 @@ Viewport::setSize( float left, float width, float bottom, float height )
 void
 Viewport::update()
 {
-    glViewport( d->left, d->bottom, d->width, d->height );
+    /*glViewport( d->left, d->bottom, d->width, d->height );
 
     if( Engine::instance()->activeCamera() )
     {
@@ -155,7 +152,7 @@ Viewport::update()
     {
         //glScissor(d->left, d->bottom, d->width, d->height);
     }
-    emit viewportSizeChanged( d->left, d->bottom, d->width, d->height );
+    emit viewportSizeChanged( d->left, d->bottom, d->width, d->height );*/
 }
 
 #include "viewport.moc"

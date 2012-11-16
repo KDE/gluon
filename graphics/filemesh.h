@@ -1,6 +1,6 @@
 /*****************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,7 +20,7 @@
 #ifndef GLUONGRAPHICS_FILEMESH_H
 #define GLUONGRAPHICS_FILEMESH_H
 
-#include "abstractmesh.h"
+#include "mesh.h"
 
 namespace GluonGraphics
 {
@@ -31,7 +31,7 @@ namespace GluonGraphics
     * library for loading.
     *
     */
-    class FileMesh : public AbstractMesh
+    class FileMesh : public Mesh
     {
             Q_OBJECT
         public:
@@ -46,6 +46,7 @@ namespace GluonGraphics
             QString file() const;
 
             virtual void initialize();
+            virtual void render( Shader* shader );
 
         private:
             class Private;

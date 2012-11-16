@@ -23,25 +23,25 @@
 
 #include "gluon_input_export.h"
 
-#include "inputdevice.h"
-#include "mouse.h"
-#include "keyboard.h"
-#include "joystick.h"
-#include "touch.h"
-
 #include <core/singleton.h>
 
 #include <QtCore/QList>
+#include <QWeakPointer>
 
 class QSwipeGesture;
 class QPanGesture;
 class QPinchGesture;
 class QEvent;
-
+class QPoint;
 namespace GluonInput
 {
-    typedef QList<InputDevice*> InputList;
+    class InputDevice;
     class InputManagerPrivate;
+    class Keyboard;
+    class Mouse;
+    class Joystick;
+    class Touch;
+    typedef QList<InputDevice*> InputList;
 
     class GLUON_INPUT_EXPORT InputManager : public GluonCore::Singleton<InputManager>
     {

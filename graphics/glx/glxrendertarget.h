@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,33 +17,34 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLHEADERS_H
-#define GLHEADERS_H
+#ifndef GLUONGRAPHICS_GLX_GLXRENDERTARGET_H
+#define GLUONGRAPHICS_GLX_GLXRENDERTARGET_H
 
-#include <QtCore/QtGlobal>
-#ifdef Q_OS_WIN
-#include <windows.h>
-#include <GL/GLee.h>
-#elif defined(Q_WS_MAC)
-#include <OpenGL/gl.h>
-#include <OpenGL/glext.h>
-#else
-#ifdef GLUON_GRAPHICS_GLES
-typedef char GLchar;
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#else
-#include <GL/gl.h>
-#include <GL/glext.h>
-#endif
-#endif
+#include <graphics/rendertarget.h>
 
-#include <QtCore/QDebug>
+namespace GluonGraphics
+{
+    namespace GLX
+    {
+        class GLXRenderTarget : public GluonGraphics::RenderTarget
+        {
 
-#define GL_CHECK(X) X;\
-    {\
-        int error = glGetError(); \
-        if(error != 0) qDebug() << "GL Error" << error;\
+            public:
+                explicit GLXRenderTarget( QObject* parent = 0 );
+                virtual ~GLXRenderTarget();
+
+                virtual void bind();
+                virtual void release();
+
+            protected:
+                virtual void resizeImpl();
+                virtual GluonGraphics::TextureData* textureData();
+
+            private:
+                class Private;
+                Private * const d;
+        };
     }
+}
 
-#endif //GL_HEADERS_H
+#endif // GLUONGRAPHICS_GLX_GLXRENDERTARGET_H

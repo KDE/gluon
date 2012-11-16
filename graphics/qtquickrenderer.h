@@ -1,9 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,37 +17,42 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_GRAPHICS_VERTEX_H
-#define GLUON_GRAPHICS_VERTEX_H
+#ifndef QTQUICKRENDERTARGET_H
+#define QTQUICKRENDERTARGET_H
 
-#include "gluon_graphics_export.h"
+#include "renderchainitem.h"
+#include "texture.h"
 
-class QString;
-class QVariant;
-
+class QDeclarativeContext;
 namespace GluonGraphics
 {
-    /**
-     * \brief
-     *
-     */
-    class GLUON_GRAPHICS_EXPORT Vertex
+    class QtQuickRenderer : public Texture, public RenderChainItem
     {
+        Q_OBJECT
         public:
+            explicit QtQuickRenderer( QObject* parent = 0 );
+            virtual ~QtQuickRenderer();
 
-            Vertex();
-            virtual ~Vertex();
+            virtual void update();
+            virtual void renderContents();
 
-            QVariant attribute( const QString& name ) const;
+            virtual bool load( const QUrl& url );
+            virtual QImage image() const;
+            virtual TextureData* data() const;
 
-            void setAttribute( const QString& name, const QVariant& value );
+            QDeclarativeContext* context() const;
 
+            virtual void resize( int width, int height );
+
+        public Q_SLOTS:
+            void deliverEvent( QEvent* event );
 
         private:
-            class VertexPrivate;
-            VertexPrivate* const d;
+            class Private;
+            Private * const d;
     };
+}
 
-} //namespace
+Q_DECLARE_METATYPE( GluonGraphics::QtQuickRenderer* );
 
-#endif //GLUON_GRAPHICS_VERTEX_H
+#endif // QTQUICKRENDERTARGET_H

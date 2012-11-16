@@ -18,52 +18,38 @@
  */
 
 #include "material.h"
-#include "materialinstance.h"
-#include "technique.h"
-#include "backendcapabilities.h"
-#include "glheaders.h"
+
+#include <QtCore/QMetaProperty>
 
 #include <core/gdlserializer.h>
 
-#include <QtOpenGL/QGLShaderProgram>
-#include <QtCore/QDebug>
-#include <QtCore/QMetaProperty>
-#include <QtCore/QTime>
+#include "materialinstance.h"
+#include "technique.h"
+#include "manager.h"
+#include "backend.h"
+#include "shader.h"
 
 REGISTER_OBJECTTYPE( GluonGraphics, Material )
 
 using namespace GluonGraphics;
 
-class Material::MaterialPrivate
+class Material::Private
 {
     public:
-        MaterialPrivate() :
-            vertShader( 0 ),
-            fragShader( 0 ),
-            glProgram( 0 ),
-            program( 0 )
-        {
-        }
-
+        Private() : shader( 0 ), instanceCount( 0 ) { }
         QHash<QString, Technique*> techniques;
 
-        uint vertShader;
-        QByteArray vertShaderSource;
-        uint fragShader;
-        QByteArray fragShaderSource;
-        uint glProgram;
-        QString languageVersion;
+        Shader* shader;
 
-        QHash<QString, MaterialInstance*> instances;
+        int instanceCount;
 
-        QGLShaderProgram* program;
+        QHash< QString, MaterialInstance* > instances;
+        QList< QPair< QString, QVariant > > defaultValues;
 };
 
 Material::Material( QObject* parent )
-    : GluonObject( parent ),
-      d( new MaterialPrivate )
+    : GluonObject( parent ), d( new Private )
 {
-    createInstance( "default" );
 }
 
 Material::~Material()
@@ -73,41 +59,38 @@ Material::~Material()
 
 bool Material::load( const QUrl& url )
 {
-    if( d->program )
-    {
-        delete d->program;
-        d->program = 0;
-    }
-    d->glProgram = 0;
-
     if( !url.isValid() )
         return false;
+
+    if( d->shader )
+    {
+        delete d->shader;
+        d->shader = 0;
+        d->defaultValues.clear();
+    }
+
+    d->shader = Manager::instance()->backend()->createShader();
 
     GluonCore::GluonObjectList objects;
     if( !GluonCore::GDLSerializer::instance()->read( url, objects ) )
         return false;
 
     GluonCore::GluonObject* obj = objects.at( 0 );
-    QList<QByteArray> properties = obj->dynamicPropertyNames();
-    MaterialInstance* defaultInstance = d->instances.find( "default" ).value();
 
+    QList<QByteArray> properties = obj->dynamicPropertyNames();
     foreach( const QByteArray & propertyName, properties )
     {
         if( propertyName == "vertexShader" )
         {
-            d->vertShaderSource = obj->property( propertyName ).toByteArray();
+            d->shader->setSource( Shader::VertexProgramSource, obj->property( propertyName ).toString() );
         }
         else if( propertyName == "fragmentShader" )
         {
-            d->fragShaderSource = obj->property( propertyName ).toByteArray();
-        }
-        else if( propertyName == "languageVersion" )
-        {
-            d->languageVersion = obj->property( propertyName ).toString();
+            d->shader->setSource( Shader::FragmentProgramSource, obj->property( propertyName ).toByteArray() );
         }
         else
         {
-            defaultInstance->setProperty( propertyName, obj->property( propertyName ) );
+            d->defaultValues.append( QPair< QString, QVariant >( propertyName, obj->property( propertyName ) ) );
         }
     }
 
@@ -116,95 +99,11 @@ bool Material::load( const QUrl& url )
 
 void Material::build( const QString& name )
 {
-    if( d->glProgram )
+    if( !d->shader )
         return;
 
-    if( d->fragShaderSource.isEmpty() || d->vertShaderSource.isEmpty() )
-        return;
-
-    QByteArray vertShaderSource;
-    QByteArray fragShaderSource;
-    //     if( BackendCapabilities::type() == BackendCapabilities::BT_OPENGL )
-    //     {
-    //         if( d->languageVersion.isEmpty() )
-    //         {
-    //             vertShaderSource.append( "#version 110\n" );
-    //             vertShaderSource.append( "#define lowp\n" );
-    //             vertShaderSource.append( "#define mediunmp\n" );
-    //             vertShaderSource.append( "#define highp\n" );
-    //         }
-    //     }
-    //     else if( BackendCapabilities::type() == BackendCapabilities::BT_OPENGLES )
-    //     {
-    //         vertShaderSource.append( "#ifndef GL_FRAGMENT_PRECISION_HIGH\n" );
-    //         vertShaderSource.append( "#define highp mediump\n" );
-    //         vertShaderSource.append( "#endif\n" );
-    //     }
-
-    fragShaderSource.append( vertShaderSource );
-
-    vertShaderSource.append( d->vertShaderSource );
-    fragShaderSource.append( d->fragShaderSource );
-
-    // const char* vertShaderData = vertShaderSource.data();
-    // const char* fragShaderData = fragShaderSource.data();
-
-    d->program = new QGLShaderProgram();
-    if( !d->program->addShaderFromSourceCode( QGLShader::Vertex, vertShaderSource ) )
-    {
-        debug( "(%1) An error occurred during Vertex Shader compilation!", QTime::currentTime().toString() );
-        debug( d->program->log() );
-    }
-    if( !d->program->addShaderFromSourceCode( QGLShader::Fragment, fragShaderSource ) )
-    {
-        debug( "(%1) An error occurred during Fragment Shader compilation!", QTime::currentTime().toString() );
-        debug( d->program->log() );
-    }
-
-    d->program->link();
-    if( !d->program->isLinked() )
-    {
-        debug( "(%1) An error occurred during shader linking!", QTime::currentTime().toString() );
-        debug( d->program->log() );
-    }
-
-    //     d->vertShader = glCreateShader( GL_VERTEX_SHADER );
-    //     glShaderSource( d->vertShader, 1, &vertShaderData, NULL );
-    //     glCompileShader( d->vertShader );
-    //
-    //     int status;
-    //     glGetShaderiv( d->vertShader, GL_COMPILE_STATUS, &status );
-    //     if( status != GL_TRUE )
-    //     {
-    //         char log[500];
-    //         glGetShaderInfoLog( d->vertShader, 500, NULL, log );
-    //         debug( "An error occurred when compiling a vertex shader:\n%1", QString( log ) );
-    //     }
-    //
-    //     d->fragShader = glCreateShader( GL_FRAGMENT_SHADER );
-    //     glShaderSource( d->fragShader, 1, &fragShaderData, NULL );
-    //     glCompileShader( d->fragShader );
-    //
-    //     glGetShaderiv( d->fragShader, GL_COMPILE_STATUS, &status );
-    //     if( status != GL_TRUE )
-    //     {
-    //         char log[500];
-    //         glGetShaderInfoLog( d->fragShader, 500, NULL, log );
-    //         debug( "An error occurred when compiling a fragment shader:\n%1", QString( log ) );
-    //     }
-    //
-    //     d->glProgram = glCreateProgram();
-    //     glAttachShader( d->glProgram, d->vertShader );
-    //     glAttachShader( d->glProgram, d->fragShader );
-    //     glLinkProgram( d->glProgram );
-    //
-    //     glGetProgramiv( d->glProgram, GL_LINK_STATUS, &status );
-    //     if( status != GL_TRUE )
-    //     {
-    //         char log[500];
-    //         glGetProgramInfoLog( d->fragShader, 500, NULL, log );
-    //         debug( "An error occurred when linking a program:\n%1", QString( log ) );
-    //     }
+    if( !d->shader->build() )
+        debug( d->shader->error() );
 }
 
 Technique*
@@ -231,31 +130,27 @@ Material::setDefaultTechnique( const QString& name )
 
 }
 
-uint
-Material::glProgram()
-{
-    if( !d->program )
-        build();
-
-    if( !d->program || !d->program->isLinked() )
-        return 0;
-
-    return d->program->programId();
-}
-
 MaterialInstance*
 Material::createInstance( const QString& name )
 {
+    QString actualName = name.isEmpty() ? QString( "Instance_%1" ).arg( d->instanceCount++ ) : name;
+
     MaterialInstance* instance;
-    if( !d->instances.contains( name ) )
+    if( !d->instances.contains( actualName ) )
     {
         instance = new MaterialInstance( this );
         instance->setMaterial( this );
-        d->instances.insert( name, instance );
+        d->instances.insert( actualName, instance );
+
+        QList< QPair< QString, QVariant > >::iterator itr;
+        for( itr = d->defaultValues.begin(); itr != d->defaultValues.end(); ++itr )
+        {
+            instance->setProperty( (*itr).first.toUtf8(), (*itr).second );
+        }
     }
     else
     {
-        instance = d->instances.value( name );
+        instance = d->instances.value( actualName );
     }
     return instance;
 }
@@ -269,13 +164,9 @@ Material::instance( const QString& name )
     return 0;
 }
 
-QHash< QString, QVariant >
-Material::uniformList()
+Shader* Material::shader()
 {
-    QHash<QString, QVariant> uniforms;
-    uniforms.insert( "materialColor", Qt::white );
-    uniforms.insert( "texture0", GluonCore::GluonObjectFactory::instance()->wrapObject( QString( "GluonEngine::TextureAsset*" ), 0 ) );
-    return uniforms;
+    return d->shader;
 }
 
 #include "material.moc"

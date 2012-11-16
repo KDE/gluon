@@ -27,10 +27,8 @@
 
 namespace GluonGraphics
 {
-
-    class Texture;
     class Material;
-    class Camera;
+    class Shader;
 
     /**
      * \brief Set of values that define the parameters of a Material.
@@ -91,86 +89,17 @@ namespace GluonGraphics
              *
              * \return The material this material instance uses.
              */
-            Material* material();
+            Material* material() const;
 
-            /**
-             * Set the material this material instance uses.
-             *
-             * \param material The material to use.
-             */
-            void setMaterial( Material* material );
+            void setMaterial( Material* mat );
 
-            /**
-             * Bind a texture to a uniform variable.
-             *
-             * \param name The name of the uniform.It is expected to be in the
-             * form "textureX" where X is the number of the texture unit to use.
-             * \param tex The texture to bind.
-             */
-            void bindTexture( const QString& name, GluonGraphics::Texture* tex );
+            Shader* shader() const;
 
-            /**
-             * Bind an OpenGL texture id to a uniform variable.
-             *
-             * \param name The name of the uniform to bind to. It is expected to
-             * be in the form "textureX" where X is the number of the texture
-             * unit to use.
-             * \param tex The id of the texture.
-             */
-            void bindTexture( const QString& name, int tex );
-
-            /**
-             * Retrieve the location of a uniform variable from the underlying
-             * shader program.
-             *
-             * \param name The name of the uniform to retrieve the location for,
-             *
-             * \return The location of the uniform variable.
-             */
-            int uniformLocation( const QString& name );
-
-            /**
-             * Retrieve the location of a uniform variable from the underlying
-             * shader program.
-             *
-             * \param name The name of the uniform to retrieve the location for,
-             *
-             * \return The location of the uniform variable.
-             */
-            int attributeLocation( const QString& attrib );
-
-            /**
-             * Set local properties according to the information supplied by
-             * the material.
-             */
-            void setPropertiesFromMaterial();
-
-            /**
-             * Set whether to use custom View and Projection matrices instead of
-             * getting them from the currently active camera.
-             */
-            void setUseCustomViewProjMatrices( bool useCustom );
-
-        protected:
-            /**
-             * Set the actual uniform variable.
-             * This method determines the type of the variant passed in
-             * as value and then proceeds to set the uniform to this
-             * value.
-             *
-             * \note It is assumed that the material is bound when this
-             * method is called.
-             *
-             * \param name The name of the uniform to set the value of.
-             * \param value The value to set the uniform to.
-             */
-            void setGLUniform( const QString& name, const QVariant& value );
+            void setShader( Shader* shader );
 
         private:
-            class MaterialInstancePrivate;
-            MaterialInstancePrivate* const d;
-
-            Q_PRIVATE_SLOT( d, void setActiveCamera( Camera* camera ) );
+            class Private;
+            Private* const d;
 
     };
 

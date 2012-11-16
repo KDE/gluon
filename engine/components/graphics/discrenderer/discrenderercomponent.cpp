@@ -41,7 +41,7 @@ class DiscRendererComponent::DiscRendererComponentPrivate
         {
         }
 
-        GluonGraphics::Item* item;
+        GluonGraphics::Entity* item;
         GluonGraphics::DiscMesh* mesh;
 
         GluonEngine::Asset* texture;
@@ -73,7 +73,7 @@ void DiscRendererComponent::initialize()
     if( !d->item )
     {
         d->mesh = new GluonGraphics::DiscMesh( this->gameObject()->position(), d->radius, d->nbPoints, d->color, this );
-        d->item = new GluonGraphics::Item( d->mesh, this );
+        d->item = new GluonGraphics::Entity( d->mesh, this );
         d->item->setColor( d->color );
     }
 

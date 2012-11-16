@@ -1,9 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2008 Sacha Schutz <istdasklar@free.fr>
- * Copyright (C) 2008 Olivier Gueudelot <gueudelotolive@gmail.com>
- * Copyright (C) 2008 Charles Huet <packadal@gmail.com>
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2012 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,16 +20,14 @@
 #ifndef GLUONGRAPHICS_ABSTRACTMESH_H
 #define GLUONGRAPHICS_ABSTRACTMESH_H
 
+#include <QObject>
+
 #include "gluon_graphics_export.h"
-
-#include "vertexbuffer.h"
-
-class QMatrix4x4;
 
 namespace GluonGraphics
 {
-    class MaterialInstance;
-    class VertexBuffer;
+    class Buffer;
+    class Shader;
 
     /**
      * \brief Abstract base class for different types of meshes.
@@ -51,27 +46,14 @@ namespace GluonGraphics
      * want to use dynamic meshes, you also need to reimplement
      * update(), which needs to adjust the data.
      */
-    class GLUON_GRAPHICS_EXPORT AbstractMesh : public QObject
+    class GLUON_GRAPHICS_EXPORT Mesh : public QObject
     {
-            Q_OBJECT
+        Q_OBJECT
         public:
-            AbstractMesh( QObject* parent = 0 );
-            virtual ~AbstractMesh();
+            explicit Mesh( QObject* parent = 0 );
+            virtual ~Mesh();
 
-            /**
-             * Initialize the data of this mesh.
-             *
-             * This method should create a VertexBuffer and populate
-             * this buffer with data.
-             */
             virtual void initialize() = 0;
-
-            /**
-             * Set the buffer used by this Mesh to render.
-             *
-             * \param buffer The buffer to render.
-             */
-            void setVertexBuffer( VertexBuffer* buffer );
 
             /**
              * Has this mesh been initialized yet?
@@ -83,32 +65,13 @@ namespace GluonGraphics
              *
              * The default implementation of this method does
              * nothing.
-             *
-             * Note also that you want to avoid doing anything
-             * in this method when you are using any of the
-             * STATIC_* data upload methods.
              */
             virtual void update();
 
             /**
-             * Render this mesh to the screen.
              *
-             * \param material The material used to render the mesh. This
-             * is only used to determine vertex attribute locations in the
-             * program.
-             * \param mode The mode used to render the mesh.
              */
-            virtual void render( MaterialInstance* material, VertexBuffer::RenderMode mode = VertexBuffer::RM_TRIANGLES );
-
-        protected:
-            /**
-             * Returns the buffer being used to draw this mesh.
-             **/
-            VertexBuffer* vertexBuffer() const;
-
-        private:
-            class Private;
-            Private* const d;
+            virtual void render( Shader* shader ) = 0;
 
     };
 }

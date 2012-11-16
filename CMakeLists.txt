@@ -34,9 +34,6 @@ else()
     option(INSTALL_CMAKE_FILES "Install the *.cmake files into the CMake root" OFF)
 endif()
 
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/gluon")
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-
 set(GLUON_BUILD_ALL TRUE
     CACHE INTERNAL "Build all of Gluon"
 )
@@ -49,28 +46,7 @@ endif(NOT MSVC)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-set(OPENGL_REAL_LIBS "")
-set(OPENGL_REAL_INCLUDE_DIR "")
-find_package(OpenGL)
-if(NOT OPENGL_FOUND)
-    #try looking for GLES
-    find_package(OpenGLES2)
-    if(OPENGLES_FOUND)
-        set(OPENGL_REAL_INCLUDE_DIR ${OPENGLES_INCLUDE_DIR})
-        set(OPENGL_REAL_LIBS ${OPENGLES_LIBRARIES})
-        add_definitions(-DGLUON_GRAPHICS_GLES)
-        message(STATUS "Found OpenGLES2 graphics: ${OPENGL_REAL_INCLUDE_DIR}")
-    endif(OPENGLES_FOUND)
-else(NOT OPENGL_FOUND)
-    set(OPENGL_REAL_INCLUDE_DIR ${OPENGL_INCLUDE_DIR})
-    set(OPENGL_REAL_LIBS ${OPENGL_gl_LIBRARY})
-    message(STATUS "Found OpenGL: ${OPENGL_REAL_INCLUDE_DIR}")
-endif(NOT OPENGL_FOUND)
-
-if(OPENGL_REAL_LIBS STREQUAL "" OR OPENGL_INCLUDE_DIR STREQUAL "")
-    message(FATAL_ERROR "Could NOT find OpenGL!")
-endif()
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
 
 ##### Gluon Libraries #####
 
@@ -114,6 +90,9 @@ set(KDE_FAILED FALSE)
 ######## KDE Parts ########
 if(BUILD_GLUON_PLAYER_ACTIVE OR BUILD_GLUON_CREATOR OR WITH_KDE)
     find_package(KDE4)
+    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+
     if(NOT KDE4_FOUND)
         set(BUILD_GLUON_PLAYER_ACTIVE OFF)
         set(BUILD_GLUON_CREATOR OFF)
