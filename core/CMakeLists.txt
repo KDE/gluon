@@ -7,6 +7,7 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(Qt4 4.6 REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 if ("${QT_QTCORE_LIBRARY}" MATCHES lib64)
    set(_Init_LIB_SUFFIX 64)
@@ -55,6 +56,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/gluon_global.h.in ${CMAKE_CURRENT_BIN
 
 include_directories(
     ${QT_INCLUDES}
+    ${EIGEN3_INCLUDE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/gdl

@@ -23,11 +23,11 @@
 #include <gdllexer.h>
 #include <gdlparser.h>
 #include <QColor>
-#include <QVector2D>
-#include <QVector3D>
-#include <QVector4D>
-#include <QQuaternion>
 #include <QSizeF>
+
+#include <Eigen/Core>
+
+using namespace Eigen;
 
 char const * const DebugVisitor::names[] = {
     "Object",
@@ -51,12 +51,12 @@ void DebugVisitor::visitObject(GDL::ObjectAst* node)
 {
     GDL::Lexer::Token nameToken = m_lexer->token(node->name);
     GDL::Lexer::Token typeToken = m_lexer->token(node->type);
-    
+
     QString name = m_content.mid(nameToken.begin + 1, nameToken.end - nameToken.begin - 1);
     QString type = m_content.mid(typeToken.begin, typeToken.end - typeToken.begin + 1);
-    
+
     qDebug() << QString("%1Object %2 of type %3").arg(m_indent, name, type);
-    
+
     m_indent = m_indent + "    ";
     GDL::DefaultVisitor::visitObject(node);
     m_indent = m_indent.left(m_indent.size() - 4);
@@ -65,7 +65,7 @@ void DebugVisitor::visitObject(GDL::ObjectAst* node)
 void DebugVisitor::visitProperty(GDL::PropertyAst* node)
 {
     GDL::Lexer::Token propertyToken = m_lexer->token(node->propertyName);
-    
+
     QString property = m_content.mid(propertyToken.begin, propertyToken.end - propertyToken.begin + 1);
 
     qDebug() << QString("%1Property %2").arg(m_indent, property);
@@ -134,54 +134,54 @@ void DebugVisitor::visitRgba_type(GDL::Rgba_typeAst* node)
 
 void DebugVisitor::visitVector2d_type(GDL::Vector2d_typeAst* node)
 {
-    QVector2D vector;
+    Vector2f vector;
     GDL::Lexer::Token token = m_lexer->token(node->x);
-    vector.setX(textForToken(token).toFloat());
+    vector(1) = textForToken(token).toFloat();
     token = m_lexer->token(node->y);
-    vector.setY(textForToken(token).toFloat());
+    vector(2) = textForToken(token).toFloat();
 
     qDebug() << QString("%1Vector2D:").arg(m_indent) << vector;
 }
 
 void DebugVisitor::visitVector3d_type(GDL::Vector3d_typeAst* node)
 {
-    QVector3D vector;
+    Vector3f vector;
     GDL::Lexer::Token token = m_lexer->token(node->x);
-    vector.setX(textForToken(token).toFloat());
+    vector(1) = textForToken(token).toFloat();
     token = m_lexer->token(node->y);
-    vector.setY(textForToken(token).toFloat());
+    vector(2) = textForToken(token).toFloat();
     token = m_lexer->token(node->z);
-    vector.setZ(textForToken(token).toFloat());
+    vector(3) = textForToken(token).toFloat();
 
     qDebug() << QString("%1Vector3D:").arg(m_indent) << vector;
 }
 
 void DebugVisitor::visitVector4d_type(GDL::Vector4d_typeAst* node)
 {
-    QVector4D vector;
+    Vector4f vector;
     GDL::Lexer::Token token = m_lexer->token(node->x);
-    vector.setX(textForToken(token).toFloat());
+    vector(1) = textForToken(token).toFloat();
     token = m_lexer->token(node->y);
-    vector.setY(textForToken(token).toFloat());
+    vector(2) = textForToken(token).toFloat();
     token = m_lexer->token(node->z);
-    vector.setZ(textForToken(token).toFloat());
+    vector(3) = textForToken(token).toFloat();
     token = m_lexer->token(node->w);
-    vector.setW(textForToken(token).toFloat());
+    vector(4) = textForToken(token).toFloat();
 
     qDebug() << QString("%1Vector4D:").arg(m_indent) << vector;
 }
 
 void DebugVisitor::visitQuaternion_type(GDL::Quaternion_typeAst* node)
 {
-    QQuaternion quat;
+    Quaternionf quat;
     GDL::Lexer::Token token = m_lexer->token(node->x);
-    quat.setX(textForToken(token).toFloat());
+    quat.x() = textForToken(token).toFloat();
     token = m_lexer->token(node->y);
-    quat.setY(textForToken(token).toFloat());
+    quat.y() = textForToken(token).toFloat();
     token = m_lexer->token(node->z);
-    quat.setZ(textForToken(token).toFloat());
+    quat.z() = textForToken(token).toFloat();
     token = m_lexer->token(node->w);
-    quat.setScalar(textForToken(token).toFloat());
+    quat.w() = textForToken(token).toFloat();
 
     qDebug() << QString("%1Quaternion:").arg(m_indent) << quat;
 }

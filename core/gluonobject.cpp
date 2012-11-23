@@ -23,8 +23,6 @@
 #include "metainfo.h"
 
 #include <QtGui/QColor>
-#include <QtGui/QVector2D>
-#include <QtGui/QVector3D>
 #include <QtCore/QVariant>
 #include <QtCore/QDebug>
 #include <QtCore/QMetaClassInfo>

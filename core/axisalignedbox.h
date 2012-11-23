@@ -20,7 +20,7 @@
 #ifndef AXISALIGNEDBOX_H
 #define AXISALIGNEDBOX_H
 
-#include <QVector3D>
+#include <Eigen/Core>
 
 #include "gluon_core_export.h"
 
@@ -39,35 +39,35 @@ namespace GluonCore
              * @param centerPosition The position
              * @param size The size
              */
-            AxisAlignedBox( QVector3D size, QVector3D centerPosition = QVector3D(0,0,0) );
+            AxisAlignedBox( Eigen::Vector3f size, Eigen::Vector3f centerPosition = Eigen::Vector3f::Zero() );
 
             /**
              * Get the current position. It is the center of the box.
              * @return The current position
              * @see setPosition
              */
-            QVector3D position() const;
+            Eigen::Vector3f position() const;
 
             /**
              * Set the center of the box to a new position.
              * @param newPosition the new position.
              * @see position
              */
-            void setPosition( const QVector3D& newPosition );
+            void setPosition( const Eigen::Vector3f& newPosition );
 
             /**
              * Get the current size of the box. All components are positive.
              * @return the current size
              * @see setSize
              */
-            QVector3D size() const;
+            Eigen::Vector3f size() const;
 
             /**
              * Set the size of the box.
              * @param newSize the new size. It should be positive and not 0.
              * @see size
              */
-            void setSize( const QVector3D& newSize );
+            void setSize( const Eigen::Vector3f& newSize );
 
             /**
              * Combine this box with another box. This returns the bounding box of both boxes,

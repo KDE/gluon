@@ -24,20 +24,21 @@
 #include <QtCore/QSizeF>
 #include <QtCore/QMetaProperty>
 #include <QtGui/QColor>
-#include <QtGui/QVector2D>
-#include <QtGui/QVector3D>
-#include <QtGui/QVector4D>
-#include <QtGui/QQuaternion>
+
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 
 #include <core/gluonobject.h>
 #include <core/gluonobjectfactory.h>
 #include <core/debughelper.h>
+#include <core/gluonvarianttypes.h>
 
 #include <core/gdl/gdllexer.h>
 #include <core/gdl/gdlparser.h>
 
 using namespace GDL;
 using namespace GluonCore;
+using namespace Eigen;
 
 class ObjectTreeBuilder::Private
 {
@@ -286,56 +287,56 @@ void ObjectTreeBuilder::visitRgba_type(GDL::Rgba_typeAst* node)
 
 void ObjectTreeBuilder::visitVector2d_type(GDL::Vector2d_typeAst* node)
 {
-    QVector2D vector;
+    Vector2f vector;
     GDL::Lexer::Token token = d->lexer->at(node->x);
-    vector.setX(d->textForToken(token).toFloat());
+    vector(1) = d->textForToken(token).toFloat();
     token = d->lexer->at(node->y);
-    vector.setY(d->textForToken(token).toFloat());
+    vector(2) = d->textForToken(token).toFloat();
 
-    d->currentPropertyValue = QVariant::fromValue<QVector2D>(vector);
+    d->currentPropertyValue = QVariant::fromValue<Vector2f>(vector);
 }
 
 void ObjectTreeBuilder::visitVector3d_type(GDL::Vector3d_typeAst* node)
 {
-    QVector3D vector;
+    Vector3f vector;
     GDL::Lexer::Token token = d->lexer->at(node->x);
-    vector.setX(d->textForToken(token).toFloat());
+    vector(1) = d->textForToken(token).toFloat();
     token = d->lexer->at(node->y);
-    vector.setY(d->textForToken(token).toFloat());
+    vector(2) = d->textForToken(token).toFloat();
     token = d->lexer->at(node->z);
-    vector.setZ(d->textForToken(token).toFloat());
+    vector(3) = d->textForToken(token).toFloat();
 
-    d->currentPropertyValue = QVariant::fromValue<QVector3D>(vector);
+    d->currentPropertyValue = QVariant::fromValue<Vector3f>(vector);
 }
 
 void ObjectTreeBuilder::visitVector4d_type(GDL::Vector4d_typeAst* node)
 {
-    QVector4D vector;
+    Vector4f vector;
     GDL::Lexer::Token token = d->lexer->at(node->x);
-    vector.setX(d->textForToken(token).toFloat());
+    vector(1) = d->textForToken(token).toFloat();
     token = d->lexer->at(node->y);
-    vector.setY(d->textForToken(token).toFloat());
+    vector(2) = d->textForToken(token).toFloat();
     token = d->lexer->at(node->z);
-    vector.setZ(d->textForToken(token).toFloat());
+    vector(3) = d->textForToken(token).toFloat();
     token = d->lexer->at(node->w);
-    vector.setW(d->textForToken(token).toFloat());
+    vector(4) = d->textForToken(token).toFloat();
 
-    d->currentPropertyValue = QVariant::fromValue<QVector4D>(vector);
+    d->currentPropertyValue = QVariant::fromValue<Vector4f>(vector);
 }
 
 void ObjectTreeBuilder::visitQuaternion_type(GDL::Quaternion_typeAst* node)
 {
-    QQuaternion quat;
+    Quaternionf quat;
     GDL::Lexer::Token token = d->lexer->at(node->x);
-    quat.setX(d->textForToken(token).toFloat());
+    quat.x() = d->textForToken(token).toFloat();
     token = d->lexer->at(node->y);
-    quat.setY(d->textForToken(token).toFloat());
+    quat.y() = d->textForToken(token).toFloat();
     token = d->lexer->at(node->z);
-    quat.setZ(d->textForToken(token).toFloat());
+    quat.z() = d->textForToken(token).toFloat();
     token = d->lexer->at(node->w);
-    quat.setScalar(d->textForToken(token).toFloat());
+    quat.w() = d->textForToken(token).toFloat();
 
-    d->currentPropertyValue = QVariant::fromValue<QQuaternion>(quat);
+    d->currentPropertyValue = QVariant::fromValue<Quaternionf>(quat);
 }
 
 void ObjectTreeBuilder::visitSize2d_type(GDL::Size2d_typeAst* node)

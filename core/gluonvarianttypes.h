@@ -20,8 +20,18 @@
 #ifndef GLUON_VARIANTTYPES
 #define GLUON_VARIANTTYPES
 
-#include <QtGui/QVector3D>
-#include <QtGui/QQuaternion>
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+#include <QtCore/QMetaType>
+
+Q_DECLARE_METATYPE(Eigen::Vector2f);
+Q_DECLARE_METATYPE(Eigen::Vector2f*)
+Q_DECLARE_METATYPE(Eigen::Vector3f);
+Q_DECLARE_METATYPE(Eigen::Vector3f*);
+Q_DECLARE_METATYPE(Eigen::Vector4f);
+Q_DECLARE_METATYPE(Eigen::Vector4f*);
+Q_DECLARE_METATYPE(Eigen::Quaternionf);
+Q_DECLARE_METATYPE(Eigen::Quaternionf*);
 
 namespace
 {
@@ -30,8 +40,10 @@ namespace
         public:
             GluonVariantTypes()
             {
-                qRegisterMetaType<QVector3D>( "Vector3d" );
-                qRegisterMetaType<QQuaternion>( "Quaternion" );
+                qRegisterMetaType<Eigen::Vector2f>( "Vector2D" );
+                qRegisterMetaType<Eigen::Vector3f>( "Vector3D" );
+                qRegisterMetaType<Eigen::Vector4f>( "Vector4D" );
+                qRegisterMetaType<Eigen::Quaternionf>( "Quaternion" );
             }
     };
 
