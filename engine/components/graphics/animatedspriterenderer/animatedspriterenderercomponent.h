@@ -67,6 +67,7 @@ namespace GluonEngine
             void draw( int timeLapse = 0 );
             void stop();
             void cleanup();
+            GluonCore::AxisAlignedBox boundingBox();
 
             bool isAnimating();
             bool isLooping();

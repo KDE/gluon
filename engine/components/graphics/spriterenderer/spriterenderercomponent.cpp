@@ -19,6 +19,8 @@
 
 #include "spriterenderercomponent.h"
 
+#include <core/axisalignedbox.h>
+
 #include <engine/gameobject.h>
 #include <engine/asset.h>
 #include <engine/game.h>
@@ -31,6 +33,7 @@
 #include <graphics/texture.h>
 #include <graphics/mesh.h>
 
+#include <QtCore/qmath.h>
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
 #include <graphics/world.h>
@@ -134,6 +137,13 @@ void SpriteRendererComponent::cleanup()
         GluonGraphics::Manager::instance()->currentWorld()->destroyEntity( d->entity );
         d->entity = 0;
     }
+}
+
+GluonCore::AxisAlignedBox
+SpriteRendererComponent::boundingBox()
+{
+    QVector3D sizeVector( size().width(), size().height(), 0 );
+    return GluonCore::AxisAlignedBox( transformationCenter(), sizeVector );
 }
 
 void SpriteRendererComponent::setSize( const QSizeF& size )
