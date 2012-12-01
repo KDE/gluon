@@ -33,6 +33,7 @@ namespace GluonCore
      */
     class GLUON_CORE_EXPORT AxisAlignedBox
     {
+        // TODO: Make AxisAlignedBox a shared data class
         public:
             /**
              * Create a new box, with the given position as center and the given size.
@@ -40,6 +41,17 @@ namespace GluonCore
              * @param size The size
              */
             AxisAlignedBox( QVector3D size, QVector3D centerPosition = QVector3D(0,0,0) );
+
+            /**
+             * Copy constructor.
+             * @param box Box to copy
+             */
+            AxisAlignedBox( const AxisAlignedBox& box );
+
+            /**
+             * Destructor
+             */
+            ~AxisAlignedBox();
 
             /**
              * Get the current position. It is the center of the box.
@@ -77,6 +89,43 @@ namespace GluonCore
              * @return The bounding box of both boxes.
              */
             AxisAlignedBox united( const AxisAlignedBox& box ) const;
+
+            /**
+             * Same as united, but operates in-place
+             */
+            void unite( const AxisAlignedBox& box );
+
+            /**
+             * Create a new box with the same position, but the size scaled.
+             * @param factors Scale the size components by these factors.
+             * @returns the scaled box
+             */
+            AxisAlignedBox scaled( const QVector3D& factors ) const;
+
+            /**
+             * Same as scaled, but operates in-place
+             */
+            void scale( const QVector3D& factors );
+
+            /**
+             * Create a new box that is a rotated version of the current box. As the box is
+             * rotated around the center, the position of the box does not change.
+             * @param orientation A quaternion describing the rotation.
+             * @returns the rotated box.
+             */
+            AxisAlignedBox rotated( const QQuaternion& orientation ) const;
+
+            /**
+             * Same as rotated, but operates in-place
+             */
+            void rotate( const QQuaternion& orientation );
+
+            /**
+             * Assignment operator
+             * @param box The assigned box
+             * @return A reference to the object box was assigned to
+             */
+            AxisAlignedBox& operator=( const AxisAlignedBox& box );
 
         private:
             class Private;

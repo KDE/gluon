@@ -27,6 +27,11 @@
 #include <core/gluonvarianttypes.h>
 #include <core/gluonobjectfactory.h>
 
+namespace GluonCore
+{
+    class AxisAlignedBox;
+}
+
 namespace GluonEngine
 {
 
@@ -170,6 +175,13 @@ namespace GluonEngine
              * @param   functionName    The name of the function you wish to call
              */
             void runCommandInChildren( const QString& functionName );
+
+            /**
+             * Create an axis aligned bounding box around this game object, including all children
+             * and components.
+             * @returns the bounding box.
+             */
+            GluonCore::AxisAlignedBox boundingBox();
 
             // ----------------------------------------------------------------
             // Component management
