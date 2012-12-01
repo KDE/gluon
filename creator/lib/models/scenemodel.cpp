@@ -145,9 +145,9 @@ int SceneModel::rowCount( const QModelIndex& parent ) const
         return 0;
 
     if( !parent.isValid() )
-        parentItem = d->root;
-    else
-        parentItem = static_cast<GluonEngine::GameObject*>( parent.internalPointer() );
+        return 1;
+
+    parentItem = static_cast<GluonEngine::GameObject*>( parent.internalPointer() );
 
     if( parentItem )
         return parentItem->childCount();
@@ -164,10 +164,10 @@ QModelIndex SceneModel::parent( const QModelIndex& child ) const
     if( !childItem )
         return QModelIndex();
 
-    GluonEngine::GameObject* parentItem = childItem->parentGameObject();
-
-    if( parentItem == d->root )
+    if( childItem == d->root )
         return QModelIndex();
+
+    GluonEngine::GameObject* parentItem = childItem->parentGameObject();
 
     return createIndex( d->rowIndex( parentItem ), 0, parentItem );
 }
@@ -177,14 +177,18 @@ QModelIndex SceneModel::index( int row, int column, const QModelIndex& parent ) 
     if( !hasIndex( row, column, parent ) )
         return QModelIndex();
 
-    GluonEngine::GameObject* parentItem;
+    GluonEngine::GameObject* childItem;
 
     if( !parent.isValid() )
-        parentItem = d->root;
+    {
+        childItem = d->root;
+    }
     else
-        parentItem = static_cast<GluonEngine::GameObject*>( parent.internalPointer() );
+    {
+        GluonEngine::GameObject* parentItem = static_cast<GluonEngine::GameObject*>( parent.internalPointer() );
+        childItem = parentItem->childGameObject( row );
+    }
 
-    GluonEngine::GameObject* childItem = parentItem->childGameObject( row );
     if( childItem )
         return createIndex( row, column, childItem );
     else
