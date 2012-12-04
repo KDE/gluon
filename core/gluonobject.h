@@ -72,6 +72,14 @@ namespace GDL
 namespace GluonCore
 {
     class MetaInfo;
+    enum DebugType {
+        DebugDefault,
+        DebugInfo,
+        DebugVerbose,
+        DebugWarning,
+        DebugError,
+        DebugFatal
+    };
 
     /**
      * \brief Convenience-extended version of QObjects for use with Gluon
@@ -199,7 +207,7 @@ namespace GluonCore
              *
              * @param   debugText   The message you wish to write out
              */
-            Q_INVOKABLE void debug( const QString& debugText ) const;
+            Q_INVOKABLE void debug( const QString& debugText, const GluonCore::DebugType& debugType = GluonCore::DebugDefault ) const;
 
             /**
              * Write a debug statement to the console and into the debug messages pane in Gluon Creator
@@ -208,14 +216,14 @@ namespace GluonCore
              * \param   debugText   The message you wish to write out
              * \param   arg         The argument of debugText. See QString::arg() for more information.
              */
-            Q_INVOKABLE void debug( const QString& debugText, const QString& arg ) const;
+            Q_INVOKABLE void debug( const QString& debugText, const QString& arg, const DebugType& debugType = GluonCore::DebugDefault ) const;
 
             /**
              * Signal which is emitted whenever a debug statement is produced using the debug() function
              *
              * @param   debugText   The debug message test
              */
-            Q_SIGNAL void showDebug( const QString& debugText ) const;
+            Q_SIGNAL void showDebug( const QString& debugText, const GluonCore::DebugType& debugType ) const;
 
             /**
              * Copy this object and all of its children, recursively.
@@ -487,5 +495,6 @@ namespace GluonCore
 }
 
 Q_DECLARE_METATYPE( GluonCore::GluonObject* )
+Q_DECLARE_METATYPE( GluonCore::DebugType )
 
 #endif  // GLUON_CORE_GLUONOBJECT_H

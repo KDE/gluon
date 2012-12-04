@@ -54,7 +54,7 @@ MessageDock::MessageDock( const QString& title, QWidget* parent, Qt::WindowFlags
     d->view->addItem( new QListWidgetItem( i18n( "Welcome to Gluon Creator %1", GluonCore::Global::versionString() ), d->view ) );
     d->view->setSelectionMode( QAbstractItemView::ExtendedSelection );
 
-    connect( GluonEngine::Game::instance(), SIGNAL(showDebug(QString)), SLOT(showDebug(QString)) );
+    connect( GluonEngine::Game::instance(), SIGNAL(showDebug(QString,GluonCore::DebugType)), SLOT(showDebug(QString,GluonCore::DebugType)) );
 
     QWidget* widget = new QWidget( this );
     QVBoxLayout* layout = new QVBoxLayout();
@@ -86,7 +86,7 @@ MessageDock::MessageDock( const QString& title, QWidget* parent, Qt::WindowFlags
     setWidget( widget );
 }
 
-void MessageDock::showDebug( const QString& debugText )
+void MessageDock::showDebug( const QString& debugText, const GluonCore::DebugType& debugType )
 {
     QListWidgetItem* item = new QListWidgetItem( debugText, d->view );
     d->view->addItem( item );

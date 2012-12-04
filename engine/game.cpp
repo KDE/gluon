@@ -319,7 +319,7 @@ Game::setGameProject( GluonEngine::GameProject* newGameProject )
             stopAll();
             cleanupAll();
         }
-        disconnect( d->gameProject, SIGNAL(showDebug(QString)), this, SIGNAL(showDebug(QString)) );
+        disconnect( d->gameProject, SIGNAL(showDebug(QString,GluonCore::DebugType)), this, SIGNAL(showDebug(QString,GluonCore::DebugType)) );
     }
 
     d->gameProject = newGameProject;
@@ -327,7 +327,7 @@ Game::setGameProject( GluonEngine::GameProject* newGameProject )
     if( !d->gameProject )
         return;
 
-    connect( d->gameProject, SIGNAL(showDebug(QString)), SIGNAL(showDebug(QString)) );
+    connect( d->gameProject, SIGNAL(showDebug(QString,GluonCore::DebugType)), SIGNAL(showDebug(QString,GluonCore::DebugType)) );
 
     if( !d->gameProject->entryPoint() )
     {
@@ -367,7 +367,7 @@ GameObject* Game::clone( GameObject* obj )
         QList<const GluonCore::GluonObject*> objects = d->listAllChildren( objClone );
         foreach( const GluonCore::GluonObject * child, objects )
         {
-            connect( child, SIGNAL(showDebug(QString)), SIGNAL(showDebug(QString)) );
+            connect( child, SIGNAL(showDebug(QString,GluonCore::DebugType)), SIGNAL(showDebug(QString,GluonCore::DebugType)) );
         }
         return objClone;
     }
