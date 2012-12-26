@@ -24,7 +24,9 @@
 
 #include "gluon_audio_export.h"
 
-#include <QtGui/QVector3D>
+#include <QtCore/QObject>
+
+#include <Eigen/Core>
 
 #include <al.h>
 
@@ -120,7 +122,7 @@ namespace GluonAudio
             * relative to the listener
             * @see setPosition, x, y, z
             */
-            QVector3D position() const;
+            Eigen::Vector3f position() const;
 
             /**
             * @return the x coordinate of the sound position
@@ -222,7 +224,7 @@ namespace GluonAudio
             *
             * If there is no source loaded, it does not set the position.
             */
-            void setPosition( QVector3D position );
+            void setPosition( Eigen::Vector3f position );
 
             /**
             * @overload setPosition()

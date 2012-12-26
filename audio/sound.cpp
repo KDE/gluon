@@ -39,7 +39,7 @@ class Sound::SoundPrivate
             , status(STOPPED)
             , stream(0)
             , source(0)
-            , position(QVector3D( 0, 0, 0 ))
+            , position(Eigen::Vector3f( 0, 0, 0 ))
             , volume(1.0f)
             , pitch(1.0f)
             , radius(10000.0f)
@@ -114,7 +114,7 @@ class Sound::SoundPrivate
         Status status;
         alureStream* stream;
         ALuint source;
-        QVector3D position;
+        Eigen::Vector3f position;
         ALfloat volume;
         ALfloat pitch;
         ALfloat radius;
@@ -243,7 +243,7 @@ void Sound::clear()
     d->_k_deleteSource();
 }
 
-QVector3D Sound::position() const
+Eigen::Vector3f Sound::position() const
 {
     return d->position;
 }
@@ -296,10 +296,10 @@ double Sound::duration() const
 
 void Sound::setPosition( ALfloat x, ALfloat y, ALfloat z )
 {
-    setPosition( QVector3D( x, y, z ) );
+    setPosition( Eigen::Vector3f( x, y, z ) );
 }
 
-void Sound::setPosition( QVector3D position )
+void Sound::setPosition( Eigen::Vector3f position )
 {
     if( !d->isValid )
     {

@@ -58,7 +58,7 @@ void EngineTest::testBuffersPerStream()
 void EngineTest::testListenerPosition()
 {
     Engine *engine = Engine::instance();
-    QVector3D vector3D(1.0, 2.0, 3.0);
+    Eigen::Vector3f vector3D(1.0, 2.0, 3.0);
     engine->setListenerPosition(vector3D);
     QCOMPARE(engine->listenerPosition(), vector3D);
 }
