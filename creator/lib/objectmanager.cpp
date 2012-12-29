@@ -35,9 +35,10 @@
 #include <engine/game.h>
 #include <engine/component.h>
 
+#include <gluon_global.h>
+
 #include <graphics/materialinstance.h>
 
-#include <core/gluon_global.h>
 #include <core/debughelper.h>
 
 #include <KDE/KLocalizedString>

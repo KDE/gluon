@@ -1,10 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
 
-if(NOT GLUON_BUILD_ALL)
-    project(GluonInput)
-    find_package(GluonCore REQUIRED)
-endif()
-
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -250,6 +245,5 @@ install(
 )
 
 if(BUILD_GLUON_TESTS)
-    enable_testing()
     add_subdirectory(tests)
 endif()

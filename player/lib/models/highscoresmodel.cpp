@@ -23,11 +23,12 @@
 #include "allgameitemsmodel.h"
 #include "gamemanager.h"
 
+#include <gluon_global.h>
+
 #include <engine/gameproject.h>
 
 #include <core/gluonobject.h>
 #include <core/gdlserializer.h>
-#include <core/gluon_global.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QDir>

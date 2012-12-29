@@ -22,6 +22,8 @@
 
 #include "abstractsocialservicesjob.h"
 
+#include "gluon_player_export.h"
+
 namespace Attica
 {
     class Provider;
@@ -30,7 +32,7 @@ namespace Attica
 
 namespace GluonPlayer
 {
-    class EditGameJob : public AbstractSocialServicesJob
+    class GLUON_PLAYER_EXPORT EditGameJob : public AbstractSocialServicesJob
     {
             Q_OBJECT
 

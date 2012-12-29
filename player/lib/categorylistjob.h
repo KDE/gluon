@@ -51,7 +51,7 @@ namespace GluonPlayer
             Private* const d;
     };
 
-    class CategoryListJob : public AbstractSocialServicesJob
+    class GLUON_PLAYER_EXPORT CategoryListJob : public AbstractSocialServicesJob
     {
             Q_OBJECT
         public:

@@ -29,7 +29,7 @@
 #include <KDE/KAboutData>
 #include <KDE/KLocalizedString>
 
-#include <core/gluon_global.h>
+#include <gluon_global.h>
 
 namespace GluonCreator
 {

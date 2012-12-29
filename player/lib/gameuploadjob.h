@@ -23,6 +23,8 @@
 
 #include "abstractsocialservicesjob.h"
 
+#include "gluon_player_export.h"
+
 class QNetworkReply;
 
 namespace Attica
@@ -33,7 +35,7 @@ namespace Attica
 
 namespace GluonPlayer
 {
-    class GameUploadJob : public AbstractSocialServicesJob
+    class GLUON_PLAYER_EXPORT GameUploadJob : public AbstractSocialServicesJob
     {
             Q_OBJECT
         public:

@@ -27,11 +27,12 @@
 #include <commentslistjob.h>
 #include <commentuploadjob.h>
 
+#include <gluon_global.h>
+
 #include <engine/gameproject.h>
 
 #include <core/gluonobject.h>
 #include <core/gdlserializer.h>
-#include <core/gluon_global.h>
 
 #include <attica/listjob.h>
 

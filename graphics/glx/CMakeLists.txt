@@ -1,5 +1,4 @@
-
-find_package( OpenGL )
+find_package( OpenGL REQUIRED )
 
 include_directories( ${CMAKE_CURRENT_BINARY_DIR} ${OPENGL_INCLUDE_DIR} )
 
@@ -23,6 +22,7 @@ target_link_libraries(
     gluongraphics_backend
     ${GLUON_GRAPHICS_LIBS}
     ${OPENGL_LIBRARIES}
+    dl
 )
 
 install(

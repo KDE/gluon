@@ -1,14 +1,14 @@
 cmake_minimum_required(VERSION 2.8)
 
-if(NOT GLUON_BUILD_ALL)
-project(GluonGraphics)
-    find_package(GluonCore REQUIRED)
-endif()
+option( BUILD_MESH_LOADING "Build mesh loading support" OFF ) #Note: Needs to be ported
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-find_package(OpenGL REQUIRED)
-find_package(AssImp)
+if( BUILD_MESH_LOADING )
+    find_package(AssImp)
+else( BUILD_MESH_LOADING )
+    set(ASSIMP_FOUND FALSE)
+endif( BUILD_MESH_LOADING )
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -151,7 +151,8 @@ install(FILES
     DESTINATION ${SHARE_INSTALL_DIR}/gluon/defaults
 )
 
-if(BUILD_GLUON_TESTS)
-    enable_testing()
+if(BUILD_TESTS)
     add_subdirectory(tests)
 endif()
+
+save_status( GluonGraphics "Build mesh loading support (BUILD_MESH_LOADING): ${BUILD_MESH_LOADING}" )

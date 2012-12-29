@@ -27,9 +27,7 @@
 #include <QString>
 #include <KDE/KCmdLineArgs>
 #include <KDE/KStandardDirs>
-#include <QtDeclarative/QDeclarativeContext>
-#include <QtDeclarative/QDeclarativeView>
-#include <core/gluon_global.h>
+
 #include "aboutdata.h"
 #include <QDebug>
 

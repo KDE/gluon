@@ -24,6 +24,8 @@
 
 #include <QtCore/QMetaType>
 
+#include "gluon_player_export.h"
+
 namespace Attica
 {
     class Provider;
@@ -33,7 +35,7 @@ namespace Attica
 namespace GluonPlayer
 {
 
-    class LicenseItem : public QObject
+    class GLUON_PLAYER_EXPORT LicenseItem : public QObject
     {
             Q_OBJECT
         public:
@@ -50,7 +52,7 @@ namespace GluonPlayer
             Private* const d;
     };
 
-    class LicenseJob : public AbstractSocialServicesJob
+    class GLUON_PLAYER_EXPORT LicenseJob : public AbstractSocialServicesJob
     {
             Q_OBJECT
         public:

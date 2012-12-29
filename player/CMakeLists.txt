@@ -1,75 +1,61 @@
 cmake_minimum_required(VERSION 2.8)
 
+option( BUILD_DESKTOP_PLAYER "Build the Desktop Player" ON )
+option( BUILD_ACTIVE_PLAYER "Build the Plasma Active Player" OFF )
+option( BUILD_HARMATTAN_PLAYER "Build the Harmattan Player" OFF )
+option( BUILD_FREMANTLE_PLAYER "Build the Fremantle Player" OFF )
+option( INSTALL_EXAMPLES "Install the example projects" ON )
+
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+set(LIBATTICA_MIN_VERSION 0.1.90)
+find_package( LibAttica REQUIRED )
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${LIBATTICA_INCLUDE_DIR}
 )
 
-if(NOT GLUON_BUILD_ALL)
-    project(GluonPlayer)
-    option(INSTALL_EXAMPLES "Install the game examples for Gluon Player" ON)
-    find_package(GluonCore REQUIRED)
-    find_package(GluonInput REQUIRED)
-    find_package(GluonEngine REQUIRED)
-    find_package(GluonGraphics REQUIRED)
-endif(NOT GLUON_BUILD_ALL)
+add_subdirectory(lib)
 
-set(LIBATTICA_MIN_VERSION 0.1.90)
-find_package(LibAttica)
-if(LIBATTICA_FOUND)
-    include_directories(${LIBATTICA_INCLUDE_DIR})
-    add_subdirectory(lib)
+if( BUILD_FREMANTLE_PLAYER )
+    add_subdirectory(fremantle)
+endif()
 
-    find_package(Qt4)
-    if(BUILD_GLUON_PLAYER_FREMANTLE)
-        if(QT_QTDECLARATIVE_FOUND)
-            add_subdirectory(fremantle)
-        else(QT_QTDECLARATIVE_FOUND)
-            message(WARNING "Qt installation lacks Qt Declarative - disabling handset based player")
-        endif(QT_QTDECLARATIVE_FOUND)
-    endif()
+if( BUILD_HARMATTAN_PLAYER )
+    add_subdirectory(harmattan)
+endif()
 
-    if(BUILD_GLUON_PLAYER_HARMATTAN)
-        if(QT_QTDECLARATIVE_FOUND)
-            add_subdirectory(harmattan)
-        else(QT_QTDECLARATIVE_FOUND)
-            message(WARNING "Qt installation lacks Qt Declarative - disabling harmattan based player")
-        endif(QT_QTDECLARATIVE_FOUND)
-    endif()
+if( BUILD_DESKTOP_PLAYER )
+    if(KDE4_FOUND)
+        include_directories(${KDE4_INCLUDES})
+        add_subdirectory(desktop)
+    else(KDE4_FOUND)
+        set( BUILD_DESKTOP_PLAYER OFF )
+        message(STATUS "KDE libraries are not found - not building the Desktop Player" )
+    endif(KDE4_FOUND)
+endif( BUILD_DESKTOP_PLAYER )
 
-    if(BUILD_GLUON_PLAYER_DESKTOP)
-        find_package(KDE4)
-        if(KDE4_FOUND)
-            include_directories(${KDE4_INCLUDES})
-            add_subdirectory(desktop)
-        else(KDE4_FOUND)
-            message(STATUS "KDE libraries are not found - not building the KDE Desktop Player")
-        endif(KDE4_FOUND)
-    endif()
+if( BUILD_ACTIVE_PLAYER )
+    if(KDE4_FOUND)
+        include_directories(${KDE4_INCLUDES})
+        include_directories(${ACTIVEAPP_INCLUDE_DIR})
+        add_subdirectory(active)
+    else(KDE4_FOUND)
+        set( BUILD_ACTIVE_PLAYER OFF )
+        message(STATUS "KDE libraries are not found - not building the Plasma Active Player")
+    endif(KDE4_FOUND)
+endif()
 
-    if(BUILD_GLUON_PLAYER_ACTIVE)
-        set(ACTIVE_KDE_MIN_VERSION 4.8.0)
-        find_package(KDE4)
-        if(KDE4_FOUND)
-            if(NOT ${KDE_VERSION} VERSION_LESS ACTIVE_KDE_MIN_VERSION)
-                include_directories(${KDE4_INCLUDES})
-                include_directories(${ACTIVEAPP_INCLUDE_DIR})
-                add_subdirectory(active)
-            else(NOT ${KDE_VERSION} VERSION_LESS ACTIVE_KDE_MIN_VERSION)
-                message(STATUS "KDE libraries are very old (need >= ${ACTIVE_KDE_MIN_VERSION}) to build the Plasma Active Player")
-            endif(NOT ${KDE_VERSION} VERSION_LESS ACTIVE_KDE_MIN_VERSION)
-        else(KDE4_FOUND)
-            message(STATUS "KDE libraries are not found - not building the Plasma Active Player")
-        endif(KDE4_FOUND)
-    endif()
-
-else(LIBATTICA_FOUND)
-    message(WARNING "Could not find LibAttica or a too old version was found.")
-    message(WARNING "Building libGluonPlayer without Attica support!")
-endif(LIBATTICA_FOUND)
-
-if(INSTALL_EXAMPLES)
+if( INSTALL_EXAMPLES )
     add_subdirectory(examples)
-endif(INSTALL_EXAMPLES)
+endif( INSTALL_EXAMPLES )
+
+save_status( GluonPlayer
+    "Build the Desktop player (BUILD_DESKTOP_PLAYER): ${BUILD_DESKTOP_PLAYER}"
+    "Build the Plasma Active player (BUILD_ACTIVE_PLAYER): ${BUILD_ACTIVE_PLAYER}"
+    "Build the Harmattan player (BUILD_HARMATTAN_PLAYER): ${BUILD_HARMATTAN_PLAYER}"
+    "Build the Fremantle player (BUILD_FREMANTLE_PLAYER): ${BUILD_FREMANTLE_PLAYER}"
+    "Install the example projects (INSTALL_EXAMPLES): ${INSTALL_EXAMPLES}"
+)
