@@ -21,7 +21,8 @@
 
 #include "newprojectdialogpage.h"
 
-#include <core/gluon_global.h>
+#include <gluon_global.h>
+
 #include <engine/gameproject.h>
 #include <engine/scene.h>
 #include <engine/game.h>

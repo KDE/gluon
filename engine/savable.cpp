@@ -22,9 +22,10 @@
 
 #include "asset.h"
 
+#include <gluon_global.h>
+
 #include <core/gluonobject.h>
 #include <core/debughelper.h>
-#include <core/gluon_global.h>
 #include <core/metainfo.h>
 
 #include <QtCore/QFile>

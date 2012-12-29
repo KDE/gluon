@@ -22,10 +22,12 @@
 
 #include <QtCore/QObject>
 
+#include "gluon_player_export.h"
+
 namespace GluonPlayer
 {
 
-    class GameDetailItem : public QObject
+    class GLUON_PLAYER_EXPORT GameDetailItem : public QObject
     {
             Q_OBJECT
             Q_ENUMS( Status )

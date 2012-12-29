@@ -22,7 +22,7 @@
 #define GLUON_CORE_DIRECTORYPROVIDER_H
 
 #include "gluon_core_export.h"
-#include "core/gluon_global.h"
+#include "gluon_global.h"
 
 #include "singleton.h"
 

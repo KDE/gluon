@@ -1,9 +1,3 @@
-cmake_minimum_required(VERSION 2.8)
-
-if(NOT GLUON_BUILD_ALL)
-    find_package(GluonInput REQUIRED)
-endif()
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_INPUT_INCLUDE_DIRS})
 
 set(keyboardinputcomponent_SRCS

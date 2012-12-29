@@ -1,10 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
 
-if(NOT GLUON_BUILD_ALL)
-    project(GluonAudio)
-    find_package(GluonCore REQUIRED)
-endif()
-
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(OpenAL 1.8 REQUIRED)
@@ -110,8 +105,6 @@ install(
     COMPONENT gluonaudio
 )
 
-if(BUILD_GLUON_TESTS)
-    enable_testing()
+if(BUILD_TESTS)
     add_subdirectory(tests)
 endif()
-

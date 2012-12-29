@@ -1,10 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
 
-if(NOT GLUON_BUILD_ALL)
-    project(GluonEngine)
-    find_package(GluonCore REQUIRED)
-endif()
-
 option(BUILD_AUDIO_COMPONENTS "Build Components dependant on Gluon Audio" ON)
 option(BUILD_AUDIO_ASSETS "Build Assets dependant on Gluon Audio" ON)
 option(BUILD_GRAPHICS_COMPONENTS "Build Components dependant on Gluon Graphics" ON)
@@ -16,19 +11,15 @@ option(BUILD_PHYSICS_ASSETS "Build Assets related to physics" OFF)
 option(BUILD_OTHER_COMPONENTS "Build other Components" ON)
 option(BUILD_OTHER_ASSETS "Build other Assets" ON)
 
-if(BUILD_GLUON_TESTS)
-    enable_testing()
-endif()
-
-if(NOT BUILD_GLUON_AUDIO)
+if(NOT BUILD_GLUONAUDIO)
     set(BUILD_AUDIO_COMPONENTS OFF)
     set(BUILD_AUDIO_ASSETS OFF)
 endif()
-if(NOT BUILD_GLUON_GRAPHICS)
+if(NOT BUILD_GLUONGRAPHICS)
     set(BUILD_GRAPHICS_ASSETS OFF)
     set(BUILD_GRAPHICS_COMPONENTS OFF)
 endif()
-if(NOT BUILD_GLUON_INPUT)
+if(NOT BUILD_GLUONINPUT)
     set(BUILD_INPUT_ASSETS OFF)
     set(BUILD_INPUT_COMPONENTS OFF)
 endif()
@@ -162,7 +153,21 @@ install(
 add_subdirectory(assets)
 add_subdirectory(components)
 
-if(BUILD_GLUON_TESTS)
+if(BUILD_TESTS)
+    enable_testing()
     add_subdirectory(tests)
 endif()
+
+save_status( GluonEngine 
+    "Build Components dependant on Gluon Audio (BUILD_AUDIO_COMPONENTS): ${BUILD_AUDIO_COMPONENTS}"
+    "Build Assets dependant on Gluon Audio (BUILD_AUDIO_ASSETS): ${BUILD_AUDIO_ASSETS}"
+    "Build Components dependant on Gluon Graphics (BUILD_GRAPHICS_COMPONENTS): ${BUILD_GRAPHICS_COMPONENTS}"
+    "Build Assets dependant on Gluon Graphics (BUILD_GRAPHICS_ASSETS): ${BUILD_GRAPHICS_ASSETS}"
+    "Build Components dependant on Gluon Input (BUILD_INPUT_COMPONENTS): ${BUILD_INPUT_COMPONENTS}"
+    "Build Assets dependant on Gluon Input (BUILD_INPUT_ASSETS): ${BUILD_INPUT_ASSETS}"
+    "Build Components related to physics (BUILD_PHYSICS_COMPONENTS): ${BUILD_PHYSICS_COMPONENTS}"
+    "Build Assets related to physics (BUILD_PHYSICS_ASSETS): ${BUILD_PHYSICS_ASSETS}"
+    "Build other Components (BUILD_OTHER_COMPONENTS): ${BUILD_OTHER_COMPONENTS}"
+    "Build other Assets (BUILD_OTHER_ASSETS): ${BUILD_OTHER_ASSETS}"
+)
 

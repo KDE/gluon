@@ -22,13 +22,15 @@
 
 #include <QtCore/QObject>
 
+#include "gluon_graphics_export.h"
+
 namespace GluonGraphics
 {
     class Entity;
     class Sprite;
     class Camera;
 
-    class World : public QObject
+    class GLUON_GRAPHICS_EXPORT World : public QObject
     {
         Q_OBJECT
         public:

@@ -23,12 +23,14 @@
 #include <QVariant>
 #include <QVector>
 
+#include "gluon_graphics_export.h"
+
 namespace GluonGraphics
 {
     class Shader;
     class Buffer;
 
-    class MeshData
+    class GLUON_GRAPHICS_EXPORT MeshData
     {
         public:
             enum PrimitiveType

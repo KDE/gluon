@@ -27,8 +27,6 @@
 #include <KDE/KCmdLineArgs>
 #include <KDE/KStandardDirs>
 
-#include <core/gluon_global.h>
-
 #include "aboutdata.h"
 
 int main( int argc, char** argv )
