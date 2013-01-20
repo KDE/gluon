@@ -63,7 +63,7 @@ LoginForm::LoginForm( QGraphicsItem* parent, Qt::WindowFlags wFlags )
     connect(serviceProvider, SIGNAL(providerInitialized()), SLOT(initDone()));
     connect(serviceProvider, SIGNAL(failedToInitialize()), SLOT(initFailed()));
     connect(serviceProvider, SIGNAL(loggedIn()), SLOT(loginDone()));
-    connect(serviceProvider, SIGNAL(loginFailed()), SLOT(loginFailed()));
+    connect(serviceProvider, SIGNAL(loginFailed(QString)), SLOT(loginFailed()));
 
     initialize();
 }

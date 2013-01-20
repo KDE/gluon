@@ -210,14 +210,17 @@ void ServiceProvider::checkLoginResult( Attica::BaseJob* baseJob )
         }
         else
         {
+            const QString errMessage = "Error saving credentials";
+            qDebug() << errMessage;
             d->loggedIn = false;
-            emit loginFailed();
+            emit loginFailed(errMessage);
         }
     }
     else
     {
+        qDebug() << "Login error " << job->metadata().error() << job->metadata().message();
         d->loggedIn = false;
-        emit loginFailed();
+        emit loginFailed(job->metadata().message());
     }
 }
 

@@ -281,7 +281,7 @@ void DistributionDock::initGuiStates()
 
     d->loggedOutState->addTransition( d->ui.loginButton, SIGNAL(clicked()), d->loggingInState );
     d->loggingInState->addTransition( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFinished()), d->loggedInState );
-    d->loggingInState->addTransition( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFailed()), d->loggedOutState );
+    d->loggingInState->addTransition( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFailed(QString)), d->loggedOutState );
     d->fetchingState->addTransition( this, SIGNAL(switchToCreateMode()), d->createState );
     d->fetchingState->addTransition( this, SIGNAL(switchToUpdateMode()), d->updateState );
     d->editingState->addTransition( d->ui.createUpdateButton, SIGNAL(clicked()), d->uploadingState );
