@@ -28,7 +28,7 @@ namespace GluonGraphics
 {
     class QtQuickRenderer : public Texture, public RenderChainItem
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit QtQuickRenderer( QObject* parent = 0 );
             virtual ~QtQuickRenderer();
@@ -49,7 +49,7 @@ namespace GluonGraphics
 
         private:
             class Private;
-            Private * const d;
+            Private* const d;
     };
 }
 

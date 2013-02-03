@@ -37,14 +37,14 @@ namespace GluonGraphics
                 virtual void render( Shader* shader );
                 virtual void setIndices( QVector< uint > indices );
                 virtual void setPrimitiveType( GluonGraphics::MeshData::PrimitiveType type );
-                virtual void setPrimitiveCount(int count, int vertexSize, int indexSize);
+                virtual void setPrimitiveCount( int count, int vertexSize, int indexSize );
 
             protected:
                 virtual void setAttribute( const QString& name, QVariant::Type type, void* data, int size );
 
             private:
                 class Private;
-                Private * const d;
+                Private* const d;
         };
     }
 }

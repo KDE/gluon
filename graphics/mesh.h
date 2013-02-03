@@ -48,7 +48,7 @@ namespace GluonGraphics
      */
     class GLUON_GRAPHICS_EXPORT Mesh : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit Mesh( QObject* parent = 0 );
             virtual ~Mesh();

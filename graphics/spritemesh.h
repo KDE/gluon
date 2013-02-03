@@ -38,7 +38,7 @@ namespace GluonGraphics
      */
     class GLUON_GRAPHICS_EXPORT SpriteMesh : public Mesh
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit SpriteMesh( QObject* parent = 0 );
             virtual ~SpriteMesh();
@@ -49,7 +49,7 @@ namespace GluonGraphics
 
         private:
             class Private;
-            Private * const d;
+            Private* const d;
     };
 }
 

@@ -55,7 +55,7 @@ namespace GluonPlayer
     class GLUON_PLAYER_EXPORT CommentItemsModel : public QAbstractListModel
     {
             Q_OBJECT
-            Q_PROPERTY(QString gameId READ gameId WRITE setGameId NOTIFY gameIdChanged)
+            Q_PROPERTY( QString gameId READ gameId WRITE setGameId NOTIFY gameIdChanged )
 
         public:
             enum Roles
@@ -94,7 +94,7 @@ namespace GluonPlayer
             Q_INVOKABLE void uploadComment( const QString& parentId, const QString& subject, const QString& message );
 
             QString gameId() const;
-            void setGameId(const QString &id);
+            void setGameId( const QString& id );
 
         private Q_SLOTS:
             void addCommentFinished( Attica::BaseJob* job );

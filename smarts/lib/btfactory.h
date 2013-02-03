@@ -29,45 +29,45 @@
 namespace GluonSmarts
 {
 
-class btNode;
-class btBrain;
+    class btNode;
+    class btBrain;
 
-class GLUON_SMARTS_EXPORT btFactory : public QObject
-{
-        Q_OBJECT
+    class GLUON_SMARTS_EXPORT btFactory : public QObject
+    {
+            Q_OBJECT
 
-    public:
-        static btFactory* instance();
+        public:
+            static btFactory* instance();
 
-        btNode* newObject( QString className );
-        btNode* newObject( QDomNode xmlNode, btNode* parentNode, btBrain* brain );
+            btNode* newObject( QString className );
+            btNode* newObject( QDomNode xmlNode, btNode* parentNode, btBrain* brain );
 
-        btNode* createRootNode( QDomNode xmlNode, btBrain* brain );
+            btNode* createRootNode( QDomNode xmlNode, btBrain* brain );
 
-        void addProperty( btNode* node, QDomNode xNode, btBrain* brain );
-        void initNodeType( QDomNode xmlNode );
+            void addProperty( btNode* node, QDomNode xNode, btBrain* brain );
+            void initNodeType( QDomNode xmlNode );
 
-        btNode* getRegisteredNodeType( QString className );
+            btNode* getRegisteredNodeType( QString className );
 
-        void registerNodeType( btNode* newType );
-        void registerNodeType( btNode* newType, QString className );
+            void registerNodeType( btNode* newType );
+            void registerNodeType( btNode* newType, QString className );
 
-    private:
-        btFactory();
+        private:
+            btFactory();
 
-        QHash<QString, btNode*> m_nodeTypes;
-};
+            QHash<QString, btNode*> m_nodeTypes;
+    };
 
-template<class T>
-class GLUON_SMARTS_EXPORT Registration
-{
+    template<class T>
+    class GLUON_SMARTS_EXPORT Registration
+    {
 
-    public:
-        Registration( T* newNode )
-        {
-            btFactory::instance()->registerNodeType( newNode );
-        }
-};
+        public:
+            Registration( T* newNode )
+            {
+                btFactory::instance()->registerNodeType( newNode );
+            }
+    };
 
 }
 

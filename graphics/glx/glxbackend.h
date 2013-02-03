@@ -30,8 +30,8 @@ namespace GluonGraphics
 
         class GLXBackend : public GluonGraphics::Backend
         {
-            Q_OBJECT
-            Q_INTERFACES( GluonGraphics::Backend )
+                Q_OBJECT
+                Q_INTERFACES( GluonGraphics::Backend )
             public:
                 GLXBackend();
                 virtual ~GLXBackend();
@@ -52,7 +52,7 @@ namespace GluonGraphics
 
             private:
                 class Private;
-                Private * const d;
+                Private* const d;
         };
     }
 }

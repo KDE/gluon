@@ -33,14 +33,14 @@ namespace GluonCore
      */
     class GLUON_CORE_EXPORT AxisAlignedBox
     {
-        // TODO: Make AxisAlignedBox a shared data class
+            // TODO: Make AxisAlignedBox a shared data class
         public:
             /**
              * Create a new box, with the given position as center and the given size.
              * @param centerPosition The position
              * @param size The size
              */
-            AxisAlignedBox( QVector3D size, QVector3D centerPosition = QVector3D(0,0,0) );
+            AxisAlignedBox( QVector3D size, QVector3D centerPosition = QVector3D( 0, 0, 0 ) );
 
             /**
              * Copy constructor.

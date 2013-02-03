@@ -29,17 +29,17 @@ class QResizeEvent;
 
 class MainWindow : public KDeclarativeMainWindow
 {
-    Q_OBJECT
-public:
-    MainWindow();
-    Q_INVOKABLE void playGame(const QString &gameId);
+        Q_OBJECT
+    public:
+        MainWindow();
+        Q_INVOKABLE void playGame( const QString& gameId );
 
-private Q_SLOTS:
-    void startGame();
+    private Q_SLOTS:
+        void startGame();
 
-private:
-    void openProject(const QString &projectPath);
-    QString m_projectPath;
+    private:
+        void openProject( const QString& projectPath );
+        QString m_projectPath;
 };
 
 #endif // MAINWINDOW_H

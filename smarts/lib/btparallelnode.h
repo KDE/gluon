@@ -28,31 +28,31 @@
 namespace GluonSmarts
 {
 
-class btParallelNode : public btNode
-{
-        Q_OBJECT
+    class btParallelNode : public btNode
+    {
+            Q_OBJECT
 
-    public:
-        Q_INVOKABLE btParallelNode( QObject* parent = 0 );
-        ~btParallelNode();
+        public:
+            Q_INVOKABLE btParallelNode( QObject* parent = 0 );
+            ~btParallelNode();
 
-        btNode::status run( btCharacter* self );
+            btNode::status run( btCharacter* self );
 
-        void appendingChild( int index );
-        void removingChild( int index );
-        void childrenAdded();
+            void appendingChild( int index );
+            void removingChild( int index );
+            void childrenAdded();
 
-        btNode::status conditionsFulfilled();
+            btNode::status conditionsFulfilled();
 
-        void resetRunningNodesStatus();
-        void setRunningNodesStatus( QList<btNode::status>* nodeStatus );
+            void resetRunningNodesStatus();
+            void setRunningNodesStatus( QList<btNode::status>* nodeStatus );
 
-        int childNodeIndex( btNode* childNode );
-    private:
-        QList<btNode::status>* m_runningNodesStatus;
-        QList<btNode::status>* m_conditionStatus;
-        QHash<btNode*, int> m_nodesIndex;
-};
+            int childNodeIndex( btNode* childNode );
+        private:
+            QList<btNode::status>* m_runningNodesStatus;
+            QList<btNode::status>* m_conditionStatus;
+            QHash<btNode*, int> m_nodesIndex;
+    };
 }
 
 #endif // GLUON_SMARTS_BTPARALLELNODE_H

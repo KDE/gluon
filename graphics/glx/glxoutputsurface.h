@@ -30,7 +30,7 @@ namespace GluonGraphics
 
         class GLXOutputSurface : public GluonGraphics::OutputSurface
         {
-            Q_OBJECT
+                Q_OBJECT
             public:
                 GLXOutputSurface( GLX::Context* context, QWidget* container, QObject* parent = 0 );
                 virtual ~GLXOutputSurface();
@@ -39,7 +39,7 @@ namespace GluonGraphics
 
             public Q_SLOTS:
                 virtual void renderContents();
-                virtual void setSize(int width, int height);
+                virtual void setSize( int width, int height );
 
             private:
                 class Private;

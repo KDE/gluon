@@ -31,7 +31,8 @@ namespace GluonGraphics
             /**
              *
              */
-            enum SpriteType {
+            enum SpriteType
+            {
                 AllAxisSpriteType, ///< Use all axis to rotate around to always face the camera.
                 BillboardSpriteType, ///< Use a single axis to rotate around to face the camera.
                 FixedSpriteType ///< Never auto-rotate to face the camera.
@@ -44,7 +45,7 @@ namespace GluonGraphics
 
         private:
             class Private;
-            Private * const d;
+            Private* const d;
     };
 
 }

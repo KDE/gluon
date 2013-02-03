@@ -63,7 +63,7 @@ namespace GluonCreator
             virtual void emitDataChanged( const QModelIndex& index );
 
             virtual bool insertRows( int row, int count, const QModelIndex& parent = QModelIndex() );
-            virtual bool insertRows( int row, const QList<GluonEngine::GameObject*> &children, const QModelIndex& parent = QModelIndex() );
+            virtual bool insertRows( int row, const QList<GluonEngine::GameObject*>& children, const QModelIndex& parent = QModelIndex() );
 
             virtual bool removeRows( int row, int count, const QModelIndex& parent = QModelIndex() );
 

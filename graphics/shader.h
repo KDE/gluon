@@ -37,7 +37,8 @@ namespace GluonGraphics
             /**
              * \todo Implement support for Geometry, Hull and Domain shaders.
              */
-            enum SourceType {
+            enum SourceType
+            {
                 VertexProgramSource,
                 FragmentProgramSource,
                 //GeometryProgramSource,

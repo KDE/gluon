@@ -27,7 +27,7 @@ namespace GluonGraphics
     class RenderTarget;
     class OutputSurface : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             OutputSurface( QWidget* container, QObject* parent = 0 );
             virtual ~OutputSurface();

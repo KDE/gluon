@@ -89,14 +89,6 @@ namespace GluonGraphics
              */
             virtual void render();
 
-//             /**
-//              * Render the item to screen.
-//              *
-//              * \param material The material to use to render the item
-//              * \param mode The GL mode used to render the mesh, like GL_TRIANGLES
-//              */
-//             void render( MaterialInstance* material, VertexBuffer::RenderMode mode );
-
             /**
              * Set the transformation used for this item.
              *

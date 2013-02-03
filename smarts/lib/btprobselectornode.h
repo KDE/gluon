@@ -26,26 +26,26 @@
 namespace GluonSmarts
 {
 
-class GLUON_SMARTS_EXPORT btProbSelectorNode : public btNode
-{
-        Q_OBJECT
+    class GLUON_SMARTS_EXPORT btProbSelectorNode : public btNode
+    {
+            Q_OBJECT
 
-    public:
-        Q_INVOKABLE btProbSelectorNode( QObject* parent = 0 );
-        ~btProbSelectorNode();
+        public:
+            Q_INVOKABLE btProbSelectorNode( QObject* parent = 0 );
+            ~btProbSelectorNode();
 
-        btNode::status run( btCharacter* self );
-        void appendingChild( int index );
-        void removingChild( int index );
-        void childrenAdded();
-        void resetProbNodes();
-        void setVisitedProbNodes( QList<ProbNode*> probNodes );
-        QList<ProbNode*> visitedProbNodes();
+            btNode::status run( btCharacter* self );
+            void appendingChild( int index );
+            void removingChild( int index );
+            void childrenAdded();
+            void resetProbNodes();
+            void setVisitedProbNodes( QList<ProbNode*> probNodes );
+            QList<ProbNode*> visitedProbNodes();
 
-    private:
-        QList<ProbNode*> m_probStats;
-        QList<ProbNode*> m_visitedProbStats;
-};
+        private:
+            QList<ProbNode*> m_probStats;
+            QList<ProbNode*> m_visitedProbStats;
+    };
 }
 
 #endif // GLUON_SMARTS_BTPROBSELECTORNODE_H

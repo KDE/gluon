@@ -268,7 +268,7 @@ namespace GluonPlayer
 
             /** Signal which is emitted when the login failed
             */
-            void loginFailed(const QString &errorMessage);
+            void loginFailed( const QString& errorMessage );
 
             /** Signal which is emitted when the registration completed
             */

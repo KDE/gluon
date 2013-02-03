@@ -36,8 +36,8 @@ namespace GluonGraphics
 
     class GLUON_GRAPHICS_EXPORT Manager : public GluonCore::Singleton< Manager >
     {
-        Q_OBJECT
-        GLUON_SINGLETON( Manager )
+            Q_OBJECT
+            GLUON_SINGLETON( Manager )
 
         public:
             struct Defaults
@@ -94,7 +94,7 @@ namespace GluonGraphics
             static const char* resourceIdentifierProperty;
     };
 
-    #define PREFIX_IDENTIFIER(Object, Identifier) QString( "%1::%2" ).arg( T::staticMetaObject.className() ).arg( Identifier );
+#define PREFIX_IDENTIFIER( Object, Identifier ) QString( "%1::%2" ).arg( T::staticMetaObject.className() ).arg( Identifier );
 
     template < typename T >
     T* Manager::createResource( const QString& identifier )
