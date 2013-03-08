@@ -22,22 +22,21 @@
  */
 
 #include "graphics/material.h"
+
+#include <QApplication>
+#include <QSizeF>
+#include <QMatrix4x4>
+
 #include "graphics/manager.h"
 #include "graphics/renderwidget.h"
-
-#include <QtGui/QApplication>
-#include <shader.h>
-#include <backend.h>
-#include <texture.h>
-#include <core/directoryprovider.h>
-#include <world.h>
-#include <entity.h>
-#include <camera.h>
-#include <spritemesh.h>
-#include <materialinstance.h>
-#include <rendertarget.h>
-#include <QMatrix4x4>
-#include <frustrum.h>
+#include "graphics/entity.h"
+#include "graphics/camera.h"
+#include "graphics/material.h"
+#include "graphics/materialinstance.h"
+#include "graphics/rendertarget.h"
+#include "graphics/texture.h"
+#include "graphics/world.h"
+#include "graphics/spritemesh.h"
 
 using namespace GluonGraphics;
 
@@ -53,23 +52,25 @@ int main( int argc, char* argv[] )
     QMatrix4x4 mat;
 
     Entity* ent = Manager::instance()->currentWorld()->createEntity< Entity >();
-    mat.translate( -5, -5, 0 );
+    //mat.translate( -5, -5, 0 );
     ent->setTransform( mat );
     ent->setMesh( Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh ) );
     ent->setMaterialInstance( Manager::instance()->resource< Material >( Manager::Defaults::Material )->createInstance() );
     ent->materialInstance()->setProperty( "texture0", QVariant::fromValue( Manager::instance()->resource< Texture >( Manager::Defaults::Texture ) ) );
 
     ent = Manager::instance()->currentWorld()->createEntity< Entity >();
-    mat.translate( 10, 10, 0 );
+    //mat.translate( 10, 10, 0 );
     ent->setTransform( mat );
     ent->setMesh( Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh ) );
     ent->setMaterialInstance( Manager::instance()->resource< Material >( Manager::Defaults::Material )->createInstance() );
     ent->materialInstance()->setProperty( "texture0", QVariant::fromValue( Manager::instance()->resource< Texture >( Manager::Defaults::Texture ) ) );
 
     Camera* cam = Manager::instance()->currentWorld()->createEntity< Camera >();
-    mat.translate( -5, -5, -5 );
+    mat.translate( 0, -5, -5 );
     cam->setTransform( mat );
-    cam->frustrum()->setOrthographic(-10, 10, -10, 10, -10, 10);
+    cam->setVisibleArea( QSizeF( 20.f, 20.f ) );
+    cam->setNearPlane( -10.f );
+    cam->setFarPlane( 10.f );
 
     Manager::instance()->resource< RenderTarget >( Manager::Defaults::RenderTarget )->addChild( cam );
 

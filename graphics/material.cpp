@@ -22,6 +22,7 @@
 #include <QtCore/QMetaProperty>
 
 #include <core/gdlserializer.h>
+#include <core/debughelper.h>
 
 #include "materialinstance.h"
 #include "technique.h"
@@ -59,6 +60,8 @@ Material::~Material()
 
 bool Material::load( const QUrl& url )
 {
+    DEBUG_FUNC_NAME
+    DEBUG_TEXT2( "Load %1", url.toLocalFile() );
     if( !url.isValid() )
         return false;
 
@@ -93,6 +96,8 @@ bool Material::load( const QUrl& url )
             d->defaultValues.append( QPair< QString, QVariant >( propertyName, obj->property( propertyName ) ) );
         }
     }
+
+    DEBUG_TEXT( "END load" )
 
     return true;
 }

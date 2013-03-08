@@ -23,7 +23,7 @@ varying mediump vec2 out_uv0;
 
 void main()
 {
-	gl_FragColor = texture2D(texture0, out_uv0);
+	gl_FragColor = vec4( out_uv0.x, out_uv0.y, 1.0, 1.0 );
 }
     ")
 }

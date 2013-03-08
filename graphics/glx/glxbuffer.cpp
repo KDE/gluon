@@ -29,7 +29,7 @@ using namespace GluonGraphics::GLX;
 class GLXBuffer::Private
 {
     public:
-        Private() : buffer( 0 ), size( 0 ), bound( false ) { }
+        Private() : buffer( 0 ), size( 0 ), timesBound( 0 ) { }
 
         BufferType type;
 
@@ -39,7 +39,7 @@ class GLXBuffer::Private
 
         int size;
 
-        bool bound;
+        uint timesBound;
 };
 
 GLXBuffer::GLXBuffer() : d( new Private )
@@ -76,7 +76,22 @@ void GLXBuffer::setSize( int size )
         return;
 
     bind();
+
+    char* data = 0;
+    if( d->size > 0 )
+    {
+        data = new char[ d->size ];
+        glGetBufferSubDataARB( d->target, 0, d->size, data );
+    }
+
     glBufferDataARB( d->target, size, 0, d->usage );
+
+    if( data != 0 )
+    {
+        glBufferSubDataARB( d->target, 0, d->size, data );
+        delete[] data;
+    }
+
     release();
     d->size = size;
 }
@@ -90,8 +105,7 @@ void GLXBuffer::setData( void* data, int size, int offset )
 
     if( offset + size > d->size )
     {
-        glBufferDataARB( d->target, offset + size, 0, d->usage );
-        d->size = offset + size;
+        setSize( offset + size );
     }
 
     glBufferSubDataARB( d->target, offset, size, data );
@@ -100,18 +114,26 @@ void GLXBuffer::setData( void* data, int size, int offset )
 
 void GLXBuffer::bind()
 {
-    if( !d->buffer || d->bound )
+    if( !d->buffer )
         return;
 
+    if( d->timesBound > 0 )
+    {
+        d->timesBound++;
+        return;
+    }
+
     glBindBufferARB( d->target, d->buffer );
-    d->bound = true;
+    d->timesBound = 1;
 }
 
 void GLXBuffer::release()
 {
-    if( !d->bound )
-        return;
+    if( d->timesBound > 0 )
+    {
+        d->timesBound--;
 
-    glBindBufferARB( d->target, 0 );
-    d->bound = false;
+        if( d->timesBound == 0 )
+            glBindBufferARB( d->target, 0 );
+    }
 }

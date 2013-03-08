@@ -38,6 +38,7 @@ namespace GluonGraphics
         extern PFNGLDELETEBUFFERSARBPROC glDeleteBuffersARB;
         extern PFNGLBUFFERDATAARBPROC glBufferDataARB;
         extern PFNGLBUFFERSUBDATAARBPROC glBufferSubDataARB;
+        extern PFNGLGETBUFFERSUBDATAARBPROC glGetBufferSubDataARB;
         extern PFNGLBINDBUFFERARBPROC glBindBufferARB;
 
         extern PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer;

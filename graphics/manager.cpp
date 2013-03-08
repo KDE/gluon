@@ -40,7 +40,7 @@ GLUON_DEFINE_SINGLETON( Manager );
 class Manager::Private
 {
     public:
-        Private( Manager* qq ) : q( qq ), backend( 0 ) { }
+        Private( Manager* qq ) : q( qq ), backend( 0 ), currentWorld( 0 ) { }
 
         void createBackend();
         void aboutToQuit();
@@ -71,6 +71,9 @@ Backend* Manager::backend(  )
 
 void Manager::initialize()
 {
+    if( d->currentWorld )
+        return;
+
     d->currentWorld = createWorld();
     SpriteMesh* defaultSpriteMesh = createResource< SpriteMesh >( Defaults::SpriteMesh );
     defaultSpriteMesh->initialize();
