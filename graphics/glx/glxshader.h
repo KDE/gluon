@@ -30,7 +30,7 @@ namespace GluonGraphics
         class GLXShader : public GluonGraphics::Shader
         {
             public:
-                explicit GLXShader(  );
+                explicit GLXShader( );
                 virtual ~GLXShader();
 
                 virtual bool build();
@@ -39,7 +39,7 @@ namespace GluonGraphics
 
             private:
                 class Private;
-                Private * const d;
+                Private* const d;
         };
     }
 }

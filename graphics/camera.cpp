@@ -70,16 +70,31 @@ Camera::viewMatrix() const
     return d->viewMatrix;
 }
 
+float Camera::nearPlane() const
+{
+    return d->nearPlane;
+}
+
+float Camera::farPlane() const
+{
+    return d->farPlane;
+}
+
+QSizeF Camera::visibleArea() const
+{
+    return d->visibleArea;
+}
+
+void Camera::setTransform( const QMatrix4x4& transform )
+{
+    d->viewMatrix = transform.inverted();
+    Entity::setTransform( transform );
+}
+
 void
 Camera::setFrustrum( Frustrum* frustrum )
 {
     d->frustrum = frustrum;
-}
-
-void
-Camera::setViewMatrix( const QMatrix4x4& matrix )
-{
-    d->viewMatrix = matrix;
 }
 
 void Camera::setVisibleArea( QSizeF area )

@@ -26,6 +26,7 @@
 #include "scene.h"
 
 #include <core/debughelper.h>
+#include <core/axisalignedbox.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, GameObject )
 
@@ -213,6 +214,28 @@ GameObject::runCommandInChildren( const QString& functionName )
 {
     foreach( GameObject * child, d->children )
     child->runCommand( functionName );
+}
+
+GluonCore::AxisAlignedBox
+GameObject::boundingBox()
+{
+    // TODO: cache! Need signals for bounding box changes for that
+    GluonCore::AxisAlignedBox box( QVector3D(0,0,0) );
+    foreach( Component* component, d->components )
+    {
+        GluonCore::AxisAlignedBox componentBox = component->boundingBox();
+        componentBox.setPosition( componentBox.position() + position() );
+        box.unite( componentBox );
+    }
+    foreach( GameObject* child, d->children )
+    {
+        GluonCore::AxisAlignedBox childBox = child->boundingBox();
+        childBox.setPosition( childBox.position() + position() );
+        box.unite( childBox );
+    }
+    box.scale( scale() );
+    box.rotate( orientation() );
+    return box;
 }
 
 // ----------------------------------------------------------------------------

@@ -22,6 +22,7 @@
 #include <QtCore/QMetaProperty>
 
 #include <core/gdlserializer.h>
+#include <core/debughelper.h>
 
 #include "materialinstance.h"
 #include "technique.h"

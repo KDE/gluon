@@ -26,33 +26,33 @@
 
 namespace GluonSmarts
 {
-class btPerceptionInfo : public QObject
-{
-        Q_OBJECT
-        Q_PROPERTY( QVector3D position READ position WRITE setPosition NOTIFY positionUpdated )
-        Q_PROPERTY( qreal radius READ radius WRITE setRadius NOTIFY radiusUpdated )
+    class btPerceptionInfo : public QObject
+    {
+            Q_OBJECT
+            Q_PROPERTY( QVector3D position READ position WRITE setPosition NOTIFY positionUpdated )
+            Q_PROPERTY( qreal radius READ radius WRITE setRadius NOTIFY radiusUpdated )
 
-    public:
-        btPerceptionInfo( QObject* parent );
-        virtual ~btPerceptionInfo();
+        public:
+            btPerceptionInfo( QObject* parent );
+            virtual ~btPerceptionInfo();
 
-        virtual QVector3D position() const;
-        virtual void setPosition( const QVector3D& newPosition );
+            virtual QVector3D position() const;
+            virtual void setPosition( const QVector3D& newPosition );
 
-        virtual qreal radius() const;
-        virtual void setRadius( const qreal& newRadius );
+            virtual qreal radius() const;
+            virtual void setRadius( const qreal& newRadius );
 
-        virtual QVariant getAdjustedValue( qreal precision ) const = 0;
+            virtual QVariant getAdjustedValue( qreal precision ) const = 0;
 
-    Q_SIGNALS:
-        void infoUpdated();
-        void positionUpdated( QVector3D );
-        void radiusUpdated( qreal );
+        Q_SIGNALS:
+            void infoUpdated();
+            void positionUpdated( QVector3D );
+            void radiusUpdated( qreal );
 
-    private:
-        class btPerceptionInfoPrivate;
-        btPerceptionInfoPrivate* d;
-};
+        private:
+            class btPerceptionInfoPrivate;
+            btPerceptionInfoPrivate* d;
+    };
 }
 
 #endif // GLUON_SMARTS_BTPERCEPTIONINFO_H

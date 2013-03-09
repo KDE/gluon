@@ -30,11 +30,11 @@ namespace GluonPlayer
     class GLUON_PLAYER_EXPORT DownloadableGamesModel : public QSortFilterProxyModel
     {
             Q_OBJECT
-            Q_PROPERTY(QObject* sourceModel READ sourceModel WRITE setSourceModel NOTIFY sourceModelChanged)
+            Q_PROPERTY( QObject* sourceModel READ sourceModel WRITE setSourceModel NOTIFY sourceModelChanged )
         public:
             DownloadableGamesModel( QObject* parent = 0 );
-            explicit DownloadableGamesModel( QAbstractItemModel *sourceModel, QObject* parent = 0 );
-            virtual void setSourceModel(QObject* sourceModel);
+            explicit DownloadableGamesModel( QAbstractItemModel* sourceModel, QObject* parent = 0 );
+            virtual void setSourceModel( QObject* sourceModel );
 
         Q_SIGNALS:
             void sourceModelChanged();

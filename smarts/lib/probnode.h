@@ -26,17 +26,17 @@
 namespace GluonSmarts
 {
 
-struct GLUON_SMARTS_EXPORT ProbNode
-{
-    ProbNode()
+    struct GLUON_SMARTS_EXPORT ProbNode
     {
-        probability = 0.5;
-        visited = false;
-    }
+        ProbNode()
+        {
+            probability = 0.5;
+            visited = false;
+        }
 
-    float probability;
-    bool visited;
-};
+        float probability;
+        bool visited;
+    };
 }
 
 #endif // GLUON_SMARTS_PROBNODE_H

@@ -19,18 +19,29 @@
 
 #include "mesh.h"
 
-#include "materialinstance.h"
-#include "math.h"
+#include "meshdata.h"
+
+#include "core/debughelper.h"
 
 using namespace GluonGraphics;
 
+class Mesh::Private
+{
+    public:
+        Private() : meshData( 0 ) { }
+
+        MeshData* meshData;
+};
+
 Mesh::Mesh( QObject* parent )
-    : QObject( parent )
+    : QObject( parent ), d( new Private )
 {
 }
 
 Mesh::~Mesh()
 {
+    delete d->meshData;
+    delete d;
 }
 
 void Mesh::update()
@@ -41,7 +52,26 @@ void Mesh::update()
 bool
 Mesh::isInitialized() const
 {
-    return false;
+    return d->meshData != 0;
+}
+
+void Mesh::render( Shader* shader )
+{
+    if( d->meshData )
+        d->meshData->render( shader );
+}
+
+MeshData* Mesh::meshData()
+{
+    return d->meshData;
+}
+
+void Mesh::setMeshData( MeshData* data )
+{
+    if( d->meshData && data != d->meshData )
+        delete d->meshData;
+
+    d->meshData = data;
 }
 
 #include "mesh.moc"

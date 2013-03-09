@@ -52,6 +52,7 @@ namespace GluonEngine
             virtual void start();
             virtual void draw( int timeLapse = 0 );
             virtual void cleanup();
+            virtual GluonCore::AxisAlignedBox boundingBox();
 
             virtual QSizeF size();
             virtual GluonGraphics::MaterialInstance* material();

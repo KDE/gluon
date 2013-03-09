@@ -30,7 +30,7 @@ namespace GluonGraphics
 
     class World : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit World( QObject* parent = 0 );
             virtual ~World();

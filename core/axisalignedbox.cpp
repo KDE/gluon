@@ -32,6 +32,8 @@ class AxisAlignedBox::Private
         static Vector3f absAll( const Vector3f& vector );
         // Get the vector that contains the minimum of vector1 and vector2 for each component separately.
         static Vector3f minAll( const Vector3f& vector1, const Vector3f& vector2 );
+        // Get the vector that contains the maximum of vector1 and vector2 for each component separately.
+        static Vector3f maxAll( const Vector3f& vector1, const Vector3f& vector2 );
 
         Vector3f position;
         Vector3f size;
@@ -50,9 +52,26 @@ Vector3f AxisAlignedBox::Private::minAll( const Vector3f& vector1, const Vector3
                      qMin(vector1(3), vector2(3)) );
 }
 
+Vector3f AxisAlignedBox::Private::maxAll( const Vector3f& vector1, const Vector3f& vector2 )
+{
+    return Vector3f( qMax(vector1.x(), vector2.x()),
+                      qMax(vector1.y(), vector2.y()),
+                      qMax(vector1.z(), vector2.z()) );
+}
+
 AxisAlignedBox::AxisAlignedBox( Vector3f centerPosition, Vector3f size )
     : d( new Private( centerPosition, Private::absAll(size) ) )
 {
+}
+
+AxisAlignedBox::AxisAlignedBox( const AxisAlignedBox& box )
+    : d( new Private( box.d->position, box.d->size ) )
+{
+}
+
+AxisAlignedBox::~AxisAlignedBox()
+{
+    delete d;
 }
 
 Vector3f AxisAlignedBox::position() const
@@ -80,4 +99,47 @@ AxisAlignedBox AxisAlignedBox::united( const AxisAlignedBox& box ) const
     Vector3f newSize = Private::absAll( d->position - box.position() ) + 0.5*( d->size + box.size() );
     Vector3f newPosition = Private::minAll( d->position - 0.5*d->size, box.position() - 0.5*box.size() ) + 0.5*newSize;
     return AxisAlignedBox( newPosition, newSize );
+}
+
+void AxisAlignedBox::unite( const AxisAlignedBox& box )
+{
+    Vector3f newSize = Private::absAll( d->position - box.position() ) + 0.5*( d->size + box.size() );
+    d->position = Private::minAll( d->position - 0.5*d->size, box.position() - 0.5*box.size() ) + 0.5*newSize;
+    d->size = newSize;
+}
+
+AxisAlignedBox AxisAlignedBox::scaled( const Vector3f& factors ) const
+{
+    return AxisAlignedBox( d->position, d->size.cwiseProduct(factors) );
+}
+
+void AxisAlignedBox::scale( const Vector3f& factors )
+{
+    d->size = d->size.cwiseProduct(factors);
+}
+
+AxisAlignedBox AxisAlignedBox::rotated( const Quaternionf& orientation ) const
+{
+    Matrix3f rotMatrix = orientation.toRotationMatrix();
+    Vector3f rotatedXVector = rotMatrix * Vector3f(d->size.x(), 0, 0);
+    Vector3f rotatedYVector = rotMatrix * Vector3f(0, d->size.y(), 0);
+    Vector3f rotatedZVector = rotMatrix * Vector3f(0, 0, d->size.z());
+    Vector3f rotatedVector = Private::maxAll( rotatedXVector, Private::maxAll( rotatedYVector, rotatedZVector ) );
+    return AxisAlignedBox( d->position, rotatedVector );
+}
+
+void AxisAlignedBox::rotate( const Quaternionf& orientation )
+{
+    Matrix3f rotMatrix = orientation.toRotationMatrix();
+    Vector3f rotatedXVector = rotMatrix * Vector3f(d->size.x(), 0, 0);
+    Vector3f rotatedYVector = rotMatrix * Vector3f(0, d->size.y(), 0);
+    Vector3f rotatedZVector = rotMatrix * Vector3f(0, 0, d->size.z());
+    d->size = Private::maxAll( rotatedXVector, Private::maxAll( rotatedYVector, rotatedZVector ) );
+}
+
+AxisAlignedBox& AxisAlignedBox::operator=( const AxisAlignedBox& box )
+{
+    d->size = box.d->size;
+    d->position = box.d->position;
+    return *this;
 }

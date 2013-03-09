@@ -131,7 +131,7 @@ namespace GluonCore
             {
 #if QT_VERSION >= 0x050000
                 delete sm_mutex.load();
-                sm_mutex.store(0);
+                sm_mutex.store( 0 );
 #else
                 delete sm_mutex;
                 sm_mutex = 0;
@@ -143,9 +143,9 @@ namespace GluonCore
             static QMutex* mutexInstance()
             {
 #if QT_VERSION >= 0x050000
-                if (sm_mutex.load())
+                if( sm_mutex.load() )
 #else
-                if (!sm_mutex)
+                if( !sm_mutex )
 #endif
                 {
                     QMutex* mutex = new QMutex();

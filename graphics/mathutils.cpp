@@ -26,7 +26,7 @@ using namespace GluonGraphics;
 void
 MathUtils::qmatrixToGLMatrix( const QMatrix4x4& matrix, float* out )
 {
-    qreal* data = matrix.transposed().data();
+    const qreal* data = matrix.data();
 
     for( int i = 0; i < 16; ++i )
     {

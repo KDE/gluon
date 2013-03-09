@@ -25,7 +25,7 @@
 
 class btnodetest : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
     public:
         btnodetest();
         virtual ~btnodetest();

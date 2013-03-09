@@ -24,6 +24,7 @@
 
 #include <KDE/KServiceTypeTrader>
 #include <KDE/KXmlGuiWindow>
+#include <KDE/KMessageBox>
 
 using namespace GluonCreator;
 
@@ -37,7 +38,16 @@ class PluginManager::PluginManagerPrivate
 
         QHash<QString, Plugin*> loadedPlugins;
         KXmlGuiWindow* mainWindow;
+
+	static const QStringList requiredPlugins;
 };
+
+const QStringList PluginManager::PluginManagerPrivate::requiredPlugins = QStringList() << 
+	"gluon_creator_dockplugin_projectdock" <<
+	"gluon_creator_dockplugin_scenedock" <<
+	"gluon_creator_dockplugin_propertiesdock" <<
+	"gluon_creator_dockplugin_componentsdock" <<
+	"gluon_creator_dockplugin_messagedock";
 
 QList< KPluginInfo > PluginManager::pluginInfos() const
 {
@@ -52,6 +62,7 @@ void PluginManager::setMainWindow( KXmlGuiWindow* window )
 void PluginManager::loadPlugins()
 {
     DEBUG_FUNC_NAME
+    int requiredPluginCount = 0;
     KConfigGroup group = KGlobal::config()->group( "Plugins" );
     KService::List offers = KServiceTypeTrader::self()->query(
                                 QString::fromLatin1( "GluonCreator/Plugin" ),
@@ -65,6 +76,12 @@ void PluginManager::loadPlugins()
 
         QString serviceName = service->desktopEntryName();
         bool loadPlugin = group.readEntry<bool>( QString( "%1Enabled" ).arg( serviceName ), true );
+
+        if( d->requiredPlugins.contains( serviceName ) )
+	{
+	    DEBUG_TEXT2( "%1 is a required plugin", serviceName );
+            requiredPluginCount++;
+	}
 
         if( !d->loadedPlugins.contains( serviceName ) && loadPlugin )
         {
@@ -98,6 +115,12 @@ void PluginManager::loadPlugins()
             delete plugin;
             d->loadedPlugins.remove( serviceName );
         }
+    }
+
+    if( requiredPluginCount < d->requiredPlugins.count() )
+    {
+        KMessageBox::error( d->mainWindow, i18n( "Could not load all required plugins!" ), i18n( "Unable to load plugins" ) ); 
+	qFatal( "Unable to load all required plugins!" );
     }
 }
 

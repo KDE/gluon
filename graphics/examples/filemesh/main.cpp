@@ -18,59 +18,66 @@
  */
 
 #include "graphics/renderwidget.h"
-#include "graphics/engine.h"
+
+#include <QApplication>
+#include <QMatrix4x4>
+
+#include "core/directoryprovider.h"
+#include "graphics/manager.h"
 #include "graphics/camera.h"
-#include "graphics/item.h"
 #include "graphics/frustrum.h"
+#include "graphics/filemesh.h"
+#include "graphics/entity.h"
+#include "graphics/world.h"
 #include "graphics/material.h"
 #include "graphics/materialinstance.h"
-#include "graphics/filemesh.h"
 #include "graphics/texture.h"
+#include "graphics/rendertarget.h"
+#include <mathutils.h>
 
-#include <QtGui/QMatrix4x4>
-#include <QtGui/QApplication>
-#include <QtCore/QTimer>
-#include <core/directoryprovider.h>
+using namespace GluonGraphics;
 
 int main( int argc, char* argv[] )
 {
     QApplication app( argc, argv );
 
-    //Create a widget to render the graphics on.
-    GluonGraphics::RenderWidget* widget = new GluonGraphics::RenderWidget();
-    widget->show();
+    RenderWidget widget;
+    widget.show();
 
-    //Create a camera to view the scene from.
-    GluonGraphics::Camera* cam = new GluonGraphics::Camera();
+    Manager::instance()->initialize();
 
-    //Set the viewport
-    cam->frustrum()->setOrthographic( -110.f, 110.f, -110.f, 110.f, -110.f, 110.f );
+    QMatrix4x4 mat;
 
-    //Activate the new camera
-    GluonGraphics::Engine::instance()->setActiveCamera( cam );
-
-    //Create a new FileMesh to load vertex data from a mesh.
-    GluonGraphics::FileMesh* mesh = new GluonGraphics::FileMesh(GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/examples/graphics/duck.dae" );
-    //Load the data.
+    FileMesh* mesh = new FileMesh( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/examples/graphics/duck.dae" );
+    Manager::instance()->addResource< Mesh >( "duck.dae", mesh );
     mesh->initialize();
-    //Register it with the Engine so we can track it.
-    GluonGraphics::Engine::instance()->addMesh("duck", mesh);
+    Texture* texture = Manager::instance()->createResource< Texture >( "duck.tga" );
+    texture->load( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/examples/graphics/duck.tga" );
 
-    //Load the texture of the mesh.
-    GluonGraphics::Texture* tex = GluonGraphics::Engine::instance()->createTexture( "duck" );
-    tex->load( QUrl( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/examples/graphics/duck.tga" ) );
+    Material* material = Manager::instance()->createResource< Material>( "duck" );
+    material->load( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/examples/graphics/duck.gluonmaterial" );
+    material->build();
 
-    //Create an item to display
-    GluonGraphics::Entity* item = GluonGraphics::Engine::instance()->createItem( "duck" );
 
-    //Apply the texture to the item.
-    item->materialInstance()->setProperty( "texture0", "duck" );
+    Entity* ent = Manager::instance()->currentWorld()->createEntity< Entity >();
+    mat.rotate( -45, MathUtils::VECTOR_UNIT_Y );
+    ent->setTransform( mat );
+    ent->setMesh( mesh );
+    ent->setMaterialInstance( material->createInstance() );
+    ent->materialInstance()->setProperty( "texture0", QVariant::fromValue( texture ) );
 
-    QMatrix4x4 matrix;
-    matrix.translate(0.f, -75.f, 0.f);
-    matrix.rotate(-45.f, 0.f, 1.f, 0.f);
-    item->setTransform(matrix);
+    Camera* cam = Manager::instance()->currentWorld()->createEntity< Camera >();
+    mat.setToIdentity();
+    mat.translate( 0.f, 75.f, 100.f );
+    cam->setTransform( mat );
 
-    QTimer::singleShot( 0, widget, SLOT(updateGL()) );
+    cam->setVisibleArea( QSizeF( 200.f, 200.f ) );
+    cam->setNearPlane( 0.f );
+    cam->setFarPlane( 1000.f );
+
+    Manager::instance()->resource< RenderTarget >( Manager::Defaults::RenderTarget )->addChild( cam );
+
+    //app.exec();
+
     return app.exec();
 }

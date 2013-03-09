@@ -38,7 +38,7 @@ namespace GluonGraphics
             virtual ~RenderChainItem();
 
             virtual void renderContents() = 0;
-            virtual void resize(int width, int height) = 0;
+            virtual void resize( int width, int height ) = 0;
 
             float zDepth() const;
             void setZDepth( float z );
@@ -48,7 +48,7 @@ namespace GluonGraphics
 
         private:
             class Private;
-            Private * const d;
+            Private* const d;
     };
 }
 

@@ -157,7 +157,7 @@ namespace GluonEngine
              * @returns The index of the achievement the achievement at index depends upon
              * @see achievementsCount
              */
-           int dependency( int index ) const;
+            int dependency( int index ) const;
 
             /**
              * Check whether the achievement at index is hidden. If the achievement is hidden

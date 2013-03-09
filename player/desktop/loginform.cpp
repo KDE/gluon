@@ -70,7 +70,7 @@ LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
     connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(initializationFinished()), SLOT(initDone()) );
     connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(initializeFailed()), SLOT(initFailed()) );
     connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFinished()), SLOT(loginDone()) );
-    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFailed()), SLOT(loginFailed()) );
+    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFailed(QString)), SLOT(loginFailed()) );
 
     initialize();
 }

@@ -22,7 +22,7 @@
 
 #include <GL/gl.h>
 
-typedef void (*glXFuncPtr)();
+typedef void ( *glXFuncPtr )();
 
 namespace GluonGraphics
 {
@@ -30,15 +30,15 @@ namespace GluonGraphics
     {
         void initializeFunctions();
 
-        typedef glXFuncPtr(*glXGetProcAddress_func)(const GLubyte*);
+        typedef glXFuncPtr( *glXGetProcAddress_func )( const GLubyte* );
         extern glXGetProcAddress_func _glXGetProcAddress;
 
-//Buffers
-// typedef void (*glGenBuffers_func)(GLsizei, GLuint*);
+        //Buffers
         extern PFNGLGENBUFFERSARBPROC glGenBuffersARB;
         extern PFNGLDELETEBUFFERSARBPROC glDeleteBuffersARB;
         extern PFNGLBUFFERDATAARBPROC glBufferDataARB;
         extern PFNGLBUFFERSUBDATAARBPROC glBufferSubDataARB;
+        extern PFNGLGETBUFFERSUBDATAARBPROC glGetBufferSubDataARB;
         extern PFNGLBINDBUFFERARBPROC glBindBufferARB;
 
         extern PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer;

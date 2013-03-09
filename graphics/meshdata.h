@@ -45,7 +45,7 @@ namespace GluonGraphics
 
             template < typename T >
             void setAttribute( const QString& name, QVariant::Type type, QVector< T > data ); //Note: Explicit use of copy-by-value for QVector, do not change!
-            virtual void setIndices(QVector< uint > indices ) = 0; //Note: Explicit use of copy-by-value for QVector, do not change!
+            virtual void setIndices( QVector< uint > indices ) = 0; //Note: Explicit use of copy-by-value for QVector, do not change!
 
             PrimitiveType primitiveType() const;
             virtual void setPrimitiveType( PrimitiveType type );
@@ -61,11 +61,11 @@ namespace GluonGraphics
 
         private:
             class Private;
-            Private * const d;
+            Private* const d;
     };
 
     template < typename T >
-    void MeshData::setAttribute( const QString& name, QVariant::Type type, QVector< T > data)
+    void MeshData::setAttribute( const QString& name, QVariant::Type type, QVector< T > data )
     {
         setAttribute( name, type, reinterpret_cast< void* >( data.data() ), sizeof( T ) * data.size() );
     }

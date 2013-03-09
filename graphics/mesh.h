@@ -23,10 +23,10 @@
 #include <QObject>
 
 #include "gluon_graphics_export.h"
+#include "meshdata.h"
 
 namespace GluonGraphics
 {
-    class Buffer;
     class Shader;
 
     /**
@@ -48,7 +48,7 @@ namespace GluonGraphics
      */
     class GLUON_GRAPHICS_EXPORT Mesh : public QObject
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit Mesh( QObject* parent = 0 );
             virtual ~Mesh();
@@ -69,9 +69,28 @@ namespace GluonGraphics
             virtual void update();
 
             /**
+             * Render the geometry of this mesh using a specific shader.
              *
+             * \param shader The shader to use for rendering this mesh.
+             * It is assumed to have all uniform and attribute values
+             * set as needed.
              */
-            virtual void render( Shader* shader ) = 0;
+            virtual void render( Shader* shader );
+
+        protected:
+            virtual MeshData* meshData();
+
+            /**
+             * Set the data object this mesh should use.
+             *
+             * \param data The data object to use. Note that this class
+             * takes possession of it and will delete it when needed.
+             */
+            virtual void setMeshData( MeshData* data );
+
+        private:
+            class Private;
+            Private * const d;
 
     };
 }

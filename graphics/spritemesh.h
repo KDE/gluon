@@ -38,18 +38,12 @@ namespace GluonGraphics
      */
     class GLUON_GRAPHICS_EXPORT SpriteMesh : public Mesh
     {
-        Q_OBJECT
+            Q_OBJECT
         public:
             explicit SpriteMesh( QObject* parent = 0 );
             virtual ~SpriteMesh();
 
             virtual void initialize();
-            virtual bool isInitialized() const;
-            virtual void render( Shader* shader );
-
-        private:
-            class Private;
-            Private * const d;
     };
 }
 

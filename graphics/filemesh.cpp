@@ -21,6 +21,14 @@
 
 #include <QVector>
 
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>
+
+#include "core/debughelper.h"
+#include "manager.h"
+#include "backend.h"
+
 using namespace GluonGraphics;
 
 class FileMesh::Private
@@ -30,105 +38,111 @@ class FileMesh::Private
 };
 
 FileMesh::FileMesh( const QString& file, QObject* parent )
-    : Mesh( parent ), d(new Private)
+    : Mesh( parent ), d( new Private )
 {
     d->file = file;
 }
 
 FileMesh::~FileMesh()
 {
-
+    delete d;
 }
 
 QString FileMesh::file() const
 {
-
+    return d->file;
 }
 
 void FileMesh::initialize()
 {
-//     Assimp::Importer imp;
-//     const aiScene* scene = imp.ReadFile( d->file.toUtf8(), aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType );
-//
-//     if(!scene)
+    Assimp::Importer imp;
+    const aiScene* scene = imp.ReadFile( d->file.toUtf8(), aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType | aiProcess_OptimizeGraph | aiProcess_OptimizeMeshes );
+
+    if( !scene || scene->mNumMeshes == 0 )
+    {
+        DEBUG_BLOCK
+        DEBUG_TEXT2( "Unable to load file mesh: %1", d->file );
+        return;
+    }
+
+    MeshData* data = Manager::instance()->backend()->createMeshData();
+    data->setPrimitiveType( MeshData::TriangleType );
+
+//    int count = 0;
+//     for( uint m = 0; m < scene->mNumMeshes; ++m )
 //     {
-//         return;
-//     }
-//
-//     VertexBuffer* buffer = vertexBuffer();
-//     for(uint m = 0; m < scene->mNumMeshes; ++m)
+    aiMesh* mesh = scene->mMeshes[ 0 ];
+
+    data->setPrimitiveCount( mesh->mNumFaces * 3 );
+
+    QVector< float > vertices;
+    for( uint i = 0; i < mesh->mNumVertices; ++i )
+    {
+        aiVector3D vertex = mesh->mVertices[i];
+        vertices << vertex.x << vertex.y << vertex.z;
+    }
+    data->setAttribute( "vertex", QVariant::Vector3D, vertices );
+
+    QVector<uint> indices;
+    for( uint i = 0; i < mesh->mNumFaces; ++i )
+    {
+        aiFace face = mesh->mFaces[i];
+        for( uint j = 0; j < face.mNumIndices; ++j )
+        {
+            indices << face.mIndices[j];
+        }
+    }
+    data->setIndices( indices );
+
+    uint uvCount = mesh->GetNumUVChannels();
+    for( uint t = 0; t < uvCount; ++t )
+    {
+        aiVector3D* uvChannel = mesh->mTextureCoords[ t ];
+        uint numComponents = mesh->mNumUVComponents[ t ];
+        QVariant::Type uvType = numComponents == 1 ? static_cast< QVariant::Type >( 137 ) /* QVariant::Float */ : numComponents == 2 ? QVariant::Vector2D : QVariant::Vector3D;
+
+        QVector< float > uvs;
+        for( uint i = 0; i < mesh->mNumVertices; ++i )
+        {
+            aiVector3D uv = uvChannel[i];
+
+            uvs << uv.x;
+            if(numComponents > 1)
+                uvs << uv.y;
+
+            if(numComponents > 2)
+                uvs << uv.z;
+        }
+        data->setAttribute( QString("uv%1").arg( t ), uvType, uvs );
+    }
+
+//     if( mesh->HasVertexColors(0) )
 //     {
-//         aiMesh* mesh = scene->mMeshes[m];
-//
-//         VertexAttribute vertices("vertex", 3);
+//         aiColor4D* colorChannel = mesh->mColors[0];
+//         QVector< float > colors;
 //         for( uint i = 0; i < mesh->mNumVertices; ++i )
 //         {
-//             aiVector3D vertex = mesh->mVertices[i];
-//             vertices << vertex.x << vertex.y << vertex.z;
+//             aiColor4D color = colorChannel[i];
+//             colors << color.r << color.g << color.b << color.a;
 //         }
-//         buffer->addAttribute(vertices);
-//
-//         QVector<uint> indices;
-//         for( uint i = 0; i < mesh->mNumFaces; ++i )
-//         {
-//             aiFace face = mesh->mFaces[i];
-//             for( uint j = 0; j < face.mNumIndices; ++j )
-//             {
-//                 indices << face.mIndices[j];
-//             }
-//         }
-//         buffer->setIndices(indices);
-//
-//         uint uvCount = mesh->GetNumUVChannels();
-//         for( uint t = 0; t < uvCount; ++t )
-//         {
-//             aiVector3D* uvChannel = mesh->mTextureCoords[t];
-//             uint numComponents = mesh->mNumUVComponents[t];
-//             VertexAttribute uvs(QString("uv%1").arg(t), numComponents);
-//             for( uint i = 0; i < mesh->mNumVertices; ++i )
-//             {
-//                 aiVector3D uv = uvChannel[i];
-//
-//                 uvs << uv.x;
-//                 if(numComponents > 1)
-//                     uvs << uv.y;
-//
-//                 if(numComponents > 2)
-//                     uvs << uv.z;
-//             }
-//             buffer->addAttribute(uvs);
-//         }
-//
-//         if( mesh->HasVertexColors(0) )
-//         {
-//             aiColor4D* colorChannel = mesh->mColors[0];
-//             VertexAttribute colors("color", 4);
-//             for( uint i = 0; i < mesh->mNumVertices; ++i )
-//             {
-//                 aiColor4D color = colorChannel[i];
-//                 colors << color.r << color.g << color.b << color.a;
-//             }
-//             buffer->addAttribute(colors);
-//         }
-//
-//         if( mesh->HasNormals() )
-//         {
-//             VertexAttribute normals("normal", 3);
-//             for( uint i = 0; i < mesh->mNumVertices; ++i )
-//             {
-//                 aiVector3D normal = mesh->mNormals[i];
-//                 normals << normal.x << normal.y << normal.z;
-//             }
-//             buffer->addAttribute(normals);
-//         }
+//         data->setAttribute( "color", QVariant::Vector4D, colors );
 //     }
-//
-//     buffer->initialize();
-}
 
-void FileMesh::render( Shader* shader )
-{
+//     if( mesh->HasNormals() )
+//     {
+//         QVector< float > normals;
+//         for( uint i = 0; i < mesh->mNumVertices; ++i )
+//         {
+//             aiVector3D normal = mesh->mNormals[i];
+//             normals << normal.x << normal.y << normal.z;
+//         }
+//         data->setAttribute( "normal", QVariant::Vector3D, normals );
+//     }
+//     }
 
+//    data->setPrimitiveCount( count );
+
+    setMeshData( data );
 }
 
 #include "filemesh.moc"

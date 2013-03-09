@@ -30,7 +30,7 @@ namespace GluonCreator
 {
     class QVariantListPropertyWidgetItem : public GluonCreator::PropertyWidgetItem
     {
-        Q_OBJECT
+            Q_OBJECT
 
         public:
             explicit QVariantListPropertyWidgetItem( QWidget* parent = 0, Qt::WindowFlags f = 0 );
@@ -40,7 +40,7 @@ namespace GluonCreator
             virtual PropertyWidgetItem* instantiate();
 
         public Q_SLOTS:
-            virtual void setEditValue(const QVariant& value);
+            virtual void setEditValue( const QVariant& value );
 
         private:
             void addItem( QVariant value );

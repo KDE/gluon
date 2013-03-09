@@ -29,16 +29,16 @@
 namespace GluonSmarts
 {
 
-class btNode;
+    class btNode;
 
-class GLUON_SMARTS_EXPORT btSequenceNode : public btNode
-{
-        Q_OBJECT
+    class GLUON_SMARTS_EXPORT btSequenceNode : public btNode
+    {
+            Q_OBJECT
 
-    public:
-        Q_INVOKABLE btSequenceNode( QObject* parent = 0 );
-        status run( btCharacter* self );
-};
+        public:
+            Q_INVOKABLE btSequenceNode( QObject* parent = 0 );
+            status run( btCharacter* self );
+    };
 }
 
 #endif // GLUON_SMARTS_BTSEQUENCENODE_H

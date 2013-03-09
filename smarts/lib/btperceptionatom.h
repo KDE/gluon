@@ -27,50 +27,50 @@
 
 namespace GluonSmarts
 {
-class btPerceptionAtom : public QObject
-{
-        Q_OBJECT
-        Q_PROPERTY( btPerceptionInfo* perceptionInfo READ perceptionInfo WRITE setPerceptionInfo )
-        Q_PROPERTY( QVariant knowledge READ knowledge )
-        Q_PROPERTY( qreal precision READ precision WRITE setPrecision )
-        Q_PROPERTY( bool shouldUpdate READ shouldUpdate WRITE setShouldUpdate )
+    class btPerceptionAtom : public QObject
+    {
+            Q_OBJECT
+            Q_PROPERTY( btPerceptionInfo* perceptionInfo READ perceptionInfo WRITE setPerceptionInfo )
+            Q_PROPERTY( QVariant knowledge READ knowledge )
+            Q_PROPERTY( qreal precision READ precision WRITE setPrecision )
+            Q_PROPERTY( bool shouldUpdate READ shouldUpdate WRITE setShouldUpdate )
 
-    public:
-        btPerceptionAtom( QObject* parent = 0 );
-        ~btPerceptionAtom();
+        public:
+            btPerceptionAtom( QObject* parent = 0 );
+            ~btPerceptionAtom();
 
-        btPerceptionInfo* perceptionInfo() const;
-        void setPerceptionInfo( btPerceptionInfo* newPerceptionInfo );
+            btPerceptionInfo* perceptionInfo() const;
+            void setPerceptionInfo( btPerceptionInfo* newPerceptionInfo );
 
-        QVariant knowledge() const;
+            QVariant knowledge() const;
 
-        /**
-         * The precision by which the piece of information is known.
-         * This will automatically set shouldUpdate to true. If this is not
-         * desirable, remember to manually shouldUpdate to false.
-         *
-         * @see setShouldUpdate()
-         */
-        qreal precision() const;
-        void setPrecision( const qreal& newPrecision );
+            /**
+             * The precision by which the piece of information is known.
+             * This will automatically set shouldUpdate to true. If this is not
+             * desirable, remember to manually shouldUpdate to false.
+             *
+             * @see setShouldUpdate()
+             */
+            qreal precision() const;
+            void setPrecision( const qreal& newPrecision );
 
-        /**
-         * Setting shouldUpdate to true will cause the atom to update itself
-         * when the information is next updated. If you wish it to update
-         * immediately please call the perceptionInfoUpdated slot.
-         *
-         * @see perceptionInfoUpdated()
-         */
-        bool shouldUpdate() const;
-        void setShouldUpdate( const bool& newShouldUpdate );
+            /**
+             * Setting shouldUpdate to true will cause the atom to update itself
+             * when the information is next updated. If you wish it to update
+             * immediately please call the perceptionInfoUpdated slot.
+             *
+             * @see perceptionInfoUpdated()
+             */
+            bool shouldUpdate() const;
+            void setShouldUpdate( const bool& newShouldUpdate );
 
-    public Q_SLOTS:
-        void perceptionInfoUpdated();
+        public Q_SLOTS:
+            void perceptionInfoUpdated();
 
-    private:
-        class btPerceptionAtomPrivate;
-        btPerceptionAtomPrivate* d;
-};
+        private:
+            class btPerceptionAtomPrivate;
+            btPerceptionAtomPrivate* d;
+    };
 }
 
 Q_DECLARE_METATYPE( QList<GluonSmarts::btPerceptionAtom*> )

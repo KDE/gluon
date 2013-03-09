@@ -7,7 +7,7 @@
 #
 
 find_path(ASSIMP_INCLUDE_DIR
-    assimp.hpp
+    version.h
     PATH_SUFFIXES
     assimp
 )

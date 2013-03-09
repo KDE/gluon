@@ -36,7 +36,7 @@ namespace GluonGraphics
      * \brief A view point and volume.
      *
      * The camera class describes a view point and view
-     * volume (a.k.a. frustrum). These are used to determine
+     * volume (a.k.a. frustum). These are used to determine
      * what to render and where to render it.
      */
     class GLUON_GRAPHICS_EXPORT Camera : public Entity, public RenderChainItem
@@ -90,12 +90,8 @@ namespace GluonGraphics
             float farPlane() const;
 
         public Q_SLOTS:
-            /**
-             * Set the view matrix to use.
-             *
-             * \param matrix The matrix to use.
-             */
-            void setViewMatrix( const QMatrix4x4& matrix );
+            void setTransform( const QMatrix4x4& transform );
+            
             /**
              * Set the frustum to use.
              *

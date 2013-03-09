@@ -76,7 +76,7 @@ typedef GluonGraphics::MaterialInstance* pMaterialInstance;
 QScriptValue GLUON_ENGINE_EXPORT gluonObjectToScriptValue( QScriptEngine* engine, const pGluonObject& in );
 void GLUON_ENGINE_EXPORT gluonObjectFromScriptValue( const QScriptValue& object, pGluonObject& out );
 QScriptValue GLUON_ENGINE_EXPORT gameObjectToScriptValue( QScriptEngine* engine, const pGameObject& in );
-void GLUON_ENGINE_EXPORT gameObjectFromScriptValue( const QScriptValue& object, GluonEngine::GameObject *&out );
+void GLUON_ENGINE_EXPORT gameObjectFromScriptValue( const QScriptValue& object, GluonEngine::GameObject*& out );
 QScriptValue GLUON_ENGINE_EXPORT materialInstanceToScriptValue( QScriptEngine* engine, const pMaterialInstance& in );
 void GLUON_ENGINE_EXPORT materialInstanceFromScriptValue( const QScriptValue& object, pMaterialInstance& out );
 

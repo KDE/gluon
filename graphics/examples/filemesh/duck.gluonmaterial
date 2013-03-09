@@ -11,7 +11,7 @@ varying mediump vec2 out_uv0;
 
 void main()
 {
-	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vertex;
+	gl_Position = projectionMatrix * ( viewMatrix * modelMatrix ) * vertex;
 	out_uv0 = uv0;
 }
     ")
@@ -23,7 +23,7 @@ varying mediump vec2 out_uv0;
 
 void main()
 {
-	gl_FragColor = texture2D(texture0, out_uv0);
+	gl_FragColor = texture2D( texture0, out_uv0 );
 }
     ")
 }

@@ -19,6 +19,7 @@
 
 #include "animatedspriterenderercomponent.h"
 
+#include <core/axisalignedbox.h>
 #include <engine/gameobject.h>
 #include <engine/asset.h>
 #include <engine/game.h>
@@ -30,6 +31,7 @@
 #include <graphics/texture.h>
 
 #include <QtCore/QVariant>
+#include <QtCore/qmath.h>
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
 
@@ -230,6 +232,13 @@ void AnimatedSpriteRendererComponent::cleanup()
         GluonGraphics::Engine::instance()->destroyItem( d->item );
         d->item = 0;
     }
+}
+
+GluonCore::AxisAlignedBox
+AnimatedSpriteRendererComponent::boundingBox()
+{
+    QVector3D sizeVector( size().width(), size().height(), 0 );
+    return GluonCore::AxisAlignedBox( transformationCenter(), sizeVector );
 }
 
 bool AnimatedSpriteRendererComponent::isAnimating()

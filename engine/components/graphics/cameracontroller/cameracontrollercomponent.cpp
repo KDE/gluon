@@ -129,7 +129,7 @@ void CameraControllerComponent::start()
 void CameraControllerComponent::draw( int /* timeLapse */ )
 {
     if( d->camera )
-        d->camera->setTransform( gameObject()->transform().inverted() );
+        d->camera->setTransform( gameObject()->transform() );
 }
 
 void CameraControllerComponent::cleanup()

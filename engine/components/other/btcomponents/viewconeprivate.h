@@ -24,7 +24,7 @@
 
 namespace GluonSmarts
 {
-class btPerceptionViewcone;
+    class btPerceptionViewcone;
 }
 
 namespace GluonEngine
