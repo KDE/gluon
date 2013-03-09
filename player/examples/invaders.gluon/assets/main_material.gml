@@ -5,14 +5,14 @@ uniform highp mat4 modelMatrix;
 uniform highp mat4 viewMatrix;
 uniform highp mat4 projectionMatrix;
 
-attribute highp vec3 vertex;
+attribute highp vec4 vertex;
 attribute highp vec2 uv0;
 
 varying highp vec2 out_uv0;
 
 void main()
 {
-    gl_Position = vec4(vertex, 1.0) * ((modelMatrix * viewMatrix) * projectionMatrix);
+    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vertex;
     out_uv0 = uv0;
 }
 ")
