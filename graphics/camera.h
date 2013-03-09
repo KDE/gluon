@@ -90,12 +90,8 @@ namespace GluonGraphics
             float farPlane() const;
 
         public Q_SLOTS:
-            /**
-             * Set the view matrix to use.
-             *
-             * \param matrix The matrix to use.
-             */
-            void setViewMatrix( const QMatrix4x4& matrix );
+            void setTransform( const QMatrix4x4& transform );
+            
             /**
              * Set the frustum to use.
              *
