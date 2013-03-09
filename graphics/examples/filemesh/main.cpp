@@ -60,15 +60,15 @@ int main( int argc, char* argv[] )
 
 
     Entity* ent = Manager::instance()->currentWorld()->createEntity< Entity >();
-    mat.rotate( 45, MathUtils::VECTOR_UNIT_Y );
+    mat.rotate( -45, MathUtils::VECTOR_UNIT_Y );
     ent->setTransform( mat );
     ent->setMesh( mesh );
     ent->setMaterialInstance( material->createInstance() );
-    //ent->materialInstance()->setProperty( "texture0", QVariant::fromValue( texture ) );
+    ent->materialInstance()->setProperty( "texture0", QVariant::fromValue( texture ) );
 
     Camera* cam = Manager::instance()->currentWorld()->createEntity< Camera >();
     mat.setToIdentity();
-    mat.translate( 0, -75.f, -500.f );
+    mat.translate( 0.f, 75.f, 100.f );
     cam->setTransform( mat );
 
     cam->setVisibleArea( QSizeF( 200.f, 200.f ) );

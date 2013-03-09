@@ -49,28 +49,22 @@ int main( int argc, char* argv[] )
 
     Manager::instance()->initialize();
 
-    QMatrix4x4 mat;
-
     Entity* ent = Manager::instance()->currentWorld()->createEntity< Entity >();
-    //mat.translate( -5, -5, 0 );
-    ent->setTransform( mat );
-    ent->setMesh( Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh ) );
-    ent->setMaterialInstance( Manager::instance()->resource< Material >( Manager::Defaults::Material )->createInstance() );
-    ent->materialInstance()->setProperty( "texture0", QVariant::fromValue( Manager::instance()->resource< Texture >( Manager::Defaults::Texture ) ) );
-
-    ent = Manager::instance()->currentWorld()->createEntity< Entity >();
-    //mat.translate( 10, 10, 0 );
     ent->setTransform( mat );
     ent->setMesh( Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh ) );
     ent->setMaterialInstance( Manager::instance()->resource< Material >( Manager::Defaults::Material )->createInstance() );
     ent->materialInstance()->setProperty( "texture0", QVariant::fromValue( Manager::instance()->resource< Texture >( Manager::Defaults::Texture ) ) );
 
     Camera* cam = Manager::instance()->currentWorld()->createEntity< Camera >();
-    mat.translate( 0, -5, -5 );
+    
+    QMatrix4x4 mat;
+    mat.setToIdentity();
+    mat.translate( 0, 0, 50 );
+    
     cam->setTransform( mat );
     cam->setVisibleArea( QSizeF( 20.f, 20.f ) );
-    cam->setNearPlane( -10.f );
-    cam->setFarPlane( 10.f );
+    cam->setNearPlane( -100.f );
+    cam->setFarPlane( 100.f );
 
     Manager::instance()->resource< RenderTarget >( Manager::Defaults::RenderTarget )->addChild( cam );
 
