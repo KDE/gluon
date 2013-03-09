@@ -50,7 +50,6 @@ int main( int argc, char* argv[] )
     Manager::instance()->initialize();
 
     Entity* ent = Manager::instance()->currentWorld()->createEntity< Entity >();
-    ent->setTransform( mat );
     ent->setMesh( Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh ) );
     ent->setMaterialInstance( Manager::instance()->resource< Material >( Manager::Defaults::Material )->createInstance() );
     ent->materialInstance()->setProperty( "texture0", QVariant::fromValue( Manager::instance()->resource< Texture >( Manager::Defaults::Texture ) ) );
