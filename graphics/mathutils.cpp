@@ -19,23 +19,21 @@
 
 #include "mathutils.h"
 
+#include <cstring>
+
 #include <QtGui/QImage>
+#include <qmath.h>
 
 using namespace GluonGraphics;
 
 void
-MathUtils::qmatrixToGLMatrix( const QMatrix4x4& matrix, float* out )
+MathUtils::qmatrixToGLMatrix( const Eigen::Affine3f& matrix, float* out )
 {
-    const qreal* data = matrix.data();
-
-    for( int i = 0; i < 16; ++i )
-    {
-        out[i] = static_cast<float>( data[i] );
-    }
+    std::memcpy(out, matrix.data(), sizeof(float)*16);
 }
 
-QMatrix4x4
-MathUtils::calculateModelViewProj( const QMatrix4x4& model, const QMatrix4x4& view, const QMatrix4x4& projection )
+Eigen::Affine3f
+MathUtils::calculateModelViewProj( const Eigen::Affine3f& model, const Eigen::Affine3f& view, const Eigen::Affine3f& projection )
 {
     return projection * ( view * model );
 }
@@ -60,8 +58,72 @@ MathUtils::qImageToGL( const QImage& image, uchar* out )
     }
 }
 
-const QVector3D MathUtils::VECTOR_UNIT_X = QVector3D( 1.f, 0.f, 0.f );
-const QVector3D MathUtils::VECTOR_UNIT_Y = QVector3D( 0.f, 1.f, 0.f );
-const QVector3D MathUtils::VECTOR_UNIT_Z = QVector3D( 0.f, 0.f, 1.f );
-const QVector3D MathUtils::VECTOR_UNIT_SCALE = QVector3D( 1.f, 1.f, 1.f );
+Eigen::Affine3f
+MathUtils::ortho( float left, float right, float bottom, float top, float nearPlane, float farPlane )
+{
+    // Taken from the Qt QMatrix4x4 class
+    if( left == right || bottom == top || nearPlane == farPlane )
+        return Eigen::Affine3f::Identity();
+
+    float width = right - left;
+    float invheight = top - bottom;
+    float clip = farPlane - nearPlane;
+    Eigen::Affine3f result;
+    result(0,0) = 2.0f / width;
+    result(0,1) = 0.0f;
+    result(0,2) = 0.0f;
+    result(0,3) = -(left + right) / width;
+    result(1,0) = 0.0f;
+    result(1,1) = 2.0f / invheight;
+    result(1,2) = 0.0f;
+    result(1,3) = -(top + bottom) / invheight;
+    result(2,0) = 0.0f;
+    result(2,1) = 0.0f;
+    result(2,2) = -2.0f / clip;
+    result(2,3) = -(nearPlane + farPlane) / clip;
+    result(3,0) = 0.0f;
+    result(3,1) = 0.0f;
+    result(3,2) = 0.0f;
+    result(3,3) = 1.0f;
+    return result;
+}
+
+Eigen::Affine3f
+MathUtils::perspective( float angle, float aspect, float nearPlane, float farPlane )
+{
+    // Taken from the Qt QMatrix4x4 class
+    if( nearPlane == farPlane || aspect == 0.0f )
+        return Eigen::Affine3f::Identity();
+
+    float radians = (angle/2.f) * M_PI / 180.f;
+    float sine = qSin(radians);
+    if( sine == 0 )
+        return Eigen::Affine3f::Identity();
+
+    float cotan = qCos(radians)/sine;
+    float clip = farPlane - nearPlane;
+    Eigen::Affine3f result;
+    result(0,0) = cotan/aspect;
+    result(0,1) = 0.0f;
+    result(0,2) = 0.0f;
+    result(0,3) = 0.0f;
+    result(1,0) = 0.0f;
+    result(1,1) = cotan;
+    result(1,2) = 0.0f;
+    result(1,3) = 0.0f;
+    result(2,0) = 0.0f;
+    result(2,1) = 0.0f;
+    result(2,2) = -(nearPlane + farPlane) / clip;
+    result(2,3) = -(2.0f * nearPlane * farPlane) / clip;
+    result(3,0) = 0.0f;
+    result(3,1) = 0.0f;
+    result(3,2) = -1.0f;
+    result(3,3) = 0.0f;
+    return result;
+}
+
+const Eigen::Vector3f MathUtils::VECTOR_UNIT_X = Eigen::Vector3f( 1.f, 0.f, 0.f );
+const Eigen::Vector3f MathUtils::VECTOR_UNIT_Y = Eigen::Vector3f( 0.f, 1.f, 0.f );
+const Eigen::Vector3f MathUtils::VECTOR_UNIT_Z = Eigen::Vector3f( 0.f, 0.f, 1.f );
+const Eigen::Vector3f MathUtils::VECTOR_UNIT_SCALE = Eigen::Vector3f( 1.f, 1.f, 1.f );
 

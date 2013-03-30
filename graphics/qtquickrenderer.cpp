@@ -27,11 +27,14 @@
 #include <QDeclarativeItem>
 #include <QDeclarativeContext>
 #include <QPainter>
-#include <QMatrix4x4>
 #include <QMouseEvent>
 #include <QGraphicsSceneMouseEvent>
 
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+
 #include <core/messagehandler.h>
+#include <core/gluonvarianttypes.h>
 
 #include "texturedata.h"
 #include "spritemesh.h"
@@ -39,6 +42,7 @@
 #include "materialinstance.h"
 #include "manager.h"
 #include "backend.h"
+#include "mathutils.h"
 
 using namespace GluonGraphics;
 
@@ -73,11 +77,11 @@ QtQuickRenderer::QtQuickRenderer( QObject* parent )
 
     d->mesh = Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh );
     d->material = Manager::instance()->resource< Material >( Manager::Defaults::Material )->createInstance();
-    QMatrix4x4 proj;
-    proj.ortho( -0.5, 0.5, -0.5, 0.5, -2, 2);
-    d->material->setProperty( "projectionMatrix", proj );
-    d->material->setProperty( "viewMatrix", QMatrix4x4() );
-    d->material->setProperty( "modelMatrix", QMatrix4x4() );
+    Eigen::Affine3f proj = MathUtils::ortho( -0.5, 0.5, -0.5, 0.5, -2, 2);
+    d->material->setProperty( "projectionMatrix", QVariant::fromValue(proj) );
+    Eigen::Affine3f id = Eigen::Affine3f::Identity();
+    d->material->setProperty( "viewMatrix", QVariant::fromValue(id) );
+    d->material->setProperty( "modelMatrix", QVariant::fromValue(id) );
     d->material->setProperty( "texture0", QVariant::fromValue< Texture* >( this ) );
 
     if( !d->engine )

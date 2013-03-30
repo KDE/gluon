@@ -32,6 +32,8 @@ Q_DECLARE_METATYPE(Eigen::Vector4f);
 Q_DECLARE_METATYPE(Eigen::Vector4f*);
 Q_DECLARE_METATYPE(Eigen::Quaternionf);
 Q_DECLARE_METATYPE(Eigen::Quaternionf*);
+Q_DECLARE_METATYPE(Eigen::Affine3f);
+Q_DECLARE_METATYPE(Eigen::Affine3f*);
 
 namespace
 {
@@ -44,6 +46,7 @@ namespace
                 qRegisterMetaType<Eigen::Vector3f>( "Vector3D" );
                 qRegisterMetaType<Eigen::Vector4f>( "Vector4D" );
                 qRegisterMetaType<Eigen::Quaternionf>( "Quaternion" );
+                qRegisterMetaType<Eigen::Affine3f>( "Affine3D" );
             }
     };
 

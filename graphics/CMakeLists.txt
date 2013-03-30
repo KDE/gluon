@@ -9,11 +9,13 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(OpenGL REQUIRED)
 find_package(AssImp)
+find_package(Eigen3 REQUIRED)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${GLUON_CORE_INCLUDE_DIRS}
+    ${EIGEN3_INCLUDE_DIR}
 )
 
 set(GLUON_GRAPHICS_INCLUDE_DIRS

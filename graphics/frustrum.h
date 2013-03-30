@@ -24,8 +24,9 @@
 
 class QRectF;
 class QSizeF;
-class QMatrix4x4;
-class QVector3D;
+
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 
 namespace GluonGraphics
 {
@@ -62,7 +63,7 @@ namespace GluonGraphics
              *
              * \return The projection matrix of this frustrum.
              */
-            QMatrix4x4 projectionMatrix();
+            Eigen::Affine3f projectionMatrix();
 
             /**
              * Check whether a point falls within the frustrum.
@@ -72,7 +73,7 @@ namespace GluonGraphics
              *
              * \return True if the point is inside, false if outside.
              */
-            bool containsPoint( const QVector3D& point );
+            bool containsPoint( const Eigen::Vector3f& point );
 
             /**
              * Check whether a sphere falls within the frustrum.
@@ -84,7 +85,7 @@ namespace GluonGraphics
              * \return True if the sphere is inside or intersects the
              * frustrum. False if not.
              */
-            bool containsSphere( const QVector3D& point, float radius );
+            bool containsSphere( const Eigen::Vector3f& point, float radius );
 
             /**
              * Retrieve the distance to the near plane of this frustrum.

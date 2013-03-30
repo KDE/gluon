@@ -19,8 +19,7 @@
 
 #include "world.h"
 
-#include <QVector3D>
-#include <QMatrix4x4>
+#include <Eigen/Core>
 
 #include "entity.h"
 #include "camera.h"
@@ -112,11 +111,13 @@ void World::Private::sortEntities()
 
 bool World::Private::compareEntityZDepth( Entity* first, Entity* second )
 {
-    QVector3D posFirst;
-    QVector3D posSecond;
+    Eigen::Vector3f posFirst(0,0,0);
+    Eigen::Vector3f posSecond(0,0,0);
 
-    posFirst = posFirst * first->transform();
-    posSecond = posSecond * second->transform();
+    Eigen::Vector4f v = first->transform().matrix().transpose() * posFirst.homogeneous();
+    posFirst = v.hnormalized();
+    v = second->transform().matrix().transpose() * posSecond.homogeneous();
+    posSecond = v.hnormalized();
 
     return posFirst.z() < posSecond.z();
 }

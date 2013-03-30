@@ -24,10 +24,9 @@
 #include <QtGui/QWidget>
 #include <QtGui/QX11Info>
 
-#include <QMatrix4x4>
-
 #include <GL/gl.h>
 #include <GL/glx.h>
+#undef Success // see http://eigen.tuxfamily.org/bz/show_bug.cgi?id=253
 
 #include "glxcontext.h"
 #include <rendertarget.h>

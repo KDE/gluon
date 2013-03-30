@@ -19,16 +19,21 @@
 
 #include "rendertarget.h"
 
-#include <QMatrix4x4>
 #include <QColor>
 #include <QtAlgorithms>
 
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+
+#include "mathutils.h"
 #include "manager.h"
 #include "backend.h"
 #include "spritemesh.h"
 #include "texture.h"
 #include "material.h"
 #include "materialinstance.h"
+
+#include <core/gluonvarianttypes.h>
 
 using namespace GluonGraphics;
 
@@ -166,11 +171,12 @@ void RenderTarget::Private::initialize()
 {
     mesh = Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh );
     materialInstance = Manager::instance()->resource< Material >( Manager::Defaults::Material )->createInstance();
-    materialInstance->setProperty( "modelMatrix", QMatrix4x4() );
-    materialInstance->setProperty( "viewMatrix", QMatrix4x4() );
-    QMatrix4x4 matrix;
-    matrix.ortho( -.5f, .5f, -.5f, .5f, -.5f, .5f );
-    materialInstance->setProperty( "projectionMatrix", matrix );
+    Eigen::Affine3f id = Eigen::Affine3f::Identity();
+    materialInstance->setProperty( "modelMatrix", QVariant::fromValue(id) );
+    materialInstance->setProperty( "viewMatrix", QVariant::fromValue(id) );
+    Eigen::Affine3f matrix;
+    matrix = MathUtils::ortho( -.5f, .5f, -.5f, .5f, -.5f, .5f );
+    materialInstance->setProperty( "projectionMatrix", QVariant::fromValue(matrix) );
     materialInstance->setProperty( "texture0", QVariant::fromValue< Texture* >( q->texture() ) );
 }
 

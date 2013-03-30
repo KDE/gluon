@@ -20,7 +20,6 @@
 #include "graphics/renderwidget.h"
 
 #include <QApplication>
-#include <QMatrix4x4>
 
 #include "core/directoryprovider.h"
 #include "graphics/manager.h"
@@ -35,6 +34,9 @@
 #include "graphics/rendertarget.h"
 #include <mathutils.h>
 
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+
 using namespace GluonGraphics;
 
 int main( int argc, char* argv[] )
@@ -46,7 +48,7 @@ int main( int argc, char* argv[] )
 
     Manager::instance()->initialize();
 
-    QMatrix4x4 mat;
+    Eigen::Affine3f mat = Eigen::Affine3f::Identity();
 
     FileMesh* mesh = new FileMesh( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/examples/graphics/duck.dae" );
     Manager::instance()->addResource< Mesh >( "duck.dae", mesh );
@@ -60,15 +62,15 @@ int main( int argc, char* argv[] )
 
 
     Entity* ent = Manager::instance()->currentWorld()->createEntity< Entity >();
-    mat.rotate( -45, MathUtils::VECTOR_UNIT_Y );
+    mat.rotate( Eigen::AxisAngle(-45, MathUtils::VECTOR_UNIT_Y) );
     ent->setTransform( mat );
     ent->setMesh( mesh );
     ent->setMaterialInstance( material->createInstance() );
     ent->materialInstance()->setProperty( "texture0", QVariant::fromValue( texture ) );
 
     Camera* cam = Manager::instance()->currentWorld()->createEntity< Camera >();
-    mat.setToIdentity();
-    mat.translate( 0.f, 75.f, 100.f );
+    mat = Eigen::Affine3f::Identity();
+    mat.translate( Eigen::Vector3f(0.f, 75.f, 100.f) );
     cam->setTransform( mat );
 
     cam->setVisibleArea( QSizeF( 200.f, 200.f ) );

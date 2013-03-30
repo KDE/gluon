@@ -21,8 +21,6 @@
 
 #include <QResizeEvent>
 #include <QDebug>
-#include <QVector3D>
-#include <QMatrix4x4>
 #include <QApplication>
 
 #include "manager.h"

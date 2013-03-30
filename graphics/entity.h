@@ -22,9 +22,11 @@
 
 #include <core/gluonobject.h>
 
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+
 #include "gluon_graphics_export.h"
 
-class QMatrix4x4;
 namespace GluonGraphics
 {
     class World;
@@ -57,7 +59,7 @@ namespace GluonGraphics
              *
              * \return The item's transformation matrix.
              */
-            virtual QMatrix4x4 transform() const;
+            virtual Eigen::Affine3f transform() const;
 
             /**
              * Retrieve the mesh currently used by this item.
@@ -94,7 +96,7 @@ namespace GluonGraphics
              *
              * \param transform The new transformation to use.
              */
-            virtual void setTransform( const QMatrix4x4 transform );
+            virtual void setTransform( const Eigen::Affine3f& transform );
 
             /**
              * Set the mesh used by this item.
