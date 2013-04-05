@@ -23,11 +23,12 @@
 #include <QtCore/QObject>
 #include <QtCore/QSharedData>
 
+#include <core/gluonvarianttypes.h>
+
 #include "engine/gluon_engine_export.h"
 #include "engine/component.h"
 #include "engine/asset.h"
 
-class QVector3D;
 class QScriptValue;
 class QScriptEngine;
 
@@ -45,7 +46,7 @@ namespace GluonEngine
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::PerceptionInfo )
             Q_INTERFACES( GluonEngine::Component )
-            Q_PROPERTY( QVector3D position READ position WRITE setPosition/* NOTIFY positionUpdated*/ )
+            Q_PROPERTY( Eigen::Vector3f position READ position WRITE setPosition/* NOTIFY positionUpdated*/ )
             Q_PROPERTY( qreal radius READ radius WRITE setRadius/* NOTIFY radiusUpdated*/ )
             Q_PROPERTY( GluonEngine::Asset* script READ script WRITE setScript )
 
@@ -56,8 +57,8 @@ namespace GluonEngine
             PerceptionInfo( const PerceptionInfo& other, QObject* parent = 0 );
             ~PerceptionInfo();
 
-            QVector3D position() const;
-            void setPosition( const QVector3D& newPosition );
+            Eigen::Vector3f position() const;
+            void setPosition( const Eigen::Vector3f& newPosition );
 
             qreal radius() const;
             void setRadius( const qreal& newRadius );

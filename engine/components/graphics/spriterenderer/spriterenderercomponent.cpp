@@ -34,9 +34,11 @@
 #include <graphics/mesh.h>
 
 #include <QtCore/qmath.h>
-#include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
 #include <graphics/world.h>
+
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 
 REGISTER_OBJECTTYPE( GluonEngine, SpriteRendererComponent )
 
@@ -124,8 +126,8 @@ void SpriteRendererComponent::draw( int /* timeLapse */ )
         if( !d->entity->isVisible() )
             d->entity->setVisible( true );
 
-        QMatrix4x4 transform = gameObject()->transform();
-        transform.scale( d->size.width(), d->size.height() );
+        Eigen::Affine3f transform = gameObject()->transform();
+        transform.scale( Eigen::Vector3f(d->size.width(), d->size.height(), 1) );
         d->entity->setTransform( transform );
     }
 }
@@ -142,7 +144,7 @@ void SpriteRendererComponent::cleanup()
 GluonCore::AxisAlignedBox
 SpriteRendererComponent::boundingBox()
 {
-    QVector3D sizeVector( size().width(), size().height(), 0 );
+    Eigen::Vector3f sizeVector( size().width(), size().height(), 0 );
     return GluonCore::AxisAlignedBox( transformationCenter(), sizeVector );
 }
 

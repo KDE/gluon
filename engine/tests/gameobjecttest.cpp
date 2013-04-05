@@ -23,6 +23,9 @@
 
 #include <QtTest/QtTest>
 
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+
 using namespace GluonEngine;
 
 GameObjectTest::GameObjectTest()
@@ -56,7 +59,7 @@ void GameObjectTest::testEnabled()
 void GameObjectTest::testPosition()
 {
     GameObject gameObject;
-    QVector3D vector3D(1.0, 2.0, 3.0);
+    Eigen::Vector3f vector3D(1.0, 2.0, 3.0);
     gameObject.setPosition(vector3D);
     QCOMPARE(gameObject.position(), vector3D);
 }
@@ -64,7 +67,7 @@ void GameObjectTest::testPosition()
 void GameObjectTest::testScale()
 {
     GameObject gameObject;
-    QVector3D vector3D(1.0, 2.0, 3.0);
+    Eigen::Vector3f vector3D(1.0, 2.0, 3.0);
     gameObject.setScale(vector3D);
     QCOMPARE(gameObject.scale(), vector3D);
 }
@@ -72,9 +75,12 @@ void GameObjectTest::testScale()
 void GameObjectTest::testOrientation()
 {
     GameObject gameObject;
-    QQuaternion quaternion(1.0, QVector3D(1.0, 2.0, 3.0));
+    Eigen::Quaternionf quaternion( 1.0, 2.0, 3.0, 1.0 );
     gameObject.setOrientation(quaternion);
-    QCOMPARE(gameObject.orientation(), quaternion);
+    QCOMPARE(gameObject.orientation().x(), quaternion.x());
+    QCOMPARE(gameObject.orientation().y(), quaternion.y());
+    QCOMPARE(gameObject.orientation().z(), quaternion.z());
+    QCOMPARE(gameObject.orientation().w(), quaternion.w());
 }
 
 QTEST_MAIN(GameObjectTest)

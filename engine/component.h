@@ -27,6 +27,8 @@
 
 #include <QtCore/QtPlugin>
 
+#include <Eigen/Core>
+
 /**
  * \defgroup Component Component
  */
@@ -165,7 +167,7 @@ namespace GluonEngine
              * @return The offset of the GameObject from the center of the component.
              * @see boundingBox, gameObject
              */
-            virtual QVector3D transformationCenter();
+            virtual Eigen::Vector3f transformationCenter();
 
             /**
              * The description of the Component instance. An arbitrary value

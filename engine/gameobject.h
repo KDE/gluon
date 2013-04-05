@@ -27,6 +27,9 @@
 #include <core/gluonvarianttypes.h>
 #include <core/gluonobjectfactory.h>
 
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+
 namespace GluonCore
 {
     class AxisAlignedBox;
@@ -85,12 +88,12 @@ namespace GluonEngine
              * The object position relative to its parent. If this is a top level
              * object in a scene, this is relative to the world origin (0, 0, 0)
              */
-            Q_PROPERTY( QVector3D position READ position WRITE setPosition )
+            Q_PROPERTY( Eigen::Vector3f position READ position WRITE setPosition )
             /**
              * The scale of the object, relative to its parent object. If this is a
              * top level object in a scene, this is relative to the scale 1, 1, 1
              */
-            Q_PROPERTY( QVector3D scale READ scale WRITE setScale )
+            Q_PROPERTY( Eigen::Vector3f scale READ scale WRITE setScale )
             /**
              * The orientation of the object in the world (the rotation of the object
              * and the axis around which it is rotated, represented by a Quaternion),
@@ -98,7 +101,7 @@ namespace GluonEngine
              * is relative to a rotation of 0 around the Z axis (the axis pointing out
              * of the screen). This is also the default for all object.
              */
-            Q_PROPERTY( QQuaternion orientation READ orientation WRITE setOrientation )
+            Q_PROPERTY( Eigen::Quaternionf orientation READ orientation WRITE setOrientation )
 
         public:
             enum TransformSpace
@@ -235,17 +238,17 @@ namespace GluonEngine
             Q_INVOKABLE bool enabled() const;
             Q_INVOKABLE void setEnabled( bool newEnabled );
 
-            Q_INVOKABLE QVector3D position() const;
-            Q_INVOKABLE QVector3D worldPosition() const;
+            Q_INVOKABLE Eigen::Vector3f position() const;
+            Q_INVOKABLE Eigen::Vector3f worldPosition() const;
 
 
-            Q_INVOKABLE QVector3D scale() const;
-            Q_INVOKABLE QVector3D worldScale() const;
+            Q_INVOKABLE Eigen::Vector3f scale() const;
+            Q_INVOKABLE Eigen::Vector3f worldScale() const;
 
-            Q_INVOKABLE QQuaternion orientation() const;
-            Q_INVOKABLE QQuaternion worldOrientation() const;
+            Q_INVOKABLE Eigen::Quaternionf orientation() const;
+            Q_INVOKABLE Eigen::Quaternionf worldOrientation() const;
 
-            Q_INVOKABLE QMatrix4x4 transform() const;
+            Q_INVOKABLE Eigen::Affine3f transform() const;
 
         protected Q_SLOTS:
             void childDeleted( QObject* obj );
@@ -256,17 +259,17 @@ namespace GluonEngine
             /**
              * Set the position of the object
              * Note that this position is relative to the object's parent.
-             * E.g.: setPosition(QVector3D(0, 0, 0)) set the object at the
+             * E.g.: setPosition(Eigen::Vector3f(0, 0, 0)) set the object at the
              * parent's pivot.
              *
              * @param newPosition The new position of the object
              */
-            void setPosition( const QVector3D& newPosition );
+            void setPosition( const Eigen::Vector3f& newPosition );
 
             /**
              * Set the position of the object
              *
-             * @see setPosition(const QVector3D& newPosition)
+             * @see setPosition(const Eigen::Vector3f& newPosition)
              *
              * @param x The X-axis component of the new position of the object
              * @param y The Y-axis component of the new position of the object
@@ -278,7 +281,7 @@ namespace GluonEngine
              * Set the position of the object. This will not change the z-
              * position.
              *
-             * @see setPosition(const QVector3D& newPosition)
+             * @see setPosition(const Eigen::Vector3f& newPosition)
              *
              * @param x The X-axis component of the new position of the object
              * @param y The Y-axis component of the new position of the object
@@ -288,7 +291,7 @@ namespace GluonEngine
             /**
              * Translate the object relative to its current position.
              * This moves the object so that its new position will be equal to
-             * position + translation. So translating by QVector3D(1, 0, 0) would
+             * position + translation. So translating by Eigen::Vector3f(1, 0, 0) would
              * move the object one unit to the right.
              *
              * @param translation The amount to translate the object by
@@ -296,12 +299,12 @@ namespace GluonEngine
              * the object will move in local space, if transform space is TS_WORLD,
              * the object will move in world space.
              */
-            void translate( const QVector3D& translation, GluonEngine::GameObject::TransformSpace ts = TS_LOCAL );
+            void translate( const Eigen::Vector3f& translation, GluonEngine::GameObject::TransformSpace ts = TS_LOCAL );
 
             /**
              * Translate the object relative to its current position.
              *
-             * @see translate(const QVector3D& translation)
+             * @see translate(const Eigen::Vector3f& translation)
              *
              * @param x The X-axis component of the translation
              * @param y The Y-axis component of the translation
@@ -314,7 +317,7 @@ namespace GluonEngine
              * Translate the object relative to its current position. This will
              * not change the z-position.
              *
-             * @see translate(const QVector3D& translation)
+             * @see translate(const Eigen::Vector3f& translation)
 
              * @param x The X-axis component of the translation
              * @param y The Y-axis component of the translation
@@ -327,9 +330,9 @@ namespace GluonEngine
              *
              * @param newScale The new scale of the object
              */
-            void setScale( const QVector3D& newScale );
+            void setScale( const Eigen::Vector3f& newScale );
             void setScale( float x, float y, float z );
-            void scaleRelative( QVector3D scaling, TransformSpace ts = TS_LOCAL );
+            void scaleRelative( Eigen::Vector3f scaling, TransformSpace ts = TS_LOCAL );
             void scaleRelative( float x, float y, float z, TransformSpace ts = TS_LOCAL );
 
             /**
@@ -338,9 +341,9 @@ namespace GluonEngine
              *
              * @param newOrientation The new orientation of the object
              */
-            void setOrientation( const QQuaternion& newOrientation );
-            void orient( QQuaternion rotation, TransformSpace ts = TS_LOCAL );
-            void rotate( float angle, const QVector3D& axis, TransformSpace ts = TS_LOCAL );
+            void setOrientation( const Eigen::Quaternionf& newOrientation );
+            void orient( Eigen::Quaternionf rotation, TransformSpace ts = TS_LOCAL );
+            void rotate( float angle, const Eigen::Vector3f& axis, TransformSpace ts = TS_LOCAL );
 
             void updateTransform();
             void invalidateTransform();

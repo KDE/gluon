@@ -22,6 +22,8 @@
 
 #include <engine/component.h>
 
+#include <Eigen/Core>
+
 namespace GluonEngine
 {
     class Asset;
@@ -67,7 +69,7 @@ namespace GluonEngine
             virtual void setTexture( Asset* asset );
 
         private:
-            void setDiscSection( QVector3D position, float radius, uint nbPoints, float degrees, float arcCenter, QColor color );
+            void setDiscSection( Eigen::Vector3f position, float radius, uint nbPoints, float degrees, float arcCenter, QColor color );
 
             class DiscSectionRendererComponentPrivate;
             DiscSectionRendererComponentPrivate* const d;

@@ -29,6 +29,9 @@
 
 #include <QtCore/QMetaProperty>
 
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+
 using namespace GluonEngine;
 
 PrefabPrivate::PrefabPrivate()
@@ -201,8 +204,18 @@ void PrefabPrivate::addRemoveAndUpdateChildren(GluonCore::GluonObject* updateThi
         {
             GluonCore::GluonObject* object = linkedObjectMap.value( linkedInstance );
             if( object )
-                if( object->property( name ) == oldVariant )
+            {
+                QVariant variant = object->property( name );
+                if( variant == oldVariant // for user defined types, QVariant's ==-operator only compares the addresses
+                    || (QString(variant.typeName()) == "Eigen::Vector2f" && variant.value<Eigen::Vector2f>() == oldVariant.value<Eigen::Vector2f>())
+                    || (QString(variant.typeName()) == "Eigen::Vector3f" && variant.value<Eigen::Vector3f>() == oldVariant.value<Eigen::Vector3f>())
+                    || (QString(variant.typeName()) == "Eigen::Vector4f" && variant.value<Eigen::Vector4f>() == oldVariant.value<Eigen::Vector4f>())
+                    || (QString(variant.typeName()) == "Eigen::Quaternionf" && variant.value<Eigen::Quaternionf>().isApprox( oldVariant.value<Eigen::Quaternionf>())) // not fuzzy
+                )
+                {
                     object->setProperty( name, newVariant );
+                }
+            }
         }
     }
 

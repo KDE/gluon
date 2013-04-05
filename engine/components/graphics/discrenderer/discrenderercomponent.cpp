@@ -136,7 +136,7 @@ void DiscRendererComponent::setNbPoints( uint newNbPoints )
         setDisc( gameObject()->position(), d->radius, d->nbPoints, d->color );
 }
 
-void DiscRendererComponent::setDisc( QVector3D position, float radius, uint nbPoints, QColor color )
+void DiscRendererComponent::setDisc( Eigen::Vector3f position, float radius, uint nbPoints, QColor color )
 {
     if( d->mesh )
         d->mesh->setDisc( position, radius, nbPoints, color );

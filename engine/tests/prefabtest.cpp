@@ -24,7 +24,6 @@
 #include <engine/prefabinstancechild.h>
 #include <engine/prefab.h>
 
-#include <QtGui/QVector3D>
 #include <QtCore/QDebug>
 #include <QtTest/QtTest>
 
@@ -99,10 +98,10 @@ void PrefabTest::testChangeRevert()
 
     m_instance->revertChanges();
 
-    QCOMPARE( m_instance->position(), QVector3D( 0, 0, 0 ) );
-    QCOMPARE( m_instance->scale(), QVector3D( 1, 1, 1 ) );
-    QCOMPARE( m_instance->childGameObject(0)->position(), QVector3D( 0, 0, 0 ) );
-    QCOMPARE( m_instance->childGameObject(0)->scale(), QVector3D( 1, 1, 1 ) );
+    QCOMPARE( m_instance->position(), Eigen::Vector3f( 0, 0, 0 ) );
+    QCOMPARE( m_instance->scale(), Eigen::Vector3f( 1, 1, 1 ) );
+    QCOMPARE( m_instance->childGameObject(0)->position(), Eigen::Vector3f( 0, 0, 0 ) );
+    QCOMPARE( m_instance->childGameObject(0)->scale(), Eigen::Vector3f( 1, 1, 1 ) );
     QCOMPARE( m_instance->childCount(), 1 );
     QCOMPARE( m_instance->childGameObject(0)->childCount(), 0 );
     QCOMPARE( m_prefab->gameObject()->childCount(), 1 );
@@ -118,14 +117,14 @@ void PrefabTest::testChangeApply()
 
     m_instance->storeChanges();
 
-    QCOMPARE( m_instance->position(), QVector3D( 10, 11, 25.37 ) );
-    QCOMPARE( m_instance->scale(), QVector3D( 10, 10, 10 ) );
-    QCOMPARE( child->position(), QVector3D( 55, 66, 77 ) );
-    QCOMPARE( child->scale(), QVector3D( 12, 12, 15 ) );
+    QCOMPARE( m_instance->position(), Eigen::Vector3f( 10, 11, 25.37 ) );
+    QCOMPARE( m_instance->scale(), Eigen::Vector3f( 10, 10, 10 ) );
+    QCOMPARE( child->position(), Eigen::Vector3f( 55, 66, 77 ) );
+    QCOMPARE( child->scale(), Eigen::Vector3f( 12, 12, 15 ) );
     QCOMPARE( m_instance->childCount(), 1 );
     QCOMPARE( child->childCount(), 0 );
-    QCOMPARE( m_prefab->gameObject()->position(), QVector3D( 10, 11, 25.37 ) );
-    QCOMPARE( m_prefab->gameObject()->scale(), QVector3D( 10, 10, 10 ) );
+    QCOMPARE( m_prefab->gameObject()->position(), Eigen::Vector3f( 10, 11, 25.37 ) );
+    QCOMPARE( m_prefab->gameObject()->scale(), Eigen::Vector3f( 10, 10, 10 ) );
     QCOMPARE( m_prefab->gameObject()->childCount(), 1 );
 }
 
@@ -217,9 +216,9 @@ void PrefabTest::testInstances()
     instance->setScale( 15, 15, 16 );
     instance->storeChanges();
 
-    QCOMPARE( m_instance->position(), QVector3D( 10, 10, 10 ) );
-    QCOMPARE( instance->position(), QVector3D( 10, 10, 10 ) );
-    QCOMPARE( m_instance->scale(), QVector3D( 15, 15, 16 ) );
+    QCOMPARE( m_instance->position(), Eigen::Vector3f( 10, 10, 10 ) );
+    QCOMPARE( instance->position(), Eigen::Vector3f( 10, 10, 10 ) );
+    QCOMPARE( m_instance->scale(), Eigen::Vector3f( 15, 15, 16 ) );
 }
 
 void PrefabTest::testRevertChild()
@@ -228,12 +227,12 @@ void PrefabTest::testRevertChild()
     QVERIFY( child );
     child->addChild( new GameObject() );
     QCOMPARE( child->children().count(), 1 );
-    child->setPosition( QVector3D(12, 13, 14) );
+    child->setPosition( Eigen::Vector3f(12, 13, 14) );
 
     child->revertChanges();
 
     QCOMPARE( child->children().count(), 0 );
-    QCOMPARE( child->position(), QVector3D(0,0,0) );
+    QCOMPARE( child->position(), Eigen::Vector3f(0,0,0) );
 }
 
 void PrefabTest::testApplyChild()
@@ -245,11 +244,11 @@ void PrefabTest::testApplyChild()
     QVERIFY( child );
     child->addChild( new GameObject() );
     QCOMPARE( child->children().count(), 1 );
-    child->setPosition( QVector3D(12, 13, 14) );
+    child->setPosition( Eigen::Vector3f(12, 13, 14) );
 
     child->storeChanges();
 
-    QCOMPARE( secondInstanceChild->position(), QVector3D(12,13,14) );
+    QCOMPARE( secondInstanceChild->position(), Eigen::Vector3f(12,13,14) );
     QCOMPARE( secondInstanceChild->children().count(), 1 );
 }
 

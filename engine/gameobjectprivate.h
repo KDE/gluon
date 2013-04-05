@@ -23,8 +23,10 @@
 
 #include <QtCore/QList>
 #include <QtCore/QString>
+#include <QtCore/QMultiHash>
 
-#include <QtGui/QMatrix4x4>
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 
 namespace GluonEngine
 {
@@ -42,15 +44,15 @@ namespace GluonEngine
             bool enabled;
             bool initialized;
 
-            QVector3D position;
-            QVector3D scale;
-            QQuaternion orientation;
+            Eigen::Vector3f position;
+            Eigen::Vector3f scale;
+            Eigen::Quaternionf orientation;
 
-            QVector3D worldPosition;
-            QVector3D worldScale;
-            QQuaternion worldOrientation;
+            Eigen::Vector3f worldPosition;
+            Eigen::Vector3f worldScale;
+            Eigen::Quaternionf worldOrientation;
 
-            QMatrix4x4 transform;
+            Eigen::Affine3f transform;
             bool transformInvalidated;
 
             GameObject* parentGameObject;

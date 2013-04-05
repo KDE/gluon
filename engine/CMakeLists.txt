@@ -5,6 +5,9 @@ if(NOT GLUON_BUILD_ALL)
     find_package(GluonCore REQUIRED)
 endif()
 
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+find_package(Eigen3 REQUIRED)
+
 option(BUILD_AUDIO_COMPONENTS "Build Components dependant on Gluon Audio" ON)
 option(BUILD_AUDIO_ASSETS "Build Assets dependant on Gluon Audio" ON)
 option(BUILD_GRAPHICS_COMPONENTS "Build Components dependant on Gluon Graphics" ON)
@@ -33,12 +36,11 @@ if(NOT BUILD_GLUON_INPUT)
     set(BUILD_INPUT_COMPONENTS OFF)
 endif()
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${GLUON_CORE_INCLUDE_DIRS}
+    ${EIGEN3_INCLUDE_DIR}
 )
 
 set(GLUON_ENGINE_INCLUDE_DIRS
