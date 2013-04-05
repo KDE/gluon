@@ -28,7 +28,8 @@ class btPerceptionInfo::btPerceptionInfoPrivate
 {
     public:
         btPerceptionInfoPrivate()
-            : radius(0)
+            : position(Eigen::Vector3f(0,0,0))
+            , radius(0)
         {
         }
 
@@ -36,7 +37,7 @@ class btPerceptionInfo::btPerceptionInfoPrivate
         {
         }
         
-        QVector3D position;
+        Eigen::Vector3f position;
         qreal radius;
 };
 
@@ -55,12 +56,12 @@ btPerceptionInfo::~btPerceptionInfo()
     delete d;
 }
 
-QVector3D btPerceptionInfo::position() const
+Eigen::Vector3f btPerceptionInfo::position() const
 {
     return d->position;
 }
 
-void btPerceptionInfo::setPosition(const QVector3D& newPosition)
+void btPerceptionInfo::setPosition(const Eigen::Vector3f& newPosition)
 {
     d->position = newPosition;
 }

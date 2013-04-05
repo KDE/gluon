@@ -26,13 +26,14 @@
 #include "btlib.h"
 #include "btperception.h"
 
+#include <core/gluonvarianttypes.h>
+
 #include <QtCore/QStack>
 #include <QtCore/QList>
 #include <QtCore/QQueue>
 #include <QtCore/QMultiHash>
 #include <QtCore/QHash>
 #include <QtCore/QPair>
-#include <QtGui/QQuaternion>
 
 class QXmlStreamWriter;
 
@@ -44,8 +45,8 @@ namespace GluonSmarts
     class GLUON_SMARTS_EXPORT btCharacter : public QObject
     {
             Q_OBJECT
-            Q_PROPERTY( QVector3D position READ position WRITE setPosition )
-            Q_PROPERTY( QQuaternion orientation READ orientation WRITE setOrientation )
+            Q_PROPERTY( Eigen::Vector3f position READ position WRITE setPosition )
+            Q_PROPERTY( Eigen::Quaternionf orientation READ orientation WRITE setOrientation )
 
         public:
             btCharacter( QObject* parent = 0 );
@@ -59,14 +60,14 @@ namespace GluonSmarts
             * The character's position in the world
             */
 
-            virtual QVector3D position() const;
-            virtual void setPosition( const QVector3D& newPosition );
+            virtual Eigen::Vector3f position() const;
+            virtual void setPosition( const Eigen::Vector3f& newPosition );
 
             /**
              * The character's orientation in the world.
              */
-            virtual QQuaternion orientation() const;
-            virtual void setOrientation( const QQuaternion& newOrientation );
+            virtual Eigen::Quaternionf orientation() const;
+            virtual void setOrientation( const Eigen::Quaternionf& newOrientation );
 
             /**
              * Accessor for the character's perception system
@@ -112,8 +113,8 @@ namespace GluonSmarts
             //used for parallels
             QMultiHash<QStack<btNode*>*, QList<btNode::status>* > m_parallelNodeStatusHash;
 
-            QVector3D m_position;
-            QQuaternion m_orientation;
+            Eigen::Vector3f m_position;
+            Eigen::Quaternionf m_orientation;
             btPerception* m_perception;
     };
 }
