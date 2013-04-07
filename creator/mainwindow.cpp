@@ -118,7 +118,6 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
 
 MainWindow::~MainWindow()
 {
-    d->recentFiles->saveEntries( KGlobal::config()->group( "Recent Files" ) );
     GluonCreator::Settings::setLockLayout( actionCollection()->action( "lock_layout" )->isChecked() );
     GluonCreator::Settings::self()->writeConfig();
 
@@ -165,6 +164,7 @@ void MainWindow::openProject()
     ObjectManager::instance()->watchCurrentAssets();
 
     d->recentFiles->addUrl( KUrl( d->fileName ) );
+    d->recentFiles->saveEntries( KGlobal::config()->group( "Recent Files" ) );
 
     stateChanged( "fileOpened" );
     DockManager::instance()->setDocksEnabled( true );
