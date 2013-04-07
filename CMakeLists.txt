@@ -38,11 +38,17 @@ set(GLUON_BUILD_ALL TRUE
     CACHE INTERNAL "Build all of Gluon"
 )
 
-if(NOT MSVC)
-    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -Wno-switch -O2 -g")
-    set(CMAKE_CXX_FLAGS_RELEASE "-Wall -Wno-switch -O2")
-    set(CMAKE_CXX_FLAGS_DEBUG  "-Wall -Wno-switch -g3 -ggdb -O0" CACHE STRING "Debug options." FORCE)
-endif(NOT MSVC)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.8.0")
+	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -Wno-switch -O2 -g")
+        set(CMAKE_CXX_FLAGS_RELEASE "-Wall -Wno-switch -O2")
+        set(CMAKE_CXX_FLAGS_DEBUG  "-Wall -Wno-switch -g3 -ggdb -O0" CACHE STRING "Debug options." FORCE)
+    else(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.8.0")
+        set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -Wno-switch -Wno-unused-local-typedefs -O2 -g")
+        set(CMAKE_CXX_FLAGS_RELEASE "-Wall -Wno-switch -Wno-unused-local-typedefs -O2")
+        set(CMAKE_CXX_FLAGS_DEBUG  "-Wall -Wno-switch -Wno-unused-local-typedefs -g3 -ggdb -O0" CACHE STRING "Debug options." FORCE)
+    endif(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.8.0")
+endif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
