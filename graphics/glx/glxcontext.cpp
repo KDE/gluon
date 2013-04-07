@@ -32,12 +32,12 @@ using namespace GluonGraphics::GLX;
 class Context::Private
 {
     public:
-        Private() : current( false ) { }
+        Private() : currentWidget( 0 ) { }
 
         Version parseVersion( const QByteArray& string );
 
         GLXContext context;
-        bool current;
+        QWidget* currentWidget;
 
         Version glXVersion;
         Version glVersion;
@@ -93,6 +93,7 @@ bool Context::initialize( QWidget* widget )
 
     //Set it to current so we can initialize some properties.
     glXMakeCurrent( QX11Info::display(), widget->winId(), d->context );
+    // Workaround for an NVidia bug, the first call will fail to make the context current but the second will succeed
     glXMakeCurrent( QX11Info::display(), widget->winId(), d->context );
 
     //Set all the version related properties.
@@ -143,19 +144,22 @@ void Context::destroy()
 
 void Context::makeCurrent( QWidget* widget )
 {
+    if( widget == d->currentWidget )
+        return;
+
     glXMakeCurrent( QX11Info::display(), widget->winId(), d->context );
-    d->current = true;
+    d->currentWidget = widget;
 }
 
 void Context::clearCurrent()
 {
     glXMakeCurrent( QX11Info::display(), None, NULL );
-    d->current = false;
+    d->currentWidget = 0;
 }
 
 bool Context::isCurrent() const
 {
-    return d->current;
+    return d->currentWidget != 0;
 }
 
 QString Context::errorString() const
