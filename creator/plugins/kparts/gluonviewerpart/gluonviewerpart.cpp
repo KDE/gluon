@@ -43,12 +43,13 @@ using namespace GluonGraphics;
 class GluonViewerPart::GluonViewerPartPrivate
 {
     public:
-        GluonViewerPartPrivate() : project(0), autoplay(true) { }
+        GluonViewerPartPrivate() : project(0), autoplay( false ), forceLoad( false ) { }
 
         GluonGraphics::RenderWidget* widget;
         GluonEngine::GameProject* project;
 
         bool autoplay;
+        bool forceLoad;
 };
 
 GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* /* parentWidget */, QObject* parent, const QVariantList& args )
@@ -67,8 +68,11 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* /* parentWidget */, QOb
     foreach( const QVariant & arg, args )
     {
         QString keyValue = arg.toString();
-        if( keyValue == "autoplay=false" )
-            d->autoplay = false;
+        if( keyValue == "autoplay" )
+            d->autoplay = true;
+
+        if( keyValue == "forceLoad" )
+            d->forceLoad = true;
     }
 
     QActionGroup* group = new QActionGroup( actionCollection() );
@@ -107,11 +111,18 @@ bool GluonCreator::GluonViewerPart::openFile()
 {
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
-    d->project = new GluonEngine::GameProject();
-    d->project->loadFromFile( url() );
+    if( !GluonEngine::Game::instance()->gameProject() || d->forceLoad )
+    {
+        d->project = new GluonEngine::GameProject();
+        d->project->loadFromFile( url() );
 
-    GluonEngine::Game::instance()->setGameProject( d->project );
-    GluonEngine::Game::instance()->setCurrentScene( d->project->entryPoint() );
+        GluonEngine::Game::instance()->setGameProject( d->project );
+        GluonEngine::Game::instance()->setCurrentScene( d->project->entryPoint() );
+    }
+    else
+    {
+        d->project = GluonEngine::Game::instance()->gameProject();
+    }
 
     if( d->autoplay )
     {
