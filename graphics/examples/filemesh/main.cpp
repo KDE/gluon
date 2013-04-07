@@ -62,7 +62,7 @@ int main( int argc, char* argv[] )
 
 
     Entity* ent = Manager::instance()->currentWorld()->createEntity< Entity >();
-    mat.rotate( Eigen::AxisAngle(-45, MathUtils::VECTOR_UNIT_Y) );
+    mat.rotate( Eigen::AngleAxis<float>(-45, MathUtils::VECTOR_UNIT_Y) );
     ent->setTransform( mat );
     ent->setMesh( mesh );
     ent->setMaterialInstance( material->createInstance() );
