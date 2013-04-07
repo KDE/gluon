@@ -1,12 +1,10 @@
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
-find_package(Eigen3 REQUIRED)
 
 include_directories(
     ${QT_INCLUDES}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/../common/
-    ${EIGEN3_INCLUDE_DIR}
 )
 
 set(GluonSmarts_SRCS
