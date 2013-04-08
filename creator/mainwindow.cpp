@@ -118,7 +118,6 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
 
 MainWindow::~MainWindow()
 {
-    d->recentFiles->saveEntries( KGlobal::config()->group( "Recent Files" ) );
     GluonCreator::Settings::setLockLayout( actionCollection()->action( "lock_layout" )->isChecked() );
     GluonCreator::Settings::self()->writeConfig();
 
@@ -155,9 +154,9 @@ void MainWindow::openProject( const QString& fileName )
 void MainWindow::openProject()
 {
     statusBar()->showMessage( i18n( "Opening project..." ) );
-    FileManager::instance()->openFile( d->fileName, "view", i18nc( "View Game Tab", "View" ), QString(), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ), false );
+    FileManager::instance()->openFile( d->fileName, "view", i18nc( "View Game Tab", "View" ), QString(), "gluon_viewer_part", QVariantList(), false );
     //TODO: Editor view needs to be implemented
-    //FileManager::instance()->openFile( d->fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), QString(), "gluon_viewer_part", QVariantList() << QString( "autoplay=false" ), false );
+    FileManager::instance()->openFile( d->fileName, "edit", i18nc( "Edit Game Tab", "Edit" ), QString(), "gluon_viewer_part", QVariantList(), false );
     d->mainArea->setActiveTab( "view" );
 
     GluonEngine::Game::instance()->initializeAll();
@@ -165,6 +164,7 @@ void MainWindow::openProject()
     ObjectManager::instance()->watchCurrentAssets();
 
     d->recentFiles->addUrl( KUrl( d->fileName ) );
+    d->recentFiles->saveEntries( KGlobal::config()->group( "Recent Files" ) );
 
     stateChanged( "fileOpened" );
     DockManager::instance()->setDocksEnabled( true );

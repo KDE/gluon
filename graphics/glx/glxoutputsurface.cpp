@@ -40,10 +40,15 @@ using namespace GluonGraphics::GLX;
 class GLXOutputSurface::Private
 {
     public:
+        Private() : firstFrame( true ) { }
+
         GLX::Context* context;
 
         SpriteMesh* data;
         Shader* shader;
+
+        //Workaround for radeon bug
+        bool firstFrame;
 };
 
 GLXOutputSurface::GLXOutputSurface( GLX::Context* context, QWidget* container, QObject* parent )
@@ -62,6 +67,18 @@ void GLXOutputSurface::renderContents()
     d->context->makeCurrent( widget() );
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+    /* This is a workaround for a radeon bug.
+     *
+     * The sequence glEnable( GL_DEPTH_TEST ) glClear() ... draw calls ... glSwapBuffers() glClear()
+     * will fail to do depth testing properly, whereas the sequence glClear()
+     * glEnable( GL_DEPTH_TEST ) ... draw calls ... glSwapBuffers glClear() will work fine.
+     */
+    if( d->firstFrame )
+    {
+        glEnable( GL_DEPTH_TEST );
+        d->firstFrame = false;
+    }
 
     if( renderTarget() )
         renderTarget()->renderContents();
