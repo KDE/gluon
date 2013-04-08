@@ -99,9 +99,9 @@ QStringList
 VectorPropertyWidgetItem::supportedDataTypes() const
 {
     QStringList supportedTypes;
-    supportedTypes.append( "Vector2f" );
-    supportedTypes.append( "Vector3f" );
-    supportedTypes.append( "Vector4f" );
+    supportedTypes.append( "Eigen::Vector2f" );
+    supportedTypes.append( "Eigen::Vector3f" );
+    supportedTypes.append( "Eigen::Vector4f" );
     return supportedTypes;
 }
 
