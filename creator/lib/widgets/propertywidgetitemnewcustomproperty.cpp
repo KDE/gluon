@@ -22,6 +22,7 @@
 #include "objectmanager.h"
 
 #include <core/gluonobject.h>
+#include <core/gluonvarianttypes.h>
 
 #include <KDE/KLocalizedString>
 #include <KDE/KComboBox>
@@ -30,13 +31,12 @@
 #include <QtGui/QFormLayout>
 #include <QtGui/QPushButton>
 #include <QtGui/QColor>
-#include <QtGui/QVector2D>
-#include <QtGui/QVector3D>
-#include <QtGui/QVector4D>
-#include <QtGui/QQuaternion>
 
 #include <QtCore/QUrl>
 #include <QtCore/QSizeF>
+
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 
 using namespace GluonCreator;
 
@@ -53,10 +53,10 @@ PropertyWidgetItemNewCustomProperty::PropertyWidgetItemNewCustomProperty( QWidge
     propertyType->addItem( i18n( "Floating point (float)" ), QVariant::fromValue<float>( 0 ) );
     propertyType->addItem( i18n( "Large integer (longlong)" ), QVariant::fromValue<qlonglong>( 0 ) );
     propertyType->addItem( i18n( "String (string)" ), QVariant::fromValue<QString>( "" ) );
-    propertyType->addItem( i18n( "2D Vector (vector2d)" ), QVariant::fromValue<QVector2D>( QVector2D() ) );
-    propertyType->addItem( i18n( "3D Vector (vector3d)" ), QVariant::fromValue<QVector3D>( QVector3D() ) );
-    propertyType->addItem( i18n( "4D Vector (vector4d)" ), QVariant::fromValue<QVector4D>( QVector4D() ) );
-    propertyType->addItem( i18n( "Quaternion (quaternion)" ), QVariant::fromValue<QQuaternion>( QQuaternion() ) );
+    propertyType->addItem( i18n( "2D Vector (vector2d)" ), QVariant::fromValue( Eigen::Vector2f(0,0) ) );
+    propertyType->addItem( i18n( "3D Vector (vector3d)" ), QVariant::fromValue( Eigen::Vector3f(0,0,0) ) );
+    propertyType->addItem( i18n( "4D Vector (vector4d)" ), QVariant::fromValue( Eigen::Vector4f(0,0,0,0) ) );
+    propertyType->addItem( i18n( "Quaternion (quaternion)" ), QVariant::fromValue( Eigen::Quaternionf::Identity() ) );
     propertyType->addItem( i18n( "Unsigned integer (uint)" ), QVariant::fromValue<uint>( 0 ) );
     propertyType->addItem( i18n( "Unsigned large integer (ulonglong)" ), QVariant::fromValue<qulonglong>( 0 ) );
     propertyType->addItem( i18n( "URL (url)" ), QVariant::fromValue<QUrl>( QUrl() ) );
