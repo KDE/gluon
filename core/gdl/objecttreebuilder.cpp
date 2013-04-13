@@ -289,9 +289,9 @@ void ObjectTreeBuilder::visitVector2d_type(GDL::Vector2d_typeAst* node)
 {
     Vector2f vector;
     GDL::Lexer::Token token = d->lexer->at(node->x);
-    vector(1) = d->textForToken(token).toFloat();
+    vector.x() = d->textForToken(token).toFloat();
     token = d->lexer->at(node->y);
-    vector(2) = d->textForToken(token).toFloat();
+    vector.y() = d->textForToken(token).toFloat();
 
     d->currentPropertyValue = QVariant::fromValue<Vector2f>(vector);
 }
@@ -300,11 +300,11 @@ void ObjectTreeBuilder::visitVector3d_type(GDL::Vector3d_typeAst* node)
 {
     Vector3f vector;
     GDL::Lexer::Token token = d->lexer->at(node->x);
-    vector(1) = d->textForToken(token).toFloat();
+    vector.x() = d->textForToken(token).toFloat();
     token = d->lexer->at(node->y);
-    vector(2) = d->textForToken(token).toFloat();
+    vector.y() = d->textForToken(token).toFloat();
     token = d->lexer->at(node->z);
-    vector(3) = d->textForToken(token).toFloat();
+    vector.z() = d->textForToken(token).toFloat();
 
     d->currentPropertyValue = QVariant::fromValue<Vector3f>(vector);
 }
@@ -313,13 +313,13 @@ void ObjectTreeBuilder::visitVector4d_type(GDL::Vector4d_typeAst* node)
 {
     Vector4f vector;
     GDL::Lexer::Token token = d->lexer->at(node->x);
-    vector(1) = d->textForToken(token).toFloat();
+    vector.x() = d->textForToken(token).toFloat();
     token = d->lexer->at(node->y);
-    vector(2) = d->textForToken(token).toFloat();
+    vector.y() = d->textForToken(token).toFloat();
     token = d->lexer->at(node->z);
-    vector(3) = d->textForToken(token).toFloat();
+    vector.z() = d->textForToken(token).toFloat();
     token = d->lexer->at(node->w);
-    vector(4) = d->textForToken(token).toFloat();
+    vector.w() = d->textForToken(token).toFloat();
 
     d->currentPropertyValue = QVariant::fromValue<Vector4f>(vector);
 }
