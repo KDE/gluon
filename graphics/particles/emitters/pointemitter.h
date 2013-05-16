@@ -21,7 +21,7 @@
 #ifndef GLUONGRAPHICS_POINTEMITTER_H
 #define GLUONGRAPHICS_POINTEMITTER_H
 
-#include "particleemitter.h"
+#include "../particleemitter.h"
 
 namespace GluonGraphics
 {

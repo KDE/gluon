@@ -20,10 +20,12 @@
 
 #include "particlerenderer.h"
 
+REGISTER_OBJECTTYPE(GluonGraphics, ParticleRenderer)
+
 using namespace GluonGraphics;
 
 ParticleRenderer::ParticleRenderer(QObject* parent)
-    : QObject( parent )
+    : GluonCore::GluonObject( parent )
 {
 
 }

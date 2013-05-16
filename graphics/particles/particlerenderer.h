@@ -21,22 +21,24 @@
 #ifndef GLUONGRAPHICS_PARTICLERENDERER_H
 #define GLUONGRAPHICS_PARTICLERENDERER_H
 
-#include <QtCore/QObject>
+#include <core/gluonobject.h>
 
 #include "particleemitter.h"
 
 namespace GluonGraphics
 {
-    class ParticleRenderer : public QObject
+    class ParticleRenderer : public GluonCore::GluonObject
     {
         Q_OBJECT
+        GLUON_OBJECT(ParticleRenderer)
+
         public:
             explicit ParticleRenderer(QObject* parent = 0);
 
-            void render( const ParticleEmitter::ParticleList& particles ) = 0;
-            void render( const ParticleEmitter::ParticleList& particles, const QMatrix4x4& transform ) = 0;
+            virtual void render( const ParticleEmitter::ParticleList& particles, const QMatrix4x4& transform = QMatrix4x4() ) = 0;
     };
-
 }
+
+Q_DECLARE_METATYPE(GluonGraphics::ParticleRenderer)
 
 #endif // GLUONGRAPHICS_PARTICLERENDERER_H

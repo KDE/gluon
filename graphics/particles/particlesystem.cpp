@@ -93,7 +93,7 @@ bool ParticleSystem::save(const QUrl& path)
 void ParticleSystem::unload()
 {
     d->emitters.clear();
-    qDeleteAll( children() );
+    qDeleteAll( children() );h
 }
 
 ParticleEmitter* ParticleSystem::createEmitter( const QString& name, const QString& type )

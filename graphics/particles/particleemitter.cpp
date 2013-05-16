@@ -134,7 +134,7 @@ void ParticleEmitter::update( int time )
         particle = d->particles.at( i );
         particle->age += time;
 
-        //TODO: Potential imporvement here: Use template metaprogramming to unroll loop.
+        //TODO: Potential improvement here: Use template metaprogramming to unroll loop.
         for( int j = 0; j < affectorCount; ++j )
         {
             d->affectors.at( j )->affectParticle( particle, time );

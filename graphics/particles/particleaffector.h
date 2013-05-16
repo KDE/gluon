@@ -34,7 +34,7 @@ namespace GluonGraphics
         public:
             ParticleAffector(QObject* parent = 0);
 
-            void affectParticle( Particle* particle, int time ) = 0;
+            virtual void affectParticle( Particle* particle, int time ) = 0;
     };
 
 }
