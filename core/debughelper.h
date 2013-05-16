@@ -22,7 +22,7 @@
 #ifndef GLUON_CORE_DEBUGHELPER_H
 #define GLUON_CORE_DEBUGHELPER_H
 
-#include "gluon_core_export.h"
+#include "gluoncore_export.h"
 
 #include <QtCore/QString>
 
@@ -41,7 +41,7 @@
 
 namespace GluonCore
 {
-    class GLUON_CORE_EXPORT DbgHelper
+    class GLUONCORE_EXPORT DbgHelper
     {
         public:
             DbgHelper();

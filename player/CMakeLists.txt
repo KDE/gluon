@@ -6,9 +6,9 @@ option( BUILD_HARMATTAN_PLAYER "Build the Harmattan Player" OFF )
 option( BUILD_FREMANTLE_PLAYER "Build the Fremantle Player" OFF )
 option( INSTALL_EXAMPLES "Install the example projects" ON )
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
 
-set(LIBATTICA_MIN_VERSION 0.1.90)
+set( LIBATTICA_MIN_VERSION 0.1.90 )
 find_package( LibAttica REQUIRED )
 
 include_directories(
@@ -19,22 +19,14 @@ include_directories(
 
 add_subdirectory(lib)
 
-if( BUILD_FREMANTLE_PLAYER )
-    add_subdirectory(fremantle)
-endif()
-
-if( BUILD_HARMATTAN_PLAYER )
-    add_subdirectory(harmattan)
-endif()
-
 if( BUILD_DESKTOP_PLAYER )
-    if(KDE4_FOUND)
-        include_directories(${KDE4_INCLUDES})
-        add_subdirectory(desktop)
-    else(KDE4_FOUND)
+    if( KDE4_FOUND )
+        include_directories( ${KDE4_INCLUDES} )
+        add_subdirectory( desktop )
+    else( KDE4_FOUND )
         set( BUILD_DESKTOP_PLAYER OFF )
-        message(STATUS "KDE libraries are not found - not building the Desktop Player" )
-    endif(KDE4_FOUND)
+        message( STATUS "KDE libraries are not found - not building the Desktop Player" )
+    endif( KDE4_FOUND )
 endif( BUILD_DESKTOP_PLAYER )
 
 if( BUILD_ACTIVE_PLAYER )
@@ -44,8 +36,16 @@ if( BUILD_ACTIVE_PLAYER )
         add_subdirectory(active)
     else(KDE4_FOUND)
         set( BUILD_ACTIVE_PLAYER OFF )
-        message(STATUS "KDE libraries are not found - not building the Plasma Active Player")
-    endif(KDE4_FOUND)
+        message( STATUS "KDE libraries are not found - not building the Plasma Active Player" )
+    endif( KDE4_FOUND )
+endif()
+
+if( BUILD_FREMANTLE_PLAYER )
+    add_subdirectory(fremantle)
+endif()
+
+if( BUILD_HARMATTAN_PLAYER )
+    add_subdirectory(harmattan)
 endif()
 
 if( INSTALL_EXAMPLES )

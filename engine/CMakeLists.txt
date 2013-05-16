@@ -22,16 +22,8 @@ if(NOT BUILD_GLUONINPUT)
     set(BUILD_INPUT_COMPONENTS OFF)
 endif()
 
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${GLUON_CORE_INCLUDE_DIRS}
-)
-
-set(GLUON_ENGINE_INCLUDE_DIRS
-    ${GLUON_CORE_INCLUDE_DIRS}
-    ${GLUON_GRAPHICS_INCLUDE_DIRS}
-    CACHE INTERNAL "Include files required for Gluon Engine"
+gluon_include_directories( GluonEngine
+    ${GLUONCORE_INCLUDE_DIRS}
 )
 
 set(GluonEngine_SRCS
@@ -93,64 +85,16 @@ set(GluonEngine_HEADERS
     gluon_engine_metatypes.h
 )
 
-qt4_automoc(${GluonEngine_SRCS})
-if(APPLE)
-    add_library(GluonEngine SHARED ${GluonEngine_SRCS} ${GluonEngine_HEADERS})
-else()
-    add_library(GluonEngine SHARED ${GluonEngine_SRCS})
-endif()
-
-set_target_properties(GluonEngine PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_ENGINE_LIB)
-
-if(APPLE)
-    #hack for being able to set headers as public in a osx framework
-    list(APPEND GluonEngine_HEADERS
-    ${GluonEngine_HEADERS}
-    )
-
-    set_target_properties(GluonEngine PROPERTIES FRAMEWORK TRUE)
-    set_target_properties(GluonEngine PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
-    set_target_properties(GluonEngine PROPERTIES PUBLIC_HEADER "${GluonEngine_HEADERS}")
-
-    set(MACOSX_FRAMEWORK_IDENTIFIER engine)
-    set(MACOSX_FRAMEWORK_IDENTIFIER GluonEngine)
-    set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
-    set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
-endif()
-
-if(GLUON_BUILD_ALL)
-    add_dependencies(GluonEngine GluonCore)
-endif()
-
-target_link_libraries(GluonEngine ${GLUON_CORE_LIBS} ${GLUON_GRAPHICS_LIBS} ${QT_QTSQL_LIBRARY})
-
-set(GLUON_ENGINE_LIBS
-    GluonEngine
-    ${GLUON_CORE_LIBS}
-    ${GLUON_GRAPHICS_LIBS}
-    CACHE INTERNAL "Libraries required for Gluon Engine"
-)
-
-install(
-    TARGETS     GluonEngine
-    RUNTIME     DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluonengine
-    LIBRARY     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonengine
-    ARCHIVE     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonengine
-    FRAMEWORK   DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonengine
-)
-
-install(
-    FILES
-    ${GluonEngine_HEADERS}
-    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/engine
-    COMPONENT gluonengine
+gluon_add_library(GluonEngine SHARED
+    "${GluonEngine_SRCS}"
+    "${GluonEngine_HEADERS}"
+    ${GLUONGRAPHICS_LIBRARIES} ${QT_QTSQL_LIBRARY}
 )
 
 add_subdirectory(assets)
 add_subdirectory(components)
 
 if(BUILD_TESTS)
-    enable_testing()
     add_subdirectory(tests)
 endif()
 

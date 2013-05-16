@@ -20,8 +20,7 @@
 #ifndef GLUONGRAPHICS_SPRITE_H
 #define GLUONGRAPHICS_SPRITE_H
 
-#include <entity.h>
-
+#include "entity.h"
 
 namespace GluonGraphics
 {

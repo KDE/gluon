@@ -20,7 +20,7 @@
 #ifndef GLUON_CORE_GLUONOBJECT_H
 #define GLUON_CORE_GLUONOBJECT_H
 
-#include "gluon_core_export.h"
+#include "gluoncore_export.h"
 
 #include "gluonobjectfactory.h"
 
@@ -36,7 +36,7 @@ Q_DECLARE_METATYPE( QList<QUrl> )
  * Please insert this macro into the definition of your class when implementing a
  * GluonObject subclass. The following is the code as found in GluonObject itself:
 \code
-class GLUON_CORE_EXPORT GluonObject : public QObject
+class GLUONCORE_EXPORT GluonObject : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName)
@@ -142,7 +142,7 @@ namespace GluonCore
      * - Use the fully qualified type name for all properties (such as GluonInput::Mouse::MouseButton
      *   instead of just MouseButton or Mouse::MouseButton)
      */
-    class GLUON_CORE_EXPORT GluonObject : public QObject
+    class GLUONCORE_EXPORT GluonObject : public QObject
     {
             Q_OBJECT
             GLUON_OBJECT( GluonCore::GluonObject )

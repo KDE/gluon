@@ -20,7 +20,7 @@
 #ifndef GLUON_CORE_SCRIPTENGINE_H
 #define GLUON_CORE_SCRIPTENGINE_H
 
-#include "gluon_core_export.h"
+#include "gluoncore_export.h"
 
 #include "singleton.h"
 
@@ -28,7 +28,7 @@
 
 namespace GluonCore
 {
-    class GLUON_CORE_EXPORT ScriptEngine : public Singleton<ScriptEngine>
+    class GLUONCORE_EXPORT ScriptEngine : public Singleton<ScriptEngine>
     {
             Q_OBJECT
             GLUON_SINGLETON( ScriptEngine )

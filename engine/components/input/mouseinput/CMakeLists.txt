@@ -1,28 +1,4 @@
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_INPUT_INCLUDE_DIRS})
-
-set(mouseinputcomponent_SRCS
+gluon_add_plugin( gluon_component_mouseinput GluonEngine
     mouseinputcomponent.cpp
+    ${GLUONENGINE_LIBRARIES} ${GLUONINPUT_LIBRARIES}
 )
-
-qt4_automoc(${mouseinputcomponent_SRCS})
-add_library(gluon_component_mouseinput SHARED ${mouseinputcomponent_SRCS})
-
-if(GLUON_BUILD_ALL)
-    add_dependencies(gluon_component_mouseinput GluonEngine GluonInput)
-endif()
-
-set_target_properties(gluon_component_mouseinput PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_COMPONENT_MOUSEINPUT_LIB)
-target_link_libraries(gluon_component_mouseinput GluonEngine ${GLUON_INPUT_LIBS})
-
-install(
-    TARGETS
-    gluon_component_mouseinput
-    DESTINATION
-    ${LIB_INSTALL_DIR}/gluon
-)
-
-if(BUILD_GLUON_TESTS)
-    enable_testing()
-    add_subdirectory(tests)
-endif()
-
