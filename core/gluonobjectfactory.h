@@ -20,7 +20,7 @@
 #ifndef GLUON_CORE_GLUONOBJECTFACTORY_H
 #define GLUON_CORE_GLUONOBJECTFACTORY_H
 
-#include "gluon_core_export.h"
+#include "gluoncore_export.h"
 
 #include "singleton.h"
 #include "debughelper.h"
@@ -41,7 +41,7 @@ namespace GluonCore
      * but also assists in extending QVariant with functionality for handling objects
      * with inherited classes.
      */
-    class GLUON_CORE_EXPORT GluonObjectFactory : public Singleton<GluonObjectFactory>
+    class GLUONCORE_EXPORT GluonObjectFactory : public Singleton<GluonObjectFactory>
     {
             Q_OBJECT
             GLUON_SINGLETON( GluonObjectFactory )

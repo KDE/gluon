@@ -6,14 +6,14 @@ include_directories(
 )
 
 set(GluonSmarts_SRCS
-	btcharacter.cpp
+    btcharacter.cpp
     btfactory.cpp
     btbrain.cpp
     btselectornode.cpp
     btsequencenode.cpp
-	btnode.cpp
-	btprobselectornode.cpp
-	btparallelnode.cpp
+    btnode.cpp
+    btprobselectornode.cpp
+    btparallelnode.cpp
 
     btperception.cpp
     btperceptionviewcone.cpp
@@ -23,17 +23,17 @@ set(GluonSmarts_SRCS
 
 
 set(GluonSmarts_HEADERS
-	btcharacter.h
+    btcharacter.h
     btfactory.h
     btbrain.h
     btselectornode.h
     btsequencenode.h
     ../common/btglobal.h
     btlib.h
-	btnode.h
-	probnode.h
-	btprobselectornode.h
-	btparallelnode.h
+    btnode.h
+    probnode.h
+    btprobselectornode.h
+    btparallelnode.h
 
     btperception.h
     btperceptionviewcone.h
@@ -68,11 +68,11 @@ endif()
 
 set_target_properties(GluonSmarts PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_SMARTS_LIB)
 
-target_link_libraries(GluonSmarts ${GLUON_CORE_LIBS} ${QT_QTXML_LIBRARY})
+target_link_libraries(GluonSmarts ${GLUONCORE_LIBRARIES} ${QT_QTXML_LIBRARY})
 
 set(GLUON_SMARTS_LIBS
     GluonSmarts
-    ${GLUON_CORE_LIBS}
+    ${GLUONCORE_LIBRARIES}
     ${QT_QTXML_LIBRARY}
     CACHE INTERNAL "Libraries required for Gluon Smarts"
 )
@@ -95,4 +95,3 @@ if(BUILD_GLUON_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif()
-

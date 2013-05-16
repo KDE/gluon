@@ -20,14 +20,14 @@
 #ifndef GLUON_CORE_METAINFO_H
 #define GLUON_CORE_METAINFO_H
 
-#include "gluon_core_export.h"
+#include "gluoncore_export.h"
 
 #include <QtCore/QObject>
 
 namespace GluonCore
 {
     class GluonObject;
-    class GLUON_CORE_EXPORT MetaInfo : public QObject
+    class GLUONCORE_EXPORT MetaInfo : public QObject
     {
             Q_OBJECT
         public:

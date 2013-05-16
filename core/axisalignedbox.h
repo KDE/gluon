@@ -22,7 +22,7 @@
 
 #include <QVector3D>
 
-#include "gluon_core_export.h"
+#include "gluoncore_export.h"
 
 namespace GluonCore
 {
@@ -31,7 +31,7 @@ namespace GluonCore
      * An axis aligned box with a position pointing to the center and a
      * positive size.
      */
-    class GLUON_CORE_EXPORT AxisAlignedBox
+    class GLUONCORE_EXPORT AxisAlignedBox
     {
         // TODO: Make AxisAlignedBox a shared data class
         public:

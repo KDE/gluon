@@ -21,7 +21,7 @@
 #ifndef GLUONCORE_GDLSERIALIZER_H
 #define GLUONCORE_GDLSERIALIZER_H
 
-#include "gluon_core_export.h"
+#include "gluoncore_export.h"
 #include "singleton.h"
 #include "gluonobject.h"
 
@@ -34,7 +34,7 @@ namespace GluonCore
      * This class provides a simple API for reading and writing GDL
      * files to disk.
      */
-    class GLUON_CORE_EXPORT GDLSerializer : public Singleton< GDLSerializer >
+    class GLUONCORE_EXPORT GDLSerializer : public Singleton< GDLSerializer >
     {
             Q_OBJECT
             GLUON_SINGLETON( GDLSerializer )

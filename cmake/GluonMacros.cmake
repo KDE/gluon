@@ -23,9 +23,9 @@ MACRO(GLUON_EXECUTABLE_TESTS libraries modulename1)
     ENDFOREACH(testname)
 ENDMACRO(GLUON_EXECUTABLE_TESTS)
 
-macro(gluon_add_library _target _type _files _libraries)
-    qt4_automoc(${_files})
-    add_library(${_target} ${_files})
+macro(gluon_add_library _target _type _sources _headers)
+    qt4_automoc(${_sources})
+    add_library(${_target} ${_type} ${_sources} ${_headers})
 
     string(TOUPPER ${_target} _target_uc)
     set_target_properties(${_target} PROPERTIES
@@ -35,26 +35,47 @@ macro(gluon_add_library _target _type _files _libraries)
         LINK_INTERFACE_LIBRARIES ""
     )
 
-    target_link_libraries(${_target} ${_libraries})
+    target_link_libraries(${_target} ${ARGN})
     set(${_target_uc}_LIBRARIES
         ${_target}
-        ${_libraries}
+        ${ARGN}
         CACHE INTERNAL "Libraries required for ${_target}"
+    )
+
+    if( APPLE )
+        _gluon_setup_framework( ${_target} ${_headers} )
+    endif()
+
+    install( TARGETS ${_target}
+        RUNTIME DESTINATION ${BIN_INSTALL_DIR} COMPONENT ${_target}
+        LIBRARY DESTINATION ${LIB_INSTALL_DIR} COMPONENT ${_target}
+        ARCHIVE DESTINATION ${LIB_INSTALL_DIR} COMPONENT ${_target}
+        FRAMEWORK DESTINATION ${LIB_INSTALL_DIR} COMPONENT ${_target}
+    )
+
+    string( REGEX REPLACE "([A-Z][a-z]+)([A-Z][a-z]+).*" "\\1/\\2" _target_include_dir ${_target} )
+    string( TOLOWER ${_target_include_dir} _target_include_dir )
+
+    install( FILES ${_headers} 
+        DESTINATION ${_target_include_dir} COMPONENT ${_target}
     )
 endmacro(gluon_add_library)
 
-macro(gluon_add_plugin _target _files _libraries)
+macro(gluon_add_plugin _target _component _files)
     qt4_automoc(${_files})
     add_library(${_target} MODULE ${_files})
     string(TOUPPER ${_target} _target_uc)
     set_target_properties(${_target} PROPERTIES
         PREFIX ""
-        DEFINE_SYMBOL MAKE_${_target_uc}_LIB
         VERSION ${GLUON_VERSION_STRING}
         SOVERSION ${GLUON_VERSION_STRING}
     )
     
-    target_link_libraries(${_target} ${_libraries})
+    target_link_libraries(${_target} ${ARGN})
+
+    install(TARGETS ${_target} 
+        DESTINATION ${LIB_INSTALL_DIR}/gluon COMPONENT ${_component}
+    )
 endmacro(gluon_add_plugin)
 
 macro(gluon_add_executable _target _files _libraries)
@@ -66,27 +87,26 @@ endmacro(gluon_add_executable)
 macro(gluon_include_directories _target)
     include_directories(${CMAKE_CURRENT_BINARY_DIR} ${ARGN})
     string(TOUPPER ${_target} _target_uc)
-    set(${target_uc}_INCLUDES
+    set(${_target_uc}_INCLUDE_DIRS
         ${ARGN}
         CACHE INTERNAL "Includes required for ${_target}"
     )
 endmacro(gluon_include_directories)
 
-macro(gluon_setup_framework _target)
-    if(APPLE)
-        #hack for being able to set headers as public in a osx framework
-        set(_public_headers ${ARGN})
-        list(APPEND _public_headers ${_public_headers})
+macro( _gluon_setup_framework _target )
 
-        set_target_properties(${_target} PROPERTIES FRAMEWORK TRUE)
-        set_target_properties(${_target} PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
-        set_target_properties(${_target} PROPERTIES PUBLIC_HEADER "${_public_headers}")
+    #hack for being able to set headers as public in a osx framework
+    set(_public_headers ${ARGN})
+    list(APPEND _public_headers ${_public_headers})
 
-        set(MACOSX_FRAMEWORK_IDENTIFIER ${_target})
-        set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
-        set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
-    endif(APPLE)
-endmacro(gluon_setup_framework)
+    set_target_properties(${_target} PROPERTIES FRAMEWORK TRUE)
+    set_target_properties(${_target} PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
+    set_target_properties(${_target} PROPERTIES PUBLIC_HEADER "${_public_headers}")
+
+    set(MACOSX_FRAMEWORK_IDENTIFIER ${_target})
+    set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
+    set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
+endmacro( _gluon_setup_framework )
 
 macro( log_status _target )
     string( TOUPPER ${_target} _target_uc )

@@ -20,7 +20,7 @@
 #ifndef GLUON_CORE_REFERENCECOUNTER_H
 #define GLUON_CORE_REFERENCECOUNTER_H
 
-#include "gluon_core_export.h"
+#include "gluoncore_export.h"
 
 #include <QtCore/QAtomicInt>
 
@@ -42,7 +42,7 @@ namespace GluonCore
      * other "magic". It is purely intended for keeping track of
      * uses of an instance of an object.
      */
-    class GLUON_CORE_EXPORT ReferenceCounter
+    class GLUONCORE_EXPORT ReferenceCounter
     {
         public:
             ReferenceCounter();
