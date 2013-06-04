@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(Gluon)
 
-include(cmake/GluonVariables.cmake)
-include(cmake/GluonMacros.cmake)
-
 #### Project Options ####
 option(WITH_KDE "Build with KDE Development Platform Support" ON)
 option(BUILD_GLUONAUDIO "Build Gluon Audio Library" ON)
@@ -25,7 +22,17 @@ if( WITH_KDE )
     find_package( KDE4 )
 endif()
 
+# Enable automoc if available
+if( CMAKE_VERSION VERSION_LESS "2.8.6" )
+    find_package(Automoc4 REQUIRED)
+else()
+    set( CMAKE_AUTOMOC TRUE )
+endif()
+
 # Set some variables
+include(cmake/GluonVariables.cmake)
+include(cmake/GluonMacros.cmake)
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 if(NOT MSVC)
