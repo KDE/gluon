@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 2.8)
-
 option( BUILD_DESKTOP_PLAYER "Build the Desktop Player" ON )
 option( BUILD_ACTIVE_PLAYER "Build the Plasma Active Player" OFF )
 option( BUILD_HARMATTAN_PLAYER "Build the Harmattan Player" OFF )
