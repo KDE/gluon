@@ -1,7 +1,3 @@
-cmake_minimum_required(VERSION 2.8)
-
-project(gluonexamples_input_qteventfilter)
-
 include_directories(${GLUON_INPUT_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR})
 
 set(gluonexamples_input_qteventfilter_SRCS

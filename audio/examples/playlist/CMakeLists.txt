@@ -1,7 +1,3 @@
-cmake_minimum_required(VERSION 2.8)
-
-project(gluonexamples_audio_playlist)
-
 include_directories(${GLUON_AUDIO_INCLUDE_DIRS})
 
 set(gluonexamples_audio_playlist_SRCS

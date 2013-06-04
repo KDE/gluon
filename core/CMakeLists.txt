@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 2.8)
-
 gluon_include_directories( GluonCore
     ${QT_INCLUDES}
 )
