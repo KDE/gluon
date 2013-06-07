@@ -20,8 +20,8 @@
 #include "scriptingcomponentprivate.h"
 #include "scriptingengine.h"
 
-#include "game.h"
-#include "gameobject.h"
+#include <engine/game.h>
+#include <engine/gameobject.h>
 
 using namespace GluonEngine;
 

@@ -19,14 +19,16 @@
 
 #include "scriptingengine.h"
 
-#include "game.h"
-#include "scriptingasset.h"
-#include "scriptingcomponent.h"
+#include <QtScript>
 
 #include <core/gluonobjectfactory.h>
 #include <core/scriptengine.h>
 
-#include <QtScript>
+#include <engine/game.h>
+
+#include "scriptingasset.h"
+#include "scriptingcomponent.h"
+
 // #include <QScriptEngineDebugger>
 
 namespace GluonEngine
