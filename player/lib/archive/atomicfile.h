@@ -22,7 +22,7 @@
 #ifndef GLUON_PLAYER_ATOMICFILE_H
 #define GLUON_PLAYER_ATOMICFILE_H
 
-#include "gluon_player_export.h"
+#include "../gluon_player_export.h"
 
 #include <QtCore/QFile>
 #include <QtCore/QString>

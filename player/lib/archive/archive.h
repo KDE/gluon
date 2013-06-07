@@ -22,7 +22,7 @@
 #ifndef GLUON_PLAYER_ARCHIVE_H
 #define GLUON_PLAYER_ARCHIVE_H
 
-#include "gluon_player_export.h"
+#include "../gluon_player_export.h"
 
 #include <QtCore/QDate>
 #include <QtCore/QString>

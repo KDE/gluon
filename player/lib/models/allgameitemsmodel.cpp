@@ -22,10 +22,6 @@
 
 #include "gameitem.h"
 
-#include <player/lib/serviceprovider.h>
-#include <player/lib/gamedetaillistjob.h>
-#include <player/lib/ratingjob.h>
-
 #include <core/directoryprovider.h>
 #include <engine/gameproject.h>
 
@@ -33,7 +29,11 @@
 #include <QtCore/QByteArray>
 #include <QtCore/QDebug>
 #include <QtGui/QFileSystemModel>
-#include <gamedetailsjob.h>
+
+#include "../serviceprovider.h"
+#include "../gamedetaillistjob.h"
+#include "../ratingjob.h"
+#include "../gamedetailsjob.h"
 
 using namespace GluonPlayer;
 

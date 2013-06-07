@@ -20,7 +20,7 @@
 #ifndef EXTRACTOR_H
 #define EXTRACTOR_H
 
-#include "gluon_player_export.h"
+#include "../gluon_player_export.h"
 
 #include <QtCore/QString>
 

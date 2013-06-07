@@ -30,7 +30,7 @@
 
 #include <Eigen/Core>
 
-#include <al.h>
+#include <AL/al.h>
 
 namespace GluonAudio
 {
