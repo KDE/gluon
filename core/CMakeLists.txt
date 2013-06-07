@@ -51,10 +51,10 @@ set(GluonCore_HEADERS
     gdlserializer.h
 )
 
-gluon_add_library(GluonCore SHARED 
-    "${GluonCore_SRCS}"
-    "${GluonCore_HEADERS}"
-    ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTSCRIPT_LIBRARY}
+gluon_add_library(GluonCore SHARED
+    SOURCES ${GluonCore_SRCS}
+    HEADERS ${GluonCore_HEADERS}
+    LIBRARIES ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTSCRIPT_LIBRARY}
 )
 
 if(BUILD_TESTS)

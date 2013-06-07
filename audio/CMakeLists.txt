@@ -33,10 +33,10 @@ set(GluonAudio_HEADERS
     sound.h
 )
 
-gluon_add_library(GluonAudio SHARED 
-    "${GluonAudio_SRCS}" 
-    "${GluonAudio_HEADERS}"
-    ${GLUONCORE_LIBRARIES} ${OPENAL_LIBRARY} ${ALURE_LIBRARIES}
+gluon_add_library(GluonAudio SHARED
+    SOURCES ${GluonAudio_SRCS}
+    HEADERS ${GluonAudio_HEADERS}
+    LIBRARIES ${GLUONCORE_LIBRARIES} ${OPENAL_LIBRARY} ${ALURE_LIBRARIES}
 )
 
 if(BUILD_TESTS)

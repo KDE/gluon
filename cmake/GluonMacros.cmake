@@ -23,22 +23,43 @@ MACRO(GLUON_EXECUTABLE_TESTS libraries modulename1)
     ENDFOREACH(testname)
 ENDMACRO(GLUON_EXECUTABLE_TESTS)
 
-macro(gluon_add_library _target _type _sources _headers)
-    qt4_automoc(${_sources})
-    add_library(${_target} ${_type} ${_sources} ${_headers})
+macro(gluon_add_library _target _type)
+    set( _sources "" )
+    set( _headers "" )
+    set( _libs "" )
 
-    string(TOUPPER ${_target} _target_uc)
-    set_target_properties(${_target} PROPERTIES
+    set( _current_target "_sources" )
+
+    foreach( _arg ${ARGN} )
+        string( TOLOWER ${_arg} _arg_lc )
+        if( ${_arg_lc} STREQUAL "sources" )
+            set( _current_target "_sources" )
+        elseif( ${_arg_lc} STREQUAL "headers" )
+            set( _current_target "_headers" )
+        elseif( ${_arg_lc} STREQUAL "libraries" )
+            set( _current_target "_libs" )
+        else()
+            list( APPEND ${_current_target} ${_arg} )
+        endif()
+    endforeach()
+
+    add_library( ${_target} ${_type} ${_sources} ${_headers} )
+    if( CMAKE_VERSION VERSION_LESS "2.8.6" )
+        automoc4( ${_target} ${_sources} )
+    endif()
+
+    string( TOUPPER ${_target} _target_uc )
+    set_target_properties( ${_target} PROPERTIES
         VERSION ${GLUON_VERSION_STRING}
         SOVERSION ${GLUON_VERSION_STRING}
         DEFINE_SYMBOL MAKE_${_target_uc}_LIB
         LINK_INTERFACE_LIBRARIES ""
     )
 
-    target_link_libraries(${_target} ${ARGN})
+    target_link_libraries( ${_target} ${_libs} )
     set(${_target_uc}_LIBRARIES
         ${_target}
-        ${ARGN}
+        ${_libs}
         CACHE INTERNAL "Libraries required for ${_target}"
     )
 
@@ -53,35 +74,77 @@ macro(gluon_add_library _target _type _sources _headers)
         FRAMEWORK DESTINATION ${LIB_INSTALL_DIR} COMPONENT ${_target}
     )
 
-    string( REGEX REPLACE "([A-Z][a-z]+)([A-Z][a-z]+).*" "\\1/\\2" _target_include_dir ${_target} )
+    string( REGEX REPLACE "[A-Z][a-z]+([A-Z][a-z]+).*" "\\1" _target_include_dir ${_target} )
     string( TOLOWER ${_target_include_dir} _target_include_dir )
 
     install( FILES ${_headers} 
-        DESTINATION ${_target_include_dir} COMPONENT ${_target}
+        DESTINATION ${INCLUDE_INSTALL_DIR}/${_target_include_dir} COMPONENT ${_target}
     )
 endmacro(gluon_add_library)
 
-macro(gluon_add_plugin _target _component _files)
-    qt4_automoc(${_files})
-    add_library(${_target} MODULE ${_files})
-    string(TOUPPER ${_target} _target_uc)
+macro(gluon_add_plugin _target _component)
+    set( _sources "" )
+    set( _libs "" )
+
+    set( _current_target "_sources" )
+
+    foreach( _arg ${ARGN} )
+        string( TOLOWER ${_arg} _arg_lc )
+        if( ${_arg_lc} STREQUAL "sources" )
+            set( _current_target "_sources" )
+        elseif( ${_arg_lc} STREQUAL "libraries" )
+            set( _current_target "_libs" )
+        else()
+            list( APPEND ${_current_target} ${_arg} )
+        endif()
+    endforeach()
+
+    string( TOUPPER "${_component}_libraries" _comp_uc )
+    list( APPEND _libs ${${_comp_uc}} )
+
+    add_library( ${_target} MODULE ${_sources} )
+    if( CMAKE_VERSION VERSION_LESS "2.8.6" )
+        automoc4( ${_target} ${_sources} )
+    endif()
+
+    string( TOUPPER ${_target} _target_uc )
     set_target_properties(${_target} PROPERTIES
         PREFIX ""
-        VERSION ${GLUON_VERSION_STRING}
-        SOVERSION ${GLUON_VERSION_STRING}
     )
     
-    target_link_libraries(${_target} ${ARGN})
+    target_link_libraries( ${_target} ${_libs} )
 
     install(TARGETS ${_target} 
-        DESTINATION ${LIB_INSTALL_DIR}/gluon COMPONENT ${_component}
+        DESTINATION ${PLUGIN_INSTALL_DIR} COMPONENT ${_component}
     )
 endmacro(gluon_add_plugin)
 
-macro(gluon_add_executable _target _files _libraries)
-    qt4_automoc(${_files})
-    add_executable(${_target} ${_files})
-    target_link_libraries(${_target} ${_libraries})
+macro(gluon_add_executable _target)
+    set( _sources "" )
+    set( _headers "" )
+    set( _libs "" )
+
+    set( _current_target "_sources" )
+
+    foreach( _arg ${ARGN} )
+        string( TOLOWER ${_arg} _arg_lc )
+        if( ${_arg_lc} STREQUAL "sources" )
+            set( _current_target "_sources" )
+        elseif( ${_arg_lc} STREQUAL "headers" )
+            set( _current_target "_headers" )
+        elseif( ${_arg_lc} STREQUAL "libraries" )
+            set( _current_target "_libs" )
+        else()
+            list( APPEND ${_current_target} ${_arg} )
+        endif()
+    endforeach()
+
+    add_executable( ${_target} ${_sources} )
+    if( CMAKE_VERSION VERSION_LESS "2.8.6" )
+        automoc4( ${_target} ${_sources} )
+    endif()
+
+    target_link_libraries( ${_target} ${_libs} )
 endmacro(gluon_add_executable)
 
 macro(gluon_include_directories _target)
@@ -113,7 +176,7 @@ macro( log_status _target )
     message( STATUS "Build ${_target} (BUILD_${_target_uc}): ${BUILD_${_target_uc}}" )
     if( BUILD_${_target_uc} AND DEFINED ${_target_uc}_STATUS )
         foreach( _message ${${_target_uc}_STATUS} )
-            message( STATUS "    ${_message}" )
+            message( STATUS "└> ${_message}" )
         endforeach()
     endif()
 endmacro( log_status )

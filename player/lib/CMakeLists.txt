@@ -46,7 +46,10 @@ set(GluonPlayer_HEADERS
     models/highscoresmodel.h
 )
 
-gluon_add_library(GluonPlayer SHARED "${GluonPlayer_SRCS}" "${GluonPlayer_HEADERS}" ${GLUONENGINE_LIBRARIES} ${QT_QTNETWORK_LIBRARY} ${LIBATTICA_LIBRARIES})
+gluon_add_library(GluonPlayer SHARED
+    SOURCES ${GluonPlayer_SRCS}
+    HEADERS ${GluonPlayer_HEADERS}
+    LIBRARIES ${GLUONENGINE_LIBRARIES} ${QT_QTNETWORK_LIBRARY} ${LIBATTICA_LIBRARIES})
 
 if(BUILD_GLUON_TESTS)
     add_subdirectory(tests)

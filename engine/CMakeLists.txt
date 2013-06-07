@@ -86,9 +86,9 @@ set(GluonEngine_HEADERS
 )
 
 gluon_add_library(GluonEngine SHARED
-    "${GluonEngine_SRCS}"
-    "${GluonEngine_HEADERS}"
-    ${GLUONGRAPHICS_LIBRARIES} ${QT_QTSQL_LIBRARY}
+    SOURCES ${GluonEngine_SRCS}
+    HEADERS ${GluonEngine_HEADERS}
+    LIBRARIES ${GLUONCORE_LIBRARIES} ${QT_QTSQL_LIBRARY}
 )
 
 add_subdirectory(assets)
