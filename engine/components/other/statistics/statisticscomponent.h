@@ -29,7 +29,7 @@ namespace GluonEngine
      * Connect a game object to a statistic, so that the statistic can be changed
      * through scripting.
      */
-    class GLUON_COMPONENT_STATISTICS_EXPORT StatisticsComponent : public Component
+    class StatisticsComponent : public Component
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::StatisticsComponent )

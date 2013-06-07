@@ -27,7 +27,7 @@ namespace GluonEngine
 {
     class Asset;
 
-    class GLUON_COMPONENT_SOUNDEMITTER_EXPORT SoundEmitterComponent : public Component
+    class SoundEmitterComponent : public Component
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Component )
