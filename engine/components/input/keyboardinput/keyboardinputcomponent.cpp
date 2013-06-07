@@ -140,4 +140,4 @@ KeyboardInputComponent::setKeyCode( Qt::Key newKeyCode )
 
 Q_EXPORT_PLUGIN2( gluon_component_keyboardinput, GluonEngine::KeyboardInputComponent );
 
-#include "keyboardinputcomponent.moc"
+ 

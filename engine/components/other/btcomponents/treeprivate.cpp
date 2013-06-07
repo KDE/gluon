@@ -33,4 +33,4 @@ TreePrivate::~TreePrivate()
 {
 }
 
-#include "treeprivate.moc"
+ 

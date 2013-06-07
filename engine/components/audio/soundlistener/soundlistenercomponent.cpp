@@ -20,7 +20,7 @@
 
 #include "soundlistenercomponent.h"
 
-#include <gameobject.h>
+#include <engine/gameobject.h>
 
 #include <audio/engine.h>
 
@@ -74,4 +74,4 @@ SoundListenerComponent* SoundListenerComponent::activeInstance()
 
 Q_EXPORT_PLUGIN2( gluon_component_soundlistener, GluonEngine::SoundListenerComponent )
 
-#include "soundlistenercomponent.moc"
+ 

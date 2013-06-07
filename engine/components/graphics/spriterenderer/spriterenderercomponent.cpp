@@ -210,4 +210,4 @@ void SpriteRendererComponent::setEnabled( bool newEnabled )
 
 Q_EXPORT_PLUGIN2( gluon_component_spriterenderer, GluonEngine::SpriteRendererComponent );
 
-#include "spriterenderercomponent.moc"
+ 

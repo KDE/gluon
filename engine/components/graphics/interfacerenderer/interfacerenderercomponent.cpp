@@ -29,9 +29,9 @@
 #include <graphics/qtquickrenderer.h>
 #include <input/inputmanager.h>
 
-#include <asset.h>
-#include <game.h>
-#include <gameobject.h>
+#include <engine/asset.h>
+#include <engine/game.h>
+#include <engine/gameobject.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, InterfaceRendererComponent )
 
@@ -126,4 +126,4 @@ void InterfaceRendererComponent::Private::setRenderer(const QString& name)
 
 Q_EXPORT_PLUGIN2( gluon_component_interfacerenderer, GluonEngine::InterfaceRendererComponent );
 
-#include "interfacerenderercomponent.moc"
+ 
