@@ -20,10 +20,9 @@
 #ifndef GLUON_ENGINE_STATISTICSASSET_H
 #define GLUON_ENGINE_STATISTICSASSET_H
 
-#include "asset.h"
-#include "savable.h"
-
 #include <core/metainfo.h>
+#include <engine/asset.h>
+#include <engine/savable.h>
 
 namespace GluonEngine
 {
@@ -31,7 +30,7 @@ namespace GluonEngine
      * StatisticsAsset handles a file which contains
      * several statistics. The file is written in GDL.
      */
-    class GLUON_ASSET_STATISTICS_EXPORT StatisticsAsset : public Asset, public Savable
+    class StatisticsAsset : public Asset, public Savable
     {
             Q_OBJECT
             GLUON_OBJECT( GluonEngine::StatisticsAsset )
