@@ -22,15 +22,16 @@
 
 #include <engine/component.h>
 
+#include <QSizeF>
+
 namespace GluonGraphics
 {
     class MaterialInstance;
 }
 
-class QSizeF;
 namespace GluonEngine
 {
-    class GLUON_COMPONENT_CAMERACONTROLLER_EXPORT CameraControllerComponent : public Component
+    class CameraControllerComponent : public Component
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Component )

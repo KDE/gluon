@@ -32,7 +32,7 @@ namespace GluonEngine
      * Collision components use simple integer-based grouping to
      * exclude/include other components to collide with.
      */
-    class GLUON_COMPONENT_SPHERECOLLISION_EXPORT SphereCollisionComponent : public Component
+    class SphereCollisionComponent : public Component
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Component )

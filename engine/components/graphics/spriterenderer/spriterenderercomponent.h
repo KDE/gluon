@@ -22,6 +22,8 @@
 
 #include <engine/component.h>
 
+#include <QSizeF>
+
 namespace GluonGraphics
 {
     class MaterialInstance;
@@ -31,7 +33,7 @@ namespace GluonEngine
 {
     class Asset;
 
-    class GLUON_COMPONENT_SPRITERENDERER_EXPORT SpriteRendererComponent : public Component
+    class SpriteRendererComponent : public Component
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Component )

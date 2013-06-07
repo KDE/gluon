@@ -29,9 +29,9 @@ namespace GluonInput
 
 namespace GluonEngine
 {
-    class GLUON_COMPONENT_TOUCHINPUT_EXPORT TouchInputComponent : public Component
+    class TouchInputComponent : public Component
     {
-            Q_OBJECT;
+            Q_OBJECT
             GLUON_OBJECT( GluonEngine::TouchInputComponent )
             Q_INTERFACES( GluonEngine::Component )
 

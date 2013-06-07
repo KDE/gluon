@@ -33,7 +33,7 @@ namespace GluonInput
 
 namespace GluonEngine
 {
-    class GLUON_COMPONENT_MOUSEINPUT_EXPORT MouseInputComponent : public Component
+    class MouseInputComponent : public Component
     {
             Q_OBJECT;
             GLUON_OBJECT( GluonEngine::MouseInputComponent )
