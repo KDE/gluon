@@ -4,6 +4,6 @@ set(interfacerenderercomponent_SRCS
 )
 
 gluon_add_plugin( gluon_component_interfacerenderer GluonEngine
-    ${interfacerenderercomponent_SRCS}
-    ${GLUONGRAPHICS_LIBRARIES} ${GLUONINPUT_LIBRARIES}
+    SOURCES ${interfacerenderercomponent_SRCS}
+    LIBRARIES ${GLUONGRAPHICS_LIBRARIES} ${GLUONINPUT_LIBRARIES}
 )

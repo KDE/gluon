@@ -1,4 +1,6 @@
+include_directories(${GLUONINPUT_INCLUDE_DIRS})
+
 gluon_add_plugin( gluon_component_keyboardinput GluonEngine
-    keyboardinputcomponent.cpp
-    ${GLUONENGINE_LIBRARIES} ${GLUONINPUT_LIBRARIES}
+    SOURCES keyboardinputcomponent.cpp
+    LIBRARIES ${GLUONINPUT_LIBRARIES}
 )

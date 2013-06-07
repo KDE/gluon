@@ -1,4 +1,4 @@
-include_directories(${QT_QTSCRIPT_INCLUDES})
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${QT_QTSCRIPT_INCLUDES})
 
 set(scriptingcomponent_SRCS
     scriptingengine.cpp
@@ -8,11 +8,11 @@ set(scriptingcomponent_SRCS
 )
 
 gluon_add_plugin( gluon_component_scripting GluonEngine
-    ${scriptingcomponent_SRCS}
-    ${GLUONENGINE_LIBRARIES} ${QT_QTSCRIPT_LIBRARY}
+    SOURCES ${scriptingcomponent_SRCS}
+    LIBRARIES ${QT_QTSCRIPT_LIBRARY}
 )
 
 install( FILES scripting_template.js
-    DESTINATION ${SHARE_INSTALL_DIR}/gluon/templates/scripting
+    DESTINATION ${TEMPLATE_INSTALL_DIR}/scripting
     COMPONENT GluonEngine
 )

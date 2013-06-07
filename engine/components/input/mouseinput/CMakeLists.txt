@@ -1,4 +1,6 @@
+include_directories(${GLUONINPUT_INCLUDE_DIRS})
+
 gluon_add_plugin( gluon_component_mouseinput GluonEngine
-    mouseinputcomponent.cpp
-    ${GLUONENGINE_LIBRARIES} ${GLUONINPUT_LIBRARIES}
+    SOURCES mouseinputcomponent.cpp
+    LIBRARIES ${GLUONINPUT_LIBRARIES}
 )
