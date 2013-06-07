@@ -25,7 +25,7 @@
 #include <QtCore/qglobal.h>
 
 #ifndef GLUON_PLAYER_EXPORT
-#if defined(MAKE_GLUON_PLAYER_LIB)
+#if defined(MAKE_GLUONPLAYER_LIB)
 #  define GLUON_PLAYER_EXPORT Q_DECL_EXPORT
 #else
 #  define GLUON_PLAYER_EXPORT Q_DECL_IMPORT
