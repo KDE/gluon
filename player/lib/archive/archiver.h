@@ -20,7 +20,7 @@
 #ifndef ARCHIVER_H
 #define ARCHIVER_H
 
-#include "gluon_player_export.h"
+#include "../gluon_player_export.h"
 
 #include <QtCore/QStringList>
 

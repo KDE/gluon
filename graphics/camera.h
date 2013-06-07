@@ -20,13 +20,14 @@
 #ifndef GLUONGRAPHICS_CAMERA_H
 #define GLUONGRAPHICS_CAMERA_H
 
+#include <QSizeF>
+#include <QMatrix4x4>
+
 #include "gluon_graphics_export.h"
 #include "entity.h"
 #include "renderchainitem.h"
 
 class QRectF;
-class QSizeF;
-class QMatrix4x4;
 
 namespace GluonGraphics
 {

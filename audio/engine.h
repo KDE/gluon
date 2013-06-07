@@ -28,7 +28,7 @@
 
 #include <QtGui/QVector3D>
 
-#include <al.h>
+#include <AL/al.h>
 
 namespace GluonAudio
 {

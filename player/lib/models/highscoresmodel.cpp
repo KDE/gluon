@@ -21,7 +21,7 @@
 #include "highscoresmodel.h"
 
 #include "allgameitemsmodel.h"
-#include "gamemanager.h"
+#include "../gamemanager.h"
 
 #include <gluon_global.h>
 
