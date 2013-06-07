@@ -72,9 +72,9 @@ if( ASSIMP_FOUND )
 endif( ASSIMP_FOUND )
 
 gluon_add_library( GluonGraphics SHARED 
-    "${GluonGraphics_SRCS}"
-    "${GluonGraphics_HEADERS}"
-    ${GLUONCORE_LIBRARIES} ${QT_QTDECLARATIVE_LIBRARY}
+    SOURCES ${GluonGraphics_SRCS}
+    HEADERS ${GluonGraphics_HEADERS}
+    LIBRARIES ${GLUONCORE_LIBRARIES} ${QT_QTDECLARATIVE_LIBRARY}
 )
 
 if( ASSIMP_FOUND )

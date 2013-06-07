@@ -15,6 +15,6 @@ set( gluongraphics_backend_SRCS
 )
 
 gluon_add_plugin( gluongraphics_backend GluonGraphics 
-    "${gluongraphics_backend_SRCS}"  
-    ${GLUONGRAPHICS_LIBRARIES} ${OPENGL_LIBRARIES} dl
+    SOURCES ${gluongraphics_backend_SRCS}
+    LIBRARIES ${OPENGL_LIBRARIES} dl
 )
