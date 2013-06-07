@@ -318,4 +318,4 @@ QWidget * btPropertyWidgetItem::createParallelConditionsList(QString propertyNam
     return widget;
 }
 
-#include "btpropertywidgetitem.moc"
+ 

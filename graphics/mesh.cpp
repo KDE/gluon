@@ -74,4 +74,4 @@ void Mesh::setMeshData( MeshData* data )
     d->meshData = data;
 }
 
-#include "mesh.moc"
+ 

@@ -114,4 +114,4 @@ void Scene::populateMetaInfo( GluonCore::MetaInfo* info )
     info->setDefaultExtension( "gluonscene" );
 }
 
-#include "scene.moc"
+ 

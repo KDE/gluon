@@ -298,4 +298,4 @@ void GLFBOApplet::makeCurrent()
     }
 }
 
-#include "glfboapplet.moc"
+ 

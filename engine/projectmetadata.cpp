@@ -136,4 +136,4 @@ void ProjectMetaData::load()
     qDeleteAll( gdlList );
 }
 
-#include "projectmetadata.moc"
+ 

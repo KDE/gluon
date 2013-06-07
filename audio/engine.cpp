@@ -123,5 +123,3 @@ void Engine::setListenerPosition( const Eigen::Vector3f& position )
 {
     alListener3f( AL_POSITION, position.x(), position.y(), position.z() );
 }
-
-#include "engine.moc"

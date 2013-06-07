@@ -169,4 +169,4 @@ void GluonObjectTest::testNameToObjectName()
 
 QTEST_MAIN(GluonObjectTest)
 
-#include "gluonobjecttest.moc"
+ 

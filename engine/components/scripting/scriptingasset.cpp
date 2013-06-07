@@ -115,4 +115,4 @@ void ScriptingAsset::unload()
 
 Q_EXPORT_PLUGIN2( gluon_component_scripting, GluonEngine::ScriptingAsset )
 
-#include "scriptingasset.moc"
+ 

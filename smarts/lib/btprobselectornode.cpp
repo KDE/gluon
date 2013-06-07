@@ -160,5 +160,5 @@ QList<ProbNode*> btProbSelectorNode::visitedProbNodes()
 	return m_visitedProbStats;
 }
 
-#include "btprobselectornode.moc"
+ 
 

@@ -446,4 +446,4 @@ void btEditorNodeType::changeCondition(bool state)
     }
 }
 
-#include "bteditornodetype.moc"
+ 

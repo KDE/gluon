@@ -280,4 +280,4 @@ QVariant EditGameJob::data()
     return d->id;
 }
 
-#include "editgamejob.moc"
+ 

@@ -264,4 +264,4 @@ void QtQuickRenderer::Private::createEngine()
     engine->rootContext()->setContextProperty( "ObjectFactory", GluonCore::GluonObjectFactory::instance() );
 }
 
-#include "qtquickrenderer.moc"
+ 

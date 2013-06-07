@@ -96,5 +96,3 @@ MessageHandler::~MessageHandler()
 {
     delete d;
 }
-
-#include "messagehandler.moc"

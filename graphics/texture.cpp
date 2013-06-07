@@ -113,4 +113,4 @@ void Texture::qImageToGL( QImage* image )
     *image = image->mirrored();
 }
 
-#include "texture.moc"
+ 

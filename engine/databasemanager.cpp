@@ -200,4 +200,4 @@ void DatabaseManager::setStatisticArray( const QString& database, int id, const 
         qDebug() << "Could not update array: " << query.lastError().text();
 }
 
-#include "databasemanager.moc"
+ 

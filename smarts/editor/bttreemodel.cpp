@@ -504,4 +504,4 @@ QMimeData* btTreeModel::mimeData(const QModelIndexList &indexes) const
     return mimeData;
 }
 
-#include "bttreemodel.moc"
+ 

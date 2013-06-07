@@ -365,4 +365,4 @@ CFMutableDictionaryRef DetectMac::createMatchingDictionary( UInt32 pUsagePage, U
     }
 }
 
-#include "detectmac.moc"
+ 

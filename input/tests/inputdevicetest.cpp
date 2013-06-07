@@ -41,4 +41,4 @@ void InputDeviceTest::testIsEnabled()
 
 QTEST_MAIN(InputDeviceTest)
 
-#include "inputdevicetest.moc"
+ 

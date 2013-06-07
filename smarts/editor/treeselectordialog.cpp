@@ -92,4 +92,4 @@ void TreeSelectorDialog::chooseTree() {
 
 }
 
-#include "treeselectordialog.moc"
+ 

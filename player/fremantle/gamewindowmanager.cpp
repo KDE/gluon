@@ -216,4 +216,4 @@ void GameWindowManager::show()
     d->stackedWidget->show();
 }
 
-#include "gamewindowmanager.moc"
+ 

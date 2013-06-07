@@ -67,4 +67,4 @@ void BooleanStatistic::commit()
     }
 }
 
-#include "booleanstatistic.moc"
+ 

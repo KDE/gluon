@@ -104,4 +104,4 @@ QVariant CategoryListJob::data()
     return QVariant::fromValue( d->categoryList );
 }
 
-#include "categorylistjob.moc"
+ 

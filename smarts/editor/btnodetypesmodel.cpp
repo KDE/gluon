@@ -390,4 +390,4 @@ bool btNodeTypesModel::removeRows ( int row, int count, const QModelIndex &index
     return true;
 }
 
-#include "btnodetypesmodel.moc"
+ 

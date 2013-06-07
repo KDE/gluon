@@ -103,4 +103,4 @@ void TasksStatistic::commitTasks()
     }
 }
 
-#include "tasksstatistic.moc"
+ 

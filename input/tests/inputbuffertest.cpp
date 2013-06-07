@@ -41,4 +41,4 @@ void InputBufferTest::testButtonState()
 
 QTEST_MAIN(InputBufferTest)
 
-#include "inputbuffertest.moc"
+ 

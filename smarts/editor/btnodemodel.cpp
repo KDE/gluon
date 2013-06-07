@@ -231,4 +231,4 @@ void btnodemodel::setClassname(QString classname)
     node->emitClassNameChanged(classname);
 }
 
-#include "btnodemodel.moc"
+ 

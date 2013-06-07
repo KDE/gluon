@@ -395,4 +395,4 @@ GameDetailsJob* ServiceProvider::fetchOneGame( const QString& id )
     return new GameDetailsJob( &d->provider, id );
 }
 
-#include "serviceprovider.moc"
+ 

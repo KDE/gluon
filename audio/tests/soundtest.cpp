@@ -165,4 +165,4 @@ void SoundTest::testRadius()
 
 QTEST_MAIN(SoundTest)
 
-#include "soundtest.moc"
+ 

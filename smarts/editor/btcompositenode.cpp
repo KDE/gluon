@@ -37,4 +37,4 @@ bool btCompositeNode::run(btCharacter* character)
     return false;
 }
 
-#include "btcompositenode.moc"
+ 

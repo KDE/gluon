@@ -52,4 +52,4 @@ bool DownloadableGamesModel::filterAcceptsRow( int source_row, const QModelIndex
     return ( sourceModel()->data( sourceModel()->index( source_row, 0 ), AllGameItemsModel::StatusRole ) == GameItem::Downloadable );
 }
 
-#include "downloadablegamesmodel.moc"
+ 

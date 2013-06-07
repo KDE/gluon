@@ -65,4 +65,4 @@ void SpriteMesh::initialize()
     setMeshData( data );
 }
 
-#include "spritemesh.moc"
+ 

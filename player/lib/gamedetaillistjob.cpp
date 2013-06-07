@@ -99,4 +99,4 @@ QVariant GameDetailListJob::data()
     return QVariant::fromValue( d->gameDetailList );
 }
 
-#include "gamedetaillistjob.moc"
+ 

@@ -254,4 +254,4 @@ void PrefabTest::testApplyChild()
 
 QTEST_MAIN( PrefabTest )
 
-#include "prefabtest.moc"
+ 

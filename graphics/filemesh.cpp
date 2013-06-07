@@ -145,4 +145,4 @@ void FileMesh::initialize()
     setMeshData( data );
 }
 
-#include "filemesh.moc"
+ 

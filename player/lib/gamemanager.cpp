@@ -69,4 +69,4 @@ QObject* GameManager::installedGamesModel() const
     return qobject_cast<QObject*>(d->installedGamesModel);
 }
 
-#include "gamemanager.moc"
+ 

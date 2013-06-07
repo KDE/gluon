@@ -205,4 +205,4 @@ void FileArea::fileModified( const QString& file , bool modified )
     }
 }
 
-#include "filearea.moc"
+#include "moc_filearea.cpp"

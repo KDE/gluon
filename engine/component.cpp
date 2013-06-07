@@ -136,4 +136,4 @@ Component::setGameObject( GameObject* newGameObject )
     d->gameObject = newGameObject;
 }
 
-#include "component.moc"
+ 

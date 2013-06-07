@@ -144,5 +144,3 @@ QStringList DirectoryProvider::pluginDirectoryPaths() const
 
     return pluginDirectoryPaths;
 }
-
-#include "directoryprovider.moc"

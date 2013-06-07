@@ -112,4 +112,4 @@ QVariant LicenseJob::data()
     return QVariant::fromValue(d->licenseList);
 }
 
-#include "licensejob.moc"
+ 

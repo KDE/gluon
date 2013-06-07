@@ -253,4 +253,4 @@ void PlayerTest::testStop()
 
 QTEST_MAIN(PlayerTest)
 
-#include "playertest.moc"
+ 

@@ -194,4 +194,4 @@ void PlasmaApplet::resizeEvent( QGraphicsSceneResizeEvent* event )
     Plasma::Applet::resizeEvent( event );
 }
 
-#include "plasmaapplet.moc"
+ 

@@ -155,4 +155,4 @@ void HighScoresModel::saveData()
     GluonCore::GDLSerializer::instance()->write( QUrl::fromLocalFile( filename ), GluonCore::GluonObjectList() << d->m_rootNode );
 }
 
-#include "highscoresmodel.moc"
+ 

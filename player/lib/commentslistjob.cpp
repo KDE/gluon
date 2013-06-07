@@ -175,4 +175,4 @@ void CommentsListJob::addChildren( CommentItem* parentCommentItem, const Attica:
     }
 }
 
-#include "commentslistjob.moc"
+ 

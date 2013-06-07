@@ -362,4 +362,4 @@ void DistributionDock::uploadGameArchive()
     uploadJob->start();
 }
 
-#include "distributiondock.moc"
+ 

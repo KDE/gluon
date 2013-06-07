@@ -46,4 +46,4 @@ btTreeModel * btReferenceNode::referenceBehaviorTree()
     return m_reference;
 }
 
-#include "btreferencenode.moc"
+ 

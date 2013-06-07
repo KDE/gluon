@@ -246,4 +246,4 @@ ScriptingEngine::scriptEngine() const
     return d->engine();
 }
 
-#include "scriptingengine.moc"
+#include "moc_scriptingengine.cpp"

@@ -198,4 +198,4 @@ QList<btNode*> btNode::children()
     return m_children;
 }
 
-#include "btnode.moc"
+ 

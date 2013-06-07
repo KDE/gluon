@@ -132,4 +132,4 @@ void GameItem::setUri( const QString& uri )
     d->uri = uri;
 }
 
-#include "gameitem.moc"
+ 

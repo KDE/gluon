@@ -54,4 +54,4 @@ btNode::status btSelectorNode::run(btCharacter *self)
     return Failed;
 }
 
-#include "btselectornode.moc"
+ 

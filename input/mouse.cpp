@@ -111,4 +111,4 @@ void Mouse::mouseMoved( int axis, int distance )
     }
 }
 
-#include "mouse.moc"
+ 

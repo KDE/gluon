@@ -102,5 +102,3 @@ void ScriptEngine::resetEngine()
         d->engine = 0;
     }
 }
-
-#include "scriptengine.moc"

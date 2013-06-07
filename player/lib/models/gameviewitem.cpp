@@ -106,4 +106,4 @@ GluonEngine::ProjectMetaData* GameViewItem::metaData()
     return d->metaData;
 }
 
-#include "gameviewitem.moc"
+ 

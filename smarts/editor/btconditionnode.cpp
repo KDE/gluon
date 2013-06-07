@@ -36,4 +36,4 @@ bool btConditionNode::run(btCharacter* character)
     return false;
 }
 
-#include "btconditionnode.moc"
+ 

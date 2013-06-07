@@ -63,5 +63,3 @@ void InputBuffer::setButtonState( int button, bool pressed )
         d->buttonState[button].enqueue( pressed );
     }
 }
-
-#include "inputbuffer.moc"

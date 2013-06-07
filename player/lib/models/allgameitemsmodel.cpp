@@ -372,4 +372,4 @@ void AllGameItemsModel::ratingUploadFinished()
     fetchAndUpdateExistingGameItem( gameItemForId( job->data().toString() ) );
 }
 
-#include "allgameitemsmodel.moc"
+ 

@@ -204,4 +204,4 @@ void btnodetest::testSetParentNode()
 
 QTEST_MAIN(btnodetest)
 
-#include "btnodetest.moc"
+ 

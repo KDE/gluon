@@ -195,4 +195,4 @@ void GameItemsModel::processFetchedGameList()
     emit downloadableCountChanged();
 }
 
-#include "gameitemsmodel.moc"
+ 

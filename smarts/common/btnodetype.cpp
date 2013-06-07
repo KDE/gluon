@@ -118,4 +118,4 @@ QHash<QString, QString> btNodeType::getPropertyDescriptions()
     return m_propertiesDescriptions;
 }
 
-#include "btnodetype.moc"
+ 

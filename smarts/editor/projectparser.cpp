@@ -331,4 +331,4 @@ const QString projectParser::serializeProject(btBrain * brain)
     return xmlData;
 }
 
-#include "projectparser.moc"
+ 

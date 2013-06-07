@@ -122,5 +122,3 @@ GDLSerializer::GDLSerializer(QObject* parent): Singleton< GluonCore::GDLSerializ
 {
 
 }
-
-#include "gdlserializer.moc"
