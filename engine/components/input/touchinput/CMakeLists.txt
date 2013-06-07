@@ -1,4 +1,6 @@
+include_directories(${GLUONINPUT_INCLUDE_DIRS})
+
 gluon_add_plugin( gluon_component_touchinput GluonEngine
-    touchinputcomponent.cpp
-    ${GLUONENGINE_LIBRARIES} ${GLUONINPUT_LIBRARIES}
+    SOURCES touchinputcomponent.cpp
+    LIBRARIES ${GLUONINPUT_LIBRARIES}
 )
