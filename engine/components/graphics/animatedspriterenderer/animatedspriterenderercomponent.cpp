@@ -423,4 +423,4 @@ void AnimatedSpriteRendererComponent::setStartFrames( const QVariantList& starts
 
 Q_EXPORT_PLUGIN2( gluon_component_spriterenderer, GluonEngine::AnimatedSpriteRendererComponent );
 
-#include "animatedspriterenderercomponent.moc"
+ 

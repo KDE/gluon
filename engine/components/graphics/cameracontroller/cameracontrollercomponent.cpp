@@ -238,4 +238,4 @@ void CameraControllerComponent::setRenderTargetMaterial( GluonGraphics::Material
 
 Q_EXPORT_PLUGIN2( gluon_component_cameracontroller, GluonEngine::CameraControllerComponent );
 
-#include "cameracontrollercomponent.moc"
+ 

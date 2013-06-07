@@ -124,4 +124,4 @@ btAsset::supportedMimeTypes() const
 //we only need to use this macro here, because we are registering and handling the other components and btAssets through the GLUON_OBJECT
 Q_EXPORT_PLUGIN2(gluon_plugin_Asset_behaviortree, GluonEngine::btAsset)
 
-#include "btAsset.moc"
+ 

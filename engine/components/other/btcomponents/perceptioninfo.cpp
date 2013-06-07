@@ -215,4 +215,4 @@ QVariant PerceptionInfo::getAdjustedValue(qreal precision)
     return QVariant();
 }
 
-#include "perceptioninfo.moc"
+ 

@@ -251,4 +251,4 @@ float MouseInputComponent::normalizedYAxis()
 
 Q_EXPORT_PLUGIN2( gluon_component_mouseinput, GluonEngine::MouseInputComponent );
 
-#include "mouseinputcomponent.moc"
+ 

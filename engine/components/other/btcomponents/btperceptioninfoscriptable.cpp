@@ -43,4 +43,4 @@ QVariant btPerceptionInfoScriptable::getAdjustedValue(qreal precision) const
 	return parent->getAdjustedValue(precision);
 }
 
-#include "btperceptioninfoscriptable.moc"
+ 

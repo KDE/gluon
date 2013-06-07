@@ -69,4 +69,4 @@ Tree::getFile()
 	return d->file;
 }
 
-#include "tree.moc"
+ 

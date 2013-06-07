@@ -137,4 +137,4 @@ void ViewCone::setKnowledgePrecision(qreal value)
 
 
 
-#include "viewcone.moc"
+ 

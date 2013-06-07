@@ -74,5 +74,5 @@ void btCharacterScriptable::setTime(int time)
     m_time = time;
 }
 
-#include "btcharacterscriptable.moc"
+ 
 

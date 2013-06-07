@@ -19,11 +19,10 @@
 
 #include "spherecollisioncomponent.h"
 
-#include "gameobject.h"
-#include "game.h"
-#include "scene.h"
-
 #include <core/debughelper.h>
+#include <engine/gameobject.h>
+#include <engine/game.h>
+#include <engine/scene.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, SphereCollisionComponent )
 
@@ -208,4 +207,4 @@ void SphereCollisionComponent::addComponent( SphereCollisionComponent* comp )
 
 Q_EXPORT_PLUGIN2( gluon_component_spherecollision, GluonEngine::SphereCollisionComponent )
 
-#include "spherecollisioncomponent.moc"
+ 
