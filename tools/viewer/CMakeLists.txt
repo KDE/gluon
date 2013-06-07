@@ -40,7 +40,7 @@ if(APPLE)
 else()
     add_executable(gluonviewer ${gluonviewer_SRCS})
 endif()
-target_link_libraries(gluonviewer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_INPUT_LIBS})
+target_link_libraries(gluonviewer ${GLUONENGINE_LIBRARIES} ${GLUONGRAPHICS_LIBRARIES} ${GLUONINPUT_LIBRARIES})
 
 if(NOT APPLE)
     install(TARGETS

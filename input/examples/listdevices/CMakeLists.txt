@@ -10,6 +10,6 @@ if(GLUON_BUILD_ALL)
     add_dependencies(gluonexamples_input_listdevices GluonInput)
 endif()
 
-target_link_libraries(gluonexamples_input_listdevices ${GLUON_INPUT_LIBS})
+target_link_libraries(gluonexamples_input_listdevices ${GLUONINPUT_LIBRARIES})
 
 install(TARGETS gluonexamples_input_listdevices DESTINATION ${EXAMPLES_INSTALL_DIR})

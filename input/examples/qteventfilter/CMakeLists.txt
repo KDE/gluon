@@ -12,6 +12,6 @@ if(GLUON_BUILD_ALL)
     add_dependencies(gluonexamples_input_qteventfilter GluonInput)
 endif()
 
-target_link_libraries(gluonexamples_input_qteventfilter ${GLUON_INPUT_LIBS} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
+target_link_libraries(gluonexamples_input_qteventfilter ${GLUONINPUT_LIBRARIES} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
 
 install(TARGETS gluonexamples_input_qteventfilter DESTINATION ${EXAMPLES_INSTALL_DIR})

@@ -61,7 +61,7 @@ else()
 	kde4_add_app_icon(desktop_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../icons/*/apps/gluon-player.png")
 	kde4_add_executable(gluonplayer-desktop ${desktop_SRCS})
 endif()
-target_link_libraries(gluonplayer-desktop ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS} ${KDE4_KIO_LIBS})
+target_link_libraries(gluonplayer-desktop ${GLUONENGINE_LIBRARIES} ${GLUONGRAPHICS_LIBRARIES} ${GLUONPLAYER_LIBRARIES} ${GLUONINPUT_LIBRARIES} ${KDE4_KIO_LIBS})
 
 if(NOT APPLE)
     install(TARGETS gluonplayer-desktop
