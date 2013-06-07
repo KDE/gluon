@@ -1,5 +1,7 @@
 gluon_include_directories( GluonCore
-    ${QT_INCLUDES}
+    ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5Gui_INCLUDE_DIRS}
+    ${Qt5Qml_INCLUDE_DIRS}
 )
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/gdl )
@@ -50,7 +52,7 @@ set( GluonCore_HEADERS
 gluon_add_library( GluonCore SHARED
     SOURCES ${GluonCore_SRCS}
     HEADERS ${GluonCore_HEADERS}
-    LIBRARIES ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTSCRIPT_LIBRARY}
+    LIBRARIES ${Qt5Core_LIBRARIES} ${Qt5Gui_LIBRARIES} ${Qt5Qml_LIBRARIES}
 )
 
 gluon_add_subdirectories( examples tests )

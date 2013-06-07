@@ -18,7 +18,10 @@ option( INSTALL_GAMES "Install the example games" ON )
 
 #### Global Dependencies ####
 set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
-find_package( Qt4 4.7.1 REQUIRED )
+find_package( Qt5Core REQUIRED )
+find_package( Qt5Gui REQUIRED )
+find_package( Qt5Qml REQUIRED )
+find_package( Qt5Quick REQUIRED )
 find_package( Eigen3 REQUIRED )
 
 # KDE is a global optional dependency
