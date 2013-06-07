@@ -1,22 +1,4 @@
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_AUDIO_INCLUDE_DIRS})
-
-set(soundasset_SRCS
-    soundasset.cpp
-)
-
-qt4_automoc(${soundasset_SRCS})
-add_library(gluon_asset_sound SHARED ${soundasset_SRCS})
-
-if(GLUON_BUILD_ALL)
-    add_dependencies(gluon_asset_sound GluonEngine GluonAudio)
-endif()
-
-set_target_properties(gluon_asset_sound PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_ASSET_SOUND_LIB)
-target_link_libraries(gluon_asset_sound GluonEngine ${GLUON_AUDIO_LIBS})
-
-install(
-    TARGETS
-    gluon_asset_sound
-    DESTINATION
-    ${LIB_INSTALL_DIR}/gluon
+gluon_add_plugin(gluon_asset_sound GluonEngine
+    SOURCES soundasset.cpp
+    LIBRARIES ${GLUONAUDIO_LIBRARIES}
 )

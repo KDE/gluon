@@ -21,13 +21,11 @@
 #ifndef GLUON_ENGINE_SOUNDASSET_H
 #define GLUON_ENGINE_SOUNDASSET_H
 
-#include "asset.h"
-
-#include <QtCore/QStringList>
+#include <engine/asset.h>
 
 namespace GluonEngine
 {
-    class GLUON_ASSET_SOUND_EXPORT SoundAsset : public Asset
+    class SoundAsset : public Asset
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )
