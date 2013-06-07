@@ -169,4 +169,4 @@ void MainWindow::mKeyReleased( int button )
     m_textEdit->append( QString( "%1 button is released" ).arg( QKeySequence( button ).toString() ) );
 }
 
-#include "mainwindow.moc"
+ 

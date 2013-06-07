@@ -88,4 +88,4 @@ void SpriteMesh::render( Shader* shader )
     }
 }
 
-#include "spritemesh.moc"
+ 

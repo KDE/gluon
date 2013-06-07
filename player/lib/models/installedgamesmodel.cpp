@@ -57,4 +57,4 @@ bool InstalledGamesModel::filterAcceptsRow( int source_row, const QModelIndex& s
     return ( sourceModel()->data( sourceModel()->index( source_row, 0 ), AllGameItemsModel::StatusRole ) == GameItem::Installed );
 }
 
-#include "installedgamesmodel.moc"
+ 

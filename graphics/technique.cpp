@@ -49,4 +49,4 @@ GluonGraphics::Material* Technique::material()
     return 0;
 }
 
-#include "technique.moc"
+ 

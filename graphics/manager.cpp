@@ -159,4 +159,4 @@ void Manager::Private::aboutToQuit()
     delete backend;
 }
 
-#include "manager.moc"
+#include "moc_manager.cpp"

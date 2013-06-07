@@ -75,4 +75,4 @@ void btPerceptionInfo::setRadius(const qreal& newRadius)
     d->radius = newRadius;
 }
 
-#include "btperceptioninfo.moc"
+ 

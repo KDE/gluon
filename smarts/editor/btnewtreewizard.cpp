@@ -102,4 +102,4 @@ NodeTypePage::NodeTypePage(QWidget *parent)
     setLayout(layout);
 }
 
-#include "btnewtreewizard.moc"
+ 

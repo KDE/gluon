@@ -95,4 +95,4 @@ QString GameMetadata::gameDescription() const
     return d->gameDescription;
 }
 
-#include "gamemetadata.moc"
+ 

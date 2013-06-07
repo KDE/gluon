@@ -248,5 +248,5 @@ Asset::fullyQualifiedFileName( GluonCore::GluonObject* obj, const QString& exten
 }
 
 
-#include "asset.moc"
+ 
 

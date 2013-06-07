@@ -90,4 +90,4 @@ void MeshAsset::setName( const QString& newName )
 
 Q_EXPORT_PLUGIN2( gluon_asset_mesh, GluonEngine::MeshAsset )
 
-#include "meshasset.moc"
+ 

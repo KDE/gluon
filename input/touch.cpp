@@ -39,4 +39,4 @@ Touch::~Touch()
 {
 }
 
-#include "touch.moc"
+ 

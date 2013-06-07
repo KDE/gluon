@@ -322,4 +322,4 @@ QList<InputDevice*> DetectLinux::unknownDeviceList()
     return d->unknownList;
 }
 
-#include "detectlinux.moc"
+ 

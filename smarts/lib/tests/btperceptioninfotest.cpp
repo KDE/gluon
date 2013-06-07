@@ -73,4 +73,4 @@ void btPerceptionInfoTest::testRadius()
 
 QTEST_MAIN(btPerceptionInfoTest)
 
-#include "btperceptioninfotest.moc"
+ 

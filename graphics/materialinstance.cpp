@@ -104,4 +104,4 @@ void MaterialInstance::setShader( Shader* shader )
     //d->shader = shader;
 }
 
-#include "materialinstance.moc"
+ 

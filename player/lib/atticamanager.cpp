@@ -115,5 +115,5 @@ void AtticaManager::processFetchedGameDetails( Attica::BaseJob* job )
     }
 }
 
-#include "atticamanager.moc"
+ 
 

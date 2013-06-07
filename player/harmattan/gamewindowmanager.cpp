@@ -216,4 +216,4 @@ void GameWindowManager::show()
     d->stackedWidget->showFullScreen();
 }
 
-#include "gamewindowmanager.moc"
+ 

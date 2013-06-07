@@ -183,4 +183,4 @@ void AbstractPrefabInstance::setInstantiationCompleted(bool completed)
     d->instantiationCompleted = completed;
 }
 
-#include "abstractprefabinstance.moc"
+ 

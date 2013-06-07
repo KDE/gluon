@@ -129,4 +129,4 @@ void MetaInfoTest::testDefaultExtension()
 
 QTEST_MAIN(MetaInfoTest)
 
-#include "metainfotest.moc"
+ 

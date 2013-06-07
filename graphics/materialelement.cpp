@@ -40,5 +40,5 @@ GluonGraphics::MaterialElement::~MaterialElement()
     delete d;
 }
 
-#include "materialelement.moc"
+ 
 

@@ -146,4 +146,4 @@ void Entity::setVisible( bool visible )
     d->visible = visible;
 }
 
-#include "entity.moc"
+ 

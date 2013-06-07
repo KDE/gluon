@@ -145,4 +145,4 @@ int GameDetailItem::rating() const
     return d->rating;
 }
 
-#include "gamedetailitem.moc"
+ 

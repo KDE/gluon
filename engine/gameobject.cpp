@@ -807,4 +807,4 @@ GameObject::postCloneSanitize()
     GluonCore::GluonObject::postCloneSanitize();
 }
 
-#include "gameobject.moc"
+ 

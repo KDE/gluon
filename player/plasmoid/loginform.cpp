@@ -119,4 +119,4 @@ void LoginForm::loadCredentials()
     m_passwordEdit->setText( GluonPlayer::ServiceProvider::instance()->password() );
 }
 
-#include "loginform.moc"
+ 

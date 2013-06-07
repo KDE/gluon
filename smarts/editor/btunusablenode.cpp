@@ -36,4 +36,4 @@ bool btUnusableNode::run(btCharacter* character)
     return false;
 }
 
-#include "btunusablenode.moc"
+ 

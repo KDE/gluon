@@ -80,4 +80,4 @@ QVariant RatingJob::data()
     return d->id;
 }
 
-#include "ratingjob.moc"
+ 

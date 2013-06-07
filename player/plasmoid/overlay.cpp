@@ -68,4 +68,4 @@ void Overlay::resizeEvent( QGraphicsSceneResizeEvent* event )
     m_background->resizeFrame( event->newSize() );
 }
 
-#include "overlay.moc"
+ 

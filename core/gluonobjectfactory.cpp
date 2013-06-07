@@ -189,5 +189,3 @@ GluonObjectFactory::GluonObjectFactory ( QObject* parent )
 {
 
 }
-
-#include "gluonobjectfactory.moc"

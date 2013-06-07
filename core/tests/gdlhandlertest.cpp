@@ -478,4 +478,4 @@ void GDLHandlerTest::testInvadersSample()
 
 QTEST_MAIN(GDLHandlerTest)
 
-#include "gdlhandlertest.moc"
+ 

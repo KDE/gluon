@@ -146,5 +146,5 @@ int btParallelNode::childNodeIndex(btNode* childNode)
 	return m_nodesIndex[childNode];
 }
 
-#include "btparallelnode.moc"
+ 
 

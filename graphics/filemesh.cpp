@@ -131,4 +131,4 @@ void FileMesh::render( Shader* shader )
 
 }
 
-#include "filemesh.moc"
+ 

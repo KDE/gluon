@@ -114,4 +114,4 @@ void btPerception::addPerceptionAtom(btPerceptionAtom * perceptionAtom)
 	d->perceptionAtoms[perceptionAtom->objectName()] = perceptionAtom;
 }
 
-#include "btperception.moc"
+ 

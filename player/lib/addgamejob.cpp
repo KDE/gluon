@@ -81,4 +81,4 @@ QVariant AddGameJob::data()
     return d->id;
 }
 
-#include "addgamejob.moc"
+ 

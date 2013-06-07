@@ -249,4 +249,4 @@ void btPropertyWidget::updateTreeModel()
     emit treeModelUpdate();
 }
 
-#include "btpropertywidget.moc"
+ 

@@ -139,4 +139,4 @@ void PrefabInstanceChild::resetProperties()
     }
 }
 
-#include "prefabinstancechild.moc"
+ 

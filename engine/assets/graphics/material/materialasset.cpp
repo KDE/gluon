@@ -146,4 +146,4 @@ void MaterialAsset::createInstance()
 
 Q_EXPORT_PLUGIN2( gluon_asset_material, GluonEngine::MaterialAsset )
 
-#include "materialasset.moc"
+ 

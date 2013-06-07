@@ -79,4 +79,4 @@ void GameObjectTest::testOrientation()
 
 QTEST_MAIN(GameObjectTest)
 
-#include "gameobjecttest.moc"
+ 

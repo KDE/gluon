@@ -44,4 +44,4 @@ Mesh::isInitialized() const
     return false;
 }
 
-#include "mesh.moc"
+ 

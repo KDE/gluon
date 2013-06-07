@@ -221,4 +221,4 @@ QVariant AbstractJob::data()
     return QVariant();  //FIXME: This implementation should not be needed.
 }
 
-#include "abstractjob.moc"
+#include "moc_abstractjob.cpp"

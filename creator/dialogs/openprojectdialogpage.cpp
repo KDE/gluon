@@ -78,4 +78,4 @@ OpenProjectDialogPage::~OpenProjectDialogPage()
     delete d;
 }
 
-#include "creator/dialogs/openprojectdialogpage.moc"
+#include "moc_openprojectdialogpage.cpp"

@@ -86,4 +86,4 @@ void OutputSurface::setSize(int width, int height)
         d->renderTarget->resize( width, height );
 }
 
-#include "outputsurface.moc"
+ 

@@ -104,4 +104,4 @@ void GamesViewItem::mousePressEvent( QGraphicsSceneMouseEvent* /* event */ )
     emit gameSelected( m_index );
 }
 
-#include "gamesviewitem.moc"
+ 

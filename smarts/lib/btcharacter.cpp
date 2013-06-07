@@ -455,4 +455,4 @@ void btCharacter::setFile(QString file)
 	m_filename = name.insert(insert, "-probabilities");
 }
 
-#include "btcharacter.moc"
+ 

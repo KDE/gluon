@@ -57,4 +57,4 @@ Attica::Provider* AbstractSocialServicesJob::provider()
     return d->provider;
 }
 
-#include "abstractsocialservicesjob.moc"
+ 

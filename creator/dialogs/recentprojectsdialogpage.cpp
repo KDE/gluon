@@ -97,4 +97,4 @@ QString RecentProjectsDialogPage::selectedItem() const
     return QString();
 }
 
-#include "recentprojectsdialogpage.moc"
+#include "moc_recentprojectsdialogpage.cpp" 

@@ -472,5 +472,3 @@ void
 GluonObject::handleMessage( const QString& /* message */ )
 {
 }
-
-#include "gluonobject.moc"

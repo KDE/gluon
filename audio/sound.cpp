@@ -448,4 +448,3 @@ void Sound::setTimeOffset( ALfloat time )
 
 }
 
-#include "sound.moc"

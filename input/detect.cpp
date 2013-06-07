@@ -30,5 +30,3 @@ Detect::Detect( QObject* parent )
 Detect::~Detect()
 {
 }
-
-#include "detect.moc"

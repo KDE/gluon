@@ -82,4 +82,4 @@ void NewCommentForm::validateAndSubmit()
     emit accepted( m_parentIndex, m_titleEdit->text(), m_bodyEdit->nativeWidget()->toPlainText() );
 }
 
-#include "newcommentform.moc"
+ 

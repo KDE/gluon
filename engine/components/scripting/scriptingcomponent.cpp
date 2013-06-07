@@ -185,4 +185,4 @@ void ScriptingComponent::cleanup()
     GluonEngine::Component::cleanup();
 }
 
-#include "scriptingcomponent.moc"
+ 

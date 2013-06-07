@@ -349,4 +349,4 @@ QString InputThread::msgError()
     return d->msgError;
 }
 
-#include "inputthread.moc"
+ 

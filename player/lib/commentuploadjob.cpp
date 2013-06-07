@@ -80,4 +80,4 @@ QVariant CommentUploadJob::data()
     return GluonPlayer::AbstractSocialServicesJob::data();
 }
 
-#include "commentuploadjob.moc"
+ 

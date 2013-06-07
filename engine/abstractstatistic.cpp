@@ -151,4 +151,4 @@ void AbstractStatistic::commit()
     DatabaseManager::instance()->setStatisticArray(d->database, d->id, d->array);
 }
 
-#include "abstractstatistic.moc"
+ 

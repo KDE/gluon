@@ -20,12 +20,11 @@
 
 #include "commentitemsmodel.h"
 
+#include "../serviceprovider.h"
+#include "../commentslistjob.h"
+#include "../commentuploadjob.h"
+#include "../gamemanager.h"
 #include "allgameitemsmodel.h"
-#include "gamemanager.h"
-
-#include "serviceprovider.h"
-#include <commentslistjob.h>
-#include <commentuploadjob.h>
 
 #include <gluon_global.h>
 
@@ -288,4 +287,4 @@ void CommentItemsModel::uploadCommentFinished()
     updateData();
 }
 
-#include "commentitemsmodel.moc"
+ 

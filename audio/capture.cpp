@@ -122,5 +122,5 @@ void Capture::save( const QString& fileName )
     sf_close( file );
 }
 
-#include "capture.moc"
+ 
 

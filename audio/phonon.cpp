@@ -119,4 +119,4 @@ Phonon::Category KALPhonon::category() const
     return d->category;
 }
 
-#include "kalphonon.moc"
+ 

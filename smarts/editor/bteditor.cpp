@@ -480,7 +480,7 @@ void bteditor::showFor(btEditorNode* node)
     showPropertiesFor(node);
 }
 
-#include "bteditor.moc"
+ 
 
 
 

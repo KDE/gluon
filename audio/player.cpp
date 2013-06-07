@@ -186,5 +186,3 @@ QStringList Player::files()
 {
     return d->files;
 }
-
-#include "player.moc"

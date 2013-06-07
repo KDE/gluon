@@ -62,4 +62,4 @@ void Joystick::joystickMoved( int axis, int distance )
 {
 }
 
-#include "joystick.moc"
+ 

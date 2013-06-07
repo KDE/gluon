@@ -84,4 +84,4 @@ void  btDecoratorNode::toDataXml(QXmlStreamWriter* xmlWriter)
     xmlWriter->writeEndElement(); //decorator
 }
 
-#include "btdecoratornode.moc"
+ 

@@ -236,4 +236,4 @@ void GameUploadJob::setApiKey(const QString& apiKey)
     d->apiKey = apiKey;
 }
 
-#include "gameuploadjob.moc"
+ 

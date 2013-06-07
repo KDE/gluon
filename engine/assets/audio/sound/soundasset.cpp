@@ -51,5 +51,3 @@ void SoundAsset::load()
 }
 
 Q_EXPORT_PLUGIN2( gluon_asset_sound, GluonEngine::SoundAsset )
-
-#include "soundasset.moc"

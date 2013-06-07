@@ -163,4 +163,4 @@ GluonGraphics::MeshData* GLXBackend::createMeshData()
 
 Q_EXPORT_PLUGIN2( gluongraphics_glx_backend, GluonGraphics::GLX::GLXBackend )
 
-#include "glxbackend.moc"
+ 

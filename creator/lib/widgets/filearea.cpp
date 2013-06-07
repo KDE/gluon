@@ -182,4 +182,4 @@ void FileArea::Private::tabCloseRequested(int tab)
     FileManager::instance()->closeFile( tabs.key( tab ) );
 }
 
-#include "filearea.moc"
+#include "moc_filearea.cpp"

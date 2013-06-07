@@ -134,4 +134,4 @@ QSize ProjectSelectionDialog::sizeHint() const
     return QSize( 640, 480 );
 }
 
-#include "projectselectiondialog.moc"
+#include "moc_projectselectiondialog.cpp"

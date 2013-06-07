@@ -184,4 +184,4 @@ QString AchievementsModel::projectDir() const
     return d->projectDir;
 }
 
-#include "achievementsmodel.moc"
+ 

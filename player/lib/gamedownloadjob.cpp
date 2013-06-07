@@ -107,4 +107,4 @@ QVariant GameDownloadJob::data()
     return QVariant( d->finalDownloadLocation );
 }
 
-#include "gamedownloadjob.moc"
+ 

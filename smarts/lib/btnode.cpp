@@ -199,4 +199,4 @@ int btNode::childIndex(btNode * child)
     return -1;
 }
 
-#include "btnode.moc"
+ 

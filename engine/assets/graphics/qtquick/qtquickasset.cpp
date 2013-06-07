@@ -121,4 +121,4 @@ GluonGraphics::QtQuickRenderer* QtQuickAsset::renderer() const
 
 Q_EXPORT_PLUGIN2( gluon_asset_qtquick, GluonEngine::QtQuickAsset )
 
-#include "qtquickasset.moc"
+ 

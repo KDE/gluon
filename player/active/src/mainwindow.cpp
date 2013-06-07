@@ -94,4 +94,4 @@ void MainWindow::startGame()
     QApplication::instance()->exit();
 }
 
-#include "mainwindow.moc"
+ 

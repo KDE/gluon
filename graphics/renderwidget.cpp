@@ -95,4 +95,4 @@ void RenderWidget::update()
     QApplication::sendEvent( this, ev );
 }
 
-#include "renderwidget.moc"
+ 

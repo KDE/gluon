@@ -41,4 +41,4 @@ void AbstractItemView::setModel( QAbstractItemModel* model )
     m_model = model;
 }
 
-#include "abstractitemview.moc"
+ 

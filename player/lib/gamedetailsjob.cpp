@@ -85,4 +85,4 @@ QVariant GameDetailsJob::data()
     return QVariant::fromValue( d->gameDetails );
 }
 
-#include "gamedetailsjob.moc"
+ 

@@ -117,4 +117,4 @@ void Camera::resize( int width, int height )
     d->frustrum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane  );
 }
 
-#include "camera.moc"
+ 
