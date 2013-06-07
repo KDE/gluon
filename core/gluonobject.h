@@ -58,9 +58,8 @@ Q_DECLARE_METATYPE(GluonCore::GluonObject*)
     virtual GluonCore::GluonObject* instantiate();\
     virtual GluonCore::GluonObject* fromVariant(const QVariant &wrappedObject);\
     virtual QVariant toVariant(GluonCore::GluonObject *wrapThis);\
-    static QScriptValue objectToScriptValue( QScriptEngine* engine, CLASSNAME* const& in );\
-    static void objectFromScriptValue( const QScriptValue& object, CLASSNAME*& out );\
-    virtual void registerOnScriptEngine(QScriptEngine* engine) const;\
+    static QJSValue objectToScriptValue( QJSEngine* engine, CLASSNAME* const& in );\
+    static void objectFromScriptValue( const QJSValue& object, CLASSNAME*& out );\
     private:
 
 namespace GDL

@@ -24,7 +24,7 @@
 
 #include "singleton.h"
 
-#include <QtScript/QScriptEngine>
+#include <QtQml/QJSEngine>
 
 namespace GluonCore
 {
@@ -33,7 +33,7 @@ namespace GluonCore
             Q_OBJECT
             GLUON_SINGLETON( ScriptEngine )
         public:
-            QScriptEngine* scriptEngine();
+            QJSEngine* scriptEngine();
             void resetEngine();
 
         private:

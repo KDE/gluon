@@ -25,9 +25,9 @@
 #include "singleton.h"
 #include "debughelper.h"
 
-#include <QtScript/QScriptEngine>
 #include <QtCore/QHash>
 #include <QtCore/QStringList>
+#include <QtQml/QJSEngine>
 
 namespace GluonCore
 {
@@ -213,20 +213,20 @@ REGISTER_OBJECTTYPE(GluonCore, GluonObject);
     {\
         return QVariant::fromValue<NAMESPACE :: NEWOBJECTTYPE *>(qobject_cast<NAMESPACE :: NEWOBJECTTYPE*>(wrapThis));\
     }\
-    QScriptValue NAMESPACE::NEWOBJECTTYPE::objectToScriptValue( QScriptEngine* engine, NAMESPACE :: NEWOBJECTTYPE* const& in )\
+    QJSValue NAMESPACE::NEWOBJECTTYPE::objectToScriptValue( QJSEngine* engine, NAMESPACE :: NEWOBJECTTYPE* const& in )\
     {\
         return engine->newQObject( in );\
     }\
-    void NAMESPACE::NEWOBJECTTYPE::objectFromScriptValue( const QScriptValue& object, NAMESPACE :: NEWOBJECTTYPE* &out )\
+    void NAMESPACE::NEWOBJECTTYPE::objectFromScriptValue( const QJSValue& object, NAMESPACE :: NEWOBJECTTYPE* &out )\
     {\
         out = qobject_cast<NAMESPACE :: NEWOBJECTTYPE*>( object.toQObject() );\
-    }\
-    void NAMESPACE::NEWOBJECTTYPE::registerOnScriptEngine( QScriptEngine* engine ) const\
-    {\
-        QScriptValue objectClass = engine->scriptValueFromQMetaObject<NAMESPACE :: NEWOBJECTTYPE>();\
-        engine->globalObject().setProperty(NAMESPACE :: NEWOBJECTTYPE::staticMetaObject.className(), objectClass);\
-        qScriptRegisterMetaType( engine, NAMESPACE::NEWOBJECTTYPE::objectToScriptValue, NAMESPACE::NEWOBJECTTYPE::objectFromScriptValue );\
     }
+/*     void NAMESPACE::NEWOBJECTTYPE::registerOnScriptEngine( QJSEngine* engine ) const\
+//     {\
+//         QJSValue objectClass = engine->scriptValueFromQMetaObject<NAMESPACE :: NEWOBJECTTYPE>();\
+//         engine->globalObject().setProperty(NAMESPACE :: NEWOBJECTTYPE::staticMetaObject.className(), objectClass);\
+//         qScriptRegisterMetaType( engine, NAMESPACE::NEWOBJECTTYPE::objectToScriptValue, NAMESPACE::NEWOBJECTTYPE::objectFromScriptValue );\
+//     }*/
 
 //Q_DECLARE_METATYPE(NAMESPACE :: NEWOBJECTTYPE *)
 

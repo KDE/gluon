@@ -21,10 +21,10 @@
 
 #include "directoryprovider.h"
 
-#include <QtGui/QDesktopServices>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 #include <QtCore/QSettings>
+#include <QtCore/QStandardPaths>
 
 using namespace GluonCore;
 
@@ -49,9 +49,8 @@ DirectoryProvider::DirectoryProvider( QObject* parent )
     : GluonCore::Singleton< GluonCore::DirectoryProvider >( parent )
     , d( new DirectoryProviderPrivate )
 {
-    d->userDataPath = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
-    d->userDataPath.chop( QString(QCoreApplication::organizationName() + '/' + QCoreApplication::applicationName()).size() );
-    d->userDataPath.append( "gluon" );
+    d->userDataPath = QStandardPaths::writableLocation( QStandardPaths::GenericDataLocation );
+    d->userDataPath.append( "/gluon" );
 
     // Define standard dirs Gluon recommends
     d->userDirs["data"] =  QDir::fromNativeSeparators( d->userDataPath + "/data" );
@@ -122,25 +121,21 @@ QStringList DirectoryProvider::pluginDirectoryPaths() const
     if( pluginDirectoryPath.endsWith(QLatin1String("/MacOS")) )
         pluginDirectoryPath.chop(QByteArray("/MacOS").size());
 
-#endif
-
-    if( QFile( pluginDirectoryPath + "/PlugIns" ).exists() )
+    if( QFile::exists( pluginDirectoryPath + "/PlugIns" ) )
         pluginDirectoryPaths.append( pluginDirectoryPath );
 
+#else
     QString libraryDirectoryPath = libDirectory();
 
-    if( QFile( libraryDirectoryPath ).exists() )
+    if( QFile::exists( libraryDirectoryPath ) )
         pluginDirectoryPaths.append( libraryDirectoryPath );
 
-    // This is the plugin dir on windows
-    if( QFile( libraryDirectoryPath + "/kde4" ).exists() )
-        pluginDirectoryPaths.append( libraryDirectoryPath + "/kde4" );
-
-    if( QFile( libraryDirectoryPath + "/gluon" ).exists() )
+    if( QFile::exists( libraryDirectoryPath + "/gluon" ) )
         pluginDirectoryPaths.append( libraryDirectoryPath + "/gluon" );
+#endif
 
-    if( QFile( QDir::homePath() + "/gluonplugins" ).exists() )
-        pluginDirectoryPaths.append( QDir::homePath() + "/gluonplugins" );
+    if( QFile::exists( d->userDataPath + "/plugins" ) )
+        pluginDirectoryPaths.append( d->userDataPath + "/plugins" );
 
     return pluginDirectoryPaths;
 }

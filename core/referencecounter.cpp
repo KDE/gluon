@@ -36,8 +36,3 @@ void ReferenceCounter::deref()
     m_ref.deref();
 }
 
-int ReferenceCounter::count() const
-{
-    return int( m_ref );
-}
-

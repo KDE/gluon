@@ -22,11 +22,11 @@
 #include "gluonvarianttypes.h"
 #include "metainfo.h"
 
-#include <QtGui/QColor>
 #include <QtCore/QVariant>
 #include <QtCore/QDebug>
 #include <QtCore/QMetaClassInfo>
 #include <QtCore/QSizeF>
+#include <QtGui/QColor>
 
 REGISTER_OBJECTTYPE( GluonCore, GluonObject )
 
@@ -49,7 +49,7 @@ GluonObject::GluonObject( QObject* parent )
     : QObject( parent )
     , d( new Private )
 {
-    qRegisterMetaType< QList<QUrl> >();
+    //qRegisterMetaType< QList<QUrl> >();
     // Get a nice name first time the object is created...
     QString theClassName( metaObject()->className() );
     if( theClassName.contains( ':' ) )

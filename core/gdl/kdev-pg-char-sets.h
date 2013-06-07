@@ -172,7 +172,7 @@ namespace KDevPG
     template<>
     inline QByteArray qString2Codec<Ascii>( const QString& str )
     {
-        return str.toAscii();
+        return str.toLocal8Bit();
     }
 
     template<>
