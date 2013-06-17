@@ -37,5 +37,27 @@ Item {
 				anchors.right : parent.right;
 			}
 		 }
+		 
+		 PlasmaComponents.Label{
+			anchors.right: parent.right
+			text: "Have you forgot your password?"
+			font.pixelSize: 7
+		 }
+		 
+		 Row {
+			anchors.right : parent.right;
+			anchors.left : parent.left;
+			
+			PlasmaComponents.Button {
+				text: "Quit";
+				width : 100;
+				anchors.left : parent.left;
+			}
+			PlasmaComponents.Button {
+				text: "Log";
+				width : 100;
+				anchors.right : parent.right;
+			}
+		 }
      }
 }
