@@ -55,6 +55,6 @@ void MainWindow::createQmlView()
 	
 	qml_view->setSource (QUrl::fromLocalFile ("qml/loginscreen.qml"));
 	qml_view->setResizeMode (QDeclarativeView::SizeRootObjectToView);
-	resize (800, 600);
+	resize (300, 300);
 	setCentralWidget (qml_view);
 }

@@ -4,21 +4,31 @@ import org.kde.plasma.extras 0.1 as PlasmaExtras
 import org.kde.plasma.components 0.1 as PlasmaComponents
 
 Item {
-
+	
      Column {
-         anchors.horizontalCenter: parent.horizontalCenter
-         anchors.verticalCenter: parent.verticalCenter
+         anchors.horizontalCenter: parent.horizontalCenter;
+         anchors.verticalCenter: parent.verticalCenter;
+         
+         anchors.right: parent.right;
+         anchors.left: parent.left;
+         anchors.top: parent.top;
+         anchors.bottom: parent.bottom;
+         
+         anchors.margins: 20;
 
-         spacing: 5
+         spacing: 5;
 
-         PlasmaExtras.Title { text: "Gluon Game Store" }
+         PlasmaExtras.Title {
+			text: "Gluon Player"
+			anchors.horizontalCenter: parent.horizontalCenter;
+		 }
          
          Row {
 			anchors.right : parent.right;
 			anchors.left : parent.left;
 			
 			PlasmaComponents.Label {
-				text: "Login ID:";
+				text: "Username:";
 				anchors.left : parent.left;
 			}
 			PlasmaComponents.TextField {
@@ -44,6 +54,12 @@ Item {
 			font.pixelSize: 7
 		 }
 		 
+		 PlasmaComponents.Label{
+			anchors.right: parent.right
+			text: "Still not registered?"
+			font.pixelSize: 7
+		 }
+		 
 		 Row {
 			anchors.right : parent.right;
 			anchors.left : parent.left;
@@ -54,7 +70,7 @@ Item {
 				anchors.left : parent.left;
 			}
 			PlasmaComponents.Button {
-				text: "Log";
+				text: "Login";
 				width : 100;
 				anchors.right : parent.right;
 			}
