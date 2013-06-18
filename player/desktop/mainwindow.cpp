@@ -57,4 +57,8 @@ void MainWindow::createQmlView()
 	qml_view->setResizeMode (QDeclarativeView::SizeRootObjectToView);
 	resize (300, 300);
 	setCentralWidget (qml_view);
+	
+	rootObject = qml_view->rootObject();
+	
+	QObject::connect(rootObject->findChild<QObject*>("loginbutton"), SIGNAL(clicked()), &signalHandler, SLOT(ping()));
 }

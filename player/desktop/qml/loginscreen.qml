@@ -65,14 +65,18 @@ Item {
 			anchors.left : parent.left;
 			
 			PlasmaComponents.Button {
+				objectName: "quitbutton";
 				text: "Quit";
 				width : 100;
 				anchors.left : parent.left;
+				onClicked: console.log("send signal to quit?");
 			}
 			PlasmaComponents.Button {
+				objectName: "loginbutton";
 				text: "Login";
 				width : 100;
 				anchors.right : parent.right;
+				onClicked: console.log("send signal to log?");
 			}
 		 }
      }

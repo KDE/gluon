@@ -8,6 +8,7 @@ include_directories(${QT_INCLUDES} ${KDE4_INCLUDES} ${KDECLARATIVE_INCLUDE_DIRS}
 set(gluonplayerdesktop_SRCS 
   main.cpp
   mainwindow.cpp
+  signalhandler.cpp
 )
 
 kde4_add_executable(gluonplayerdesktop ${gluonplayerdesktop_SRCS})
