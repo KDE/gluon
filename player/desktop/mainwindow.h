@@ -3,13 +3,14 @@
  
 #include <QDeclarativeView>
 #include <QDeclarativeContext>
+#include <QDeclarativeEngine>
 #include <QObject>
 #include <QGraphicsObject>
 #include <KXmlGuiWindow>
 #include <KTextEdit>
 #include <kdeclarative.h>
 
-#include "signalhandler.h"
+#include "loginform.h"
  
 class MainWindow : public KXmlGuiWindow
 {
@@ -21,7 +22,6 @@ class MainWindow : public KXmlGuiWindow
     KDeclarative kdeclarative;
     QDeclarativeView *qml_view;
     QGraphicsObject *rootObject;
-    SignalHandler signalHandler;
     //methods
     void setupActions();
     void createQmlView();

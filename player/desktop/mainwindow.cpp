@@ -8,6 +8,7 @@
 #include <KStandardAction>
 
 #include <QDir>
+#include <QtDeclarative>
  
 MainWindow::MainWindow(QWidget *parent) : KXmlGuiWindow(parent)
 {
@@ -44,6 +45,9 @@ void MainWindow::setupActions()
  */
 void MainWindow::createQmlView()
 {
+	
+	qmlRegisterType<LoginForm>("GluonComponents", 1,0, "LoginForm");
+	
 	qml_view = new QDeclarativeView (this);
 	
 	kdeclarative.setDeclarativeEngine(qml_view->engine());
@@ -59,6 +63,4 @@ void MainWindow::createQmlView()
 	setCentralWidget (qml_view);
 	
 	rootObject = qml_view->rootObject();
-	
-	QObject::connect(rootObject->findChild<QObject*>("loginbutton"), SIGNAL(clicked()), &signalHandler, SLOT(ping()));
 }
