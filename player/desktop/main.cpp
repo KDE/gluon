@@ -13,7 +13,7 @@ int main (int argc, char *argv[])
       KAboutData::License_GPL,
       ki18n("Copyright (c) 2007 to_be_written") );
   KCmdLineArgs::init( argc, argv, &aboutData );
- 
+  
   KApplication app;
  
   MainWindow* window = new MainWindow();

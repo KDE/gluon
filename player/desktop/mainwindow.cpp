@@ -9,7 +9,7 @@
 
 #include <QDir>
 #include <QtDeclarative>
- 
+
 MainWindow::MainWindow(QWidget *parent) : KXmlGuiWindow(parent)
 {
 	setupActions();
@@ -57,7 +57,7 @@ void MainWindow::createQmlView()
 	qml_view->rootContext()->setContextProperty("mainwindow", this);
 	qml_view->rootContext()->setContextProperty("_gluon_player_qml_version", "0.1");
 	
-	qml_view->setSource (QUrl::fromLocalFile ("qml/loginscreen.qml"));
+	qml_view->setSource (QUrl::fromLocalFile ("bin/qml/loginscreen.qml"));
 	qml_view->setResizeMode (QDeclarativeView::SizeRootObjectToView);
 	resize (300, 300);
 	setCentralWidget (qml_view);

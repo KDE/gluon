@@ -36,6 +36,7 @@ Item {
 				anchors.left : parent.left;
 			}
 			PlasmaComponents.TextField {
+				id: m_username;
 				anchors.right : parent.right;
 			}
 		}
@@ -48,14 +49,15 @@ Item {
 				anchors.left : parent.left;
 			}
 			PlasmaComponents.TextField {
+				id: m_password;
 				anchors.right : parent.right;
 			}
 		}
 
 		PlasmaComponents.Label{
-			anchors.right: parent.right
-			text: "Have you forgot your password?"
-			font.pixelSize: 7
+			anchors.right: parent.right;
+			text: "Have you forgot your password?";
+			font.pixelSize: 7;
 		}
 
 		PlasmaComponents.Label{
@@ -79,7 +81,7 @@ Item {
 				text: "Login";
 				width : 100;
 				anchors.right : parent.right;
-				onClicked: loginFormProxy.ping()
+				onClicked: loginFormProxy.doLogin(m_username.text,m_password.text)
 			}
 		}
 	}
