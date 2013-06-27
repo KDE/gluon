@@ -9,35 +9,18 @@
 
 #include <attica/provider.h>
 
+#include "mainwindow.h"
+
 LoginForm::LoginForm()
 {
 	m_loggedIn = false;
 	
-    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(initializationFinished()), SLOT(initDone()) );
-    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(initializeFailed()), SLOT(initFailed()) );
     connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFinished()), SLOT(loginDone()) );
     connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFailed(QString)), SLOT(loginFailed()) );
-
-    initialize();
 }
 
 LoginForm::~LoginForm()
 {
-}
-
-void LoginForm::initialize()
-{
-    GluonPlayer::ServiceProvider::instance()->init();
-}
-
-void LoginForm::initDone()
-{
-    loadCredentials();
-}
-
-void LoginForm::initFailed()
-{
-    kDebug() << "Initialization failed";
 }
 
 void LoginForm::doLogin(QString m_username, QString m_password)
@@ -79,9 +62,4 @@ void LoginForm::logoutDone()
 void LoginForm::loginFailed()
 {
     qDebug() << "login failed!";
-}
-
-void LoginForm::loadCredentials()
-{
-	
 }

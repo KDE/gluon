@@ -1,3 +1,6 @@
+#ifndef REGISTERUSERFORM_H
+#define REGISTERUSERFORM_H
+
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
@@ -17,33 +20,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef LOGINFORM_H
-#define LOGINFORM_H
-
-#include <attica/providermanager.h>
 #include <attica/provider.h>
 
-class LoginForm : public QObject
+class RegisterUserForm : public QObject
 {
         Q_OBJECT
 
     public:
-        LoginForm();
-        virtual ~LoginForm();
+        RegisterUserForm();
+        virtual ~RegisterUserForm();
 	
     protected slots:
-        Q_INVOKABLE void doLogin(QString m_username, QString m_password);
-        void doLogout();
-        void loginDone();
-        void logoutDone();
-        void loginFailed();
+        Q_INVOKABLE void addUser(QString login, QString password, QString password2, QString firstname, QString lastname, QString email);
 
     private:
-        bool m_loggedIn;
-
-        Attica::ProviderManager m_manager;
         Attica::Provider m_provider;
 };
 
-#endif // LOGINFORM_H
-
+#endif 

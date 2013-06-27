@@ -3,8 +3,13 @@ import org.kde.plasma.core 0.1 as PlasmaCore
 import org.kde.plasma.components 0.1 as PlasmaComponents
  
 Item {
-		PlasmaComponents.ButtonRow {
-		PlasmaComponents.Button { text: "Left" }
-		PlasmaComponents.Button { text: "Right" }
+	
+	PlasmaComponents.PageStack {
+		id: pageStack
+		anchors { left: parent.left; right: parent.right; top: parent.top; bottom: toolBar.top }
+		
+		Component.onCompleted:{
+			pageStack.push(Qt.createComponent("loginscreen.qml"))
 		}
+	}
 }

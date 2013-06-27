@@ -18,6 +18,7 @@ set(desktop_SRCS
     loginform.cpp
     main.cpp
     mainwindow.cpp
+    registeruserform.cpp
 )
 
 kde4_add_executable(gluonplayer-desktop ${desktop_SRCS})
@@ -31,6 +32,7 @@ if(NOT APPLE)
 
     install(FILES qml/main.qml
                   qml/loginscreen.qml
+                  qml/registeruser.qml
             DESTINATION ${BIN_INSTALL_DIR}/qml
             COMPONENT gluonplayerdesktop)
 endif()

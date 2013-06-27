@@ -56,14 +56,24 @@ Item {
 
 		PlasmaComponents.Label{
 			anchors.right: parent.right;
-			text: "Have you forgot your password?";
+			color: "blue";
+			text: "Recover your password";
 			font.pixelSize: 7;
+			MouseArea{
+				anchors.fill: parent
+				onClicked: print("TODO: implement recover password on qml/loginscreen.qml");
+			}
 		}
 
 		PlasmaComponents.Label{
+			color: "blue";
 			anchors.right: parent.right
-			text: "Still not registered?"
+			text: "Register an account";
 			font.pixelSize: 7
+			MouseArea{
+				anchors.fill: parent
+				onClicked: pageStack.push(Qt.createComponent("registeruser.qml"))
+			}
 		}
 
 		Row {
