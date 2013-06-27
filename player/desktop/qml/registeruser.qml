@@ -2,11 +2,11 @@ import QtQuick 1.1
 import org.kde.plasma.core 0.1 as PlasmaCore
 import org.kde.plasma.extras 0.1 as PlasmaExtras
 import org.kde.plasma.components 0.1 as PlasmaComponents
-import GluonComponents 1.0
+import Gluon.Player.Desktop 0.72 as GluonPlayer
  
 Item {
 	
-	RegisterUserForm{
+	GluonPlayer.RegisterUserForm{
 		id: registerUserFormProxy;
 	}
 	

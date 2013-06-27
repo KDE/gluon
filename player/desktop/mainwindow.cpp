@@ -10,6 +10,8 @@
 #include <QDir>
 #include <QtDeclarative>
 
+#include <core/gluon_global.h>
+
 #include "loginform.h"
 #include "registeruserform.h"
 
@@ -57,8 +59,8 @@ void MainWindow::setupActions()
 void MainWindow::createQmlView()
 {
 	
-	qmlRegisterType<LoginForm>("GluonComponents", 1,0, "LoginForm");
-	qmlRegisterType<RegisterUserForm>("GluonComponents", 1,0, "RegisterUserForm");
+	qmlRegisterType<LoginForm>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "LoginForm");
+	qmlRegisterType<RegisterUserForm>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "RegisterUserForm");
 	
 	qml_view = new QDeclarativeView (this);
 	
