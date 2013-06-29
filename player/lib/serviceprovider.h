@@ -276,7 +276,7 @@ namespace GluonPlayer
 
             /** Signal which is emitted when the registration failed
             */
-            void registrationFailed();
+            void registrationFailed(int errorcode);
 
         private:
             ~ServiceProvider();

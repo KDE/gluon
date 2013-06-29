@@ -276,7 +276,7 @@ void ServiceProvider::showRegisterError( const Attica::Metadata& metadata )
 {
     if( metadata.error() == Attica::Metadata::NetworkError )
     {
-        emit registrationFailed();
+        emit registrationFailed(999);
     }
     else
     {
@@ -293,6 +293,9 @@ void ServiceProvider::showRegisterError( const Attica::Metadata& metadata )
         // So here will be only showRegisterHint("dialog-close", statusString);
         // no switch.
         // QWidget* widgetToHighlight = 0;
+        
+        emit registrationFailed(metadata.statusCode());
+        
         QString hint;
         switch( metadata.statusCode() )
         {

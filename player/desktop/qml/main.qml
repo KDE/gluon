@@ -6,7 +6,7 @@ Item {
 	
 	PlasmaComponents.PageStack {
 		id: pageStack
-		anchors { left: parent.left; right: parent.right; top: parent.top; bottom: toolBar.top }
+		anchors { top: parent.top; bottom: toolBar.top }
 		
 		Component.onCompleted:{
 			pageStack.push(Qt.createComponent("loginscreen.qml"))

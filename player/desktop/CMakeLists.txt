@@ -29,10 +29,15 @@ if(NOT APPLE)
     install(TARGETS gluonplayer-desktop
             DESTINATION ${BIN_INSTALL_DIR}
             COMPONENT gluonplayerdesktop)
-
+    
+    install(FILES gluonplayerdesktopui.rc
+            DESTINATION ${BIN_INSTALL_DIR}
+            COMPONENT gluonplayerdesktop)
+    
     install(FILES qml/main.qml
                   qml/loginscreen.qml
                   qml/registeruser.qml
+                  qml/bg.png
             DESTINATION ${BIN_INSTALL_DIR}/qml
             COMPONENT gluonplayerdesktop)
 endif()

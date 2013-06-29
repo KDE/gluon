@@ -32,6 +32,11 @@ class RegisterUserForm : public QObject
 	
     protected slots:
         Q_INVOKABLE void addUser(QString login, QString password, QString password2, QString firstname, QString lastname, QString email);
+        void registrationComplete();
+        void registrationFailed(int errorcode);
+        
+    signals:
+		void registrationProcessCompleted(QString message);
 
     private:
         Attica::Provider m_provider;

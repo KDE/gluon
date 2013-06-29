@@ -22,6 +22,8 @@ class MainWindow : public KXmlGuiWindow
 		
 	public slots:
 		void loadQml(QString filename);
+		void initDone();
+		void initFailed();
 		
 	private:
 		//variables
@@ -32,8 +34,6 @@ class MainWindow : public KXmlGuiWindow
 		void setupActions();
 		void createQmlView();
 		void initAttica();
-		void initDone();
-		void initFailed();
 };
 
 #endif

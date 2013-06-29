@@ -6,16 +6,23 @@ import Gluon.Player.Desktop 0.72 as GluonPlayer
 
 Item {
 	
+	Rectangle {
+		id: background
+		anchors.fill: parent;
+		Image { source: "bg.png"; fillMode: Image.Tile; anchors.fill: parent;  opacity: 1 }
+	}
+	
+	
 	GluonPlayer.LoginForm{
 		id : loginFormProxy;
 	}
 	
 	Column {
+		width: 300;
+		
 		anchors.horizontalCenter: parent.horizontalCenter;
 		anchors.verticalCenter: parent.verticalCenter;
 
-		anchors.right: parent.right;
-		anchors.left: parent.left;
 		anchors.top: parent.top;
 		anchors.bottom: parent.bottom;
 

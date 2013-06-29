@@ -6,16 +6,26 @@ import Gluon.Player.Desktop 0.72 as GluonPlayer
  
 Item {
 	
+	Rectangle {
+		id: background
+		anchors.fill: parent;
+		Image { source: "bg.png"; fillMode: Image.Tile; anchors.fill: parent;  opacity: 1 }
+	}
+	
 	GluonPlayer.RegisterUserForm{
 		id: registerUserFormProxy;
+		onRegistrationProcessCompleted:{
+			register_outputlabel.text = "<b>"+message+"</b>";
+		}
 	}
 	
 	Column {
+		
+		width: 300;
+		
 		anchors.horizontalCenter: parent.horizontalCenter;
 		anchors.verticalCenter: parent.verticalCenter;
 
-		anchors.right: parent.right;
-		anchors.left: parent.left;
 		anchors.top: parent.top;
 		anchors.bottom: parent.bottom;
 
@@ -29,8 +39,7 @@ Item {
 		}
 		
 		PlasmaExtras.Paragraph {
-			text: "Through this wizard you'll register a new account on the GamingFreedom network.
-			This account will work either for Gluon Creator, Gluon Player, www.gamingfreedom.org and any Gluon affiliate."
+			text: "Through this wizard you'll register a new account on the GamingFreedom network. <br>This account will work either for Gluon Creator, Gluon Player, www.gamingfreedom.org and any Gluon affiliate."
 			anchors.horizontalCenter: parent.horizontalCenter;
 		}
 		
@@ -111,6 +120,11 @@ Item {
 				id: register_email;
 				anchors.right : parent.right;
 			}
+		}
+		
+		PlasmaComponents.Label {
+			id: register_outputlabel;
+			text: "";
 		}
 		
 		Row {

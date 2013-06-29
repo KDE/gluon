@@ -73,7 +73,7 @@ void MainWindow::createQmlView()
 	
 	loadQml(QString("main.qml"));
 	qml_view->setResizeMode (QDeclarativeView::SizeRootObjectToView);
-	resize (300, 300);
+	resize (640, 480);
 	setCentralWidget (qml_view);
 	
 	rootObject = qml_view->rootObject();
