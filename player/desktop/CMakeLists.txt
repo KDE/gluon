@@ -35,6 +35,7 @@ if(NOT APPLE)
             COMPONENT gluonplayerdesktop)
     
     install(FILES qml/main.qml
+				  qml/home.qml
                   qml/loginscreen.qml
                   qml/registeruser.qml
                   qml/bg.png

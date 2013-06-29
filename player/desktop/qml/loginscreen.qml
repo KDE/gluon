@@ -15,6 +15,10 @@ Item {
 	
 	GluonPlayer.LoginForm{
 		id : loginFormProxy;
+		onLoginCompleted: pageStack.push(Qt.createComponent("home.qml"))
+		onLoginFail: {
+			login_outputlabel.text = "<b>Login failed!</b>";
+		}
 	}
 	
 	Column {
@@ -45,6 +49,7 @@ Item {
 			PlasmaComponents.TextField {
 				id: m_username;
 				anchors.right : parent.right;
+				KeyNavigation.tab: m_password;
 			}
 		}
 		Row {
@@ -56,8 +61,11 @@ Item {
 				anchors.left : parent.left;
 			}
 			PlasmaComponents.TextField {
+				echoMode: TextInput.Password 
 				id: m_password;
 				anchors.right : parent.right;
+				KeyNavigation.tab: m_username;
+				Keys.onReturnPressed: loginFormProxy.doLogin(m_username.text,m_password.text);
 			}
 		}
 
@@ -82,7 +90,12 @@ Item {
 				onClicked: pageStack.push(Qt.createComponent("registeruser.qml"))
 			}
 		}
-
+		
+		PlasmaComponents.Label {
+			id: login_outputlabel;
+			text: "";
+		}
+		
 		Row {
 			anchors.right : parent.right;
 			anchors.left : parent.left;
@@ -98,7 +111,7 @@ Item {
 				text: "Login";
 				width : 100;
 				anchors.right : parent.right;
-				onClicked: loginFormProxy.doLogin(m_username.text,m_password.text)
+				onClicked: loginFormProxy.doLogin(m_username.text,m_password.text);
 			}
 		}
 	}

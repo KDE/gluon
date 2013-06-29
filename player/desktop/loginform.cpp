@@ -51,7 +51,7 @@ void LoginForm::doLogout()
 
 void LoginForm::loginDone()
 {
-	qDebug() << "login done!";
+	emit loginCompleted();
 }
 
 void LoginForm::logoutDone()
@@ -61,5 +61,5 @@ void LoginForm::logoutDone()
 
 void LoginForm::loginFailed()
 {
-    qDebug() << "login failed!";
+    emit loginFail();
 }

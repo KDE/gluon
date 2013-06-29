@@ -37,7 +37,11 @@ class LoginForm : public QObject
         void loginDone();
         void logoutDone();
         void loginFailed();
-
+    
+    signals:
+		void loginCompleted();
+		void loginFail();
+    
     private:
         bool m_loggedIn;
 

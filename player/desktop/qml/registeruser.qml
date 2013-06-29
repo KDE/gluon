@@ -54,6 +54,7 @@ Item {
 			PlasmaComponents.TextField {
 				id: register_login;
 				anchors.right : parent.right;
+				KeyNavigation.tab: register_password;
 			}
 		}
 		Row {
@@ -65,8 +66,10 @@ Item {
 				anchors.left : parent.left;
 			}
 			PlasmaComponents.TextField {
+				echoMode: TextInput.Password;
 				id: register_password;
 				anchors.right : parent.right;
+				KeyNavigation.tab: register_password2;
 			}
 		}
 		Row {
@@ -78,8 +81,10 @@ Item {
 				anchors.left : parent.left;
 			}
 			PlasmaComponents.TextField {
+				echoMode: TextInput.Password;
 				id: register_password2;
 				anchors.right : parent.right;
+				KeyNavigation.tab: register_firstname;
 			}
 		}
 		Row {
@@ -93,6 +98,7 @@ Item {
 			PlasmaComponents.TextField {
 				id: register_firstname;
 				anchors.right : parent.right;
+				KeyNavigation.tab: register_lastname;
 			}
 		}
 		Row {
@@ -106,6 +112,7 @@ Item {
 			PlasmaComponents.TextField {
 				id: register_lastname;
 				anchors.right : parent.right;
+				KeyNavigation.tab: register_email;
 			}
 		}
 		Row {
@@ -119,6 +126,8 @@ Item {
 			PlasmaComponents.TextField {
 				id: register_email;
 				anchors.right : parent.right;
+				KeyNavigation.tab: register_login;
+				Keys.onReturnPressed: registerUserFormProxy.addUser(register_login.text, register_password.text, register_password2.text, register_firstname.text, register_lastname.text, register_email.text);
 			}
 		}
 		
