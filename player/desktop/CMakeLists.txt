@@ -19,6 +19,7 @@ set(desktop_SRCS
     main.cpp
     mainwindow.cpp
     registeruserform.cpp
+    userbox.cpp
 )
 
 kde4_add_executable(gluonplayer-desktop ${desktop_SRCS})

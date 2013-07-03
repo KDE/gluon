@@ -21,8 +21,9 @@
  */
 
 #include <attica/provider.h>
+#include <QDeclarativeItem>
 
-class RegisterUserForm : public QObject
+class RegisterUserForm : public QDeclarativeItem
 {
         Q_OBJECT
 

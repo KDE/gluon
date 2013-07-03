@@ -17,38 +17,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef LOGINFORM_H
-#define LOGINFORM_H
+#ifndef USERBOX_H
+#define USERBOX_H
 
 #include <attica/providermanager.h>
 #include <attica/provider.h>
 #include <QDeclarativeItem>
 
-class LoginForm : public QDeclarativeItem
+class UserBox : public QDeclarativeItem
 {
         Q_OBJECT
 
     public:
-        LoginForm();
-        virtual ~LoginForm();
-	
-    protected slots:
-        Q_INVOKABLE void doLogin(QString m_username, QString m_password);
-        void doLogout();
-        void loginDone();
-        void logoutDone();
-        void loginFailed();
-    
-    signals:
-		void loginCompleted();
-		void loginFail();
-    
+        UserBox();
+        virtual ~UserBox();
+        
     private:
-        bool m_loggedIn;
-
         Attica::ProviderManager m_manager;
         Attica::Provider m_provider;
 };
 
-#endif // LOGINFORM_H
+#endif // USERBOX_H
 

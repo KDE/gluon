@@ -22,8 +22,6 @@ class MainWindow : public KXmlGuiWindow
 		
 	public slots:
 		void loadQml(QString filename);
-		void initDone();
-		void initFailed();
 		
 	private:
 		//variables

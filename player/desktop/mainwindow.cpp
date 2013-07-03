@@ -14,13 +14,10 @@
 
 #include "loginform.h"
 #include "registeruserform.h"
+#include "userbox.h"
 
-MainWindow::MainWindow(QWidget *parent) : KXmlGuiWindow(parent)
+MainWindow::MainWindow(QWidget *parent)
 {
-	//needed by the ocs server
-	connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(initializationFinished()), SLOT(initDone()) );
-	connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(initializeFailed()), SLOT(initFailed()) );
-	
 	setupActions();
 	createQmlView();
 }
@@ -61,6 +58,7 @@ void MainWindow::createQmlView()
 	
 	qmlRegisterType<LoginForm>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "LoginForm");
 	qmlRegisterType<RegisterUserForm>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "RegisterUserForm");
+	qmlRegisterType<UserBox>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "UserBox");
 	
 	qml_view = new QDeclarativeView (this);
 	
@@ -97,20 +95,3 @@ void MainWindow::initAttica()
 {
 	GluonPlayer::ServiceProvider::instance()->init();
 }
-
-/**
- * Handle the case in which attica could connect to the specified OCS server
- */
-void MainWindow::initDone()
-{
-    kDebug() << "INFO: successfully connected to OCS server";
-}
-
-/**
- * Handle the case in which attica could not connect to the specified OCS server
- */
-void MainWindow::initFailed()
-{
-    kDebug() << "WARNING: could not connect to OCS server";
-}
-
