@@ -94,7 +94,7 @@ namespace GluonGraphics
              *
              * \param transform The new transformation to use.
              */
-            virtual void setTransform( const QMatrix4x4 transform );
+            virtual void setTransform( const QMatrix4x4& transform );
 
             /**
              * Set the mesh used by this item.

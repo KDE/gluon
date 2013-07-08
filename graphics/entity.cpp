@@ -124,7 +124,7 @@ Entity::render()
 }
 
 void
-Entity::setTransform( const QMatrix4x4 transform )
+Entity::setTransform( const QMatrix4x4& transform )
 {
     d->transform = transform;
 }
