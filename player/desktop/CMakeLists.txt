@@ -40,6 +40,7 @@ if(NOT APPLE)
                   qml/loginscreen.qml
                   qml/registeruser.qml
                   qml/bg.png
+                  qml/BackgroundBox.qml
             DESTINATION ${BIN_INSTALL_DIR}/qml
             COMPONENT gluonplayerdesktop)
 endif()

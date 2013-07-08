@@ -31,7 +31,10 @@ class UserBox : public QDeclarativeItem
     public:
         UserBox();
         virtual ~UserBox();
-        
+    
+    public slots:
+		QString username();
+    
     private:
         Attica::ProviderManager m_manager;
         Attica::Provider m_provider;

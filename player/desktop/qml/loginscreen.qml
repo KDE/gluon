@@ -21,12 +21,15 @@ Item {
 		}
 		
 		Rectangle {
+			y: (loginscreen_maincolumn.y - 10)
+			height: (loginscreen_maincolumn.height + 20)
+			x: (loginscreen_maincolumn.x - 10)
+			width: (loginscreen_maincolumn.width + 20)
 			id: loginscreen_maincolumnbg;
-			anchors.fill: loginscreen_maincolumn;
 			border.color: "lightgray";
 			color: "white";
-			radius: 0;
-			opacity: 0.7;
+			radius: 10;
+			opacity: 0.65;
 		}
 		
 		anchors.horizontalCenter: parent.horizontalCenter;
