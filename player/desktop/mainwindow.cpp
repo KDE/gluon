@@ -11,6 +11,7 @@
 #include <QtDeclarative>
 
 #include <core/gluon_global.h>
+#include <core/directoryprovider.h>
 
 #include "loginform.h"
 #include "registeruserform.h"
@@ -46,7 +47,7 @@ void MainWindow::setupActions()
 	
 	KStandardAction::quit(kapp, SLOT(quit()), actionCollection());
 	
-	setupGUI(Default, QDir::currentPath()+"/bin/gluonplayerdesktopui.rc");
+	setupGUI(Default, GluonCore::DirectoryProvider::instance()->dataDirectory()+"/apps/playerqmldesktop/gluonplayerdesktopui.rc");
 }
 
 /**
@@ -84,7 +85,7 @@ void MainWindow::createQmlView()
  */
 void MainWindow::loadQml(QString filename)
 {
-	qml_view->setSource (QUrl::fromLocalFile ("bin/qml/"+filename));
+	qml_view->setSource (QUrl::fromLocalFile (GluonCore::DirectoryProvider::instance()->dataDirectory()+"/apps/playerqmldesktop/qml/"+filename));
 }
 
 /**

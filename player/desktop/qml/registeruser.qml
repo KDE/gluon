@@ -6,11 +6,7 @@ import Gluon.Player.Desktop 0.72 as GluonPlayer
  
 Item {
 	
-	Rectangle {
-		id: background
-		anchors.fill: parent;
-		Image { source: "bg.png"; fillMode: Image.Tile; anchors.fill: parent;  opacity: 1 }
-	}
+	Background{ }
 	
 	GluonPlayer.RegisterUserForm{
 		id: registerUserFormProxy;
@@ -19,22 +15,19 @@ Item {
 		}
 		
 		anchors.horizontalCenter: parent.horizontalCenter;
-		anchors.verticalCenter: parent.verticalCenter;
-
+		
 		anchors.top: parent.top;
 		anchors.bottom: parent.bottom;
-		anchors.left: parent.left;
-		anchors.right: parent.right;
+		
+		BackgroundBox{ target: registeruser_maincolumn; }
 		
 		Column {
+			id: registeruser_maincolumn;
 			
 			width: 300;
 			
 			anchors.horizontalCenter: parent.horizontalCenter;
 			anchors.verticalCenter: parent.verticalCenter;
-
-			anchors.top: parent.top;
-			anchors.bottom: parent.bottom;
 
 			anchors.margins: 20;
 
@@ -43,11 +36,13 @@ Item {
 			PlasmaExtras.Title {
 				text: "Sign up!"
 				anchors.horizontalCenter: parent.horizontalCenter;
+				color: "black";
 			}
 			
 			PlasmaExtras.Paragraph {
 				text: "Through this wizard you'll register a new account on the GamingFreedom network. <br>This account will work either for Gluon Creator, Gluon Player, www.gamingfreedom.org and any Gluon affiliate."
 				anchors.horizontalCenter: parent.horizontalCenter;
+				color: "black";
 			}
 			
 			Row {
@@ -57,6 +52,7 @@ Item {
 				PlasmaComponents.Label {
 					text: "Username:";
 					anchors.left : parent.left;
+					color: "black";
 				}
 				PlasmaComponents.TextField {
 					id: register_login;
@@ -71,6 +67,7 @@ Item {
 				PlasmaComponents.Label {
 					text: "Password:";
 					anchors.left : parent.left;
+					color: "black";
 				}
 				PlasmaComponents.TextField {
 					echoMode: TextInput.Password;
@@ -86,6 +83,7 @@ Item {
 				PlasmaComponents.Label {
 					text: "";
 					anchors.left : parent.left;
+					color: "black";
 				}
 				PlasmaComponents.TextField {
 					echoMode: TextInput.Password;
@@ -101,6 +99,7 @@ Item {
 				PlasmaComponents.Label {
 					text: "First name:";
 					anchors.left : parent.left;
+					color: "black";
 				}
 				PlasmaComponents.TextField {
 					id: register_firstname;
@@ -115,6 +114,7 @@ Item {
 				PlasmaComponents.Label {
 					text: "Last name:";
 					anchors.left : parent.left;
+					color: "black";
 				}
 				PlasmaComponents.TextField {
 					id: register_lastname;
@@ -129,6 +129,7 @@ Item {
 				PlasmaComponents.Label {
 					text: "E-mail:";
 					anchors.left : parent.left;
+					color: "black";
 				}
 				PlasmaComponents.TextField {
 					id: register_email;

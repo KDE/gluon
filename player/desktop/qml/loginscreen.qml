@@ -6,11 +6,7 @@ import Gluon.Player.Desktop 0.72 as GluonPlayer
 
 Item {
 	
-	Rectangle {
-		id: background
-		anchors.fill: parent;
-		Image { source: "bg.png"; fillMode: Image.Tile; anchors.fill: parent;  opacity: 1 }
-	}
+	Background{ }
 	
 	GluonPlayer.LoginForm{
 		
@@ -20,17 +16,7 @@ Item {
 			login_outputlabel.text = "<b>Login failed!</b>";
 		}
 		
-		Rectangle {
-			y: (loginscreen_maincolumn.y - 10)
-			height: (loginscreen_maincolumn.height + 20)
-			x: (loginscreen_maincolumn.x - 10)
-			width: (loginscreen_maincolumn.width + 20)
-			id: loginscreen_maincolumnbg;
-			border.color: "lightgray";
-			color: "white";
-			radius: 10;
-			opacity: 0.65;
-		}
+		BackgroundBox { target: loginscreen_maincolumn; }
 		
 		anchors.horizontalCenter: parent.horizontalCenter;
 		
@@ -46,6 +32,7 @@ Item {
 			
 			PlasmaExtras.Title {
 				text: "Gluon Player";
+				color: "black";
 				anchors.horizontalCenter: parent.horizontalCenter;
 				opacity: 1;
 			}
@@ -56,13 +43,12 @@ Item {
 				PlasmaComponents.Label {
 					text: "Username:";
 					anchors.left : parent.left;
-					opacity: 1;
+					color: "black";
 				}
 				PlasmaComponents.TextField {
 					id: m_username;
 					anchors.right : parent.right;
 					KeyNavigation.tab: m_password;
-					opacity: 1;
 				}
 			}
 			Row {
@@ -72,6 +58,7 @@ Item {
 				PlasmaComponents.Label {
 					text: "Password:";
 					anchors.left : parent.left;
+					color: "black";
 				}
 				PlasmaComponents.TextField {
 					echoMode: TextInput.Password 
@@ -107,6 +94,7 @@ Item {
 			PlasmaComponents.Label {
 				id: login_outputlabel;
 				text: "";
+				color: "black";
 			}
 			
 			Row {

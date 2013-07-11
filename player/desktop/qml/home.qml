@@ -7,11 +7,7 @@ import Gluon.Player.Desktop 0.72 as GluonPlayer
 
 Item {
 	
-	Rectangle {
-		id: background
-		anchors.fill: parent;
-		Image { source: "bg.png"; fillMode: Image.Tile; anchors.fill: parent;  opacity: 1 }
-	}
+	Background { }
 		
 	Rectangle {
 		anchors.right: centralBox.left;
@@ -49,15 +45,20 @@ Item {
 		anchors.top: centralBox.top;
 		anchors.leftMargin: 20;
 		
-		Column{
+		BackgroundBox{ target: home_rightcolumn; }
+		
+		Item{
+			id: home_rightcolumn;
 			width: 200;
-			BackgroundBox{ }
+			
 			
 			GluonPlayer.UserBox{
+				anchors.fill: parent;
 				id: home_userbox;
 				PlasmaExtras.Title{
 					anchors.topMargin: 5;
 					text: "Ciao,"+home_userbox.username()+"!";
+					color: "black";
 				}
 			}
 		}
