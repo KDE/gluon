@@ -2,6 +2,7 @@
 #include "userbox.h"
 
 #include <player/lib/serviceprovider.h>
+#include <player/lib/personselfjob.h>
 
 #include <KDE/KLocale>
 #include <KDE/KLocalizedString>
@@ -15,7 +16,40 @@
  */
 UserBox::UserBox()
 {
+	m_username = "loading...";
+	m_firstname = "loading...";
+	m_lastname = "loading...";
 	
+	//as the object is instantiated, get info
+	job = GluonPlayer::ServiceProvider::instance()->personSelf();
+	connect(job, SIGNAL(finished()), this, SLOT(loadedUserData()));
+	job->start();
+}
+
+void UserBox::loadedUserData()
+{
+	kDebug() << "loadedUserData";
+	QVariant userData = job->data();
+	GluonPlayer::PersonSelf* castedData = userData.value<GluonPlayer::PersonSelf*>();
+	
+	setUsername(castedData->id());
+	setFirstname(castedData->firstName());
+	setLastname(castedData->lastName());
+}
+
+void UserBox::setUsername(QString str)
+{
+	m_username = str;
+}
+
+void UserBox::setFirstname(QString str)
+{
+	m_firstname = str;
+}
+
+void UserBox::setLastname(QString str)
+{
+	m_lastname = str;
 }
 
 /**
@@ -23,7 +57,17 @@ UserBox::UserBox()
  */
 QString UserBox::username()
 {
-	return QString("example");
+	return m_username;
+}
+
+QString UserBox::firstname()
+{
+	return m_firstname;
+}
+
+QString UserBox::lastname()
+{
+	return m_lastname;
 }
 
 UserBox::~UserBox()

@@ -31,6 +31,7 @@
 #include "editgamejob.h"
 #include "licensejob.h"
 #include "gamedetailsjob.h"
+#include "personselfjob.h"
 
 #include <core/directoryprovider.h>
 
@@ -341,6 +342,11 @@ void ServiceProvider::onRegisterAccountFinished( Attica::BaseJob* job )
         // qDebug() << "register error:" << postJob->metadata().error() << "statusCode:" << postJob->metadata().statusCode();
         showRegisterError( postJob->metadata() );
     }
+}
+
+PersonSelfJob* ServiceProvider::personSelf()
+{
+	return new PersonSelfJob( &d->provider );
 }
 
 GameDetailListJob* ServiceProvider::fetchGames()

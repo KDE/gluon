@@ -46,18 +46,24 @@ Item {
 		anchors.leftMargin: 20;
 		
 		BackgroundBox{ target: home_rightcolumn; }
-		
-		Item{
-			id: home_rightcolumn;
-			width: 200;
 			
+		GluonPlayer.UserBox{
+			id: home_userbox;
 			
-			GluonPlayer.UserBox{
-				anchors.fill: parent;
-				id: home_userbox;
+			onFirstnameChanged: console.log("absbjashbja")
+			
+			Column{
+				id: home_rightcolumn;
+				width: 200;
+			
 				PlasmaExtras.Title{
-					anchors.topMargin: 5;
-					text: "Ciao,"+home_userbox.username()+"!";
+					id: home_usertitle;
+					text: "loading...";
+					color: "black";
+				}
+				PlasmaComponents.Label{
+					id: home_userlabel;
+					text: "loading...";
 					color: "black";
 				}
 			}
