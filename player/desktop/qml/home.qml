@@ -49,22 +49,28 @@ Item {
 			
 		GluonPlayer.UserBox{
 			id: home_userbox;
+			property alias title: home_usertitle.text;
+			property alias label: home_userlabel.text;
 			
-			onFirstnameChanged: console.log("absbjashbja")
+			
+			onDataLoaded: {
+				title = "Hello, "+home_userbox.firstname()+"!"
+				label = "Logged as "+home_userbox.username();
+			}
 			
 			Column{
-				id: home_rightcolumn;
-				width: 200;
+				id: home_rightcolumn
+				width: 200
 			
 				PlasmaExtras.Title{
-					id: home_usertitle;
-					text: "loading...";
-					color: "black";
+					id: home_usertitle
+					text: "loading..."
+					color: "black"
 				}
 				PlasmaComponents.Label{
-					id: home_userlabel;
-					text: "loading...";
-					color: "black";
+					id: home_userlabel
+					text: "loading..."
+					color: "black"
 				}
 			}
 		}

@@ -8,6 +8,7 @@
 #include <KDE/KLocalizedString>
 #include <KDE/KDebug>
 #include <QString>
+#include <QDebug>
 #include <attica/provider.h>
 
 /**
@@ -28,28 +29,14 @@ UserBox::UserBox()
 
 void UserBox::loadedUserData()
 {
-	kDebug() << "loadedUserData";
 	QVariant userData = job->data();
 	GluonPlayer::PersonSelf* castedData = userData.value<GluonPlayer::PersonSelf*>();
 	
-	setUsername(castedData->id());
-	setFirstname(castedData->firstName());
-	setLastname(castedData->lastName());
-}
-
-void UserBox::setUsername(QString str)
-{
-	m_username = str;
-}
-
-void UserBox::setFirstname(QString str)
-{
-	m_firstname = str;
-}
-
-void UserBox::setLastname(QString str)
-{
-	m_lastname = str;
+	m_username = castedData->id();
+	m_firstname = castedData->firstName();
+	m_lastname = castedData->lastName();
+	
+	emit dataLoaded();
 }
 
 /**

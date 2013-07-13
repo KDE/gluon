@@ -29,24 +29,15 @@
 class UserBox : public QDeclarativeItem
 {
         Q_OBJECT
-        Q_PROPERTY(QString username READ username WRITE setUsername NOTIFY usernameChanged)
-		Q_PROPERTY(QString firstname READ firstname WRITE setFirstname NOTIFY firstnameChanged)
-		Q_PROPERTY(QString lastname READ lastname WRITE setLastname NOTIFY lastnameChanged)
-
     public:
         UserBox();
         virtual ~UserBox();
-		
-		QString username();
-		QString firstname();
-		QString lastname();
-		
-		void setUsername(QString str);
-		void setFirstname(QString str);
-		void setLastname(QString str);
     
     public Q_SLOTS:
 		void loadedUserData();
+		Q_INVOKABLE QString username();
+		Q_INVOKABLE QString firstname();
+		Q_INVOKABLE QString lastname();
     
     private:
 		
@@ -57,11 +48,9 @@ class UserBox : public QDeclarativeItem
 		QString m_username;
 		QString m_firstname;
 		QString m_lastname;
-	
+		
 	signals:
-		void usernameChanged();
-		void firstnameChanged();
-		void lastnameChanged();
+		void dataLoaded();
 };
 
 #endif // USERBOX_H
