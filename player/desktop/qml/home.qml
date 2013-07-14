@@ -14,18 +14,29 @@ Item {
 		anchors.top: centralBox.top;
 		anchors.rightMargin: 40;
 		
-		width: 150
+		width: 100
 		
 		BackgroundBox{ target: home_leftcolumn; }
 		
 		Column{
 			id: home_leftcolumn
-			width: 150
+			width: 100
+			
+			spacing: 10
 			
 			PlasmaComponents.Button{
-				height: 150
-				anchors.bottom: home_getbutton.bottom
-				iconSource: "arrow-down-double.svg"
+				height: 100
+				iconSource: "download.svg"
+			}
+			
+			PlasmaComponents.Button{
+				height: 100
+				iconSource: "media-playback-start.svg"
+			}
+			
+			PlasmaComponents.Button{
+				height: 100
+				iconSource: "im-user.svg"
 			}
 		}
 		
