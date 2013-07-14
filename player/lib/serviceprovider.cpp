@@ -94,14 +94,14 @@ void ServiceProvider::init()
     }
 
     connect( &d->manager, SIGNAL(defaultProvidersLoaded()), SLOT(providersUpdated()) );
-    d->manager.addProviderFile(QUrl("http://localhost/providers.xml"));
+    d->manager.addProviderFile(QUrl("http://www.gamingfreedom.org/providers.xml"));
 }
 
 void ServiceProvider::providersUpdated()
 {
     if( !d->manager.providers().isEmpty() )
     {
-        d->provider = d->manager.providerByUrl( QUrl( "http://localhost/v1/" ) );
+        d->provider = d->manager.providerByUrl( QUrl( "http://www.gamingfreedom.org/v1/" ) );
 
         if( !d->provider.isValid() )
         {
