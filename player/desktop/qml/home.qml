@@ -12,14 +12,23 @@ Item {
 	Rectangle {
 		anchors.right: centralBox.left;
 		anchors.top: centralBox.top;
-		anchors.rightMargin: 20;
+		anchors.rightMargin: 40;
 		
-		width: 150;
-		height: 200;
-		color: "red";
-		Text {
-			text: "MENU";
+		width: 150
+		
+		BackgroundBox{ target: home_leftcolumn; }
+		
+		Column{
+			id: home_leftcolumn
+			width: 150
+			
+			PlasmaComponents.Button{
+				height: 150
+				anchors.bottom: home_getbutton.bottom
+				iconSource: "arrow-down-double.svg"
+			}
 		}
+		
 	}
 		
 
@@ -30,11 +39,22 @@ Item {
 		anchors.top: parent.top;
 		anchors.topMargin: 20;
 		
-		width: 500;
-		height: 100;
-		color: "green";
-		Text {
-			text: "CONTENT";
+		width: 500
+		
+		BackgroundBox{ target: home_centralbox; }
+		
+		Column{
+				id: home_centralbox
+				width: 500
+				
+				PlasmaExtras.Title{
+					text: "loading..."
+					color: "black"
+				}
+				PlasmaComponents.Label{
+					text: "loading..."
+					color: "black"
+				}
 		}
 	}
 			
@@ -43,7 +63,9 @@ Item {
 		
 		anchors.left: centralBox.right;
 		anchors.top: centralBox.top;
-		anchors.leftMargin: 20;
+		anchors.leftMargin: 40;
+		
+		width: 200
 		
 		BackgroundBox{ target: home_rightcolumn; }
 			

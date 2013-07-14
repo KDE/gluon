@@ -7,7 +7,7 @@ Rectangle {
 	x: (target.x - 10)
 	width: (target.width + 20)
 	color: "white";
-	border.color: "black";
-	radius: 10;
+	border.color: "white";
+	radius: 0;
 	opacity: 0.65;
 }
