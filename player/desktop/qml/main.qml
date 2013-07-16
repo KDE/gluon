@@ -9,6 +9,8 @@ Item {
 	
 	Background { }
 		
+	LoginScreen{ z: 10 }
+		
 	Rectangle {
 		anchors.right: centralBox.left;
 		anchors.top: centralBox.top;

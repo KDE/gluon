@@ -23,8 +23,6 @@ MainWindow::MainWindow(QWidget *parent)
 	connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(initializationFinished()), SLOT(connectedAttica()) );
     connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(initializeFailed()), SLOT(failedAttica()) );
 	
-	//attica must be initializated BEFORE creating qml view, as many parts of qml view depends on attica
-	initAttica();
 	setupActions();
 	createQmlView();
 }
@@ -92,15 +90,6 @@ void MainWindow::createQmlView()
 void MainWindow::loadQml(QString filename)
 {
 	qml_view->setSource (QUrl::fromLocalFile (GluonCore::DirectoryProvider::instance()->dataDirectory()+"/apps/playerqmldesktop/qml/"+filename));
-}
-
-/**
- * Used to initialize the attica connection to the OCS server.
- * Must be called before the first request.
- */
-void MainWindow::initAttica()
-{
-	GluonPlayer::ServiceProvider::instance()->init();
 }
 
 void MainWindow::connectedAttica()

@@ -36,7 +36,6 @@ class MainWindow : public KXmlGuiWindow
 		//methods
 		void setupActions();
 		void createQmlView();
-		void initAttica();
 };
 
 #endif

@@ -55,13 +55,6 @@ void UserBox::loadedUserData()
  */
 void UserBox::loadedUserDataFailed()
 {
-	GluonPlayer::PersonSelfJob* job = qobject_cast<GluonPlayer::PersonSelfJob*>(QObject::sender());
-	
-	QVariant userData = job->data();
-	QString errorText = job->errorText();
-	
-	qDebug() << "OCS error: " << errorText;
-	
 	emit needsAuthentication();
 }
 
