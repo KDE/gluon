@@ -9,7 +9,10 @@ Item {
 	
 	Background { }
 		
-	LoginScreen{ z: 10 }
+	LoginScreen{ 
+		id: loginscreen
+		z: 10 
+	}
 		
 	Rectangle {
 		anchors.right: centralBox.left;
@@ -88,6 +91,7 @@ Item {
 			property alias paragraph: home_userparagraph.text;
 			
 			onNeedsAuthentication: {
+				loginscreen.open();
 				title = "Please Log In!"
 				paragraph = "You're browsing as anonymous.<br />Please Log In or register a new account.";
 			}

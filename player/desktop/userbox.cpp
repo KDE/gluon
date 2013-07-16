@@ -36,7 +36,6 @@ void UserBox::loadUserData()
 
 void UserBox::loadedUserData()
 {
-	qDebug() << "loaded1";
 	GluonPlayer::PersonSelfJob* job = qobject_cast<GluonPlayer::PersonSelfJob*>(QObject::sender());
 	
 	QVariant userData = job->data();
@@ -47,7 +46,6 @@ void UserBox::loadedUserData()
 	m_lastname = castedData->lastName();
 	
 	emit dataLoaded();
-	qDebug() << "loaded2";
 }
 
 /**
