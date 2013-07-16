@@ -1,96 +1,43 @@
-/************************************************************************
- * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+ 
+#include <QDeclarativeView>
+#include <QDeclarativeContext>
+#include <QDeclarativeEngine>
+#include <QObject>
+#include <QGraphicsObject>
+#include <KXmlGuiWindow>
+#include <KTextEdit>
+#include <kdeclarative.h>
 
-#ifndef GLUON_PLAYER_DESKTOP_MAINWINDOW_H
-#define GLUON_PLAYER_DESKTOP_MAINWINDOW_H
+#include <player/lib/serviceprovider.h>
+#include <attica/providermanager.h>
+#include <attica/provider.h>
 
-#include "loginform.h"
 
-#include "gamesoverlay.h"
-#include "gamedetailsoverlay.h"
-
-#include <engine/gameproject.h>
-#include <core/gluon_global.h>
-
-#include <KDE/KXmlGuiWindow>
-#include <KDE/KApplication>
-#include <KDE/KTextEdit>
-#include <KDE/KTabWidget>
-
-#include <QtGui/QResizeEvent>
-#include <QtGui/QGridLayout>
-#include <QtGui/QListView>
-#include <QtCore/QModelIndex>
-
-class KRecentFilesAction;
-
-namespace GluonKDEPlayer
+class MainWindow : public KXmlGuiWindow
 {
-    /**
-     * The main window of the KDE Player frontend
-     */
-    class MainWindow: public KXmlGuiWindow
-    {
-            Q_OBJECT
+	Q_OBJECT
+	public:
+		MainWindow(QWidget *parent=0);
+		
+	public slots:
+		void loadQml(QString filename);
+		
+	private slots:
+		void connectedAttica();
+		void failedAttica();
+		
+	private:
+		//variables
+		KDeclarative kdeclarative;
+		QDeclarativeView *qml_view;
+		QGraphicsObject *rootObject;
+		//methods
+		void setupActions();
+		void createQmlView();
+		void initAttica();
+};
 
-        public:
-            explicit MainWindow( const QString& fileName = "" );
-            virtual ~MainWindow();
-
-        protected:
-            virtual void closeEvent( QCloseEvent* event );
-
-        public Q_SLOTS:
-            void startGame();
-            void pauseGame();
-            void stopGame();
-
-            void optionsConfigureKeys();
-            void optionsConfigureToolbars();
-
-        private slots:
-            void mLogin( );
-            void mLogout( );
-            void mHome();
-            void mDetails();
-            void mRegistration();
-            void mForgottenPassword();
-            void openProject();
-            void setProject( const QModelIndex& index );
-            void showGames();
-            void activated( QModelIndex index );
-            void countFrames( int );
-            void updateTitle( int msec );
-
-        private:
-            void setupActions();
-
-            class MainWindowPrivate;
-            MainWindowPrivate* d;
-
-            GamesOverlay* m_gamesOverlay;
-            QGridLayout* m_layout;
-            QString m_projectFilePath;
-            GluonEngine::GameProject* m_project;
-            KRecentFilesAction* m_recentFiles;
-    };
-}
-
-#endif // GLUON_PLAYER_DESKTOP_MAINWINDOW_H
+#endif
 

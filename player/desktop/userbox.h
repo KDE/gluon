@@ -17,22 +17,42 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "abstractitemview.h"
+#ifndef USERBOX_H
+#define USERBOX_H
 
-#include <QAbstractItemModel>
+#include <attica/providermanager.h>
+#include <attica/provider.h>
+#include <QDeclarativeItem>
 
-AbstractItemView::AbstractItemView( QWidget* parent, Qt::WindowFlags wFlags )
-    : Overlay( parent, wFlags )
-    , m_model( 0 )
+#include <player/lib/personselfjob.h>
+
+class UserBox : public QDeclarativeItem
 {
-}
+        Q_OBJECT
+    public:
+        UserBox();
+        virtual ~UserBox();
+    
+    public Q_SLOTS:
+		void loadUserData();
+		void loadedUserData();
+		void loadedUserDataFailed();
+		Q_INVOKABLE QString username();
+		Q_INVOKABLE QString firstname();
+		Q_INVOKABLE QString lastname();
+    
+    private:
+        Attica::ProviderManager m_manager;
+        Attica::Provider m_provider;
+		
+		QString m_username;
+		QString m_firstname;
+		QString m_lastname;
+		
+	signals:
+		void dataLoaded();
+		void needsAuthentication();
+};
 
-QAbstractItemModel* AbstractItemView::model() const
-{
-    return m_model;
-}
+#endif // USERBOX_H
 
-void AbstractItemView::setModel( QAbstractItemModel* model )
-{
-    m_model = model;
-}

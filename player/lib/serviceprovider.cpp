@@ -31,6 +31,7 @@
 #include "editgamejob.h"
 #include "licensejob.h"
 #include "gamedetailsjob.h"
+#include "personselfjob.h"
 
 #include <core/directoryprovider.h>
 
@@ -93,14 +94,14 @@ void ServiceProvider::init()
     }
 
     connect( &d->manager, SIGNAL(defaultProvidersLoaded()), SLOT(providersUpdated()) );
-    d->manager.loadDefaultProviders();
+    d->manager.addProviderFile(QUrl("http://www.gamingfreedom.org/providers.xml"));
 }
 
 void ServiceProvider::providersUpdated()
 {
     if( !d->manager.providers().isEmpty() )
     {
-        d->provider = d->manager.providerByUrl( QUrl( "https://api.opendesktop.org/v1/" ) );
+        d->provider = d->manager.providerByUrl( QUrl( "http://www.gamingfreedom.org/v1/" ) );
 
         if( !d->provider.isValid() )
         {
@@ -276,7 +277,7 @@ void ServiceProvider::showRegisterError( const Attica::Metadata& metadata )
 {
     if( metadata.error() == Attica::Metadata::NetworkError )
     {
-        emit registrationFailed();
+        emit registrationFailed(999);
     }
     else
     {
@@ -293,6 +294,9 @@ void ServiceProvider::showRegisterError( const Attica::Metadata& metadata )
         // So here will be only showRegisterHint("dialog-close", statusString);
         // no switch.
         // QWidget* widgetToHighlight = 0;
+        
+        emit registrationFailed(metadata.statusCode());
+        
         QString hint;
         switch( metadata.statusCode() )
         {
@@ -338,6 +342,13 @@ void ServiceProvider::onRegisterAccountFinished( Attica::BaseJob* job )
         // qDebug() << "register error:" << postJob->metadata().error() << "statusCode:" << postJob->metadata().statusCode();
         showRegisterError( postJob->metadata() );
     }
+}
+
+PersonSelfJob* ServiceProvider::personSelf()
+{
+	if( isReady() ){
+		return new PersonSelfJob( &d->provider );
+	}
 }
 
 GameDetailListJob* ServiceProvider::fetchGames()

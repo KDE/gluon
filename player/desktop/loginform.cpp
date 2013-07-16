@@ -1,21 +1,3 @@
-/******************************************************************************
-* This file is part of the Gluon Development Platform
-* Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 2.1 of the License, or (at your option) any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this library; if not, write to the Free Software
-* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-*/
 
 #include "loginform.h"
 
@@ -27,75 +9,21 @@
 
 #include <attica/provider.h>
 
-#include <QtGui/QFormLayout>
-#include <QtGui/QGridLayout>
+#include "mainwindow.h"
 
-LoginForm::LoginForm( QWidget* parent, Qt::WindowFlags wFlags )
-    : QWidget( parent, wFlags )
-    , m_usernameEdit( new KLineEdit( this ) )
-    , m_passwordEdit( new KLineEdit( this ) )
-    , m_loginButton( new KPushButton( this ) )
-    , m_usernameFeedbackLabel( new QLabel( this ) )
-    , m_rememberMeCheckBox( new QCheckBox( this ) )
-    , m_loggedIn( false )
+LoginForm::LoginForm()
 {
-
-    m_loginButton->setIcon( KIcon( "network-connect" ) );
-    m_loginButton->setText( i18n( "Login" ) );
-    m_loginButton->setEnabled( true );
-
-    m_passwordEdit->setEchoMode( QLineEdit::Password );
-    m_passwordEdit->setPasswordMode( true );
-
-    m_usernameFeedbackLabel->setText( i18n( "Not Logged In" ) );
-
-    QFormLayout* m_contentLayout = new QFormLayout();
-
-    m_contentLayout->addRow( i18nc( "The name of the user", "Username" ) , m_usernameEdit );
-    m_contentLayout->addRow( i18n( "Password" ) , m_passwordEdit );
-    m_contentLayout->addRow( i18n( "Login" ) , m_loginButton );
-    m_contentLayout->addRow( i18n( "Remember" ) , m_rememberMeCheckBox );
-    m_contentLayout->addRow( "", m_usernameFeedbackLabel );
-
-    //     m_contentLayout->addWidget( m_usernameLabel, 0, 0, 1, 2 );
-    //     m_contentLayout->addWidget( m_usernameEdit, 1, 0, 1, 2 );
-    //     m_contentLayout->addWidget( m_passwordLabel, 2, 0, 1, 2 );
-    //     m_contentLayout->addWidget( m_passwordEdit, 3, 0, 1, 2 );
-    //     m_contentLayout->addWidget( m_loginButton, 4, 0 );
-    //     m_contentLayout->addWidget( m_rememberMeCheckBox, 4, 1 );
-    //     m_contentLayout->addWidget( m_usernameFeedbackLabel, 5, 0, 1, 2 );
-    setLayout( m_contentLayout );
-
-    connect( m_loginButton, SIGNAL(clicked()), SLOT(doLogin()) );
-    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(initializationFinished()), SLOT(initDone()) );
-    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(initializeFailed()), SLOT(initFailed()) );
+	m_loggedIn = false;
+	
     connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFinished()), SLOT(loginDone()) );
     connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFailed(QString)), SLOT(loginFailed()) );
-
-    initialize();
 }
 
 LoginForm::~LoginForm()
 {
 }
 
-void LoginForm::initialize()
-{
-    GluonPlayer::ServiceProvider::instance()->init();
-}
-
-void LoginForm::initDone()
-{
-    loadCredentials();
-    m_loginButton->setEnabled( true );
-}
-
-void LoginForm::initFailed()
-{
-    kDebug() << "Initialization failed";
-}
-
-void LoginForm::doLogin()
+void LoginForm::doLogin(QString m_username, QString m_password)
 {
     if( m_loggedIn )
     {
@@ -103,14 +31,14 @@ void LoginForm::doLogin()
         return;
     }
 
-    if( m_usernameEdit->text().isEmpty() || m_passwordEdit->text().isEmpty() )
+    if( m_username.isEmpty() || m_password.isEmpty() )
     {
         return;
     }
-
-    m_loginButton->setEnabled( false );
-    m_usernameFeedbackLabel->setText( i18n( "Logging in" ) );
-    GluonPlayer::ServiceProvider::instance()->login( m_usernameEdit->text(), m_passwordEdit->text() );
+    GluonPlayer::ServiceProvider::instance()->login( m_username, m_password );
+    kDebug() << "username: " << m_username;
+    kDebug() << "password: " << m_password;
+    
     // Note: the login result should be checked
 }
 
@@ -119,8 +47,6 @@ void LoginForm::doLogout()
     if( m_loggedIn == false )
         return;
 
-    m_loginButton->setEnabled( false );
-    m_usernameFeedbackLabel->setText( i18n( "Logging out" ) );
     if (GluonPlayer::ServiceProvider::instance()->logout())
         logoutDone();
     // Note: the login result should be checked
@@ -128,37 +54,15 @@ void LoginForm::doLogout()
 
 void LoginForm::loginDone()
 {
-    m_usernameFeedbackLabel->setText(
-        i18nc( "Logged in as <user name>", "Logged in as %1", GluonPlayer::ServiceProvider::instance()->username() ) );
-    m_loginButton->setEnabled( true );
-    m_loginButton->setText( i18n( "Logout" ) );
-    m_loggedIn = true;
-    m_usernameEdit->setVisible( false );
-    m_passwordEdit->setVisible( false );
-    m_rememberMeCheckBox->setVisible( false );
+	emit loginCompleted();
 }
 
 void LoginForm::logoutDone()
 {
-    m_usernameFeedbackLabel->setText( i18n( "Not Logged In" ) );
-    m_loginButton->setEnabled( true );
-    m_loginButton->setText( i18n( "Login" ) );
-    m_loggedIn = false;
-    m_usernameEdit->setText( "" );
-    m_usernameEdit->setVisible( true );
-    m_passwordEdit->setText( "" );
-    m_passwordEdit->setVisible( true );
-    m_rememberMeCheckBox->setVisible( true );
+	qDebug() << "logout done!";
 }
 
 void LoginForm::loginFailed()
 {
-    m_usernameFeedbackLabel->setText( i18n( "Login Failed" ) );
-    m_loginButton->setEnabled( true );
-}
-
-void LoginForm::loadCredentials()
-{
-    m_usernameEdit->setText( GluonPlayer::ServiceProvider::instance()->username() );
-    m_passwordEdit->setText( GluonPlayer::ServiceProvider::instance()->password() );
+    emit loginFail();
 }

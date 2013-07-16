@@ -45,6 +45,7 @@ namespace GluonPlayer
     class EditGameJob;
     class LicenseJob;
     class GameDetailsJob;
+	class PersonSelfJob;
 
     /**
      * \brief Provides Open Collaboration Services
@@ -154,6 +155,12 @@ namespace GluonPlayer
              */
             void registerAccount( const QString& username, const QString& password, const QString& mail,
                                   const QString& firstName, const QString& lastName );
+			/**
+             * Get the info of the user currently logged.
+             * @return a PersonSelfJob object which the caller must
+             * monitor to find out the result of the operation
+             */
+			PersonSelfJob* personSelf();
 
             /**
              * Fetch a list of games available on the OCS server
@@ -276,7 +283,7 @@ namespace GluonPlayer
 
             /** Signal which is emitted when the registration failed
             */
-            void registrationFailed();
+            void registrationFailed(int errorcode);
 
         private:
             ~ServiceProvider();

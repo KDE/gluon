@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
+ * Copyright (C) 2011 Shantanu Tushar <shaan7in@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,25 +17,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef ABSTRACTITEMVIEW_H
-#define ABSTRACTITEMVIEW_H
+#ifndef GLUONPLAYER_PERSONSELF_H
+#define GLUONPLAYER_PERSONSELF_H
 
-#include "overlay.h"
+#include <QtCore/QObject>
 
-#include <QtGui/QWidget>
-#include <QtCore/QAbstractItemModel>
-
-class AbstractItemView : public Overlay
+namespace GluonPlayer
 {
-        Q_OBJECT
-    public:
-        explicit AbstractItemView( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
 
-        virtual void setModel( QAbstractItemModel* model );
-        QAbstractItemModel* model() const;
+    class PersonSelf : public QObject
+    {
+            Q_OBJECT
+        public:
 
-    protected:
-        QAbstractItemModel* m_model;
-};
+            PersonSelf( const QString& personid, const QString& firstname, const QString& lastname,
+						QObject* parent = 0);
+            virtual ~PersonSelf();
 
-#endif // ABSTRACTITEMVIEW_H
+            QString id() const;
+            QString firstName() const;
+            QString lastName() const;
+            
+        private:
+            class Private;
+            Private* const d;
+    };
+
+}
+
+#endif // GLUONPLAYER_PERSONSELF_H

@@ -1,3 +1,6 @@
+#ifndef REGISTERUSERFORM_H
+#define REGISTERUSERFORM_H
+
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
@@ -17,24 +20,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GAMETEXTLABEL_H
-#define GAMETEXTLABEL_H
+#include <attica/provider.h>
+#include <QDeclarativeItem>
 
-#include <QtGui/QLabel>
-#include <QtGui/QMouseEvent>
-
-class GameTextLabel : public QLabel
+class RegisterUserForm : public QDeclarativeItem
 {
         Q_OBJECT
+
     public:
-        explicit GameTextLabel( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
-        virtual ~GameTextLabel();
-
-    protected:
-        void mouseReleaseEvent( QMouseEvent* event );
-
+        RegisterUserForm();
+        virtual ~RegisterUserForm();
+	
+    protected slots:
+        Q_INVOKABLE void addUser(QString login, QString password, QString password2, QString firstname, QString lastname, QString email);
+        void registrationComplete();
+        void registrationFailed(int errorcode);
+        
     signals:
-        void mouseReleased( );
+		void registrationProcessCompleted(QString message);
+
+    private:
+        Attica::Provider m_provider;
 };
 
-#endif // GAMETEXTLABEL_H
+#endif 
