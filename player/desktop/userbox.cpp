@@ -19,6 +19,9 @@ UserBox::UserBox()
 {
 	connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(initializationFinished()), SLOT(loadUserData()) );
 	
+	//if the user perfor a login during use session of gluon player, userbox will be notified
+	connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFinished()), SLOT(loadUserData()) );
+	
 	//as the object is instantiated, get info
 	loadUserData();
 }
