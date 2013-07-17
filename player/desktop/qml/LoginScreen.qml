@@ -11,12 +11,10 @@ Item {
 	anchors.fill: parent;
 	
 	function open(){
-		console.log("opening login screen")
 		this.visible = true
 	}
 	
 	function close(){
-		console.log("closing login screen")
 		this.visible = false
 	}
 	
@@ -27,7 +25,6 @@ Item {
 	}
 	
 	Item {
-		visible: true
 		anchors.horizontalCenter: parent.horizontalCenter;
 		
 		anchors.top: parent.top;
@@ -146,6 +143,7 @@ Item {
 						anchors.right : parent.right;
 						onClicked: {
 							loginFormProxy.doLogin(m_username.text,m_password.text);
+							
 						}
 					}
 				}

@@ -82,38 +82,36 @@ Item {
 		anchors.leftMargin: 40;
 		
 		width: 200
-		
-		BackgroundBox{ target: home_rightcolumn; }
 			
 		GluonPlayer.UserBox{
 			id: home_userbox;
-			property alias title: home_usertitle.text;
-			property alias paragraph: home_userparagraph.text;
 			
 			onNeedsAuthentication: {
 				loginscreen.open();
-				title = "Please Log In!"
-				paragraph = "You're browsing as anonymous.<br />Please Log In or register a new account.";
 			}
 			
 			onDataLoaded: {
-				title = "Hello, "+home_userbox.firstname()+"!"
-				paragraph = "Logged as "+home_userbox.username();
+				userbox_stack.pop()
+				userbox_stack.push(Qt.createComponent("userbox/Logged.qml"),"",true)
+			}
+			
+			onLogoutFinished: {
+				userbox_stack.pop()
+				userbox_stack.push(Qt.createComponent("userbox/NotLogged.qml"),"",true)
 			}
 			
 			Column{
 				id: home_rightcolumn
 				width: 200
-			
-				PlasmaExtras.Title{
-					id: home_usertitle
-					text: "loading..."
-					color: "black"
-				}
-				PlasmaExtras.Paragraph{
-					id: home_userparagraph
-					text: "loading..."
-					color: "black"
+				
+				height: childrenRect.height
+				
+				PlasmaComponents.PageStack{
+					id: userbox_stack;
+				
+					Component.onCompleted:{
+						userbox_stack.push(Qt.createComponent("userbox/NotLogged.qml"),"",true)
+					}
 				}
 			}
 		}

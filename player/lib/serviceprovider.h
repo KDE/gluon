@@ -272,6 +272,10 @@ namespace GluonPlayer
             /** Signal which is emitted if the login is complete
             */
             void loginFinished();
+			
+			/** Signal which is emitted if the logout is complete
+            */
+            void logoutFinished();
 
             /** Signal which is emitted when the login failed
             */

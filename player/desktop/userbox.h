@@ -40,6 +40,7 @@ class UserBox : public QDeclarativeItem
 		Q_INVOKABLE QString username();
 		Q_INVOKABLE QString firstname();
 		Q_INVOKABLE QString lastname();
+		Q_INVOKABLE void logout();
     
     private:
         Attica::ProviderManager m_manager;
@@ -52,6 +53,7 @@ class UserBox : public QDeclarativeItem
 	signals:
 		void dataLoaded();
 		void needsAuthentication();
+		void logoutFinished();
 };
 
 #endif // USERBOX_H

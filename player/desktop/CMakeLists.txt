@@ -37,10 +37,17 @@ if(NOT APPLE)
     
     install(FILES qml/main.qml
                   qml/LoginScreen.qml
-                  qml/registeruser.qml
+                  qml/RegisterUser.qml
                   qml/bg.png
                   qml/BackgroundBox.qml
                   qml/Background.qml
+                  qml/userbox/Logged.qml
+                  qml/userbox/NotLogged.qml
             DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml
+            COMPONENT gluonplayerdesktop)
+            
+    install(FILES qml/userbox/Logged.qml
+                  qml/userbox/NotLogged.qml
+            DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml/userbox
             COMPONENT gluonplayerdesktop)
 endif()

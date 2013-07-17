@@ -250,6 +250,8 @@ void ServiceProvider::doLogout()
     d->password.clear();
     d->loggedIn = false;
     d->provider.saveCredentials( d->username, d->password );
+	
+	emit logoutFinished();
 }
 
 QString ServiceProvider::username() const
