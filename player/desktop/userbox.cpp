@@ -24,7 +24,7 @@ UserBox::UserBox()
 	connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFinished()), SLOT(loadUserData()) );
 	
 	//loogut case
-	connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(logoutFinished()), SLOT(logout()) );
+	connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(logoutFinished()), SLOT(logoutDone()) );
 }
 
 void UserBox::loadUserData()

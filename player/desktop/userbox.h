@@ -37,6 +37,7 @@ class UserBox : public QDeclarativeItem
 		void loadUserData();
 		void loadedUserData();
 		void loadedUserDataFailed();
+		void logoutDone();
 		Q_INVOKABLE QString username();
 		Q_INVOKABLE QString firstname();
 		Q_INVOKABLE QString lastname();
