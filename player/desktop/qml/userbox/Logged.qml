@@ -8,7 +8,7 @@ import ".."
 
 Item{
 	BackgroundBox{ target: userbox_loggedpage; }
-
+	
 	
 	Item{
 		id: userbox_loggedpage
@@ -17,6 +17,8 @@ Item{
 		
 		Column{
 			width: 200
+			spacing: 7
+			
 			PlasmaExtras.Title{
 				id: home_usertitle
 				text: "Hello, "+home_userbox.firstname()+"!"
@@ -28,6 +30,7 @@ Item{
 				color: "black"
 			}
 			PlasmaComponents.Button{
+				anchors.horizontalCenter: parent.horizontalCenter
 				text: "Logout"
 				onClicked:{
 					home_userbox.logout()

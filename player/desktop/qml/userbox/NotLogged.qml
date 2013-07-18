@@ -18,7 +18,8 @@ Item{
 		
 		Column{
 			width: 200
-
+			spacing: 7
+			
 			PlasmaExtras.Title{
 				id: home_usertitle
 				text: "Please Log In!"
@@ -28,6 +29,20 @@ Item{
 				id: home_userparagraph
 				text: "You're browsing as anonymous.<br />Please Log In or register a new account."
 				color: "black"
+			}
+			PlasmaComponents.Button{
+				anchors.horizontalCenter: parent.horizontalCenter
+				text: "Log in"
+				onClicked:{
+					loginscreen.open()
+				}
+			}
+			PlasmaComponents.Button{
+				anchors.horizontalCenter: parent.horizontalCenter
+				text: "Register"
+				onClicked:{
+					registeruserscreen.open()
+				}
 			}
 		}
 	}

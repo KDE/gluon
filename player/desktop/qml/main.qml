@@ -13,6 +13,12 @@ Item {
 		id: loginscreen
 		z: 10 
 	}
+	
+	RegisterUser{
+		id: registeruserscreen
+		z: 10
+	}
+	
 		
 	Rectangle {
 		anchors.right: centralBox.left;

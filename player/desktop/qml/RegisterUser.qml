@@ -11,12 +11,12 @@ Item {
 	anchors.fill: parent;
 	
 	function open(){
-		console.log("opening login screen")
+		console.log("opening registeruser screen")
 		this.visible = true
 	}
 	
 	function close(){
-		console.log("closing login screen")
+		console.log("closing registeruser screen")
 		this.visible = false
 	}
 	
@@ -173,10 +173,13 @@ Item {
 					anchors.left : parent.left;
 
 					PlasmaComponents.Button {
-						text: "Cancel";
+						text: "Login Now";
 						width : 100;
 						anchors.left : parent.left;
-						onClicked: pageStack.pop();
+						onClicked: {
+							registeruserscreen.close();
+							loginscreen.open();
+						}
 					}
 					PlasmaComponents.Button {
 						text: "Send";
