@@ -22,7 +22,6 @@ import org.kde.plasma.components 0.1 as PlasmaComponents
 
 Rectangle {
     id: rootItem
-    width: 800; height: 600
     //source: "image://appbackgrounds/contextarea"
     //fillMode: Image.Tile
 

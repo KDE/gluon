@@ -59,9 +59,12 @@ MainWindow::MainWindow()
     m_kdeclarative.initialize();
     m_kdeclarative.setupBindings();
 
+    view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     Plasma::Package *package = new Plasma::Package(QString(), "org.kde.gluon.player", Plasma::PackageStructure::load("Plasma/Generic"));
     view->setSource(QUrl(package->filePath("mainscript")));
     setCentralWidget(view);
+
+    resize(1024, 768);
 }
 
 void MainWindow::playGame(const QString& gameId)
