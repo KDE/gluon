@@ -34,26 +34,34 @@
 #include <input/inputmanager.h>
 #include <graphics/renderwidget.h>
 
-#include <kdeclarativeview.h>
+#include <Plasma/Package>
 
 #include <QtDeclarative/QtDeclarative>
+#include <QtDeclarative/QDeclarativeView>
 
 MainWindow::MainWindow()
 {
-    declarativeView()->rootContext()->setContextProperty( "installedGamesModel",
+    QDeclarativeView *view = new QDeclarativeView(this);
+    view->rootContext()->setContextProperty( "installedGamesModel",
                                                           GluonPlayer::GameManager::instance()->installedGamesModel() );
-    declarativeView()->rootContext()->setContextProperty( "downloadableGamesModel",
+    view->rootContext()->setContextProperty( "downloadableGamesModel",
                                                           GluonPlayer::GameManager::instance()->downloadableGamesModel() );
-    declarativeView()->rootContext()->setContextProperty( "serviceProvider",
+    view->rootContext()->setContextProperty( "serviceProvider",
                                                           GluonPlayer::ServiceProvider::instance() );
-    declarativeView()->rootContext()->setContextProperty( "mainWindow",
+    view->rootContext()->setContextProperty( "mainWindow",
                                                           this );
     qmlRegisterType<GluonPlayer::GameMetadata>( "org.kde.gluon.playercomponents", 1, 0, "GameMetadata" );
     qmlRegisterType<GluonPlayer::CommentItemsModel>( "org.kde.gluon.playercomponents", 1, 0, "CommentItemsModel" );
     qmlRegisterUncreatableType<GluonPlayer::GameItem>( "org.kde.gluon.playercomponents", 1, 0, "GameItem", "To be used only for enums" );
     qmlRegisterUncreatableType<GluonPlayer::GameDownloadJob>( "org.kde.gluon.playercomponents", 1, 0, "GameDownloadJob", "Get an instance from serviceProvider" );
 
-    declarativeView()->setPackageName("org.kde.gluon.player");
+    m_kdeclarative.setDeclarativeEngine(view->engine());
+    m_kdeclarative.initialize();
+    m_kdeclarative.setupBindings();
+
+    Plasma::Package *package = new Plasma::Package(QString(), "org.kde.gluon.player", Plasma::PackageStructure::load("Plasma/Generic"));
+    view->setSource(QUrl(package->filePath("mainscript")));
+    setCentralWidget(view);
 }
 
 void MainWindow::playGame(const QString& gameId)

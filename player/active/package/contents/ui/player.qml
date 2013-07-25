@@ -19,10 +19,10 @@
 
 import QtQuick 1.0
 import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.plasma.mobilecomponents 0.1 as MobileComponents
 
 Rectangle {
     id: rootItem
+    width: 800; height: 600
     //source: "image://appbackgrounds/contextarea"
     //fillMode: Image.Tile
 

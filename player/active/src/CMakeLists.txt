@@ -5,7 +5,6 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${GLUON_INPUT_INCLUDE_DIRS}
-    ${ACTIVEAPP_INCLUDE_DIR}
 )
 
 set(gluonplayer-active_SRCS
@@ -27,7 +26,6 @@ target_link_libraries(gluonplayer-active
     ${GLUON_ENGINE_LIBS}
     ${GLUON_GRAPHICS_LIBS}
     ${GLUON_INPUT_LIBS}
-    ${ACTIVEAPP_LIBRARIES}
 )
 
 install(TARGETS gluonplayer-active ${INSTALL_TARGETS_DEFAULT_ARGS} )
