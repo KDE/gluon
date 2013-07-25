@@ -34,7 +34,8 @@
 
 using namespace GluonPlayer;
 
-static const QString s_dataServerUrl = "http://data.gamingfreedom.org/";
+//this is quite pointless now
+static const QString s_dataServerUrl = "http://gamingfreedom.org/v1/";
 
 class GameUploadJob::Private
 {
@@ -138,13 +139,13 @@ void GameUploadJob::uploadFileToDataServer()
         return;
     }
 
-    qDebug() << "UPLOADING " << d->fileName << " WITH API " << d->apiKey;
+    qDebug() << "UPLOADING " << d->fileName << " WITHOUT API ";
     QByteArray buffer;
 
     QByteArray boundary("----------");
     boundary += QString::number(QDateTime::currentMSecsSinceEpoch()).toAscii();
 
-    const QByteArray contentKey = "uploadfile";        //equivalent to <input type="file" name="uploadfile" />
+    const QByteArray contentKey = "localfile";        //equivalent to <input type="file" name="localfile" />
     const QByteArray mimetype = "application/octet-stream";
 
     const QByteArray data = file.readAll();
@@ -172,8 +173,13 @@ void GameUploadJob::uploadFileToDataServer()
     buffer.append(str);
     buffer.append(data);
     buffer.append("\r\n");
+	buffer.append("--");
+	buffer.append(boundary);
+	buffer.append("--\r\n");
 
     // Add the HTTP POST with the API key
+	
+	/* Just no for now. No api key is required on gluon ocs server for now.
     QString apikeyData;
 
     apikeyData += "--";
@@ -187,12 +193,16 @@ void GameUploadJob::uploadFileToDataServer()
     apikeyData += "--\r\n";
 
     buffer.append(apikeyData);
-
+	*/
+	QString username = ServiceProvider::instance()->username();
+	QString password = ServiceProvider::instance()->password();
+	QString serverUrl = ServiceProvider::instance()->serverUrl();
+	
     QNetworkRequest request;
-    request.setUrl(QUrl(s_dataServerUrl + "archiveupload.php"));
+    request.setUrl(QUrl("http://"+username+":"+password+"@"+serverUrl+"content/uploaddownload/"+d->id));
     request.setHeader(QNetworkRequest::ContentTypeHeader, QByteArray("multipart/form-data; boundary=" + boundary));
     request.setHeader(QNetworkRequest::ContentLengthHeader, buffer.length());
-
+	
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), SLOT(uploadFileToDataServerDone(QNetworkReply*)));
     manager->post(request, buffer);
@@ -201,12 +211,16 @@ void GameUploadJob::uploadFileToDataServer()
 void GameUploadJob::uploadFileToDataServerDone(QNetworkReply* reply)
 {
     if (reply->error() == QNetworkReply::NoError) {
-        updateDistributionServerWithDownloadUrl(reply->readAll());
+        emitSucceeded();
     } else {
         emitFailed();
     }
 }
 
+/*
+ * For now, internal gluon ocs server will handle these kind of things.
+ * Don't want to mess further in order to avoid adding complexity
+ */
 void GameUploadJob::updateDistributionServerWithDownloadUrl(const QString &url)
 {
     const QString completeUrl = s_dataServerUrl + url;

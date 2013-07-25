@@ -34,6 +34,8 @@
 
 #include <KDE/KLocalizedString>
 
+#include <QDebug>
+
 #include <QtGui/QPushButton>
 #include <QtCore/QStateMachine>
 #include <QtCore/QHistoryState>
@@ -140,7 +142,7 @@ void DistributionDock::createOrUpdateGame()
         d->editGameJob->setVersion( d->ui.versionEdit->text() );
         d->editGameJob->setLicense( d->licenseIds.at( d->ui.licenseList->currentIndex() ) );
         d->editGameJob->start();
-
+		
         uploadGameArchive();
     }
 }
@@ -176,6 +178,9 @@ void DistributionDock::updateCategories()
     categoryListJob->start();
 }
 
+/*
+ * FIXME: no categories will result in a segmentation fault
+ */
 void DistributionDock::categoriesFetched()
 {
     QList<GluonPlayer::CategoryItem*> categories =
@@ -187,13 +192,9 @@ void DistributionDock::categoriesFetched()
     {
         QString categoryString = category->name();
 
-        /*Maybe we should just store some IDs in a settings file?
-        Or if we care we're gonna prefix each categ with Gluon, thats fine*/
-        if( categoryString.startsWith( QLatin1String("Gluon"), Qt::CaseInsensitive ) )
-        {
-            d->categoryIds.append( category->id() );
-            d->ui.categoryList->addItem( categoryString );
-        }
+        /*Just accept all categories*/
+		d->categoryIds.append( category->id() );
+		d->ui.categoryList->addItem( categoryString );
     }
 }
 
@@ -347,9 +348,9 @@ QString DistributionDock::createArchive()
 void DistributionDock::uploadGameArchive()
 {
     const QString id = d->ui.idEdit->text();
-    const QString apiKey = d->ui.apiKeyEdit->text();
+    //const QString apiKey = d->ui.apiKeyEdit->text();
 
-    if( id.isEmpty() || apiKey.isEmpty() )
+    if( id.isEmpty() )
     {
         return;
     }
@@ -358,7 +359,7 @@ void DistributionDock::uploadGameArchive()
     GluonPlayer::GameUploadJob* uploadJob = GluonPlayer::ServiceProvider::instance()->uploadGame( id, archivePath );
     connect( uploadJob, SIGNAL(succeeded()), SLOT(editGameFinished()) );
     connect( uploadJob, SIGNAL(failed()), SLOT(editGameFailed()) );
-    uploadJob->setApiKey( d->ui.apiKeyEdit->text() );
+    //uploadJob->setApiKey( d->ui.apiKeyEdit->text() );
     uploadJob->start();
 }
 

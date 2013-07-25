@@ -143,7 +143,14 @@ namespace GluonPlayer
              * @return a QString containing the password, empty string if not available
              */
             QString password() const;
-
+			
+			/**
+             * Retrieve the base url of the ocs server
+             *
+             * @return a QString containing the password, empty string if not available
+             */
+			QString serverUrl() const;
+			
             /**
              * Register a new user
              *

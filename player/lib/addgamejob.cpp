@@ -23,6 +23,7 @@
 #include <attica/provider.h>
 #include <attica/content.h>
 
+#include <QDebug>
 using namespace GluonPlayer;
 
 class AddGameJob::Private
@@ -39,8 +40,10 @@ AddGameJob::AddGameJob( Attica::Provider* provider, const QString& gameCategory,
     : AbstractSocialServicesJob( provider )
     , d( new Private )
 {
+	
     d->gameCategory = gameCategory;
     d->gameName = gameName;
+	
 }
 
 AddGameJob::~AddGameJob()

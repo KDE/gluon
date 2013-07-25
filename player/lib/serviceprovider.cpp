@@ -66,6 +66,7 @@ class ServiceProvider::Private
         Attica::Provider provider;
         QString username;
         QString password;
+		QString serverUrl;
 };
 
 
@@ -99,9 +100,11 @@ void ServiceProvider::init()
 
 void ServiceProvider::providersUpdated()
 {
+	d->serverUrl = "gamingfreedom.org/v1/";
+	
     if( !d->manager.providers().isEmpty() )
     {
-        d->provider = d->manager.providerByUrl( QUrl( "http://www.gamingfreedom.org/v1/" ) );
+        d->provider = d->manager.providerByUrl( QUrl( "http://www."+d->serverUrl ) );
 
         if( !d->provider.isValid() )
         {
@@ -257,6 +260,11 @@ void ServiceProvider::doLogout()
 QString ServiceProvider::username() const
 {
     return d->username;
+}
+
+QString ServiceProvider::serverUrl() const
+{
+    return d->serverUrl;
 }
 
 QString ServiceProvider::password() const

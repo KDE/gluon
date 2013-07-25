@@ -41,13 +41,15 @@ if(NOT APPLE)
                   qml/bg.png
                   qml/BackgroundBox.qml
                   qml/Background.qml
-                  qml/userbox/Logged.qml
-                  qml/userbox/NotLogged.qml
             DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml
             COMPONENT gluonplayerdesktop)
             
     install(FILES qml/userbox/Logged.qml
                   qml/userbox/NotLogged.qml
             DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml/userbox
+            COMPONENT gluonplayerdesktop)
+            
+    install(FILES qml/gamelist/NotLogged.qml
+            DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml/gamelist
             COMPONENT gluonplayerdesktop)
 endif()
