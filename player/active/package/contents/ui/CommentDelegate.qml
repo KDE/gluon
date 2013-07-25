@@ -31,7 +31,7 @@ Item {
         id: surfaceNormal
 
         anchors.fill: parent
-        anchors.leftMargin: DepthRole*20
+        anchors.leftMargin: depth*20
 
         Column {
             anchors.fill: parent
@@ -46,7 +46,7 @@ Item {
                 Text {
                     height: parent.height
                     width: parent.width - ratingItem.width
-                    text: TitleRole
+                    text: title
                     font.pointSize: 14
                     elide: Text.ElideRight
                 }
@@ -55,7 +55,7 @@ Item {
                     id: ratingItem
                     height: parent.height
                     width: height*5
-                    rating: RatingRole
+                    rating: rating
                 }
             }
 
@@ -71,7 +71,7 @@ Item {
                 clip: true
                 Text {
                     width: parent.width
-                    text: BodyRole
+                    text: body
                     elide: Text.ElideRight
                     maximumLineCount: 100
                 }
@@ -84,13 +84,13 @@ Item {
                 Text {
                     height: parent.height
                     width: (parent.width-commentReplyButton.width)/2
-                    text: AuthorRole
+                    text: author
                 }
 
                 Text {
                     height: parent.height
                     width: (parent.width-commentReplyButton.width)/2
-                    text: DateTimeRole
+                    text: dateTime
                 }
 
                 PlasmaComponents.ToolButton {

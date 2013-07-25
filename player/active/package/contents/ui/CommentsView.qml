@@ -25,7 +25,7 @@ ListView {
     id: commentsListView
     property alias gameId: commentsModel.gameId
 
-    model: Gluon.CommentsModel { id: commentsModel }
+    model: Gluon.CommentItemsModel { id: commentsModel }
     delegate: CommentDelegate {
         onReplyComment: {
             commentForm.parentId = parentCommentId
