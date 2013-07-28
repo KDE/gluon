@@ -1,6 +1,6 @@
 /*****************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2012 Shantanu Tushar <shaan7in@gmail.com>
+ * Copyright (C) 2011 Shantanu Tushar <shaan7in@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,26 +19,17 @@
 
 import QtQuick 1.1
 import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.gluon.playercomponents 1.0 as Gluon
+import Gluon.Player.Desktop 0.72 as GluonPlayer
 
-ListView {
-    id: commentsListView
-    property alias gameId: commentsModel.gameId
+Item {
+    id: gameItemRootItem
+    width: gamesListView.width
+    height: 64
 
-    model: Gluon.CommentItemsModel { id: commentsModel }
-    delegate: CommentDelegate {
-        onReplyComment: {
-            commentForm.parentId = parentCommentId
-            commentForm.open()
-        }
-    }
-
-    spacing: 10
-    clip: true
-
-    AddCommentForm {
-        id: commentForm
-        property string parentId
-        onAccepted: commentsModel.uploadComment(parentId, commentForm.subjectText, commentForm.bodyText );
+    Row {
+        PlasmaComponents.Label{
+			text: GameName
+			color: "black"
+		}
     }
 }

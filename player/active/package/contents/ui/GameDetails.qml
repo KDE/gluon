@@ -17,39 +17,42 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-import QtQuick 1.0
+import QtQuick 1.1
+import org.kde.plasma.components 0.1 as PlasmaComponents
 import org.kde.gluon.playercomponents 1.0 as Gluon
 
-Rectangle {
-    id: gameDetailsRect
-    property alias gameId: gameMetadata.gameId
+Item {
+    id: gameItemRootItem
+    width: gamesListView.width
+    height: 64
 
-    radius: 10
+//     ListView.onAdd:
+//         SequentialAnimation {
+//             PropertyAction { target: gameItemRootItem; property: "height" ; value: 0 }
+//             NumberAnimation { target: gameItemRootItem; property: "height"; to: 64; duration: 500;
+//                 easing.type: Easing.InOutQuad }
+//         }
 
-    Gluon.GameMetadata
-    {
-        id: gameMetadata
-    }
-
-    Column {
+    Row {
         anchors.fill: parent
-        anchors.margins: 20
-        spacing: 20
+        PlasmaComponents.Button {
+            id: iconButton
+            height: parent.height
+            width: parent.width - playDownloadButton.width
 
-        Text {
-            width: parent.width
+            iconSource: "gluon-player"
+            text: GameName
 
-            font.pointSize: 12; font.bold: true
-            text: gameMetadata.gameName
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
+            onClicked: rootItem.currentGameId = Id
         }
 
-        Text {
-            width: parent.width
-            wrapMode: Text.WordWrap
+        PlasmaComponents.ToolButton {
+            id: playDownloadButton
+            height: parent.height
+            width: height
 
-            text: gameMetadata.gameDescription
+            iconSource: Status == Gluon.GameItem.Installed || Status == Gluon.GameItem.Local ? "media-playback-start" : "download"
+            onClicked: Status == Gluon.GameItem.Installed || Status == Gluon.GameItem.Local ? mainWindow.playGame(Id) : serviceProvider.downloadGame(Id).startSocialService()
         }
     }
 }

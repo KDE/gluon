@@ -19,9 +19,9 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #include "mainwindow.h"
-
+ 
 #include <lib/gamemetadata.h>
 #include <lib/gamemanager.h>
 #include <lib/models/commentitemsmodel.h>
@@ -29,33 +29,44 @@
 #include <lib/models/allgameitemsmodel.h>
 #include <lib/models/gameitem.h>
 #include <lib/gamedownloadjob.h>
-
+ 
 #include <engine/game.h>
 #include <input/inputmanager.h>
 #include <graphics/renderwidget.h>
-
-#include <kdeclarativeview.h>
-
+ 
+#include <Plasma/Package>
+ 
 #include <QtDeclarative/QtDeclarative>
-
+#include <QtDeclarative/QDeclarativeView>
+ 
 MainWindow::MainWindow()
 {
-    declarativeView()->rootContext()->setContextProperty( "installedGamesModel",
+    QDeclarativeView *view = new QDeclarativeView(this);
+    view->rootContext()->setContextProperty( "installedGamesModel",
                                                           GluonPlayer::GameManager::instance()->installedGamesModel() );
-    declarativeView()->rootContext()->setContextProperty( "downloadableGamesModel",
+    view->rootContext()->setContextProperty( "downloadableGamesModel",
                                                           GluonPlayer::GameManager::instance()->downloadableGamesModel() );
-    declarativeView()->rootContext()->setContextProperty( "serviceProvider",
+    view->rootContext()->setContextProperty( "serviceProvider",
                                                           GluonPlayer::ServiceProvider::instance() );
-    declarativeView()->rootContext()->setContextProperty( "mainWindow",
+    view->rootContext()->setContextProperty( "mainWindow",
                                                           this );
     qmlRegisterType<GluonPlayer::GameMetadata>( "org.kde.gluon.playercomponents", 1, 0, "GameMetadata" );
     qmlRegisterType<GluonPlayer::CommentItemsModel>( "org.kde.gluon.playercomponents", 1, 0, "CommentItemsModel" );
     qmlRegisterUncreatableType<GluonPlayer::GameItem>( "org.kde.gluon.playercomponents", 1, 0, "GameItem", "To be used only for enums" );
     qmlRegisterUncreatableType<GluonPlayer::GameDownloadJob>( "org.kde.gluon.playercomponents", 1, 0, "GameDownloadJob", "Get an instance from serviceProvider" );
-
-    declarativeView()->setPackageName("org.kde.gluon.player");
+ 
+    m_kdeclarative.setDeclarativeEngine(view->engine());
+    m_kdeclarative.initialize();
+    m_kdeclarative.setupBindings();
+ 
+    view->setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    Plasma::Package *package = new Plasma::Package(QString(), "org.kde.gluon.player", Plasma::PackageStructure::load("Plasma/Generic"));
+    view->setSource(QUrl(package->filePath("mainscript")));
+    setCentralWidget(view);
+ 
+    resize(1024, 768);
 }
-
+ 
 void MainWindow::playGame(const QString& gameId)
 {
     GluonPlayer::AllGameItemsModel *model
@@ -63,25 +74,25 @@ void MainWindow::playGame(const QString& gameId)
     const QString projectPath = model->data(gameId, GluonPlayer::AllGameItemsModel::UriRole).toString();
     openProject(projectPath);
 }
-
+ 
 void MainWindow::openProject(const QString& projectPath)
 {
     if( projectPath.isEmpty() )
     {
         return;
     }
-
+ 
     m_projectPath = projectPath;
-
+ 
     GluonGraphics::RenderWidget *widget = new GluonGraphics::RenderWidget( this );
     setCentralWidget( widget );
     widget->setFocus();
     connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), widget, SLOT(updateGL()) );
     GluonInput::InputManager::instance()->setFilteredObject( widget );
-
+ 
     QTimer::singleShot( 100, this, SLOT(startGame()) );
 }
-
+ 
 void MainWindow::startGame()
 {
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
@@ -89,9 +100,9 @@ void MainWindow::startGame()
     project->loadFromFile(m_projectPath);
     GluonEngine::Game::instance()->setGameProject( project );
     GluonEngine::Game::instance()->setCurrentScene( project->entryPoint() );
-
+ 
     GluonEngine::Game::instance()->runGame();
     QApplication::instance()->exit();
 }
-
+ 
 #include "mainwindow.moc"

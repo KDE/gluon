@@ -79,7 +79,6 @@ AllGameItemsModel::~AllGameItemsModel()
 void AllGameItemsModel::addGameItemToList( GameItem* gameItem )
 {
     QString id = gameItem->id();
-
     if( d->listIndexForId.contains( id ) )
     {
         qFatal( "Fatal: List already contains the game" );

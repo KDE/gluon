@@ -1,6 +1,6 @@
 /*****************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2012 Shantanu Tushar <shaan7in@gmail.com>
+ * Copyright (C) 2011 Shantanu Tushar <shaan7in@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,28 +17,41 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-import QtQuick 1.1
-import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.gluon.playercomponents 1.0 as Gluon
+import QtQuick 1.0
+import Gluon.Player.Desktop 0.72 as GluonPlayer
 
-ListView {
-    id: commentsListView
-    property alias gameId: commentsModel.gameId
+Rectangle {
+    id: gameDetailsRect
+    property alias gameId: gameMetadata.gameId
 
-    model: Gluon.CommentItemsModel { id: commentsModel }
-    delegate: CommentDelegate {
-        onReplyComment: {
-            commentForm.parentId = parentCommentId
-            commentForm.open()
-        }
+    radius: 10
+
+    GluonPlayer.GameMetadata
+    {
+        id: gameMetadata
     }
 
-    spacing: 10
-    clip: true
+    Column {
+        anchors.fill: parent
+        anchors.margins: 20
+        spacing: 20
 
-    AddCommentForm {
-        id: commentForm
-        property string parentId
-        onAccepted: commentsModel.uploadComment(parentId, commentForm.subjectText, commentForm.bodyText );
+        Text {
+            width: parent.width
+
+            font.pointSize: 12; font.bold: true
+            text: gameMetadata.gameName
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            color: "black"
+        }
+
+        Text {
+            width: parent.width
+            wrapMode: Text.WordWrap
+
+            text: gameMetadata.gameDescription
+            color: "black"
+        }
     }
 }

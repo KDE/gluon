@@ -13,6 +13,18 @@
 #include <core/gluon_global.h>
 #include <core/directoryprovider.h>
 
+#include <lib/gamemetadata.h>
+#include <lib/gamemanager.h>
+#include <lib/models/commentitemsmodel.h>
+#include <lib/serviceprovider.h>
+#include <lib/models/allgameitemsmodel.h>
+#include <lib/models/gameitem.h>
+#include <lib/gamedownloadjob.h>
+
+#include <engine/game.h>
+#include <input/inputmanager.h>
+#include <graphics/renderwidget.h>
+
 #include "loginform.h"
 #include "registeruserform.h"
 #include "userbox.h"
@@ -60,7 +72,11 @@ void MainWindow::setupActions()
  */
 void MainWindow::createQmlView()
 {
-	
+    qmlRegisterType<GluonPlayer::GameMetadata>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "GameMetadata" );
+    qmlRegisterType<GluonPlayer::CommentItemsModel>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "CommentItemsModel" );
+    qmlRegisterUncreatableType<GluonPlayer::GameItem>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "GameItem", "To be used only for enums" );
+    qmlRegisterUncreatableType<GluonPlayer::GameDownloadJob>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "GameDownloadJob", "Get an instance from serviceProvider" );
+
 	qmlRegisterType<LoginForm>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "LoginForm");
 	qmlRegisterType<RegisterUserForm>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "RegisterUserForm");
 	qmlRegisterType<UserBox>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "UserBox");
@@ -73,6 +89,12 @@ void MainWindow::createQmlView()
 	
 	qml_view->rootContext()->setContextProperty("mainwindow", this);
 	qml_view->rootContext()->setContextProperty("_gluon_player_qml_version", "0.1");
+	qml_view->rootContext()->setContextProperty( "installedGamesModel",
+                                                          GluonPlayer::GameManager::instance()->installedGamesModel() );
+    qml_view->rootContext()->setContextProperty( "downloadableGamesModel",
+                                                          GluonPlayer::GameManager::instance()->downloadableGamesModel() );
+    qml_view->rootContext()->setContextProperty( "serviceProvider",
+                                                          GluonPlayer::ServiceProvider::instance() );
 	
 	loadQml(QString("main.qml"));
 	qml_view->setResizeMode (QDeclarativeView::SizeRootObjectToView);
@@ -100,4 +122,43 @@ void MainWindow::connectedAttica()
 void MainWindow::failedAttica()
 {
 	qDebug() << "attica -> init failed!";
+}
+
+
+void MainWindow::playGame(const QString& gameId)
+{
+    GluonPlayer::AllGameItemsModel *model
+        = qobject_cast<GluonPlayer::AllGameItemsModel*>(GluonPlayer::GameManager::instance()->allGamesModel());
+    const QString projectPath = model->data(gameId, GluonPlayer::AllGameItemsModel::UriRole).toString();
+    openProject(projectPath);
+}
+
+void MainWindow::openProject(const QString& projectPath)
+{
+    if( projectPath.isEmpty() )
+    {
+        return;
+    }
+
+    m_projectPath = projectPath;
+
+    GluonGraphics::RenderWidget *widget = new GluonGraphics::RenderWidget( this );
+    setCentralWidget( widget );
+    widget->setFocus();
+    connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), widget, SLOT(updateGL()) );
+    GluonInput::InputManager::instance()->setFilteredObject( widget );
+
+    QTimer::singleShot( 100, this, SLOT(startGame()) );
+}
+
+void MainWindow::startGame()
+{
+    GluonCore::GluonObjectFactory::instance()->loadPlugins();
+    GluonEngine::GameProject *project = new GluonEngine::GameProject( this );
+    project->loadFromFile(m_projectPath);
+    GluonEngine::Game::instance()->setGameProject( project );
+    GluonEngine::Game::instance()->setCurrentScene( project->entryPoint() );
+
+    GluonEngine::Game::instance()->runGame();
+    QApplication::instance()->exit();
 }

@@ -50,6 +50,12 @@ if(NOT APPLE)
             COMPONENT gluonplayerdesktop)
             
     install(FILES qml/gamelist/NotLogged.qml
+                  qml/gamelist/GameItem.qml
+                  qml/gamelist/GameDetails.qml
+                  qml/gamelist/CommentsView.qml
+                  qml/gamelist/CommentDelegate.qml
+                  qml/gamelist/AddCommentForm.qml
+                  qml/gamelist/RatingItem.qml
             DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml/gamelist
             COMPONENT gluonplayerdesktop)
 endif()

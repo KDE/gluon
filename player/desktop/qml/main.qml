@@ -63,20 +63,13 @@ Item {
 		
 		width: 500
 		
-		BackgroundBox{ target: home_centralbox; }
 		
-		Column{
-				id: home_centralbox
-				width: 500
-				
-				PlasmaExtras.Title{
-					text: "loading..."
-					color: "black"
-				}
-				PlasmaComponents.Label{
-					text: "loading..."
-					color: "black"
-				}
+		PlasmaComponents.PageStack{
+			id: central_stack;
+		
+			Component.onCompleted:{
+				central_stack.push(Qt.createComponent("gamelist/NotLogged.qml"),"",true)
+			}
 		}
 	}
 			

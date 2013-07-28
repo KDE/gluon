@@ -118,6 +118,12 @@ void DistributionDock::doLogin()
     GluonPlayer::ServiceProvider::instance()->login( d->ui.usernameEdit->text(), d->ui.passwordEdit->text() );
 }
 
+/**
+ * If id is not set, create a new game providing only name and type.
+ * If id is set, update all fields and upload the compressed game.
+ * 
+ * Note that adding a game won't upload the archive.
+ */
 void DistributionDock::createOrUpdateGame()
 {
     if( d->ui.idEdit->text().isEmpty() )

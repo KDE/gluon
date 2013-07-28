@@ -19,14 +19,12 @@
 
 import QtQuick 1.0
 import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.plasma.mobilecomponents 0.1 as MobileComponents
 
 Rectangle {
     id: rootItem
     //source: "image://appbackgrounds/contextarea"
     //fillMode: Image.Tile
 
-    property alias currentGameId: gameDetailsTabGroup.gameId
 
     Row {
         anchors.fill: parent
@@ -60,57 +58,7 @@ Rectangle {
             }
         }
 
-        Column {
-            height: parent.height
-            width: parent.width*0.6
 
-            PlasmaComponents.TabBar {
-                id: gameDetailsTabBar
-                height: 64
-                width: parent.width
-
-                PlasmaComponents.TabButton {
-                    tab: gameDetailsItem
-                    text: "Details"
-                }
-                PlasmaComponents.TabButton {
-                    tab: gameCommentsView
-                    text: "Comments"
-                }
-                PlasmaComponents.TabButton {
-                    tab: userDetailsItem
-                    text: "User"
-                }
-            }
-
-            PlasmaComponents.TabGroup {
-                id: gameDetailsTabGroup
-                property string gameId
-
-                height: parent.height - gameDetailsTabBar.height
-                width: parent.width
-
-                GameDetails {
-                    id: gameDetailsItem
-                    gameId: gameDetailsTabGroup.gameId
-                    height: parent.height
-                    width: parent.width
-                }
-
-                CommentsView {
-                    id: gameCommentsView
-                    gameId: gameDetailsTabGroup.gameId
-                    height: parent.height
-                    width: parent.width
-                }
-
-                UserDetails {
-                    id: userDetailsItem
-                    height: parent.height
-                    width: parent.width
-                }
-            }
-        }
     }
 
     Component.onCompleted: {
