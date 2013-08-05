@@ -1,6 +1,6 @@
 /*****************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2011 Shantanu Tushar <shaan7in@gmail.com>
+ * Copyright (C) 2012 Shantanu Tushar <shaan7in@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,34 +19,26 @@
 
 import QtQuick 1.1
 import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.plasma.extras 0.1 as PlasmaExtras
 import Gluon.Player.Desktop 0.72 as GluonPlayer
 
-Item {
-    id: gameItemRootItem
-    width: gamesListView.width
-    height: 64
+ListView {
+    id: commentsListView
+    property alias gameId: commentsModel.gameId
 
-    Row {
-		height: parent.height
-		Column{
-			PlasmaExtras.Title{
-				text: GameName
-				color: "black"
-			}
-			PlasmaComponents.Label{
-				text: GameDescriptionRole
-				color: "black"
-			}
-		}
-		
-		PlasmaComponents.ToolButton {
-            id: playDownloadButton
-            height: parent.height
-            width: height
-
-            iconSource: Status == GluonPlayer.GameItem.Installed || Status == GluonPlayer.GameItem.Local ? "media-playback-start" : "download"
-            onClicked: Status == GluonPlayer.GameItem.Installed || Status == GluonPlayer.GameItem.Local ? mainWindow.playGame(Id) : serviceProvider.downloadGame(Id).startSocialService()
+    model: GluonPlayer.CommentItemsModel { id: commentsModel }
+    delegate: CommentDelegate {
+        onReplyComment: {
+            commentForm.parentId = parentCommentId
+            commentForm.open()
         }
+    }
+
+    spacing: 10
+    clip: true
+
+    AddCommentForm {
+        id: commentForm
+        property string parentId
+        onAccepted: commentsModel.uploadComment(parentId, commentForm.subjectText, commentForm.bodyText );
     }
 }

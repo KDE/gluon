@@ -20,6 +20,7 @@ set(desktop_SRCS
     mainwindow.cpp
     registeruserform.cpp
     userbox.cpp
+    gamewindow.cpp
 )
 
 kde4_add_executable(gluonplayer-desktop ${desktop_SRCS})
@@ -49,8 +50,9 @@ if(NOT APPLE)
             DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml/userbox
             COMPONENT gluonplayerdesktop)
             
-    install(FILES qml/gamelist/NotLogged.qml
-                  qml/gamelist/GameItem.qml
+    install(FILES qml/gamelist/GameItem.qml
+				  qml/gamelist/InstalledList.qml
+				  qml/gamelist/DownloadableList.qml
                   qml/gamelist/GameDetails.qml
                   qml/gamelist/CommentsView.qml
                   qml/gamelist/CommentDelegate.qml

@@ -1,3 +1,4 @@
+ 
 /*****************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <shaan7in@gmail.com>
@@ -17,36 +18,57 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-import QtQuick 1.1
+import QtQuick 1.0
 import org.kde.plasma.components 0.1 as PlasmaComponents
 import org.kde.plasma.extras 0.1 as PlasmaExtras
 import Gluon.Player.Desktop 0.72 as GluonPlayer
 
-Item {
-    id: gameItemRootItem
-    width: gamesListView.width
-    height: 64
+import ".."
 
-    Row {
-		height: parent.height
-		Column{
-			PlasmaExtras.Title{
-				text: GameName
-				color: "black"
-			}
-			PlasmaComponents.Label{
-				text: GameDescriptionRole
-				color: "black"
+Item {
+    
+	BackgroundBox{ target: gameListItem; }
+	
+	width: parent.width
+	
+	Rectangle {
+	id: gameListItem
+	//source: "image://appbackgrounds/contextarea"
+	//fillMode: Image.Tile
+	
+	width: parent.width
+	height: 600
+		
+		Row {
+			anchors.fill: parent
+			anchors.margins: 20
+			spacing: 10
+
+			Column {
+				height: parent.height
+				width: parent.width*0.4
+				spacing: 20
+
+				PlasmaExtras.Title {
+					id: gameListTitle
+					height: 32
+					width: gamesListView.width
+					text: "Last published"
+				}
+				
+				ListView {
+					id: gamesListView
+
+					height: parent.height - gameListTitle.height
+					width: parent.width
+
+					clip: true
+					spacing: 10
+					model: downloadableGamesModel
+					delegate: GameItem { }
+				}
 			}
 		}
-		
-		PlasmaComponents.ToolButton {
-            id: playDownloadButton
-            height: parent.height
-            width: height
 
-            iconSource: Status == GluonPlayer.GameItem.Installed || Status == GluonPlayer.GameItem.Local ? "media-playback-start" : "download"
-            onClicked: Status == GluonPlayer.GameItem.Installed || Status == GluonPlayer.GameItem.Local ? mainWindow.playGame(Id) : serviceProvider.downloadGame(Id).startSocialService()
-        }
-    }
+	}
 }

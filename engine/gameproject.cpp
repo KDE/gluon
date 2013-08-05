@@ -38,6 +38,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QMetaProperty>
+#include <QDebug>
 
 REGISTER_OBJECTTYPE( GluonEngine, GameProject )
 
@@ -159,10 +160,10 @@ void GameProject::traverseChildren(GluonObject* gluonObject)
 bool
 GameProject::loadFromFile()
 {
-    // change directory to the project path..
+	// change directory to the project path..
     QDir::setCurrent( QFileInfo( filename().toLocalFile() ).canonicalPath() );
     setFilename( filename().toLocalFile() );
-
+	
     QList<GluonObject*> objectList;
     if( GluonCore::GDLSerializer::instance()->read( filename(), objectList, this ) )
     {

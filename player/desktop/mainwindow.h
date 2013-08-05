@@ -14,6 +14,7 @@
 #include <attica/providermanager.h>
 #include <attica/provider.h>
 
+#include "gamewindow.h"
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -28,18 +29,15 @@ class MainWindow : public KXmlGuiWindow
 	private slots:
 		void connectedAttica();
 		void failedAttica();
-		void startGame();
 		
 	private:
 		//variables
 		KDeclarative kdeclarative;
 		QDeclarativeView *qml_view;
 		QGraphicsObject *rootObject;
-		QString m_projectPath;
 		//methods
 		void setupActions();
 		void createQmlView();
-		void openProject( const QString& projectPath );
 };
 
 #endif

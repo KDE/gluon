@@ -38,11 +38,13 @@ Item {
 			PlasmaComponents.Button{
 				height: 100
 				iconSource: "download.svg"
+				onClicked: { centralBox.showDownloadableGames(); }
 			}
 			
 			PlasmaComponents.Button{
 				height: 100
 				iconSource: "media-playback-start.svg"
+				onClicked: { centralBox.showInstalledGames(); }
 			}
 			
 			PlasmaComponents.Button{
@@ -63,12 +65,21 @@ Item {
 		
 		width: 500
 		
+		function showInstalledGames(){
+			central_stack.pop(true,true);
+			central_stack.push(Qt.createComponent("gamelist/InstalledList.qml"),"",true);
+		}
+		
+		function showDownloadableGames(){
+			central_stack.pop(true,true);
+			central_stack.push(Qt.createComponent("gamelist/DownloadableList.qml"),"",true);
+		}
 		
 		PlasmaComponents.PageStack{
 			id: central_stack;
 		
 			Component.onCompleted:{
-				central_stack.push(Qt.createComponent("gamelist/NotLogged.qml"),"",true)
+				central_stack.push(Qt.createComponent("gamelist/DownloadableList.qml"),"",true);
 			}
 		}
 	}
@@ -86,7 +97,7 @@ Item {
 			id: home_userbox;
 			
 			onNeedsAuthentication: {
-				loginscreen.open();
+				loginscreen.open(true,true);
 			}
 			
 			onDataLoaded: {
@@ -95,7 +106,7 @@ Item {
 			}
 			
 			onLogoutFinished: {
-				userbox_stack.pop()
+				userbox_stack.pop(true,true)
 				userbox_stack.push(Qt.createComponent("userbox/NotLogged.qml"),"",true)
 			}
 			

@@ -87,7 +87,7 @@ void MainWindow::createQmlView()
 	kdeclarative.initialize();
 	kdeclarative.setupBindings();
 	
-	qml_view->rootContext()->setContextProperty("mainwindow", this);
+	qml_view->rootContext()->setContextProperty("mainWindow", this);
 	qml_view->rootContext()->setContextProperty("_gluon_player_qml_version", "0.1");
 	qml_view->rootContext()->setContextProperty( "installedGamesModel",
                                                           GluonPlayer::GameManager::instance()->installedGamesModel() );
@@ -127,38 +127,8 @@ void MainWindow::failedAttica()
 
 void MainWindow::playGame(const QString& gameId)
 {
-    GluonPlayer::AllGameItemsModel *model
-        = qobject_cast<GluonPlayer::AllGameItemsModel*>(GluonPlayer::GameManager::instance()->allGamesModel());
-    const QString projectPath = model->data(gameId, GluonPlayer::AllGameItemsModel::UriRole).toString();
-    openProject(projectPath);
-}
-
-void MainWindow::openProject(const QString& projectPath)
-{
-    if( projectPath.isEmpty() )
-    {
-        return;
-    }
-
-    m_projectPath = projectPath;
-
-    GluonGraphics::RenderWidget *widget = new GluonGraphics::RenderWidget( this );
-    setCentralWidget( widget );
-    widget->setFocus();
-    connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), widget, SLOT(updateGL()) );
-    GluonInput::InputManager::instance()->setFilteredObject( widget );
-
-    QTimer::singleShot( 100, this, SLOT(startGame()) );
-}
-
-void MainWindow::startGame()
-{
-    GluonCore::GluonObjectFactory::instance()->loadPlugins();
-    GluonEngine::GameProject *project = new GluonEngine::GameProject( this );
-    project->loadFromFile(m_projectPath);
-    GluonEngine::Game::instance()->setGameProject( project );
-    GluonEngine::Game::instance()->setCurrentScene( project->entryPoint() );
-
-    GluonEngine::Game::instance()->runGame();
-    QApplication::instance()->exit();
+	GameWindow * game_window = new GameWindow;
+	game_window->show();
+	game_window->resize(1024, 768);
+	game_window->playGame(gameId);
 }

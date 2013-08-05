@@ -1,4 +1,3 @@
- 
 /*****************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <shaan7in@gmail.com>
@@ -20,17 +19,19 @@
 
 import QtQuick 1.0
 import org.kde.plasma.components 0.1 as PlasmaComponents
+import org.kde.plasma.extras 0.1 as PlasmaExtras
+import Gluon.Player.Desktop 0.72 as GluonPlayer
 
 import ".."
 
 Item {
     
-	BackgroundBox{ target: rootItem; }
+	BackgroundBox{ target: gameListItem; }
 	
 	width: parent.width
 	
 	Rectangle {
-	id: rootItem
+	id: gameListItem
 	//source: "image://appbackgrounds/contextarea"
 	//fillMode: Image.Tile
 	
@@ -47,56 +48,26 @@ Item {
 				width: parent.width*0.4
 				spacing: 20
 
-				PlasmaComponents.Button {
-					id: gamesListStatusChanger
-
+				PlasmaExtras.Title {
+					id: gameListTitle
 					height: 32
 					width: gamesListView.width
-
-					onClicked: rootItem.toggleState()
+					text: "Installed Games"
 				}
-
+				
 				ListView {
 					id: gamesListView
 
-					height: parent.height - gamesListStatusChanger.height
+					height: parent.height - gameListTitle.height
 					width: parent.width
 
 					clip: true
 					spacing: 10
-
+					model: installedGamesModel
 					delegate: GameItem { }
 				}
 			}
-
-
 		}
 
-		Component.onCompleted: {
-			state = "showInstalledGames"
-		}
-
-		function toggleState()
-		{
-			if (rootItem.state == "showInstalledGames")
-				rootItem.state = "showDownloadableGames";
-			else
-				rootItem.state = "showInstalledGames"
-		}
-
-		states: [
-			State {
-				name: "showInstalledGames"
-
-				PropertyChanges { target: gamesListView; model: installedGamesModel }
-				PropertyChanges { target: gamesListStatusChanger; text: "Showing Installed Games" }
-			},
-			State {
-				name: "showDownloadableGames"
-
-				PropertyChanges { target: gamesListView; model: downloadableGamesModel }
-				PropertyChanges { target: gamesListStatusChanger; text: "Showing Downloadable Games" }
-			}
-		]
 	}
 }
