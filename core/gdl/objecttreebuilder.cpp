@@ -150,15 +150,9 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
         }
     }
     
-    //Allow subclasses to do their own post-processing as well
     foreach( GluonCore::GluonObject* object, d->objects )
     {
-		QString classname(object->metaObject()->className());
-		//a bug causes a segfault when sanitizing a GluonEngine::GameProject object pointer
-		if (classname!="GluonEngine::GameProject"){
-			
-			object->sanitize();
-		}
+		object->sanitize();
     }
 
 }
