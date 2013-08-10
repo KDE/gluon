@@ -26,7 +26,7 @@
 #include <attica/providermanager.h>
 #include <attica/provider.h>
 
-class GameWindow : public KXmlGuiWindow
+class GameWindow : public QObject
 {
 	Q_OBJECT
 	public:
@@ -34,18 +34,13 @@ class GameWindow : public KXmlGuiWindow
 	
 	public slots:
 		void playGame( const QString& gameId );
-	
-	private slots:
-		void startGame();
+		void endedGame();
 		
 	private:
-		QGraphicsObject *rootObject;
 		QString m_projectPath;
-		//methods
-		void openProject( const QString& projectPath );
 	
 	signals:
-		void quitted();
+		void finished();
 };
 
 #endif

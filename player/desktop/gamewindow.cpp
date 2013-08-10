@@ -2,6 +2,7 @@
 #include "gamewindow.h"
 
 #include <QDebug>
+#include <QProcess>
 
 GameWindow::GameWindow(QWidget *parent)
 {
@@ -13,37 +14,34 @@ void GameWindow::playGame( const QString& gameId )
 	GluonPlayer::AllGameItemsModel *model
 	= qobject_cast<GluonPlayer::AllGameItemsModel*>(GluonPlayer::GameManager::instance()->allGamesModel());
     const QString projectPath = model->data(gameId, GluonPlayer::AllGameItemsModel::UriRole).toString();
-    openProject(projectPath);
-}
-
-void GameWindow::startGame()
-{
-	GluonCore::GluonObjectFactory::instance()->loadPlugins();
-    GluonEngine::GameProject *project = new GluonEngine::GameProject( this );
-    project->loadFromFile(m_projectPath);
-    GluonEngine::Game::instance()->setGameProject( project );
-    GluonEngine::Game::instance()->setCurrentScene( project->entryPoint() );
-
-    GluonEngine::Game::instance()->runGame();
-	
-	emit quitted();
-	
-	close();
-}
-
-void GameWindow::openProject( const QString& projectPath )
-{
-	if( projectPath.isEmpty() )
+    
+    if( projectPath.isEmpty() )
     {
         return;
     }
-
-    m_projectPath = projectPath;
 	
-    GluonGraphics::RenderWidget *widget = new GluonGraphics::RenderWidget( this );
-    setCentralWidget( widget );
-    widget->setFocus();
-    connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), widget, SLOT(update()) );
-    GluonInput::InputManager::instance()->setFilteredObject( widget );
-    QTimer::singleShot( 100, this, SLOT(startGame()) );
+	//project path
+    m_projectPath = projectPath;
+    //project path as argument
+    QStringList arguments;
+    arguments << m_projectPath;
+    //absolute string to gluonviewer
+    QString viewer_bin = GluonCore::DirectoryProvider::instance()->installPrefix()+"/bin/gluonviewer";
+    
+    qDebug() << viewer_bin;
+    
+    QProcess * game_process = new QProcess(this);
+    game_process->start(viewer_bin, arguments);
+    
+    game_process->waitForFinished(-1);
+
+	qDebug() << game_process->readAllStandardOutput();
+	qDebug() << game_process->readAllStandardError();
+	
+}
+
+void GameWindow::endedGame()
+{
+	qDebug() << "game ended";
+	emit finished();
 }

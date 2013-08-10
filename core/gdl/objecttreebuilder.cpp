@@ -28,6 +28,7 @@
 #include <QtGui/QVector3D>
 #include <QtGui/QVector4D>
 #include <QtGui/QQuaternion>
+#include <QDebug>
 
 #include <core/gluonobject.h>
 #include <core/gluonobjectfactory.h>
@@ -96,6 +97,7 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
     //Post-process references
     foreach( const Private::Reference& ref, d->references )
     {
+
         GluonObject* target = 0;
 
         // Check whether the path points into this GDL file
@@ -105,13 +107,14 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
         {
             QString refPathWithoutRoot = ref.path.section( '/', 1, -1 );
             QString parentPathWithoutRoot = d->parent->qualifiedName( d->parent->root() );
+			
             if( refPathWithoutRoot.startsWith( parentPathWithoutRoot ) )
             {
                 isRelative = true;
                 relativePath = refPathWithoutRoot.remove( 0, parentPathWithoutRoot.length()+1 ); // +1 for the slash
             }
         }
-
+        
         // now try to find the reference
         foreach( GluonObject* object, d->objects )
         {
@@ -123,7 +126,7 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
             if( target )
                 break;
         }
-
+        
         if( !target )
         {
             target = d->project->findGlobalItemByName( ref.path );
@@ -134,24 +137,30 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
                 continue;
             }
         }
-
+        
         QString type = ref.type;
         int propertyIndex = ref.object->metaObject()->indexOfProperty( ref.property.toUtf8() );
         if( propertyIndex != -1 )
             type = ref.object->metaObject()->property( propertyIndex ).typeName();
-
+		
         if( !ref.object->setProperty( ref.property.toUtf8(), GluonCore::GluonObjectFactory::instance()->wrapObject( type, target ) ) )
         {
             if( propertyIndex != -1 )
                 ref.object->debug( QString("Warning: Could not set property %1 on object %2").arg(ref.property, ref.object->fullyQualifiedName()) );
         }
     }
-
+    
     //Allow subclasses to do their own post-processing as well
     foreach( GluonCore::GluonObject* object, d->objects )
     {
-        object->sanitize();
+		QString classname(object->metaObject()->className());
+		//a bug causes a segfault when sanitizing a GluonEngine::GameProject object pointer
+		if (classname!="GluonEngine::GameProject"){
+			
+			object->sanitize();
+		}
     }
+
 }
 
 void ObjectTreeBuilder::visitObject(GDL::ObjectAst* node)

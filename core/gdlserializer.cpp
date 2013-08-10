@@ -22,6 +22,7 @@
 
 #include <QtCore/QFile>
 #include <QtCore/QUrl>
+#include <QDebug>
 
 #include "debughelper.h"
 #include "gdl/gdlast.h"
@@ -46,7 +47,6 @@ bool GDLSerializer::read(const QUrl& url, GluonObjectList& objects, GluonObject*
 
     QByteArray data = file.readAll();
     file.close();
-
     bool result = false;
     if( data.size() > 0 )
     {
@@ -85,27 +85,28 @@ bool GDLSerializer::write(QIODevice* device, const GluonObjectList& objects)
 
 bool GDLSerializer::parse(const QByteArray& data, GluonObjectList& objects, GluonObject* project, GluonObject* parent)
 {
+	
     KDevPG::QUtf8ToUcs4Iterator itr(data);
-
+	
     GDL::Lexer lexer(itr);
     KDevPG::MemoryPool mem;
-
+	
     GDL::Parser parser;
     parser.setTokenStream(&lexer);
     parser.setMemoryPool(&mem);
-
+	
     while( lexer.read().kind != GDL::Parser::Token_EOF );
     parser.rewind(0);
-
+	
     GDL::StartAst* ast;
     if(!parser.parseStart(&ast))
     {
         return false;
     }
-
+    
     GDL::ObjectTreeBuilder builder( &lexer, data, project, parent );
     builder.visitStart(ast);
-
+	
     if( builder.objects().count() > 0 )
     {
         objects = builder.objects();
@@ -114,7 +115,7 @@ bool GDLSerializer::parse(const QByteArray& data, GluonObjectList& objects, Gluo
     {
         return false;
     }
-
+	
     return true;
 }
 

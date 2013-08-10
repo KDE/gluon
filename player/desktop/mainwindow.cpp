@@ -128,7 +128,5 @@ void MainWindow::failedAttica()
 void MainWindow::playGame(const QString& gameId)
 {
 	GameWindow * game_window = new GameWindow;
-	game_window->show();
-	game_window->resize(1024, 768);
 	game_window->playGame(gameId);
 }
