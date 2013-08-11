@@ -77,6 +77,7 @@ Item {
 		
 		PlasmaComponents.PageStack{
 			id: central_stack;
+			width: 500
 		
 			Component.onCompleted:{
 				central_stack.push(Qt.createComponent("gamelist/DownloadableList.qml"),"",true);

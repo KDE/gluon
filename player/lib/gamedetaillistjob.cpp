@@ -79,7 +79,7 @@ void GameDetailListJob::processFetchedGameList( Attica::BaseJob* job )
     {
         foreach( const Attica::Content & content, contentJob->itemList() )
         {
-            GameDetailItem* details = new GameDetailItem( content.name(), content.description(), content.version(),
+            GameDetailItem* details = new GameDetailItem( content.name(), content.description(), content.version(), content.summary(),
                     content.attribute("typeid"), content.attribute("typename"), content.homePageEntry( 0 ).url().toString(),
                     content.license(), content.changelog(), "", "", QStringList(),
                     content.rating(), GameDetailItem::Downloadable, content.id() );

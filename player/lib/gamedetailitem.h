@@ -37,7 +37,7 @@ namespace GluonPlayer
                 Upgradable
             };
 
-            GameDetailItem( const QString& gameName, const QString& gameDescription, const QString& version,
+            GameDetailItem( const QString& gameName, const QString& gameDescription, const QString& version, const QString& summary,
                             const QString& category, const QString& categoryName, const QString& homePage,
                             const QString& license, const QString& changelog, const QString& projectDirName,
                             const QString& projectFileName, const QStringList& screenshotUrls, int rating,
@@ -47,6 +47,7 @@ namespace GluonPlayer
             QString gameName() const;
             QString gameDescription() const;
             QString version() const;
+			QString summary() const;
             QString category() const;
             QString categoryName() const;
             QString homePage() const;

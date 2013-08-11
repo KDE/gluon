@@ -29,6 +29,7 @@ Item {
 
     Row {
 		height: parent.height
+		width: parent.width
 		Column{
 			PlasmaExtras.Title{
 				text: GameName
@@ -41,6 +42,7 @@ Item {
 		}
 		
 		PlasmaComponents.ToolButton {
+			//anchors.right: parent.right
             id: playDownloadButton
             height: parent.height
             width: height

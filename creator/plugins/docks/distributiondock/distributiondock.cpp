@@ -147,6 +147,7 @@ void DistributionDock::createOrUpdateGame()
         d->editGameJob->setHomepage( d->ui.homepageEdit->text() );
         d->editGameJob->setVersion( d->ui.versionEdit->text() );
         d->editGameJob->setLicense( d->licenseIds.at( d->ui.licenseList->currentIndex() ) );
+		d->editGameJob->setSummary( d->ui.summaryEdit->toPlainText() );
         d->editGameJob->start();
 		
         uploadGameArchive();
@@ -162,7 +163,7 @@ void DistributionDock::newGameUploadFinished( )
     emit gameUploadFinished();
 }
 
-void DistributionDock::newGameUploadFailed()
+void DistributionDock::newGameUploadFailed( )
 {
     emit gameUploadFinished();  //TODO: Separate for failed
 }
@@ -311,6 +312,7 @@ void DistributionDock::gameDetailsFetched( )
     d->ui.categoryList->setCurrentIndex( d->categoryIds.indexOf( gameDetails->category() ) );
     d->ui.gameNameEdit->setText( gameDetails->gameName() );
     d->ui.versionEdit->setText( gameDetails->version() );
+	d->ui.summaryEdit->setPlainText( gameDetails->summary() );
     d->ui.homepageEdit->setText( gameDetails->homePage() );
     d->ui.licenseList->setCurrentIndex( d->licenseIds.indexOf( gameDetails->license() ) );
     d->ui.descriptionEdit->setPlainText( gameDetails->gameDescription() );

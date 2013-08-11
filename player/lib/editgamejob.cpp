@@ -44,6 +44,7 @@ class EditGameJob::Private
         QString downloadPrice;
         QString downloadLink;
         QString downloadName;
+		QString summary;
 };
 
 EditGameJob::EditGameJob( Attica::Provider* provider, const QString& id, QObject* parent )
@@ -96,7 +97,7 @@ void EditGameJob::startEditionUpload()
     }
 
     Attica::Category category;
-    category.setId( d->category.isEmpty() ? "4440" : d->category );
+    category.setId( d->category.isEmpty() ? "0" : d->category );
 
     Attica::ItemPostJob<Attica::Content> *job = d->provider->editContent( category, d->id, d->existingContent );
     connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(editingComplete(Attica::BaseJob*)) );
@@ -182,6 +183,12 @@ void EditGameJob::setDownloadName( const QString& downloadName )
 {
     d->downloadName = downloadName;
     applyDownloadName();
+}
+
+void EditGameJob::setSummary( const QString& summary )
+{
+    d->summary = summary;
+    applySummary();
 }
 
 void EditGameJob::applyCategory()
@@ -273,6 +280,15 @@ void EditGameJob::applyDownloadName()
         d->existingContent.addAttribute( "downloadname1", d->downloadName );
     else
         connect( this, SIGNAL(fetchedExistingGame(QString)), SLOT(applyDownloadName()) );
+}
+
+void EditGameJob::applySummary()
+{
+    if( d->existingContent.isValid() ) {
+        d->existingContent.addAttribute( "summary", d->summary );
+	} else {
+        connect( this, SIGNAL(fetchedExistingGame(QString)), SLOT(applySummary()) );
+	}
 }
 
 QVariant EditGameJob::data()

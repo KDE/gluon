@@ -33,8 +33,6 @@ Item {
 	
 	Rectangle {
 	id: gameListItem
-	//source: "image://appbackgrounds/contextarea"
-	//fillMode: Image.Tile
 	
 	width: parent.width
 	height: 600
@@ -46,7 +44,7 @@ Item {
 
 			Column {
 				height: parent.height
-				width: parent.width*0.4
+				width: parent.width
 				spacing: 20
 
 				PlasmaExtras.Title {
