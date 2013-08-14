@@ -193,11 +193,16 @@ void AllGameItemsModel::updateExistingGameItem( const GameItem* newGameItem )
             existingGameItem->setRating( newGameItem->rating() );
             existingGameItem->setGameName( newGameItem->gameName() );
             existingGameItem->setGameDescription( newGameItem->gameDescription() );
+			existingGameItem->setGameSummary( newGameItem->gameSummary() );
+			existingGameItem->setPreview1( newGameItem->preview1() );
         }
         else if( existingGameItem->status() != GameItem::Downloadable )
         {
             existingGameItem->setGameName( newGameItem->gameName() );
             existingGameItem->setGameDescription( newGameItem->gameDescription() );
+			existingGameItem->setGameSummary( newGameItem->gameSummary() );
+			existingGameItem->setPreview1( newGameItem->preview1() );
+			qDebug() << "overriding properties for game " << newGameItem->gameName();
         }
 
         existingGameItem->setStatus( GameItem::Status( existingGameItem->status() | newGameItem->status() ) );
@@ -214,9 +219,11 @@ void AllGameItemsModel::addOrUpdateGameFromFetchedGameItem( GameItem* gameItem )
     if( d->listIndexForId.contains( id ) )
     {
         updateExistingGameItem( gameItem );
+		qDebug() << gameItem->id() << "exists on db. Updating...";
     }
     else
     {
+		qDebug() << gameItem->id() << "does not exists on db. Adding...";
         addGameItemToList( gameItem );
     }
 }
@@ -344,6 +351,7 @@ void AllGameItemsModel::processFetchedGamesList()
     QList<GameDetailItem*> list = job->data().value< QList<GameDetailItem*> >();
     foreach( GameDetailItem * c, list )
     {
+		qDebug() << "fetched OCS info for" << c->gameName();
         QUrl cacheUri = QUrl::fromLocalFile(QDir::homePath() + GluonEngine::projectSuffix + "/games/" + c->gameName().toLower());
         GameItem* gameItem = new GameItem( c->gameName(), c->gameDescription(), c->summary(), c->preview1(), c->rating(), GameItem::Downloadable,
                                            c->id(), c->categoryName(), cacheUri, c->homePage(), this );
