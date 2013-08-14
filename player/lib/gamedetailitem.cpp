@@ -34,6 +34,7 @@ class GameDetailItem::Private
         QString gameDescription;
         QString version;
 		QString summary;
+		QString preview1;
         QString category;
         QString categoryName;
         QString homePage;
@@ -47,7 +48,7 @@ class GameDetailItem::Private
         QString id;
 };
 
-GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDescription, const QString& version, const QString& summary,
+GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDescription, const QString& version, const QString& summary, const QString& preview1,
                                 const QString& category, const QString& categoryName, const QString& homePage,
                                 const QString& license, const QString& changelog, const QString& projectDirName,
                                 const QString& projectFileName, const QStringList& screenshotUrls, int rating,
@@ -59,6 +60,7 @@ GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDesc
     d->gameDescription = gameDescription;
     d->version = version;
 	d->summary = summary;
+	d->preview1 = preview1;
     d->category = category;
     d->categoryName = categoryName;
     d->homePage = homePage;
@@ -75,6 +77,11 @@ GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDesc
 GameDetailItem::~GameDetailItem()
 {
     delete d;
+}
+
+QString GameDetailItem::preview1() const
+{
+    return d->preview1;
 }
 
 QString GameDetailItem::gameDescription() const

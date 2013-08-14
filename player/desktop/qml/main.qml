@@ -63,7 +63,7 @@ Item {
 		anchors.top: parent.top;
 		anchors.topMargin: 20;
 		
-		width: 500
+		width: 700
 		
 		function showInstalledGames(){
 			central_stack.pop(true,true);
@@ -77,7 +77,7 @@ Item {
 		
 		PlasmaComponents.PageStack{
 			id: central_stack;
-			width: 500
+			width: 700
 		
 			Component.onCompleted:{
 				central_stack.push(Qt.createComponent("gamelist/DownloadableList.qml"),"",true);

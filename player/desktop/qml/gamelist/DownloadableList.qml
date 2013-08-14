@@ -47,7 +47,7 @@ Item {
 				width: parent.width
 				spacing: 20
 
-				PlasmaExtras.Title {
+				PlasmaComponents.Label {
 					id: gameListTitle
 					height: 32
 					width: gamesListView.width

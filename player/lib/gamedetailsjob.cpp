@@ -67,7 +67,7 @@ void GameDetailsJob::processFetchedGameDetails( Attica::BaseJob* job )
     if( contentJob->metadata().error() == Attica::Metadata::NoError )
     {
         Attica::Content content = contentJob->result();
-        d->gameDetails = new GameDetailItem( content.name(), content.description(), content.version(), content.summary(),
+        d->gameDetails = new GameDetailItem( content.name(), content.description(), content.version(), content.summary(), content.previewPicture(),
                 content.attribute("typeid"), content.attribute("typename"), content.homePageEntry( 0 ).url().toString(),
                 content.license(), content.changelog(), "", "", QStringList(),
                 content.rating(), GameDetailItem::Downloadable, content.id() );

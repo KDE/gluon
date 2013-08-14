@@ -30,21 +30,26 @@ class GameItem::Private
 
         QString gameName;
         QString gameDescription;
+		QString gameSummary;
         int rating;
         Status status;
         QString id;
         QString genre;
+		QString preview1;
+		QStringList screenshotUrls;
         QUrl cacheUri;
         QUrl uri;
 };
 
-GameItem::GameItem( const QString& gameName, const QString& gameDescription, int rating,
+GameItem::GameItem( const QString& gameName, const QString& gameDescription, const QString& gameSummary, QString preview1, int rating,
                     const Status& status, const QString& id, const QString &genre, const QUrl& cacheUri, const QUrl& uri, QObject* parent )
     : QObject( parent )
     , d( new Private() )
 {
     d->gameName = gameName;
     d->gameDescription = gameDescription;
+	d->gameSummary = gameSummary;
+	d->preview1 = preview1;
     d->rating = rating;
     d->status = status;
     d->id = id;
@@ -57,6 +62,16 @@ GameItem::~GameItem()
 {
 }
 
+QString GameItem::preview1() const
+{
+    return d->preview1;
+}
+
+void GameItem::setPreview1( const QString& preview1 )
+{
+    d->preview1 = preview1;
+}
+
 QString GameItem::gameName() const
 {
     return d->gameName;
@@ -65,6 +80,26 @@ QString GameItem::gameName() const
 void GameItem::setGameName( const QString& gameName )
 {
     d->gameName = gameName;
+}
+
+QStringList GameItem::gameScreenshotUrls() const
+{
+    return d->screenshotUrls;
+}
+
+void GameItem::setScreenshotUrls( const QStringList& gameScreenshotUrls )
+{
+    d->screenshotUrls = gameScreenshotUrls;
+}
+
+QString GameItem::gameSummary() const
+{
+    return d->gameSummary;
+}
+
+void GameItem::setGameSummary( const QString& gameSummary )
+{
+    d->gameSummary = gameSummary;
 }
 
 QString GameItem::gameDescription() const

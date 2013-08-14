@@ -52,18 +52,7 @@ GameDetailListJob::~GameDetailListJob()
 
 void GameDetailListJob::startSocialService()
 {
-    QStringList gluonGamesCategories;
-    gluonGamesCategories << "4400" << "4410" << "4420" << "4430" << "4440";
-    Attica::Category::List categories;
-
-    foreach( const QString & gluonCategory, gluonGamesCategories )
-    {
-        Attica::Category category;
-        category.setId( gluonCategory );
-        categories.append( category );
-    }
-
-    Attica::ListJob<Attica::Content> *job = provider()->searchContents( categories );
+    Attica::ListJob<Attica::Content> *job = provider()->searchContents( QList<Attica::Category>() );
     connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedGameList(Attica::BaseJob*)) );
     job->start();
 }
@@ -79,7 +68,7 @@ void GameDetailListJob::processFetchedGameList( Attica::BaseJob* job )
     {
         foreach( const Attica::Content & content, contentJob->itemList() )
         {
-            GameDetailItem* details = new GameDetailItem( content.name(), content.description(), content.version(), content.summary(),
+            GameDetailItem* details = new GameDetailItem( content.name(), content.description(), content.version(), content.summary(), content.attribute("preview1"),
                     content.attribute("typeid"), content.attribute("typename"), content.homePageEntry( 0 ).url().toString(),
                     content.license(), content.changelog(), "", "", QStringList(),
                     content.rating(), GameDetailItem::Downloadable, content.id() );

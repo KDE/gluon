@@ -61,6 +61,8 @@ AllGameItemsModel::AllGameItemsModel( QObject* parent )
     roles[IdRole] = "Id";
     roles[GameNameRole] = "GameName";
     roles[GameDescriptionRole] = "GameDescriptionRole";
+	roles[GameSummaryRole] = "GameSummary";
+	roles[PreviewPictureRole] = "PreviewPicture";
     roles[IconRole] = "Icon";
     roles[RatingRole] = "Rating";
     roles[GenreRole] = "Genre";
@@ -151,7 +153,8 @@ QString AllGameItemsModel::addGameFromDirectory( const QString& directoryPath )
         if( d->listIndexForId.contains( id ) )
         {
             //FIXME: Get genre when project supports it
-            GameItem* gameItem = new GameItem( project.name(),  project.description(), 0,
+			//FIXME: Get summary
+            GameItem* gameItem = new GameItem( project.name(),  project.description(), "", "", 0,
                                                GluonPlayer::GameItem::Installed, id, "Gluon Game", cacheUri,
                                                projectFileName, this );
             addOrUpdateGameFromFetchedGameItem( gameItem );
@@ -159,7 +162,8 @@ QString AllGameItemsModel::addGameFromDirectory( const QString& directoryPath )
         else
         {
             //FIXME: Get genre when project supports it
-            GameItem* gameItem = new GameItem( project.name(),  project.description(), 0,
+			//FIXME: Get summary
+            GameItem* gameItem = new GameItem( project.name(),  project.description(), "", "", 0,
                                                GluonPlayer::GameItem::Installed, id, "Gluon Game", cacheUri,
                                                projectFileName, this );
             addGameItemToList( gameItem );
@@ -269,6 +273,10 @@ QVariant AllGameItemsModel::data( const QModelIndex& index, int role ) const
             return d->gameItems.at( index.row() )->gameName();
         case GameDescriptionRole:
             return d->gameItems.at( index.row() )->gameDescription();
+		case GameSummaryRole:
+			return d->gameItems.at( index.row() )->gameSummary();
+		case PreviewPictureRole:
+			return d->gameItems.at( index.row() )->preview1();
         case IconRole:
             return "";  //TODO: make it work when icon stuff in core is working again
         case RatingRole:
@@ -337,7 +345,7 @@ void AllGameItemsModel::processFetchedGamesList()
     foreach( GameDetailItem * c, list )
     {
         QUrl cacheUri = QUrl::fromLocalFile(QDir::homePath() + GluonEngine::projectSuffix + "/games/" + c->gameName().toLower());
-        GameItem* gameItem = new GameItem( c->gameName(), c->gameDescription(), c->rating(), GameItem::Downloadable,
+        GameItem* gameItem = new GameItem( c->gameName(), c->gameDescription(), c->summary(), c->preview1(), c->rating(), GameItem::Downloadable,
                                            c->id(), c->categoryName(), cacheUri, c->homePage(), this );
 
         addOrUpdateGameFromFetchedGameItem( gameItem );
@@ -358,7 +366,7 @@ void AllGameItemsModel::processFetchedGameDetails()
     GameDetailsJob* job = qobject_cast<GameDetailsJob*>( sender() );
     GameDetailItem* gameDetails = job->data().value<GameDetailItem*>();
     QUrl cacheUri = QUrl::fromLocalFile(QDir::homePath() + GluonEngine::projectSuffix + "/games/" + gameDetails->gameName().toLower());
-    GameItem* gameItem = new GameItem( gameDetails->gameName(), gameDetails->gameDescription(), gameDetails->rating(),
+    GameItem* gameItem = new GameItem( gameDetails->gameName(), gameDetails->gameDescription(), gameDetails->summary(), gameDetails->preview1(), gameDetails->rating(),
                                        GameItem::Downloadable, gameDetails->id(), gameDetails->categoryName(),
                                        cacheUri, gameDetails->homePage(), this );
     addOrUpdateGameFromFetchedGameItem( gameItem );

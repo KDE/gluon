@@ -49,6 +49,7 @@ namespace GluonEngine
             GameProjectPrivate( const GameProjectPrivate& other );
             ~GameProjectPrivate();
 
+			QString summary;
             QString description;
             QUrl homepage;
             QList<QUrl> mediaInfo;

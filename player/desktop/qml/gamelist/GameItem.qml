@@ -30,19 +30,27 @@ Item {
     Row {
 		height: parent.height
 		width: parent.width
+		spacing: 5
+		
+		Image {
+			source: PreviewPicture
+			height: parent.height
+			width: height
+		}
+		
 		Column{
 			PlasmaExtras.Title{
 				text: GameName
 				color: "black"
 			}
 			PlasmaComponents.Label{
-				text: GameDescriptionRole
+				text: GameSummary
 				color: "black"
 			}
 		}
 		
 		PlasmaComponents.ToolButton {
-			//anchors.right: parent.right
+			anchors.right: parent.right
             id: playDownloadButton
             height: parent.height
             width: height
