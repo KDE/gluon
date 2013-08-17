@@ -34,7 +34,7 @@ Item {
 	id: gameListItem
 	
 	width: parent.width
-	height: 600
+	height: 450
 		
 		Row {
 			anchors.fill: parent

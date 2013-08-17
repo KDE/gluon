@@ -10,6 +10,9 @@
 #include <QDir>
 #include <QtDeclarative>
 
+#include <QGLFormat>
+#include <QGLWidget>
+
 #include <core/gluon_global.h>
 #include <core/directoryprovider.h>
 
@@ -83,6 +86,10 @@ void MainWindow::createQmlView()
 	
 	qml_view = new QDeclarativeView (this);
 	
+	QGLFormat format = QGLFormat::defaultFormat();
+	QGLWidget *glWidget = new QGLWidget(format);
+	glWidget->setAutoFillBackground(false);
+	
 	kdeclarative.setDeclarativeEngine(qml_view->engine());
 	kdeclarative.initialize();
 	kdeclarative.setupBindings();
@@ -95,10 +102,12 @@ void MainWindow::createQmlView()
                                                           GluonPlayer::GameManager::instance()->downloadableGamesModel() );
     qml_view->rootContext()->setContextProperty( "serviceProvider",
                                                           GluonPlayer::ServiceProvider::instance() );
+	qml_view->setViewport(glWidget);
+	qml_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 	
 	loadQml(QString("main.qml"));
 	qml_view->setResizeMode (QDeclarativeView::SizeRootObjectToView);
-	resize (1024, 768);
+	resize (1300, 750);
 	setCentralWidget (qml_view);
 	
 	rootObject = qml_view->rootObject();

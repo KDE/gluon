@@ -20,6 +20,7 @@
 import QtQuick 1.1
 import org.kde.plasma.components 0.1 as PlasmaComponents
 import org.kde.plasma.extras 0.1 as PlasmaExtras
+import org.kde.qtextracomponents 0.1 as QtExtraComponents
 import Gluon.Player.Desktop 0.72 as GluonPlayer
 
 Item {
@@ -27,36 +28,46 @@ Item {
     width: gamesListView.width
     height: 64
 
-    Row {
-		height: parent.height
-		width: parent.width
-		spacing: 5
-		
-		Image {
-			source: PreviewPicture
-			height: parent.height
-			width: height
-		}
-		
-		Column{
-			PlasmaExtras.Title{
-				text: GameName
-				color: "black"
-			}
-			PlasmaComponents.Label{
-				text: GameSummary
-				color: "black"
-			}
-		}
-		
-		PlasmaComponents.ToolButton {
-			anchors.right: parent.right
-            id: playDownloadButton
-            height: parent.height
-            width: height
 
-            iconSource: Status == GluonPlayer.GameItem.Installed || Status == GluonPlayer.GameItem.Local ? "media-playback-start" : "download"
-            onClicked: Status == GluonPlayer.GameItem.Installed || Status == GluonPlayer.GameItem.Local ? mainWindow.playGame(Id) : serviceProvider.downloadGame(Id).startSocialService()
-        }
-    }
+	Image {
+		id: gameItemPicture
+		anchors.left: parent.left
+		source: PreviewPicture
+		height: parent.height
+		width: height
+	}
+
+	PlasmaExtras.Title{
+		anchors.top: parent.top
+		anchors.left: gameItemPicture.right
+		anchors.leftMargin: 5
+		id: gameItemTitle
+		text: GameName
+		color: "black"
+	}
+
+	PlasmaComponents.Label{
+		anchors.left: gameItemPicture.right
+		anchors.top: gameItemTitle.bottom
+		anchors.leftMargin: 5
+		text: GameSummary
+		color: "black"
+		width: 100
+	}
+
+	Rating {
+		anchors.right: playDownloadButton.left
+		anchors.rightMargin: 15
+		rate: Rating
+	}
+
+	PlasmaComponents.ToolButton {
+		anchors.right: parent.right
+		id: playDownloadButton
+		height: parent.height
+		width: height
+
+		iconSource: Status == GluonPlayer.GameItem.Installed || Status == GluonPlayer.GameItem.Local ? "media-playback-start" : "download"
+		onClicked: Status == GluonPlayer.GameItem.Installed || Status == GluonPlayer.GameItem.Local ? mainWindow.playGame(Id) : serviceProvider.downloadGame(Id).startSocialService()
+	}
 }

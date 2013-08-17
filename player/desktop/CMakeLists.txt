@@ -25,7 +25,7 @@ set(desktop_SRCS
 
 kde4_add_executable(gluonplayer-desktop ${desktop_SRCS})
 
-target_link_libraries(gluonplayer-desktop ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS} ${KDE4_KIO_LIBS} ${LIBATTICA_LIBRARIES} ${QT_QTDECLARATIVE_LIBRARY} ${QT_LIBRARIES}  ${KDECLARATIVE_LIBRARIES})
+target_link_libraries(gluonplayer-desktop ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_PLAYER_LIBS} ${GLUON_INPUT_LIBS} ${KDE4_KIO_LIBS} ${LIBATTICA_LIBRARIES} ${QT_QTDECLARATIVE_LIBRARY} ${QT_LIBRARIES}  ${KDECLARATIVE_LIBRARIES} ${QT_QTOPENGL_LIBRARY})
 
 if(NOT APPLE)
     install(TARGETS gluonplayer-desktop
@@ -57,7 +57,8 @@ if(NOT APPLE)
                   qml/gamelist/CommentsView.qml
                   qml/gamelist/CommentDelegate.qml
                   qml/gamelist/AddCommentForm.qml
-                  qml/gamelist/RatingItem.qml
+                  qml/gamelist/Rating.qml
+                  qml/gamelist/GrayscaleEffect.qml
             DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml/gamelist
             COMPONENT gluonplayerdesktop)
 endif()
