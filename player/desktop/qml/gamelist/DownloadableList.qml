@@ -24,18 +24,28 @@ import org.kde.plasma.extras 0.1 as PlasmaExtras
 import Gluon.Player.Desktop 0.72 as GluonPlayer
 
 import ".."
+import "../highlights"
 
 Item {
     
+	BackgroundBox{ target: hlBox; }
+	
+	HighlightBox{
+		id: hlBox
+	}
+	
 	BackgroundBox{ target: gameListItem; }
 	
 	width: parent.width
 	
 	Rectangle {
-	id: gameListItem
-	
-	width: parent.width
-	height: 450
+		id: gameListItem
+		
+		anchors.top: hlBox.bottom;
+		anchors.topMargin: 40
+		
+		width: parent.width
+		height: 450
 		
 		Row {
 			anchors.fill: parent

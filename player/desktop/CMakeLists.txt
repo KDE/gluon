@@ -49,7 +49,11 @@ if(NOT APPLE)
                   qml/userbox/NotLogged.qml
             DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml/userbox
             COMPONENT gluonplayerdesktop)
-            
+    
+    install(FILES qml/highlights/HighlightBox.qml
+            DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml/highlights
+            COMPONENT gluonplayerdesktop)
+    
     install(FILES qml/gamelist/GameItem.qml
 				  qml/gamelist/InstalledList.qml
 				  qml/gamelist/DownloadableList.qml
