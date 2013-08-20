@@ -1,8 +1,27 @@
 import QtQuick 1.0
 
 Item{
+	id: highlightBoxId
 	width: parent.width
-	height: 100
+	height: 360
+	
+	PathView {
+		id: view
+		width: parent.width
+		height: 360
+		pathItemCount: 1
+		preferredHighlightBegin: 0
+		preferredHighlightEnd: 0
+		highlightRangeMode: PathView.StrictlyEnforceRange
+		
+		model: highlightsModel
+		delegate: HighlightItem { }
+		path: Path {
+			startX: highlightBoxId.width / 2
+			startY: highlightBoxId.height / 2
+			PathLine { y: highlightBoxId.height / 2; x:highlightBoxId.x; }
+		}
+	}
 	
 	XmlListModel {
 		id: highlightsModel
@@ -12,12 +31,6 @@ Item{
 		XmlRole { name: "title"; query: "title/string()" }
 		XmlRole { name: "image"; query: "image/string()" }
 		XmlRole { name: "description"; query: "description/string()" }
-	}
-	
-	ListView {
-		width: parent.width; height: parent.height
-		model: highlightsModel
-		delegate: Text { text: title + ": " + image }
 	}
 	
 }

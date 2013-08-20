@@ -46,13 +46,14 @@ Item {
 		color: "black"
 	}
 
-	PlasmaComponents.Label{
+	PlasmaExtras.Paragraph{
 		anchors.left: gameItemPicture.right
 		anchors.top: gameItemTitle.bottom
+		anchors.right: playDownloadButton.left
 		anchors.leftMargin: 5
+		anchors.rightMargin: 5
 		text: GameSummary
 		color: "black"
-		width: 100
 	}
 
 	Rating {

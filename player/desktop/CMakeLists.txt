@@ -51,6 +51,7 @@ if(NOT APPLE)
             COMPONENT gluonplayerdesktop)
     
     install(FILES qml/highlights/HighlightBox.qml
+                  qml/highlights/HighlightItem.qml
             DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml/highlights
             COMPONENT gluonplayerdesktop)
     
