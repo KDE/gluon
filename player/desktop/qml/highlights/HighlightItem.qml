@@ -7,10 +7,10 @@ Item{
 	width: parent.width
 	height: parent.height
 	
-	PlasmaComponents.ProgressBar{
+	PlasmaComponents.BusyIndicator{
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.verticalCenter: parent.verticalCenter
-		value: highImage.progress
+		running: true
 	}
 	
 	Image{

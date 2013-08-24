@@ -55,8 +55,6 @@ ShaderEffectItem {
 		live: false
 		hideSource: false
 	}
-
-
 	
 	fragmentShader:
 		"
