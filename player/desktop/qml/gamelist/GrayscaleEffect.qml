@@ -56,23 +56,7 @@ ShaderEffectItem {
 		hideSource: false
 	}
 
-	SequentialAnimation on ratio {
-		id: ratioAnimation
-		running: true
-		loops: Animation.Infinite
-		NumberAnimation {
-			easing.type: Easing.Linear
-			to: 0.0
-			duration: 1500
-		}
-		PauseAnimation { duration: 1000 }
-		NumberAnimation {
-		easing.type: Easing.Linear
-		to: 1.0
-		duration: 1500
-		}
-		PauseAnimation { duration: 1000 }
-	}
+
 	
 	fragmentShader:
 		"

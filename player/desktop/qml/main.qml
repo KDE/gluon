@@ -4,7 +4,6 @@ import org.kde.plasma.components 0.1 as PlasmaComponents
 import org.kde.plasma.extras 0.1 as PlasmaExtras
 import Gluon.Player.Desktop 0.72 as GluonPlayer
 
-
 Item {
 	
 	Background { }

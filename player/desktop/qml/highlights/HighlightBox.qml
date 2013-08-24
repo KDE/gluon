@@ -13,15 +13,21 @@ Item{
 		preferredHighlightBegin: 0
 		preferredHighlightEnd: 0
 		highlightRangeMode: PathView.StrictlyEnforceRange
+		interactive:false
 		
 		model: highlightsModel
 		delegate: HighlightItem { }
 		path: Path {
 			startX: highlightBoxId.width / 2
 			startY: highlightBoxId.height / 2
-			PathLine { y: highlightBoxId.height / 2; x:highlightBoxId.x; }
+			PathLine { y: highlightBoxId.height / 2; x: (highlightBoxId.x /2) +1; }
 		}
 	}
+	
+	Timer {
+        interval: 6500; running: true; repeat: true;
+        onTriggered: view.incrementCurrentIndex();
+    }
 	
 	XmlListModel {
 		id: highlightsModel

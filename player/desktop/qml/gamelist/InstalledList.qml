@@ -30,7 +30,7 @@ Item {
 	
 	width: parent.width
 	
-	Rectangle {
+	Item {
 	id: gameListItem
 	
 	width: parent.width

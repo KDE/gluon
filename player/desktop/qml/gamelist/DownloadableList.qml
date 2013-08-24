@@ -38,7 +38,7 @@ Item {
 	
 	width: parent.width
 	
-	Rectangle {
+	Item {
 		id: gameListItem
 		
 		anchors.top: hlBox.bottom;
@@ -77,6 +77,5 @@ Item {
 				}
 			}
 		}
-
 	}
 }
