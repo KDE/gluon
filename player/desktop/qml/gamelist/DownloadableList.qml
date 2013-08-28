@@ -18,7 +18,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-import QtQuick 1.0
+import QtQuick 1.1
 import org.kde.plasma.components 0.1 as PlasmaComponents
 import org.kde.plasma.extras 0.1 as PlasmaExtras
 import Gluon.Player.Desktop 0.72 as GluonPlayer
@@ -28,6 +28,8 @@ import "../highlights"
 
 Item {
     
+	anchors.bottom: parent.bottom
+	
 	BackgroundBox{ target: hlBox; }
 	
 	HighlightBox{
@@ -44,8 +46,10 @@ Item {
 		anchors.top: hlBox.bottom;
 		anchors.topMargin: 40
 		
+		anchors.bottomMargin: 20;
+		anchors.bottom: parent.bottom;
+		
 		width: parent.width
-		height: 450
 		
 		Row {
 			anchors.fill: parent
@@ -69,7 +73,7 @@ Item {
 
 					height: parent.height - gameListTitle.height
 					width: parent.width
-
+					
 					clip: true
 					spacing: 10
 					model: downloadableGamesModel

@@ -25,16 +25,19 @@ import Gluon.Player.Desktop 0.72 as GluonPlayer
 import ".."
 
 Item {
-    
+    anchors.top: parent.top
+	anchors.bottom: parent.bottom
+	anchors.bottomMargin: 20;
+	
 	BackgroundBox{ target: gameListItem; }
 	
 	width: parent.width
 	
 	Item {
-	id: gameListItem
-	
-	width: parent.width
-	height: 450
+		anchors.fill: parent
+		
+		id: gameListItem
+		
 		
 		Row {
 			anchors.fill: parent

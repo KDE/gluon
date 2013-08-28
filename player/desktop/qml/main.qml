@@ -5,6 +5,7 @@ import org.kde.plasma.extras 0.1 as PlasmaExtras
 import Gluon.Player.Desktop 0.72 as GluonPlayer
 
 Item {
+	id: gluonplayerid
 	
 	Background { }
 		
@@ -54,7 +55,6 @@ Item {
 		
 	}
 		
-
 	Rectangle {
 		id: centralBox;
 		
@@ -62,6 +62,9 @@ Item {
 		anchors.horizontalCenterOffset: -50;
 		anchors.top: parent.top;
 		anchors.topMargin: 20;
+		anchors.bottom: parent.bottom;
+		
+		color: "transparent";
 		
 		width: 550
 		
@@ -84,7 +87,7 @@ Item {
 			}
 		}
 	}
-			
+	
 	Rectangle {
 		id: rightColumn;
 		
