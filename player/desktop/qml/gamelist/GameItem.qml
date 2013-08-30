@@ -27,8 +27,14 @@ Item {
     id: gameItemRootItem
     width: gamesListView.width
     height: 64
-
-
+    
+    MouseArea{
+		anchors.fill: parent
+		onClicked:{
+			centralBox.showSingleGame(Id);
+		}
+	}
+    
 	Image {
 		id: gameItemPicture
 		anchors.left: parent.left

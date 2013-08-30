@@ -78,6 +78,11 @@ Item {
 			central_stack.push(Qt.createComponent("gamelist/DownloadableList.qml"),"",true);
 		}
 		
+		function showSingleGame(id){
+			central_stack.pop(true,true);
+			central_stack.push(Qt.createComponent("singlegame/Game.qml"),{gameId:id},true);
+		}
+		
 		PlasmaComponents.PageStack{
 			id: central_stack;
 			width: 550

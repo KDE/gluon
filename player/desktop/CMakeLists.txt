@@ -21,6 +21,7 @@ set(desktop_SRCS
     registeruserform.cpp
     userbox.cpp
     gamewindow.cpp
+    gameinfo.cpp
 )
 
 kde4_add_executable(gluonplayer-desktop ${desktop_SRCS})
@@ -53,6 +54,10 @@ if(NOT APPLE)
     install(FILES qml/highlights/HighlightBox.qml
                   qml/highlights/HighlightItem.qml
             DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml/highlights
+            COMPONENT gluonplayerdesktop)
+    
+    install(FILES qml/singlegame/Game.qml
+            DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml/singlegame
             COMPONENT gluonplayerdesktop)
     
     install(FILES qml/gamelist/GameItem.qml
