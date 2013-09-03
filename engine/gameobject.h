@@ -343,6 +343,13 @@ namespace GluonEngine
              */
             void setOrientation( const Eigen::Quaternionf& newOrientation );
             void orient( Eigen::Quaternionf rotation, TransformSpace ts = TS_LOCAL );
+
+            /**
+             * Rotate around the given axis.
+             *
+             * @param angle The angle of the rotation, in radian.
+             * @param axis Rotate around this axis
+             */
             void rotate( float angle, const Eigen::Vector3f& axis, TransformSpace ts = TS_LOCAL );
 
             void updateTransform();

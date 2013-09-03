@@ -47,7 +47,7 @@ function update(time)
         newBullet.position = self.GameObject.position;
         newBullet.enabled = true;
         newBullet.Collider.collisionGroup = 2;
-        newBullet.rotate(180, new Vector3f(0, 0, 1));
+        newBullet.rotate(Math.PI, new Vector3f(0, 0, 1));
     }
 }
 
