@@ -20,7 +20,7 @@ function start()
         for(var x = -30; x <= 30; x += 10)
         {
             var newEnemy = Game.clone(enemy);
-            newEnemy.position = new QVector3D(x, y, 1);
+            newEnemy.position = new Vector3f(x, y, 1);
             newEnemy.enabled = true;
         }
     }
@@ -69,7 +69,7 @@ function enemyDied()
 function createPlayer()
 {
     var newPlayer = Game.clone(Game.getFromScene("Player"));
-    newPlayer.position = new QVector3D(0, -50, 2);
+    newPlayer.position = new Vector3f(0, -50, 2);
     newPlayer.enabled = true;
 }
 
