@@ -729,7 +729,7 @@ void GameObject::orient( Quaternionf rotation, GameObject::TransformSpace ts )
 
 void GameObject::rotate( float angle, const Vector3f& axis, GameObject::TransformSpace ts )
 {
-    Quaternionf orientation( AngleAxisf( angle, axis ) );
+    Quaternionf orientation( AngleAxisf( angle, axis.normalized() ) );
     orient( orientation, ts );
 }
 
