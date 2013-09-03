@@ -34,6 +34,9 @@
 
 using namespace Eigen;
 
+static const int constructor_functions = 1; // number of constructors in the arrays below
+static const int static_functions = 1; // number of static functions in the arrays below
+
 static const char* const qtscript_Vector4f_function_names[] =
 {
     "Vector4f"
@@ -574,11 +577,12 @@ QScriptValue qtscript_create_Vector4f_class( QScriptEngine* engine )
 {
     engine->setDefaultPrototype( qMetaTypeId<Vector4f*>(), QScriptValue() );
     QScriptValue proto = engine->newVariant( qVariantFromValue( ( Vector4f* )0 ) );
+    int offset = constructor_functions + static_functions;
     for( int i = 0; i < 32; ++i )
     {
-        QScriptValue fun = engine->newFunction( qtscript_Vector4f_prototype_call, qtscript_Vector4f_function_lengths[i + 2] );
+        QScriptValue fun = engine->newFunction( qtscript_Vector4f_prototype_call, qtscript_Vector4f_function_lengths[i + offset] );
         fun.setData( QScriptValue( engine, uint( 0xBABE0000 + i ) ) );
-        proto.setProperty( QString::fromLatin1( qtscript_Vector4f_function_names[i + 2] ),
+        proto.setProperty( QString::fromLatin1( qtscript_Vector4f_function_names[i + offset] ),
                            fun, QScriptValue::SkipInEnumeration );
     }
 
@@ -587,12 +591,13 @@ QScriptValue qtscript_create_Vector4f_class( QScriptEngine* engine )
 
     QScriptValue ctor = engine->newFunction( qtscript_Vector4f_static_call, proto, qtscript_Vector4f_function_lengths[0] );
     ctor.setData( QScriptValue( engine, uint( 0xBABE0000 + 0 ) ) );
+    offset = constructor_functions;
     for( int i = 0; i < 1; ++i )
     {
         QScriptValue fun = engine->newFunction( qtscript_Vector4f_static_call,
-                                                qtscript_Vector4f_function_lengths[i + 1] );
+                                                qtscript_Vector4f_function_lengths[i + offset] );
         fun.setData( QScriptValue( engine, uint( 0xBABE0000 + i + 1 ) ) );
-        ctor.setProperty( QString::fromLatin1( qtscript_Vector4f_function_names[i + 1] ),
+        ctor.setProperty( QString::fromLatin1( qtscript_Vector4f_function_names[i + offset] ),
                           fun, QScriptValue::SkipInEnumeration );
     }
 

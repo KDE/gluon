@@ -35,6 +35,9 @@
 
 using namespace Eigen;
 
+static const int constructor_functions = 1; // number of constructors in the arrays below
+static const int static_functions = 3; // number of static functions in the arrays below
+
 static const char* const qtscript_Quaternionf_function_names[] =
 {
     "Quaternionf"
@@ -534,11 +537,12 @@ QScriptValue qtscript_create_Quaternionf_class( QScriptEngine* engine )
 {
     engine->setDefaultPrototype( qMetaTypeId<Quaternionf*>(), QScriptValue() );
     QScriptValue proto = engine->newVariant( qVariantFromValue( ( Quaternionf* )0 ) );
+    int offset = constructor_functions + static_functions;
     for( int i = 0; i < 27; ++i )
     {
-        QScriptValue fun = engine->newFunction( qtscript_Quaternionf_prototype_call, qtscript_Quaternionf_function_lengths[i + 4] );
+        QScriptValue fun = engine->newFunction( qtscript_Quaternionf_prototype_call, qtscript_Quaternionf_function_lengths[i + offset] );
         fun.setData( QScriptValue( engine, uint( 0xBABE0000 + i ) ) );
-        proto.setProperty( QString::fromLatin1( qtscript_Quaternionf_function_names[i + 4] ),
+        proto.setProperty( QString::fromLatin1( qtscript_Quaternionf_function_names[i + offset] ),
                            fun, QScriptValue::SkipInEnumeration );
     }
 
@@ -547,12 +551,13 @@ QScriptValue qtscript_create_Quaternionf_class( QScriptEngine* engine )
 
     QScriptValue ctor = engine->newFunction( qtscript_Quaternionf_static_call, proto, qtscript_Quaternionf_function_lengths[0] );
     ctor.setData( QScriptValue( engine, uint( 0xBABE0000 + 0 ) ) );
+    offset = constructor_functions;
     for( int i = 0; i < 3; ++i )
     {
         QScriptValue fun = engine->newFunction( qtscript_Quaternionf_static_call,
-                                                qtscript_Quaternionf_function_lengths[i + 1] );
+                                                qtscript_Quaternionf_function_lengths[i + offset] );
         fun.setData( QScriptValue( engine, uint( 0xBABE0000 + i + 1 ) ) );
-        ctor.setProperty( QString::fromLatin1( qtscript_Quaternionf_function_names[i + 1] ),
+        ctor.setProperty( QString::fromLatin1( qtscript_Quaternionf_function_names[i + offset] ),
                           fun, QScriptValue::SkipInEnumeration );
     }
 

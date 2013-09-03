@@ -34,6 +34,9 @@
 
 using namespace Eigen;
 
+static const int constructor_functions = 1; // number of constructors in the arrays below
+static const int static_functions = 4; // number of static functions in the arrays below
+
 static const char* const qtscript_Vector3f_function_names[] =
 {
     "Vector3f"
@@ -389,6 +392,7 @@ static QScriptValue qtscript_Vector3f_prototype_call( QScriptContext* context, Q
         case 19: // x
             if( context->argumentCount() == 0 )
             {
+                qDebug() << "Vector3f::x()";
                 float _q_result = _q_self->x();
                 return qScriptValueFromValue( context->engine(), _q_result );
             }
@@ -397,6 +401,7 @@ static QScriptValue qtscript_Vector3f_prototype_call( QScriptContext* context, Q
         case 20: // y
             if( context->argumentCount() == 0 )
             {
+                qDebug() << "Vector3f::y()";
                 float _q_result = _q_self->y();
                 return qScriptValueFromValue( context->engine(), _q_result );
             }
@@ -405,6 +410,7 @@ static QScriptValue qtscript_Vector3f_prototype_call( QScriptContext* context, Q
         case 21: // z
             if( context->argumentCount() == 0 )
             {
+                qDebug() << "Vector3f::z()";
                 float _q_result = _q_self->z();
                 return qScriptValueFromValue( context->engine(), _q_result );
             }
@@ -590,11 +596,12 @@ QScriptValue qtscript_create_Vector3f_class( QScriptEngine* engine )
 {
     engine->setDefaultPrototype( qMetaTypeId<Vector3f*>(), QScriptValue() );
     QScriptValue proto = engine->newVariant( qVariantFromValue( ( Vector3f* )0 ) );
+    int offset = constructor_functions + static_functions;
     for( int i = 0; i < 30; ++i )
     {
-        QScriptValue fun = engine->newFunction( qtscript_Vector3f_prototype_call, qtscript_Vector3f_function_lengths[i + 4] );
+        QScriptValue fun = engine->newFunction( qtscript_Vector3f_prototype_call, qtscript_Vector3f_function_lengths[i + offset] );
         fun.setData( QScriptValue( engine, uint( 0xBABE0000 + i ) ) );
-        proto.setProperty( QString::fromLatin1( qtscript_Vector3f_function_names[i + 4] ),
+        proto.setProperty( QString::fromLatin1( qtscript_Vector3f_function_names[i + offset] ),
                            fun, QScriptValue::SkipInEnumeration );
     }
 
@@ -603,12 +610,13 @@ QScriptValue qtscript_create_Vector3f_class( QScriptEngine* engine )
 
     QScriptValue ctor = engine->newFunction( qtscript_Vector3f_static_call, proto, qtscript_Vector3f_function_lengths[0] );
     ctor.setData( QScriptValue( engine, uint( 0xBABE0000 + 0 ) ) );
+    offset = constructor_functions;
     for( int i = 0; i < 3; ++i )
     {
         QScriptValue fun = engine->newFunction( qtscript_Vector3f_static_call,
-                                                qtscript_Vector3f_function_lengths[i + 1] );
+                                                qtscript_Vector3f_function_lengths[i + offset] );
         fun.setData( QScriptValue( engine, uint( 0xBABE0000 + i + 1 ) ) );
-        ctor.setProperty( QString::fromLatin1( qtscript_Vector3f_function_names[i + 1] ),
+        ctor.setProperty( QString::fromLatin1( qtscript_Vector3f_function_names[i + offset] ),
                           fun, QScriptValue::SkipInEnumeration );
     }
 
