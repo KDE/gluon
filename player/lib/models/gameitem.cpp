@@ -36,12 +36,14 @@ class GameItem::Private
         QString id;
         QString genre;
 		QString preview1;
+		QString changelog;
+		QString version;
 		QStringList screenshotUrls;
         QUrl cacheUri;
         QUrl uri;
 };
 
-GameItem::GameItem( const QString& gameName, const QString& gameDescription, const QString& gameSummary, QString preview1, int rating,
+GameItem::GameItem( const QString& gameName, const QString& gameDescription, const QString& gameSummary, const QString& changelog, const QString& version, const QString& preview1, int rating,
                     const Status& status, const QString& id, const QString &genre, const QUrl& cacheUri, const QUrl& uri, QObject* parent )
     : QObject( parent )
     , d( new Private() )
@@ -49,6 +51,8 @@ GameItem::GameItem( const QString& gameName, const QString& gameDescription, con
     d->gameName = gameName;
     d->gameDescription = gameDescription;
 	d->gameSummary = gameSummary;
+	d->changelog = changelog;
+	d->version = version;
 	d->preview1 = preview1;
     d->rating = rating;
     d->status = status;
@@ -97,6 +101,16 @@ QString GameItem::gameSummary() const
     return d->gameSummary;
 }
 
+QString GameItem::changelog() const
+{
+    return d->changelog;
+}
+
+QString GameItem::version() const
+{
+    return d->version;
+}
+
 void GameItem::setGameSummary( const QString& gameSummary )
 {
     d->gameSummary = gameSummary;
@@ -110,6 +124,16 @@ QString GameItem::gameDescription() const
 void GameItem::setGameDescription( const QString& gameDescription )
 {
     d->gameDescription = gameDescription;
+}
+
+void GameItem::setChangelog( const QString& changelog )
+{
+    d->changelog = changelog;
+}
+
+void GameItem::setVersion( const QString& version)
+{
+    d->version = version;
 }
 
 GameItem::Status GameItem::status() const

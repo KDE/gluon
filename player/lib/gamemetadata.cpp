@@ -41,6 +41,11 @@ class GameMetadata::Private
         QString gameId;
         QString gameName;
         QString gameDescription;
+		QString gameChangelog;
+		QString gameSummary;
+		QString gameVersion;
+		QString gamePreviewPicture;
+		QString gameRating;
 };
 
 GameMetadata::GameMetadata( QObject* parent )
@@ -62,6 +67,7 @@ QString GameMetadata::gameId() const
 
 void GameMetadata::setGameId( const QString& gameId )
 {
+	qDebug() << "setgameid triggered";
     AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());
     QString gamePath = model->data(gameId, AllGameItemsModel::UriRole).toString();
 
@@ -78,11 +84,22 @@ void GameMetadata::setGameId( const QString& gameId )
         d->gameId = model->data(gameId, AllGameItemsModel::IdRole).toString();
         d->gameName = model->data(gameId, AllGameItemsModel::GameNameRole).toString();
         d->gameDescription = model->data(gameId, AllGameItemsModel::GameDescriptionRole).toString();
+		d->gameRating = model->data(gameId, AllGameItemsModel::RatingRole).toString();
+		d->gamePreviewPicture = model->data(gameId, AllGameItemsModel::PreviewPictureRole).toString();
+		d->gameChangelog = model->data(gameId, AllGameItemsModel::ChangelogRole).toString();
+		d->gameVersion = model->data(gameId, AllGameItemsModel::VersionRole).toString();
+		d->gameSummary = model->data(gameId, AllGameItemsModel::GameSummaryRole).toString();
     }
 
     emit gameIdChanged();
     emit gameNameChanged();
     emit gameDescriptionChanged();
+	emit gameChangelogChanged();
+	emit gameSummaryChanged();
+	emit gameVersionChanged();
+	emit gamePreviewPictureChanged();
+	emit gameRatingChanged();
+
 }
 
 QString GameMetadata::gameName() const
@@ -93,6 +110,31 @@ QString GameMetadata::gameName() const
 QString GameMetadata::gameDescription() const
 {
     return d->gameDescription;
+}
+
+QString GameMetadata::gameChangelog() const
+{
+    return d->gameChangelog;
+}
+
+QString GameMetadata::gameSummary() const
+{
+    return d->gameSummary;
+}
+
+QString GameMetadata::gameVersion() const
+{
+    return d->gameVersion;
+}
+
+QString GameMetadata::gamePreviewPicture() const
+{
+    return d->gamePreviewPicture;
+}
+
+QString GameMetadata::gameRating() const
+{
+    return d->gameRating;
 }
 
 #include "gamemetadata.moc"

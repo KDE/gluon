@@ -46,11 +46,15 @@ namespace GluonPlayer
                 //OwnedByUser                     = 8 | Downloadable      ///Game's owner on the OCS server is the current user
             };
 
-            explicit GameItem( const QString& gameName, const QString& description, const QString& gameSummary, QString preview1, int rating,
+            explicit GameItem( const QString& gameName, const QString& description, const QString& gameSummary, const QString& changelog, const QString& version, const QString& preview1, int rating,
                                const Status& status, const QString& id, const QString& genre, const QUrl& cacheUri,
                                const QUrl& uri, QObject* parent = 0 );
             virtual ~GameItem();
-
+			
+			QString changelog() const;
+			void setChangelog( const QString& changelog );
+			QString version() const;
+			void setVersion( const QString& version );
 			QString preview1() const;
 			void setPreview1( const QString& preview1 );
 			QStringList gameScreenshotUrls() const;

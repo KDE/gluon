@@ -63,7 +63,9 @@ namespace GluonPlayer
                 GenreRole,
                 StatusRole,
                 CacheUriRole,
-                UriRole
+                UriRole,
+				VersionRole,
+				ChangelogRole
             };
 
             explicit AllGameItemsModel( QObject* parent = 0 );

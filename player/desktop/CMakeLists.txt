@@ -21,7 +21,7 @@ set(desktop_SRCS
     registeruserform.cpp
     userbox.cpp
     gamewindow.cpp
-    gameinfo.cpp
+    
 )
 
 kde4_add_executable(gluonplayer-desktop ${desktop_SRCS})
@@ -70,5 +70,10 @@ if(NOT APPLE)
                   qml/gamelist/Rating.qml
                   qml/gamelist/GrayscaleEffect.qml
             DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml/gamelist
+            COMPONENT gluonplayerdesktop)
+            
+    install(FILES qml/icons/rating.png
+                  qml/icons/ratinggs.png
+            DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml/icons
             COMPONENT gluonplayerdesktop)
 endif()

@@ -6,7 +6,7 @@ Rectangle {
 	height: (target.height + 20)
 	x: (target.x - 10)
 	width: (target.width + 20)
-	color: "#E6E6E6";
+	color: "#F5F5F5";
 	border.color: "black";
 	radius: 5;
 	opacity: 1;
