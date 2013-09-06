@@ -7,7 +7,7 @@ import Gluon.Player.Desktop 0.72 as GluonPlayer
 import ".."
 import "../gamelist"
 
-Item{
+Flickable{
 	id: singleGameView
 	anchors.left: parent.left;
 	anchors.right: parent.right;
@@ -18,10 +18,10 @@ Item{
 	property string gameId;
 	
 	GluonPlayer.GameMetadata
-    {
+	{
 		id: gameMetadata
 		gameId: singleGameView.gameId
-    }
+	}
 	
 	Column{
 		id: singlegamebox;
@@ -98,5 +98,13 @@ Item{
 			font.family: "monospace"
 			text: gameMetadata.gameChangelog
 		}
+		
+		CommentsView {
+			id: gameCommentsView
+			gameId: gameMetadata.gameId
+			height: parent.height
+			width: parent.width
+		}
+		
 	}
 }

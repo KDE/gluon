@@ -57,6 +57,9 @@ if(NOT APPLE)
             COMPONENT gluonplayerdesktop)
     
     install(FILES qml/singlegame/Game.qml
+				  qml/singlegame/AddCommentForm.qml
+				  qml/singlegame/CommentDelegate.qml
+				  qml/singlegame/CommentsView.qml
             DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml/singlegame
             COMPONENT gluonplayerdesktop)
     
@@ -64,9 +67,6 @@ if(NOT APPLE)
 				  qml/gamelist/InstalledList.qml
 				  qml/gamelist/DownloadableList.qml
                   qml/gamelist/GameDetails.qml
-                  qml/gamelist/CommentsView.qml
-                  qml/gamelist/CommentDelegate.qml
-                  qml/gamelist/AddCommentForm.qml
                   qml/gamelist/Rating.qml
                   qml/gamelist/GrayscaleEffect.qml
             DESTINATION ${DATA_INSTALL_DIR}/playerqmldesktop/qml/gamelist

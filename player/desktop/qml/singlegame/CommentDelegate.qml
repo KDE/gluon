@@ -1,6 +1,6 @@
 /*****************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2012 Shantanu Tushar <shaan7in@gmail.com>
+ * Copyright (C) 2011 Shantanu Tushar <shaan7in@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,26 +19,32 @@
 
 import QtQuick 1.1
 import org.kde.plasma.components 0.1 as PlasmaComponents
-import Gluon.Player.Desktop 0.72 as GluonPlayer
+import org.kde.plasma.extras 0.1 as PlasmaExtras
+import org.kde.plasma.core 0.1 as PlasmaCore
 
-ListView {
-    id: commentsListView
-    property alias gameId: commentsModel.gameId
-
-    model: GluonPlayer.CommentItemsModel { id: commentsModel }
-    delegate: CommentDelegate {
-        onReplyComment: {
-            commentForm.parentId = parentCommentId
-            commentForm.open()
-        }
-    }
-
-    spacing: 10
-    clip: true
-
-    AddCommentForm {
-        id: commentForm
-        property string parentId
-        onAccepted: commentsModel.uploadComment(parentId, commentForm.subjectText, commentForm.bodyText );
-    }
+Column {
+    id: commentDelegateRootItem
+    width: parent.width
+	
+	PlasmaExtras.Heading{
+		id: commentdelegate_title
+		text: title
+	}
+	
+	PlasmaComponents.Label{
+		id: commentdelegate_author
+		anchors.left: commentdelegate_title.right
+		anchors.bottom: commentdelegate_title.bottom
+		text: "written by "+author+" ("+dateTime+")"
+	}
+	
+	Text{
+			anchors.left: parent.left
+			anchors.right: parent.right
+			anchors.leftMargin: 20
+			wrapMode: Text.WordWrap
+			font.pixelSize: 13
+			text: body
+	}
+	//commentDelegateRootItem.replyComment(ParentIdRole)
 }
