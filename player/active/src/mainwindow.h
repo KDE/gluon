@@ -1,8 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright 2011 Shantanu Tushar <shaan7in@gmail.com>
- * Copyright 2011 Sebastian Kügler <sebas@kde.org>
- * Copyright 2011 Marco Martin <mart@kde.org>
+ * Copyright 2013 Shantanu Tushar <shantanu@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,11 +21,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <kdeclarativemainwindow.h>
+#include <QtGui/QMainWindow>
+
+#include <kdeclarative.h>
 
 class QResizeEvent;
 
-class MainWindow : public KDeclarativeMainWindow
+class MainWindow : public QMainWindow
 {
         Q_OBJECT
     public:
@@ -38,6 +38,7 @@ class MainWindow : public KDeclarativeMainWindow
         void startGame();
 
     private:
+        KDeclarative m_kdeclarative;
         void openProject( const QString& projectPath );
         QString m_projectPath;
 };

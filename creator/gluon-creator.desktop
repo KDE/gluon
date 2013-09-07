@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Gluon Creator
+Name[bs]=Gluon kreator
 Name[de]=Gluon Creator
 Name[en_GB]=Gluon Creator
 Name[es]=Gluon Creator
@@ -18,11 +19,12 @@ Name[sv]=Gluon Creator
 Name[uk]=Gluon Creator
 Name[x-test]=xxGluon Creatorxx
 GenericName=Game Creation Tool
+GenericName[bs]=Alat za pravljenje igara
 GenericName[de]=Werkzeug zum Erstellen von Spielen
 GenericName[en_GB]=Game Creation Tool
 GenericName[es]=Herramienta de creación de juegos
 GenericName[et]=Mängude loomise tööriist
-GenericName[fr]=Utilitaire de création de jeux
+GenericName[fr]=Utilitaire pour la création de jeux
 GenericName[hu]=Gluon létrehozás eszköz
 GenericName[km]=ឧបករណ៍​បង្កើត​ល្បែង
 GenericName[mr]=खेळ निर्माण साधन

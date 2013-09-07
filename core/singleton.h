@@ -170,14 +170,20 @@ namespace GluonCore
 
 #ifdef Q_CC_MSVC
 #define GLUON_DEFINE_SINGLETON(Type)\
+namespace GluonCore\
+{\
     template<> Type* GluonCore::Singleton<Type>::sm_instance = 0;\
     template<> QBasicAtomicPointer<QMutex> GluonCore::Singleton<Type>::sm_mutex = Q_BASIC_ATOMIC_INITIALIZER(0);\
-    template<> bool GluonCore::Singleton<Type>::sm_guard = false;
+    template<> bool GluonCore::Singleton<Type>::sm_guard = false;\
+}
 #else
 #define GLUON_DEFINE_SINGLETON(Type)\
+namespace GluonCore\
+{\
     template<> Q_DECL_EXPORT Type* GluonCore::Singleton<Type>::sm_instance = 0;\
     template<> Q_DECL_EXPORT QBasicAtomicPointer<QMutex> GluonCore::Singleton<Type>::sm_mutex = Q_BASIC_ATOMIC_INITIALIZER(0);\
-    template<> Q_DECL_EXPORT bool GluonCore::Singleton<Type>::sm_guard = false;
+    template<> Q_DECL_EXPORT bool GluonCore::Singleton<Type>::sm_guard = false;\
+}
 #endif
 
 #define GLUON_SINGLETON(Type) \
