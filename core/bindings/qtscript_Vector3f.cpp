@@ -392,7 +392,6 @@ static QScriptValue qtscript_Vector3f_prototype_call( QScriptContext* context, Q
         case 19: // x
             if( context->argumentCount() == 0 )
             {
-                qDebug() << "Vector3f::x()";
                 float _q_result = _q_self->x();
                 return qScriptValueFromValue( context->engine(), _q_result );
             }
@@ -401,7 +400,6 @@ static QScriptValue qtscript_Vector3f_prototype_call( QScriptContext* context, Q
         case 20: // y
             if( context->argumentCount() == 0 )
             {
-                qDebug() << "Vector3f::y()";
                 float _q_result = _q_self->y();
                 return qScriptValueFromValue( context->engine(), _q_result );
             }
@@ -410,7 +408,6 @@ static QScriptValue qtscript_Vector3f_prototype_call( QScriptContext* context, Q
         case 21: // z
             if( context->argumentCount() == 0 )
             {
-                qDebug() << "Vector3f::z()";
                 float _q_result = _q_self->z();
                 return qScriptValueFromValue( context->engine(), _q_result );
             }
