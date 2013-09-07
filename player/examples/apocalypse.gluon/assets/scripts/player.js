@@ -66,7 +66,7 @@ function update(time)
     
     moveX += translateX / self.Component.backgroundDivisor;
     moveY += translateY / self.Component.backgroundDivisor;
-    background.textureParameters = new QVector4D(moveX, moveY, scaleX, scaleY);
+    background.textureParameters = new Vector4f(moveX, moveY, scaleX, scaleY);
    
     self.GameObject.parentGameObject().translate(translateX / scaleX, translateY / scaleY, 0);
     
@@ -99,7 +99,7 @@ function fireBullet()
     newPosition.setZ(bullet.position.z());
     newBullet.setPosition(newPosition);
 
-    var dir = new QVector3D();
+    var dir = new Vector3f();
     dir.setX(crosshair.worldPosition().x() - newPosition.x());
     dir.setY(crosshair.worldPosition().y() - newPosition.y());
     dir.normalize();
@@ -111,7 +111,7 @@ function setDirection()
     var dir = crosshair.worldPosition().subtract(self.GameObject.worldPosition());
     dir.normalize();
 
-    var angle = QVector3D.dotProduct(dir, new QVector3D(0, 1, 0));
+    var angle = Vector3f.dotProduct(dir, new Vector3f(0, 1, 0));
     if(dir.x() < 0)
     {
         if(angle > 0.75)

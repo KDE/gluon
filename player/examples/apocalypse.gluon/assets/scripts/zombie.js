@@ -27,7 +27,7 @@ function update(time)
         var playerPos = player.worldPosition();
         var thisPos = GameObject().position;
 
-        var diff = new QVector3D(playerPos.x() - thisPos.x(), playerPos.y() - thisPos.y(), 0);
+        var diff = new Vector3f(playerPos.x() - thisPos.x(), playerPos.y() - thisPos.y(), 0);
         diff.normalize();
 
         var dist = Component().speed * (time / 1000);
@@ -70,7 +70,7 @@ function kill()
 
 function setDirection(direction)
 {
-    var angle = QVector3D.dotProduct(direction, new QVector3D(0, 1, 0));
+    var angle = Vector3f.dotProduct(direction, new Vector3f(0, 1, 0));
     var dir = -1;
     if(direction.x() < 0)
     {

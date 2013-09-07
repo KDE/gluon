@@ -66,7 +66,7 @@ function spawnZombie()
     newZombie.enabled = true;
 
     var side = Math.floor(Game.random() * 4);
-    var position = new QVector3D();
+    var position = new Vector3f();
     position.setZ(zombie.position.z());
     switch(side)
     {

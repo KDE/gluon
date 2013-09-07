@@ -48,7 +48,7 @@ function update(time)
 
 function rotate()
 {
-    self.GameObject.rotate(-2.5, new QVector3D(0,0,1));
+    self.GameObject.rotate(-2.5, new Vector3f(0,0,1));
 }
 
 function jump()
