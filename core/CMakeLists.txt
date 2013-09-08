@@ -4,7 +4,7 @@ gluon_include_directories( GluonCore
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/gdl )
 
-set(GluonCore_SRCS
+set( GluonCore_SRCS
     axisalignedbox.cpp
     directoryprovider.cpp
     debughelper.cpp
@@ -32,7 +32,7 @@ set(GluonCore_SRCS
     gdl/writer.cpp
 )
 
-set(GluonCore_HEADERS
+set( GluonCore_HEADERS
     axisalignedbox.h
     debughelper.h
     gluoncore_export.h
@@ -47,10 +47,10 @@ set(GluonCore_HEADERS
     gdlserializer.h
 )
 
-gluon_add_library(GluonCore SHARED
+gluon_add_library( GluonCore SHARED
     SOURCES ${GluonCore_SRCS}
     HEADERS ${GluonCore_HEADERS}
     LIBRARIES ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTSCRIPT_LIBRARY}
 )
 
-gluon_add_subdirectories(examples tests)
+gluon_add_subdirectories( examples tests )
