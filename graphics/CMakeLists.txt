@@ -1,11 +1,9 @@
-option( BUILD_MESH_LOADING "Build mesh loading support" OFF ) #Note: Needs to be ported
+option( BUILD_MESH_LOADING "Build mesh loading support" OFF )
 
 set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake  )
 
 if( BUILD_MESH_LOADING )
-    find_package(AssImp)
-else( BUILD_MESH_LOADING )
-    set(ASSIMP_FOUND FALSE)
+    find_package( AssImp )
 endif( BUILD_MESH_LOADING )
 
 gluon_include_directories( GluonGraphics
@@ -16,10 +14,6 @@ if( ASSIMP_FOUND )
     include_directories( ${ASSIMP_INCLUDE_DIR} )
     list( APPEND GLUONGRAPHICS_INCLUDE_DIRS ${ASSIMP_INCLUDE_DIR} )
 endif( ASSIMP_FOUND )
-
-if( BUILD_EXAMPLES )
-    add_subdirectory(examples)
-endif()
 
 set( GluonGraphics_SRCS
     camera.cpp
@@ -98,8 +92,6 @@ install( FILES
     COMPONENT GluonGraphics
 )
 
-if(BUILD_TESTS)
-    add_subdirectory(tests)
-endif()
+gluon_add_subdirectories( examples tests )
 
 save_status( GluonGraphics "Build mesh loading support (BUILD_MESH_LOADING): ${BUILD_MESH_LOADING}" )
