@@ -25,7 +25,7 @@
 #include "models/listmodel.h"
 #include "delegates/itemsviewdelegate.h"
 
-#include "lib/models/gameitemsmodel.h"
+#include <player/lib/models/gameitemsmodel.h>
 
 #include <KDE/KIcon>
 #include <KDE/KLocalizedString>
