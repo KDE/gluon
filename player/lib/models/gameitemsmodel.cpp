@@ -19,19 +19,18 @@
 
 #include "gameitemsmodel.h"
 
-#include "lib/serviceprovider.h"
-#include "lib/gamedetaillistjob.h"
-
-#include <engine/gameproject.h>
-
-#include <core/directoryprovider.h>
-
 #include <QtCore/QDir>
 #include <QtCore/QHash>
 #include <QtCore/QByteArray>
 #include <QtCore/QDebug>
 #include <QtCore/QStringList>
 #include <QtCore/QMultiMap>
+
+#include <core/directoryprovider.h>
+#include <engine/gameproject.h>
+
+#include "serviceprovider.h"
+#include "gamedetaillistjob.h"
 
 using namespace GluonPlayer;
 
