@@ -94,9 +94,7 @@ gluon_add_library(GluonEngine SHARED
 add_subdirectory(assets)
 add_subdirectory(components)
 
-if(BUILD_TESTS)
-    add_subdirectory(tests)
-endif()
+gluon_add_subdirectories(tests)
 
 save_status( GluonEngine 
     "Build Components dependant on Gluon Audio (BUILD_AUDIO_COMPONENTS): ${BUILD_AUDIO_COMPONENTS}"
