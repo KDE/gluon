@@ -1,3 +1,8 @@
+set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
+
+set( LIBATTICA_MIN_VERSION 0.1.90 )
+find_package( LibAttica REQUIRED )
+
 gluon_include_directories( GluonPlayer
     ${GLUON_ENGINE_INCLUDE_DIRS}
     ${LIBATTICA_INCLUDE_DIR}
@@ -31,7 +36,7 @@ set(GluonPlayer_SRCS
     models/allgameitemsmodel.cpp
     models/commentitemsmodel.cpp
     models/downloadablegamesmodel.cpp
-    models/gameitem.cpp
+    models/gamemessage(STATUS ${CMAKE_VERSION})item.cpp
     models/gameitemsmodel.cpp
     models/gameviewitem.cpp
     models/highscoresmodel.cpp
@@ -51,7 +56,5 @@ gluon_add_library(GluonPlayer SHARED
     HEADERS ${GluonPlayer_HEADERS}
     LIBRARIES ${GLUONENGINE_LIBRARIES} ${QT_QTNETWORK_LIBRARY} ${LIBATTICA_LIBRARIES})
 
-if(BUILD_GLUON_TESTS)
-    add_subdirectory(tests)
-endif()
+gluon_add_subdirectories( tests )
 
