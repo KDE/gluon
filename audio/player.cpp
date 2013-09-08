@@ -22,6 +22,8 @@
 
 #include "engine.h"
 
+#include <AL/al.h>
+
 using namespace GluonAudio;
 
 class Player::PlayerPrivate
@@ -131,24 +133,24 @@ int Player::currentIndex() const
     return d->currentIndex;
 }
 
-ALfloat Player::pitch() const
+float Player::pitch() const
 {
     return d->soundPitch;
 }
 
-void Player::setPitch(ALfloat pitch)
+void Player::setPitch(float pitch)
 {
     d->soundPitch = pitch;
     d->sound->setPitch(pitch);
 }
 
-void Player::setVolume(ALfloat volume)
+void Player::setVolume(float volume)
 {
     d->soundVolume = volume;
     d->sound->setVolume(volume);
 }
 
-ALfloat Player::volume() const
+float Player::volume() const
 {
     return d->soundVolume;
 }
@@ -179,8 +181,12 @@ void Player::playNext()
     }
     else
     {
+<<<<<<< HEAD
         (d->currentIndex)++;
 
+=======
+        ++d->currentIndex;
+>>>>>>> audio: No implementation-specific types in public headers
     }
 
     play();
