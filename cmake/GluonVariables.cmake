@@ -22,6 +22,6 @@ if( NOT DEFINED ${GLUON_VERSION_STRING} )
         set( GLUON_ARCHITECTURE "32" )
     endif( CMAKE_SIZEOF_VOID_P EQUAL 8 )
 
-    configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/gluon_global.h.in ${CMAKE_CURRENT_BINARY_DIR}/gluon_global.h )
-    install( FILES ${CMAKE_CURRENT_BINARY_DIR}/gluon_global.h DESTINATION ${INCLUDE_INSTALL_DIR} )
+    configure_file( ${CMAKE_SOURCE_DIR}/gluon_global.h.in ${CMAKE_BINARY_DIR}/gluon_global.h )
+    install( FILES ${CMAKE_BINARY_DIR}/gluon_global.h DESTINATION ${INCLUDE_INSTALL_DIR} )
 endif( NOT DEFINED ${GLUON_VERSION_STRING} )
