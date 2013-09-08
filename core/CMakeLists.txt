@@ -4,10 +4,6 @@ gluon_include_directories( GluonCore
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/gdl )
 
-if( BUILD_EXAMPLES)
-    add_subdirectory( examples )
-endif()
-
 set(GluonCore_SRCS
     axisalignedbox.cpp
     directoryprovider.cpp
@@ -57,6 +53,4 @@ gluon_add_library(GluonCore SHARED
     LIBRARIES ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTSCRIPT_LIBRARY}
 )
 
-if(BUILD_TESTS)
-    add_subdirectory(tests)
-endif()
+gluon_add_subdirectories(examples tests)
