@@ -8,25 +8,16 @@ gluon_include_directories(GluonAudio
 
     ${ALURE_INCLUDE_DIRS}
     ${OPENAL_INCLUDE_DIR}
-    #TODO: Make use of phonon instead of these libs for file input. Saves us another few dependencies.
 )
 
-if( BUILD_EXAMPLES )
-    add_subdirectory(examples)
-endif()
-
 set(GluonAudio_SRCS
-    #capture.cpp
     engine.cpp
     player.cpp
     sound.cpp
-
-    #capturedevice_p.cpp
     device_p.cpp
 )
 
 set(GluonAudio_HEADERS
-    #capture.h
     engine.h
     gluon_audio_export.h
     player.h
@@ -39,6 +30,4 @@ gluon_add_library(GluonAudio SHARED
     LIBRARIES ${GLUONCORE_LIBRARIES} ${OPENAL_LIBRARY} ${ALURE_LIBRARIES}
 )
 
-if(BUILD_TESTS)
-    add_subdirectory(tests)
-endif()
+gluon_add_subdirectories(examples tests)
