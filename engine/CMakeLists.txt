@@ -1,32 +1,32 @@
-option(BUILD_AUDIO_COMPONENTS "Build Components dependant on Gluon Audio" ON)
-option(BUILD_AUDIO_ASSETS "Build Assets dependant on Gluon Audio" ON)
-option(BUILD_GRAPHICS_COMPONENTS "Build Components dependant on Gluon Graphics" ON)
-option(BUILD_GRAPHICS_ASSETS "Build Assets dependant on Gluon Graphics" ON)
-option(BUILD_INPUT_COMPONENTS "Build Components dependant on Gluon Input" ON)
-option(BUILD_INPUT_ASSETS "Build Assets dependant on Gluon Input" ON)
-option(BUILD_PHYSICS_COMPONENTS "Build Components related to physics" OFF)
-option(BUILD_PHYSICS_ASSETS "Build Assets related to physics" OFF)
-option(BUILD_OTHER_COMPONENTS "Build other Components" ON)
-option(BUILD_OTHER_ASSETS "Build other Assets" ON)
+option( BUILD_AUDIO_COMPONENTS "Build Components dependant on Gluon Audio" ON )
+option( BUILD_AUDIO_ASSETS "Build Assets dependant on Gluon Audio" ON )
+option( BUILD_GRAPHICS_COMPONENTS "Build Components dependant on Gluon Graphics" ON )
+option( BUILD_GRAPHICS_ASSETS "Build Assets dependant on Gluon Graphics" ON )
+option( BUILD_INPUT_COMPONENTS "Build Components dependant on Gluon Input" ON )
+option( BUILD_INPUT_ASSETS "Build Assets dependant on Gluon Input" ON )
+option( BUILD_PHYSICS_COMPONENTS "Build Components related to physics" OFF )
+option( BUILD_PHYSICS_ASSETS "Build Assets related to physics" OFF )
+option( BUILD_OTHER_COMPONENTS "Build other Components" ON )
+option( BUILD_OTHER_ASSETS "Build other Assets" ON )
 
-if(NOT BUILD_GLUONAUDIO)
-    set(BUILD_AUDIO_COMPONENTS OFF)
-    set(BUILD_AUDIO_ASSETS OFF)
+if( NOT BUILD_GLUONAUDIO )
+    set( BUILD_AUDIO_COMPONENTS OFF )
+    set( BUILD_AUDIO_ASSETS OFF )
 endif()
-if(NOT BUILD_GLUONGRAPHICS)
-    set(BUILD_GRAPHICS_ASSETS OFF)
-    set(BUILD_GRAPHICS_COMPONENTS OFF)
+if( NOT BUILD_GLUONGRAPHICS )
+    set( BUILD_GRAPHICS_ASSETS OFF )
+    set( BUILD_GRAPHICS_COMPONENTS OFF )
 endif()
-if(NOT BUILD_GLUONINPUT)
-    set(BUILD_INPUT_ASSETS OFF)
-    set(BUILD_INPUT_COMPONENTS OFF)
+if( NOT BUILD_GLUONINPUT )
+    set( BUILD_INPUT_ASSETS OFF )
+    set( BUILD_INPUT_COMPONENTS OFF )
 endif()
 
 gluon_include_directories( GluonEngine
     ${GLUONCORE_INCLUDE_DIRS}
 )
 
-set(GluonEngine_SRCS
+set( GluonEngine_SRCS
     abstractprefabinstance.cpp
     abstractstatistic.cpp
     achievement.cpp
@@ -58,7 +58,7 @@ set(GluonEngine_SRCS
     gameprivate.cpp
 )
 
-set(GluonEngine_HEADERS
+set( GluonEngine_HEADERS
     abstractprefabinstance.h
     abstractstatistic.h
     achievement.h
@@ -85,16 +85,16 @@ set(GluonEngine_HEADERS
     gluon_engine_metatypes.h
 )
 
-gluon_add_library(GluonEngine SHARED
+gluon_add_library( GluonEngine SHARED
     SOURCES ${GluonEngine_SRCS}
     HEADERS ${GluonEngine_HEADERS}
     LIBRARIES ${GLUONCORE_LIBRARIES} ${QT_QTSQL_LIBRARY}
 )
 
-add_subdirectory(assets)
-add_subdirectory(components)
+add_subdirectory( assets )
+add_subdirectory( components )
 
-gluon_add_subdirectories(tests)
+gluon_add_subdirectories( tests )
 
 save_status( GluonEngine 
     "Build Components dependant on Gluon Audio (BUILD_AUDIO_COMPONENTS): ${BUILD_AUDIO_COMPONENTS}"
