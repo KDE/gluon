@@ -19,10 +19,11 @@
 
 #include "gamedetailsoverlay.h"
 #include "views/achievementsview.h"
-#include "lib/models/highscoresmodel.h"
-#include "lib/models/achievementsmodel.h"
-#include "lib/models/gameviewitem.h"
 #include "delegates/achievementdelegate.h"
+
+#include <player/lib/models/highscoresmodel.h>
+#include <player/lib/models/achievementsmodel.h>
+#include <player/lib/models/gameviewitem.h>
 
 #include <engine/projectmetadata.h>
 

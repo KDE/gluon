@@ -21,7 +21,7 @@
 
 #include "views/gametextlabel.h"
 
-#include "lib/models/commentitemsmodel.h"
+#include <player/lib/models/commentitemsmodel.h>
 
 #include <KDE/KDebug>
 
