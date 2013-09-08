@@ -1,21 +1,21 @@
-cmake_minimum_required(VERSION 2.8)
-project(Gluon)
+cmake_minimum_required( VERSION 2.8 )
+project( Gluon )
 
 #### Project Options ####
-option(WITH_KDE "Build with KDE Development Platform Support" ON)
-option(BUILD_GLUONAUDIO "Build Gluon Audio Library" ON)
-option(BUILD_GLUONINPUT "Build Gluon Input Library" ON)
-option(BUILD_GLUONSMARTS "Build SMARTS Game AI Library" ON)
-option(BUILD_GLUONGRAPHICS "Build Gluon Graphics Library" ON)
-option(BUILD_GLUONENGINE "Build Gluon Engine Library" ON)
-option(BUILD_GLUONPLAYER "Build Gluon Player Library" ON)
-option(BUILD_GLUONCREATOR "Build Gluon Creator Application" ON)
-option(BUILD_TOOLS "Build Gluon Tools" ON)
-option(BUILD_TESTS "Build Unit Tests for the Gluon libraries and applications" OFF)
-option(BUILD_EXAMPLES "Build and install example applications" OFF)
+option( WITH_KDE "Build with KDE Development Platform Support" ON )
+option( BUILD_GLUONAUDIO "Build Gluon Audio Library" ON )
+option( BUILD_GLUONINPUT "Build Gluon Input Library" ON )
+option( BUILD_GLUONSMARTS "Build SMARTS Game AI Library" ON )
+option( BUILD_GLUONGRAPHICS "Build Gluon Graphics Library" ON )
+option( BUILD_GLUONENGINE "Build Gluon Engine Library" ON )
+option( BUILD_GLUONPLAYER "Build Gluon Player Library" ON )
+option( BUILD_GLUONCREATOR "Build Gluon Creator Application" ON )
+option( BUILD_TOOLS "Build Gluon Tools" ON )
+option( BUILD_TESTS "Build Unit Tests for the Gluon libraries and applications" OFF )
+option( BUILD_EXAMPLES "Build and install example applications" OFF )
 
 #### Global Dependencies ####
-find_package(Qt4 4.7.1 REQUIRED)
+find_package( Qt4 4.7.1 REQUIRED )
 
 # KDE is a global optional dependency
 if( WITH_KDE )
@@ -24,60 +24,60 @@ endif()
 
 # Enable automoc (Internal CMake version if available, external binary if not)
 if( CMAKE_VERSION VERSION_LESS "2.8.6" )
-    find_package(Automoc4 REQUIRED)
+    find_package( Automoc4 REQUIRED )
 else()
     set( CMAKE_AUTOMOC TRUE )
 endif()
 
 # Set some variables
-include(cmake/GluonVariables.cmake)
-include(cmake/GluonMacros.cmake)
+include( cmake/GluonVariables.cmake )
+include( cmake/GluonMacros.cmake )
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} )
 
-if(NOT MSVC)
-    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -Wno-switch -O2 -g")
-    set(CMAKE_CXX_FLAGS_RELEASE "-Wall -Wno-switch -O3")
-    set(CMAKE_CXX_FLAGS_DEBUG  "-Wall -Wno-switch -g3 -ggdb")
-endif(NOT MSVC)
+if( NOT MSVC )
+    set( CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Wall -Wno-switch -O2 -g" )
+    set( CMAKE_CXX_FLAGS_RELEASE "-Wall -Wno-switch -O3" )
+    set( CMAKE_CXX_FLAGS_DEBUG  "-Wall -Wno-switch -g3 -ggdb" )
+endif( NOT MSVC )
 
 # To make sure we can run when not installed into $LD_LIBRARY_PATH
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
-set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+set( CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}" )
+set( CMAKE_BUILD_WITH_INSTALL_RPATH TRUE )
 
 ##### Gluon Libraries and Applications #####
-add_subdirectory(core)
+add_subdirectory( core )
 
-if(BUILD_GLUONAUDIO)
-    add_subdirectory(audio)
+if( BUILD_GLUONAUDIO )
+    add_subdirectory( audio )
 endif()
 
-if(BUILD_GLUONINPUT)
-    add_subdirectory(input)
+if( BUILD_GLUONINPUT )
+    add_subdirectory( input )
 endif()
 
-if(BUILD_GLUONGRAPHICS)
-    add_subdirectory(graphics)
+if( BUILD_GLUONGRAPHICS )
+    add_subdirectory( graphics )
 endif()
 
-if(BUILD_GLUONSMARTS)
-     add_subdirectory(smarts)
+if( BUILD_GLUONSMARTS )
+     add_subdirectory( smarts )
 endif()
 
-if(BUILD_GLUONENGINE)
-    add_subdirectory(engine)
+if( BUILD_GLUONENGINE )
+    add_subdirectory( engine )
 endif()
 
-if(BUILD_GLUONPLAYER)
-    add_subdirectory(player)
+if( BUILD_GLUONPLAYER )
+    add_subdirectory( player )
 endif()
 
-if(BUILD_GLUONCREATOR)
-    add_subdirectory(creator)
+if( BUILD_GLUONCREATOR )
+    add_subdirectory( creator )
 endif()
 
-if(BUILD_TOOLS)
-    add_subdirectory(tools)
+if( BUILD_TOOLS )
+    add_subdirectory( tools )
 endif()
 
 #### Feature Summary ####
