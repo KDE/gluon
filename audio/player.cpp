@@ -22,6 +22,8 @@
 
 #include "engine.h"
 
+#include <AL/al.h>
+
 using namespace GluonAudio;
 
 class Player::PlayerPrivate
@@ -128,23 +130,23 @@ bool Player::isPlaying() const
     return d->sound->isPlaying();
 }
 
-ALfloat Player::pitch() const
+float Player::pitch() const
 {
     return d->soundPitch;
 }
 
-void Player::setPitch(ALfloat pitch)
+void Player::setPitch(float pitch)
 {
     d->soundPitch = pitch;
     d->sound->setPitch(pitch);
 }
 
-void Player::setVolume(ALfloat volume)
+void Player::setVolume(float volume)
 {
     d->soundVolume = volume;
 }
 
-ALfloat Player::volume() const
+float Player::volume() const
 {
     return d->soundVolume;
 }
@@ -176,7 +178,6 @@ void Player::playNext()
     else
     {
         ++d->currentIndex;
-
     }
 
     play();

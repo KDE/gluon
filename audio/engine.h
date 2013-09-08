@@ -28,8 +28,6 @@
 
 #include <QtGui/QVector3D>
 
-#include <AL/al.h>
-
 namespace GluonAudio
 {
     class Sound;
@@ -80,7 +78,7 @@ namespace GluonAudio
             void setBuffersPerStream( int buffers );
 
             //FIXME: this shouldn't be public
-            ALuint genBuffer( const QString& fileName );
+            uint genBuffer( const QString& fileName );
 
         private:
             ~Engine();

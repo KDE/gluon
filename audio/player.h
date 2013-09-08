@@ -96,7 +96,7 @@ namespace GluonAudio
              *
              * @see setVolume(), Sound::volume()
              */
-            ALfloat volume() const;
+            float volume() const;
 
             /**
              * Sets the volume of the output as voltage factor.
@@ -104,7 +104,7 @@ namespace GluonAudio
              *
              * @set volume(), Sound::setVolume()
              */
-            void setVolume( ALfloat volume = 1.0f );
+            void setVolume( float volume = 1.0f );
 
             /**
              * Returns true if the given sound was set to loop, false otherwise.
@@ -127,7 +127,7 @@ namespace GluonAudio
              *
              * @see setPitch(), Sound::pitch()
              */
-            ALfloat pitch() const;
+            float pitch() const;
 
             /**
              * Specify the pitch to be applied for the given sound
@@ -135,7 +135,7 @@ namespace GluonAudio
              *
              * @see pitch(), Sound::setPitch()
              */
-            void setPitch( ALfloat pitch );
+            void setPitch( float pitch );
 
             QStringList files();
 

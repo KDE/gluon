@@ -192,7 +192,7 @@ bool Sound::load( const QString& fileName )
     return d->isValid;
 }
 
-ALfloat Sound::timeOffset() const
+float Sound::timeOffset() const
 {
     if( !d->isValid )
     {
@@ -248,22 +248,22 @@ QVector3D Sound::position() const
     return d->position;
 }
 
-ALfloat Sound::x() const
+float Sound::x() const
 {
     return d->position.x();
 }
 
-ALfloat Sound::y() const
+float Sound::y() const
 {
     return d->position.y();
 }
 
-ALfloat Sound::z() const
+float Sound::z() const
 {
     return d->position.z();
 }
 
-ALfloat Sound::volume() const
+float Sound::volume() const
 {
     if( !d->isValid )
     {
@@ -275,12 +275,12 @@ ALfloat Sound::volume() const
     return volume;
 }
 
-ALfloat Sound::pitch() const
+float Sound::pitch() const
 {
     return d->pitch;
 }
 
-ALfloat Sound::radius() const
+float Sound::radius() const
 {
     return d->radius;
 }
@@ -294,7 +294,7 @@ double Sound::duration() const
     return d->duration;
 }
 
-void Sound::setPosition( ALfloat x, ALfloat y, ALfloat z )
+void Sound::setPosition( float x, float y, float z )
 {
     setPosition( QVector3D( x, y, z ) );
 }
@@ -333,7 +333,7 @@ void Sound::setPitch( ALfloat pitch )
     alSourcef( d->source, AL_PITCH, pitch );
 }
 
-void Sound::setRadius( ALfloat radius )
+void Sound::setRadius( float radius )
 {
     if( !d->isValid )
     {
@@ -415,7 +415,7 @@ void Sound::rewind()
     d->newError( "Rewinding " + d->path + " failed" );
 }
 
-void Sound::setVelocity( ALfloat vx, ALfloat vy, ALfloat vz )
+void Sound::setVelocity( float vx, float vy, float vz )
 {
     if( !d->isValid )
     {
@@ -426,7 +426,7 @@ void Sound::setVelocity( ALfloat vx, ALfloat vy, ALfloat vz )
     alSourcefv( d->source, AL_VELOCITY, velocity );
 }
 
-void Sound::setDirection( ALfloat dx, ALfloat dy, ALfloat dz )
+void Sound::setDirection( float dx, float dy, float dz )
 {
     if( !d->isValid )
     {
@@ -437,7 +437,7 @@ void Sound::setDirection( ALfloat dx, ALfloat dy, ALfloat dz )
     alSourcefv( d->source, AL_POSITION, direction );
 }
 
-void Sound::setTimeOffset( ALfloat time )
+void Sound::setTimeOffset( float time )
 {
     if( !d->isValid )
     {
@@ -448,3 +448,4 @@ void Sound::setTimeOffset( ALfloat time )
 
 }
 
+#include "moc_sound.cpp"

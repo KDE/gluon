@@ -26,8 +26,6 @@
 
 #include <QtGui/QVector3D>
 
-#include <al.h>
-
 namespace GluonAudio
 {
     class GLUON_AUDIO_EXPORT Sound : public QObject
@@ -83,7 +81,7 @@ namespace GluonAudio
             * @return the time since the sound started playing
             * If there is no source loaded, it returns -1.
             */
-            ALfloat timeOffset() const;
+            float timeOffset() const;
 
             /**
              * Returns true if it is currently playing; otherwise returns false
@@ -127,40 +125,40 @@ namespace GluonAudio
             * relative to the listener
             * @see setPosition, y, z
             */
-            ALfloat x() const;
+            float x() const;
 
             /**
             * @return the y coordinate of the sound position
             * relative to the listener
             * @see setPosition, x, z
             */
-            ALfloat y() const;
+            float y() const;
 
             /**
             * @return the z coordinate of the sound position
             * relative to the listener
             * @see setPosition, x, y
             */
-            ALfloat z() const;
+            float z() const;
 
             /**
             * @return the volume currently applied.
             * If there is no source loaded, it returns -1.
             * @see setVolume
             */
-            ALfloat volume() const;
+            float volume() const;
 
             /**
             * @return the pitch currently applied
             * @see setPitch
             */
-            ALfloat pitch() const;
+            float pitch() const;
 
             /**
              * @return the file radius currently applied
              * @see setRadius
              */
-            ALfloat radius() const;
+            float radius() const;
 
             /**
             * @return the file sound duration in seconds
@@ -231,7 +229,7 @@ namespace GluonAudio
             *
             * If there is no source loaded, it does not set the position.
             */
-            void setPosition( ALfloat x = 0.0, ALfloat y = 0.0, ALfloat z = 0.0 );
+            void setPosition( float x = 0.0, float y = 0.0, float z = 0.0 );
 
             /**
             * Change the volume (volume amplification) applied
@@ -248,7 +246,7 @@ namespace GluonAudio
             * If there is no source loaded, it does not set the volume.
             * @see volume
             */
-            void setVolume( ALfloat volume = 1.0f );
+            void setVolume( float volume = 1.0f );
 
             /**
             * Specify the pitch to be applied, either at source,
@@ -257,7 +255,7 @@ namespace GluonAudio
             *
             * If there is no source loaded, it does not set the pitch.
             */
-            void setPitch( ALfloat pitch = 1.0f );
+            void setPitch( float pitch = 1.0f );
 
             /**
              * Specify the distance from which the sound can no longer be heard
@@ -265,7 +263,7 @@ namespace GluonAudio
              *
              * If there is no source loaded, it does not set the radius.
              */
-            void setRadius( ALfloat radius = 10000.0f );
+            void setRadius( float radius = 10000.0f );
 
             /**
             * Set the velocity of the sound relative to the listener
@@ -273,7 +271,7 @@ namespace GluonAudio
             *
             * If there is no source loaded, it does not set the velocity.
             */
-            void setVelocity( ALfloat vx, ALfloat vy, ALfloat vz );
+            void setVelocity( float vx, float vy, float vz );
 
             /**
             * Set the direction of the sound relative to the listener
@@ -281,14 +279,14 @@ namespace GluonAudio
             *
             * If there is no source loaded, it does not set the direction.
             */
-            void setDirection( ALfloat dx, ALfloat dy, ALfloat dz );
+            void setDirection( float dx, float dy, float dz );
 
             /**
             * Specify the current time offset.
             * @param time must be inferior than duration.
             * @see duration()
             */
-            void setTimeOffset( ALfloat time );
+            void setTimeOffset( float time );
 
         Q_SIGNALS:
             void played();
@@ -297,7 +295,7 @@ namespace GluonAudio
 
         private:
             Q_DISABLE_COPY( Sound )
-            static void callbackStopped( void* object, ALuint source );
+            static void callbackStopped( void* object, uint source );
             void cbStop();
 
             class SoundPrivate;

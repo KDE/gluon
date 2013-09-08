@@ -61,7 +61,7 @@ Engine::~Engine()
     alureShutdownDevice();
 }
 
-ALuint Engine::genBuffer( const QString& fileName )
+uint Engine::genBuffer( const QString& fileName )
 {
     ALuint buffer = d->bufferHash.value( fileName );
     if( buffer == 0 )
