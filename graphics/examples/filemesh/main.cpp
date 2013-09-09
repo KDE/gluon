@@ -19,6 +19,8 @@
 
 #include "graphics/renderwidget.h"
 
+#include <cmath>
+
 #include <QApplication>
 
 #include "core/directoryprovider.h"
@@ -62,7 +64,7 @@ int main( int argc, char* argv[] )
 
 
     Entity* ent = Manager::instance()->currentWorld()->createEntity< Entity >();
-    mat.rotate( Eigen::AngleAxis<float>(-45, MathUtils::VECTOR_UNIT_Y) );
+    mat.rotate( Eigen::AngleAxis<float>( -M_PI_4 /* pi/4 */, MathUtils::VECTOR_UNIT_Y) );
     ent->setTransform( mat );
     ent->setMesh( mesh );
     ent->setMaterialInstance( material->createInstance() );
