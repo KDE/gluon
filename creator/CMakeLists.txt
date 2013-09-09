@@ -1,70 +1,117 @@
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${KDE4_INCLUDES}
-    ${GLUON_CORE_INCLUDE_DIRS}
-    ${GLUON_ENGINE_INCLUDE_DIRS}
-    ${GLUON_PLAYER_INCLUDE_DIRS}
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+
+set(libGluonCreator_SRCS
+    abstractundocommand.cpp
+    deleteobjectcommand.cpp
+    dockmanager.cpp
+    dockplugin.cpp
+    filemanager.cpp
+    historymanager.cpp
+    newobjectcommand.cpp
+    objectmanager.cpp
+    plugin.cpp
+    pluginmanager.cpp
+    propertychangedcommand.cpp
+    selectionmanager.cpp
+    toolplugin.cpp
+
+    models/componentmodel.cpp
+    models/models.cpp
+    models/modeltest.cpp
+    models/projectmodel.cpp
+    models/scenemodel.cpp
+
+    widgets/enumpropertywidgetitem.cpp
+    widgets/filearea.cpp
+    widgets/gluonobjectpropertywidgetitem.cpp
+    widgets/nullpropertywidgetitem.cpp
+    widgets/prefabcontrols.cpp
+    widgets/propertywidget.cpp
+    widgets/propertywidgetcontainer.cpp
+    widgets/propertywidgetitem.cpp
+    widgets/propertywidgetitemfactory.cpp
+    widgets/propertywidgetitemnewcustomproperty.cpp
 )
 
-# find_package(KDevPlatform 1.0.2)
-# if(KDevPlatform_FOUND)
-#     include_directories(${KDEVPLATFORM_INCLUDE_DIR})
-# endif(KDevPlatform_FOUND)
-# 
-# add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
+qt4_automoc(${libGluonCreator_SRCS})
+kde4_add_library(libGluonCreator SHARED ${libGluonCreator_SRCS})
+set_target_properties(libGluonCreator PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_CREATOR_LIB PREFIX "")
 
-add_subdirectory(lib)
-add_subdirectory(plugins)
-add_subdirectory(icons)
-add_subdirectory(nodeeditor)
-
-set(gluoncreator_SRCS
-    main.cpp
-    mainwindow.cpp
-
-    dialogs/configdialog.cpp
-    dialogs/newprojectdialogpage.cpp
-    dialogs/openprojectdialogpage.cpp
-    dialogs/projectselectiondialog.cpp
-    dialogs/recentprojectsdialogpage.cpp
-)
-
-kde4_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)
-kde4_add_app_icon(gluoncreator_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-gluon_creator.png")
-kde4_add_executable(gluoncreator ${gluoncreator_SRCS})
-target_link_libraries(gluoncreator ${GLUON_CREATOR_LIBS} ${KDE4_KUTILS_LIBS} ${KDE4_KFILE_LIBS})
-
-install(TARGETS gluoncreator DESTINATION ${BIN_INSTALL_DIR})
-install(FILES
-    ui/gluoncreatorui.rc
-    icons/gluon-creator-splash.png
-
-    DESTINATION ${DATA_INSTALL_DIR}/gluoncreator
-    COMPONENT gluoncreator
-)
-
-install(FILES
-    config/gluoncreatorsettings.kcfg
-
-    DESTINATION ${KCFG_INSTALL_DIR}
-    COMPONENT gluoncreator
-)
-
-install(FILES
-    gluon-creator.desktop
-
-    DESTINATION  ${XDG_APPS_INSTALL_DIR}
-    COMPONENT gluoncreator
-)
-
-find_package(SharedMimeInfo)
-if(SHARED_MIME_INFO_FOUND)
-    install(FILES
-        x-gluon-mimetypes.xml
-
-        DESTINATION ${XDG_MIME_INSTALL_DIR}
-        COMPONENT gluoncreator
-    )
-    update_xdg_mimetypes(${XDG_MIME_INSTALL_DIR})
+if(GLUON_BUILD_ALL)
+    add_dependencies(libGluonCreator GluonEngine GluonPlayer)
 endif()
+
+set(GLUON_CREATOR_LIBS
+    libGluonCreator
+    ${GLUONPLAYER_LIBRARIES}
+    ${GLUONENGINE_LIBRARIES}
+    ${KDE4_KDECORE_LIBS}
+    ${KDE4_KIO_LIBS}
+    ${KDE4_KDEUI_LIBS}
+    ${KDE4_KPARTS_LIBS}
+    CACHE INTERNAL "Libraries required for Gluon Creator"
+)
+
+target_link_libraries(libGluonCreator
+    ${GLUONENGINE_LIBRARIES}
+    ${GLUONPLAYER_LIBRARIES}
+    ${KDE4_KDECORE_LIBS}
+    ${KDE4_KDEUI_LIBS}
+    ${KDE4_KIO_LIBS}
+    ${KDE4_KPARTS_LIBS}
+)
+
+install(
+    TARGETS libGluonCreator
+    RUNTIME DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluoncreator
+    LIBRARY DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoncreator
+    ARCHIVE DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoncreator
+)
+
+install(FILES
+    abstractundocommand.h
+    deleteobjectcommand.h
+    dockmanager.h
+    dockplugin.h
+    gluoncreator_macros.h
+    historymanager.h
+    newobjectcommand.h
+    objectmanager.h
+    plugin.h
+    pluginmanager.h
+    propertychangedcommand.h
+    selectionmanager.h
+    toolplugin.h
+
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib
+    COMPONENT gluoncreator
+)
+
+install(FILES
+    models/componentmodel.h
+    models/projectmodel.h
+    models/scenemodel.h
+
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib/models
+    COMPONENT gluoncreator
+)
+
+install(FILES
+    widgets/propertywidget.h
+
+    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib/widgets
+    COMPONENT gluoncreator
+)
+
+install(FILES
+    gluoncreator_plugin.desktop
+
+    DESTINATION ${SERVICETYPES_INSTALL_DIR}
+    COMPONENT gluoncreator
+)
+
+if(BUILD_GLUON_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+
