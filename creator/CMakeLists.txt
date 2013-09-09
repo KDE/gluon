@@ -1,6 +1,6 @@
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 
-set(libGluonCreator_SRCS
+set( GluonCreator_SRCS
     abstractundocommand.cpp
     deleteobjectcommand.cpp
     dockmanager.cpp
@@ -33,42 +33,7 @@ set(libGluonCreator_SRCS
     widgets/propertywidgetitemnewcustomproperty.cpp
 )
 
-qt4_automoc(${libGluonCreator_SRCS})
-kde4_add_library(libGluonCreator SHARED ${libGluonCreator_SRCS})
-set_target_properties(libGluonCreator PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_CREATOR_LIB PREFIX "")
-
-if(GLUON_BUILD_ALL)
-    add_dependencies(libGluonCreator GluonEngine GluonPlayer)
-endif()
-
-set(GLUON_CREATOR_LIBS
-    libGluonCreator
-    ${GLUONPLAYER_LIBRARIES}
-    ${GLUONENGINE_LIBRARIES}
-    ${KDE4_KDECORE_LIBS}
-    ${KDE4_KIO_LIBS}
-    ${KDE4_KDEUI_LIBS}
-    ${KDE4_KPARTS_LIBS}
-    CACHE INTERNAL "Libraries required for Gluon Creator"
-)
-
-target_link_libraries(libGluonCreator
-    ${GLUONENGINE_LIBRARIES}
-    ${GLUONPLAYER_LIBRARIES}
-    ${KDE4_KDECORE_LIBS}
-    ${KDE4_KDEUI_LIBS}
-    ${KDE4_KIO_LIBS}
-    ${KDE4_KPARTS_LIBS}
-)
-
-install(
-    TARGETS libGluonCreator
-    RUNTIME DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluoncreator
-    LIBRARY DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoncreator
-    ARCHIVE DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluoncreator
-)
-
-install(FILES
+set( GluonCreator_HEADERS
     abstractundocommand.h
     deleteobjectcommand.h
     dockmanager.h
@@ -82,36 +47,20 @@ install(FILES
     propertychangedcommand.h
     selectionmanager.h
     toolplugin.h
-
-    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib
-    COMPONENT gluoncreator
-)
-
-install(FILES
+    
     models/componentmodel.h
     models/projectmodel.h
     models/scenemodel.h
 
-    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib/models
-    COMPONENT gluoncreator
-)
-
-install(FILES
     widgets/propertywidget.h
-
-    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/creator/lib/widgets
-    COMPONENT gluoncreator
 )
 
-install(FILES
-    gluoncreator_plugin.desktop
-
-    DESTINATION ${SERVICETYPES_INSTALL_DIR}
-    COMPONENT gluoncreator
+gluon_add_library( GluonCreator SHARED 
+    SOURCES ${GluonCreator_SRCS}
+    HEADERS ${GluonCreator_HEADERS}
+    LIBRARIES ${GLUNPLAYER_LIBRARIES} ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KPARTS_LIBS}
 )
 
-if(BUILD_GLUON_TESTS)
-    enable_testing()
-    add_subdirectory(tests)
-endif()
+install( FILES gluoncreator_plugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR} COMPONENT gluoncreator )
 
+gluon_add_subdirectories( tests )
