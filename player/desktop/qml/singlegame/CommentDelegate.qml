@@ -26,25 +26,31 @@ Column {
     id: commentDelegateRootItem
     width: parent.width
 	
-	PlasmaExtras.Heading{
+	Text{
+		anchors.top: parent.top
+		anchors.left: parent.left
 		id: commentdelegate_title
+		font.bold : true
 		text: title
 	}
 	
-	PlasmaComponents.Label{
+	Text{
 		id: commentdelegate_author
-		anchors.left: commentdelegate_title.right
+		anchors.right: parent.right
 		anchors.bottom: commentdelegate_title.bottom
-		text: "written by "+author+" ("+dateTime+")"
+		anchors.leftMargin: 10
+		color: "gray"
+		text: "written by "+author
 	}
 	
 	Text{
 			anchors.left: parent.left
 			anchors.right: parent.right
+			anchors.top: commentdelegate_title.bottom
+			anchors.topMargin: 5
 			anchors.leftMargin: 20
 			wrapMode: Text.WordWrap
 			font.pixelSize: 13
 			text: body
 	}
-	//commentDelegateRootItem.replyComment(ParentIdRole)
 }

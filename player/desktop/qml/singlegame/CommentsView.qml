@@ -21,19 +21,10 @@ import QtQuick 1.1
 import org.kde.plasma.components 0.1 as PlasmaComponents
 import Gluon.Player.Desktop 0.72 as GluonPlayer
 
-ListView {
+Repeater {
     id: commentsListView
     property alias gameId: commentsModel.gameId
 
     model: GluonPlayer.CommentItemsModel { id: commentsModel }
     delegate: CommentDelegate { }
-
-    spacing: 10
-/*
-    AddCommentForm {
-        id: commentForm
-        property string parentId
-        onAccepted: commentsModel.uploadComment(parentId, commentForm.subjectText, commentForm.bodyText );
-    }
-*/
 }

@@ -9,8 +9,15 @@ import "../gamelist"
 
 Flickable{
 	id: singleGameView
+	contentWidth: parent.width
+	contentHeight: singlegamebox.height
+	flickableDirection: Flickable.VerticalFlick
+	clip: false
+	boundsBehavior: Flickable.StopAtBounds
+	
 	anchors.left: parent.left;
 	anchors.right: parent.right;
+
 	width: parent.width;
 	
 	BackgroundBox{ target: singlegamebox; }
@@ -25,6 +32,9 @@ Flickable{
 	
 	Column{
 		id: singlegamebox;
+		anchors.top: parent.top
+		anchors.bottomMargin: 20
+		
 		width: parent.width;
 		spacing: 10;
 		Item{
@@ -72,6 +82,13 @@ Flickable{
 			text: gameMetadata.gameSummary
 		}
 		
+		Rectangle{
+			anchors.left: parent.left
+			anchors.right: parent.right
+			height:1;
+ 			color: "#000000"
+		}
+		
 		PlasmaExtras.Heading{
 			level: 2;
 			text: "Features:";
@@ -83,6 +100,13 @@ Flickable{
 			wrapMode: Text.WordWrap
 			font.pixelSize: 13
 			text: gameMetadata.gameDescription
+		}
+		
+		Rectangle{
+			anchors.left: parent.left
+			anchors.right: parent.right
+			height:1;
+ 			color: "#000000"
 		}
 		
 		PlasmaExtras.Heading{
@@ -99,12 +123,28 @@ Flickable{
 			text: gameMetadata.gameChangelog
 		}
 		
+		Rectangle{
+			anchors.left: parent.left
+			anchors.right: parent.right
+			height:1;
+ 			color: "#000000"
+		}
+		
+		PlasmaExtras.Heading{
+			id: singlegamebox_commentsh
+			level: 2;
+			text: "Comments:";
+		}
+		
 		CommentsView {
 			id: gameCommentsView
 			gameId: gameMetadata.gameId
-			height: parent.height
 			width: parent.width
 		}
-		
+/*		
+		AddCommentForm{
+			parentId: singleGameView.gameId
+		}
+		*/
 	}
 }
