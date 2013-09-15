@@ -121,7 +121,7 @@ namespace GluonPlayer
              *
              * @return true if logged in, false otherwise
              */
-            bool isLoggedIn() const;
+            Q_INVOKABLE bool isLoggedIn() const;
 
             /**
              * Check if saved credentials are available

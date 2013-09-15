@@ -141,10 +141,14 @@ Flickable{
 			gameId: gameMetadata.gameId
 			width: parent.width
 		}
-/*		
+		
 		AddCommentForm{
 			parentId: singleGameView.gameId
+			
+			onAddComment:{
+				gameCommentsView.model.uploadComment(parentId, subjectText, bodyText);
+			}
 		}
-		*/
+		
 	}
 }

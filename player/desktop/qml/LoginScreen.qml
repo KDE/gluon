@@ -33,7 +33,7 @@ Item {
 		GluonPlayer.LoginForm{
 			id : loginFormProxy;
 			onLoginCompleted: {
-				loginScreen.visible = false
+				loginScreen.visible = false;
 			}
 			onLoginFail: {
 				login_outputlabel.text = "<b>Login failed!</b>";

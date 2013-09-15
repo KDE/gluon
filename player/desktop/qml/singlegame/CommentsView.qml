@@ -22,9 +22,9 @@ import org.kde.plasma.components 0.1 as PlasmaComponents
 import Gluon.Player.Desktop 0.72 as GluonPlayer
 
 Repeater {
-    id: commentsListView
-    property alias gameId: commentsModel.gameId
+	id: commentsListView
+	property alias gameId: commentsModel.gameId
 
-    model: GluonPlayer.CommentItemsModel { id: commentsModel }
-    delegate: CommentDelegate { }
+	model: GluonPlayer.CommentItemsModel { id: commentsModel }
+	delegate: CommentDelegate { }
 }

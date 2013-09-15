@@ -20,31 +20,51 @@
 import QtQuick 1.1
 import org.kde.plasma.components 0.1 as PlasmaComponents
 
-PlasmaComponents.Dialog {
-    id: addCommentFormDialog
-    property string parentId
-    property alias subjectText: commentSubjectText.text
-    property alias bodyText: commentBodyText.text
-    width: 512; height: 256
 
-    buttons: PlasmaComponents.Button {
-        id: postButton
-        height: 32; width: addCommentFormDialog.width
-        text: "Post"
-        onClicked: addCommentFormDialog.accept()
-    }
-    content: Column {
-        height: addCommentFormDialog.height - postButton.height; width: addCommentFormDialog.width
-        PlasmaComponents.TextField {
-            id: commentSubjectText
-            height: 32; width: parent.width
-            placeholderText: "Subject"
-        }
-        PlasmaComponents.TextArea {
-            id: commentBodyText
-            height: addCommentFormDialog.height - commentSubjectText.height - postButton.height
-            width: parent.width
-            placeholderText: "Body"
-        }
-    }
+Column{
+	id: addCommentForm
+	width: parent.width
+	signal addComment(string parentId)
+	property alias subjectText: commentSubjectText.text;
+    property alias bodyText: commentBodyText.text;
+    property string parentId;
+	
+    function checkLog(){
+		if(serviceProvider.isLoggedIn == true){
+			commentSubjectText.readOnly = false
+			commentBodyText.readOnly = false
+			commentButton.text = "Send"
+		} else {
+			commentSubjectText.readOnly = true
+			commentBodyText.readOnly = true
+			commentButton.text = "Log in to send"
+		}
+	}
+    
+    Component.onCompleted:{
+		checkLog();
+		serviceProvider.loginFinished.connect(checkLog)
+	}
+    
+	PlasmaComponents.TextField {
+		id: commentSubjectText
+		height: 32; width: parent.width
+		placeholderText: "Subject"
+		readOnly: true
+	}
+	PlasmaComponents.TextArea {
+		id: commentBodyText
+		height: 300
+		width: parent.width
+		placeholderText: "write your comment here"
+		readOnly: true
+	}
+	PlasmaComponents.Button {
+		id: commentButton
+		text: "Send"
+		width: parent.width
+		onClicked:{
+			parent.addComment(parent.parentId);
+		}
+	}
 }
