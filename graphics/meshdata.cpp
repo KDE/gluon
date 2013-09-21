@@ -24,7 +24,7 @@ using namespace GluonGraphics;
 class MeshData::Private
 {
     public:
-        Private() : type( TriangleType ), count( 0 ) { }
+        Private() : type( TrianglePrimitive ), count( 0 ) { }
 
         PrimitiveType type;
         int count;

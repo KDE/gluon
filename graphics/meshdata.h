@@ -33,18 +33,30 @@ namespace GluonGraphics
         public:
             enum PrimitiveType
             {
-                PointType,
-                LineType,
-                TriangleType,
-                TriangleFanType,
-                TriangleStripType,
+                PointPrimitive,
+                LinePrimitive,
+                TrianglePrimitive,
+                TriangleFanPrimitive,
+                TriangleStripPrimitive,
+            };
+
+            enum AttributeType
+            {
+                CharAttribute,
+                IntAttribute,
+                UIntAttribute,
+                FloatAttribute,
+                DoubleAttribute,
+                Vector2fAttribute,
+                Vector3fAttribute,
+                Vector4fAttribute,
             };
 
             MeshData();
             virtual ~MeshData();
 
             template < typename T >
-            void setAttribute( const QString& name, QVariant::Type type, QVector< T > data ); //Note: Explicit use of copy-by-value for QVector, do not change!
+            void setAttribute( const QString& name, AttributeType type, QVector< T > data ); //Note: Explicit use of copy-by-value for QVector, do not change!
             virtual void setIndices( QVector< uint > indices ) = 0; //Note: Explicit use of copy-by-value for QVector, do not change!
 
             PrimitiveType primitiveType() const;
@@ -57,7 +69,7 @@ namespace GluonGraphics
             virtual void render( Shader* shader ) = 0;
 
         protected:
-            virtual void setAttribute( const QString& name, QVariant::Type type, void* data, int size ) = 0;
+            virtual void setAttribute( const QString& name, AttributeType type, void* data, int size ) = 0;
 
         private:
             class Private;
@@ -65,7 +77,7 @@ namespace GluonGraphics
     };
 
     template < typename T >
-    void MeshData::setAttribute( const QString& name, QVariant::Type type, QVector< T > data )
+    void MeshData::setAttribute( const QString& name, MeshData::AttributeType type, QVector< T > data )
     {
         setAttribute( name, type, reinterpret_cast< void* >( data.data() ), sizeof( T ) * data.size() );
     }

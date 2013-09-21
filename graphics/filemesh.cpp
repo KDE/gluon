@@ -66,7 +66,7 @@ void FileMesh::initialize()
     }
 
     MeshData* data = Manager::instance()->backend()->createMeshData();
-    data->setPrimitiveType( MeshData::TriangleType );
+    data->setPrimitiveType( MeshData::TrianglePrimitive );
 
 //    int count = 0;
 //     for( uint m = 0; m < scene->mNumMeshes; ++m )
@@ -81,7 +81,7 @@ void FileMesh::initialize()
         aiVector3D vertex = mesh->mVertices[i];
         vertices << vertex.x << vertex.y << vertex.z;
     }
-    data->setAttribute( "vertex", QVariant::Vector3D, vertices );
+    data->setAttribute( "vertex", MeshData::Vector3fAttribute, vertices );
 
     QVector<uint> indices;
     for( uint i = 0; i < mesh->mNumFaces; ++i )
@@ -99,7 +99,7 @@ void FileMesh::initialize()
     {
         aiVector3D* uvChannel = mesh->mTextureCoords[ t ];
         uint numComponents = mesh->mNumUVComponents[ t ];
-        QVariant::Type uvType = numComponents == 1 ? static_cast< QVariant::Type >( 137 ) /* QVariant::Float */ : numComponents == 2 ? QVariant::Vector2D : QVariant::Vector3D;
+        MeshData::AttributeType uvType = numComponents == 1 ? MeshData::FloatAttribute : numComponents == 2 ? MeshData::Vector2fAttribute : MeshData::Vector3fAttribute;
 
         QVector< float > uvs;
         for( uint i = 0; i < mesh->mNumVertices; ++i )
@@ -116,17 +116,17 @@ void FileMesh::initialize()
         data->setAttribute( QString("uv%1").arg( t ), uvType, uvs );
     }
 
-//     if( mesh->HasVertexColors(0) )
-//     {
-//         aiColor4D* colorChannel = mesh->mColors[0];
-//         QVector< float > colors;
-//         for( uint i = 0; i < mesh->mNumVertices; ++i )
-//         {
-//             aiColor4D color = colorChannel[i];
-//             colors << color.r << color.g << color.b << color.a;
-//         }
-//         data->setAttribute( "color", QVariant::Vector4D, colors );
-//     }
+    if( mesh->HasVertexColors(0) )
+    {
+        aiColor4D* colorChannel = mesh->mColors[0];
+        QVector< float > colors;
+        for( uint i = 0; i < mesh->mNumVertices; ++i )
+        {
+            aiColor4D color = colorChannel[i];
+            colors << color.r << color.g << color.b << color.a;
+        }
+        data->setAttribute( "color", MeshData::Vector4fAttribute, colors );
+    }
 
 //     if( mesh->HasNormals() )
 //     {

@@ -40,7 +40,7 @@ namespace GluonGraphics
                 virtual void setPrimitiveCount( int count, int vertexSize, int indexSize );
 
             protected:
-                virtual void setAttribute( const QString& name, QVariant::Type type, void* data, int size );
+                virtual void setAttribute( const QString& name, AttributeType type, void* data, int size );
 
             private:
                 class Private;

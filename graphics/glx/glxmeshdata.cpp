@@ -104,19 +104,19 @@ void GLXMeshData::setPrimitiveType( GluonGraphics::MeshData::PrimitiveType type 
 {
     switch( type )
     {
-        case PointType:
+        case PointPrimitive:
             d->mode = GL_POINTS;
             break;
-        case LineType:
+        case LinePrimitive:
             d->mode = GL_LINES;
             break;
-        case TriangleType:
+        case TrianglePrimitive:
             d->mode = GL_TRIANGLES;
             break;
-        case TriangleStripType:
+        case TriangleStripPrimitive:
             d->mode = GL_TRIANGLE_STRIP;
             break;
-        case TriangleFanType:
+        case TriangleFanPrimitive:
             d->mode = GL_TRIANGLE_FAN;
             break;
     }
@@ -131,7 +131,7 @@ void GLXMeshData::setPrimitiveCount(int count, int vertexSize, int indexSize )
     MeshData::setPrimitiveCount( count );
 }
 
-void GLXMeshData::setAttribute(const QString& name, QVariant::Type type, void* data, int size)
+void GLXMeshData::setAttribute( const QString& name, GluonGraphics::MeshData::AttributeType type, void* data, int size )
 {
     VertexAttribute attrib;
     attrib.name = name;
@@ -141,36 +141,35 @@ void GLXMeshData::setAttribute(const QString& name, QVariant::Type type, void* d
 
     switch( type )
     {
-        case QVariant::Char:
+        case CharAttribute:
             attrib.type = GL_BYTE;
             attrib.size = 1;
             break;
-        case QVariant::UInt:
+        case UIntAttribute:
             attrib.type = GL_UNSIGNED_INT;
             attrib.size = 1;
             break;
-        case QVariant::Int:
+        case IntAttribute:
             attrib.type = GL_INT;
             attrib.size = 1;
             break;
-        case 137: //QVariant::Float
+        case FloatAttribute:
             attrib.type = GL_FLOAT;
             attrib.size = 1;
             break;
-        case QVariant::Double:
+        case DoubleAttribute:
             attrib.type = GL_DOUBLE;
             attrib.size = 1;
             break;
-        case QVariant::Vector2D:
+        case Vector2fAttribute:
             attrib.type = GL_FLOAT;
             attrib.size = 2;
             break;
-        case QVariant::Vector3D:
+        case Vector3fAttribute:
             attrib.type = GL_FLOAT;
             attrib.size = 3;
             break;
-        case QVariant::Vector4D:
-        case QVariant::Color:
+        case Vector4fAttribute:
             attrib.type = GL_FLOAT;
             attrib.size = 4;
             break;
