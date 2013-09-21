@@ -34,7 +34,8 @@ namespace GluonCreator
             {
                 NewProjectPage,
                 RecentProjectPage,
-                OpenProjectPage
+                OpenProjectPage,
+                GettingStartedPage
             };
 
             explicit ProjectSelectionDialog( QWidget* parent = 0, Qt::WFlags = 0 );
@@ -42,8 +43,12 @@ namespace GluonCreator
             void addPage( KPageWidgetItem* item, ProjectPage page );
             QString fileName() const;
             virtual QSize sizeHint() const;
+
+            ProjectPage currentPageIndex() const;
+
         public Q_SLOTS:
             void setPage( ProjectPage page );
+
         private:
             Q_PRIVATE_SLOT( d, void okClicked() )
             Q_PRIVATE_SLOT( d, void projectRequested( const QString& project ) )

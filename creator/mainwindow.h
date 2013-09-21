@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,7 +22,12 @@
 #define GLUONCREATOR_MAINWINDOW_H
 
 #include <KDE/KParts/MainWindow>
+#include <QtDeclarative/QDeclarativeView>
+#include <KDE/KStandardDirs>
+#include <QtDeclarative/QDeclarativeItem>
 
+class KStandardDirs;
+class QDeclarativeView;
 class KUrl;
 class KRecentFilesAction;
 namespace GluonCreator
@@ -34,7 +40,7 @@ namespace GluonCreator
         public:
             explicit MainWindow( const QString& fileName = QString(), QWidget* parent = 0, Qt::WindowFlags flags = 0 );
             ~MainWindow();
-
+            void loadView();
             virtual bool queryClose();
             virtual void closeEvent( QCloseEvent* event );
 
@@ -46,7 +52,6 @@ namespace GluonCreator
             void saveProject( const QString& fileName );
             void saveProjectAs();
             void showPreferences();
-
             void playGame();
             void pauseGame();
             void stopGame();
@@ -61,6 +66,8 @@ namespace GluonCreator
             void projectDialogAccepted();
 
             void partChanged( KParts::Part* part );
+
+            void closeQmlOverlay();
 
         private:
             void setupActions();

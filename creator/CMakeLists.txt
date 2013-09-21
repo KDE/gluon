@@ -11,6 +11,8 @@ if(NOT GLUON_BUILD_ALL)
     find_package(GluonEngine REQUIRED)
 endif()
 
+find_package(KDeclarative REQUIRED)
+
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -18,6 +20,7 @@ include_directories(
     ${GLUON_CORE_INCLUDE_DIRS}
     ${GLUON_ENGINE_INCLUDE_DIRS}
     ${GLUON_PLAYER_INCLUDE_DIRS}
+    ${KDECLARATIVE_INCLUDE_DIRS}
 )
 
 find_package(KDevPlatform 1.0.2)
@@ -35,22 +38,26 @@ add_subdirectory(nodeeditor)
 set(gluoncreator_SRCS
     main.cpp
     mainwindow.cpp
+    intro/dockeroverlay.cpp
 
     dialogs/configdialog.cpp
     dialogs/newprojectdialogpage.cpp
     dialogs/openprojectdialogpage.cpp
     dialogs/projectselectiondialog.cpp
+    dialogs/gettingstarteddialogpage.cpp
     dialogs/recentprojectsdialogpage.cpp
 )
 
 kde4_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)
 kde4_add_app_icon(gluoncreator_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-gluon_creator.png")
 kde4_add_executable(gluoncreator ${gluoncreator_SRCS})
-target_link_libraries(gluoncreator ${GLUON_CREATOR_LIBS} ${KDE4_KUTILS_LIBS} ${KDE4_KFILE_LIBS})
+target_link_libraries(gluoncreator ${GLUON_CREATOR_LIBS} ${KDE4_KUTILS_LIBS} ${KDE4_KFILE_LIBS} ${QT_QTDECLARATIVE_LIBRARY} ${KDECLARATIVE_LIBRARIES} )
 
 install(TARGETS gluoncreator DESTINATION ${BIN_INSTALL_DIR})
 install(FILES
     ui/gluoncreatorui.rc
+    intro/Introduction.qml
+    intro/IntroductionText.qml
     icons/gluon-creator-splash.png
 
     DESTINATION ${DATA_INSTALL_DIR}/gluoncreator

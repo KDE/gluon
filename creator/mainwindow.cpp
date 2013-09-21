@@ -2,6 +2,7 @@
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
+ * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,7 +24,8 @@
 #include <QtCore/QVariantList>
 #include <QtCore/QFileInfo>
 #include <QtCore/QTimer>
-
+#include <QWidget>
+#include <QDeclarativeContext>
 #include <KDE/KFileDialog>
 #include <KDE/KStandardAction>
 #include <KDE/KActionCollection>
@@ -35,6 +37,10 @@
 #include <KDE/KRecentFilesAction>
 #include <KDE/KParts/PartManager>
 #include <KDE/KMenuBar>
+#include <KDE/KApplication>
+#include <KDE/KAboutData>
+
+#include <kdeclarative.h>
 
 #include <engine/game.h>
 #include <engine/gameproject.h>
@@ -52,6 +58,7 @@
 #include "gluoncreatorsettings.h"
 #include "dialogs/projectselectiondialog.h"
 #include "dialogs/configdialog.h"
+#include "intro/dockeroverlay.h"
 
 using namespace GluonCreator;
 
@@ -64,13 +71,14 @@ class MainWindow::Private
         ProjectSelectionDialog* projectDialog;
 
         FileArea* mainArea;
+        QDeclarativeView* qmlOverlay;
 };
 
 MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlags flags )
     : KParts::MainWindow( parent, flags ), d( new Private )
 {
+    kapp->setActiveWindow(this);
     d->modified = false;
-
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
     DockManager::instance()->setMainWindow( this );
@@ -132,9 +140,32 @@ void MainWindow::closeEvent( QCloseEvent* event )
     QWidget::closeEvent( event );
 }
 
+
 void MainWindow::openProject( const KUrl& url )
 {
     openProject( url.path() );
+}
+
+void MainWindow::loadView()
+{
+    qmlRegisterType< DockerOverlay >( "Gluon.Creator.Introduction", 1, 0, "DockerOverlay" );
+
+    d->qmlOverlay = new QDeclarativeView( this );
+
+    KDeclarative kdeclarative;
+    kdeclarative.setDeclarativeEngine( d->qmlOverlay->engine() );
+    kdeclarative.initialize();
+    kdeclarative.setupBindings();
+
+    d->qmlOverlay->setStyleSheet( "background: transparent" );
+    d->qmlOverlay->setResizeMode( QDeclarativeView::SizeRootObjectToView );
+    d->qmlOverlay->setGeometry( rect() );
+
+    d->qmlOverlay->rootContext()->setContextProperty( "mainWindow", this );
+
+    d->qmlOverlay->setSource( QUrl::fromLocalFile( KGlobal::dirs()->locate( "appdata", "Introduction.qml" ) ) );
+    d->qmlOverlay->show();
+
 }
 
 void MainWindow::openProject( const QString& fileName )
@@ -416,7 +447,15 @@ void MainWindow::showOpenProjectDialog()
 
 void MainWindow::projectDialogAccepted()
 {
-    openProject( d->projectDialog->fileName() );
+    if( d->projectDialog->currentPageIndex() != ProjectSelectionDialog::GettingStartedPage )
+    {
+        openProject( d->projectDialog->fileName() );
+    }
+    else
+    {
+        d->projectDialog->hide();
+        loadView();
+    }
 }
 
 void MainWindow::partChanged( KParts::Part* part )
@@ -442,3 +481,9 @@ void MainWindow::partChanged( KParts::Part* part )
     }
 }
 
+void MainWindow::closeQmlOverlay()
+{
+    d->qmlOverlay->hide();
+    d->projectDialog->setPage( ProjectSelectionDialog::NewProjectPage );
+    d->projectDialog->show();
+}

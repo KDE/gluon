@@ -24,12 +24,15 @@
 #include <KDE/KSplashScreen>
 #include <KDE/KApplication>
 #include <KDE/KAboutData>
+#include <QString>
 #include <KDE/KCmdLineArgs>
 #include <KDE/KStandardDirs>
-
+#include <QtDeclarative/QDeclarativeContext>
+#include <QtDeclarative/QDeclarativeView>
 #include <core/gluon_global.h>
-
 #include "aboutdata.h"
+#include <QDebug>
+
 
 int main( int argc, char** argv )
 {
@@ -52,6 +55,6 @@ int main( int argc, char** argv )
     GluonCreator::MainWindow* window = new GluonCreator::MainWindow( args->count() > 0 ? args->arg( 0 ) : QString() );
     window->show();
     splash.finish( window );
-
+    kapp->setActiveWindow(window);
     app.exec();
 }

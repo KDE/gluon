@@ -21,9 +21,11 @@
 
 #include "projectselectiondialog.h"
 
+#include "gettingstarteddialogpage.h"
 #include "newprojectdialogpage.h"
 #include "recentprojectsdialogpage.h"
 #include "openprojectdialogpage.h"
+
 
 #include <core/debughelper.h>
 
@@ -63,9 +65,11 @@ class ProjectSelectionDialog::ProjectSelectionDialogPrivate
             fileName = project;
             q->accept();
         }
+
     public:
         QHash<ProjectPage, KPageWidgetItem*> pages;
         QString fileName;
+
     private:
         ProjectSelectionDialog* q;
 };
@@ -81,6 +85,7 @@ ProjectSelectionDialog::ProjectSelectionDialog( QWidget* parent, Qt::WFlags flag
     addPage( npdp, NewProjectPage );
     addPage( new RecentProjectsDialogPage, RecentProjectPage );
     addPage( new OpenProjectDialogPage, OpenProjectPage );
+    addPage( new GettingStartedDialogPage, GettingStartedPage );
 
     restoreDialogSize( KGlobal::config()->group( "ProjectSelectionDialog" ) );
 
@@ -111,6 +116,9 @@ void ProjectSelectionDialog::addPage( KPageWidgetItem* item, ProjectSelectionDia
             connect( item, SIGNAL(projectRequested(QString)),
                      SLOT(projectRequested(QString)) );
             break;
+        case GettingStartedPage:
+            connect( item, SIGNAL(startTour()), SLOT(accept()) );
+            break;
         default:
             break;
     };
@@ -132,6 +140,11 @@ void ProjectSelectionDialog::setPage( ProjectSelectionDialog::ProjectPage page )
 QSize ProjectSelectionDialog::sizeHint() const
 {
     return QSize( 640, 480 );
+}
+
+ProjectSelectionDialog::ProjectPage ProjectSelectionDialog::currentPageIndex() const
+{
+    return d->pages.key( currentPage() );
 }
 
 #include "projectselectiondialog.moc"
