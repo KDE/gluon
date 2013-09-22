@@ -200,6 +200,7 @@ namespace GluonEngine
             Q_INVOKABLE QList<Component*> findComponentsInChildrenByType( const QString& typeName ) const;
             Q_INVOKABLE QList<Component*> findComponentsInChildrenByType( int type ) const;
             Q_INVOKABLE virtual void addComponent( GluonEngine::Component* addThis );
+            Q_INVOKABLE virtual void addComponentAt( Component* addThis, int index );
             Q_INVOKABLE virtual bool removeComponent( GluonEngine::Component* removeThis );
             Q_INVOKABLE QList<Component*> components() const;
 
@@ -222,6 +223,7 @@ namespace GluonEngine
             virtual void addChild( GluonCore::GluonObject* child );
             virtual void addChild( GameObject* addThis );
             virtual void addChildAt( GluonCore::GluonObject* addThis, int index );
+            virtual void addChildAt( GameObject* addThis, int index );
             virtual bool removeChild( GluonObject* child );
             virtual bool removeChild( GameObject* removeThis );
             int childCount() const;

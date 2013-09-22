@@ -387,6 +387,22 @@ GameObject::addComponent( Component* addThis )
     }
 }
 
+void GameObject::addComponentAt( Component* addThis, int index )
+{
+    Q_ASSERT( addThis );
+
+    int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( addThis->metaObject()->className() );
+    if( d->componentTypes.constFind( typeID, addThis ) == d->componentTypes.constEnd() )
+    {
+        d->componentTypes.insert( typeID, addThis );
+        d->components.insert( index, addThis );
+        connect( addThis, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
+        addThis->setName( addThis->name() );
+
+        GluonObject::addChildAt( addThis, index );
+    }
+}
+
 bool
 GameObject::removeComponent( Component* removeThis )
 {
@@ -486,24 +502,41 @@ GameObject::addChild( GameObject* addThis )
 void
 GameObject::addChildAt( GluonCore::GluonObject* addThis, int index )
 {
-    GameObject* gObj = qobject_cast< GluonEngine::GameObject* >(addThis);
+    if( qobject_cast< GameObject* >( addThis ) )
+    {
+        addChildAt( qobject_cast< GameObject* >( addThis ), index );
+    }
+    else if( qobject_cast< Component* >( addThis ) )
+    {
+        addComponentAt( qobject_cast< Component* >( addThis ), index );
+    }
+    else
+    {
+        GluonCore::GluonObject::addChildAt( addThis, index );
+    }
+}
+
+void
+GameObject::addChildAt( GameObject* addThis, int index )
+{
     if( !addThis || index > d->children.count() )
     {
         DEBUG_BLOCK
         DEBUG_TEXT( QString( "Fail-add! you're trying to add a NULL GameObject or specified an index that is out of range." ) )
     }
-    else if( !d->children.contains( gObj ) )
+    else if( !d->children.contains( addThis ) )
     {
-        d->children.insert( index, gObj );
-        connect( gObj, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
-        
-        if( gObj->d->parentGameObject )
-            gObj->d->parentGameObject->removeChild( gObj );
+        d->children.insert( index, addThis );
+        connect( addThis, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
 
-        gObj->d->parentGameObject = this;
+        if( addThis->d->parentGameObject )
+            addThis->d->parentGameObject->removeChild( addThis );
+
+        addThis->d->parentGameObject = this;
     }
     GluonCore::GluonObject::addChildAt( addThis, index );
 }
+
 
 bool
 GameObject::removeChild( GameObject* removeThis )
