@@ -26,27 +26,29 @@ using namespace GluonCreator;
 class DeleteObjectCommand::DeleteObjectCommandPrivate
 {
     public:
-        DeleteObjectCommandPrivate() : object( 0 ), parent( 0 ), applied( false ) { }
+        DeleteObjectCommandPrivate() : parent( 0 ), index( -1 ), applied( false ) { }
 
-        GluonEngine::GameObject* object;
-        GluonEngine::GameObject* parent;
+        GluonCore::GluonObject* parent;
+        int index;
         bool applied;
 };
 
-DeleteObjectCommand::DeleteObjectCommand( GluonEngine::GameObject* object, GluonEngine::GameObject* parent )
+DeleteObjectCommand::DeleteObjectCommand( GluonCore::GluonObject* object )
     : d( new DeleteObjectCommandPrivate )
 {
-    d->object = object;
-    d->parent = parent;
-
+    Q_ASSERT( object );
     setObject( object );
+
+    d->parent = qobject_cast< GluonCore::GluonObject* >( object->parent() );
+    Q_ASSERT( d->parent );
+
     setCommandName( "DeleteObjectCommand" );
 }
 
 DeleteObjectCommand::~DeleteObjectCommand()
 {
     if( !d->applied )
-        delete d->object;
+        delete object();
 
     delete d;
 }
@@ -54,10 +56,17 @@ DeleteObjectCommand::~DeleteObjectCommand()
 void DeleteObjectCommand::undo()
 {
     setCommandDirection( "undo" );
-    if( d->parent )
+
+    if( d->parent->children().indexOf( object() ) == -1 )
     {
-        if( d->parent->childIndex( d->object ) == -1 )
-            d->parent->addChild( d->object );
+        if( d->index != -1 )
+        {
+            d->parent->addChildAt( object(), d->index );
+        }
+        else
+        {
+            d->parent->addChild( object() );
+        }
     }
 
     d->applied = true;
@@ -67,11 +76,10 @@ void DeleteObjectCommand::undo()
 void DeleteObjectCommand::redo()
 {
     setCommandDirection( "redo" );
-    if( d->parent )
-    {
-        if( d->parent->childIndex( d->object ) != -1 )
-            d->parent->removeChild( d->object );
-    }
+
+    d->index = d->parent->children().indexOf( object() );
+    if( d->index != -1 )
+        d->parent->removeChild( object() );
 
     d->applied = false;
     AbstractUndoCommand::redo();

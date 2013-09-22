@@ -248,13 +248,8 @@ void ObjectManager::deleteGameObject( GluonEngine::GameObject* object )
         qDebug() << "No parent game object for the object specified for deleting";
     }
 
-    GluonEngine::GameObject* parent = object->parentGameObject();
-
-    if( !object->parentGameObject()->removeChild( object ) )
-        qDebug() << "Could not add the game object to the scene tree";
-
+    HistoryManager::instance()->addCommand( new DeleteObjectCommand( object ) );
     emit gameObjectDeleted();
-    HistoryManager::instance()->addCommand( new DeleteObjectCommand( object, parent ) );
 }
 
 GluonEngine::Scene* ObjectManager::createNewScene()

@@ -22,9 +22,9 @@
 
 #include "abstractundocommand.h"
 
-namespace GluonEngine
+namespace GluonCore
 {
-    class GameObject;
+    class GluonObject;
 }
 
 namespace GluonCreator
@@ -32,7 +32,7 @@ namespace GluonCreator
     class DeleteObjectCommand : public AbstractUndoCommand
     {
         public:
-            DeleteObjectCommand( GluonEngine::GameObject* object, GluonEngine::GameObject* parent );
+            DeleteObjectCommand( GluonCore::GluonObject* object );
             virtual ~DeleteObjectCommand();
 
             virtual void undo();
