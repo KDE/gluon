@@ -83,7 +83,6 @@ class GraphDocument : public QObject, public QList<Graph*>
     public slots:
         /*! Creates a new Graph
           \param name the name of the graph
-          \param type the the of the graph.
         */
         Graph* addGraph( QString name = "untitled" );
         Graph* activeGraph()

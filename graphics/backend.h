@@ -67,7 +67,7 @@ namespace GluonGraphics
             virtual bool initialize( QWidget* widget ) = 0;
 
             /**
-             * A description of the last error that occured.
+             * A description of the last error that occurred.
              */
             virtual QString errorString() = 0;
 

@@ -55,7 +55,7 @@ GettingStartedDialogPage::GettingStartedDialogPage()
 
     d->textView = new QLabel( w );
     d->textView->setWordWrap (true);
-    d->textView->setText( i18n( "Gluon Creator is a tool that allows designers and artists to easily prototype and create games.With some minimal configuration , it allows for a multitude of games to be created. And what's more, we are free and open source! Follow this quick tour to learn the main elements of the Gluon Creator UI." ) );
+    d->textView->setText( i18n( "Gluon Creator is a tool that allows designers and artists to easily prototype and create games. With some minimal configuration, it allows for a multitude of games to be created. And what's more, we are free and open source! Follow this quick tour to learn the main elements of the Gluon Creator UI." ) );
     boxLayout->addRow(d->textView );
 
     d->button = new QPushButton( w );

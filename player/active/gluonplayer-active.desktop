@@ -47,4 +47,4 @@ Exec=gluonplayer-active -graphicssystem raster %u
 Terminal=false
 Icon=gluon-install
 Type=Application
-Categories=Qt;KDE;Games;
+Categories=Game;Qt;KDE;
