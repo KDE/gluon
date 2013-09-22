@@ -84,6 +84,11 @@ namespace GluonCreator
              */
             void closeAll( bool force = false );
 
+            /**
+             * Save all open files.
+             */
+            void saveAll();
+
         Q_SIGNALS:
             void newPart( const QString& name, const QString& title, const QString& icon );
             void fileClosed( const QString& file );

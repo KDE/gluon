@@ -171,6 +171,17 @@ void FileManager::closeAll( bool force )
     }
 }
 
+void FileManager::saveAll()
+{
+    QList< Private::OpenedFile > files = d->files.values();
+    Q_FOREACH( Private::OpenedFile file, files )
+    {
+        KParts::ReadWritePart* part = qobject_cast< KParts::ReadWritePart* >( file.part );
+        if( part )
+            part->save();
+    }
+}
+
 FileManager::FileManager( QObject* parent )
     : GluonCore::Singleton< GluonCreator::FileManager >( parent ), d( new Private )
 {
