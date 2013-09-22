@@ -29,7 +29,10 @@
 #include <KDE/KToolBar>
 #include <KDE/KIcon>
 
+#include <KDE/KTextEditor/Document>
+
 #include <QtGui/QVBoxLayout>
+#include <QApplication>
 
 using namespace GluonCreator;
 
@@ -86,6 +89,7 @@ FileArea::FileArea( QWidget* parent, Qt::WindowFlags f )
     connect( FileManager::instance(), SIGNAL(newPart(QString,QString,QString)), SLOT(addTab(QString,QString,QString)) );
     connect( FileManager::instance()->partManager(), SIGNAL(activePartChanged(KParts::Part*)), SLOT(activePartChanged(KParts::Part*)) );
     connect( FileManager::instance(), SIGNAL(fileClosed(QString)), SLOT(removeTab(QString)) );
+    connect( FileManager::instance(), SIGNAL(fileModifiedChanged(QString,bool)), SLOT(fileModified(QString,bool)) );
 }
 
 FileArea::~FileArea()
@@ -180,6 +184,25 @@ void FileArea::Private::tabMoved( int from, int to )
 void FileArea::Private::tabCloseRequested(int tab)
 {
     FileManager::instance()->closeFile( tabs.key( tab ) );
+}
+
+void FileArea::fileModified( const QString& file , bool modified )
+{
+    qDebug() << "file" << file << "is modified" << modified;
+    int index = d->tabs.value( file );
+
+    if( modified )
+    {
+        d->tabBar->setTabText( index, d->tabBar->tabText( index ) + "*" );
+        d->tabBar->setTabTextColor( index, Qt::red );
+    }
+    else
+    {
+        QString tabText = d->tabBar->tabText( index );
+        tabText.chop( 1 ); //AAAH! Why does this not return *this?!
+        d->tabBar->setTabText( index, tabText );
+        d->tabBar->setTabTextColor( index, qApp->palette().color( QPalette::Text ) );
+    }
 }
 
 #include "filearea.moc"

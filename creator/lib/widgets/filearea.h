@@ -39,6 +39,7 @@ namespace GluonCreator
             void removeTab( int index );
             void setActiveTab( const QString& name );
             void setActiveTab( int index );
+            void fileModified( const QString& file, bool modified );
 
         private:
             class Private;

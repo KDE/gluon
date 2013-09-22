@@ -49,6 +49,7 @@ set(GLUON_CREATOR_LIBS
     ${KDE4_KIO_LIBS}
     ${KDE4_KDEUI_LIBS}
     ${KDE4_KPARTS_LIBS}
+    ${KDE4_KTEXTEDITOR_LIBS}
     CACHE INTERNAL "Libraries required for Gluon Creator"
 )
 
@@ -60,6 +61,7 @@ target_link_libraries(libGluonCreator
     ${KDE4_KDEUI_LIBS}
     ${KDE4_KIO_LIBS}
     ${KDE4_KPARTS_LIBS}
+    ${KDE4_KTEXTEDITOR_LIBS}
 )
 
 install(

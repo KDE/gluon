@@ -31,6 +31,8 @@
 #include <KDE/KService>
 #include <KDE/KActionCollection>
 
+#include <KDE/KTextEditor/Document>
+
 using namespace GluonCreator;
 
 GLUON_DEFINE_SINGLETON( FileManager )
@@ -41,6 +43,11 @@ class FileManager::Private
 
         struct OpenedFile
         {
+            bool operator==( const OpenedFile& other ) const
+            {
+                return other.part == part;
+            }
+
             KParts::Part* part;
             bool closable;
         };
@@ -129,6 +136,10 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
         openFile.part = part;
         openFile.closable = closeable;
 
+        KTextEditor::Document* doc = qobject_cast< KTextEditor::Document* >( part );
+        if( doc )
+            connect( doc, SIGNAL(modifiedChanged(KTextEditor::Document*)), this, SLOT(fileModified(KTextEditor::Document*)) );
+
         d->files.insert( fullName, openFile );
         d->partManager->addPart( part, true );
         emit newPart( fullName, fullTitle, icon );
@@ -180,6 +191,18 @@ void FileManager::saveAll()
         if( part )
             part->save();
     }
+}
+
+void FileManager::fileModified( KTextEditor::Document* doc )
+{
+    QString filePath;
+    Q_FOREACH( Private::OpenedFile file, d->files )
+    {
+        if( file.part == doc )
+            filePath = d->files.key( file );
+    }
+
+    emit fileModifiedChanged( filePath, doc->isModified() );
 }
 
 FileManager::FileManager( QObject* parent )

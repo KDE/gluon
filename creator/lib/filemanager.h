@@ -31,6 +31,11 @@ namespace KParts
     class PartManager;
 }
 
+namespace KTextEditor
+{
+    class Document;
+}
+
 namespace GluonEngine
 {
     class Asset;
@@ -89,9 +94,12 @@ namespace GluonCreator
              */
             void saveAll();
 
+            void fileModified( KTextEditor::Document* doc );
+
         Q_SIGNALS:
             void newPart( const QString& name, const QString& title, const QString& icon );
             void fileClosed( const QString& file );
+            void fileModifiedChanged( const QString& file, bool modified );
 
         private:
             ~FileManager();
