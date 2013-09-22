@@ -35,21 +35,16 @@ Q_DECLARE_METATYPE(Eigen::Quaternionf*);
 Q_DECLARE_METATYPE(Eigen::Affine3f);
 Q_DECLARE_METATYPE(Eigen::Affine3f*);
 
-namespace
+namespace GluonCore
 {
-    struct GluonVariantTypes
+    namespace VariantType
     {
-        public:
-            GluonVariantTypes()
-            {
-                qRegisterMetaType<Eigen::Vector2f>( "Vector2D" );
-                qRegisterMetaType<Eigen::Vector3f>( "Vector3D" );
-                qRegisterMetaType<Eigen::Vector4f>( "Vector4D" );
-                qRegisterMetaType<Eigen::Quaternionf>( "Quaternion" );
-                qRegisterMetaType<Eigen::Affine3f>( "Affine3D" );
-            }
-    };
-
-    GluonVariantTypes gluonVariantTypes;
+        static const int Float = 135;
+        static const int Vector2f = qRegisterMetaType<Eigen::Vector2f>( "Vector2f" );
+        static const int Vector3f = qRegisterMetaType<Eigen::Vector3f>( "Vector3f" );
+        static const int Vector4f = qRegisterMetaType<Eigen::Vector3f>( "Vector4f" );
+        static const int Quaternionf = qRegisterMetaType<Eigen::Quaternionf>( "Quaternionf" );
+        static const int Affine3f = qRegisterMetaType<Eigen::Affine3f>( "Affine3f" );
+    }
 }
 #endif

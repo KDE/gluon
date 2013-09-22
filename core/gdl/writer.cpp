@@ -134,7 +134,7 @@ QString Writer::writePropertyValue(const QVariant& value)
         case QVariant::LongLong:
             valueString = writeLongLongValue( value );
             break;
-        case 137: //QVariant::Float
+        case GluonCore::VariantType::Float:
         case QVariant::Double:
             valueString = writeFloatValue( value );
             break;
@@ -143,18 +143,6 @@ QString Writer::writePropertyValue(const QVariant& value)
             break;
         case QVariant::Url:
             valueString = writeUrlValue( value );
-            break;
-        case QVariant::Vector2D:
-            valueString = writeVector2DValue( value );
-            break;
-        case QVariant::Vector3D:
-            valueString = writeVector3DValue( value );
-            break;
-        case QVariant::Vector4D:
-            valueString = writeVector4DValue( value );
-            break;
-        case QVariant::Quaternion:
-            valueString = writeQuaternionValue( value );
             break;
         case QVariant::SizeF:
             valueString = writeSize2DValue( value );
@@ -166,7 +154,23 @@ QString Writer::writePropertyValue(const QVariant& value)
             valueString = writeListValue( value );
             break;
         default:
-            if( GluonCore::GluonObjectFactory::instance()->wrappedObject( value ) )
+            if( value.type() == GluonCore::VariantType::Vector2f )
+            {
+                valueString = writeVector2DValue( value );
+            }
+            else if( value.type() == GluonCore::VariantType::Vector3f )
+            {
+                valueString = writeVector3DValue( value );
+            }
+            else if( value.type() == GluonCore::VariantType::Vector4f )
+            {
+                valueString = writeVector4DValue( value );
+            }
+            else if( value.type() == GluonCore::VariantType::Quaternionf )
+            {
+                valueString = writeQuaternionValue( value );
+            }
+            else if( GluonCore::GluonObjectFactory::instance()->wrappedObject( value ) )
             {
                 valueString = writeObjectValue( value );
             }
