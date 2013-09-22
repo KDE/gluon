@@ -3,7 +3,7 @@ life;
 
 function initialize()
 {
-    self.Component.direction = self.Component.direction || new QVector3D(0.0, 1.0, 0.0);
+    self.Component.direction = self.Component.direction || new Vector3f(0.0, 1.0, 0.0);
     self.Component.speed = self.Component.speed || 50.0;
     self.Component.life = self.Component.life || 10;
 }
@@ -19,7 +19,7 @@ function update(time)
     if(self.Scene.paused)
         return;
     
-    var move = new QVector3D();
+    var move = new Vector3f();
     move.setX(self.Component.direction.x() * (self.Component.speed * (time/1000)));
     move.setY(self.Component.direction.y() * (self.Component.speed * (time/1000)));
     self.GameObject.translate(move);

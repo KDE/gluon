@@ -26,7 +26,9 @@
 
 #include <core/singleton.h>
 
-#include <QtGui/QVector3D>
+#include <QtCore/QObject>
+
+#include <Eigen/Core>
 
 #include <al.h>
 
@@ -51,8 +53,8 @@ namespace GluonAudio
             * Position of the listener in 3D
             * @see Sound::setPosition
             */
-            QVector3D listenerPosition();
-            void setListenerPosition( const QVector3D& position );
+            Eigen::Vector3f listenerPosition();
+            void setListenerPosition( const Eigen::Vector3f& position );
 
 
             /**

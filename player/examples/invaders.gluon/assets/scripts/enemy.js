@@ -47,14 +47,14 @@ function update(time)
         newBullet.position = self.GameObject.position;
         newBullet.enabled = true;
         newBullet.Collider.collisionGroup = 2;
-        newBullet.rotate(180, new QVector3D(0, 0, 1));
+        newBullet.rotate(Math.PI, new Vector3f(0, 0, 1));
     }
 }
 
 function playDeathAnim(time)
 {
     var scaleVal = 1 + (deathAnimTimeRemaining / deathAnimTime);
-    self.GameObject.setScale(new QVector3D(scaleVal, scaleVal, 1));
+    self.GameObject.setScale(new Vector3f(scaleVal, scaleVal, 1));
     
     var color = self.GameObject.SpriteRenderer.material.materialColor;
     color.setAlpha(255 * (scaleVal - 1));

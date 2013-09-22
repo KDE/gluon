@@ -89,13 +89,13 @@ Component::sanitize()
 GluonCore::AxisAlignedBox
 Component::boundingBox()
 {
-    return GluonCore::AxisAlignedBox( transformationCenter(), QVector3D() );
+    return GluonCore::AxisAlignedBox( transformationCenter(), Eigen::Vector3f(0,0,0) );
 }
 
-QVector3D
+Eigen::Vector3f
 Component::transformationCenter()
 {
-    return QVector3D();
+    return Eigen::Vector3f::Identity();
 }
 
 // Property getter-setters

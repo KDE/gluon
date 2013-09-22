@@ -43,7 +43,7 @@ SpriteMesh::~SpriteMesh()
 void SpriteMesh::initialize()
 {
     MeshData* data = Manager::instance()->backend()->createMeshData();
-    data->setPrimitiveType( GluonGraphics::MeshData::TriangleType );
+    data->setPrimitiveType( MeshData::TrianglePrimitive );
     data->setPrimitiveCount( 6, 80, 24 );
 
     QVector< float > vertices;
@@ -51,14 +51,14 @@ void SpriteMesh::initialize()
     vertices << -0.5f <<  0.5f << 0.f;
     vertices <<  0.5f <<  0.5f << 0.f;
     vertices <<  0.5f << -0.5f << 0.f;
-    data->setAttribute( "vertex", QVariant::Vector3D, vertices );
+    data->setAttribute( "vertex", MeshData::Vector3fAttribute, vertices );
 
     QVector< float > uvs;
     uvs << 0.f << 0.f;
     uvs << 0.f << 1.f;
     uvs << 1.f << 1.f;
     uvs << 1.f << 0.f;
-    data->setAttribute( "uv0", QVariant::Vector2D, uvs );
+    data->setAttribute( "uv0", MeshData::Vector2fAttribute, uvs );
 
     data->setIndices( QVector< uint >() << 0 << 1 << 2 << 0 << 2 << 3 );
 

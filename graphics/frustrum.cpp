@@ -18,8 +18,9 @@
  */
 
 #include "frustrum.h"
+#include "mathutils.h"
 
-#include <QtGui/QMatrix4x4>
+#include <Eigen/Core>
 
 using namespace GluonGraphics;
 
@@ -45,7 +46,7 @@ class Frustrum::Private
 
         Mode mode;
 
-        QMatrix4x4 matrix;
+        Eigen::Affine3f matrix;
 
         QRectF viewPlane;
         float nearPlane;
@@ -56,7 +57,7 @@ class Frustrum::Private
 Frustrum::Frustrum()
     : d( new Private )
 {
-    d->matrix.ortho( -50, 50, -50, 50, 1, 100 );
+    d->matrix = MathUtils::ortho( -50, 50, -50, 50, 1, 100 );
 }
 
 Frustrum::Frustrum( const GluonGraphics::Frustrum& other )
@@ -78,20 +79,20 @@ Frustrum::~Frustrum()
     delete d;
 }
 
-QMatrix4x4
+Eigen::Affine3f
 Frustrum::projectionMatrix()
 {
     return d->matrix;
 }
 
 bool
-Frustrum::containsPoint( const QVector3D& point )
+Frustrum::containsPoint( const Eigen::Vector3f& point )
 {
     return false;
 }
 
 bool
-Frustrum::containsSphere( const QVector3D& point, float radius )
+Frustrum::containsSphere( const Eigen::Vector3f& point, float radius )
 {
     return false;
 }
@@ -114,8 +115,7 @@ QRectF Frustrum::viewPlane()
 void
 Frustrum::setOrthographic( float left, float right, float bottom, float top, float near, float far )
 {
-    d->matrix.setToIdentity();
-    d->matrix.ortho( left, right, bottom, top, near, far );
+    d->matrix = MathUtils::ortho( left, right, bottom, top, near, far );
 
     d->nearPlane = near;
     d->farPlane = far;
@@ -140,8 +140,7 @@ Frustrum::setOrthoAdjusted( const QSizeF& area, float aspect, float near, float 
         visibleHeight = visibleHeight * ( 1 / aspect );
     }
 
-    d->matrix.setToIdentity();
-    d->matrix.ortho( -( visibleWidth / 2 ), visibleWidth / 2, -( visibleHeight / 2 ), visibleHeight / 2, near, far );
+    d->matrix = MathUtils::ortho( -( visibleWidth / 2 ), visibleWidth / 2, -( visibleHeight / 2 ), visibleHeight / 2, near, far );
 
     d->nearPlane = near;
     d->farPlane = far;
@@ -154,8 +153,7 @@ Frustrum::setOrthoAdjusted( const QSizeF& area, float aspect, float near, float 
 void
 Frustrum::setPerspective( float fov, float aspect, float near, float far )
 {
-    d->matrix.setToIdentity();
-    d->matrix.perspective( fov, aspect, near, far );
+    d->matrix = MathUtils::perspective( fov, aspect, near, far );
 
     d->nearPlane = near;
     d->farPlane = far;

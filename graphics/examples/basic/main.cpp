@@ -25,7 +25,6 @@
 
 #include <QApplication>
 #include <QSizeF>
-#include <QMatrix4x4>
 
 #include "graphics/manager.h"
 #include "graphics/renderwidget.h"
@@ -37,6 +36,8 @@
 #include "graphics/texture.h"
 #include "graphics/world.h"
 #include "graphics/spritemesh.h"
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 
 using namespace GluonGraphics;
 
@@ -55,11 +56,10 @@ int main( int argc, char* argv[] )
     ent->materialInstance()->setProperty( "texture0", QVariant::fromValue( Manager::instance()->resource< Texture >( Manager::Defaults::Texture ) ) );
 
     Camera* cam = Manager::instance()->currentWorld()->createEntity< Camera >();
-    
-    QMatrix4x4 mat;
-    mat.setToIdentity();
-    mat.translate( 0, 0, 50 );
-    
+
+    Eigen::Affine3f mat = Eigen::Affine3f::Identity();
+    mat.translate( Eigen::Vector3f(0, 0, 50) );
+
     cam->setTransform( mat );
     cam->setVisibleArea( QSizeF( 20.f, 20.f ) );
     cam->setNearPlane( -100.f );

@@ -35,25 +35,25 @@ btCharacterScriptable::~btCharacterScriptable()
 {
 }
 
-QVector3D btCharacterScriptable::position() const
+Eigen::Vector3f btCharacterScriptable::position() const
 {
     Character * character = qobject_cast< Character* >(this->parent());
     return character->gameObject()->position();
 }
 
-void btCharacterScriptable::setPosition(const QVector3D& newPosition)
+void btCharacterScriptable::setPosition(const Eigen::Vector3f& newPosition)
 {
     Character * character = qobject_cast< Character* >(this->parent());
     character->gameObject()->setPosition(newPosition);
 }
 
-QQuaternion btCharacterScriptable::orientation() const
+Eigen::Quaternionf btCharacterScriptable::orientation() const
 {
     Character * character = qobject_cast< Character* >(this->parent());
     return character->gameObject()->orientation();
 }
 
-void btCharacterScriptable::setOrientation(const QQuaternion& newOrientation)
+void btCharacterScriptable::setOrientation(const Eigen::Quaternionf& newOrientation)
 {
     Character * character = qobject_cast< Character* >(this->parent());
     character->gameObject()->setOrientation(newOrientation);

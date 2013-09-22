@@ -23,7 +23,9 @@
 #include "viewport.h"
 #include "world.h"
 
-#include <QtGui/QMatrix4x4>
+#include <QSizeF>
+
+#include <Eigen/Core>
 
 using namespace GluonGraphics;
 
@@ -31,7 +33,7 @@ class Camera::Private
 {
     public:
         Frustrum* frustrum;
-        QMatrix4x4 viewMatrix;
+        Eigen::Affine3f viewMatrix;
 
         QSizeF visibleArea;
         float nearPlane;
@@ -64,7 +66,7 @@ Camera::frustrum() const
     return d->frustrum;
 }
 
-QMatrix4x4
+Eigen::Affine3f
 Camera::viewMatrix() const
 {
     return d->viewMatrix;
@@ -85,10 +87,10 @@ QSizeF Camera::visibleArea() const
     return d->visibleArea;
 }
 
-void Camera::setTransform( const QMatrix4x4& transform )
+void Camera::setTransform( const Eigen::Affine3f& transform )
 {
-    d->viewMatrix = transform.inverted();
-    Entity::setTransform( transform );
+    d->viewMatrix = transform.inverse();
+    Entity::setTransform( d->viewMatrix );
 }
 
 void

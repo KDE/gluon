@@ -31,8 +31,10 @@
 #include <core/directoryprovider.h>
 
 #include <QtGui/QApplication>
-#include <QtGui/QMatrix4x4>
 #include <QtCore/QTimer>
+
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 
 int main( int argc, char* argv[] )
 {
@@ -85,12 +87,12 @@ int main( int argc, char* argv[] )
                      + "/gluon/games/ball.gluon/assets/textures/trap.png" ));
     item2->materialInstance()->setProperty( "texture0", "Texture2Name" );
 
-    QMatrix4x4 mat;
-    mat.translate( 1.5f, 1.5f );
+    Eigen::Affine3f mat = Eigen::Affine3f::Identity();
+    mat.translate( 1.5f, 1.5f, 0.0f );
     item->setTransform( mat );
 
-    QMatrix4x4 mat2;
-    mat2.translate( -1.5f, -1.5f );
+    Eigen::Affine3f mat2 = Eigen::Affine3f::Identity();
+    mat2.translate( -1.5f, -1.5f, 0.0f );
     item2->setTransform( mat2 );
 
     QTimer::singleShot( 0, widget, SLOT(updateGL()) );

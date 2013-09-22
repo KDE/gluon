@@ -52,12 +52,12 @@ PerceptionInfo::~PerceptionInfo()
 
 }
 
-QVector3D PerceptionInfo::position() const
+Eigen::Vector3f PerceptionInfo::position() const
 {
 	return d->info->position();
 }
 
-void PerceptionInfo::setPosition(const QVector3D& newPosition)
+void PerceptionInfo::setPosition(const Eigen::Vector3f& newPosition)
 {
 	d->info->setPosition(newPosition);
 }

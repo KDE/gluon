@@ -25,11 +25,11 @@
 #include <QString>
 #include <QDebug>
 #include <QColor>
-#include <QVector2D>
-#include <QVector3D>
-#include <QVector4D>
-#include <QQuaternion>
-#include <QMatrix4x4>
+
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+
+#include <core/gluonvarianttypes.h>
 
 #include <graphics/mathutils.h>
 #include <graphics/texture.h>
@@ -142,9 +142,9 @@ bool GLXShader::build()
         int length, size;
         GLenum type;
         glGetActiveAttrib( d->shaderProgram, i, maxNameLength, &length , &size, &type, buffer );
-        
+
         GLint attribLocation = glGetAttribLocation( d->shaderProgram, buffer );
-        
+
         attributes.insert( QString( buffer ), attribLocation );
     }
     delete[] buffer;
@@ -225,39 +225,39 @@ void GLXShader::Private::setUniform( GLint uniform, const QVariant& value )
             glUniform4f( uniform, color.redF(), color.greenF(), color.blueF(), color.alphaF() );
             break;
         }
-        case QVariant::Vector2D:
-        {
-            QVector2D vector = value.value<QVector2D>();
-            glUniform2f( uniform, vector.x(), vector.y() );
-            break;
-        }
-        case QVariant::Vector3D:
-        {
-            QVector3D vector = value.value<QVector3D>();
-            glUniform3f( uniform, vector.x(), vector.y(), vector.z() );
-            break;
-        }
-        case QVariant::Vector4D:
-        {
-            QVector4D vector = value.value<QVector4D>();
-            glUniform4f( uniform, vector.x(), vector.y(), vector.z(), vector.w() );
-            break;
-        }
-        case QVariant::Quaternion:
-        {
-            QQuaternion quat = value.value<QQuaternion>();
-            glUniform4f( uniform, quat.x(), quat.y(), quat.z(), quat.scalar() );
-            break;
-        }
-        case QVariant::Matrix4x4:
-        {
-            QMatrix4x4 mat = value.value<QMatrix4x4>();
-            float glMatrix[16];
-            MathUtils::qmatrixToGLMatrix( mat, glMatrix );
-            glUniformMatrix4fv( uniform, 1, false, glMatrix );
-            break;
-        }
         default:
+            if( value.canConvert<Eigen::Vector2f>() )
+            {
+                Eigen::Vector2f vector = value.value<Eigen::Vector2f>();
+                glUniform2f( uniform, vector.x(), vector.y() );
+                break;
+            }
+            if( value.canConvert<Eigen::Vector3f>() )
+            {
+                Eigen::Vector3f vector = value.value<Eigen::Vector3f>();
+                glUniform3f( uniform, vector.x(), vector.y(), vector.z() );
+                break;
+            }
+            if( value.canConvert<Eigen::Vector4f>() )
+            {
+                Eigen::Vector4f vector = value.value<Eigen::Vector4f>();
+                glUniform4f( uniform, vector.x(), vector.y(), vector.z(), vector.w() );
+                break;
+            }
+            if( value.canConvert<Eigen::Quaternionf>() )
+            {
+                Eigen::Quaternionf quat = value.value<Eigen::Quaternionf>();
+                glUniform4f( uniform, quat.x(), quat.y(), quat.z(), quat.w() );
+                break;
+            }
+            if( value.canConvert<Eigen::Affine3f>() )
+            {
+                Eigen::Affine3f mat = value.value<Eigen::Affine3f>();
+                float glMatrix[16];
+                MathUtils::qmatrixToGLMatrix( mat, glMatrix );
+                glUniformMatrix4fv( uniform, 1, false, glMatrix );
+                break;
+            }
             Texture* tex = value.value< GluonGraphics::Texture* >();
             if( tex != 0 )
             {

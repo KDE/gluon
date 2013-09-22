@@ -95,7 +95,7 @@ function update(time)
 function playDeathAnim(time)
 {
     var value = deathAnimTimeRemaining / deathAnimTime;
-    self.GameObject.setScale(new QVector3D(1 + value, 1 + value, 1));
+    self.GameObject.setScale(new Vector3f(1 + value, 1 + value, 1));
     camera.renderTargetMaterial.materialColor = new QColor(255, 255 * value, 255 * value);    
     
     deathAnimTimeRemaining = deathAnimTimeRemaining - time;

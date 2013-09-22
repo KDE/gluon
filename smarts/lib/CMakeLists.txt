@@ -1,3 +1,5 @@
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
+
 include_directories(
     ${QT_INCLUDES}
     ${CMAKE_CURRENT_BINARY_DIR}

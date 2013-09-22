@@ -25,25 +25,33 @@
 #include <QLabel>
 #include <QDoubleSpinBox>
 #include <cfloat>
-#include <QVector3D>
 #include <core/gluonvarianttypes.h>
-#include <QVector2D>
+#include <Eigen/Core>
 
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, VectorPropertyWidgetItem )
 
 using namespace GluonCreator;
+using namespace Eigen;
 
 class VectorPropertyWidgetItem::VectorPropertyWidgetItemPrivate
 {
     public:
-        VectorPropertyWidgetItemPrivate() { }
+        VectorPropertyWidgetItemPrivate() 
+            : vector2d( qMetaTypeId<Eigen::Vector2f>() )
+            , vector3d( qMetaTypeId<Eigen::Vector3f>() )
+            , vector4d( qMetaTypeId<Eigen::Vector4f>() )
+        { }
 
         QDoubleSpinBox* x;
         QDoubleSpinBox* y;
         QDoubleSpinBox* z;
         QDoubleSpinBox* w;
 
-        QVariant::Type type;
+        int vectorDim;
+
+        const int vector2d;
+        const int vector3d;
+        const int vector4d;
 };
 
 VectorPropertyWidgetItem::VectorPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f ): PropertyWidgetItem( parent, f )
@@ -91,9 +99,9 @@ QStringList
 VectorPropertyWidgetItem::supportedDataTypes() const
 {
     QStringList supportedTypes;
-    supportedTypes.append( "QVector2D" );
-    supportedTypes.append( "QVector3D" );
-    supportedTypes.append( "QVector4D" );
+    supportedTypes.append( "Eigen::Vector2f" );
+    supportedTypes.append( "Eigen::Vector3f" );
+    supportedTypes.append( "Eigen::Vector4f" );
     return supportedTypes;
 }
 
@@ -105,56 +113,48 @@ VectorPropertyWidgetItem::instantiate()
 
 void VectorPropertyWidgetItem::setEditValue( const QVariant& value )
 {
-
-    switch( value.type() )
+    int userType = value.userType();
+    if( userType == d->vector2d )
     {
-        case QVariant::Vector2D:
-        {
-            const QVector2D* vector = static_cast<const QVector2D*>( value.data() );
-            d->x->setValue( vector->x() );
-            d->y->setValue( vector->y() );
-            d->z->setVisible( false );
-            d->w->setVisible( false );
-            d->type = QVariant::Vector2D;
-            break;
-        }
-        case QVariant::Vector3D:
-        {
-            const QVector3D* vector = static_cast<const QVector3D*>( value.data() );
-            d->x->setValue( vector->x() );
-            d->y->setValue( vector->y() );
-            d->z->setValue( vector->z() );
-            d->w->setVisible( false );
-            d->type = QVariant::Vector3D;
-            break;
-        }
-        case QVariant::Vector4D:
-        {
-            const QVector4D* vector = static_cast<const QVector4D*>( value.data() );
-            d->x->setValue( vector->x() );
-            d->y->setValue( vector->y() );
-            d->z->setValue( vector->z() );
-            d->w->setValue( vector->w() );
-            d->type = QVariant::Vector4D;
-            break;
-        }
-        default:
-            break;
+        const Vector2f* vector = static_cast<const Vector2f*>( value.data() );
+        d->x->setValue( vector->x() );
+        d->y->setValue( vector->y() );
+        d->z->setVisible( false );
+        d->w->setVisible( false );
+        d->vectorDim = 2;
+    }
+    else if( userType == d->vector3d )
+    {
+        const Vector3f* vector = static_cast<const Vector3f*>( value.data() );
+        d->x->setValue( vector->x() );
+        d->y->setValue( vector->y() );
+        d->z->setValue( vector->z() );
+        d->w->setVisible( false );
+        d->vectorDim = 3;
+    }
+    else if( userType == d->vector4d )
+    {
+        const Vector4f* vector = static_cast<const Vector4f*>( value.data() );
+        d->x->setValue( vector->x() );
+        d->y->setValue( vector->y() );
+        d->z->setValue( vector->z() );
+        d->w->setValue( vector->w() );
+        d->vectorDim = 4;
     }
 }
 
 void VectorPropertyWidgetItem::editValueChanged()
 {
-    switch( d->type )
+    switch( d->vectorDim )
     {
-        case QVariant::Vector2D:
-            PropertyWidgetItem::valueChanged( qVariantFromValue<QVector2D>( QVector2D( d->x->value(), d->y->value() ) ) );
+        case 2:
+            PropertyWidgetItem::valueChanged( qVariantFromValue<Vector2f>( Vector2f( d->x->value(), d->y->value() ) ) );
             break;
-        case QVariant::Vector3D:
-            PropertyWidgetItem::valueChanged( qVariantFromValue<QVector3D>( QVector3D( d->x->value(), d->y->value(), d->z->value() ) ) );
+        case 3:
+            PropertyWidgetItem::valueChanged( qVariantFromValue<Vector3f>( Vector3f( d->x->value(), d->y->value(), d->z->value() ) ) );
             break;
-        case QVariant::Vector4D:
-            PropertyWidgetItem::valueChanged( qVariantFromValue<QVector4D>( QVector4D( d->x->value(), d->y->value(), d->z->value(), d->w->value() ) ) );
+        case 4:
+            PropertyWidgetItem::valueChanged( qVariantFromValue<Vector4f>( Vector4f( d->x->value(), d->y->value(), d->z->value(), d->w->value() ) ) );
             break;
         default:
             break;

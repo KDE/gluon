@@ -51,7 +51,7 @@ function createCookie() {
     }
 
     var newPlayer = Game.clone(Game.getFromScene("Cookie"));
-    newPlayer.position = new QVector3D(0, -50, 2); 
+    newPlayer.position = new Vector3f(0, -50, 2); 
     newPlayer.enabled = true;
     cookie.row = row;
     cookie.column = column;

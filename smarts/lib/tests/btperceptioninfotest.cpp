@@ -56,7 +56,7 @@ void btPerceptionInfoTest::testPosition()
 {
     MockBtPerceptionInfo perceptionInfo(this);
 
-    QVector3D vector3D(1.0, 2.0, 3.0);
+    Eigen::Vector3f vector3D(1.0, 2.0, 3.0);
     perceptionInfo.setPosition(vector3D);
     QCOMPARE(perceptionInfo.position(), vector3D);
 }

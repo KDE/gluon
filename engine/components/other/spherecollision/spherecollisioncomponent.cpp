@@ -94,9 +94,9 @@ void SphereCollisionComponent::update( int /* elapsedMilliseconds */ )
     d->collides = 0;
 
     //Our position
-    QVector3D position = gameObject()->position();
+    Eigen::Vector3f position = gameObject()->position();
     //Eliminate the Z-axis
-    position.setZ( 0 );
+    position.z() = 0;
     //Our radius, squared
     float radius = d->radiusSquared;
 
@@ -112,16 +112,16 @@ void SphereCollisionComponent::update( int /* elapsedMilliseconds */ )
             if( sphere->collisionGroup() == d->targetGroup )
             {
                 //Get the object's position
-                QVector3D otherPosition = sphere->gameObject()->position();
+                Eigen::Vector3f otherPosition = sphere->gameObject()->position();
                 //Eliminate the Z axis
-                position.setZ( 0 );
+                position.z() = 0;
 
                 //Get the object's radius
                 float otherRadius = sphere->radiusSquared();
 
                 //Calculate the distance between our position and theirs
                 //Note that this is the squared distance to avoid a costly squareroot op
-                float dist = ( otherPosition - position ).lengthSquared();
+                float dist = ( otherPosition - position ).squaredNorm();
 
                 //If the distance between the two positions is smaller then the radius, we
                 //have a collision.

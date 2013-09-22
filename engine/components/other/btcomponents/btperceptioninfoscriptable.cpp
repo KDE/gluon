@@ -19,7 +19,7 @@
 
 #include "btperceptioninfoscriptable.h"
 
-#include <QtGui/QVector3D>
+#include <Eigen/Core>
 
 #include "perceptioninfo.h"
 
@@ -28,7 +28,7 @@ using namespace GluonEngine;
 btPerceptionInfoScriptable::btPerceptionInfoScriptable(QObject* parent)
 	: btPerceptionInfo(parent)
 {
-	setPosition(QVector3D());
+	setPosition(Eigen::Vector3f(0,0,0));
 	setRadius(0);
 }
 

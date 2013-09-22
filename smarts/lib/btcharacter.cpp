@@ -33,8 +33,8 @@ btCharacter::btCharacter(QObject* parent)
     , m_thinksBeforeSaving(10)
     , m_thinksDone(0)
     , m_behaviortree(0)
-    , m_position(QVector3D())
-    , m_orientation(QQuaternion())
+    , m_position(Eigen::Vector3f(0,0,0))
+    , m_orientation(Eigen::Quaternionf::Identity())
     , m_perception(new btPerception(this))
 {
 	m_nodesStatusQueue.enqueue(btNode::None);
@@ -373,22 +373,22 @@ void btCharacter::clearExecution()
 	m_parallelNodeStatusHash.clear();
 }
 
-QVector3D btCharacter::position() const
+Eigen::Vector3f btCharacter::position() const
 {
     return m_position;
 }
 
-void btCharacter::setPosition(const QVector3D& newPosition)
+void btCharacter::setPosition(const Eigen::Vector3f& newPosition)
 {
     m_position = newPosition;
 }
 
-QQuaternion btCharacter::orientation() const
+Eigen::Quaternionf btCharacter::orientation() const
 {
     return m_orientation;
 }
 
-void btCharacter::setOrientation(const QQuaternion& newOrientation)
+void btCharacter::setOrientation(const Eigen::Quaternionf& newOrientation)
 {
     m_orientation = newOrientation;
 }

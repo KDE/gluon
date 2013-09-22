@@ -20,7 +20,6 @@
 
 #include "engine.h"
 
-#include <QtGui/QVector3D>
 #include <QtCore/QStringList>
 #include <QtCore/QHashIterator>
 
@@ -112,15 +111,15 @@ bool Engine::setDevice( const QString& deviceName )
     return alureInitDevice( deviceName.toUtf8(), 0 );
 }
 
-QVector3D Engine::listenerPosition()
+Eigen::Vector3f Engine::listenerPosition()
 {
     ALfloat listener[3];
     alGetListenerfv( AL_POSITION, listener );
 
-    return QVector3D( listener[0], listener[1], listener[2] );
+    return Eigen::Vector3f( listener[0], listener[1], listener[2] );
 }
 
-void Engine::setListenerPosition( const QVector3D& position )
+void Engine::setListenerPosition( const Eigen::Vector3f& position )
 {
     alListener3f( AL_POSITION, position.x(), position.y(), position.z() );
 }

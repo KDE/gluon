@@ -116,7 +116,7 @@ void SoundTest::testPosition()
 
     sound.load(m_audioFilePath);
 
-    QVector3D vector3D(1.0, 2.0, 3.0);
+    Eigen::Vector3f vector3D(1.0, 2.0, 3.0);
     sound.setPosition(vector3D);
     QCOMPARE(sound.position(), vector3D);
 }

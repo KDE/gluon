@@ -31,6 +31,7 @@
 REGISTER_OBJECTTYPE( GluonEngine, GameObject )
 
 using namespace GluonEngine;
+using namespace Eigen;
 
 GameObject::GameObject( QObject* parent )
     : GluonObject( parent )
@@ -220,7 +221,7 @@ GluonCore::AxisAlignedBox
 GameObject::boundingBox()
 {
     // TODO: cache! Need signals for bounding box changes for that
-    GluonCore::AxisAlignedBox box( QVector3D(0,0,0) );
+    GluonCore::AxisAlignedBox box( Vector3f(0,0,0) );
     foreach( Component* component, d->components )
     {
         GluonCore::AxisAlignedBox componentBox = component->boundingBox();
@@ -587,20 +588,20 @@ GameObject::setEnabled( bool newEnabled )
 
 //// Translation ////
 
-QVector3D
+Vector3f
 GameObject::position() const
 {
     return d->position;
 }
 
-QVector3D
+Vector3f
 GameObject::worldPosition() const
 {
     return d->worldPosition;
 }
 
 void
-GameObject::setPosition( const QVector3D& newPosition )
+GameObject::setPosition( const Vector3f& newPosition )
 {
     d->position = newPosition;
 
@@ -610,28 +611,28 @@ GameObject::setPosition( const QVector3D& newPosition )
 
 void GameObject::setPosition( float x, float y, float z )
 {
-    setPosition( QVector3D( x, y, z ) );
+    setPosition( Vector3f( x, y, z ) );
 }
 
 void GameObject::setPosition( float x, float y )
 {
-    setPosition( QVector3D( x, y, d->position.z() ) );
+    setPosition( Vector3f( x, y, d->position.z() ) );
 }
 
 void
-GameObject::translate( const QVector3D& translation, GameObject::TransformSpace ts )
+GameObject::translate( const Vector3f& translation, GameObject::TransformSpace ts )
 {
     if( ts == TS_LOCAL )
     {
-        QVector3D trans = d->orientation.rotatedVector( translation );
-        trans = trans * d->scale;
+        Vector3f trans = d->orientation * translation;
+        trans = trans.cwiseProduct( d->scale );
         setPosition( position() + trans );
     }
     else
     {
     // TODO: This probably needs fixing to account for world scale/orientation
-        QVector3D trans = d->worldOrientation.rotatedVector( translation );
-        trans = trans * d->worldScale;
+        Vector3f trans = d->worldOrientation * translation;
+        trans = trans.cwiseProduct( d->worldScale );
         setPosition( position() + trans );
     }
 }
@@ -639,31 +640,31 @@ GameObject::translate( const QVector3D& translation, GameObject::TransformSpace 
 void
 GameObject::translate( float x, float y, float z, GameObject::TransformSpace ts )
 {
-    translate( QVector3D( x, y, z ), ts );
+    translate( Vector3f( x, y, z ), ts );
 }
 
 void
 GameObject::translate( float x, float y, GameObject::TransformSpace ts )
 {
-    translate( QVector3D( x, y, 0 ), ts );
+    translate( Vector3f( x, y, 0 ), ts );
 }
 
 //// Scaling ////
 
-QVector3D
+Vector3f
 GameObject::scale() const
 {
     return d->scale;
 }
 
-QVector3D
+Vector3f
 GameObject::worldScale() const
 {
     return d->worldScale;
 }
 
 void
-GameObject::setScale( const QVector3D& newScale )
+GameObject::setScale( const Vector3f& newScale )
 {
     d->scale = newScale;
 
@@ -673,10 +674,10 @@ GameObject::setScale( const QVector3D& newScale )
 
 void GameObject::setScale( float x, float y, float z )
 {
-    setScale( QVector3D( x, y, z ) );
+    setScale( Vector3f( x, y, z ) );
 }
 
-void GameObject::scaleRelative( QVector3D scaling, GameObject::TransformSpace ts )
+void GameObject::scaleRelative( Vector3f scaling, GameObject::TransformSpace ts )
 {
     if( ts == TS_LOCAL )
     {
@@ -690,23 +691,23 @@ void GameObject::scaleRelative( QVector3D scaling, GameObject::TransformSpace ts
 
 void GameObject::scaleRelative( float x, float y, float z, GameObject::TransformSpace ts )
 {
-    scaleRelative( QVector3D( x, y, z ), ts );
+    scaleRelative( Vector3f( x, y, z ), ts );
 }
 
 //// Orientation ////
 
-QQuaternion GameObject::orientation() const
+Quaternionf GameObject::orientation() const
 {
     return d->orientation;
 }
 
-QQuaternion
+Quaternionf
 GameObject::worldOrientation() const
 {
     return d->worldOrientation;
 }
 
-void GameObject::setOrientation( const QQuaternion& newOrientation )
+void GameObject::setOrientation( const Quaternionf& newOrientation )
 {
     d->orientation = newOrientation;
 
@@ -714,7 +715,7 @@ void GameObject::setOrientation( const QQuaternion& newOrientation )
     updateTransform();
 }
 
-void GameObject::orient( QQuaternion rotation, GameObject::TransformSpace ts )
+void GameObject::orient( Quaternionf rotation, GameObject::TransformSpace ts )
 {
     if( ts == TS_LOCAL )
     {
@@ -726,9 +727,9 @@ void GameObject::orient( QQuaternion rotation, GameObject::TransformSpace ts )
     }
 }
 
-void GameObject::rotate( float angle, const QVector3D& axis, GameObject::TransformSpace ts )
+void GameObject::rotate( float angle, const Vector3f& axis, GameObject::TransformSpace ts )
 {
-    QQuaternion orientation = QQuaternion::fromAxisAndAngle( axis, angle );
+    Quaternionf orientation( AngleAxisf( angle, axis.normalized() ) );
     orient( orientation, ts );
 }
 
@@ -743,9 +744,9 @@ void GameObject::updateTransform()
     if( parent )
     {
         //Calculate the new world position
-        d->worldPosition = parent->worldPosition() + parent->worldOrientation().rotatedVector( parent->worldScale() * d->position );
+        d->worldPosition = parent->worldPosition() + parent->worldOrientation() * parent->worldScale().cwiseProduct( d->position );
         d->worldOrientation = parent->worldOrientation() * d->orientation;
-        d->worldScale = parent->worldScale() * d->scale;
+        d->worldScale = parent->worldScale().cwiseProduct( d->scale );
     }
     else
     {
@@ -756,7 +757,7 @@ void GameObject::updateTransform()
     }
 
     //Calculate the new transform matrix
-    d->transform.setToIdentity();
+    d->transform = Affine3f::Identity();
     d->transform.translate( d->worldPosition );
     d->transform.rotate( d->worldOrientation );
     d->transform.scale( d->worldScale );
@@ -776,7 +777,7 @@ void GameObject::invalidateTransform()
     d->transformInvalidated = true;
 }
 
-QMatrix4x4
+Affine3f
 GameObject::transform() const
 {
     return d->transform;

@@ -24,16 +24,17 @@
 #include <QtCore/QList>
 #include <QtCore/QMetaProperty>
 #include <QtCore/QDebug>
-#include <QtGui/QVector2D>
-#include <QtGui/QVector3D>
-#include <QtGui/QVector4D>
-#include <QtGui/QQuaternion>
 #include <QtGui/QColor>
+
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 
 #include <core/gluonobject.h>
 #include <core/gluonobjectfactory.h>
+#include <core/gluonvarianttypes.h>
 
 using namespace GDL;
+using namespace Eigen;
 
 Writer::Writer()
 {
@@ -133,7 +134,7 @@ QString Writer::writePropertyValue(const QVariant& value)
         case QVariant::LongLong:
             valueString = writeLongLongValue( value );
             break;
-        case 137: //QVariant::Float
+        case GluonCore::VariantType::Float:
         case QVariant::Double:
             valueString = writeFloatValue( value );
             break;
@@ -142,18 +143,6 @@ QString Writer::writePropertyValue(const QVariant& value)
             break;
         case QVariant::Url:
             valueString = writeUrlValue( value );
-            break;
-        case QVariant::Vector2D:
-            valueString = writeVector2DValue( value );
-            break;
-        case QVariant::Vector3D:
-            valueString = writeVector3DValue( value );
-            break;
-        case QVariant::Vector4D:
-            valueString = writeVector4DValue( value );
-            break;
-        case QVariant::Quaternion:
-            valueString = writeQuaternionValue( value );
             break;
         case QVariant::SizeF:
             valueString = writeSize2DValue( value );
@@ -165,7 +154,23 @@ QString Writer::writePropertyValue(const QVariant& value)
             valueString = writeListValue( value );
             break;
         default:
-            if( GluonCore::GluonObjectFactory::instance()->wrappedObject( value ) )
+            if( value.type() == GluonCore::VariantType::Vector2f )
+            {
+                valueString = writeVector2DValue( value );
+            }
+            else if( value.type() == GluonCore::VariantType::Vector3f )
+            {
+                valueString = writeVector3DValue( value );
+            }
+            else if( value.type() == GluonCore::VariantType::Vector4f )
+            {
+                valueString = writeVector4DValue( value );
+            }
+            else if( value.type() == GluonCore::VariantType::Quaternionf )
+            {
+                valueString = writeQuaternionValue( value );
+            }
+            else if( GluonCore::GluonObjectFactory::instance()->wrappedObject( value ) )
             {
                 valueString = writeObjectValue( value );
             }
@@ -223,32 +228,20 @@ QString Writer::writeUrlValue(const QVariant& value)
 
 QString Writer::writeVector2DValue(const QVariant& value)
 {
-    QVector2D v = value.value< QVector2D >();
-
-    if( v.isNull() )
-        return QString();
-
-    return QString( "vector2d(%1;%2)" ).arg( v.x() ).arg( v.y() );
+    Vector2f v = value.value< Vector2f >();
+    return QString( "vector2d(%1;%2)" ).arg( v(1) ).arg( v(2) );
 }
 
 QString Writer::writeVector3DValue(const QVariant& value)
 {
-    QVector3D v = value.value< QVector3D >();
-
-    if( v.isNull() )
-        return QString();
-
-    return QString( "vector3d(%1;%2;%3)" ).arg( v.x() ).arg( v.y() ).arg( v.z() );
+    Vector3f v = value.value< Vector3f >();
+    return QString( "vector3d(%1;%2;%3)" ).arg( v(1) ).arg( v(2) ).arg( v(3) );
 }
 
 QString Writer::writeVector4DValue(const QVariant& value)
 {
-    QVector4D v = value.value< QVector4D >();
-
-    if( v.isNull() )
-        return QString();
-
-    return QString( "vector4d(%1;%2;%3;%4)" ).arg( v.x() ).arg( v.y() ).arg( v.z() ).arg( v.w() );
+    Vector4f v = value.value< Vector4f >();
+    return QString( "vector4d(%1;%2;%3;%4)" ).arg( v(1) ).arg( v(2) ).arg( v(3) ).arg( v(4) );
 }
 
 QString Writer::writeSize2DValue(const QVariant& value)
@@ -273,12 +266,12 @@ QString Writer::writeRgbaValue(const QVariant& value)
 
 QString Writer::writeQuaternionValue(const QVariant& value)
 {
-    QQuaternion v = value.value< QQuaternion >();
+    Quaternionf v = value.value< Quaternionf >();
 
-    if( v.isNull() || v.isIdentity() )
+    if( v.coeffs() == Quaternionf::Identity().coeffs() )
         return QString();
 
-    return QString( "quaternion(%1;%2;%3;%4)" ).arg( v.x() ).arg( v.y() ).arg( v.z() ).arg( v.scalar() );
+    return QString( "quaternion(%1;%2;%3;%4)" ).arg( v.x() ).arg( v.y() ).arg( v.z() ).arg( v.w() );
 }
 
 QString Writer::writeObjectValue(const QVariant& value)

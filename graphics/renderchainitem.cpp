@@ -19,8 +19,6 @@
 
 #include "renderchainitem.h"
 
-#include <QMatrix4x4>
-
 using namespace GluonGraphics;
 
 class RenderChainItem::Private

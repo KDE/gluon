@@ -22,31 +22,31 @@
 #include <QtScript/QScriptValue>
 #include <QtScript/QScriptEngine>
 
-QScriptValue qtscript_create_QVector2D_class( QScriptEngine* engine );
-QScriptValue qtscript_create_QVector3D_class( QScriptEngine* engine );
-QScriptValue qtscript_create_QVector4D_class( QScriptEngine* engine );
+QScriptValue qtscript_create_Vector2f_class( QScriptEngine* engine );
+QScriptValue qtscript_create_Vector3f_class( QScriptEngine* engine );
+QScriptValue qtscript_create_Vector4f_class( QScriptEngine* engine );
 QScriptValue qtscript_create_QColor_class( QScriptEngine* engine );
-QScriptValue qtscript_create_QQuaternion_class( QScriptEngine* engine );
+QScriptValue qtscript_create_Quaternionf_class( QScriptEngine* engine );
 QScriptValue qtscript_create_QSizeF_class( QScriptEngine* engine );
 
 static const char* const qtscript_com_trolltech_qt_gui_class_names[] =
 {
-    "QVector2D"
-    , "QVector3D"
-    , "QVector4D"
+    "Vector2f"
+    , "Vector3f"
+    , "Vector4f"
     , "QColor"
-    , "QQuaternion"
+    , "Quaternionf"
     , "QSizeF"
 };
 
 typedef QScriptValue( *QtBindingCreator )( QScriptEngine* engine );
 static const QtBindingCreator qtscript_com_trolltech_qt_gui_class_functions[] =
 {
-    qtscript_create_QVector2D_class
-    , qtscript_create_QVector3D_class
-    , qtscript_create_QVector4D_class
+    qtscript_create_Vector2f_class
+    , qtscript_create_Vector3f_class
+    , qtscript_create_Vector4f_class
     , qtscript_create_QColor_class
-    , qtscript_create_QQuaternion_class
+    , qtscript_create_Quaternionf_class
     , qtscript_create_QSizeF_class
 };
 

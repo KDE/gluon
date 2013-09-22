@@ -32,8 +32,10 @@
 
 #include <QtCore/QVariant>
 #include <QtCore/qmath.h>
-#include <QtGui/QMatrix4x4>
 #include <QtGui/QColor>
+
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 
 REGISTER_OBJECTTYPE( GluonEngine, AnimatedSpriteRendererComponent )
 
@@ -198,19 +200,19 @@ void AnimatedSpriteRendererComponent::draw( int /* timeLapse */ )
 {
     if( d->item )
     {
-        QMatrix4x4 transform = gameObject()->transform();
+        Eigen::Affine3f transform = gameObject()->transform();
         transform.scale( d->size.width() / 2, d->size.height() / 2 );
         d->item->setTransform( transform );
 
         if( d->animating && d->playing )
         {
-            QVector4D frame;
+            Eigen::Vector4f frame;
             frame.setX( d->frameWidthUV * int( d->currentFrame ) );
             frame.setY( d->frameHeightUV * d->direction );
             frame.setZ( d->frameWidthUV );
             frame.setW( d->frameHeightUV );
             if( d->localInstance )
-                d->localInstance->setProperty( "frame", frame );
+                d->localInstance->setProperty( "frame", QVariant::fromValue(frame) );
         }
     }
 }
@@ -237,7 +239,7 @@ void AnimatedSpriteRendererComponent::cleanup()
 GluonCore::AxisAlignedBox
 AnimatedSpriteRendererComponent::boundingBox()
 {
-    QVector3D sizeVector( size().width(), size().height(), 0 );
+    Eigen::Vector3f sizeVector( size().width(), size().height(), 0 );
     return GluonCore::AxisAlignedBox( transformationCenter(), sizeVector );
 }
 

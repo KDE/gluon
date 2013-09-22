@@ -22,14 +22,15 @@
 
 
 using namespace GluonEngine;
+using namespace Eigen;
 
 GameObjectPrivate::GameObjectPrivate()
     : enabled( true )
     , initialized( false )
-    , position( QVector3D() )
-    , scale( QVector3D( 1, 1, 1 ) )
-    , orientation( QQuaternion( 1, 0, 0, 0 ) )
-    , transform( QMatrix4x4() )
+    , position( Vector3f(0,0,0) )
+    , scale( Vector3f( 1, 1, 1 ) )
+    , orientation( Quaternionf( 1, 0, 0, 0 ) )
+    , transform( Affine3f::Identity() )
     , transformInvalidated( true )
     , parentGameObject( 0 )
 {
@@ -42,7 +43,7 @@ GameObjectPrivate::GameObjectPrivate( const GameObjectPrivate& other )
     , position( other.position )
     , scale( other.scale )
     , orientation( other.orientation )
-    , transform( QMatrix4x4() )
+    , transform( Affine3f::Identity() )
     , transformInvalidated( true )
     , parentGameObject( other.parentGameObject )
 {

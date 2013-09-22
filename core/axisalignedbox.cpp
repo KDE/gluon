@@ -19,47 +19,47 @@
 
 #include "axisalignedbox.h"
 
-#include <QQuaternion>
-
 using namespace GluonCore;
+using namespace Eigen;
 
 class AxisAlignedBox::Private
 {
     public:
-        Private( QVector3D pos, QVector3D size )
+        Private( Vector3f pos, Vector3f size )
             : position( pos ), size( size ) {}
 
         // Get the vector that contains the absolute values of the components of vector.
-        static QVector3D absAll( const QVector3D& vector );
+        static Vector3f absAll( const Vector3f& vector );
         // Get the vector that contains the minimum of vector1 and vector2 for each component separately.
-        static QVector3D minAll( const QVector3D& vector1, const QVector3D& vector2 );
+        static Vector3f minAll( const Vector3f& vector1, const Vector3f& vector2 );
         // Get the vector that contains the maximum of vector1 and vector2 for each component separately.
-        static QVector3D maxAll( const QVector3D& vector1, const QVector3D& vector2 );
+        static Vector3f maxAll( const Vector3f& vector1, const Vector3f& vector2 );
 
-        QVector3D position;
-        QVector3D size;
+        Vector3f position;
+        Vector3f size;
 };
 
-QVector3D AxisAlignedBox::Private::absAll( const QVector3D& vector )
+Vector3f AxisAlignedBox::Private::absAll( const Vector3f& vector )
 {
-    return QVector3D( qAbs(vector.x()), qAbs(vector.y()), qAbs(vector.z()) );
+    return Vector3f( qAbs(vector(1)), qAbs(vector(2)), qAbs(vector(3)) );
 }
 
-QVector3D AxisAlignedBox::Private::minAll( const QVector3D& vector1, const QVector3D& vector2 )
+Vector3f AxisAlignedBox::Private::minAll( const Vector3f& vector1, const Vector3f& vector2 )
 {
-    return QVector3D( qMin(vector1.x(), vector2.x()),
-                      qMin(vector1.y(), vector2.y()),
-                      qMin(vector1.z(), vector2.z()) );
+    Vector3f vector;
+    return Vector3f( qMin(vector1(1), vector2(1)),
+                     qMin(vector1(2), vector2(2)),
+                     qMin(vector1(3), vector2(3)) );
 }
 
-QVector3D AxisAlignedBox::Private::maxAll( const QVector3D& vector1, const QVector3D& vector2 )
+Vector3f AxisAlignedBox::Private::maxAll( const Vector3f& vector1, const Vector3f& vector2 )
 {
-    return QVector3D( qMax(vector1.x(), vector2.x()),
+    return Vector3f( qMax(vector1.x(), vector2.x()),
                       qMax(vector1.y(), vector2.y()),
                       qMax(vector1.z(), vector2.z()) );
 }
 
-AxisAlignedBox::AxisAlignedBox( QVector3D centerPosition, QVector3D size )
+AxisAlignedBox::AxisAlignedBox( Vector3f centerPosition, Vector3f size )
     : d( new Private( centerPosition, Private::absAll(size) ) )
 {
 }
@@ -74,64 +74,66 @@ AxisAlignedBox::~AxisAlignedBox()
     delete d;
 }
 
-QVector3D AxisAlignedBox::position() const
+Vector3f AxisAlignedBox::position() const
 {
     return d->position;
 }
 
-void AxisAlignedBox::setPosition( const QVector3D& newPosition )
+void AxisAlignedBox::setPosition( const Vector3f& newPosition )
 {
     d->position = newPosition;
 }
 
-QVector3D AxisAlignedBox::size() const
+Vector3f AxisAlignedBox::size() const
 {
     return d->size;
 }
 
-void AxisAlignedBox::setSize( const QVector3D& newSize )
+void AxisAlignedBox::setSize( const Vector3f& newSize )
 {
     d->size = Private::absAll(newSize);
 }
 
 AxisAlignedBox AxisAlignedBox::united( const AxisAlignedBox& box ) const
 {
-    QVector3D newSize = Private::absAll( d->position - box.position() ) + 0.5*( d->size + box.size() );
-    QVector3D newPosition = Private::minAll( d->position - 0.5*d->size, box.position() - 0.5*box.size() ) + 0.5*newSize;
+    Vector3f newSize = Private::absAll( d->position - box.position() ) + 0.5*( d->size + box.size() );
+    Vector3f newPosition = Private::minAll( d->position - 0.5*d->size, box.position() - 0.5*box.size() ) + 0.5*newSize;
     return AxisAlignedBox( newPosition, newSize );
 }
 
 void AxisAlignedBox::unite( const AxisAlignedBox& box )
 {
-    QVector3D newSize = Private::absAll( d->position - box.position() ) + 0.5*( d->size + box.size() );
+    Vector3f newSize = Private::absAll( d->position - box.position() ) + 0.5*( d->size + box.size() );
     d->position = Private::minAll( d->position - 0.5*d->size, box.position() - 0.5*box.size() ) + 0.5*newSize;
     d->size = newSize;
 }
 
-AxisAlignedBox AxisAlignedBox::scaled( const QVector3D& factors ) const
+AxisAlignedBox AxisAlignedBox::scaled( const Vector3f& factors ) const
 {
-    return AxisAlignedBox( d->position, d->size * factors );
+    return AxisAlignedBox( d->position, d->size.cwiseProduct(factors) );
 }
 
-void AxisAlignedBox::scale( const QVector3D& factors )
+void AxisAlignedBox::scale( const Vector3f& factors )
 {
-    d->size *= factors;
+    d->size = d->size.cwiseProduct(factors);
 }
 
-AxisAlignedBox AxisAlignedBox::rotated( const QQuaternion& orientation ) const
+AxisAlignedBox AxisAlignedBox::rotated( const Quaternionf& orientation ) const
 {
-    QVector3D rotatedXVector = orientation.rotatedVector( QVector3D(d->size.x(), 0, 0) );
-    QVector3D rotatedYVector = orientation.rotatedVector( QVector3D(0, d->size.y(), 0) );
-    QVector3D rotatedZVector = orientation.rotatedVector( QVector3D(0, 0, d->size.z()) );
-    QVector3D rotatedVector = Private::maxAll( rotatedXVector, Private::maxAll( rotatedYVector, rotatedZVector ) );
+    Matrix3f rotMatrix = orientation.toRotationMatrix();
+    Vector3f rotatedXVector = rotMatrix * Vector3f(d->size.x(), 0, 0);
+    Vector3f rotatedYVector = rotMatrix * Vector3f(0, d->size.y(), 0);
+    Vector3f rotatedZVector = rotMatrix * Vector3f(0, 0, d->size.z());
+    Vector3f rotatedVector = Private::maxAll( rotatedXVector, Private::maxAll( rotatedYVector, rotatedZVector ) );
     return AxisAlignedBox( d->position, rotatedVector );
 }
 
-void AxisAlignedBox::rotate( const QQuaternion& orientation )
+void AxisAlignedBox::rotate( const Quaternionf& orientation )
 {
-    QVector3D rotatedXVector = orientation.rotatedVector( QVector3D(d->size.x(), 0, 0) );
-    QVector3D rotatedYVector = orientation.rotatedVector( QVector3D(0, d->size.y(), 0) );
-    QVector3D rotatedZVector = orientation.rotatedVector( QVector3D(0, 0, d->size.z()) );
+    Matrix3f rotMatrix = orientation.toRotationMatrix();
+    Vector3f rotatedXVector = rotMatrix * Vector3f(d->size.x(), 0, 0);
+    Vector3f rotatedYVector = rotMatrix * Vector3f(0, d->size.y(), 0);
+    Vector3f rotatedZVector = rotMatrix * Vector3f(0, 0, d->size.z());
     d->size = Private::maxAll( rotatedXVector, Private::maxAll( rotatedYVector, rotatedZVector ) );
 }
 

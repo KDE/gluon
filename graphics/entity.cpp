@@ -24,9 +24,12 @@
 #include "manager.h"
 #include "world.h"
 
-#include <QtGui/QMatrix4x4>
 #include "camera.h"
 #include "frustrum.h"
+
+#include <core/gluonvarianttypes.h>
+
+#include <Eigen/Core>
 
 using namespace GluonGraphics;
 
@@ -35,10 +38,10 @@ REGISTER_OBJECTTYPE( GluonGraphics, Entity );
 class Entity::Private
 {
     public:
-        Private() : world( 0 ), mesh( 0 ), materialInstance( 0 ), visible( true ) { }
+        Private() : world( 0 ), transform( Eigen::Affine3f::Identity() ), mesh( 0 ), materialInstance( 0 ), visible( true ) { }
 
         World* world;
-        QMatrix4x4 transform;
+        Eigen::Affine3f transform;
         Mesh* mesh;
         MaterialInstance* materialInstance;
         bool visible;
@@ -60,7 +63,7 @@ Entity::world() const
     return d->world;
 }
 
-QMatrix4x4
+Eigen::Affine3f
 Entity::transform() const
 {
     return d->transform;
@@ -112,9 +115,9 @@ Entity::render()
         return;
 
     // TODO: Implement view frustum culling. After all, that is what that damn class is for... ;)
-    d->materialInstance->setProperty( "projectionMatrix", activeCam->frustrum()->projectionMatrix() );
-    d->materialInstance->setProperty( "viewMatrix", activeCam->viewMatrix() );
-    d->materialInstance->setProperty( "modelMatrix", d->transform );
+    d->materialInstance->setProperty( "projectionMatrix", QVariant::fromValue( activeCam->frustrum()->projectionMatrix() ) );
+    d->materialInstance->setProperty( "viewMatrix", QVariant::fromValue( activeCam->viewMatrix() ) );
+    d->materialInstance->setProperty( "modelMatrix", QVariant::fromValue( d->transform ) );
 
     if( !d->materialInstance->bind() )
         return;
@@ -124,7 +127,7 @@ Entity::render()
 }
 
 void
-Entity::setTransform( const QMatrix4x4& transform )
+Entity::setTransform( const Eigen::Affine3f& transform )
 {
     d->transform = transform;
 }

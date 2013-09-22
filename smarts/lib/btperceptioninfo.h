@@ -21,23 +21,24 @@
 #ifndef GLUON_SMARTS_BTPERCEPTIONINFO_H
 #define GLUON_SMARTS_BTPERCEPTIONINFO_H
 
+#include <core/gluonvarianttypes.h>
+
 #include <QtCore/QVariant>
-#include <QtGui/QVector3D>
 
 namespace GluonSmarts
 {
     class btPerceptionInfo : public QObject
     {
             Q_OBJECT
-            Q_PROPERTY( QVector3D position READ position WRITE setPosition NOTIFY positionUpdated )
+            Q_PROPERTY( Eigen::Vector3f position READ position WRITE setPosition NOTIFY positionUpdated )
             Q_PROPERTY( qreal radius READ radius WRITE setRadius NOTIFY radiusUpdated )
 
         public:
             btPerceptionInfo( QObject* parent );
             virtual ~btPerceptionInfo();
 
-            virtual QVector3D position() const;
-            virtual void setPosition( const QVector3D& newPosition );
+            virtual Eigen::Vector3f position() const;
+            virtual void setPosition( const Eigen::Vector3f& newPosition );
 
             virtual qreal radius() const;
             virtual void setRadius( const qreal& newRadius );
@@ -46,7 +47,7 @@ namespace GluonSmarts
 
         Q_SIGNALS:
             void infoUpdated();
-            void positionUpdated( QVector3D );
+            void positionUpdated( Eigen::Vector3f );
             void radiusUpdated( qreal );
 
         private:

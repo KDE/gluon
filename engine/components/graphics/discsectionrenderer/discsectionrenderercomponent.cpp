@@ -144,7 +144,7 @@ void DiscSectionRendererComponent::setNbPoints( uint newNbPoints )
         setDiscSection( gameObject()->position(), d->radius, d->nbPoints, d->degrees, d->arcCenter, d->color );
 }
 
-void DiscSectionRendererComponent::setDiscSection( QVector3D position, float radius, uint nbPoints, float degrees, float arcCenter, QColor color )
+void DiscSectionRendererComponent::setDiscSection( Vector3f position, float radius, uint nbPoints, float degrees, float arcCenter, QColor color )
 {
     if( d->mesh )
         d->mesh->setDiscSection( position, radius, nbPoints, degrees, arcCenter, color );

@@ -33,11 +33,11 @@ namespace GluonEngine
             btCharacterScriptable( QObject* parent = 0 );
             ~btCharacterScriptable();
 
-            Q_INVOKABLE virtual QVector3D position() const;
-            Q_INVOKABLE virtual void setPosition( const QVector3D& newPosition );
+            Q_INVOKABLE virtual Eigen::Vector3f position() const;
+            Q_INVOKABLE virtual void setPosition( const Eigen::Vector3f& newPosition );
 
-            Q_INVOKABLE virtual QQuaternion orientation() const;
-            Q_INVOKABLE virtual void setOrientation( const QQuaternion& newOrientation );
+            Q_INVOKABLE virtual Eigen::Quaternionf orientation() const;
+            Q_INVOKABLE virtual void setOrientation( const Eigen::Quaternionf& newOrientation );
 
             Q_INVOKABLE virtual GluonSmarts::btPerception* perception();
 

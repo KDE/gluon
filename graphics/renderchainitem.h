@@ -22,8 +22,6 @@
 
 #include "gluon_graphics_export.h"
 
-class QMatrix4x4;
-
 namespace GluonGraphics
 {
     /**

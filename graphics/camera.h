@@ -26,7 +26,9 @@
 
 class QRectF;
 class QSizeF;
-class QMatrix4x4;
+
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 
 namespace GluonGraphics
 {
@@ -74,7 +76,7 @@ namespace GluonGraphics
              *
              * \return The view matrix.
              */
-            QMatrix4x4 viewMatrix() const;
+            Eigen::Affine3f viewMatrix() const;
 
             /**
              * Retrieve the frustum used by this camera.
@@ -90,8 +92,8 @@ namespace GluonGraphics
             float farPlane() const;
 
         public Q_SLOTS:
-            void setTransform( const QMatrix4x4& transform );
-            
+            void setTransform( const Eigen::Affine3f& transform );
+
             /**
              * Set the frustum to use.
              *

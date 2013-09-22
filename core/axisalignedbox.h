@@ -20,7 +20,8 @@
 #ifndef AXISALIGNEDBOX_H
 #define AXISALIGNEDBOX_H
 
-#include <QVector3D>
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 
 #include "gluon_core_export.h"
 
@@ -40,7 +41,7 @@ namespace GluonCore
              * @param centerPosition The position
              * @param size The size
              */
-            AxisAlignedBox( QVector3D size, QVector3D centerPosition = QVector3D( 0, 0, 0 ) );
+            AxisAlignedBox( Eigen::Vector3f size, Eigen::Vector3f centerPosition = Eigen::Vector3f::Zero() );
 
             /**
              * Copy constructor.
@@ -58,28 +59,28 @@ namespace GluonCore
              * @return The current position
              * @see setPosition
              */
-            QVector3D position() const;
+            Eigen::Vector3f position() const;
 
             /**
              * Set the center of the box to a new position.
              * @param newPosition the new position.
              * @see position
              */
-            void setPosition( const QVector3D& newPosition );
+            void setPosition( const Eigen::Vector3f& newPosition );
 
             /**
              * Get the current size of the box. All components are positive.
              * @return the current size
              * @see setSize
              */
-            QVector3D size() const;
+            Eigen::Vector3f size() const;
 
             /**
              * Set the size of the box.
              * @param newSize the new size. It should be positive and not 0.
              * @see size
              */
-            void setSize( const QVector3D& newSize );
+            void setSize( const Eigen::Vector3f& newSize );
 
             /**
              * Combine this box with another box. This returns the bounding box of both boxes,
@@ -100,12 +101,12 @@ namespace GluonCore
              * @param factors Scale the size components by these factors.
              * @returns the scaled box
              */
-            AxisAlignedBox scaled( const QVector3D& factors ) const;
+            AxisAlignedBox scaled( const Eigen::Vector3f& factors ) const;
 
             /**
              * Same as scaled, but operates in-place
              */
-            void scale( const QVector3D& factors );
+            void scale( const Eigen::Vector3f& factors );
 
             /**
              * Create a new box that is a rotated version of the current box. As the box is
@@ -113,12 +114,12 @@ namespace GluonCore
              * @param orientation A quaternion describing the rotation.
              * @returns the rotated box.
              */
-            AxisAlignedBox rotated( const QQuaternion& orientation ) const;
+            AxisAlignedBox rotated( const Eigen::Quaternionf& orientation ) const;
 
             /**
              * Same as rotated, but operates in-place
              */
-            void rotate( const QQuaternion& orientation );
+            void rotate( const Eigen::Quaternionf& orientation );
 
             /**
              * Assignment operator

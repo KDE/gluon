@@ -24,14 +24,17 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QDoubleSpinBox>
-#include <QtGui/QQuaternion>
 #include <cfloat>
 #include <cmath>
 #include <core/gluonvarianttypes.h>
 
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, QuaternionPropertyWidgetItem )
 
 using namespace GluonCreator;
+using namespace Eigen;
 
 class QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItemPrivate
 {
@@ -43,7 +46,7 @@ class QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItemPrivate
         QDoubleSpinBox* z;
         QDoubleSpinBox* angle;
 
-        QQuaternion value;
+        Quaternionf value;
 };
 
 QuaternionPropertyWidgetItem::QuaternionPropertyWidgetItem( QWidget* parent, Qt::WindowFlags f ): PropertyWidgetItem( parent, f )
@@ -100,7 +103,7 @@ QStringList
 QuaternionPropertyWidgetItem::supportedDataTypes() const
 {
     QStringList supportedTypes;
-    supportedTypes.append( "QQuaternion" );
+    supportedTypes.append( "Eigen::Quaternionf" );
     return supportedTypes;
 }
 
@@ -112,18 +115,18 @@ QuaternionPropertyWidgetItem::instantiate()
 
 void QuaternionPropertyWidgetItem::setEditValue( const QVariant& value )
 {
-    d->value = value.value<QQuaternion>();
+    d->value = value.value<Quaternionf>();
 
-    d->x->setValue( d->value.x() * sqrt( 1 - d->value.scalar() * d->value.scalar() ) );
-    d->y->setValue( d->value.y() * sqrt( 1 - d->value.scalar() * d->value.scalar() ) );
-    d->z->setValue( d->value.z() * sqrt( 1 - d->value.scalar() * d->value.scalar() ) );
+    d->x->setValue( d->value.x() * sqrt( 1 - d->value.w() * d->value.w() ) );
+    d->y->setValue( d->value.y() * sqrt( 1 - d->value.w() * d->value.w() ) );
+    d->z->setValue( d->value.z() * sqrt( 1 - d->value.w() * d->value.w() ) );
 
-    d->angle->setValue( ( 2 * acos( d->value.scalar() ) ) * ( 180 / M_PI ) );
+    d->angle->setValue( ( 2 * acos( d->value.w() ) ) * ( 180 / M_PI ) );
 }
 
 void QuaternionPropertyWidgetItem::spinValueChanged( double value )
 {
     Q_UNUSED(value);
-    d->value = QQuaternion::fromAxisAndAngle( d->x->value(), d->y->value(), d->z->value(), d->angle->value() );
-    PropertyWidgetItem::valueChanged( QVariant( d->value ) );
+    d->value = Quaternionf( AngleAxisf( d->angle->value(), Vector3f(d->x->value(), d->y->value(), d->z->value()) ) );
+    PropertyWidgetItem::valueChanged( qVariantFromValue( d->value ) );
 }
