@@ -154,11 +154,12 @@ void SceneDock::deleteSelection()
                 GluonEngine::GameObject* obj = static_cast<GluonEngine::GameObject*>( index.internalPointer() );
                 if( obj && obj->parentGameObject() )
                 {
-                    ObjectManager::instance()->deleteGameObject( obj );
+                    ObjectManager::instance()->deleteObject( obj );
                 }
+
+                d->model->removeRows( index.row(), 1, index.parent() );
             }
 
-            d->view->reset();
             SelectionManager::instance()->setSelection( SelectionManager::SelectionList() );
         }
     }

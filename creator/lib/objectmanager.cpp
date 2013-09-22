@@ -241,15 +241,16 @@ void ObjectManager::createObjectCommand(GluonGraphics::MaterialInstance* materia
     HistoryManager::instance()->addCommand( new NewObjectCommand( materialInstance ) );
 }
 
-void ObjectManager::deleteGameObject( GluonEngine::GameObject* object )
+void ObjectManager::deleteObject( GluonCore::GluonObject* object )
 {
-    if( !object && !object->parentGameObject() )
+    if( !object )
     {
-        qDebug() << "No parent game object for the object specified for deleting";
+        qDebug() << "No object specified for deleting";
+        return;
     }
 
     HistoryManager::instance()->addCommand( new DeleteObjectCommand( object ) );
-    emit gameObjectDeleted();
+    emit objectDeleted();
 }
 
 GluonEngine::Scene* ObjectManager::createNewScene()
@@ -268,15 +269,18 @@ GluonEngine::Scene* ObjectManager::createNewScene()
 
 void ObjectManager::watchCurrentAssets()
 {
-    DEBUG_FUNC_NAME
     QList<GluonEngine::Asset*> assets = GluonEngine::Game::instance()->gameProject()->findItemsByType<GluonEngine::Asset>();
     foreach( GluonEngine::Asset * asset, assets )
     {
-        QString path( asset->absolutePath().toLocalFile() );
-        DEBUG_TEXT2( "Watching %1 for changes.", path )
-        KDirWatch::self()->addFile( path );
-        d->m_assets.insert( path, asset );
+        watchAsset( asset );
     }
+}
+
+void ObjectManager::watchAsset( GluonEngine::Asset* asset )
+{
+    QString path = asset->absolutePath().toLocalFile();
+    KDirWatch::self()->addFile( path );
+    d->m_assets.insert( path, asset );
 }
 
 void ObjectManager::assetDirty( const QString& file )
@@ -289,10 +293,26 @@ void ObjectManager::assetDirty( const QString& file )
     }
 }
 
+void ObjectManager::unwatchAsset( GluonEngine::Asset* asset )
+{
+    QString file = asset->absolutePath().toLocalFile();
+    if( d->m_assets.contains( file ) )
+    {
+        d->m_assets.remove( file );
+        KDirWatch::self()->removeFile( file );
+    }
+}
+
 void ObjectManager::assetDeleted( const QString& file )
 {
-    d->m_assets.remove( file );
-    KDirWatch::self()->removeFile( file );
+    if( d->m_assets.contains( file ) )
+    {
+        d->m_assets.remove( file );
+        KDirWatch::self()->removeFile( file );
+    }
+
+    //WARNING: This destroys data if we delete assets without saving the project!
+    //We should only do this if we save the project.
     QFileInfo fi( file );
     if( fi.isFile() )
     {
@@ -307,8 +327,8 @@ void ObjectManager::assetDeleted( const QString& file )
 
 void ObjectManager::assetDeleted( GluonEngine::Asset* asset )
 {
-    if( asset )
-        assetDeleted( asset->absolutePath().toLocalFile() );
+    Q_ASSERT( asset );
+    assetDeleted( asset->absolutePath().toLocalFile() );
 }
 
 ObjectManager::ObjectManager( QObject* parent )

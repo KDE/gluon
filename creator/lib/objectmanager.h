@@ -59,11 +59,13 @@ namespace GluonCreator
             void createAssets( const QStringList& fileNames, GluonCore::GluonObject* = 0 );
             void createObjectCommand( GluonGraphics::MaterialInstance* materialInstance );
 
-            void deleteGameObject( GluonEngine::GameObject* object );
+            void deleteObject( GluonCore::GluonObject* object );
             void changeProperty( GluonCore::GluonObject* object, QString& property, QVariant& oldValue, QVariant& newValue );
             QString humanifyClassName( const QString& fixThis, bool justRemoveNamespace = false ) const;
             void watchCurrentAssets();
+            void watchAsset( GluonEngine::Asset* asset );
             void assetDirty( const QString& file );
+            void unwatchAsset( GluonEngine::Asset* asset );
             void assetDeleted( const QString& file );
             void assetDeleted( GluonEngine::Asset* asset );
 
@@ -71,7 +73,7 @@ namespace GluonCreator
             void newObject( GluonCore::GluonObject* );
             void newScene( GluonEngine::Scene* );
             void newGameObject( GluonEngine::GameObject* );
-            void gameObjectDeleted( );
+            void objectDeleted( );
             void newComponent( GluonEngine::Component* );
 
         private:
