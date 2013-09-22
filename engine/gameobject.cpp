@@ -369,7 +369,6 @@ GameObject::addComponent( Component* addThis )
 {
     if( addThis )
     {
-
         int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( addThis->metaObject()->className() );
         if( d->componentTypes.constFind( typeID, addThis ) == d->componentTypes.constEnd() )
         {
@@ -391,9 +390,15 @@ GameObject::addComponent( Component* addThis )
 bool
 GameObject::removeComponent( Component* removeThis )
 {
-    int typeID = QMetaType::type( removeThis->metaObject()->className() );
+    if( !d->components.contains( removeThis ) )
+        return false;
+
+    int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( removeThis->metaObject()->className() );
     d->componentTypes.remove( typeID, removeThis );
     disconnect( removeThis, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
+
+    GluonObject::removeChild( removeThis );
+
     return d->components.removeOne( removeThis );
 }
 
@@ -446,7 +451,13 @@ GameObject::childGameObject( const QString& name ) const
 void GameObject::addChild( GluonObject* child )
 {
     if( qobject_cast<GameObject*>( child ) )
+    {
         addChild( qobject_cast<GameObject*>( child ) );
+    }
+    else if( qobject_cast< Component* >( child ) )
+    {
+        addComponent( qobject_cast< Component* >( child ) );
+    }
     else
         GluonCore::GluonObject::addChild( child );
 }
@@ -506,7 +517,14 @@ GameObject::removeChild( GameObject* removeThis )
 bool GameObject::removeChild( GluonObject* child )
 {
     if( qobject_cast<GameObject*>( child ) )
+    {
         return removeChild( qobject_cast<GameObject*>( child ) );
+    }
+    else if( qobject_cast< Component* >( child ) )
+    {
+        return removeComponent( qobject_cast< Component* >( child ) );
+    }
+
     return GluonObject::removeChild( child );
 }
 
