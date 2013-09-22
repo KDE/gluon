@@ -35,6 +35,7 @@ NewObjectCommand::NewObjectCommand( GluonCore::GluonObject* newObject ) : d( new
 {
     setObject( newObject );
     d->parent = qobject_cast<GluonCore::GluonObject*>( newObject->parent() );
+    Q_ASSERT( d->parent );
     d->applied = true;
 
     setCommandName( "NewObjectCommand" );
@@ -55,16 +56,6 @@ void NewObjectCommand::undo()
     if( d->parent->children().indexOf( object() ) != -1 )
         d->parent->removeChild( object() );
 
-    GluonEngine::GameObject* obj = qobject_cast<GluonEngine::GameObject*>( object() );
-    if( obj )
-    {
-        if( obj->parentGameObject()->childIndex( obj ) != -1 )
-            obj->parentGameObject()->removeChild( obj );
-    }
-
-    GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>( object() );
-    if( comp )
-        comp->gameObject()->removeComponent( comp );
     AbstractUndoCommand::undo();
 }
 
@@ -72,16 +63,10 @@ void NewObjectCommand::redo()
 {
     setCommandDirection( "redo" );
     d->applied = true;
-    object()->setParent( d->parent );
 
-    GluonEngine::GameObject* gameObjectParent = qobject_cast< GluonEngine::GameObject* >( d->parent );
-    GluonEngine::GameObject* gameObject = qobject_cast<GluonEngine::GameObject*>( object() );
-    if( gameObject && gameObjectParent )
-        gameObjectParent->addChild( gameObject );
+    if( d->parent->children().indexOf( object() ) == -1 )
+        d->parent->addChild( object() );
 
-    GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>( object() );
-    if( comp && gameObjectParent )
-        gameObjectParent->addComponent( comp );
     AbstractUndoCommand::redo();
 }
 
