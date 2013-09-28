@@ -161,6 +161,8 @@ PropertyWidgetContainer::PropertyWidgetContainer( GluonCore::GluonObject* theObj
 
     d = new PropertyWidgetContainerPrivate( this );
     setObject( theObject );
+
+    connect( ObjectManager::instance(), SIGNAL(propertyChanged(QObject*,QString,QVariant)), SLOT(notifyPropertyChanged(QObject*,QString,QVariant)) );
 }
 
 PropertyWidgetContainer::~PropertyWidgetContainer()
@@ -317,6 +319,21 @@ void PropertyWidgetContainer::objectDeleted( QObject* obj )
     }
 }
 
+void PropertyWidgetContainer::notifyPropertyChanged( QObject* object, const QString& property, const QVariant& value )
+{
+    if( object == d->object )
+    {
+        if( property == "expanded" )
+        {
+            setExpanded( value.toBool() );
+        }
+        else if( property == "enabled" )
+        {
+            setEnabled( value.toBool() );
+        }
+    }
+}
+
 bool
 PropertyWidgetContainer::expanded() const
 {
@@ -326,6 +343,9 @@ PropertyWidgetContainer::expanded() const
 void
 PropertyWidgetContainer::setExpanded( const bool& newExpanded )
 {
+    if( newExpanded == d->expanded )
+        return;
+
     bool oldExpanded = d->expanded;
     d->expanded = newExpanded;
 
@@ -364,6 +384,9 @@ PropertyWidgetContainer::enabled() const
 void
 PropertyWidgetContainer::setEnabled( const bool& newEnabled )
 {
+    if( newEnabled == d->enabled )
+        return;
+    
     bool oldEnabled = d->enabled;
     d->enabled = newEnabled;
     if( d->enabled != d->object->property( "enabled" ).value<bool>() )
