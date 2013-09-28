@@ -29,6 +29,7 @@ namespace GluonEngine
     class Component;
 }
 
+class QUndoCommand;
 namespace GluonCreator
 {
     class PropertiesDock : public QDockWidget
@@ -40,8 +41,8 @@ namespace GluonCreator
 
         public slots:
             void selectionChanged( SelectionManager::SelectionList selection );
-            void newComponent( GluonEngine::Component* comp );
             void propertyChanged( QObject* object, QString property, QVariant oldValue, QVariant newValue );
+            void historyChanged( const QUndoCommand* command );
 
         private:
             class PropertiesDockPrivate;

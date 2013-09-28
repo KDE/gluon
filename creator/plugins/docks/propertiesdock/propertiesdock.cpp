@@ -23,6 +23,8 @@
 #include <creator/lib/widgets/propertywidget.h>
 #include <creator/lib/objectmanager.h>
 #include <creator/lib/historymanager.h>
+#include <creator/lib/newobjectcommand.h>
+#include <lib/deleteobjectcommand.h>
 
 #include <engine/game.h>
 #include <engine/component.h>
@@ -49,7 +51,7 @@ PropertiesDock::PropertiesDock( const QString& title, QWidget* parent, Qt::Windo
 
     connect( SelectionManager::instance(), SIGNAL(selectionChanged(SelectionManager::SelectionList)), SLOT(selectionChanged(SelectionManager::SelectionList)) );
     connect( d->widget, SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)), SLOT(propertyChanged(QObject*,QString,QVariant,QVariant)) );
-    connect( ObjectManager::instance(), SIGNAL(newComponent(GluonEngine::Component*)), SLOT(newComponent(GluonEngine::Component*)) );
+    connect( HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SLOT(historyChanged(const QUndoCommand*)) );
 }
 
 PropertiesDock::~PropertiesDock()
@@ -64,14 +66,6 @@ void PropertiesDock::selectionChanged( SelectionManager::SelectionList selection
         d->widget->setObject( selection.at( 0 ) );
 }
 
-void PropertiesDock::newComponent( GluonEngine::Component* comp )
-{
-    if( comp->parent() == d->widget->object() )
-    {
-        d->widget->setObject( d->widget->object() );
-    }
-}
-
 void PropertiesDock::propertyChanged( QObject* object, QString property, QVariant oldValue, QVariant newValue )
 {
     GluonCore::GluonObject* obj = qobject_cast<GluonCore::GluonObject*>( object );
@@ -80,4 +74,19 @@ void PropertiesDock::propertyChanged( QObject* object, QString property, QVarian
         ObjectManager::instance()->changeProperty( obj, property, oldValue, newValue );
 }
 
+void PropertiesDock::historyChanged( const QUndoCommand* command )
+{
+    const NewObjectCommand* newObject = dynamic_cast< const NewObjectCommand* >( command );
+    if( newObject )
+    {
+        if( newObject->parent() == d->widget->object() )
+            d->widget->setObject( d->widget->object() );
+    }
 
+    const DeleteObjectCommand* deleteObject = dynamic_cast< const DeleteObjectCommand* >( command );
+    if( deleteObject )
+    {
+        if( deleteObject->parent() == d->widget->object() )
+            d->widget->setObject( d->widget->object() );
+    }
+}

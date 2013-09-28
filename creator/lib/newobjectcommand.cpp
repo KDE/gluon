@@ -70,3 +70,7 @@ void NewObjectCommand::redo()
     AbstractUndoCommand::redo();
 }
 
+GluonCore::GluonObject* NewObjectCommand::parent() const
+{
+    return d->parent;
+}

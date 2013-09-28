@@ -22,6 +22,11 @@
 
 #include "abstractundocommand.h"
 
+namespace GluonCore
+{
+    class GluonObject;
+}
+
 namespace GluonCreator
 {
     class GLUONCREATOR_EXPORT NewObjectCommand : public AbstractUndoCommand
@@ -32,6 +37,8 @@ namespace GluonCreator
 
             virtual void undo();
             virtual void redo();
+
+            GluonCore::GluonObject* parent() const;
 
         private:
             class NewObjectCommandPrivate;

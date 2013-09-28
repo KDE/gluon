@@ -104,3 +104,7 @@ void DeleteObjectCommand::redo()
     AbstractUndoCommand::redo();
 }
 
+GluonCore::GluonObject* DeleteObjectCommand::parent() const
+{
+    return d->parent;
+}

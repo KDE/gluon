@@ -21,6 +21,7 @@
 #define GLUON_CREATOR_DELETEOBJECTCOMMAND_H
 
 #include "abstractundocommand.h"
+#include "gluoncreator_macros.h"
 
 namespace GluonCore
 {
@@ -29,7 +30,7 @@ namespace GluonCore
 
 namespace GluonCreator
 {
-    class DeleteObjectCommand : public AbstractUndoCommand
+    class GLUONCREATOR_EXPORT DeleteObjectCommand : public AbstractUndoCommand
     {
         public:
             DeleteObjectCommand( GluonCore::GluonObject* object );
@@ -37,6 +38,8 @@ namespace GluonCreator
 
             virtual void undo();
             virtual void redo();
+
+            GluonCore::GluonObject* parent() const;
 
         private:
             class DeleteObjectCommandPrivate;
