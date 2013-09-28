@@ -66,6 +66,7 @@ namespace GluonCreator
             virtual void setEditWidget( QWidget* widget );
             virtual void setEditValue( const QVariant& value );
             virtual void valueChanged( QVariant );
+            void editPropertyChanged( QObject* object, const QString& property, const QVariant& value );
 
         Q_SIGNALS:
             void propertyChanged( QObject* object, const QString& propertyName, const QVariant& oldValue, const QVariant& newValue );

@@ -267,6 +267,11 @@ GluonEngine::Scene* ObjectManager::createNewScene()
     return scene;
 }
 
+void ObjectManager::notifyPropertyChanged( QObject* object, const QString& property, const QVariant& value )
+{
+    emit propertyChanged( object, property, value );
+}
+
 void ObjectManager::watchCurrentAssets()
 {
     QList<GluonEngine::Asset*> assets = GluonEngine::Game::instance()->gameProject()->findItemsByType<GluonEngine::Asset>();

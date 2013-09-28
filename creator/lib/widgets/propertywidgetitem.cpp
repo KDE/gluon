@@ -17,6 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 #include "propertywidgetitem.h"
+#include <objectmanager.h>
 
 #include <QtCore/QVariant>
 #include <QtGui/QVBoxLayout>
@@ -45,6 +46,8 @@ PropertyWidgetItem::PropertyWidgetItem( QWidget* parent, Qt::WindowFlags f )
     setLayout( new QVBoxLayout() );
     layout()->setSpacing( 0 );
     layout()->setContentsMargins( 0, 0, 0, 0 );
+
+    connect( ObjectManager::instance(), SIGNAL(propertyChanged(QObject*,QString,QVariant)), SLOT(editPropertyChanged(QObject*,QString,QVariant)) );
 }
 
 PropertyWidgetItem::~PropertyWidgetItem()
@@ -111,4 +114,10 @@ PropertyWidgetItem::valueChanged( QVariant value )
     QVariant oldValue = d->editedObject->property( d->propertyName.toUtf8() );
     d->editedObject->setProperty( d->propertyName.toUtf8(), value );
     emit propertyChanged( d->editedObject, d->propertyName, oldValue, value );
+}
+
+void PropertyWidgetItem::editPropertyChanged( QObject* object, const QString& property, const QVariant& value )
+{
+    if( object == d->editedObject && property == d->propertyName )
+        setEditValue( value );
 }
