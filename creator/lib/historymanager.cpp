@@ -21,6 +21,8 @@
 
 #include <KDE/KUndoStack>
 
+#include "filemanager.h"
+
 using namespace GluonCreator;
 
 GLUON_DEFINE_SINGLETON( HistoryManager )
@@ -48,6 +50,9 @@ void HistoryManager::addCommand( QUndoCommand* command )
 
 void HistoryManager::redo()
 {
+    if( FileManager::instance()->redoOnCurrent() )
+        return;
+
     d->stack->redo();
     const QUndoCommand* command = d->stack->command( d->stack->index() - 1 );
     emit historyChanged( command );
@@ -55,6 +60,9 @@ void HistoryManager::redo()
 
 void HistoryManager::undo()
 {
+    if( FileManager::instance()->undoOnCurrent() )
+        return;
+
     d->stack->undo();
     const QUndoCommand* command = d->stack->command( d->stack->index() );
     emit historyChanged( command );

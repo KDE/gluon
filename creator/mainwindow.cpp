@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2010-2013 Arjen Hiemstra <ahiemstra@heimr.nl>
  * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
  * Copyright (c) 2012 Shreya Pandit <shreya@shreyapandit.com>
  *
@@ -256,17 +256,17 @@ void MainWindow::setupActions()
     KAction* newProject = new KAction( KIcon( "document-new" ), i18n( "New Project..." ), actionCollection() );
     actionCollection()->addAction( "project_new", newProject );
     connect( newProject, SIGNAL(triggered(bool)), SLOT(showNewProjectDialog()) );
-    newProject->setShortcut( KShortcut( "Ctrl+Shift+N" ) );
+    newProject->setShortcut( KShortcut( "Ctrl+N" ) );
 
     KAction* openProject = new KAction( KIcon( "document-open" ), i18n( "Open Project..." ), actionCollection() );
     actionCollection()->addAction( "project_open", openProject );
     connect( openProject, SIGNAL(triggered(bool)), SLOT(showOpenProjectDialog()) );
-    openProject->setShortcut( KShortcut( "Ctrl+Shift+O" ) );
+    openProject->setShortcut( KShortcut( "Ctrl+O" ) );
 
     KAction* saveProject = new KAction( KIcon( "document-save" ), i18n( "Save Project" ), actionCollection() );
     actionCollection()->addAction( "project_save", saveProject );
     connect( saveProject, SIGNAL(triggered(bool)), SLOT(saveProject()) );
-    saveProject->setShortcut( KShortcut( "Ctrl+Shift+S" ) );
+    saveProject->setShortcut( KShortcut( "Ctrl+S" ) );
 
     KAction* saveProjectAs = new KAction( KIcon( "document-save-as" ), i18n( "Save Project As..." ), actionCollection() );
     actionCollection()->addAction( "project_save_as", saveProjectAs );
@@ -276,13 +276,9 @@ void MainWindow::setupActions()
     KStandardAction::preferences( this, SLOT(showPreferences()), actionCollection() );
 
     KAction* undo = KStandardAction::undo( HistoryManager::instance(), SLOT(undo()), actionCollection() );
-    undo->setText( i18n( "Undo Project Action" ) );
-    undo->setShortcut( KShortcut( "Ctrl+Alt+Z" ) );
     connect( HistoryManager::instance(), SIGNAL(canUndoChanged(bool)), undo, SLOT(setEnabled(bool)) );
 
     KAction* redo = KStandardAction::redo( HistoryManager::instance(), SLOT(redo()), actionCollection() );
-    redo->setText( i18n( "Redo Project Action" ) );
-    undo->setShortcut( KShortcut( "Ctrl+Alt+Shift+Z" ) );
     connect( HistoryManager::instance(), SIGNAL(canRedoChanged(bool)), redo, SLOT(setEnabled(bool)) );
 
     connect( HistoryManager::instance(), SIGNAL(cleanChanged(bool)), SLOT(cleanChanged(bool)) );
@@ -467,16 +463,55 @@ void MainWindow::partChanged( KParts::Part* part )
         QTimer::singleShot( 100, GluonEngine::Game::instance(), SLOT(drawAll()) );
     }
 
+    //Disable or change shortcuts for actions we want to handle globally.
+    QAction* action = part->action( "file_save" );
+    if( action )
+        action->setShortcut( QKeySequence( "Ctrl+Shift+S" ) );
+
+    action = part->action( "edit_undo" );
+    if( action )
+        action->setShortcut( QKeySequence() );
+
+    action = part->action( "edit_redo" );
+    if( action )
+        action->setShortcut( QKeySequence() );
+
     QList<QAction*> actions = menuBar()->actions();
     foreach( QAction * action, actions )
     {
-        if( action->menu() && action->menu()->actions().count() == 0 )
+        if( action->menu() )
         {
-            action->setVisible( false );
-        }
-        else
-        {
-            action->setVisible( true );
+            if( action->menu()->actions().count() == 0 )
+            {
+                action->setVisible( false );
+            }
+            else
+            {
+                action->setVisible( true );
+
+                // Glorious-hack-of-the-year: Remove the undo and redo actions from
+                // the menu since we handle those globally and do not want to display
+                // duplicate actions.
+                //
+                // This is done after the part has been merged to prevent us either
+                // needing to hack the XML or writing a whole bunch of code to add the
+                // actions manually. In a way, it is the least of three evils.
+                QAction* undoAction = part->action( "edit_undo" );
+                QAction* redoAction = part->action( "edit_redo" );
+
+                if( undoAction || redoAction )
+                {
+                    QList< QAction* > menuActions = action->menu()->actions();
+                    foreach( QAction* menuAction, menuActions )
+                    {
+                        if( menuAction == redoAction )
+                            action->menu()->removeAction( menuAction );
+
+                        if( menuAction == undoAction )
+                            action->menu()->removeAction( menuAction );
+                    }
+                }
+            }
         }
     }
 }

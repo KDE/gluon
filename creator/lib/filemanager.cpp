@@ -23,6 +23,9 @@
 #include <engine/asset.h>
 
 #include <QtCore/QMetaClassInfo>
+#include <QTimer>
+#include <QAction>
+#include <QMenu>
 
 #include <KDE/KParts/ReadWritePart>
 #include <KDE/KParts/PartManager>
@@ -40,7 +43,6 @@ GLUON_DEFINE_SINGLETON( FileManager )
 class FileManager::Private
 {
     public:
-
         struct OpenedFile
         {
             bool operator==( const OpenedFile& other ) const
@@ -191,6 +193,40 @@ void FileManager::saveAll()
         if( part )
             part->save();
     }
+}
+
+bool FileManager::undoOnCurrent()
+{
+    KParts::ReadWritePart* part = qobject_cast< KParts::ReadWritePart* >( d->partManager->activePart() );
+
+    if( part && part->widget()->hasFocus() )
+    {
+        QAction* undoAction = part->action( "edit_undo" );
+        if( undoAction )
+        {
+            undoAction->trigger();
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool FileManager::redoOnCurrent()
+{
+    KParts::ReadWritePart* part = qobject_cast< KParts::ReadWritePart* >( d->partManager->activePart() );
+
+    if( part && part->widget()->hasFocus() )
+    {
+        QAction* redoAction = part->action( "edit_redo" );
+        if( redoAction )
+        {
+            redoAction->trigger();
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void FileManager::fileModified( KTextEditor::Document* doc )

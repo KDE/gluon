@@ -94,6 +94,16 @@ namespace GluonCreator
              */
             void saveAll();
 
+            /**
+             * Call undo on the current active part.
+             */
+            bool undoOnCurrent();
+
+            /**
+             * Call redo on the current active part.
+             */
+            bool redoOnCurrent();
+
             void fileModified( KTextEditor::Document* doc );
 
         Q_SIGNALS:
