@@ -154,19 +154,19 @@ QString Writer::writePropertyValue(const QVariant& value)
             valueString = writeListValue( value );
             break;
         default:
-            if( value.type() == GluonCore::VariantType::Vector2f )
+            if( value.userType() == GluonCore::VariantType::Vector2f )
             {
                 valueString = writeVector2DValue( value );
             }
-            else if( value.type() == GluonCore::VariantType::Vector3f )
+            else if( value.userType() == GluonCore::VariantType::Vector3f )
             {
                 valueString = writeVector3DValue( value );
             }
-            else if( value.type() == GluonCore::VariantType::Vector4f )
+            else if( value.userType() == GluonCore::VariantType::Vector4f )
             {
                 valueString = writeVector4DValue( value );
             }
-            else if( value.type() == GluonCore::VariantType::Quaternionf )
+            else if( value.userType() == GluonCore::VariantType::Quaternionf )
             {
                 valueString = writeQuaternionValue( value );
             }
