@@ -50,6 +50,7 @@
 #include <QtCore/QHash>
 #include <QtCore/QMetaProperty>
 #include <QtCore/QStringBuilder>
+#include <QTimer>
 
 namespace GluonCreator
 {
@@ -286,25 +287,7 @@ PropertyWidgetContainer::downTriggered()
 void
 PropertyWidgetContainer::delTriggered()
 {
-    if( KMessageBox::questionYesNo( this, i18n( "Are you sure you wish to delete the item %1?", d->object->fullyQualifiedName() ), i18n( "Delete Item?" ) ) == KMessageBox::Yes )
-    {
-        GluonCore::GluonObject* theParent = qobject_cast<GluonCore::GluonObject*>( d->object->parent() );
-        if( theParent )
-            theParent->removeChild( d->object );
-
-        GluonEngine::GameObject* gobj = qobject_cast<GluonEngine::GameObject*>( d->object );
-        GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>( d->object );
-        if( gobj && gobj->parentGameObject() )
-        {
-            SelectionManager::instance()->clearSelection();
-            Models::instance()->sceneModel()->deleteGameObject( gobj );
-        }
-        else if( comp )
-        {
-            Models::instance()->sceneModel()->deleteComponent( comp );
-            this->deleteLater();
-        }
-    }
+    QMetaObject::invokeMethod( ObjectManager::instance(), "deleteObject", Qt::QueuedConnection, Q_ARG( GluonCore::GluonObject*, d->object ) );
 }
 
 void PropertyWidgetContainer::addPropertyTriggered()
