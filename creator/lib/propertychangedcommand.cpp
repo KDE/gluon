@@ -20,23 +20,32 @@
 #include "propertychangedcommand.h"
 #include "objectmanager.h"
 
+#include <QDebug>
+
 #include <core/gluonobject.h>
+#include <core/gluonvarianttypes.h>
 
 #include <QtCore/QVariant>
 
 using namespace GluonCreator;
 
-class PropertyChangedCommand::PropertyChangedCommandPrivate
+class PropertyChangedCommand::Private
 {
     public:
         QString property;
         QVariant oldValue;
         QVariant newValue;
+
+        static QVector< uint > mergeTypes;
+        static QVector< int > mergeUserTypes;
 };
 
+QVector< uint > PropertyChangedCommand::Private::mergeTypes = QVector< uint >() << QVariant::Char << QMetaType::Float << QVariant::Double << QVariant::Size << QVariant::SizeF << QVariant::String << QVariant::Color << QVariant::UserType;
+QVector< int > PropertyChangedCommand::Private::mergeUserTypes = QVector< int >() << GluonCore::VariantType::Vector2f << GluonCore::VariantType::Vector3f << GluonCore::VariantType::Vector4f << GluonCore::VariantType::Quaternionf;
+
 PropertyChangedCommand::PropertyChangedCommand( GluonCore::GluonObject* object, QString property, QVariant oldValue, QVariant newValue )
+    : d( new Private )
 {
-    d = new PropertyChangedCommandPrivate;
     setObject( object );
     d->property = property;
     d->oldValue = oldValue;
@@ -47,6 +56,12 @@ PropertyChangedCommand::PropertyChangedCommand( GluonCore::GluonObject* object, 
 
 PropertyChangedCommand::~PropertyChangedCommand()
 {
+    delete d;
+}
+
+int PropertyChangedCommand::id() const
+{
+    return 16 + 3 + 3; // P + C + C
 }
 
 void PropertyChangedCommand::undo()
@@ -65,3 +80,25 @@ void PropertyChangedCommand::redo()
     AbstractUndoCommand::redo();
 }
 
+bool PropertyChangedCommand::mergeWith( const QUndoCommand* other )
+{
+    if( other->id() != id() )
+        return false;
+
+    const PropertyChangedCommand* pcc = static_cast< const PropertyChangedCommand* >( other );
+    if( pcc->d->property != d->property )
+        return false;
+
+    if( pcc->d->newValue.type() != d->newValue.type() && pcc->d->newValue.userType() != d->newValue.userType() )
+        return false;
+
+    if( ! Private::mergeTypes.contains( d->newValue.type() ) )
+        return false;
+
+    if( d->newValue.type() == QVariant::UserType && ! Private::mergeUserTypes.contains( d->newValue.userType() ) )
+        return false;
+
+    d->newValue = pcc->d->newValue;
+
+    return true;
+}

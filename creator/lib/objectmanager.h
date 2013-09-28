@@ -70,14 +70,19 @@ namespace GluonCreator
             void assetDeleted( GluonEngine::Asset* asset );
 
             void notifyPropertyChanged( QObject* object, const QString& property, const QVariant& value );
+            void notifyObjectAdded( GluonCore::GluonObject* parent );
+            void notifyObjectDeleted( GluonCore::GluonObject* parent );
 
         Q_SIGNALS:
             void newObject( GluonCore::GluonObject* );
             void newScene( GluonEngine::Scene* );
             void newGameObject( GluonEngine::GameObject* );
-            void objectDeleted( );
             void newComponent( GluonEngine::Component* );
+
+            void objectAdded( GluonCore::GluonObject* parent );
             void propertyChanged( QObject* object, const QString& property, const QVariant& value );
+
+            void objectDeleted( GluonCore::GluonObject* parent );
 
         private:
             ~ObjectManager();

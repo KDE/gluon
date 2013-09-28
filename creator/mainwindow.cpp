@@ -212,7 +212,7 @@ void MainWindow::openProject()
     }
 
     HistoryManager::instance()->clear();
-    connect( HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SLOT(historyChanged()) );
+    connect( HistoryManager::instance(), SIGNAL(historyChanged()), SLOT(historyChanged()) );
 }
 
 void MainWindow::saveProject()

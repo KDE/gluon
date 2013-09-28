@@ -51,7 +51,8 @@ PropertiesDock::PropertiesDock( const QString& title, QWidget* parent, Qt::Windo
 
     connect( SelectionManager::instance(), SIGNAL(selectionChanged(SelectionManager::SelectionList)), SLOT(selectionChanged(SelectionManager::SelectionList)) );
     connect( d->widget, SIGNAL(propertyChanged(QObject*,QString,QVariant,QVariant)), SLOT(propertyChanged(QObject*,QString,QVariant,QVariant)) );
-    connect( HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SLOT(historyChanged(const QUndoCommand*)) );
+    connect( ObjectManager::instance(), SIGNAL(objectAdded(GluonCore::GluonObject*)), SLOT(propertyWidgetChanged(GluonCore::GluonObject*)) );
+    connect( ObjectManager::instance(), SIGNAL(objectDeleted(GluonCore::GluonObject*)), SLOT(propertyWidgetChanged(GluonCore::GluonObject*)) );
 }
 
 PropertiesDock::~PropertiesDock()
@@ -74,19 +75,8 @@ void PropertiesDock::propertyChanged( QObject* object, QString property, QVarian
         ObjectManager::instance()->changeProperty( obj, property, oldValue, newValue );
 }
 
-void PropertiesDock::historyChanged( const QUndoCommand* command )
+void PropertiesDock::propertyWidgetChanged( GluonCore::GluonObject* parent )
 {
-    const NewObjectCommand* newObject = dynamic_cast< const NewObjectCommand* >( command );
-    if( newObject )
-    {
-        if( newObject->parent() == d->widget->object() )
-            d->widget->setObject( d->widget->object() );
-    }
-
-    const DeleteObjectCommand* deleteObject = dynamic_cast< const DeleteObjectCommand* >( command );
-    if( deleteObject )
-    {
-        if( deleteObject->parent() == d->widget->object() )
-            d->widget->setObject( d->widget->object() );
-    }
+    if( parent == d->widget->object() )
+        d->widget->setObject( d->widget->object() );
 }

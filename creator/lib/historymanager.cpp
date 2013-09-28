@@ -45,27 +45,23 @@ class HistoryManager::HistoryManagerPrivate
 void HistoryManager::addCommand( QUndoCommand* command )
 {
     d->stack->push( command );
-    emit historyChanged( command );
+    emit historyChanged();
 }
 
 void HistoryManager::redo()
 {
-    if( FileManager::instance()->redoOnCurrent() )
-        return;
+    if( !FileManager::instance()->redoOnCurrent() )
+        d->stack->redo();
 
-    d->stack->redo();
-    const QUndoCommand* command = d->stack->command( d->stack->index() - 1 );
-    emit historyChanged( command );
+    emit historyChanged();
 }
 
 void HistoryManager::undo()
 {
-    if( FileManager::instance()->undoOnCurrent() )
-        return;
+    if( !FileManager::instance()->undoOnCurrent() )
+        d->stack->undo();
 
-    d->stack->undo();
-    const QUndoCommand* command = d->stack->command( d->stack->index() );
-    emit historyChanged( command );
+    emit historyChanged();
 }
 
 void HistoryManager::clear()

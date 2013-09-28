@@ -119,5 +119,9 @@ PropertyWidgetItem::valueChanged( QVariant value )
 void PropertyWidgetItem::editPropertyChanged( QObject* object, const QString& property, const QVariant& value )
 {
     if( object == d->editedObject && property == d->propertyName )
+    {
+        blockSignals(true);
         setEditValue( value );
+        blockSignals(false);
+    }
 }

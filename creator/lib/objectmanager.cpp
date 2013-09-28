@@ -249,8 +249,13 @@ void ObjectManager::deleteObject( GluonCore::GluonObject* object )
         return;
     }
 
+    if( SelectionManager::instance()->selection().contains( object ) )
+        SelectionManager::instance()->clearSelection();
+
+    GluonCore::GluonObject* parent = qobject_cast< GluonCore::GluonObject* >( object->parent() );
+
     HistoryManager::instance()->addCommand( new DeleteObjectCommand( object ) );
-    emit objectDeleted();
+    emit objectDeleted( parent );
 }
 
 GluonEngine::Scene* ObjectManager::createNewScene()
@@ -270,6 +275,16 @@ GluonEngine::Scene* ObjectManager::createNewScene()
 void ObjectManager::notifyPropertyChanged( QObject* object, const QString& property, const QVariant& value )
 {
     emit propertyChanged( object, property, value );
+}
+
+void ObjectManager::notifyObjectAdded( GluonCore::GluonObject* parent )
+{
+    emit objectAdded( parent );
+}
+
+void ObjectManager::notifyObjectDeleted( GluonCore::GluonObject* parent )
+{
+    emit objectDeleted( parent );
 }
 
 void ObjectManager::watchCurrentAssets()

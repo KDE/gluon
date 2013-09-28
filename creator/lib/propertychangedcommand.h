@@ -32,12 +32,16 @@ namespace GluonCreator
             PropertyChangedCommand( GluonCore::GluonObject* object, QString property, QVariant oldValue, QVariant newValue );
             virtual ~PropertyChangedCommand();
 
+            virtual int id() const;
+
             virtual void undo();
             virtual void redo();
 
+            virtual bool mergeWith( const QUndoCommand* other );
+
         private:
-            class PropertyChangedCommandPrivate;
-            PropertyChangedCommandPrivate* d;
+            class Private;
+            Private* const d;
     };
 }
 

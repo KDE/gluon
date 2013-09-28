@@ -54,7 +54,7 @@ class SceneModel::SceneModelPrivate
 SceneModel::SceneModel( QObject* parent ): QAbstractItemModel( parent ), d( new SceneModelPrivate )
 {
     setSupportedDragActions( Qt::MoveAction );
-    connect( HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SIGNAL(layoutChanged()) );
+    connect( HistoryManager::instance(), SIGNAL(historyChanged()), SIGNAL(layoutChanged()) );
     //   new ModelTest(this, this);
 }
 

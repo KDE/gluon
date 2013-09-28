@@ -45,7 +45,7 @@ namespace GluonCreator
             void setClean();
 
         Q_SIGNALS:
-            void historyChanged( const QUndoCommand* command );
+            void historyChanged();
 
             void canUndoChanged( bool );
             void canRedoChanged( bool );

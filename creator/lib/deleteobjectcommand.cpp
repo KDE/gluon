@@ -81,6 +81,8 @@ void DeleteObjectCommand::undo()
         }
     }
 
+    ObjectManager::instance()->notifyObjectAdded( d->parent );
+
     if( d->asset )
         ObjectManager::instance()->watchAsset( d->asset );
 
@@ -96,6 +98,8 @@ void DeleteObjectCommand::redo()
     d->index = d->parent->children().indexOf( object() );
     if( d->index != -1 )
         d->parent->removeChild( object() );
+
+    ObjectManager::instance()->notifyObjectDeleted( d->parent );
 
     if( d->asset )
         ObjectManager::instance()->unwatchAsset( d->asset );

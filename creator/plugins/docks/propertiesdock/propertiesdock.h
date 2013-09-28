@@ -42,7 +42,7 @@ namespace GluonCreator
         public slots:
             void selectionChanged( SelectionManager::SelectionList selection );
             void propertyChanged( QObject* object, QString property, QVariant oldValue, QVariant newValue );
-            void historyChanged( const QUndoCommand* command );
+            void propertyWidgetChanged( GluonCore::GluonObject* parent );
 
         private:
             class PropertiesDockPrivate;

@@ -18,6 +18,7 @@
  */
 
 #include "newobjectcommand.h"
+#include "objectmanager.h"
 
 #include <engine/gameobject.h>
 #include <engine/component.h>
@@ -56,6 +57,8 @@ void NewObjectCommand::undo()
     if( d->parent->children().indexOf( object() ) != -1 )
         d->parent->removeChild( object() );
 
+    ObjectManager::instance()->notifyObjectDeleted( d->parent );
+
     AbstractUndoCommand::undo();
 }
 
@@ -66,6 +69,8 @@ void NewObjectCommand::redo()
 
     if( d->parent->children().indexOf( object() ) == -1 )
         d->parent->addChild( object() );
+
+    ObjectManager::instance()->notifyObjectAdded( d->parent );
 
     AbstractUndoCommand::redo();
 }

@@ -62,7 +62,7 @@ class ProjectModel::ProjectModelPrivate
 
 ProjectModel::ProjectModel( QObject* parent ): QAbstractItemModel( parent ), d( new ProjectModelPrivate )
 {
-    connect( HistoryManager::instance(), SIGNAL(historyChanged(const QUndoCommand*)), SIGNAL(layoutChanged()) );
+    connect( HistoryManager::instance(), SIGNAL(historyChanged()), SIGNAL(layoutChanged()) );
     //new ModelTest(this, this);
 }
 
