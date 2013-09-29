@@ -41,11 +41,6 @@ set(gluoncreator_SRCS
     intro/dockeroverlay.cpp
 
     dialogs/configdialog.cpp
-    dialogs/newprojectdialogpage.cpp
-    dialogs/openprojectdialogpage.cpp
-    dialogs/projectselectiondialog.cpp
-    dialogs/gettingstarteddialogpage.cpp
-    dialogs/recentprojectsdialogpage.cpp
 )
 
 kde4_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)

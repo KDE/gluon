@@ -65,7 +65,6 @@ namespace GluonCreator
             void addAsset();
 
             void showOpenProjectDialog();
-            void projectDialogAccepted();
 
             void partChanged( KParts::Part* part );
 

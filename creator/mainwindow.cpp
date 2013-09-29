@@ -59,7 +59,6 @@
 #include "lib/widgets/filearea.h"
 
 #include "gluoncreatorsettings.h"
-#include "dialogs/projectselectiondialog.h"
 #include "dialogs/configdialog.h"
 #include "intro/dockeroverlay.h"
 
@@ -71,7 +70,6 @@ class MainWindow::Private
         bool modified;
         QString fileName;
         KRecentFilesAction* recentFiles;
-        ProjectSelectionDialog* projectDialog;
 
         FileArea* mainArea;
         QDeclarativeView* qmlOverlay;
@@ -105,10 +103,6 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
     setupActions();
     setupGUI();
     stateChanged( "initial" );
-
-    d->projectDialog = new ProjectSelectionDialog( this );
-    d->projectDialog->setModal( true );
-    connect( d->projectDialog, SIGNAL(accepted()), SLOT(projectDialogAccepted()) );
 
     DockManager::instance()->setDocksEnabled( false );
     DockManager::instance()->setDocksLocked( GluonCreator::Settings::lockLayout() );
@@ -460,19 +454,6 @@ void MainWindow::showOpenProjectDialog()
 
     if( !fileName.isEmpty() )
         openProject( fileName );
-}
-
-void MainWindow::projectDialogAccepted()
-{
-    if( d->projectDialog->currentPageIndex() != ProjectSelectionDialog::GettingStartedPage )
-    {
-        openProject( d->projectDialog->fileName() );
-    }
-    else
-    {
-        d->projectDialog->hide();
-        loadView();
-    }
 }
 
 void MainWindow::partChanged( KParts::Part* part )
