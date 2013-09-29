@@ -152,12 +152,21 @@ Item {
 
                 text: d.currentDockerIndex != d.dockerNames.length - 1 ? "Next" : "Quit";
 
-                onClicked: d.currentDockerIndex == d.dockerNames.length - 1 ? mainWindow.closeQmlOverlay() : d.currentDockerIndex++;
+                onClicked: {
+                    if( d.currentDockerIndex == d.dockerNames.length - 1 ) {
+                        dialog.allowClose = true;
+                        dialog.close();
+                        showWelcomeDialogTimer.start();
+                    } else {
+                        d.currentDockerIndex++;
+                    }
+                }
             }
         }
 
         //Hack because clicking outside the dialog will always close it without us being able to prevent that
-        onStatusChanged: if( status == PlasmaComponents.DialogStatus.Closing ) dialog.open();
+        property bool allowClose: false;
+        onStatusChanged: if( status == PlasmaComponents.DialogStatus.Closing && !allowClose ) dialog.open();
     }
 
     IntroductionText {
@@ -173,8 +182,14 @@ Item {
     }
 
     Timer {
-        interval: 100;
+        interval: 500;
         running: true;
         onTriggered: dialog.open();
+    }
+
+    Timer {
+        id: showWelcomeDialogTimer;
+        interval: 300;
+        onTriggered: mainWindow.showWelcomeDialog();
     }
 }
