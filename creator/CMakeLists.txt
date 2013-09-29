@@ -65,6 +65,15 @@ install(FILES
 )
 
 install(FILES
+    dialogs/WelcomeDialog.qml
+    dialogs/NewProjectDialogPage.qml
+    dialogs/WelcomeDialogColumn.qml
+
+    DESTINATION ${DATA_INSTALL_DIR}/gluoncreator/dialogs
+    COMPONENT gluoncreator
+)
+
+install(FILES
     config/gluoncreatorsettings.kcfg
 
     DESTINATION ${KCFG_INSTALL_DIR}
