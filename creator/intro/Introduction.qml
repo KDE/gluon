@@ -155,6 +155,9 @@ Item {
                 onClicked: d.currentDockerIndex == d.dockerNames.length - 1 ? mainWindow.closeQmlOverlay() : d.currentDockerIndex++;
             }
         }
+
+        //Hack because clicking outside the dialog will always close it without us being able to prevent that
+        onStatusChanged: if( status == PlasmaComponents.DialogStatus.Closing ) dialog.open();
     }
 
     IntroductionText {
