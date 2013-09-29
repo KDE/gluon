@@ -46,15 +46,9 @@ int main( int argc, char** argv )
     KApplication app;
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
-    //Create and show a splashscreen
-    KSplashScreen splash( QPixmap( KGlobal::dirs()->locate( "appdata", "gluon-creator-splash.png" ) ) );
-    splash.show();
-    app.processEvents();
-
     //Create the main window
     GluonCreator::MainWindow* window = new GluonCreator::MainWindow( args->count() > 0 ? args->arg( 0 ) : QString() );
     window->show();
-    splash.finish( window );
     kapp->setActiveWindow(window);
     app.exec();
 }
