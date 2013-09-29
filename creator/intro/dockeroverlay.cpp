@@ -72,16 +72,16 @@ void DockerOverlay::Private::updateDocker()
     {
         QRect dockerGeometry = docker->frameGeometry();
 
-        q->setX(dockerGeometry.x());
-        q->setY(dockerGeometry.y());
-        q->setWidth(dockerGeometry.width());
-        q->setHeight(dockerGeometry.height());
+        q->setProperty("x", dockerGeometry.x());
+        q->setProperty("y", dockerGeometry.y());
+        q->setProperty("width", dockerGeometry.width());
+        q->setProperty("height", dockerGeometry.height());
     }
     else
     {
-        q->setX(q->parentItem()->width() / 2.f);
-        q->setY(q->parentItem()->height() / 2.f);
-        q->setWidth(0.f);
-        q->setHeight(0.f);
+        q->setProperty("x", q->parentItem()->width() / 2.f);
+        q->setProperty("y", q->parentItem()->height() / 2.f);
+        q->setProperty("width", 0.f);
+        q->setProperty("height", 0.f);
     }
 }

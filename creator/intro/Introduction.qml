@@ -73,79 +73,88 @@ Item {
     }
 
 
-    Item {
+    DockerOverlay {
         id: viewport;
 
-        x: overlay.x;
-        y: overlay.y;
-        width: overlay.width;
-        height: overlay.height;
+        x: parent.width / 2;
+        y: parent.height / 2;
+        width: 10;
+        height: 10;
 
         Behavior on width { NumberAnimation { duration: 500; } }
         Behavior on height { NumberAnimation { duration: 500; } }
         Behavior on x { NumberAnimation { duration: 500; } }
         Behavior on y { NumberAnimation { duration: 500; } }
 
-        MouseArea {
-            anchors.fill: parent;
-
-            onClicked: d.incrementCurrentDockerIndex();
-        }
-    }
-
-    PlasmaCore.FrameSvgItem {
-        id: textFrame;
-
-        anchors.centerIn: parent
-        width: parent.width / 4;
-        height: parent.height / 4;
-
-        imagePath: "translucent/dialogs/background"
-
-        PlasmaExtras.Paragraph {
-            anchors.fill: parent;
-            anchors.margins: 10;
-            text: textData.text( d.currentDockerIndex != -1 ? d.dockerNames[ d.currentDockerIndex ] : "" );
-        }
-
-        PlasmaComponents.Button {
-            anchors {
-                bottom: parent.bottom;
-                bottomMargin: 10;
-                left: parent.left;
-                leftMargin: 10;
-            }
-
-            text: d.currentDockerIndex != d.dockerNames.length - 1 ? "Previous" : "Restart";
-            opacity: d.currentDockerIndex > 0;
-            Behavior on opacity { NumberAnimation { } }
-
-            onClicked: d.currentDockerIndex == d.dockerNames.length - 1 ? d.currentDockerIndex = 1 : d.currentDockerIndex--;
-        }
-
-        PlasmaComponents.Button {
-            anchors {
-                bottom: parent.bottom;
-                bottomMargin: 10;
-                right: parent.right;
-                rightMargin: 10;
-            }
-
-            text: d.currentDockerIndex != d.dockerNames.length - 1 ? "Next" : "Quit";
-
-            onClicked: d.currentDockerIndex == d.dockerNames.length - 1 ? mainWindow.closeQmlOverlay() : d.currentDockerIndex++;
-        }
-    }
-
-    DockerOverlay {
-        id: overlay;
-
-        x: parent.width / 2;
-        y: parent.height / 2;
-        width: 0;
-        height: 0;
-
         dockerName: d.currentDockerIndex != -1 ? d.dockerNames[ d.currentDockerIndex ] : "";
+    }
+
+    PlasmaComponents.Dialog {
+        id: dialog;
+
+        title:
+        PlasmaCore.FrameSvgItem {
+            imagePath: "widgets/extender-dragger"
+            prefix: "root"
+
+            anchors.left: parent.left
+            anchors.right: parent.right
+
+            height: 25;
+
+            PlasmaComponents.Label {
+                id: titleText;
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+                height: 20;
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+
+                text: d.dockerTitles[ d.currentDockerIndex ];
+            }
+        }
+
+        content:
+        Item {
+            width: base.width / 4;
+            height: base.height / 4;
+
+            PlasmaExtras.Paragraph {
+                anchors.fill: parent;
+                anchors.margins: 5;
+                text: textData.text( d.currentDockerIndex != -1 ? d.dockerNames[ d.currentDockerIndex ] : "" );
+            }
+
+            PlasmaComponents.Button {
+                anchors {
+                    bottom: parent.bottom;
+                    bottomMargin: 5;
+                    right: parent.horizontalCenter;
+                    rightMargin: 10;
+                }
+
+                text: d.currentDockerIndex != d.dockerNames.length - 1 ? "Previous" : "Restart";
+                opacity: d.currentDockerIndex > 0;
+                Behavior on opacity { NumberAnimation { } }
+
+                onClicked: d.currentDockerIndex == d.dockerNames.length - 1 ? d.currentDockerIndex = 1 : d.currentDockerIndex--;
+            }
+
+            PlasmaComponents.Button {
+                anchors {
+                    bottom: parent.bottom;
+                    bottomMargin: 5;
+                    left: parent.horizontalCenter;
+                    leftMargin: 10;
+                }
+
+                text: d.currentDockerIndex != d.dockerNames.length - 1 ? "Next" : "Quit";
+
+                onClicked: d.currentDockerIndex == d.dockerNames.length - 1 ? mainWindow.closeQmlOverlay() : d.currentDockerIndex++;
+            }
+        }
     }
 
     IntroductionText {
@@ -156,6 +165,13 @@ Item {
         id: d;
 
         property variant dockerNames: [ "Start", "ComponentsDock", "ProjectDock", "MessageDock", "SceneDock", "PropertiesDock", "End" ];
+        property variant dockerTitles: [ "Gluon Creator", "Components", "Projects", "Messages", "Scene", "Properties", "Gluon Creator" ];
         property int currentDockerIndex: 0;
+    }
+
+    Timer {
+        interval: 100;
+        running: true;
+        onTriggered: dialog.open();
     }
 }
