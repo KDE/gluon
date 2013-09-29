@@ -25,6 +25,7 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QTimer>
 #include <QWidget>
+#include <QFileDialog>
 #include <QDeclarativeContext>
 #include <KDE/KFileDialog>
 #include <KDE/KStandardAction>
@@ -45,6 +46,8 @@
 #include <engine/game.h>
 #include <engine/gameproject.h>
 #include <engine/scene.h>
+#include <engine/gameobject.h>
+#include <engine/component.h>
 
 #include "lib/plugin.h"
 #include "lib/pluginmanager.h"
@@ -110,9 +113,11 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
     DockManager::instance()->setDocksEnabled( false );
     DockManager::instance()->setDocksLocked( GluonCreator::Settings::lockLayout() );
 
+    loadView();
+
     if( fileName.isEmpty() )
     {
-        showNewProjectDialog();
+        showWelcomeDialog();
     }
     else
     {
@@ -140,6 +145,10 @@ void MainWindow::closeEvent( QCloseEvent* event )
     QWidget::closeEvent( event );
 }
 
+QString MainWindow::selectDirectory()
+{
+    return QFileDialog::getExistingDirectory( this, i18n( "Selection location of project" ) );
+}
 
 void MainWindow::openProject( const KUrl& url )
 {
@@ -161,15 +170,26 @@ void MainWindow::loadView()
     d->qmlOverlay->setResizeMode( QDeclarativeView::SizeRootObjectToView );
     d->qmlOverlay->setGeometry( rect() );
 
+    //TODO: These should really not be context properties. Need to create a proper import plugin for it though, which needs Qt5 due to MainWindow essentially being a singleton.
+
     d->qmlOverlay->rootContext()->setContextProperty( "mainWindow", this );
 
-    d->qmlOverlay->setSource( QUrl::fromLocalFile( KGlobal::dirs()->locate( "appdata", "Introduction.qml" ) ) );
-    d->qmlOverlay->show();
 
+    QStringList recentFiles;
+    KUrl::List recentUrls = d->recentFiles->urls();
+    foreach( const KUrl& url, recentUrls )
+    {
+        recentFiles.append( url.directory() );
+    }
+
+    d->qmlOverlay->rootContext()->setContextProperty( "recentFiles", recentFiles );
 }
 
 void MainWindow::openProject( const QString& fileName )
 {
+    if( d->qmlOverlay->isVisible() )
+        d->qmlOverlay->hide();
+
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
         FileManager::instance()->closeAll( true );
@@ -215,6 +235,11 @@ void MainWindow::openProject()
     connect( HistoryManager::instance(), SIGNAL(historyChanged()), SLOT(historyChanged()) );
 }
 
+void MainWindow::openRecentProject( int index )
+{
+    openProject( d->recentFiles->urls().at( index ) );
+}
+
 void MainWindow::saveProject()
 {
     saveProject( d->fileName );
@@ -255,7 +280,7 @@ void MainWindow::setupActions()
 {
     KAction* newProject = new KAction( KIcon( "document-new" ), i18n( "New Project..." ), actionCollection() );
     actionCollection()->addAction( "project_new", newProject );
-    connect( newProject, SIGNAL(triggered(bool)), SLOT(showNewProjectDialog()) );
+    connect( newProject, SIGNAL(triggered(bool)), SLOT(showWelcomeDialog()) );
     newProject->setShortcut( KShortcut( "Ctrl+N" ) );
 
     KAction* openProject = new KAction( KIcon( "document-open" ), i18n( "Open Project..." ), actionCollection() );
@@ -429,16 +454,12 @@ void MainWindow::addAsset()
     ObjectManager::instance()->createAssets( KFileDialog::getOpenFileNames() );
 }
 
-void GluonCreator::MainWindow::showNewProjectDialog()
-{
-    d->projectDialog->setPage( ProjectSelectionDialog::NewProjectPage );
-    d->projectDialog->show();
-}
-
 void MainWindow::showOpenProjectDialog()
 {
-    d->projectDialog->setPage( ProjectSelectionDialog::OpenProjectPage );
-    d->projectDialog->show();
+    QString fileName = QFileDialog::getOpenFileName( this, i18n( "Open Project" ), QString(), "Gluon Projects (*.gluonproject)" );
+
+    if( !fileName.isEmpty() )
+        openProject( fileName );
 }
 
 void MainWindow::projectDialogAccepted()
@@ -519,6 +540,85 @@ void MainWindow::partChanged( KParts::Part* part )
 void MainWindow::closeQmlOverlay()
 {
     d->qmlOverlay->hide();
-    d->projectDialog->setPage( ProjectSelectionDialog::NewProjectPage );
-    d->projectDialog->show();
+}
+
+void MainWindow::createProject( const QString& projectName, const QString& location )
+{
+    Q_ASSERT( !projectName.isEmpty() );
+    Q_ASSERT( !location.isEmpty() );
+
+    QScopedPointer<GluonEngine::GameProject> project( new GluonEngine::GameProject( GluonEngine::Game::instance() ) );
+    if( project.isNull() )
+    {
+        return;
+    }
+
+    project->setName( projectName );
+
+    GluonCore::GluonObject* scenesFolder = new GluonCore::GluonObject( "Scenes" );
+
+    GluonEngine::Scene* root = new GluonEngine::Scene( project.data() );
+    root->setGameProject( project.data() );
+    root->setName( i18n( "New Scene" ) );
+    root->savableDirty = true;
+
+    scenesFolder->addChild( root );
+    project->setEntryPoint( root );
+    project->addChild( scenesFolder );
+
+    GluonEngine::GameObject* camera = new GluonEngine::GameObject( root );
+    camera->setName( i18n( "Camera" ) );
+    camera->setPosition( 0.0f, 0.0f, 50.0f );
+    root->sceneContents()->addChild( camera );
+
+    GluonCore::GluonObject* cameraController =
+        GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( "GluonEngine::CameraControllerComponent" );
+    cameraController->setName( "CameraController" );
+    camera->addComponent( qobject_cast<GluonEngine::Component*>( cameraController ) );
+
+    GluonEngine::GameObject* sprite = new GluonEngine::GameObject( root );
+    sprite->setName( i18n( "Sprite" ) );
+    sprite->setScale( 10.f, 10.f, 0.f );
+    root->sceneContents()->addChild( sprite );
+
+    GluonCore::GluonObject* spriteComponent =
+        GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( "GluonEngine::SpriteRendererComponent" );
+    spriteComponent->setName( "SpriteRenderer" );
+    sprite->addComponent( qobject_cast<GluonEngine::Component*>( spriteComponent ) );
+
+    project->addChild( new GluonCore::GluonObject( "Assets" ) );
+    project->addChild( new GluonCore::GluonObject( "Prefabs" ) );
+
+    KUrl locationUrl = KUrl::fromLocalFile( location );
+    QString gameBundleDir = GluonEngine::Asset::fullyQualifiedFileName( project.data(), QFileInfo( GluonEngine::projectSuffix ).completeSuffix() );
+    locationUrl.addPath( gameBundleDir );
+    project->setDirname( locationUrl );
+    locationUrl.addPath( GluonEngine::projectFilename );
+    project->setFilename( locationUrl );
+
+    KUrl currentLocation = KUrl::fromLocalFile( location );
+    currentLocation.addPath( gameBundleDir );
+    QDir dir = QDir( location );
+    dir.mkpath( gameBundleDir );
+    QDir::setCurrent( currentLocation.toLocalFile() );
+    project->saveToFile();
+
+    openProject( locationUrl );
+}
+
+void MainWindow::showWelcomeDialog()
+{
+    d->qmlOverlay->show();
+    QMetaObject::invokeMethod( this, "switchQmlSource", Qt::QueuedConnection, Q_ARG( QString, "dialogs/WelcomeDialog.qml" ) );
+}
+
+void MainWindow::showIntroduction()
+{
+    d->qmlOverlay->show();
+    QMetaObject::invokeMethod( this, "switchQmlSource", Qt::QueuedConnection, Q_ARG( QString, "intro/Introduction.qml" ) );
+}
+
+void MainWindow::switchQmlSource( const QString& source )
+{
+    d->qmlOverlay->setSource( QUrl::fromLocalFile( KGlobal::dirs()->locate( "appdata", source ) ) );
 }

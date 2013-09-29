@@ -44,10 +44,13 @@ namespace GluonCreator
             virtual bool queryClose();
             virtual void closeEvent( QCloseEvent* event );
 
+            Q_INVOKABLE QString selectDirectory();
+
         public slots:
             void openProject();
             void openProject( const KUrl& url );
             void openProject( const QString& fileName );
+            void openRecentProject( int index );
             void saveProject();
             void saveProject( const QString& fileName );
             void saveProjectAs();
@@ -61,13 +64,19 @@ namespace GluonCreator
 
             void addAsset();
 
-            void showNewProjectDialog();
             void showOpenProjectDialog();
             void projectDialogAccepted();
 
             void partChanged( KParts::Part* part );
 
             void closeQmlOverlay();
+
+            void createProject( const QString& projectName, const QString& location );
+
+            void showIntroduction();
+            void showWelcomeDialog();
+
+            void switchQmlSource(const QString& source);
 
         private:
             void setupActions();
