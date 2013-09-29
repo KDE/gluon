@@ -229,19 +229,19 @@ QString Writer::writeUrlValue(const QVariant& value)
 QString Writer::writeVector2DValue(const QVariant& value)
 {
     Vector2f v = value.value< Vector2f >();
-    return QString( "vector2d(%1;%2)" ).arg( v(1) ).arg( v(2) );
+    return QString( "vector2d(%1;%2)" ).arg( v.x() ).arg( v.y() );
 }
 
 QString Writer::writeVector3DValue(const QVariant& value)
 {
     Vector3f v = value.value< Vector3f >();
-    return QString( "vector3d(%1;%2;%3)" ).arg( v(1) ).arg( v(2) ).arg( v(3) );
+    return QString( "vector3d(%1;%2;%3)" ).arg( v.x() ).arg( v.y() ).arg( v.z() );
 }
 
 QString Writer::writeVector4DValue(const QVariant& value)
 {
     Vector4f v = value.value< Vector4f >();
-    return QString( "vector4d(%1;%2;%3;%4)" ).arg( v(1) ).arg( v(2) ).arg( v(3) ).arg( v(4) );
+    return QString( "vector4d(%1;%2;%3;%4)" ).arg( v.x() ).arg( v.y() ).arg( v.z() ).arg( v.w() );
 }
 
 QString Writer::writeSize2DValue(const QVariant& value)
