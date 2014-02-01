@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Gluon Player Plasmoid
+Name[bs]=Gluon Player Plasmoid
 Name[de]=Gluon-Player-Miniprogramm
 Name[en_GB]=Gluon Player Plasmoid
 Name[es]=Plasmoide del reproductor Gluon
@@ -16,6 +17,7 @@ Name[sv]=Gluon spelarplasmoid
 Name[uk]=Плазмоїд програвача Gluon
 Name[x-test]=xxGluon Player Plasmoidxx
 Comment=Gluon Player Plasmoid
+Comment[bs]=Gluon Player Plasmoid
 Comment[de]=Gluon-Player-Miniprogramm
 Comment[en_GB]=Gluon Player Plasmoid
 Comment[es]=Plasmoide del reproductor Gluon

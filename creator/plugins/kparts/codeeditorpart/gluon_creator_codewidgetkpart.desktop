@@ -15,6 +15,7 @@ Name[sv]=Kodeditor
 Name[uk]=Редактор коду
 Name[x-test]=xxCode Editorxx
 Comment=Provides a code editor for Gluon Creator
+Comment[bs]=Obezbjeđuje editor koda za Gluon Creator
 Comment[de]=Ein guter Editor zum Bearbeiten des Quelltextes.
 Comment[es]=Proporciona un editor de código para Gluon Creator
 Comment[et]=Gluoni mängulooja koodiredaktor

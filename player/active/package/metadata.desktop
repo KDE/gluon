@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Gluon Player
+Name[bs]=Gluon Player
 Name[de]=Gluon-Player
 Name[es]=Gluon Player
 Name[et]=Gluoni mängija
@@ -15,6 +16,7 @@ Name[sv]=Gluon spelare
 Name[uk]=Програвач Gluon
 Name[x-test]=xxGluon Playerxx
 Comment=Gluon player for tablets
+Comment[bs]=Gluon Player za tablet uređaje
 Comment[de]=Gluon-Player für Tabletts
 Comment[es]=Reproductor Gluon para tabletas
 Comment[et]=Gluoni mängija tahvelarvutitele

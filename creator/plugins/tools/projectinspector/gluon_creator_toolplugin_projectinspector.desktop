@@ -2,6 +2,7 @@
 Encoding=UTF-8
 
 Name=Project Inspector
+Name[bs]=Projekt inspektor
 Name[de]=Projekt-Inspektor
 Name[es]=Inspector de proyecto
 Name[et]=Projekti inspektor
@@ -15,6 +16,7 @@ Name[sv]=Projektinspektör
 Name[uk]=Ревізор проекту
 Name[x-test]=xxProject Inspectorxx
 Comment=Provides a tool to inspect the entire project hierarchy.
+Comment[bs]=Obezbjeđuje alat za istraživanje cijele strukture projekta
 Comment[de]=Ein Werkzeug, um die gesamte Projekthierarchie zu inspizieren
 Comment[es]=Proporciona na herramienta para examinar la jerarquía completa del proyecto
 Comment[et]=Tööriist kogu projektihierarhia inspekteerimiseks

@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Gluon Creator Plugin
+Name[bs]=Servis za Kreiranje dodataka Gluon-a
 Name[de]=Gluon-Creator-Modul
 Name[en_GB]=Gluon Creator Plugin
 Name[es]=Complemento de Gluon Creator
@@ -17,6 +18,7 @@ Name[sv]=Gluon Creator-insticksprogram
 Name[uk]=Додаток до Gluon Creator
 Name[x-test]=xxGluon Creator Pluginxx
 Comment=The type used for Gluon Creator plugins
+Comment[bs]=Tip korišten za Gluon Creator dodatke
 Comment[de]=Die zu verwendete Art der Gluon-Creator-Module.
 Comment[en_GB]=The type used for Gluon Creator plugins
 Comment[es]=Tipo usado para los complementos de Gluon Creator

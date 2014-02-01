@@ -2,6 +2,7 @@
 Encoding=UTF-8
 
 Name=Components Dock
+Name[bs]=Sidrište za komponente
 Name[de]=Komponenten-Ansicht
 Name[en_GB]=Components Dock
 Name[es]=Anclaje de componentes 
@@ -17,6 +18,7 @@ Name[sv]=Komponentpanel
 Name[uk]=Панель компонентів
 Name[x-test]=xxComponents Dockxx
 Comment=Provides a list with components in a dock.
+Comment[bs]=Obezbjeđuje listu komponenti u sidrištu
 Comment[de]=Eine Liste der Komponenten in einer Anzeige.
 Comment[en_GB]=Provides a list with components in a dock.
 Comment[es]=Proporciona una lista con los componentes de un anclaje.

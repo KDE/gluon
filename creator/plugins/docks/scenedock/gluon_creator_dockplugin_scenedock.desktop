@@ -2,6 +2,7 @@
 Encoding=UTF-8
 
 Name=Scene Dock
+Name[bs]=Sidrište za Scenu
 Name[de]=Szenen-Anzeige
 Name[en_GB]=Scene Dock
 Name[es]=Anclaje de escena
@@ -17,6 +18,7 @@ Name[sv]=Scenpanel
 Name[uk]=Панель сцени
 Name[x-test]=xxScene Dockxx
 Comment=Provides a Scene browser dock plugin.
+Comment[bs]=Omogućuje priključak za pergled sidrišta Scene
 Comment[de]=Ein Anzeigemodul der Szenen.
 Comment[en_GB]=Provides a Scene browser dock plugin.
 Comment[es]=Proporciona un complemento de anclaje para el buscador de escenas

@@ -2,6 +2,7 @@
 Encoding=UTF-8
 
 Name=Project Dock
+Name[bs]=Projektno sidrište
 Name[de]=Projekt-Anzeige
 Name[en_GB]=Project Dock
 Name[es]=Anclaje de proyectos
@@ -17,6 +18,7 @@ Name[sv]=Projektpanel
 Name[uk]=Панель проекту
 Name[x-test]=xxProject Dockxx
 Comment=Provides a Project browser dock plugin.
+Comment[bs]=Pruža dodatak za smještanje preglednika projekata.
 Comment[de]=Ein Anzeigemodul zur Projektverwaltung.
 Comment[en_GB]=Provides a Project browser dock plugin.
 Comment[es]=Proporciona un complemento de anclaje de proyectos.

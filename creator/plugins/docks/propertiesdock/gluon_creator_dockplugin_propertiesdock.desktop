@@ -2,6 +2,7 @@
 Encoding=UTF-8
 
 Name=Properties Dock
+Name[bs]=Sidrište sa osobinama
 Name[de]=Eigenschaften-Anzeige
 Name[en_GB]=Properties Dock
 Name[es]=Anclaje de propiedades
@@ -17,6 +18,7 @@ Name[sv]=Egenskapspanel
 Name[uk]=Панель властивостей
 Name[x-test]=xxProperties Dockxx
 Comment=Provides a Properties editor dock plugin.
+Comment[bs]=Pruža servis za uređivanje osobina u sidrištu
 Comment[de]=Ein Anzeigemodul zur Bearbeitung der Eigenschaften.
 Comment[en_GB]=Provides a Properties editor dock plugin.
 Comment[es]=Proporciona un complemento de anclaje del editor de propiedades.

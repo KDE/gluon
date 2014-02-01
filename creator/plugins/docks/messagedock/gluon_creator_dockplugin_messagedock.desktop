@@ -2,6 +2,7 @@
 Encoding=UTF-8
 
 Name=Message Dock
+Name[bs]=Sidrište za poruke
 Name[de]=Nachrichten-Anzeige
 Name[en_GB]=Message Dock
 Name[es]=Anclaje de mensajes
@@ -17,6 +18,7 @@ Name[sv]=Meddelandepanel
 Name[uk]=Панель повідомлень
 Name[x-test]=xxMessage Dockxx
 Comment=Provides a Message browser dock plugin.
+Comment[bs]=Omogućuje servis za traženje poruka na sidrištu pretraživača
 Comment[de]=Ein Modul zum Anzeigen von Nachrichten.
 Comment[en_GB]=Provides a Message browser dock plugin.
 Comment[es]=Proporciona un complemento de anclaje de mensajes.

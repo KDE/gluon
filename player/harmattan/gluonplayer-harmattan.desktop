@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Gluon Player
+Name[bs]=Gluon Player
 Name[de]=Gluon-Player
 Name[es]=Gluon Player
 Name[et]=Gluoni mängija
@@ -15,6 +16,7 @@ Name[sv]=Gluon spelare
 Name[uk]=Програвач Gluon
 Name[x-test]=xxGluon Playerxx
 GenericName=Game Launcher
+GenericName[bs]=Pokretač Igrica
 GenericName[de]=Spielestarter
 GenericName[es]=Lanzador de juegos
 GenericName[et]=Mängukäivitaja
