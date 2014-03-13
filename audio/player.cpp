@@ -175,7 +175,7 @@ void Player::playNext()
     }
     else
     {
-        ++d->currentIndex;
+        (d->currentIndex)++;
 
     }
 

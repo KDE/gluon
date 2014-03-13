@@ -65,7 +65,7 @@ namespace GluonAudio
              *
              * @see append(), removeLast(), removeAt()
              */
-            void insert( int index, QString buffer );
+            void insert( int index, QString file );
 
             /**
              * Removes the last sound in the list. Calling this function is
@@ -107,7 +107,7 @@ namespace GluonAudio
             void setVolume( ALfloat volume = 1.0f );
 
             /**
-             * Returns true if the given sound was set to loop, false otherwise.
+             * Returns true if the given list of sounds was set to loop, false otherwise.
              * By default, files are set not to loop.
              *
              * @see setLoop(), Sound::isLooping()
@@ -115,8 +115,8 @@ namespace GluonAudio
             bool isLooping() const;
 
             /**
-             * Makes the given sound play in a loop when play() is called
-             * @loop enabled play in a loop if set to true
+             * Makes the given list of sounds play in a loop when play() is called
+             * @loop enables play list in a loop if set to true
              *
              * @see isLooping(), Sound::setLoop()
              */
