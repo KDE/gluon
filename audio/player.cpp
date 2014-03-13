@@ -142,6 +142,7 @@ void Player::setPitch(ALfloat pitch)
 void Player::setVolume(ALfloat volume)
 {
     d->soundVolume = volume;
+    d->sound->setVolume(volume);
 }
 
 ALfloat Player::volume() const
