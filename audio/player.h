@@ -92,6 +92,11 @@ namespace GluonAudio
             bool isPlaying() const;
 
             /**
+             * Returns the index of the current sound playing.
+             */
+            int currentIndex() const;
+
+            /**
              * This is the current volume of the given sound.
              *
              * @see setVolume(), Sound::volume()

@@ -126,6 +126,11 @@ bool Player::isPlaying() const
     return d->sound->isPlaying();
 }
 
+int Player::currentIndex() const
+{
+    return d->currentIndex;
+}
+
 ALfloat Player::pitch() const
 {
     return d->soundPitch;
