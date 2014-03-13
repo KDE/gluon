@@ -51,7 +51,6 @@ Player::Player(QObject* parent)
     : QObject(parent)
     , d( new PlayerPrivate )
 {
-    connect(d->sound, SIGNAL(paused()), SLOT(playNext()) );
     connect(d->sound, SIGNAL(stopped()), SLOT(playNext()) );
 }
 
@@ -61,7 +60,6 @@ Player::Player( QStringList files, QObject* parent )
 {
     d->files = files;
 
-    connect(d->sound, SIGNAL(paused()), SLOT(playNext()) );
     connect(d->sound, SIGNAL(stopped()), SLOT(playNext()) );
 }
 
