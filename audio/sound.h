@@ -295,7 +295,12 @@ namespace GluonAudio
         Q_SIGNALS:
             void played();
             void paused();
-            void stopped();
+
+            /**
+             * Emitted when a sound finishs. Not emitted when stop
+             * is called.
+             */
+            void soundFinished();
 
         private:
             Q_DISABLE_COPY( Sound )

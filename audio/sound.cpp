@@ -358,7 +358,7 @@ void Sound::cbStop()
     }
     else
     {
-        emit stopped();
+        emit soundFinished();
     }
 }
 
