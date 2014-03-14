@@ -1,6 +1,7 @@
 /*
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
+ * Copyright (c) 2014 Felix Rohrbach <kde@fxrh.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -44,6 +45,14 @@ void PlayerTest::testAppend()
   QCOMPARE(player.files().isEmpty(), true);
 
   player.append(m_audioFilePath);
+  QCOMPARE(player.files().at(0), m_audioFilePath);
+  
+  player.append(m_audioFilePath2);
+  QCOMPARE(player.files().at(1), m_audioFilePath2);
+  
+  // test what happens if we add the same file twice
+  player.append(m_audioFilePath);
+  QCOMPARE(player.files().at(2), m_audioFilePath);
   QCOMPARE(player.files().at(0), m_audioFilePath);
 }
 
@@ -127,6 +136,15 @@ void PlayerTest::testIsLooping()
 
   player.setLoop(false);
   QCOMPARE(player.isLooping(), false);
+  
+  player.append(m_audioFilePath);
+  player.setLoop(true);
+  player.playAt(0);
+  QCOMPARE(player.currentIndex(), 0);
+  player.playNext();
+  QCOMPARE(player.currentIndex(), 1);
+  player.playNext();
+  QCOMPARE(player.currentIndex(), 0);
 }
 
 void PlayerTest::testPlayNext()
@@ -144,6 +162,7 @@ void PlayerTest::testPlayNext()
 
   player.playNext();
   QCOMPARE(player.isPlaying(), true);
+  QCOMPARE(player.currentIndex(), 1);
 
   player.stop();
   QCOMPARE(player.isPlaying(), false);
@@ -153,6 +172,7 @@ void PlayerTest::testPlayNext()
 
   player.playNext();
   QCOMPARE(player.isPlaying(), true);
+  QCOMPARE(player.currentIndex(), 0);
 
   player.stop();
   QCOMPARE(player.isPlaying(), false);
@@ -217,6 +237,18 @@ void PlayerTest::testStop()
 
   player.stop();
   QCOMPARE(player.isPlaying(), false);
+  
+  player.append(m_audioFilePath2);
+  player.playAt(0);
+  QCOMPARE(player.currentIndex(), 0);
+  player.stop();
+  player.play();
+  QCOMPARE(player.currentIndex(), 0);
+  player.playNext();
+  QCOMPARE(player.currentIndex(), 1);
+  player.stop();
+  player.play();
+  QCOMPARE(player.currentIndex(), 1);
 }
 
 QTEST_MAIN(PlayerTest)
