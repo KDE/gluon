@@ -1,10 +1,7 @@
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
     ${KDE4_INCLUDES}
-    ${GLUON_CORE_INCLUDE_DIRS}
-    ${GLUON_ENGINE_INCLUDE_DIRS}
-    ${GLUON_PLAYER_INCLUDE_DIRS}
+    ${GLUONCREATOR_INCLUDES}
 )
 
 # find_package(KDevPlatform 1.0.2)
@@ -14,10 +11,7 @@ include_directories(
 # 
 # add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
-add_subdirectory(lib)
-add_subdirectory(plugins)
 add_subdirectory(icons)
-add_subdirectory(nodeeditor)
 
 set(gluoncreator_SRCS
     main.cpp
@@ -32,10 +26,11 @@ set(gluoncreator_SRCS
 
 kde4_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)
 kde4_add_app_icon(gluoncreator_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-gluon_creator.png")
-kde4_add_executable(gluoncreator ${gluoncreator_SRCS})
-target_link_libraries(gluoncreator ${GLUON_CREATOR_LIBS} ${KDE4_KUTILS_LIBS} ${KDE4_KFILE_LIBS})
+gluon_add_executable(gluoncreator 
+    SOURCES ${gluoncreator_SRCS}
+    LIBRARIES ${GLUONCREATOR_LIBRARIES} ${KDE4_KUTILS_LIBS} ${KDE4_KFILE_LIBS}
+)
 
-install(TARGETS gluoncreator DESTINATION ${BIN_INSTALL_DIR})
 install(FILES
     ui/gluoncreatorui.rc
     icons/gluon-creator-splash.png
