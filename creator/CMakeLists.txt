@@ -3,8 +3,6 @@ gluon_include_directories( GluonCreator
     ${KDE4_INCLUDES}
 )
 
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
-
 set( GluonCreator_SRCS
     abstractundocommand.cpp
     deleteobjectcommand.cpp
