@@ -70,7 +70,7 @@ if(NOT APPLE)
             COMPONENT gluonplayerdesktop)
 
     install(FILES ui/gluonplayer-desktopui.rc
-            DESTINATION ${DATA_INSTALL_DIR}/gluonplayer-desktop
+            DESTINATION ${SHARE_INSTALL_DIR}/apps/gluonplayer-desktop
             COMPONENT gluonplayerdesktop)
 
     install(FILES gluonplayer-desktop.desktop

@@ -21,9 +21,9 @@
 #include "views/achievementsview.h"
 #include "delegates/achievementdelegate.h"
 
-#include <player/lib/models/highscoresmodel.h>
-#include <player/lib/models/achievementsmodel.h>
-#include <player/lib/models/gameviewitem.h>
+#include <player/models/highscoresmodel.h>
+#include <player/models/achievementsmodel.h>
+#include <player/models/gameviewitem.h>
 
 #include <engine/projectmetadata.h>
 

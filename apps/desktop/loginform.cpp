@@ -19,7 +19,7 @@
 
 #include "loginform.h"
 
-#include <player/lib/serviceprovider.h>
+#include <player/serviceprovider.h>
 
 #include <KDE/KLocale>
 #include <KDE/KLocalizedString>

@@ -19,7 +19,7 @@
 
 #include "achievementdelegate.h"
 
-#include "player/lib/models/achievementsmodel.h"
+#include "player/models/achievementsmodel.h"
 
 #include <engine/achievementsmanager.h>
 #include <engine/projectmetadata.h>
