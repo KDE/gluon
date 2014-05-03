@@ -22,22 +22,23 @@
  */
 
 #include "graphics/material.h"
-#include "graphics/manager.h"
-#include "graphics/renderwidget.h"
 
 #include <QtGui/QApplication>
-#include <shader.h>
-#include <backend.h>
-#include <texture.h>
+#include <QtGui/QMatrix4x4>
+
 #include <core/directoryprovider.h>
-#include <world.h>
-#include <entity.h>
-#include <camera.h>
-#include <spritemesh.h>
-#include <materialinstance.h>
-#include <rendertarget.h>
-#include <QMatrix4x4>
-#include <frustrum.h>
+#include <graphics/manager.h>
+#include <graphics/renderwidget.h>
+#include <graphics/shader.h>
+#include <graphics/backend.h>
+#include <graphics/texture.h>
+#include <graphics/world.h>
+#include <graphics/entity.h>
+#include <graphics/camera.h>
+#include <graphics/spritemesh.h>
+#include <graphics/materialinstance.h>
+#include <graphics/rendertarget.h>
+#include <graphics/frustrum.h>
 
 using namespace GluonGraphics;
 
