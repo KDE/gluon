@@ -4,11 +4,9 @@ set( LIBATTICA_MIN_VERSION 0.1.90 )
 find_package( LibAttica REQUIRED )
 
 gluon_include_directories( GluonPlayer
-    ${GLUON_ENGINE_INCLUDE_DIRS}
+    ${GLUONENGINE_INCLUDES}
     ${LIBATTICA_INCLUDE_DIR}
 )
-
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 
 set(GluonPlayer_SRCS
     abstractjob.cpp
