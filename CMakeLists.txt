@@ -12,8 +12,8 @@ option( BUILD_GLUONPLAYER "Build Gluon Player Library" ON )
 option( BUILD_GLUONCREATOR "Build Gluon Creator Library" ON )
 option( BUILD_GLUONAPPS "Build the Gluon applications" ON )
 option( BUILD_TOOLS "Build Gluon Tools" ON )
-option( BUILD_TESTS "Build Unit Tests for the Gluon libraries and applications" OFF )
-option( BUILD_EXAMPLES "Build and install example applications" OFF )
+option( BUILD_TESTS "Build Unit Tests for the Gluon libraries and applications" ON )
+option( BUILD_EXAMPLES "Build and install example applications" ON )
 option( INSTALL_GAMES "Install the example games" ON )
 
 #### Global Dependencies ####
@@ -54,11 +54,15 @@ elseif( CMAKE_CXX_COMPILER_ID STREQUAL "Clang" )
 endif( CMAKE_CXX_COMPILER_ID STREQUAL "GNU" )
 
 # To make sure we can run when not installed into $LD_LIBRARY_PATH
-set( CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}" )
-set( CMAKE_BUILD_WITH_INSTALL_RPATH TRUE )
+set( CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${LIB_INSTALL_DIR}" )
 
 # Always include CMAKE_CURRENT_SOURCE_DIR and CMAKE_CURRENT_BINARY_DIR by default
 set( CMAKE_INCLUDE_CURRENT_DIR TRUE )
+
+# Enable tests if specified
+if( BUILD_TESTS )
+    enable_testing()
+endif()
 
 ##### Gluon Libraries and Applications #####
 add_subdirectory( core )
@@ -129,8 +133,3 @@ message( STATUS "===============================================================
 message( STATUS )
 
 include( CPack )
-
-if( BUILD_TESTS )
-    enable_testing()
-    include( CTest )
-endif()
