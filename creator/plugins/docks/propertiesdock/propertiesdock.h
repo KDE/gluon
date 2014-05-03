@@ -20,7 +20,7 @@
 #ifndef GLUON_CREATOR_PROPERTIESDOCK_H
 #define GLUON_CREATOR_PROPERTIESDOCK_H
 
-#include <creator/lib/selectionmanager.h>
+#include <creator/selectionmanager.h>
 
 #include <QtGui/QDockWidget>
 

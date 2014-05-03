@@ -20,7 +20,7 @@
 #include "propertiesdockplugin.h"
 #include "propertiesdock.h"
 
-#include <creator/lib/dockmanager.h>
+#include <creator/dockmanager.h>
 
 #include <KDE/KLocalizedString>
 

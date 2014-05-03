@@ -20,7 +20,7 @@
 #ifndef GLUONCREATOR_INTVECTORPROPERTYWIDGETITEM_H
 #define GLUONCREATOR_INTVECTORPROPERTYWIDGETITEM_H
 
-#include <creator/lib/widgets/propertywidgetitem.h>
+#include <creator/widgets/propertywidgetitem.h>
 
 class QSpinBox;
 class QToolButton;

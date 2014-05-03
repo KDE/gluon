@@ -14,17 +14,16 @@ set(propertiesdock_SRCS
     propertywidgetitems/qsizefpropertywidgetitem.cpp
     propertywidgetitems/colorpropertywidgetitem.cpp
     propertywidgetitems/quaternionpropertywidgetitem.cpp
-	propertywidgetitems/qrealpropertywidgetitem.cpp
+    propertywidgetitems/qrealpropertywidgetitem.cpp
     propertywidgetitems/qvariantlistpropertywidgetitem.cpp
 )
 
-kde4_add_plugin(gluon_creator_dockplugin_propertiesdock ${propertiesdock_SRCS})
-target_link_libraries(gluon_creator_dockplugin_propertiesdock ${GLUON_CORE_LIBS} ${GLUON_CREATOR_LIBS})
+gluon_add_plugin(gluoncreator_dockplugin_propertiesdock GluonCreator
+    SOURCES ${propertiesdock_SRCS}
+    LIBRARIES ${GLUONCREATOR_LIBRARIES}
+    DESTINATION ${KDE4_PLUGIN_INSTALL_DIR}
+)
 
-install(TARGETS gluon_creator_dockplugin_propertiesdock
-        DESTINATION ${PLUGIN_INSTALL_DIR}
-        COMPONENT gluoncreator)
-
-install(FILES gluon_creator_dockplugin_propertiesdock.desktop
+install(FILES gluoncreator_dockplugin_propertiesdock.desktop
         DESTINATION ${SERVICES_INSTALL_DIR}
         COMPONENT gluoncreator)
