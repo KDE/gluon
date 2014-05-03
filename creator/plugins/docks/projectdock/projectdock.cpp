@@ -20,14 +20,14 @@
 
 #include "projectdock.h"
 
-#include <creator/lib/filemanager.h>
-#include <creator/lib/historymanager.h>
-#include <creator/lib/newobjectcommand.h>
-#include <creator/lib/objectmanager.h>
-#include <creator/lib/models/projectmodel.h>
-#include <creator/lib/models/models.h>
-#include <creator/lib/models/modeltest.h>
-#include <creator/lib/selectionmanager.h>
+#include <creator/filemanager.h>
+#include <creator/historymanager.h>
+#include <creator/newobjectcommand.h>
+#include <creator/objectmanager.h>
+#include <creator/models/projectmodel.h>
+#include <creator/models/models.h>
+#include <creator/models/modeltest.h>
+#include <creator/selectionmanager.h>
 
 #include <engine/game.h>
 #include <engine/gameobject.h>

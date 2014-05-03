@@ -20,7 +20,7 @@
 #include "projectdockplugin.h"
 
 #include "projectdock.h"
-#include <creator/lib/dockmanager.h>
+#include <creator/dockmanager.h>
 
 #include <KDE/KLocalizedString>
 
