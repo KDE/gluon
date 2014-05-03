@@ -20,7 +20,7 @@
 #ifndef GLUONCREATOR_PROJECTINSPECTORPLUGIN_H
 #define GLUONCREATOR_PROJECTINSPECTORPLUGIN_H
 
-#include <creator/lib/toolplugin.h>
+#include <creator/toolplugin.h>
 
 namespace GluonCreator
 {
