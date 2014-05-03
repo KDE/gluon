@@ -20,7 +20,7 @@
 
 #include "componentmodel.h"
 
-#include "lib/objectmanager.h"
+#include "objectmanager.h"
 
 #include <engine/component.h>
 

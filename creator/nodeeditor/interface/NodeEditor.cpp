@@ -21,8 +21,8 @@
 
 #include "NodeEditor.h"
 
-#include "lib/abstractundocommand.h"
-#include "lib/objectmanager.h"
+#include "abstractundocommand.h"
+#include "objectmanager.h"
 
 // UI RELATED INCLUDES
 

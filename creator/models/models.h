@@ -20,7 +20,8 @@
 #ifndef GLUONCREATOR_MODELS_H
 #define GLUONCREATOR_MODELS_H
 
-#include <creator/lib/gluoncreator_macros.h>
+#include "gluoncreator_macros.h"
+
 #include <core/singleton.h>
 
 namespace GluonCreator

@@ -21,7 +21,7 @@
 #ifndef GLUON_CREATOR_PROJECTMODEL_H
 #define GLUON_CREATOR_PROJECTMODEL_H
 
-#include <creator/lib/gluoncreator_macros.h>
+#include "gluoncreator_macros.h"
 
 #include <QtCore/QAbstractItemModel>
 

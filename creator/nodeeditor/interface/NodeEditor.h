@@ -22,7 +22,7 @@
 #ifndef SUI_NODEEDITOR_H
 #define SUI_NODEEDITOR_H
 
-#include "lib/historymanager.h"
+#include "historymanager.h"
 
 #include <engine/gameobject.h>
 #include <engine/component.h>

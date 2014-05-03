@@ -21,7 +21,7 @@
 #ifndef GLUON_CREATOR_PROPERTYWIDGET_H
 #define GLUON_CREATOR_PROPERTYWIDGET_H
 
-#include "lib/gluoncreator_macros.h"
+#include "gluoncreator_macros.h"
 
 #include <QtGui/QWidget>
 #include <QtGui/QScrollArea>

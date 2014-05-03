@@ -1,6 +1,12 @@
 find_package(KDeclarative REQUIRED)
 
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR} ${KDECLARATIVE_INCLUDE_DIRS} )
+gluon_include_directories( GluonCreator
+    ${GLUONPLAYER_INCLUDES}
+    ${KDE4_INCLUDES}
+    ${KDECLARATIVE_INCLUDE_DIRS}
+)
+
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 
 set( GluonCreator_SRCS
     abstractundocommand.cpp
@@ -60,8 +66,11 @@ set( GluonCreator_HEADERS
 gluon_add_library( GluonCreator SHARED
     SOURCES ${GluonCreator_SRCS}
     HEADERS ${GluonCreator_HEADERS}
-    LIBRARIES ${GLUNPLAYER_LIBRARIES} ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KPARTS_LIBS} ${KDECLARATIVE_LIBRARY}
+    LIBRARIES ${GLUONPLAYER_LIBRARIES} ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KPARTS_LIBS} ${KDECLARATIVE_LIBRARY}
 )
+
+#add_subdirectory( nodeeditor )
+add_subdirectory( plugins )
 
 install( FILES gluoncreator_plugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR} COMPONENT gluoncreator )
 
