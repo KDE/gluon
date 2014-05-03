@@ -35,7 +35,7 @@ ProjectInspectorPlugin::ProjectInspectorPlugin(QObject* parent, const QList< QVa
     : ToolPlugin(parent, params), d( new Private )
 {
     setComponentData( KGlobal::mainComponent() );
-    setXMLFile( "gluon_creator_toolplugin_projectinspectorui.rc", true );
+    setXMLFile( "gluoncreator_toolplugin_projectinspectorui.rc", true );
 }
 
 ProjectInspectorPlugin::~ProjectInspectorPlugin()
