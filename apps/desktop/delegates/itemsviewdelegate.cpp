@@ -21,7 +21,7 @@
 
 #include "views/gametextlabel.h"
 
-#include <player/lib/models/gameitemsmodel.h>
+#include <player/models/gameitemsmodel.h>
 
 #include <KDE/KDebug>
 

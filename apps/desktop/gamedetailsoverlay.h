@@ -23,7 +23,7 @@
 #include "delegates/commentitemsviewdelegate.h"
 #include "views/newcommentform.h"
 
-#include <player/lib/models/commentitemsmodel.h>
+#include <player/models/commentitemsmodel.h>
 
 #include <KDE/KTabWidget>
 #include <KDE/KPushButton>
