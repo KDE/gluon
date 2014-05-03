@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 #include "configdialog.h"
-#include "lib/pluginmanager.h"
+#include <creator/pluginmanager.h>
 
 #include <KDE/KPluginSelector>
 
