@@ -53,7 +53,6 @@ macro(gluon_add_library _target _type)
         VERSION ${GLUON_VERSION_STRING}
         SOVERSION ${GLUON_VERSION_STRING}
         DEFINE_SYMBOL MAKE_${_target_uc}_LIB
-        LINK_INTERFACE_LIBRARIES ""
     )
 
     target_link_libraries( ${_target} ${_libs} )
@@ -85,6 +84,7 @@ endmacro(gluon_add_library)
 macro(gluon_add_plugin _target _component)
     set( _sources "" )
     set( _libs "" )
+    set( _dest "" )
 
     set( _current_target "_sources" )
 
@@ -94,10 +94,16 @@ macro(gluon_add_plugin _target _component)
             set( _current_target "_sources" )
         elseif( ${_arg_lc} STREQUAL "libraries" )
             set( _current_target "_libs" )
+        elseif( ${_arg_lc} STREQUAL "destination" )
+            set( _current_target "_dest" )
         else()
             list( APPEND ${_current_target} ${_arg} )
         endif()
     endforeach()
+
+    if( "${_dest}" STREQUAL "" )
+        set( _dest ${PLUGIN_INSTALL_DIR} )
+    endif()
 
     string( TOUPPER "${_component}_libraries" _comp_uc )
     list( APPEND _libs ${${_comp_uc}} )
@@ -114,8 +120,8 @@ macro(gluon_add_plugin _target _component)
     
     target_link_libraries( ${_target} ${_libs} )
 
-    install(TARGETS ${_target} 
-        DESTINATION ${PLUGIN_INSTALL_DIR} COMPONENT ${_component}
+    install( TARGETS ${_target}
+        DESTINATION ${_dest} COMPONENT ${_component}
     )
 endmacro(gluon_add_plugin)
 
@@ -145,10 +151,12 @@ macro(gluon_add_executable _target)
     endif()
 
     target_link_libraries( ${_target} ${_libs} )
+
+    install(TARGETS ${_target} DESTINATION ${BIN_INSTALL_DIR} COMPONENT ${_target})
 endmacro(gluon_add_executable)
 
 macro(gluon_include_directories _target)
-    include_directories(${CMAKE_CURRENT_BINARY_DIR} ${ARGN})
+    include_directories(${ARGN})
     string(TOUPPER ${_target} _target_uc)
     set(${_target_uc}_INCLUDE_DIRS
         ${ARGN}
