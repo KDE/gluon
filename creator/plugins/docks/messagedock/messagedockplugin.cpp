@@ -20,8 +20,7 @@
 #include "messagedockplugin.h"
 #include "messagedock.h"
 
-#include <creator/lib/gluoncreator_macros.h>
-#include <creator/lib/dockmanager.h>
+#include <creator/dockmanager.h>
 
 #include <KDE/KLocalizedString>
 
