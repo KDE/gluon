@@ -15,6 +15,7 @@ if( NOT DEFINED ${GLUON_VERSION_STRING} )
     set( DATA_INSTALL_DIR ${CMAKE_INSTALL_DATADIR}/gluon CACHE INTERNAL "The directory where all of Gluon's data will be installed." )
     set( EXAMPLE_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/examples CACHE INTERNAL "The directory where example data will be installed." )
     set( TEMPLATE_INSTALL_DIR ${DATA_INSTALL_DIR}/templates CACHE INTERNAL "The directory where templates will be installed." )
+    set( KDE4_PLUGIN_INSTALL_DIR ${LIB_INSTALL_DIR}/kde4 CACHE INTERNAL "The directory where KDE4 plugins will be installed." )
 
     if( CMAKE_SIZEOF_VOID_P EQUAL 8 )
         set( GLUON_ARCHITECTURE "64" )
