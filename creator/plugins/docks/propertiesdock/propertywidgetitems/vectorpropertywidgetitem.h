@@ -21,7 +21,7 @@
 #ifndef GLUON_CREATOR_VECTORPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_VECTORPROPERTYWIDGETITEM_H
 
-#include <creator/lib/widgets/propertywidgetitem.h>
+#include <creator/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
 {

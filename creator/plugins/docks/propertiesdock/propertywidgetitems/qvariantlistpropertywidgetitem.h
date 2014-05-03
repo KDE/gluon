@@ -21,7 +21,7 @@
 #ifndef GLUONCREATOR_QVARIANTLISTPROPERTYWIDGETITEM_H
 #define GLUONCREATOR_QVARIANTLISTPROPERTYWIDGETITEM_H
 
-#include "creator/lib/widgets/propertywidgetitem.h"
+#include <creator/widgets/propertywidgetitem.h>
 
 class QMenu;
 class QToolButton;

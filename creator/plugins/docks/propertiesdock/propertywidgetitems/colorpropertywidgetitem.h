@@ -22,7 +22,7 @@
 #ifndef GLUON_CREATOR_COLORPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_COLORPROPERTYWIDGETITEM_H
 
-#include <creator/lib/widgets/propertywidgetitem.h>
+#include <creator/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
 {

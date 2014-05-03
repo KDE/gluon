@@ -19,7 +19,7 @@
 #ifndef QREALPROPERTYWIDGETITEM_H
 #define QREALPROPERTYWIDGETITEM_H
 
-#include <creator/lib/widgets/propertywidgetitem.h>
+#include <creator/widgets/propertywidgetitem.h>
 
 class QDoubleSpinBox;
 
