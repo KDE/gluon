@@ -21,7 +21,7 @@
 
 #include "distributiondock.h"
 
-#include <creator/lib/dockmanager.h>
+#include <creator/dockmanager.h>
 
 #include <KDE/KLocalizedString>
 
