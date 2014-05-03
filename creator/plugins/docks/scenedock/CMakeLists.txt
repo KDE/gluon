@@ -1,15 +1,10 @@
-set(scenedock_SRCS
-    scenedock.cpp
-    scenedockplugin.cpp
+gluon_add_plugin( gluoncreator_dockplugin_scenedock GluonCreator
+    SOURCES scenedock.cpp scenedockplugin.cpp
+    LIBRARIES ${GLUONCREATOR_LIBRARIES}
+    DESTINATION ${KDE4_PLUGIN_INSTALL_DIR}
 )
 
-kde4_add_plugin(gluon_creator_dockplugin_scenedock ${scenedock_SRCS})
-target_link_libraries(gluon_creator_dockplugin_scenedock ${GLUON_CREATOR_LIBS})
-
-install(TARGETS gluon_creator_dockplugin_scenedock
-        DESTINATION ${PLUGIN_INSTALL_DIR}
-        COMPONENT gluoncreator)
-
-install(FILES gluon_creator_dockplugin_scenedock.desktop
-        DESTINATION ${SERVICES_INSTALL_DIR}
-        COMPONENT gluoncreator)
+install( FILES gluoncreator_dockplugin_scenedock.desktop
+    DESTINATION ${SERVICES_INSTALL_DIR}
+    COMPONENT gluoncreator
+)
