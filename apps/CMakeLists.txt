@@ -38,7 +38,7 @@ save_status( GluonApps
     "Build the Creator application (BUILD_CREATOR_APP): ${BUILD_CREATOR_APP}"
     "Build the Desktop player (BUILD_DESKTOP_PLAYER): ${BUILD_DESKTOP_PLAYER}"
     "Build the Plasma Active player (BUILD_ACTIVE_PLAYER): ${BUILD_ACTIVE_PLAYER}"
-    "Build the Plasma Widget player (BUILD_PLASMOID): ${BUILD_PLASMOID)"
+    "Build the Plasma Widget player (BUILD_PLASMOID): ${BUILD_PLASMOID}"
     "Build the Harmattan player (BUILD_HARMATTAN_PLAYER): ${BUILD_HARMATTAN_PLAYER}"
     "Build the Fremantle player (BUILD_FREMANTLE_PLAYER): ${BUILD_FREMANTLE_PLAYER}"
 )
