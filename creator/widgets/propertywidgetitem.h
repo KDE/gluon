@@ -20,7 +20,7 @@
 #ifndef GLUON_CREATOR_PROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_PROPERTYWIDGETITEM_H
 
-#include "gluoncreator_macros.h"
+#include "../gluoncreator_macros.h"
 
 #include "propertywidgetitemfactory.h"
 
