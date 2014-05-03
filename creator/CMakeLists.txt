@@ -1,3 +1,8 @@
+gluon_include_directories( GluonCreator
+    ${GLUONPLAYER_INCLUDES}
+    ${KDE4_INCLUDES}
+)
+
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 
 set( GluonCreator_SRCS
@@ -58,8 +63,11 @@ set( GluonCreator_HEADERS
 gluon_add_library( GluonCreator SHARED 
     SOURCES ${GluonCreator_SRCS}
     HEADERS ${GluonCreator_HEADERS}
-    LIBRARIES ${GLUNPLAYER_LIBRARIES} ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KPARTS_LIBS}
+    LIBRARIES ${GLUONPLAYER_LIBRARIES} ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KPARTS_LIBS}
 )
+
+#add_subdirectory( nodeeditor )
+add_subdirectory( plugins )
 
 install( FILES gluoncreator_plugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR} COMPONENT gluoncreator )
 

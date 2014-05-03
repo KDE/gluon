@@ -20,7 +20,7 @@
 #ifndef GLUON_CREATOR_PROPERTYWIDGETITEMFACTORY_H
 #define GLUON_CREATOR_PROPERTYWIDGETITEMFACTORY_H
 
-#include "lib/gluoncreator_macros.h"
+#include "gluoncreator_macros.h"
 
 #include <core/singleton.h>
 
