@@ -57,6 +57,9 @@ endif( CMAKE_CXX_COMPILER_ID STREQUAL "GNU" )
 set( CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}" )
 set( CMAKE_BUILD_WITH_INSTALL_RPATH TRUE )
 
+# Always include CMAKE_CURRENT_SOURCE_DIR and CMAKE_CURRENT_BINARY_DIR by default
+set( CMAKE_INCLUDE_CURRENT_DIR TRUE )
+
 ##### Gluon Libraries and Applications #####
 add_subdirectory( core )
 
@@ -88,7 +91,7 @@ if( BUILD_GLUONCREATOR )
     add_subdirectory( creator )
 endif()
 
-if( BUILD_GLUON_APPLICATIONS )
+if( BUILD_GLUONAPPS )
     add_subdirectory( apps )
 endif()
 
