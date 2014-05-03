@@ -25,6 +25,8 @@
 
 #include <QtTest/QtTest>
 
+#include <AL/al.h>
+
 using namespace GluonAudio;
 
 SoundTest::SoundTest()

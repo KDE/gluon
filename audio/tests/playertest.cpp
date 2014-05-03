@@ -26,11 +26,13 @@
 
 #include <QtTest/QtTest>
 
+#include <AL/al.h>
+
 using namespace GluonAudio;
 
 PlayerTest::PlayerTest()
-  : m_audioFilePath(GluonCore::DirectoryProvider::instance()->dataDirectory() + "gluon/audio/Front_Left.wav")
-  , m_audioFilePath2(GluonCore::DirectoryProvider::instance()->dataDirectory() + "gluon/audio/Front_Right.wav")
+  : m_audioFilePath(GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/examples/audio/Front_Left.wav")
+  , m_audioFilePath2(GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/examples/audio/Front_Right.wav")
   , m_overRangeValue(10)
 {
 }
