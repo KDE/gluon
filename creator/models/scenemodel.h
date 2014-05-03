@@ -19,7 +19,7 @@
 #ifndef GLUON_CREATOR_SCENEMODEL_H
 #define GLUON_CREATOR_SCENEMODEL_H
 
-#include "gluoncreator_macros.h"
+#include "../gluoncreator_macros.h"
 
 #include <QtCore/QAbstractItemModel>
 
