@@ -24,6 +24,10 @@ find_package( Eigen3 REQUIRED )
 # KDE is a global optional dependency
 if( WITH_KDE )
     find_package( KDE4 )
+    
+    if( NOT ${KDE4_FOUND} )
+        set( BUILD_GLUONCREATOR OFF )
+    endif( NOT ${KDE4_FOUND} )
 endif()
 
 # Enable automoc (Internal CMake version if available, external binary if not)
