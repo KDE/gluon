@@ -49,14 +49,14 @@
 #include <engine/gameobject.h>
 #include <engine/component.h>
 
-#include "lib/plugin.h"
-#include "lib/pluginmanager.h"
-#include "lib/objectmanager.h"
-#include "lib/historymanager.h"
-#include "lib/selectionmanager.h"
-#include "lib/dockmanager.h"
-#include "lib/filemanager.h"
-#include "lib/widgets/filearea.h"
+#include <creator/plugin.h>
+#include <creator/pluginmanager.h>
+#include <creator/objectmanager.h>
+#include <creator/historymanager.h>
+#include <creator/selectionmanager.h>
+#include <creator/dockmanager.h>
+#include <creator/filemanager.h>
+#include <creator/widgets/filearea.h>
 
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"

@@ -1,6 +1,4 @@
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${KDE4_INCLUDES}
     ${GLUONCREATOR_INCLUDES}
 )
 
@@ -35,7 +33,7 @@ install(FILES
     ui/gluoncreatorui.rc
     icons/gluon-creator-splash.png
 
-    DESTINATION ${DATA_INSTALL_DIR}/gluoncreator
+    DESTINATION ${SHARE_INSTALL_DIR}/apps/gluoncreator
     COMPONENT gluoncreator
 )
 
