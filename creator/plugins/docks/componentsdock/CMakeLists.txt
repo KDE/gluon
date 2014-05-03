@@ -1,15 +1,9 @@
-set(componentsdock_SRCS
-componentsdock.cpp
-componentsdockplugin.cpp
+gluon_add_plugin(gluoncreator_dockplugin_componentsdock GluonCreator
+    SOURCES componentsdock.cpp componentsdockplugin.cpp
+    LIBRARIES ${GLUONCREATOR_LIBRARIES}
+    DESTINATION ${KDE4_PLUGIN_INSTALL_DIR}
 )
 
-kde4_add_plugin(gluon_creator_dockplugin_componentsdock ${componentsdock_SRCS})
-target_link_libraries(gluon_creator_dockplugin_componentsdock ${GLUON_CREATOR_LIBS})
-
-install(TARGETS gluon_creator_dockplugin_componentsdock
-        DESTINATION ${PLUGIN_INSTALL_DIR}
-        COMPONENT gluoncreator)
-
-install(FILES gluon_creator_dockplugin_componentsdock.desktop
+install(FILES gluoncreator_dockplugin_componentsdock.desktop
         DESTINATION ${SERVICES_INSTALL_DIR}
         COMPONENT gluoncreator)
