@@ -1,23 +1,18 @@
-include_directories(${GLUON_AUDIO_INCLUDE_DIRS})
+include_directories(${GLUONAUDIO_INCLUDES})
 
 set(gluonexamples_audio_play3d_SRCS
     main.cpp
 )
 
-add_executable(gluonexamples_audio_play3d ${gluonexamples_audio_play3d_SRCS})
-
-if(GLUON_BUILD_ALL)
-    add_dependencies(gluonexamples_audio_play3d GluonAudio)
-endif()
-
-target_link_libraries(gluonexamples_audio_play3d ${GLUON_AUDIO_LIBS})
+gluon_add_executable(gluonexamples_audio_play3d
+    SOURCES main.cpp
+    LIBRARIES ${GLUONAUDIO_LIBRARIES}
+)
 
 install(FILES
     Front_Center.wav
     Front_Left.wav
     Front_Right.wav
-    DESTINATION ${AUDIO_EXAMPLES_DATA_INSTALL_DIR}
+    DESTINATION ${EXAMPLE_DATA_INSTALL_DIR}/audio
     COMPONENT Devel
 )
-
-install(TARGETS gluonexamples_audio_play3d DESTINATION ${EXAMPLES_INSTALL_DIR})
