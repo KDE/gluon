@@ -52,4 +52,4 @@ btcomponentstestapp::run(QUrl gdlFile)
     GluonEngine::Game::instance()->runGameFixedTimestep(1);
 }
 
-#include "btcomponents-testapp.moc"
+ 

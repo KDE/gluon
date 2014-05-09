@@ -22,7 +22,7 @@
 #include <QtCore/qglobal.h>
 
 #ifndef GLUON_AUDIO_EXPORT
-#if defined(MAKE_GLUON_AUDIO_LIB)
+#if defined(MAKE_GLUONAUDIO_LIB)
 #define GLUON_AUDIO_EXPORT Q_DECL_EXPORT
 #else
 #define GLUON_AUDIO_EXPORT Q_DECL_IMPORT

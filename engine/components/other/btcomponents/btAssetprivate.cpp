@@ -21,4 +21,4 @@
 
 using namespace GluonEngine;
 
-#include "btAssetprivate.moc"
+ 

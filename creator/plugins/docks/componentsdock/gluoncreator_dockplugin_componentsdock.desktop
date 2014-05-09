@@ -1,0 +1,52 @@
+[Desktop Entry]
+Encoding=UTF-8
+
+Name=Components Dock
+Name[bs]=Sidrište za komponente
+Name[de]=Komponenten-Ansicht
+Name[en_GB]=Components Dock
+Name[es]=Anclaje de componentes 
+Name[et]=Komponentide dokk
+Name[fr]=Panneau de composants
+Name[hu]=Komponens eszköztár
+Name[km]=សមាសភាគ​ចត
+Name[mr]=घटक डॉक
+Name[nds]=Komponenten-Andocker
+Name[pl]=Dok składników
+Name[pt]=Área de Componentes
+Name[pt_BR]=Acoplador de componentes
+Name[sv]=Komponentpanel
+Name[uk]=Панель компонентів
+Name[x-test]=xxComponents Dockxx
+Comment=Provides a list with components in a dock.
+Comment[bs]=Obezbjeđuje listu komponenti u sidrištu
+Comment[de]=Eine Liste der Komponenten in einer Anzeige.
+Comment[en_GB]=Provides a list with components in a dock.
+Comment[es]=Proporciona una lista con los componentes de un anclaje.
+Comment[et]=Komponentide nimekirja näitamine dokis.
+Comment[fr]=Affiche une liste de composants dans un panneau.
+Comment[hu]=Dokkolható komponenslista.
+Comment[km]=ផ្ដល់​បញ្ជី​ដែល​មាន​សមាសភាគ​នៅ​​ក្នុង dock ។
+Comment[nds]=Stellt en Komponentlist as Andockmoduul praat.
+Comment[pl]=Dostarcza listę ze składnikami w doku.
+Comment[pt]=Oferece uma lista com os componentes acoplados.
+Comment[pt_BR]=Oferece uma lista com os componentes em um acoplador.
+Comment[sv]=Tillhandahåller en lista av komponenter.
+Comment[uk]=Панель зі списком компонентів.
+Comment[x-test]=xxProvides a list with components in a dock.xx
+Icon=gluon
+
+Type=Service
+ServiceTypes=GluonCreator/Plugin
+
+X-KDE-Library=gluoncreator_dockplugin_componentsdock
+X-KDE-GluonCreatorPluginVersion=1
+X-KDE-PluginInfo-Author=Arjen Hiemstra
+X-KDE-PluginInfo-Email=djfreestyler@gmail.com
+X-KDE-PluginInfo-Name=gluoncreator_dockplugin_componentsdock
+X-KDE-PluginInfo-Version=0.1
+X-KDE-PluginInfo-Website=http://gluon.tuxfamily.org
+X-KDE-PluginInfo-Category=dock
+X-KDE-PluginInfo-Depends=
+X-KDE-PluginInfo-License=GPL
+X-KDE-PluginInfo-EnabledByDefault=true

@@ -25,6 +25,8 @@
 
 #include <QtTest/QtTest>
 
+#include <AL/al.h>
+
 using namespace GluonAudio;
 
 SoundTest::SoundTest()
@@ -165,4 +167,4 @@ void SoundTest::testRadius()
 
 QTEST_MAIN(SoundTest)
 
-#include "soundtest.moc"
+ 

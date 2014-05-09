@@ -119,4 +119,4 @@ QList<InputDevice*> DetectQt::unknownDeviceList()
     return d->unknownList;
 }
 
-#include "detectqt.moc"
+ 

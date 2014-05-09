@@ -23,10 +23,12 @@
 #include "renderchainitem.h"
 #include "texture.h"
 
+#include "gluon_graphics_export.h"
+
 class QDeclarativeContext;
 namespace GluonGraphics
 {
-    class QtQuickRenderer : public Texture, public RenderChainItem
+    class GLUON_GRAPHICS_EXPORT QtQuickRenderer : public Texture, public RenderChainItem
     {
             Q_OBJECT
         public:

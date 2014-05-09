@@ -22,15 +22,15 @@
 
 #include <engine/game.h>
 
-#include <player/lib/serviceprovider.h>
-#include <player/lib/addgamejob.h>
-#include <player/lib/categorylistjob.h>
-#include <player/lib/editgamejob.h>
-#include <player/lib/gamedetaillistjob.h>
-#include <player/lib/licensejob.h>
-#include <player/lib/gamedetailsjob.h>
-#include <player/lib/gameuploadjob.h>
-#include <player/lib/archive/archiver.h>
+#include <player/serviceprovider.h>
+#include <player/addgamejob.h>
+#include <player/categorylistjob.h>
+#include <player/editgamejob.h>
+#include <player/gamedetaillistjob.h>
+#include <player/licensejob.h>
+#include <player/gamedetailsjob.h>
+#include <player/gameuploadjob.h>
+#include <player/archive/archiver.h>
 
 #include <KDE/KLocalizedString>
 
@@ -362,4 +362,4 @@ void DistributionDock::uploadGameArchive()
     uploadJob->start();
 }
 
-#include "distributiondock.moc"
+ 

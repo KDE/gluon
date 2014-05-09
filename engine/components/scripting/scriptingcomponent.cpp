@@ -21,9 +21,9 @@
 #include "scriptingcomponentprivate.h"
 #include "scriptingengine.h"
 
-#include "game.h"
-#include "gameobject.h"
-#include "scene.h"
+#include <engine/game.h>
+#include <engine/gameobject.h>
+#include <engine/scene.h>
 
 #include <core/messagehandler.h>
 
@@ -185,4 +185,4 @@ void ScriptingComponent::cleanup()
     GluonEngine::Component::cleanup();
 }
 
-#include "scriptingcomponent.moc"
+ 

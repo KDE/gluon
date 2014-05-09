@@ -243,4 +243,4 @@ btNode* btFactory::createRootNode(QDomNode xmlNode, btBrain* brain)
     return newRootNode;
 }
 
-#include "btfactory.moc"
+ 

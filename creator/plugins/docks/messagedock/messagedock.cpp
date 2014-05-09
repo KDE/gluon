@@ -19,7 +19,7 @@
 
 #include "messagedock.h"
 
-#include <core/gluon_global.h>
+#include <gluon_global.h>
 #include <engine/game.h>
 
 #include <KDE/KLocalizedString>

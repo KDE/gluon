@@ -196,4 +196,4 @@ void MeshRendererComponent::setMaterial( const QString& path )
 
 Q_EXPORT_PLUGIN2( gluon_component_meshrenderer, GluonEngine::MeshRendererComponent );
 
-#include "meshrenderercomponent.moc"
+ 

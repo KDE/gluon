@@ -22,7 +22,7 @@
 #ifndef GLUON_CREATOR_BOOLPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_BOOLPROPERTYWIDGETITEM_H
 
-#include <creator/lib/widgets/propertywidgetitem.h>
+#include <creator/widgets/propertywidgetitem.h>
 namespace GluonCreator
 {
     class BoolPropertyWidgetItem : public PropertyWidgetItem

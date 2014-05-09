@@ -1,16 +1,13 @@
-include_directories(${GLUON_CORE_INCLUDE_DIRS} common)
+include_directories(${GLUONCORE_INCLUDE_DIRS} common)
 
 add_subdirectory(common)
 add_subdirectory(lib)
 
-find_package(KDE4)
 if(KDE4_FOUND)
     include_directories(${KDE4_INCLUDES})
-    if(BUILD_GLUON_SMARTS_EDITOR)
-        add_subdirectory(editor)
-    endif(BUILD_GLUON_SMARTS_EDITOR)
+    add_subdirectory(editor)
 else(KDE4_FOUND)
-    message(STATUS "KDE libraries are not found - not building the Smarts BtEditor")
+    message(STATUS "KDE libraries are not found - not building the Smarts Editor")
 endif(KDE4_FOUND)
 
 

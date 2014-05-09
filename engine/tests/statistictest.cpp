@@ -101,4 +101,4 @@ void StatisticTest::testCommitScore()
 
 QTEST_MAIN(StatisticTest)
 
-#include "statistictest.moc"
+ 

@@ -20,12 +20,9 @@
 #ifndef GLUON_ENGINE_ACHIEVEMENTSASSET_H
 #define GLUON_ENGINE_ACHIEVEMENTSASSET_H
 
-#include "gluon_engine_export.h"
-
-#include "asset.h"
-#include "savable.h"
-
 #include <core/metainfo.h>
+#include <engine/asset.h>
+#include <engine/savable.h>
 
 namespace GluonEngine
 {
@@ -34,7 +31,7 @@ namespace GluonEngine
      * several achievements. The file is written in GDL.
      */
     // TODO: Arjen Hiemstra says that the export macro should not be needed here, but Windows meeds it.
-    class GLUON_ASSET_ACHIEVEMENTS_EXPORT AchievementsAsset : public Asset, public Savable
+    class AchievementsAsset : public Asset, public Savable
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )
@@ -79,7 +76,7 @@ namespace GluonEngine
 
         protected:
             /** Reimplemented from GluonCore::GluonObject::populateMetaInfo() */
-            virtual void populateMetaInfo( GluonCore::MetaInfo*  info );
+            virtual void populateMetaInfo( GluonCore::MetaInfo* info );
 
         private:
             class AchievementsAssetPrivate;

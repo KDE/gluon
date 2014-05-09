@@ -23,7 +23,8 @@
 
 #include <QtCore/QModelIndex>
 #include <QtGui/QDockWidget>
-#include <lib/selectionmanager.h>
+
+#include <creator/selectionmanager.h>
 
 class QItemSelection;
 

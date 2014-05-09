@@ -1,75 +1,60 @@
-cmake_minimum_required(VERSION 2.8)
+set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+set( LIBATTICA_MIN_VERSION 0.1.90 )
+find_package( LibAttica REQUIRED )
 
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
+gluon_include_directories( GluonPlayer
+    ${GLUONENGINE_INCLUDES}
+    ${LIBATTICA_INCLUDE_DIR}
 )
 
-if(NOT GLUON_BUILD_ALL)
-    project(GluonPlayer)
-    option(INSTALL_EXAMPLES "Install the game examples for Gluon Player" ON)
-    find_package(GluonCore REQUIRED)
-    find_package(GluonInput REQUIRED)
-    find_package(GluonEngine REQUIRED)
-    find_package(GluonGraphics REQUIRED)
-endif(NOT GLUON_BUILD_ALL)
+set(GluonPlayer_SRCS
+    abstractjob.cpp
+    abstractsocialservicesjob.cpp
+    addgamejob.cpp
 
-set(LIBATTICA_MIN_VERSION 0.1.90)
-find_package(LibAttica)
-if(LIBATTICA_FOUND)
-    include_directories(${LIBATTICA_INCLUDE_DIR})
-    add_subdirectory(lib)
+    archive/archiver.cpp
+    archive/extractor.cpp
 
-    find_package(Qt4)
-    if(BUILD_GLUON_PLAYER_FREMANTLE)
-        if(QT_QTDECLARATIVE_FOUND)
-            add_subdirectory(fremantle)
-        else(QT_QTDECLARATIVE_FOUND)
-            message(WARNING "Qt installation lacks Qt Declarative - disabling handset based player")
-        endif(QT_QTDECLARATIVE_FOUND)
-    endif()
+    atticamanager.cpp
+    categorylistjob.cpp
+    commentslistjob.cpp
+    commentuploadjob.cpp
+    editgamejob.cpp
+    gamedetailitem.cpp
+    gamedetailsjob.cpp
+    gamedetaillistjob.cpp
+    gamedownloadjob.cpp
+    gamemanager.cpp
+    gamemetadata.cpp
+    gameuploadjob.cpp
+    licensejob.cpp
+    ratingjob.cpp
+    serviceprovider.cpp
 
-    if(BUILD_GLUON_PLAYER_HARMATTAN)
-        if(QT_QTDECLARATIVE_FOUND)
-            add_subdirectory(harmattan)
-        else(QT_QTDECLARATIVE_FOUND)
-            message(WARNING "Qt installation lacks Qt Declarative - disabling harmattan based player")
-        endif(QT_QTDECLARATIVE_FOUND)
-    endif()
+    models/achievementsmodel.cpp
+    models/allgameitemsmodel.cpp
+    models/commentitemsmodel.cpp
+    models/downloadablegamesmodel.cpp
+    models/gameitem.cpp
+    models/gameitemsmodel.cpp
+    models/gameviewitem.cpp
+    models/highscoresmodel.cpp
+    models/installedgamesmodel.cpp
+)
 
-    if(BUILD_GLUON_PLAYER_DESKTOP)
-        find_package(KDE4)
-        if(KDE4_FOUND)
-            include_directories(${KDE4_INCLUDES})
-            add_subdirectory(desktop)
-        else(KDE4_FOUND)
-            message(STATUS "KDE libraries are not found - not building the KDE Desktop Player")
-        endif(KDE4_FOUND)
-    endif()
+set(GluonPlayer_HEADERS
+    atticamanager.h
+    models/achievementsmodel.h
+    models/commentitemsmodel.h
+    models/gameitemsmodel.h
+    models/highscoresmodel.h
+)
 
-    if(BUILD_GLUON_PLAYER_ACTIVE)
-        set(ACTIVE_KDE_MIN_VERSION 4.8.0)
-        find_package(KDE4)
-        if(KDE4_FOUND)
-            if(NOT ${KDE_VERSION} VERSION_LESS ACTIVE_KDE_MIN_VERSION)
-                include_directories(${KDE4_INCLUDES})
-                include_directories(${ACTIVEAPP_INCLUDE_DIR})
-                add_subdirectory(active)
-            else(NOT ${KDE_VERSION} VERSION_LESS ACTIVE_KDE_MIN_VERSION)
-                message(STATUS "KDE libraries are very old (need >= ${ACTIVE_KDE_MIN_VERSION}) to build the Plasma Active Player")
-            endif(NOT ${KDE_VERSION} VERSION_LESS ACTIVE_KDE_MIN_VERSION)
-        else(KDE4_FOUND)
-            message(STATUS "KDE libraries are not found - not building the Plasma Active Player")
-        endif(KDE4_FOUND)
-    endif()
+gluon_add_library(GluonPlayer SHARED
+    SOURCES ${GluonPlayer_SRCS}
+    HEADERS ${GluonPlayer_HEADERS}
+    LIBRARIES ${GLUONENGINE_LIBRARIES} ${QT_QTNETWORK_LIBRARY} ${LIBATTICA_LIBRARIES})
 
-else(LIBATTICA_FOUND)
-    message(WARNING "Could not find LibAttica or a too old version was found.")
-    message(WARNING "Building libGluonPlayer without Attica support!")
-endif(LIBATTICA_FOUND)
+gluon_add_subdirectories( tests )
 
-if(INSTALL_EXAMPLES)
-    add_subdirectory(examples)
-endif(INSTALL_EXAMPLES)

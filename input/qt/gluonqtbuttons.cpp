@@ -58,4 +58,4 @@ QString GluonQtButtons::axisName( DeviceQtFlag deviceType, int code )
     return value;
 }
 
-#include "gluonqtbuttons.moc"
+#include "moc_gluonqtbuttons.cpp"

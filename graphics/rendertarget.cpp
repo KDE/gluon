@@ -190,4 +190,4 @@ bool RenderTarget::Private::compareZDepth( RenderChainItem* first, RenderChainIt
     return first->zDepth() < second->zDepth();
 }
 
-#include "rendertarget.moc"
+ 

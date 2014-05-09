@@ -154,6 +154,3 @@ MetaInfo::setDefaultExtension( const QString& extension )
 {
     d->defaultExtension = extension;
 }
-
-
-#include "metainfo.moc"

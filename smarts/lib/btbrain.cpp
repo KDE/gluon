@@ -196,5 +196,5 @@ QString btBrain::getFile()
 	return m_file;
 }
 
-#include "btbrain.moc"
+ 
 

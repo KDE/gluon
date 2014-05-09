@@ -148,4 +148,4 @@ void btBrain::removeNodeType(btEditorNodeType* nodeType, int row)
     emit nodeTypeDeleted(row);
 }
 
-#include "btbrain.moc"
+ 

@@ -20,7 +20,7 @@
 #ifndef GLUON_CREATOR_QURLPROPERTYWIDGETITEM_H
 #define GLUON_CREATOR_QURLPROPERTYWIDGETITEM_H
 
-#include <creator/lib/widgets/propertywidgetitem.h>
+#include <creator/widgets/propertywidgetitem.h>
 
 namespace GluonCreator
 {

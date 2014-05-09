@@ -992,4 +992,4 @@ void InputThread::closeDevice()
         qDebug() << "Could not close the device:" << d->m_devicePath;
 }
 
-#include "inputthread.moc"
+ 

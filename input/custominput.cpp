@@ -249,5 +249,3 @@ QStringList CustomInput::relAxisNameList()
     }
     return list;
 }
-
-#include "custominput.moc"

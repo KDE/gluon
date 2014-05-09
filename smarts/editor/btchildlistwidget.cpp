@@ -87,4 +87,4 @@ void btChildListWidget::setChildProbabilites(QString propertyName ,QObject* obje
     setLayout(childLayout);
 }
 
-#include "btchildlistwidget.moc"
+ 

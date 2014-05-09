@@ -200,5 +200,3 @@ void InputDevice::buttonStateChanged( int button, int value )
 {
     d->inputBuffer->setButtonState( button, value );
 }
-
-#include "inputdevice.moc"

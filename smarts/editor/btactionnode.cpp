@@ -36,4 +36,4 @@ bool btActionNode::run(btCharacter* character)
     return false;
 }
 
-#include "btactionnode.moc"
+ 

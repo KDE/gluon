@@ -375,4 +375,4 @@ GameObject* Game::clone( GameObject* obj )
     return 0;
 }
 
-#include "game.moc"
+ 

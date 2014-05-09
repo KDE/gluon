@@ -153,11 +153,6 @@ GluonObjectFactory::loadPlugins()
         QDir pluginDirectory( pluginDirectoryPath );
         DEBUG_TEXT( QString( "Looking for pluggable components in %1" ).arg( pluginDirectory.absolutePath() ) )
 
-#ifdef Q_WS_X11
-        //Only attempt to load our current version. This makes it possible to have different versions
-        //of the plugins in the plugin dir.
-        pluginDirectory.setNameFilters( QStringList() << QString( "*.so.%1.%2.%3" ).arg( GLUON_VERSION_MAJOR ).arg( GLUON_VERSION_MINOR ).arg( GLUON_VERSION_PATCH ) );
-#endif
         pluginDirectory.setFilter( QDir::AllEntries| QDir::NoDotAndDotDot );
 
         DEBUG_TEXT2( "Found %1 potential plugins. Attempting to load...", pluginDirectory.count() )
@@ -189,5 +184,3 @@ GluonObjectFactory::GluonObjectFactory ( QObject* parent )
 {
 
 }
-
-#include "gluonobjectfactory.moc"

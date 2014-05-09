@@ -267,4 +267,4 @@ void Achievement::sanitize()
         project->addAchievement( static_cast<Achievement*>( this ) );
 }
 
-#include "achievement.moc"
+ 

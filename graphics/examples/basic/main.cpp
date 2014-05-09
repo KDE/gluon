@@ -23,21 +23,25 @@
 
 #include "graphics/material.h"
 
-#include <QApplication>
-#include <QSizeF>
+#include <QtCore/QSizeF>
+#include <QtGui/QApplication>
 
-#include "graphics/manager.h"
-#include "graphics/renderwidget.h"
-#include "graphics/entity.h"
-#include "graphics/camera.h"
-#include "graphics/material.h"
-#include "graphics/materialinstance.h"
-#include "graphics/rendertarget.h"
-#include "graphics/texture.h"
-#include "graphics/world.h"
-#include "graphics/spritemesh.h"
 #include <Eigen/Core>
 #include <Eigen/Geometry>
+
+#include <core/directoryprovider.h>
+#include <graphics/manager.h>
+#include <graphics/renderwidget.h>
+#include <graphics/shader.h>
+#include <graphics/backend.h>
+#include <graphics/texture.h>
+#include <graphics/world.h>
+#include <graphics/entity.h>
+#include <graphics/camera.h>
+#include <graphics/spritemesh.h>
+#include <graphics/materialinstance.h>
+#include <graphics/rendertarget.h>
+#include <graphics/frustrum.h>
 
 using namespace GluonGraphics;
 

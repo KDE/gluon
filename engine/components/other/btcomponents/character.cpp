@@ -267,4 +267,4 @@ void Character::initScriptNodes(GluonSmarts::btNode* node)
 
 
 
-#include "character.moc"
+ 

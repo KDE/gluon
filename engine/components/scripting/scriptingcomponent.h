@@ -28,7 +28,7 @@
 class QScriptValue;
 namespace GluonEngine
 {
-    class GLUON_COMPONENT_SCRIPTING_EXPORT ScriptingComponent : public Component
+    class ScriptingComponent : public Component
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Component )

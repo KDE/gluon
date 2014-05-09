@@ -100,4 +100,4 @@ void btQVariantListWidget::addItem(QListWidgetItem * item)
     listWidget->addItem(item);
 }
 
-#include "btqvariantlistwidget.moc"
+ 

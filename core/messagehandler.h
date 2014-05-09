@@ -20,7 +20,7 @@
 #ifndef GLUON_CORE_MESSAGEHANDLER_H
 #define GLUON_CORE_MESSAGEHANDLER_H
 
-#include "gluon_core_export.h"
+#include "gluoncore_export.h"
 
 #include "singleton.h"
 
@@ -38,7 +38,7 @@ namespace GluonCore
      * subscribe to messages and other objects can publish
      * messages.
      */
-    class GLUON_CORE_EXPORT MessageHandler : public Singleton<MessageHandler>
+    class GLUONCORE_EXPORT MessageHandler : public Singleton<MessageHandler>
     {
             Q_OBJECT
             GLUON_SINGLETON( MessageHandler )

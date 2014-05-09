@@ -130,4 +130,4 @@ void TouchInputComponent::setTouchCode( TouchInputComponent::TouchName newTouchC
 
 Q_EXPORT_PLUGIN2( gluon_component_touchinput, GluonEngine::TouchInputComponent );
 
-#include "touchinputcomponent.moc"
+ 

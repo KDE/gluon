@@ -1,15 +1,9 @@
-set(projectdock_SRCS
-    projectdock.cpp
-    projectdockplugin.cpp
+gluon_add_plugin(gluoncreator_dockplugin_projectdock GluonCreator
+    SOURCES projectdock.cpp projectdockplugin.cpp
+    LIBRARIES ${GLUONCREATOR_LIBRARIES}
+    DESTINATION ${KDE4_PLUGIN_INSTALL_DIR}
 )
 
-kde4_add_plugin(gluon_creator_dockplugin_projectdock ${projectdock_SRCS})
-target_link_libraries(gluon_creator_dockplugin_projectdock ${GLUON_CREATOR_LIBS})
-
-install(TARGETS gluon_creator_dockplugin_projectdock
-        DESTINATION ${PLUGIN_INSTALL_DIR}
-        COMPONENT gluoncreator)
-
-install(FILES gluon_creator_dockplugin_projectdock.desktop
+install(FILES gluoncreator_dockplugin_projectdock.desktop
         DESTINATION ${SERVICES_INSTALL_DIR}
         COMPONENT gluoncreator)

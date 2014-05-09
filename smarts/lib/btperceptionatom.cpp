@@ -97,4 +97,4 @@ void btPerceptionAtom::perceptionInfoUpdated()
         d->knowledge = d->perceptionInfo->getAdjustedValue(d->precision);
 }
 
-#include "btperceptionatom.moc"
+ 

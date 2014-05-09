@@ -22,10 +22,12 @@
 
 #include <QtCore/QObject>
 
+#include "gluon_graphics_export.h"
+
 namespace GluonGraphics
 {
     class RenderTarget;
-    class OutputSurface : public QObject
+    class GLUON_GRAPHICS_EXPORT OutputSurface : public QObject
     {
             Q_OBJECT
         public:

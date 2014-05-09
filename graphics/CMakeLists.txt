@@ -1,36 +1,21 @@
-cmake_minimum_required(VERSION 2.8)
+option( BUILD_MESH_LOADING "Build mesh loading support" OFF )
 
-if(NOT GLUON_BUILD_ALL)
-project(GluonGraphics)
-    find_package(GluonCore REQUIRED)
-endif()
+set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake  )
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+if( BUILD_MESH_LOADING )
+    find_package( AssImp )
+endif( BUILD_MESH_LOADING )
 
-find_package(OpenGL REQUIRED)
-find_package(AssImp)
-
-include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${GLUON_CORE_INCLUDE_DIRS}
+gluon_include_directories( GluonGraphics
+    ${GLUONCORE_INCLUDE_DIRS}
 )
 
-set(GLUON_GRAPHICS_INCLUDE_DIRS
-    ${GLUON_CORE_INCLUDE_DIRS}
-    CACHE INTERNAL "Includes required for Gluon Graphics"
-)
+if( ASSIMP_FOUND )
+    include_directories( ${ASSIMP_INCLUDE_DIR} )
+    list( APPEND GLUONGRAPHICS_INCLUDE_DIRS ${ASSIMP_INCLUDE_DIR} )
+endif( ASSIMP_FOUND )
 
-if(ASSIMP_FOUND)
-    include_directories(${ASSIMP_INCLUDE_DIR})
-    set(GLUON_GRAPHICS_INCLUDE_DIRS
-        ${GLUON_GRAPHICS_INCLUDE_DIRS}
-        ${ASSIMP_INCLUDE_DIR}
-    )
-    set(GLUON_GRAPHICS_HAS_MESH TRUE CACHE INTERNAL "")
-endif(ASSIMP_FOUND)
-
-set(GluonGraphics_SRCS
+set( GluonGraphics_SRCS
     camera.cpp
     frustrum.cpp
     entity.cpp
@@ -57,7 +42,7 @@ set(GluonGraphics_SRCS
     qtquickrenderer.cpp
 )
 
-set(GluonGraphics_HEADERS
+set( GluonGraphics_HEADERS
     camera.h
     frustrum.h
     gluon_graphics_export.h
@@ -75,48 +60,21 @@ set(GluonGraphics_HEADERS
     texturedata.h
 )
 
-if(ASSIMP_FOUND)
-    set( GluonGraphics_SRCS ${GluonGraphics_SRCS} filemesh.cpp )
-    set( GluonGraphics_HEADERS ${GluonGraphics_HEADERS} filemesh.h )
-endif(ASSIMP_FOUND)
+if( ASSIMP_FOUND )
+    list( APPEND GluonGraphics_SRCS filemesh.cpp )
+    list( APPEND GluonGraphics_HEADERS filemesh.h )
+endif( ASSIMP_FOUND )
 
-qt4_automoc(${GluonGraphics_SRCS})
-add_library(GluonGraphics SHARED ${GluonGraphics_SRCS} ${GluonGraphics_HEADERS})
-
-set_target_properties(GluonGraphics PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_GRAPHICS_LIB)
-
-if(APPLE)
-    #hack for being able to set headers as public in a osx framework
-    list(APPEND GluonGraphics_HEADERS
-            ${GluonGraphics_HEADERS}
-    )
-
-    set_target_properties(GluonGraphics PROPERTIES FRAMEWORK TRUE)
-    set_target_properties(GluonGraphics PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
-    set_target_properties(GluonGraphics PROPERTIES PUBLIC_HEADER "${GluonGraphics_HEADERS}")
-
-    set(MACOSX_FRAMEWORK_IDENTIFIER graphics)
-    set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
-    set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
-endif()
-
-target_link_libraries(
-    GluonGraphics
-    ${GLUON_CORE_LIBS}
-    ${QT_QTDECLARATIVE_LIBRARIES}
+gluon_add_library( GluonGraphics SHARED 
+    SOURCES ${GluonGraphics_SRCS}
+    HEADERS ${GluonGraphics_HEADERS}
+    LIBRARIES ${GLUONCORE_LIBRARIES} ${QT_QTDECLARATIVE_LIBRARY}
 )
 
-set(GLUON_GRAPHICS_LIBS
-    GluonGraphics
-    ${GLUON_CORE_LIBS}
-    ${QT_QTDECLARATIVE_LIBRARY}
-    CACHE INTERNAL "Libraries required for Gluon Graphics"
-)
-
-if(ASSIMP_FOUND)
-    target_link_libraries(GluonGraphics ${ASSIMP_LIBRARY})
-    set(GLUON_GRAPHICS_LIBS ${GLUON_GRAPHICS_LIBS} ${ASSIMP_LIBRARY})
-endif(ASSIMP_FOUND)
+if( ASSIMP_FOUND )
+    target_link_libraries( GluonGraphics ${ASSIMP_LIBRARY} )
+    list( APPEND GLUONGRAPHICS_LIBRARIES ${ASSIMP_LIBRARY} )
+endif( ASSIMP_FOUND )
 
 if( APPLE )
     #add_subdirectory( agl )
@@ -127,31 +85,13 @@ elseif( UNIX )
     #add_subdirectory( egl )
 endif()
 
-if(INSTALL_EXAMPLES)
-    add_subdirectory(examples)
-endif()
-
-install(
-    TARGETS     GluonGraphics
-    RUNTIME     DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluongraphics
-    LIBRARY     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
-    ARCHIVE     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
-    FRAMEWORK   DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluongraphics
-)
-
-install(FILES
-    ${GluonGraphics_HEADERS}
-    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/graphics
-    COMPONENT gluongraphics
-)
-
-install(FILES
+install( FILES
     resources/default.gluonmaterial
     resources/default.png
     DESTINATION ${SHARE_INSTALL_DIR}/gluon/defaults
+    COMPONENT GluonGraphics
 )
 
-if(BUILD_GLUON_TESTS)
-    enable_testing()
-    add_subdirectory(tests)
-endif()
+gluon_add_subdirectories( examples tests )
+
+save_status( GluonGraphics "Build mesh loading support (BUILD_MESH_LOADING): ${BUILD_MESH_LOADING}" )

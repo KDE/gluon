@@ -20,8 +20,6 @@
 #ifndef GLUONENGINE_SCRIPTINGENGINE_H
 #define GLUONENGINE_SCRIPTINGENGINE_H
 
-#include "gluon_engine_export.h"
-
 #include <core/singleton.h>
 
 #include <QtScript/QScriptValue>
@@ -30,7 +28,7 @@
 namespace GluonEngine
 {
     class ScriptingAsset;
-    class GLUON_COMPONENT_SCRIPTING_EXPORT ScriptingEngine : public GluonCore::Singleton<ScriptingEngine>
+    class ScriptingEngine : public GluonCore::Singleton<ScriptingEngine>
     {
             Q_OBJECT
 

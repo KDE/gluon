@@ -84,4 +84,4 @@ void Statistic::commitScore()
     AbstractStatistic::commit();
 }
 
-#include "statistic.moc"
+ 

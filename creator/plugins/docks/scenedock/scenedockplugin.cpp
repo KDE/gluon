@@ -21,7 +21,7 @@
 
 #include "scenedock.h"
 
-#include <lib/dockmanager.h>
+#include <creator/dockmanager.h>
 
 #include <KLocalizedString>
 

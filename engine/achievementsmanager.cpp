@@ -236,4 +236,4 @@ bool AchievementsManager::isPastThreshold(int index) const
     return ( object->property( "currentScore" ).toLongLong() > object->property( "thresholdScore" ).toLongLong() );
 }
 
-#include "achievementsmanager.moc"
+ 

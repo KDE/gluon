@@ -31,7 +31,7 @@ namespace GluonInput
 
 namespace GluonEngine
 {
-    class GLUON_COMPONENT_KEYBOARDINPUT_EXPORT KeyboardInputComponent : public Component
+    class KeyboardInputComponent : public Component
     {
             Q_OBJECT;
             GLUON_OBJECT( GluonEngine::KeyboardInputComponent )

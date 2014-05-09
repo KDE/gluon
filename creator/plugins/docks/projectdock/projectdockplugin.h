@@ -20,7 +20,7 @@
 #ifndef GLUON_CREATOR_PROJECTDOCKPLUGIN_H
 #define GLUON_CREATOR_PROJECTDOCKPLUGIN_H
 
-#include <creator/lib/dockplugin.h>
+#include <creator/dockplugin.h>
 
 namespace GluonCreator
 {

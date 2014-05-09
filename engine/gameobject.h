@@ -23,6 +23,8 @@
 
 #include "gluon_engine_export.h"
 
+#include <QMatrix4x4>
+
 #include <core/gluonobject.h>
 #include <core/gluonvarianttypes.h>
 #include <core/gluonobjectfactory.h>

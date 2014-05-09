@@ -1,0 +1,52 @@
+[Desktop Entry]
+Encoding=UTF-8
+
+Name=Scene Dock
+Name[bs]=Sidrište za Scenu
+Name[de]=Szenen-Anzeige
+Name[en_GB]=Scene Dock
+Name[es]=Anclaje de escena
+Name[et]=Stseenidokk
+Name[fr]=Panneau de scènes
+Name[hu]=Jelenet eszköztár
+Name[km]=Scene Dock
+Name[mr]=दृश्य डॉक
+Name[nds]=Szenen-Andocker
+Name[pl]=Dok sceny
+Name[pt]=Área de Cenas
+Name[pt_BR]=Acoplador de cena
+Name[sv]=Scenpanel
+Name[uk]=Панель сцени
+Name[x-test]=xxScene Dockxx
+Comment=Provides a Scene browser dock plugin.
+Comment[bs]=Omogućuje priključak za pergled sidrišta Scene
+Comment[de]=Ein Anzeigemodul der Szenen.
+Comment[en_GB]=Provides a Scene browser dock plugin.
+Comment[es]=Proporciona un complemento de anclaje para el buscador de escenas
+Comment[et]=Stseenisirvija doki plugin.
+Comment[fr]=Affiche un module externe contenant un panneau pour parcourir les scènes.
+Comment[hu]=Jelenetböngésző bővítmény.
+Comment[km]=ផ្ដល់​កម្មវិធី​ជំនួយ dock កម្មវិធី​រុករក Scene
+Comment[nds]=Stellt en Szenenkieker as Andockmoduul praat.
+Comment[pl]=Dostarcza wtyczkę doku przeglądarki sceny.
+Comment[pt]=Oferece um 'plugin' de navegação pelas cenas.
+Comment[pt_BR]=Oferece um plugin para acoplar um navegador de cena.
+Comment[sv]=Tillhandahåller ett insticksprogram för scenbläddring.
+Comment[uk]=Додаток панелі перегляду сцени.
+Comment[x-test]=xxProvides a Scene browser dock plugin.xx
+Icon=gluon
+
+Type=Service
+ServiceTypes=GluonCreator/Plugin
+
+X-KDE-Library=gluoncreator_dockplugin_scenedock
+X-KDE-GluonCreatorPluginVersion=1
+X-KDE-PluginInfo-Author=Arjen Hiemstra
+X-KDE-PluginInfo-Email=djfreestyler@gmail.com
+X-KDE-PluginInfo-Name=gluoncreator_dockplugin_scenedock
+X-KDE-PluginInfo-Version=0.1
+X-KDE-PluginInfo-Website=http://gluon.tuxfamily.org
+X-KDE-PluginInfo-Category=dock
+X-KDE-PluginInfo-Depends=
+X-KDE-PluginInfo-License=GPL
+X-KDE-PluginInfo-EnabledByDefault=true

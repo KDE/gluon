@@ -29,4 +29,4 @@ btAvailableNodesTreeView::btAvailableNodesTreeView(QWidget* parent)
     setDragEnabled(true);
 }
 
-#include "btavailablenodestreeview.moc"
+ 

@@ -131,4 +131,4 @@ void PrefabInstance::rebuildInstance()
     DEBUG_TEXT2("Completed copy of %1", name());
 }
 
-#include "prefabinstance.moc"
+ 

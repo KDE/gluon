@@ -108,4 +108,4 @@ btEditorNodeType * nodeTypeFactory::newObject(btNodeType::nodeType type)
 }
 
 
-#include "nodetypefactory.moc"
+ 

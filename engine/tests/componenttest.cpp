@@ -70,4 +70,4 @@ void ComponentTest::testGameObject()
 
 QTEST_MAIN(ComponentTest)
 
-#include "componenttest.moc"
+ 

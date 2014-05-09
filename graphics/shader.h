@@ -22,6 +22,8 @@
 
 #include <QHash>
 
+#include "gluon_graphics_export.h"
+
 class QVariant;
 namespace GluonGraphics
 {
@@ -31,7 +33,7 @@ namespace GluonGraphics
      * \brief Abstract base class for an encapsulated GPU shader program.
      *
      */
-    class Shader
+    class GLUON_GRAPHICS_EXPORT Shader
     {
         public:
             /**

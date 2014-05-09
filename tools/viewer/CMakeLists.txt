@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 2.8)
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${GLUON_INPUT_INCLUDE_DIRS} ${GLUON_GRAPHICS_INCLUDE_DIRS})
 
 qt4_generate_moc(main.cpp ${CMAKE_CURRENT_BINARY_DIR}/main.moc)
@@ -42,7 +40,7 @@ if(APPLE)
 else()
     add_executable(gluonviewer ${gluonviewer_SRCS})
 endif()
-target_link_libraries(gluonviewer ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_INPUT_LIBS})
+target_link_libraries(gluonviewer ${GLUONENGINE_LIBRARIES} ${GLUONGRAPHICS_LIBRARIES} ${GLUONINPUT_LIBRARIES})
 
 if(NOT APPLE)
     install(TARGETS

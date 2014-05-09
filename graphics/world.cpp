@@ -122,4 +122,4 @@ bool World::Private::compareEntityZDepth( Entity* first, Entity* second )
     return posFirst.z() < posSecond.z();
 }
 
-#include "world.moc"
+ 

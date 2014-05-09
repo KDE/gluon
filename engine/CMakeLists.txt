@@ -1,53 +1,32 @@
-cmake_minimum_required(VERSION 2.8)
+option( BUILD_AUDIO_COMPONENTS "Build Components dependant on Gluon Audio" ON )
+option( BUILD_AUDIO_ASSETS "Build Assets dependant on Gluon Audio" ON )
+option( BUILD_GRAPHICS_COMPONENTS "Build Components dependant on Gluon Graphics" ON )
+option( BUILD_GRAPHICS_ASSETS "Build Assets dependant on Gluon Graphics" ON )
+option( BUILD_INPUT_COMPONENTS "Build Components dependant on Gluon Input" ON )
+option( BUILD_INPUT_ASSETS "Build Assets dependant on Gluon Input" ON )
+option( BUILD_PHYSICS_COMPONENTS "Build Components related to physics" OFF )
+option( BUILD_PHYSICS_ASSETS "Build Assets related to physics" OFF )
+option( BUILD_OTHER_COMPONENTS "Build other Components" ON )
+option( BUILD_OTHER_ASSETS "Build other Assets" ON )
 
-if(NOT GLUON_BUILD_ALL)
-    project(GluonEngine)
-    find_package(GluonCore REQUIRED)
+if( NOT BUILD_GLUONAUDIO )
+    set( BUILD_AUDIO_COMPONENTS OFF )
+    set( BUILD_AUDIO_ASSETS OFF )
+endif()
+if( NOT BUILD_GLUONGRAPHICS )
+    set( BUILD_GRAPHICS_ASSETS OFF )
+    set( BUILD_GRAPHICS_COMPONENTS OFF )
+endif()
+if( NOT BUILD_GLUONINPUT )
+    set( BUILD_INPUT_ASSETS OFF )
+    set( BUILD_INPUT_COMPONENTS OFF )
 endif()
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
-option(BUILD_AUDIO_COMPONENTS "Build Components dependant on Gluon Audio" ON)
-option(BUILD_AUDIO_ASSETS "Build Assets dependant on Gluon Audio" ON)
-option(BUILD_GRAPHICS_COMPONENTS "Build Components dependant on Gluon Graphics" ON)
-option(BUILD_GRAPHICS_ASSETS "Build Assets dependant on Gluon Graphics" ON)
-option(BUILD_INPUT_COMPONENTS "Build Components dependant on Gluon Input" ON)
-option(BUILD_INPUT_ASSETS "Build Assets dependant on Gluon Input" ON)
-option(BUILD_PHYSICS_COMPONENTS "Build Components related to physics" OFF)
-option(BUILD_PHYSICS_ASSETS "Build Assets related to physics" OFF)
-option(BUILD_OTHER_COMPONENTS "Build other Components" ON)
-option(BUILD_OTHER_ASSETS "Build other Assets" ON)
-
-if(BUILD_GLUON_TESTS)
-    enable_testing()
-endif()
-
-if(NOT BUILD_GLUON_AUDIO)
-    set(BUILD_AUDIO_COMPONENTS OFF)
-    set(BUILD_AUDIO_ASSETS OFF)
-endif()
-if(NOT BUILD_GLUON_GRAPHICS)
-    set(BUILD_GRAPHICS_ASSETS OFF)
-    set(BUILD_GRAPHICS_COMPONENTS OFF)
-endif()
-if(NOT BUILD_GLUON_INPUT)
-    set(BUILD_INPUT_ASSETS OFF)
-    set(BUILD_INPUT_COMPONENTS OFF)
-endif()
-
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${GLUON_CORE_INCLUDE_DIRS}
+gluon_include_directories( GluonEngine
+    ${GLUONCORE_INCLUDE_DIRS}
 )
 
-set(GLUON_ENGINE_INCLUDE_DIRS
-    ${GLUON_CORE_INCLUDE_DIRS}
-    ${GLUON_GRAPHICS_INCLUDE_DIRS}
-    CACHE INTERNAL "Include files required for Gluon Engine"
-)
-
-set(GluonEngine_SRCS
+set( GluonEngine_SRCS
     abstractprefabinstance.cpp
     abstractstatistic.cpp
     achievement.cpp
@@ -79,7 +58,7 @@ set(GluonEngine_SRCS
     gameprivate.cpp
 )
 
-set(GluonEngine_HEADERS
+set( GluonEngine_HEADERS
     abstractprefabinstance.h
     abstractstatistic.h
     achievement.h
@@ -106,63 +85,27 @@ set(GluonEngine_HEADERS
     gluon_engine_metatypes.h
 )
 
-qt4_automoc(${GluonEngine_SRCS})
-if(APPLE)
-    add_library(GluonEngine SHARED ${GluonEngine_SRCS} ${GluonEngine_HEADERS})
-else()
-    add_library(GluonEngine SHARED ${GluonEngine_SRCS})
-endif()
-
-set_target_properties(GluonEngine PROPERTIES VERSION ${GLUON_VERSION_STRING} SOVERSION ${GLUON_VERSION_STRING} DEFINE_SYMBOL MAKE_GLUON_ENGINE_LIB)
-
-if(APPLE)
-    #hack for being able to set headers as public in a osx framework
-    list(APPEND GluonEngine_HEADERS
-    ${GluonEngine_HEADERS}
-    )
-
-    set_target_properties(GluonEngine PROPERTIES FRAMEWORK TRUE)
-    set_target_properties(GluonEngine PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
-    set_target_properties(GluonEngine PROPERTIES PUBLIC_HEADER "${GluonEngine_HEADERS}")
-
-    set(MACOSX_FRAMEWORK_IDENTIFIER engine)
-    set(MACOSX_FRAMEWORK_IDENTIFIER GluonEngine)
-    set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
-    set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
-endif()
-
-if(GLUON_BUILD_ALL)
-    add_dependencies(GluonEngine GluonCore)
-endif()
-
-target_link_libraries(GluonEngine ${GLUON_CORE_LIBS} ${GLUON_GRAPHICS_LIBS} ${QT_QTSQL_LIBRARY})
-
-set(GLUON_ENGINE_LIBS
-    GluonEngine
-    ${GLUON_CORE_LIBS}
-    ${GLUON_GRAPHICS_LIBS}
-    CACHE INTERNAL "Libraries required for Gluon Engine"
+gluon_add_library( GluonEngine SHARED
+    SOURCES ${GluonEngine_SRCS}
+    HEADERS ${GluonEngine_HEADERS}
+    LIBRARIES ${GLUONCORE_LIBRARIES} ${QT_QTSQL_LIBRARY}
 )
 
-install(
-    TARGETS     GluonEngine
-    RUNTIME     DESTINATION ${BIN_INSTALL_DIR} COMPONENT gluonengine
-    LIBRARY     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonengine
-    ARCHIVE     DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonengine
-    FRAMEWORK   DESTINATION ${LIB_INSTALL_DIR} COMPONENT gluonengine
+add_subdirectory( assets )
+add_subdirectory( components )
+
+gluon_add_subdirectories( tests )
+
+save_status( GluonEngine 
+    "Build Components dependant on Gluon Audio (BUILD_AUDIO_COMPONENTS): ${BUILD_AUDIO_COMPONENTS}"
+    "Build Assets dependant on Gluon Audio (BUILD_AUDIO_ASSETS): ${BUILD_AUDIO_ASSETS}"
+    "Build Components dependant on Gluon Graphics (BUILD_GRAPHICS_COMPONENTS): ${BUILD_GRAPHICS_COMPONENTS}"
+    "Build Assets dependant on Gluon Graphics (BUILD_GRAPHICS_ASSETS): ${BUILD_GRAPHICS_ASSETS}"
+    "Build Components dependant on Gluon Input (BUILD_INPUT_COMPONENTS): ${BUILD_INPUT_COMPONENTS}"
+    "Build Assets dependant on Gluon Input (BUILD_INPUT_ASSETS): ${BUILD_INPUT_ASSETS}"
+    "Build Components related to physics (BUILD_PHYSICS_COMPONENTS): ${BUILD_PHYSICS_COMPONENTS}"
+    "Build Assets related to physics (BUILD_PHYSICS_ASSETS): ${BUILD_PHYSICS_ASSETS}"
+    "Build other Components (BUILD_OTHER_COMPONENTS): ${BUILD_OTHER_COMPONENTS}"
+    "Build other Assets (BUILD_OTHER_ASSETS): ${BUILD_OTHER_ASSETS}"
 )
-
-install(
-    FILES
-    ${GluonEngine_HEADERS}
-    DESTINATION ${INCLUDE_INSTALL_DIR}/gluon/engine
-    COMPONENT gluonengine
-)
-
-add_subdirectory(assets)
-add_subdirectory(components)
-
-if(BUILD_GLUON_TESTS)
-    add_subdirectory(tests)
-endif()
 

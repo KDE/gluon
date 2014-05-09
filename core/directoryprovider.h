@@ -21,8 +21,8 @@
 #ifndef GLUON_CORE_DIRECTORYPROVIDER_H
 #define GLUON_CORE_DIRECTORYPROVIDER_H
 
-#include "gluon_core_export.h"
-#include "core/gluon_global.h"
+#include "gluoncore_export.h"
+#include "gluon_global.h"
 
 #include "singleton.h"
 
@@ -31,7 +31,7 @@
 namespace GluonCore
 {
 
-    class GLUON_CORE_EXPORT DirectoryProvider : public Singleton<DirectoryProvider>
+    class GLUONCORE_EXPORT DirectoryProvider : public Singleton<DirectoryProvider>
     {
             Q_OBJECT
             GLUON_SINGLETON( DirectoryProvider )

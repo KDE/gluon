@@ -97,4 +97,4 @@ void GLXOutputSurface::createDebug()
 
 }
 
-#include "glxoutputsurface.moc"
+ 

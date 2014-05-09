@@ -149,4 +149,4 @@ void btNodeEditWidget::remove_button_clicked()
     }
 }
 
-#include "btnodeeditwidget.moc"
+ 

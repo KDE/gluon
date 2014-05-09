@@ -469,4 +469,4 @@ QList<Asset*> GameProject::assets() const
     return d->assets;
 }
 
-#include "gameproject.moc"
+ 

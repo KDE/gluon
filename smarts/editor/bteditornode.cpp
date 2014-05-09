@@ -270,4 +270,4 @@ void btEditorNode::emitUpdatePropertyWidget()
     emit updatePropertyWidget(this);
 }
 
-#include "bteditornode.moc"
+ 

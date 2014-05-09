@@ -223,4 +223,4 @@ void SoundEmitterComponent::populateMetaInfo( GluonCore::MetaInfo* info )
 
 Q_EXPORT_PLUGIN2( gluon_component_soundemitter, GluonEngine::SoundEmitterComponent )
 
-#include "soundemittercomponent.moc"
+ 

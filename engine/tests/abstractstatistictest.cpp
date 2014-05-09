@@ -108,4 +108,4 @@ void AbstractStatisticTest::testCommit()
 
 QTEST_MAIN(AbstractStatisticTest)
 
-#include "abstractstatistictest.moc"
+ 

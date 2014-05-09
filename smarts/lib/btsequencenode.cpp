@@ -58,4 +58,4 @@ btNode::status btSequenceNode::run(btCharacter *self)
     return Succeeded;
 }
 
-#include "btsequencenode.moc"
+ 

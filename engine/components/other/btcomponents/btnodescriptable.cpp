@@ -117,4 +117,4 @@ void btNodeScriptable::setScriptAsset(GluonEngine::Asset * asset)
     }
 }
 
-#include "btnodescriptable.moc"
+ 

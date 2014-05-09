@@ -1,0 +1,28 @@
+if( NOT DEFINED ${GLUON_VERSION_STRING} )
+    include(GNUInstallDirs)
+
+    set( GLUON_VERSION_MAJOR 0 )
+    set( GLUON_VERSION_MINOR 72 )
+    set( GLUON_VERSION_PATCH 0 )
+    set( GLUON_VERSION_STRING "${GLUON_VERSION_MAJOR}.${GLUON_VERSION_MINOR}.${GLUON_VERSION_PATCH}" )
+    set( GLUON_VERSION_NAME "Alpha Particle" )
+
+    set( BIN_INSTALL_DIR ${CMAKE_INSTALL_BINDIR} CACHE INTERNAL "The directory where binary files will be installed." )
+    set( INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/gluon CACHE INTERNAL "The directory where header files will be installed." )
+    set( LIB_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR} CACHE INTERNAL "The directory where libraries will be installed." )
+    set( PLUGIN_INSTALL_DIR ${LIB_INSTALL_DIR}/gluon CACHE INTERNAL "The directory where plugins will be installed." )
+    set( SHARE_INSTALL_DIR ${CMAKE_INSTALL_DATADIR} CACHE INTERNAL "The directory where data and other files will be installed." )
+    set( DATA_INSTALL_DIR ${CMAKE_INSTALL_DATADIR}/gluon CACHE INTERNAL "The directory where all of Gluon's data will be installed." )
+    set( EXAMPLE_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/examples CACHE INTERNAL "The directory where example data will be installed." )
+    set( TEMPLATE_INSTALL_DIR ${DATA_INSTALL_DIR}/templates CACHE INTERNAL "The directory where templates will be installed." )
+    set( KDE4_PLUGIN_INSTALL_DIR ${LIB_INSTALL_DIR}/kde4 CACHE INTERNAL "The directory where KDE4 plugins will be installed." )
+
+    if( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+        set( GLUON_ARCHITECTURE "64" )
+    else( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+        set( GLUON_ARCHITECTURE "32" )
+    endif( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+
+    configure_file( ${CMAKE_SOURCE_DIR}/gluon_global.h.in ${CMAKE_BINARY_DIR}/gluon_global.h )
+    install( FILES ${CMAKE_BINARY_DIR}/gluon_global.h DESTINATION ${INCLUDE_INSTALL_DIR} )
+endif( NOT DEFINED ${GLUON_VERSION_STRING} )

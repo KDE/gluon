@@ -182,4 +182,4 @@ void Prefab::cloneObjectProperties(const QObject* cloneFrom, QObject* setPropert
     }
 }
 
-#include "prefab.moc"
+ 

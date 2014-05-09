@@ -170,4 +170,4 @@ Shader* Material::shader()
     return d->shader;
 }
 
-#include "material.moc"
+ 

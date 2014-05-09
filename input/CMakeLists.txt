@@ -1,20 +1,13 @@
-cmake_minimum_required(VERSION 2.8)
-
-if(NOT GLUON_BUILD_ALL)
-    project(GluonInput)
-    find_package(GluonCore REQUIRED)
-endif()
-
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${GLUON_CORE_INCLUDE_DIRS}
+    ${GLUONCORE_INCLUDE_DIRS}
 )
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 if(APPLE)
-    set(GLUON_INPUT_INCLUDE_DIRS
+    set(GLUONINPUT_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/mac
         CACHE INTERNAL "Includes required for Gluon Input"
@@ -29,19 +22,19 @@ if(APPLE)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/mac/)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/qt/)
 elseif(WIN32)
-    set(GLUON_INPUT_INCLUDE_DIRS
+    set(GLUONINPUT_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/win
-        ${GLUON_CORE_INCLUDE_DIRS}
+        ${GLUONCORE_INCLUDE_DIRS}
         CACHE INTERNAL "Includes required for Gluon Input"
     )
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/win/)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/qt/)
 elseif(UNIX)
-    set(GLUON_INPUT_INCLUDE_DIRS
+    set(GLUONINPUT_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/linux
-        ${GLUON_CORE_INCLUDE_DIRS}
+        ${GLUONCORE_INCLUDE_DIRS}
         CACHE INTERNAL "Includes required for Gluon Input"
     )
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/linux/)
@@ -182,17 +175,17 @@ if(APPLE)
 endif()
 
 
-target_link_libraries(GluonInput ${GLUON_CORE_LIBS})
+target_link_libraries(GluonInput ${GLUONCORE_LIBRARIES})
 
-set(GLUON_INPUT_LIBS
+set(GLUONINPUT_LIBRARIES
     GluonInput
-    ${GLUON_CORE_LIBS}
+    ${GLUONCORE_LIBRARIES}
     CACHE INTERNAL "Libraries required for Gluon Input"
 )
 
 if(APPLE)
-    set(GLUON_INPUT_LIBS
-        ${GLUON_INPUT_LIBS}
+    set(GLUONINPUT_LIBRARIES
+        ${GLUONINPUT_LIBRARIES}
         ${IOKIT_LIBRARY}
         ${COREFOUNDATION_LIBRARY}
         CACHE INTERNAL "Libraries required for Gluon Input"
@@ -250,6 +243,5 @@ install(
 )
 
 if(BUILD_GLUON_TESTS)
-    enable_testing()
     add_subdirectory(tests)
 endif()

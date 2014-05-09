@@ -101,4 +101,4 @@ void MultiScoreStatistic::commitScore()
     addScore( score() );
 }
 
-#include "multiscorestatistic.moc"
+ 

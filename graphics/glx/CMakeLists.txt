@@ -1,7 +1,6 @@
+find_package( OpenGL REQUIRED )
 
-find_package( OpenGL )
-
-include_directories( ${CMAKE_CURRENT_BINARY_DIR} ${OPENGL_INCLUDE_DIR} )
+include_directories( ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/graphics ${OPENGL_INCLUDE_DIR} )
 
 set( gluongraphics_backend_SRCS
     glxbackend.cpp
@@ -15,17 +14,7 @@ set( gluongraphics_backend_SRCS
     glxmeshdata.cpp
 )
 
-qt4_automoc( ${gluongraphics_backend_SRCS} )
-add_library( gluongraphics_backend MODULE ${gluongraphics_backend_SRCS} )
-set_target_properties( gluongraphics_backend PROPERTIES PREFIX "" )
-
-target_link_libraries(
-    gluongraphics_backend
-    ${GLUON_GRAPHICS_LIBS}
-    ${OPENGL_LIBRARIES}
-)
-
-install(
-    TARGETS gluongraphics_backend
-    DESTINATION ${LIB_INSTALL_DIR}/gluon
+gluon_add_plugin( gluongraphics_backend GluonGraphics 
+    SOURCES ${gluongraphics_backend_SRCS}
+    LIBRARIES ${OPENGL_LIBRARIES} dl
 )
