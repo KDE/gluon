@@ -20,9 +20,9 @@
 
 #include "dockeroverlay.h"
 
-#include <QRect>
+#include <QtCore/QRect>
+#include <QtCore/QTimer>
 #include <KDE/KApplication>
-#include <QTimer>
 
 class QTimer;
 class QRect;

@@ -24,9 +24,9 @@
 #include <QtCore/QVariantList>
 #include <QtCore/QFileInfo>
 #include <QtCore/QTimer>
-#include <QWidget>
-#include <QFileDialog>
-#include <QDeclarativeContext>
+#include <QtGui/QWidget>
+#include <QtGui/QFileDialog>
+#include <QtDeclarative/QDeclarativeContext>
 #include <KDE/KFileDialog>
 #include <KDE/KStandardAction>
 #include <KDE/KActionCollection>

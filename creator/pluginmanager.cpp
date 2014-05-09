@@ -43,11 +43,11 @@ class PluginManager::PluginManagerPrivate
 };
 
 const QStringList PluginManager::PluginManagerPrivate::requiredPlugins = QStringList() << 
-	"gluon_creator_dockplugin_projectdock" <<
-	"gluon_creator_dockplugin_scenedock" <<
-	"gluon_creator_dockplugin_propertiesdock" <<
-	"gluon_creator_dockplugin_componentsdock" <<
-	"gluon_creator_dockplugin_messagedock";
+    "gluoncreator_dockplugin_projectdock" <<
+    "gluoncreator_dockplugin_scenedock" <<
+    "gluoncreator_dockplugin_propertiesdock" <<
+    "gluoncreator_dockplugin_componentsdock" <<
+    "gluoncreator_dockplugin_messagedock";
 
 QList< KPluginInfo > PluginManager::pluginInfos() const
 {

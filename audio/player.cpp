@@ -181,12 +181,7 @@ void Player::playNext()
     }
     else
     {
-<<<<<<< HEAD
         (d->currentIndex)++;
-
-=======
-        ++d->currentIndex;
->>>>>>> audio: No implementation-specific types in public headers
     }
 
     play();

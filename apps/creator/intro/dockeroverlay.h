@@ -21,7 +21,7 @@
 #ifndef DOCKEROVERLAY_H
 #define DOCKEROVERLAY_H
 
-#include <QDeclarativeItem>
+#include <QtDeclarative/QDeclarativeItem>
 
 class DockerOverlay : public QDeclarativeItem
 {

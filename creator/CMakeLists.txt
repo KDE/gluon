@@ -1,9 +1,6 @@
-find_package(KDeclarative REQUIRED)
-
 gluon_include_directories( GluonCreator
     ${GLUONPLAYER_INCLUDES}
     ${KDE4_INCLUDES}
-    ${KDECLARATIVE_INCLUDE_DIRS}
 )
 
 set( GluonCreator_SRCS
@@ -64,7 +61,7 @@ set( GluonCreator_HEADERS
 gluon_add_library( GluonCreator SHARED
     SOURCES ${GluonCreator_SRCS}
     HEADERS ${GluonCreator_HEADERS}
-    LIBRARIES ${GLUONPLAYER_LIBRARIES} ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KPARTS_LIBS} ${KDECLARATIVE_LIBRARY}
+    LIBRARIES ${GLUONPLAYER_LIBRARIES} ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KPARTS_LIBS} ${KDE4_KTEXTEDITOR_LIBS}
 )
 
 #add_subdirectory( nodeeditor )
