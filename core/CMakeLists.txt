@@ -52,7 +52,7 @@ set( GluonCore_HEADERS
 gluon_add_library( GluonCore SHARED
     SOURCES ${GluonCore_SRCS}
     HEADERS ${GluonCore_HEADERS}
-    LIBRARIES ${Qt5Core_LIBRARIES} ${Qt5Gui_LIBRARIES} ${Qt5Qml_LIBRARIES}
+    LIBRARIES Qt5::Core Qt5::Gui Qt5::Qml Qt5::Script
 )
 
 gluon_add_subdirectories( examples tests )

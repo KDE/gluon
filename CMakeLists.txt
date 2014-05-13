@@ -1,4 +1,4 @@
-cmake_minimum_required( VERSION 2.8 )
+cmake_minimum_required( VERSION 2.8.12 )
 project( Gluon )
 
 #### Project Options ####
@@ -22,7 +22,12 @@ find_package( Qt5Core REQUIRED )
 find_package( Qt5Gui REQUIRED )
 find_package( Qt5Qml REQUIRED )
 find_package( Qt5Quick REQUIRED )
+find_package( Qt5Script REQUIRED )
 find_package( Eigen3 REQUIRED )
+
+if( BUILD_TESTS )
+    find_package( Qt5Test REQUIRED )
+endif()
 
 # KDE is a global optional dependency
 if( WITH_KDE )

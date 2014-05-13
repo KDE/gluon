@@ -21,7 +21,7 @@
 
 #include <QtCore/QHash>
 #include <QtCore/QPluginLoader>
-#include <QApplication>
+#include <QtCore/QCoreApplication>
 
 #include <core/directoryprovider.h>
 #include <core/debughelper.h>
@@ -131,7 +131,7 @@ void Manager::setCurrentWorld( const QString& identifier )
 Manager::Manager( QObject* parent )
     : GluonCore::Singleton< Manager >( parent ), d( new Private( this ) )
 {
-    connect( QApplication::instance(), SIGNAL(aboutToQuit()), SLOT(aboutToQuit()) );
+    connect( QCoreApplication::instance(), SIGNAL(aboutToQuit()), SLOT(aboutToQuit()) );
 }
 
 Manager::~Manager()

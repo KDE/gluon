@@ -98,19 +98,21 @@ namespace GluonCore
              */
             static T* instance()
             {
-                if( !sm_guard )
+                T* tmp = sm_instance.loadAcquire();
+                if( !tmp )
                 {
                     QMutex* mutex = mutexInstance();
                     mutex->lock();
-                    if( !sm_instance )
-                    {
-                        sm_instance = new T( QCoreApplication::instance() );
-                    }
+
+                    tmp = sm_instance.load();
+                    if( !tmp )
+                        tmp = new T( QCoreApplication::instance() );
+
                     mutex->unlock();
-                    __MEMBARRIER
-                    sm_guard = true;
+                    sm_instance.storeRelease(tmp);
                 }
-                return sm_instance;
+
+                return tmp;
             }
 
         protected:
@@ -129,41 +131,33 @@ namespace GluonCore
              */
             virtual ~Singleton()
             {
-#if QT_VERSION >= 0x050000
                 delete sm_mutex.load();
                 sm_mutex.store( 0 );
-#else
-                delete sm_mutex;
-                sm_mutex = 0;
-#endif
             }
 
         private:
 
             static QMutex* mutexInstance()
             {
-#if QT_VERSION >= 0x050000
-                if( sm_mutex.load() )
-#else
-                if( !sm_mutex )
-#endif
+                QMutex* tmp = sm_mutex.loadAcquire();
+                if( !tmp )
                 {
-                    QMutex* mutex = new QMutex();
-                    if( !sm_mutex.testAndSetOrdered( 0, mutex ) ) /* some other thread beat us to it */
-                        delete mutex;
+                    tmp = new QMutex();
+                    if( !sm_mutex.testAndSetOrdered( 0, tmp ) ) /* some other thread beat us to it */
+                    {
+                        delete tmp;
+                        tmp = sm_mutex.load();
+                    }
                 }
-#if QT_VERSION >= 0x050000
+
                 return sm_mutex.load();
-#else
-                return sm_mutex;
-#endif
             }
 
-            static T* sm_instance;
-            static bool sm_guard;
+            static QBasicAtomicPointer<T> sm_instance;
             static QBasicAtomicPointer<QMutex> sm_mutex;
 
-            Q_DISABLE_COPY( Singleton )
+            Singleton( const Singleton& ) = delete;
+            Singleton& operator=(const Singleton&) = delete;
     };
 }
 
@@ -172,17 +166,15 @@ namespace GluonCore
 #define GLUON_DEFINE_SINGLETON(Type)\
 namespace GluonCore\
 {\
-    template<> Type* GluonCore::Singleton<Type>::sm_instance = 0;\
+    template<> QBasicAtomicPointer<Type> GluonCore::Singleton<Type>::sm_instance = Q_BASIC_ATOMIC_INITIALIZER(0);\
     template<> QBasicAtomicPointer<QMutex> GluonCore::Singleton<Type>::sm_mutex = Q_BASIC_ATOMIC_INITIALIZER(0);\
-    template<> bool GluonCore::Singleton<Type>::sm_guard = false;\
 }
 #else
 #define GLUON_DEFINE_SINGLETON(Type)\
 namespace GluonCore\
 {\
-    template<> Q_DECL_EXPORT Type* GluonCore::Singleton<Type>::sm_instance = 0;\
+    template<> Q_DECL_EXPORT QBasicAtomicPointer<Type> GluonCore::Singleton<Type>::sm_instance = Q_BASIC_ATOMIC_INITIALIZER(0);\
     template<> Q_DECL_EXPORT QBasicAtomicPointer<QMutex> GluonCore::Singleton<Type>::sm_mutex = Q_BASIC_ATOMIC_INITIALIZER(0);\
-    template<> Q_DECL_EXPORT bool GluonCore::Singleton<Type>::sm_guard = false;\
 }
 #endif
 
@@ -190,6 +182,7 @@ namespace GluonCore\
     private:\
     friend class GluonCore::Singleton<Type>;\
     Type( QObject* parent );\
-    Q_DISABLE_COPY(Type)
+    Type( const Type& ) = delete;\
+    Type& operator=(const Type&) = delete;
 
 #endif // GLUON_CORE_SINGLETON
