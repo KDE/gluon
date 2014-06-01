@@ -70,6 +70,7 @@ namespace GluonPlayer
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual QVariant data( const QString& gameId, int role = Qt::DisplayRole ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+            virtual QHash<int, QByteArray> roleNames() const;
             virtual bool setData( const QModelIndex& index, const QVariant& value, int role = Qt::EditRole );
 
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;

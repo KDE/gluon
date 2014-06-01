@@ -64,6 +64,11 @@ GameItemsModel::GameItemsModel( QObject* parent )
         }
     }
 
+    fetchGamesList();
+}
+
+QHash<int, QByteArray> GameItemsModel::roleNames() const
+{
     QHash<int, QByteArray> roles;
     roles[ProjectNameRole] = "projectName";
     roles[ProjectDescriptionRole] = "projectDescription";
@@ -81,9 +86,7 @@ GameItemsModel::GameItemsModel( QObject* parent )
     roles[ScreenshotUrlsDownloadableRole] = "screenshotUrlsDownloadable";
     roles[StatusDownloadableRole] = "statusDownloadable";
     roles[ProjectIDDownloadableRole] = "projectIdDownloadable";
-    setRoleNames( roles );
-
-    fetchGamesList();
+    return roles;
 }
 
 GameItemsModel::~GameItemsModel()
@@ -184,13 +187,14 @@ void GameItemsModel::fetchGamesList()
 
 void GameItemsModel::processFetchedGameList()
 {
+    beginResetModel();
     QList<GameDetailItem*> list = qobject_cast<GameDetailListJob*>(sender())->data().value< QList<GameDetailItem*> > ();
     foreach(GameDetailItem *c, list) {
         GameViewItem* gameViewItem = new GameViewItem( c->gameName(), c->gameDescription(), "",
                     GameViewItem::Downloadable, c->id() );
         d->m_gameViewItems.insertMulti( GameViewItem::Downloadable, gameViewItem );
     }
-    reset();
+    endResetModel();
     emit downloadableCountChanged();
 }
 

@@ -28,7 +28,7 @@
 #include <QtCore/QHash>
 #include <QtCore/QByteArray>
 #include <QtCore/QDebug>
-#include <QtGui/QFileSystemModel>
+#include <QtWidgets/QFileSystemModel>
 
 #include "../serviceprovider.h"
 #include "../gamedetaillistjob.h"
@@ -57,6 +57,11 @@ AllGameItemsModel::AllGameItemsModel( QObject* parent )
     connect( &d->fsModel, SIGNAL(directoryLoaded(QString)), SLOT(directoryLoaded(QString)) );
     d->fsModel.setRootPath( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/games" );
 
+    fetchGamesList();
+}
+
+QHash<int, QByteArray> AllGameItemsModel::roleNames() const
+{
     QHash<int, QByteArray> roles;
     roles[IdRole] = "Id";
     roles[GameNameRole] = "GameName";
@@ -67,9 +72,7 @@ AllGameItemsModel::AllGameItemsModel( QObject* parent )
     roles[StatusRole] = "Status";
     roles[CacheUriRole] = "CacheUriRole";
     roles[UriRole] = "UriRole";
-    setRoleNames( roles );
-
-    fetchGamesList();
+    return roles;
 }
 
 AllGameItemsModel::~AllGameItemsModel()

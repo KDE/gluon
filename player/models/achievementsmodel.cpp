@@ -26,8 +26,8 @@
 #include <engine/projectmetadata.h>
 #include <core/directoryprovider.h>
 
-#include <QtGui/QStyle>
-#include <QtGui/QApplication>
+#include <QtWidgets/QStyle>
+#include <QtWidgets/QApplication>
 #include <QtCore/QDebug>
 
 using namespace GluonPlayer;
@@ -76,11 +76,15 @@ AchievementsModel::AchievementsModel( GluonEngine::ProjectMetaData* metaData, co
             d->hiddenAchievements++;
     }
 
+}
+
+QHash<int, QByteArray> AchievementsModel::roleNames() const
+{
     QHash<int, QByteArray> roles;
     roles[Qt::DisplayRole] = "qtDisplayRole";
     roles[Qt::DecorationRole] = "qtDecorationRole";
     roles[Qt::ToolTipRole] = "qtToolTipRole";
-    setRoleNames(roles);
+    return roles;
 }
 
 AchievementsModel::~AchievementsModel()

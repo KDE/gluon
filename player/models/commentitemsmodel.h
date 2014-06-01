@@ -79,6 +79,7 @@ namespace GluonPlayer
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+            virtual QHash<int, QByteArray> roleNames() const;
             virtual Qt::ItemFlags flags( const QModelIndex& index ) const;
 
             Q_INVOKABLE void uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message );

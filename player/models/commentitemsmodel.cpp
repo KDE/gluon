@@ -69,6 +69,10 @@ CommentItemsModel::CommentItemsModel( QString gameId, QObject* parent )
     loadData();     // Load comments stored locally
     updateData();   // Fetch latest comments from the web service
 
+}
+
+QHash<int, QByteArray> CommentItemsModel::roleNames() const
+{
     QHash<int, QByteArray> roles;
     roles[AuthorRole] = "author";
     roles[TitleRole] = "title";
@@ -77,7 +81,7 @@ CommentItemsModel::CommentItemsModel( QString gameId, QObject* parent )
     roles[RatingRole] = "rating";
     roles[DepthRole] = "depth";
     roles[ParentIdRole] = "parentId";
-    setRoleNames( roles );
+    return roles;
 }
 
 void CommentItemsModel::updateData()

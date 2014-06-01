@@ -79,6 +79,9 @@ namespace GluonPlayer
 
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
+            
+            //roles overriding
+            virtual QHash<int, QByteArray> roleNames() const;
 
             int downloadableCount() const;
             int upgradableCount() const;
