@@ -25,11 +25,12 @@
 
 #include <QtCore/QStringList>
 
+/*
 namespace GluonEngine
 {
     class ProjectMetaData;
 }
-
+*/
 namespace GluonPlayer
 {
     /**
@@ -69,8 +70,10 @@ namespace GluonPlayer
             Status status() const;
             QString projectId() const;
 
+            //restore after gluon engine port
+            /*
             GluonEngine::ProjectMetaData* metaData();
-
+            */
         private:
             class Private;
             Private* const d;

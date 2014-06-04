@@ -23,7 +23,8 @@
 #include "gamemanager.h"
 #include "models/allgameitemsmodel.h"
 
-#include <engine/projectmetadata.h>
+//TODO: needs port of engine
+//#include <engine/projectmetadata.h>
 
 #include <QDebug>
 
@@ -34,10 +35,11 @@ class GameMetadata::Private
     public:
         Private()
         {
-            projectMetadata = 0;
+            //projectMetadata = 0;
         }
 
-        GluonEngine::ProjectMetaData* projectMetadata;
+        //TODO: needs port of engine
+        //GluonEngine::ProjectMetaData* projectMetadata;
         QString gameId;
         QString gameName;
         QString gameDescription;
@@ -47,7 +49,8 @@ GameMetadata::GameMetadata( QObject* parent )
     : QObject( parent )
     , d(new Private())
 {
-    d->projectMetadata = new GluonEngine::ProjectMetaData(this);
+    //TODO: needs port
+    //d->projectMetadata = new GluonEngine::ProjectMetaData(this);
 }
 
 GameMetadata::~GameMetadata()
@@ -62,6 +65,8 @@ QString GameMetadata::gameId() const
 
 void GameMetadata::setGameId( const QString& gameId )
 {
+    //TODO: needs port
+    /*
     AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());
     QString gamePath = model->data(gameId, AllGameItemsModel::UriRole).toString();
 
@@ -83,6 +88,7 @@ void GameMetadata::setGameId( const QString& gameId )
     emit gameIdChanged();
     emit gameNameChanged();
     emit gameDescriptionChanged();
+    */
 }
 
 QString GameMetadata::gameName() const

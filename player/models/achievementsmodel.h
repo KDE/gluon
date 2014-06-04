@@ -24,11 +24,13 @@
 
 #include <QtCore/QAbstractTableModel>
 
+/*
 namespace GluonEngine
 {
     class ProjectMetaData;
     class AchievementsManager;
 }
+*/
 
 namespace GluonPlayer
 {
@@ -37,7 +39,9 @@ namespace GluonPlayer
             Q_OBJECT
 
         public:
-            AchievementsModel( GluonEngine::ProjectMetaData* metaData, const QString& userName, QObject* parent = 0 );
+            //TODO: restore after engine port
+            //AchievementsModel( GluonEngine::ProjectMetaData* metaData, const QString& userName, QObject* parent = 0 );
+            AchievementsModel( QObject* metaData, const QString& userName, QObject* parent = 0 );
             virtual ~AchievementsModel();
 
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
@@ -46,8 +50,9 @@ namespace GluonPlayer
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
             virtual QHash<int, QByteArray> roleNames() const;
             virtual Qt::ItemFlags flags( const QModelIndex& index ) const;
-
-            const GluonEngine::AchievementsManager* achievementsManager() const;
+            
+            //TODO: restore after port
+            //const GluonEngine::AchievementsManager* achievementsManager() const;
             QString projectDir() const;
 
             enum Column

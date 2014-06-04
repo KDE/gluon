@@ -28,7 +28,7 @@
 
 #include <gluon_global.h>
 
-#include <engine/gameproject.h>
+//#include <engine/gameproject.h>
 
 #include <core/gluonobject.h>
 #include <core/gdlserializer.h>

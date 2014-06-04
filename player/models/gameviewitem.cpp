@@ -19,18 +19,18 @@
 
 #include "gameviewitem.h"
 
-#include <engine/projectmetadata.h>
+//#include <engine/projectmetadata.h>
 
 using namespace GluonPlayer;
 
 class GameViewItem::Private
 {
     public:
-    Private() : metaData(0)
+    Private() //: metaData(0)    //TODO: restore after engine port
     {
     }
 
-    GluonEngine::ProjectMetaData* metaData;
+    //GluonEngine::ProjectMetaData* metaData;
     QStringList screenshotUrls;
     Status status;
 };
@@ -39,9 +39,9 @@ GameViewItem::GameViewItem( const QString& projectFilePath, const Status& status
     : QObject( parent )
     , d( new Private )
 {
-    d->metaData = new GluonEngine::ProjectMetaData(this);
-    d->metaData->setProjectFilePath(projectFilePath);
-    d->metaData->load();
+    //d->metaData = new GluonEngine::ProjectMetaData(this);
+    //d->metaData->setProjectFilePath(projectFilePath);
+    //d->metaData->load();
     d->status = status;
 }
 
@@ -51,7 +51,7 @@ GameViewItem::GameViewItem( const QString& projectName, const QString& projectDe
     : QObject( parent )
     , d( new Private )
 {
-    d->metaData = new GluonEngine::ProjectMetaData( projectFilePath, projectName, projectDescription, projectId, this );
+    //d->metaData = new GluonEngine::ProjectMetaData( projectFilePath, projectName, projectDescription, projectId, this );
     d->status = status;
 }
 
@@ -68,22 +68,30 @@ GameViewItem::~GameViewItem()
 
 QString GameViewItem::projectName() const
 {
-    return d->metaData->projectName();
+    //port
+    //return d->metaData->projectName();
+    return QString("GameViewItem::projectName(): port me to Qt5 after engine port");
 }
 
 QString GameViewItem::projectDescription() const
 {
-    return d->metaData->projectDescription();
+    //port
+    //return d->metaData->projectDescription();
+    return QString("GameViewItem::projectDescription(): port me to Qt5 after engine port");
 }
 
 QString GameViewItem::projectDirPath() const
 {
-    return d->metaData->projectDir();
+    //port
+    //return d->metaData->projectDir();
+    return QString("GameViewItem::projectDirPath(): port me to Qt5 after engine port");
 }
 
 QString GameViewItem::projectFilePath() const
 {
-    return d->metaData->projectFilePath();
+    //port
+    //return d->metaData->projectFilePath();
+    return QString("GameViewItem::projectFilePath(): port me to Qt5 after engine port");
 }
 
 QStringList GameViewItem::screenshotUrls() const
@@ -98,12 +106,15 @@ GameViewItem::Status GameViewItem::status() const
 
 QString GameViewItem::projectId() const
 {
-    return d->metaData->projectId();
+    //port
+    //return d->metaData->projectId();
+    return QString("GameViewItem::projectId(): port me to Qt5 after engine port");
 }
 
+//TODO: restore after engine port
+/*
 GluonEngine::ProjectMetaData* GameViewItem::metaData()
 {
     return d->metaData;
 }
-
- 
+*/

@@ -23,7 +23,7 @@
 #include "gameitem.h"
 
 #include <core/directoryprovider.h>
-#include <engine/gameproject.h>
+//#include <engine/gameproject.h>
 
 #include <QtCore/QHash>
 #include <QtCore/QByteArray>
@@ -53,7 +53,8 @@ AllGameItemsModel::AllGameItemsModel( QObject* parent )
     : QAbstractListModel( parent )
     , d( new Private() )
 {
-    d->fsModel.setNameFilters( QStringList( '*' + GluonEngine::projectSuffix ) );
+    //TODO:port
+    //d->fsModel.setNameFilters( QStringList( '*' + GluonEngine::projectSuffix ) );
     connect( &d->fsModel, SIGNAL(directoryLoaded(QString)), SLOT(directoryLoaded(QString)) );
     d->fsModel.setRootPath( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/games" );
 
@@ -141,10 +142,13 @@ QString AllGameItemsModel::addGameFromDirectory( const QString& directoryPath )
 {
     QString id;
     QDir gameDir( directoryPath );
-    QStringList gluonProjectFiles = gameDir.entryList( QStringList( GluonEngine::projectFilename ) );
-
+    //TODO:port
+    //QStringList gluonProjectFiles = gameDir.entryList( QStringList( GluonEngine::projectFilename ) );
+    QStringList gluonProjectFiles;
     if( !gluonProjectFiles.isEmpty() )
     {
+        //TODO:port
+        /*
         QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
         GluonEngine::GameProject project;
         project.loadFromFile( projectFileName );
@@ -169,10 +173,12 @@ QString AllGameItemsModel::addGameFromDirectory( const QString& directoryPath )
             addGameItemToList( gameItem );
             fetchAndUpdateExistingGameItem( gameItem ); //New game on disk, fetch social info from OCS server
         }
+        */
     }
     else
     {
-        qWarning() << "No " << GluonEngine::projectFilename << " in " << directoryPath;
+        //TODO:port
+        //qWarning() << "No " << GluonEngine::projectFilename << " in " << directoryPath;
     }
 
     return id;
@@ -336,16 +342,19 @@ void AllGameItemsModel::fetchGamesList()
 
 void AllGameItemsModel::processFetchedGamesList()
 {
+    //TODO:port
+    /*
     GameDetailListJob* job = qobject_cast<GameDetailListJob*>( sender() );
     QList<GameDetailItem*> list = job->data().value< QList<GameDetailItem*> >();
     foreach( GameDetailItem * c, list )
-    {
+    {   
         QUrl cacheUri = QUrl::fromLocalFile(QDir::homePath() + GluonEngine::projectSuffix + "/games/" + c->gameName().toLower());
         GameItem* gameItem = new GameItem( c->gameName(), c->gameDescription(), c->rating(), GameItem::Downloadable,
                                            c->id(), c->categoryName(), cacheUri, c->homePage(), this );
 
         addOrUpdateGameFromFetchedGameItem( gameItem );
     }
+    */
 }
 
 void AllGameItemsModel::fetchAndUpdateExistingGameItem( const GameItem* gameItem )
@@ -359,13 +368,17 @@ void AllGameItemsModel::fetchAndUpdateExistingGameItem( const GameItem* gameItem
 
 void AllGameItemsModel::processFetchedGameDetails()
 {
+    //TODO:port
+    /*
     GameDetailsJob* job = qobject_cast<GameDetailsJob*>( sender() );
     GameDetailItem* gameDetails = job->data().value<GameDetailItem*>();
+    
     QUrl cacheUri = QUrl::fromLocalFile(QDir::homePath() + GluonEngine::projectSuffix + "/games/" + gameDetails->gameName().toLower());
     GameItem* gameItem = new GameItem( gameDetails->gameName(), gameDetails->gameDescription(), gameDetails->rating(),
                                        GameItem::Downloadable, gameDetails->id(), gameDetails->categoryName(),
                                        cacheUri, gameDetails->homePage(), this );
     addOrUpdateGameFromFetchedGameItem( gameItem );
+    */
 }
 
 

@@ -33,7 +33,7 @@ class QNetworkReply;
 namespace GluonPlayer
 {
 
-    class GameDownloadJob : AbstractSocialServicesJob
+    class GameDownloadJob : public AbstractSocialServicesJob
     {
             Q_OBJECT
 

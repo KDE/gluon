@@ -29,11 +29,12 @@
 #include <QtCore/QDir>
 #include <QtCore/QModelIndex>
 
+/*TODO:port
 namespace GluonEngine
 {
     class GameProject;
 }
-
+*/
 namespace Attica
 {
     class BaseJob;

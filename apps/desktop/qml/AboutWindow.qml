@@ -12,7 +12,9 @@ Window {
  
     Background {
         
-        Box{
+        Box{ //box needs size and placement
+            anchors.fill:parent
+            
             Column{
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -20,15 +22,16 @@ Window {
                 anchors.bottom: parent.bottom
                 anchors.leftMargin: 10
                 anchors.rightMargin: 10
-                anchors.topMargin: 10
-                anchors.bottomMargin: 10
+                anchors.topMargin: 20
+                anchors.bottomMargin: 20
                 
                 spacing: 10
                 
                 Text {
                     id: title
-                    anchors.left: parent.left
-                    anchors.right: parent.right
+                    
+                    width: parent.width -20
+                    
                     horizontalAlignment: Text.AlignHCenter
                     
                     text: "Gluon Player Desktop (qt5)"
@@ -50,8 +53,7 @@ Window {
                 Line{ }
                 
                 Text {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
+                    width: parent.width -20
                     horizontalAlignment: Text.AlignHCenter
                     
                     text: "Claudio Desideri (happy.snizzo@gmail.com)\nmore to come..."

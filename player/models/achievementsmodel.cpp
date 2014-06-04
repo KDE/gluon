@@ -20,10 +20,10 @@
 #include "achievementsmodel.h"
 
 #include <engine/game.h>
-#include <engine/gameproject.h>
+//#include <engine/gameproject.h>
 #include <engine/achievement.h>
-#include <engine/achievementsmanager.h>
-#include <engine/projectmetadata.h>
+//#include <engine/achievementsmanager.h>
+//#include <engine/projectmetadata.h>
 #include <core/directoryprovider.h>
 
 #include <QtWidgets/QStyle>
@@ -35,19 +35,23 @@ using namespace GluonPlayer;
 class AchievementsModel::AchievementsModelPrivate
 {
     public:
-        AchievementsModelPrivate() : achievementsManager( 0 ), hiddenAchievements(0) {}
-        ~AchievementsModelPrivate() { delete achievementsManager; }
+        //TODO:port
+        //AchievementsModelPrivate() : achievementsManager( 0 ), hiddenAchievements(0) {}
+        //~AchievementsModelPrivate() { delete achievementsManager; }
 
         QStringList headerList;
         QString projectDir;
-        GluonEngine::AchievementsManager* achievementsManager;
+        //TODO:port
+        //GluonEngine::AchievementsManager* achievementsManager;
         int hiddenAchievements;
 };
 
-AchievementsModel::AchievementsModel( GluonEngine::ProjectMetaData* metaData, const QString& userName, QObject* parent)
+//AchievementsModel::AchievementsModel( GluonEngine::ProjectMetaData* metaData, const QString& userName, QObject* parent)
+AchievementsModel::AchievementsModel( QObject* metaData, const QString& userName, QObject* parent)
     : QAbstractTableModel(parent)
     , d( new AchievementsModelPrivate() )
 {
+    /*
     d->headerList << tr("Achievement") << tr("Progress") << tr("Achieved");
     d->achievementsManager = new GluonEngine::AchievementsManager(this);
 
@@ -75,6 +79,7 @@ AchievementsModel::AchievementsModel( GluonEngine::ProjectMetaData* metaData, co
         if( d->achievementsManager->isHidden( i ) && !d->achievementsManager->isPastThreshold( i ) )
             d->hiddenAchievements++;
     }
+    */
 
 }
 
@@ -95,7 +100,9 @@ AchievementsModel::~AchievementsModel()
 int AchievementsModel::rowCount( const QModelIndex& parent ) const
 {
     if( !parent.isValid() )
-        return d->achievementsManager->achievementsCount() - d->hiddenAchievements;
+        //TODO:port
+        //return d->achievementsManager->achievementsCount() - d->hiddenAchievements;
+        return 0;
 
     return 0;
 }
@@ -115,6 +122,8 @@ QVariant AchievementsModel::data( const QModelIndex& index, int role ) const
 
     switch( index.column() )
     {
+        //TODO:port
+        /*
         case NameColumn:
             if( role == Qt::DisplayRole )
             {
@@ -155,6 +164,7 @@ QVariant AchievementsModel::data( const QModelIndex& index, int role ) const
                     return tr("no");
             }
             break;
+            */
         default:
             return QVariant();
     }
@@ -172,17 +182,19 @@ QVariant AchievementsModel::headerData( int section, Qt::Orientation orientation
 
 Qt::ItemFlags AchievementsModel::flags(const QModelIndex& index) const
 {
-    if( d->achievementsManager->achievementAchieved(index.row()) )
-        return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+    //TODO:port
+    //if( d->achievementsManager->achievementAchieved(index.row()) )
+    //    return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 
     return Qt::ItemIsSelectable;
 }
 
+/* restore after gluon engine port
 const GluonEngine::AchievementsManager* AchievementsModel::achievementsManager() const
 {
     return d->achievementsManager;
 }
-
+*/
 QString AchievementsModel::projectDir() const
 {
     return d->projectDir;

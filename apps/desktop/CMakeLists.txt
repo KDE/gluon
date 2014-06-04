@@ -2,78 +2,75 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${GLUONINPUT_INCLUDES}
-    ${KDE4_INCLUDES}
+    ${GLUON_PLAYER_INCLUDE_DIRS}
 )
+
+# Required Qt5 components to build this framework
+find_package(Qt5 REQUIRED Core Network Widgets Qml Quick Gui)
+find_package(KF5Attica REQUIRED)
 
 set(desktop_SRCS
-    gamesoverlay.cpp
-    gamedetailsoverlay.cpp
-    loginform.cpp
     main.cpp
-    mainwindow.cpp
-    overlay.cpp
-
-    delegates/achievementdelegate.cpp
-    delegates/commentitemsviewdelegate.cpp
-    delegates/itemsviewdelegate.cpp
-    models/listmodel.cpp
-    views/abstractitemview.cpp
-    views/achievementsview.cpp
-    views/gametextlabel.cpp
-    views/newcommentform.cpp
+    loginform.cpp
+    qtquick2controlsapplicationviewer.cpp
 )
 
-if(APPLE)
-	kde4_add_executable(gluonplayer-desktop MACOSX_BUNDLE ${desktop_SRCS})
-    #MACOSX_BUNDLE_INFO_STRING
-    #MACOSX_BUNDLE_ICON_FILE
-    #MACOSX_BUNDLE_GUI_IDENTIFIER
-	set(MACOSX_BUNDLE_LONG_VERSION_STRING ${GLUON_VERSION_STRING})
-	set(MACOSX_BUNDLE_BUNDLE_NAME GluonPlayer)
-	set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
-	set(MACOSX_BUNDLE_BUNDLE_VERSION ${GLUON_VERSION_STRING})
-	#MACOSX_BUNDLE_COPYRIGHT
-
-	add_custom_command(TARGET gluonplayer-desktop
-		COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/Frameworks/
-		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/core/$(CONFIGURATION)/GluonCore.framework ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/Frameworks/
-		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/audio/$(CONFIGURATION)/GluonAudio.framework ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/Frameworks/
-		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/input/$(CONFIGURATION)/GluonInput.framework ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/Frameworks/
-		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/graphics/$(CONFIGURATION)/GluonGraphics.framework ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/Frameworks/
-		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/engine/$(CONFIGURATION)/GluonEngine.framework ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/Frameworks/
-		COMMAND mkdir ARGS -p ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/PlugIns/
-		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/engine/assets/audio/sound/$(CONFIGURATION)/libgluon_asset_sound.dylib ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/PlugIns/
-		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/engine/assets/graphics/texture/$(CONFIGURATION)/libgluon_asset_texture.dylib ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/PlugIns/
-
-		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/engine/components/audio/soundemitter/$(CONFIGURATION)/libgluon_component_soundemitter.dylib ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/PlugIns/
-		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/engine/components/audio/soundlistener/$(CONFIGURATION)/libgluon_component_soundlistener.dylib ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/PlugIns/
-
-		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/engine/components/graphics/cameracontroller/$(CONFIGURATION)/libgluon_component_cameracontroller.dylib ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/PlugIns/
-		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/engine/components/graphics/spriterenderer/$(CONFIGURATION)/libgluon_component_spriterenderer.dylib ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/PlugIns/
-
-		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/engine/components/input/keyboardinput/$(CONFIGURATION)/libgluon_component_keyboardinput.dylib ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/PlugIns/
-
-		COMMAND /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp ARGS -exclude .DS_Store -exclude CVS -exclude .svn -exclude 'CMakeLists.txt' -resolve-src-symlinks ${CMAKE_BINARY_DIR}/engine/components/other/spherecollision/$(CONFIGURATION)/libgluon_component_spherecollision.dylib ${CMAKE_CURRENT_BINARY_DIR}/$(CONFIGURATION)/GluonPlayer.app/Contents/PlugIns/
-	)
-
-	set_target_properties(gluonplayer-desktop PROPERTIES OUTPUT_NAME GluonPlayerDesktop)
-
-else()
-	kde4_add_app_icon(desktop_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../icons/*/apps/gluon-player.png")
-	kde4_add_executable(gluonplayer-desktop ${desktop_SRCS})
-endif()
-target_link_libraries(gluonplayer-desktop ${GLUONENGINE_LIBRARIES} ${GLUONGRAPHICS_LIBRARIES} ${GLUONPLAYER_LIBRARIES} ${GLUONINPUT_LIBRARIES} ${KDE4_KIO_LIBS})
+#kde4_add_app_icon(desktop_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../icons/*/apps/gluon-player.png")
+gluon_add_executable(gluonplayer-desktop ${desktop_SRCS})
+    
+target_link_libraries(gluonplayer-desktop ${GLUONPLAYER_LIBRARIES} ${GLUONCORE_LIBRARIES} Qt5::Core Qt5::Qml Qt5::Gui Qt5::Quick Qt5::Widgets Qt5::Network KF5::Attica)
 
 if(NOT APPLE)
     install(TARGETS gluonplayer-desktop
             DESTINATION ${BIN_INSTALL_DIR}
             COMPONENT gluonplayerdesktop)
-
-    install(FILES ui/gluonplayer-desktopui.rc
-            DESTINATION ${SHARE_INSTALL_DIR}/apps/gluonplayer-desktop
+    
+    install(FILES qml/main.qml
+                  qml/AboutWindow.qml
+                  qml/RegisterUser.qml
+                  qml/LoginModal.qml
+            DESTINATION ${BIN_INSTALL_DIR}/qml
             COMPONENT gluonplayerdesktop)
-
-    install(FILES gluonplayer-desktop.desktop
-            DESTINATION ${SHARE_INSTALL_DIR}/applications
+    
+    install(FILES qml/utils/Background.qml
+                  qml/utils/GluonMenuBar.qml
+                  qml/utils/GluonStatusBar.qml
+                  qml/utils/GluonModalDialog.qml
+                  qml/utils/Design.qml
+                  qml/utils/DesignButton.qml
+                  qml/utils/DesignTextField.qml
+                  qml/utils/Line.qml
+                  qml/utils/Box.qml
+            DESTINATION ${BIN_INSTALL_DIR}/qml/utils
+            COMPONENT gluonplayerdesktop)
+    
+    install(FILES qml/center/main.qml
+            DESTINATION ${BIN_INSTALL_DIR}/qml/center
+            COMPONENT gluonplayerdesktop)
+    
+    install(FILES qml/center/highlights/HighlightBox.qml
+                  qml/center/highlights/HighlightItem.qml
+            DESTINATION ${BIN_INSTALL_DIR}/qml/center/highlights
+            COMPONENT gluonplayerdesktop)
+    
+    install(FILES qml/left/main.qml
+            DESTINATION ${BIN_INSTALL_DIR}/qml/left
+            COMPONENT gluonplayerdesktop)
+    
+    install(FILES qml/right/main.qml
+            DESTINATION ${BIN_INSTALL_DIR}/qml/right
+            COMPONENT gluonplayerdesktop)
+    
+    install(FILES qml/right/userbox/Logged.qml
+                  qml/right/userbox/NotLogged.qml
+            DESTINATION ${BIN_INSTALL_DIR}/qml/right/userbox
+            COMPONENT gluonplayerdesktop)
+    
+    install(FILES qml/resources/icon.png
+                  qml/resources/fav_64.png
+                  qml/resources/get_64.png
+                  qml/resources/home_64.png
+                  qml/resources/user_64.png
+            DESTINATION ${BIN_INSTALL_DIR}/qml/resources
             COMPONENT gluonplayerdesktop)
 endif()

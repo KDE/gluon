@@ -25,7 +25,7 @@
 
 #include <gluon_global.h>
 
-#include <engine/gameproject.h>
+//#include <engine/gameproject.h>
 
 #include <core/gluonobject.h>
 #include <core/gdlserializer.h>
@@ -126,6 +126,8 @@ Qt::ItemFlags HighScoresModel::flags( const QModelIndex& index ) const
 void HighScoresModel::loadData()
 {
     // TODO: ~/.gluon/games/$gamebundle/* will be used later
+    //TODO:port
+    /*
     QDir gluonDir = QDir::home();
     gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
     gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
@@ -133,6 +135,7 @@ void HighScoresModel::loadData()
     GluonCore::GluonObjectList list;
     if( GluonCore::GDLSerializer::instance()->read( gluonDir.absoluteFilePath( "highscores.gdl" ), list ) )
         d->m_rootNode = list.at( 0 );
+    */
 }
 
 void HighScoresModel::saveData()
