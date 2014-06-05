@@ -3,9 +3,12 @@ import QtQuick.Controls 1.1
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Styles 1.1
 
+//gluon player specific imports
+import Gluon.Player.Desktop 0.72 as GluonPlayer
+
 import "utils"
 
-Item {
+GluonPlayer.LoginForm{
 	id: loginScreen
 	
 	anchors.horizontalCenter: parent.horizontalCenter
@@ -53,31 +56,15 @@ Item {
         console.log("close loginscreen started");
 	}
 	
-    /*
+    //result handle
     onLoginCompleted: {
-        loginScreen.visible = false;
+        loginScreen.close();
+        console.log("LoginModal.qml: login succeeded");
     }
     onLoginFail: {
         login_outputlabel.text = "<b>Login failed!</b>";
+        console.log("LoginModal.qml: login failed");
     }
-    */
-    
-    //THIS NEEDS PORT
-    /*
-    BackgroundBox {
-        target: loginscreen_maincolumn;
-    }
-    */
-    
-    /*
-    RectangularGlow {
-        id: effect
-        anchors.fill: loginFormProxy
-        glowRadius: 10
-        spread: 0.2
-        color: "white"
-        cornerRadius: loginFormProxy.radius + glowRadius
-    }*/
     
     //black bg rectangle
     Rectangle{
@@ -151,7 +138,7 @@ Item {
                 style: DesignTextField{}
                 
                 //NEEDS PORT
-                //Keys.onReturnPressed: loginFormProxy.doLogin(m_username.text,m_password.text);
+                Keys.onReturnPressed: loginScreen.doLogin(m_username.text,m_password.text);
             }
 
             Text{
@@ -173,7 +160,10 @@ Item {
                     anchors.fill: parent
                     
                     // NEEDS PORT
-                    //onClicked: pageStack.push(Qt.createComponent("registeruser.qml"))
+                    onClicked: {
+                        loginScreen.close();
+                        registerUserScreen.open();
+                    }
                 }
             }
             Item{}
@@ -197,9 +187,8 @@ Item {
                 id: "loginscreen_loginbutton";
                 text: "Login";
                 onClicked: {
-                    
                     //NEEDS PORT
-                    //loginFormProxy.doLogin(m_username.text,m_password.text);
+                    loginScreen.doLogin(m_username.text,m_password.text);
                 }
                 
                 style: DesignButton{}

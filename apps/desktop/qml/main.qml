@@ -13,7 +13,9 @@ ApplicationWindow {
     menuBar: GluonMenuBar{ id: gluonmenubar }
     statusBar: GluonStatusBar{ id: gluonstatusbar }
     
-    //
+    
+    
+    
     Design{
         id:design
     }

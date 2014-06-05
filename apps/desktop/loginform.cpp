@@ -30,8 +30,8 @@ void LoginForm::doLogin(QString m_username, QString m_password)
         return;
     }
     GluonPlayer::ServiceProvider::instance()->login( m_username, m_password );
-    qDebug() << "username: " << m_username;
-    qDebug() << "password: " << m_password;
+    qDebug() << GluonPlayer::ServiceProvider::instance();
+    qDebug() << "logging...";
     
     // Note: the login result should be checked
 }

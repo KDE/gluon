@@ -16,9 +16,9 @@ set(desktop_SRCS
 )
 
 #kde4_add_app_icon(desktop_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../icons/*/apps/gluon-player.png")
-gluon_add_executable(gluonplayer-desktop ${desktop_SRCS})
-    
-target_link_libraries(gluonplayer-desktop ${GLUONPLAYER_LIBRARIES} ${GLUONCORE_LIBRARIES} Qt5::Core Qt5::Qml Qt5::Gui Qt5::Quick Qt5::Widgets Qt5::Network KF5::Attica)
+gluon_add_executable(gluonplayer-desktop
+    SOURCES ${desktop_SRCS}
+    LIBRARIES ${GLUONPLAYER_LIBRARIES} ${GLUONCORE_LIBRARIES} Qt5::Core Qt5::Qml Qt5::Gui Qt5::Quick Qt5::Widgets Qt5::Network)
 
 if(NOT APPLE)
     install(TARGETS gluonplayer-desktop
