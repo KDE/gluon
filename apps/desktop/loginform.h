@@ -31,10 +31,12 @@ class LoginForm : public QQuickItem
     public:
         LoginForm();
         virtual ~LoginForm();
+        void setUsername(QString username);
         
     protected slots:
         Q_INVOKABLE void doLogin(QString m_username, QString m_password);
-        void doLogout();
+        Q_INVOKABLE QString username();
+        Q_INVOKABLE void doLogout();
         void loginDone();
         void logoutDone();
         void loginFailed();
@@ -42,9 +44,11 @@ class LoginForm : public QQuickItem
     signals:
         void loginCompleted();
         void loginFail();
+        void logoutCompleted();
     
     private:
         bool m_loggedIn;
+        QString m_username;
  
         Attica::ProviderManager m_manager;
         Attica::Provider m_provider;

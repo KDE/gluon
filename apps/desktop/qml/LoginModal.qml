@@ -84,6 +84,12 @@ GluonPlayer.LoginForm{
         id : loginFormProxy;
         target: loginscreen_mainbox
         space: 20
+        
+        //here in order to prevent accidental close of modal
+        //clicking inside modal but not on buttons
+        MouseArea{
+            anchors.fill: parent
+        }
     }
         
     Column{
@@ -173,7 +179,9 @@ GluonPlayer.LoginForm{
                 text: "";
                 color: "black";
             }
-            Item{}
+            Item{
+                height: login_outputlabel.height
+            }
             
             Button {
                 id: "loginscreen_offlinebutton";

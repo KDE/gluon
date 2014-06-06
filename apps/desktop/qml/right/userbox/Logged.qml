@@ -5,19 +5,17 @@ import "../../utils"
 
 Item{
     id: userbox_loggedpage
-    anchors.left:parent.left
-    anchors.right:parent.right
-    anchors.leftMargin:  20
-    anchors.rightMargin: 20
+    
+    height: childrenRect.height
     
     Column{
         spacing: 10
         
+        height: childrenRect.height
+        
         Text{
             id: home_usertitle
-// 				TODO: fixme
-// 				text: "Hello, "+home_userbox.firstname()+"!"
-            text: "Hello, loggeduser!"
+            text: "Hello, "+loginscreen.username()+"!"
             font.pointSize: 20
             color: design.txcolor
         }
@@ -28,12 +26,12 @@ Item{
         }
         
         Button{
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.left: parent.left
             text: "Logout"
             style: DesignButton{}
-// 				onClicked:{
-// 					home_userbox.logout()
-// 				}
+            onClicked:{
+                loginscreen.doLogout()
+            }
         }
     }
 }

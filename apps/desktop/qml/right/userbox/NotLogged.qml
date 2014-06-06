@@ -5,23 +5,24 @@ import "../../utils"
 
 Item{
     id: userbox_loggedpage
-    anchors.left:parent.left
-    anchors.right:parent.right
-    anchors.leftMargin:  20
-    anchors.rightMargin: 20
+    
+    height: childrenRect.height
     
     Column{
         spacing: 10
         
+        height: childrenRect.height
+        
         Text{
             id: home_usertitle
-            text: "Please Log In!"
-            color: "black"
+            text: "Log In"
+            font.pointSize: 20
+            color: design.txcolor
         }
         Text{
             id: home_userparagraph
             text: "You're browsing as anonymous.<br />Please Log In or register a new account."
-            color: "black"
+            color: design.txcolor
         }
         Row{
             spacing: 10
@@ -40,5 +41,11 @@ Item{
                 }
             }
         }
+    }
+    
+    Component.onCompleted:{
+        //TODO: refactor
+        //manually setting container height
+        userbox_bg.height = childrenRect.height +40
     }
 }
