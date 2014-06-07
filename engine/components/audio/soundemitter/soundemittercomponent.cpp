@@ -220,7 +220,3 @@ void SoundEmitterComponent::populateMetaInfo( GluonCore::MetaInfo* info )
 {
     info->setPropertyRange( "pitch", 0.5, 2.0 );
 }
-
-Q_EXPORT_PLUGIN2( gluon_component_soundemitter, GluonEngine::SoundEmitterComponent )
-
- 
