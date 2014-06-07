@@ -15,13 +15,13 @@ set( GluonCore_SRCS
     scriptengine.cpp
     gdlserializer.cpp
 
-#     bindings/com_trolltech_qt_gui_init.cpp
-#     bindings/qtscript_QColor.cpp
-#     bindings/qtscript_QSizeF.cpp
-#     bindings/qtscript_Quaternionf.cpp
-#     bindings/qtscript_Vector2f.cpp
-#     bindings/qtscript_Vector3f.cpp
-#     bindings/qtscript_Vector4f.cpp
+    bindings/com_trolltech_qt_gui_init.cpp
+    bindings/qtscript_QColor.cpp
+    bindings/qtscript_QSizeF.cpp
+    bindings/qtscript_Quaternionf.cpp
+    bindings/qtscript_Vector2f.cpp
+    bindings/qtscript_Vector3f.cpp
+    bindings/qtscript_Vector4f.cpp
 
     gdl/gdllexer.cpp
     gdl/gdlparser.cpp

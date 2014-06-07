@@ -26,7 +26,7 @@
 #include <QtScript/QScriptEngine>
 #include <QtCore/QCoreApplication>
 
-// void qtscript_initialize_com_trolltech_qt_gui_bindings( QJSValue& );
+void qtscript_initialize_com_trolltech_qt_gui_bindings( QScriptValue& );
 namespace GluonCore
 {
     class ScriptEngine::Private
@@ -38,7 +38,7 @@ namespace GluonCore
             ~Private()
             {}
 
-            QJSEngine* engine;
+            QScriptEngine* engine;
     };
 }
 
@@ -56,34 +56,34 @@ ScriptEngine::~ScriptEngine()
     delete d;
 }
 
-QJSEngine* ScriptEngine::scriptEngine()
+QScriptEngine* ScriptEngine::scriptEngine()
 {
     DEBUG_BLOCK
     if( QCoreApplication::instance() && !d->engine )
     {
-        d->engine = new QJSEngine( this );
+        d->engine = new QScriptEngine( this );
 
-        QJSValue extensionObject = d->engine->globalObject();
-//         qtscript_initialize_com_trolltech_qt_gui_bindings( extensionObject );
+        QScriptValue extensionObject = d->engine->globalObject();
+        qtscript_initialize_com_trolltech_qt_gui_bindings( extensionObject );
 
-        QJSValue objectFactory = d->engine->newQObject( GluonObjectFactory::instance() );
+        QScriptValue objectFactory = d->engine->newQObject( GluonObjectFactory::instance() );
         extensionObject.setProperty( "ObjectFactory", objectFactory );
 
-        QJSValue messageHandler = d->engine->newQObject( MessageHandler::instance() );
+        QScriptValue messageHandler = d->engine->newQObject( MessageHandler::instance() );
         extensionObject.setProperty( "MessageHandler", messageHandler );
 
         // Finally, register all the objects in the factory...
-//         QHash<QString, const QMetaObject*> types = GluonObjectFactory::instance()->objectTypes();
-//         QHash<QString, const QMetaObject*>::const_iterator i;
-//         for( i = types.constBegin(); i != types.constEnd(); ++i )
-//         {
-//             QObject* obj = i.value()->newInstance();
-//             if( qobject_cast<GluonCore::GluonObject*>( obj ) )
-//             {
-//                 qobject_cast<GluonCore::GluonObject*>( obj )->registerOnScriptEngine( d->engine );;
-//             }
-//             delete obj;
-//         }
+        QHash<QString, const QMetaObject*> types = GluonObjectFactory::instance()->objectTypes();
+        QHash<QString, const QMetaObject*>::const_iterator i;
+        for( i = types.constBegin(); i != types.constEnd(); ++i )
+        {
+            QObject* obj = i.value()->newInstance();
+            if( qobject_cast<GluonCore::GluonObject*>( obj ) )
+            {
+                qobject_cast<GluonCore::GluonObject*>( obj )->registerOnScriptEngine( d->engine );;
+            }
+            delete obj;
+        }
     }
     return d->engine;
 }

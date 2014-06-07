@@ -19,8 +19,8 @@
 
 // This file adapted from QtScript bindings generator code
 
-#include <QtScript/QScriptEngine>
 #include <QtScript/QScriptValue>
+#include <QtScript/QScriptEngine>
 
 QScriptValue qtscript_create_Vector2f_class( QScriptEngine* engine );
 QScriptValue qtscript_create_Vector3f_class( QScriptEngine* engine );
@@ -56,6 +56,7 @@ void qtscript_initialize_com_trolltech_qt_gui_bindings( QScriptValue& extensionO
     for( int i = 0; i < 6; ++i )
     {
         extensionObject.setProperty( qtscript_com_trolltech_qt_gui_class_names[i],
-                                     qtscript_com_trolltech_qt_gui_class_functions[i]( engine ) );
+                                     qtscript_com_trolltech_qt_gui_class_functions[i]( engine ),
+                                     QScriptValue::SkipInEnumeration );
     }
 }

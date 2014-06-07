@@ -19,8 +19,9 @@
 
 // Automatically generated code - QtScript bindings generator
 
-#include <QtQml/QJSEngine>
-#include <QtQml/QJSValue>
+#include <QtScript/QScriptEngine>
+#include <QtScript/QScriptContext>
+#include <QtScript/QScriptValue>
 #include <QtGui/QColor>
 #include <QtCore/QStringList>
 #include <QtCore/QDebug>
@@ -283,16 +284,16 @@ static const int qtscript_QColor_function_lengths[] =
     , 0
 };
 
-// static QJSValue qtscript_QColor_throw_ambiguity_error_helper(
-//     QJSContext* context, const char* functionName, const char* signatures )
-// {
-//     QStringList lines = QString::fromLatin1( signatures ).split( QLatin1Char( '\n' ) );
-//     QStringList fullSignatures;
-//     for( int i = 0; i < lines.size(); ++i )
-//         fullSignatures.append( QString::fromLatin1( "%0(%1)" ).arg( functionName ).arg( lines.at( i ) ) );
-//     return context->throwError( QString::fromLatin1( "QColor::%0(): could not find a function match; candidates are:\n%1" )
-//                                 .arg( functionName ).arg( fullSignatures.join( QLatin1String( "\n" ) ) ) );
-// }
+static QScriptValue qtscript_QColor_throw_ambiguity_error_helper(
+    QScriptContext* context, const char* functionName, const char* signatures )
+{
+    QStringList lines = QString::fromLatin1( signatures ).split( QLatin1Char( '\n' ) );
+    QStringList fullSignatures;
+    for( int i = 0; i < lines.size(); ++i )
+        fullSignatures.append( QString::fromLatin1( "%0(%1)" ).arg( functionName ).arg( lines.at( i ) ) );
+    return context->throwError( QString::fromLatin1( "QColor::%0(): could not find a function match; candidates are:\n%1" )
+                                .arg( functionName ).arg( fullSignatures.join( QLatin1String( "\n" ) ) ) );
+}
 
 Q_DECLARE_METATYPE( QColor* )
 Q_DECLARE_METATYPE( QColor::Spec )
@@ -301,19 +302,19 @@ Q_DECLARE_METATYPE( qreal* )
 Q_DECLARE_METATYPE( QDataStream* )
 Q_DECLARE_METATYPE( Qt::GlobalColor )
 
-// static QJSValue qtscript_create_enum_class_helper(
-//     QJSEngine* engine,
-//     QJSEngine::FunctionSignature construct,
-//     QScriptEngine::FunctionSignature valueOf,
-//     QScriptEngine::FunctionSignature toString )
-// {
-//     QScriptValue proto = engine->newObject();
-//     proto.setProperty( QString::fromLatin1( "valueOf" ),
-//                        engine->newFunction( valueOf ), QScriptValue::SkipInEnumeration );
-//     proto.setProperty( QString::fromLatin1( "toString" ),
-//                        engine->newFunction( toString ), QScriptValue::SkipInEnumeration );
-//     return engine->newFunction( construct, proto, 1 );
-// }
+static QScriptValue qtscript_create_enum_class_helper(
+    QScriptEngine* engine,
+    QScriptEngine::FunctionSignature construct,
+    QScriptEngine::FunctionSignature valueOf,
+    QScriptEngine::FunctionSignature toString )
+{
+    QScriptValue proto = engine->newObject();
+    proto.setProperty( QString::fromLatin1( "valueOf" ),
+                       engine->newFunction( valueOf ), QScriptValue::SkipInEnumeration );
+    proto.setProperty( QString::fromLatin1( "toString" ),
+                       engine->newFunction( toString ), QScriptValue::SkipInEnumeration );
+    return engine->newFunction( construct, proto, 1 );
+}
 
 //
 // QColor::Spec
@@ -344,13 +345,13 @@ static QString qtscript_QColor_Spec_toStringHelper( QColor::Spec value )
     return QString();
 }
 
-static QScriptValue qtscript_QColor_Spec_toScriptValue( QJSEngine* engine, const QColor::Spec& value )
+static QScriptValue qtscript_QColor_Spec_toScriptValue( QScriptEngine* engine, const QColor::Spec& value )
 {
-    QJSValue clazz = engine->globalObject().property( QString::fromLatin1( "QColor" ) );
+    QScriptValue clazz = engine->globalObject().property( QString::fromLatin1( "QColor" ) );
     return clazz.property( qtscript_QColor_Spec_toStringHelper( value ) );
 }
 
-static void qtscript_QColor_Spec_fromScriptValue( const QJSValue& value, QColor::Spec& out )
+static void qtscript_QColor_Spec_fromScriptValue( const QScriptValue& value, QColor::Spec& out )
 {
     out = qvariant_cast<QColor::Spec>( value.toVariant() );
 }
