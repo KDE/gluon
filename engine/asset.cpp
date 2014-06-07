@@ -19,16 +19,16 @@
  */
 
 #include "asset.h"
-#include "game.h"
 
-#include <core/metainfo.h>
-
-#include <QtGui/QAction>
 #include <QtCore/QStringList>
 #include <QtCore/QDir>
 #include <QtCore/QMimeData>
 
 #include <QtCore/QDebug>
+
+#include <core/metainfo.h>
+
+#include "game.h"
 
 REGISTER_OBJECTTYPE( GluonEngine, Asset )
 
@@ -128,12 +128,6 @@ Asset::absolutePath() const
     return QUrl::fromLocalFile( Game::instance()->gameProject()->dirname().toLocalFile() + '/' + d->file );
 }
 
-QIcon
-Asset::icon() const
-{
-    return QIcon();
-}
-
 const QMimeData*
 Asset::data() const
 {
@@ -150,17 +144,10 @@ QMimeData* Asset::dragData() const
     return data;
 }
 
-const QList<AssetTemplate*>
-Asset::templates()
-{
-    QList<AssetTemplate*> templates;
-    return templates;
-}
-
-QList<QAction*>
+QList<AssetAction*>
 Asset::actions()
 {
-    return QList<QAction*>();
+    return QList<AssetAction*>();
 }
 
 bool

@@ -408,7 +408,7 @@ Asset* GameProject::findAsset( const QString& name ) const
 
 Asset* GameProject::findAssetByType( const QString& typeName ) const
 {
-    int typeID = QMetaType::type( typeName.toAscii().data() );
+    int typeID = QMetaType::type( typeName.toUtf8().data() );
     return findAssetByType( typeID );
 }
 
@@ -422,7 +422,7 @@ Asset* GameProject::findAssetByType( int type ) const
 
 QList<Asset*> GameProject::findAssetsByType( const QString& typeName ) const
 {
-    int typeID = QMetaType::type( typeName.toAscii().data() );
+    int typeID = QMetaType::type( typeName.toUtf8().data() );
     return findAssetsByType( typeID );
 }
 

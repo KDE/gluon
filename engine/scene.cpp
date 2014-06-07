@@ -25,11 +25,10 @@
 #include "filelocation.h"
 #include "gameproject.h"
 #include "game.h"
+#include "assetaction.h"
 
 #include <core/metainfo.h>
 #include <core/gdlserializer.h>
-
-#include <QtGui/QAction>
 
 REGISTER_OBJECTTYPE( GluonEngine, Scene )
 
@@ -94,12 +93,17 @@ Scene::sceneContents()
     return d->sceneContents;
 }
 
-QList< QAction* > Scene::actions()
+QList< AssetAction* > Scene::actions()
 {
-    QList<QAction*> actions;
-    QAction* setEntryPoint = new QAction( "Set as entry point", this );
-    connect( setEntryPoint, SIGNAL(triggered(bool)), this, SLOT(setEntryPoint()) );
-    actions.append( setEntryPoint );
+    static QList< AssetAction* > actions;
+
+    if( actions.count() == 0 )
+    {
+        AssetAction* action = new AssetAction( "Set as entry point", this );
+        connect( action, &AssetAction::triggered, this, &Scene::setEntryPoint );
+        actions.append( action );
+    }
+
     return actions;
 }
 
