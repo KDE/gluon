@@ -1,16 +1,7 @@
-set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
+find_package( Qt5Network REQUIRED )
 
 set( LIBATTICA_MIN_VERSION 0.1.90 )
-find_package( KF5Attica )
-find_package( Qt5Core REQUIRED )
-find_package( Qt5Gui REQUIRED )
-find_package( Qt5Qml REQUIRED )
-find_package( Qt5Quick REQUIRED )
-
-gluon_include_directories( GluonPlayer
-    ${GLUONENGINE_INCLUDES}
-    ${LIBATTICA_INCLUDE_DIR}
-)
+find_package( KF5Attica REQUIRED )
 
 set(GluonPlayer_SRCS
     abstractjob.cpp
@@ -55,10 +46,11 @@ set(GluonPlayer_HEADERS
     models/highscoresmodel.h
 )
 
-gluon_add_library(GluonPlayer SHARED
+gluon_add_library(Gluon::Player SHARED
     SOURCES ${GluonPlayer_SRCS}
     HEADERS ${GluonPlayer_HEADERS}
-    LIBRARIES ${GLUONENGINE_LIBRARIES} Qt5::Core Qt5::Qml Qt5::Gui Qt5::Quick KF5::Attica ${QT_QTNETWORK_LIBRARY} )
+    INCLUDES ${LIBATTICA_INCLUDE_DIR} ${Qt5Network_INCLUDE_DIRS}
+    LIBRARIES Gluon::Engine Qt5::Network KF5::Attica )
 
 gluon_add_subdirectories( tests )
 
