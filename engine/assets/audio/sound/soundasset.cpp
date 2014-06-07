@@ -50,4 +50,3 @@ void SoundAsset::load()
     setLoaded( true );
 }
 
-Q_EXPORT_PLUGIN2( gluon_asset_sound, GluonEngine::SoundAsset )
