@@ -3,7 +3,7 @@ project( Gluon )
 
 #### Project Options ####
 option( WITH_KDE "Build with KDE Development Platform Support" ON )
-option( BUILD_GLUONAUDIO "Build Gluon Audio Library" OFF )
+option( BUILD_GLUONAUDIO "Build Gluon Audio Library" ON )
 option( BUILD_GLUONINPUT "Build Gluon Input Library" OFF )
 option( BUILD_GLUONSMARTS "Build SMARTS Game AI Library" OFF )
 option( BUILD_GLUONGRAPHICS "Build Gluon Graphics Library" OFF )
@@ -17,39 +17,25 @@ option( BUILD_EXAMPLES "Build and install example applications" OFF )
 option( INSTALL_GAMES "Install the example games" OFF )
 
 #### Global Dependencies ####
-set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
-find_package( Qt5Core REQUIRED )
-find_package( Qt5Gui REQUIRED )
-find_package( Qt5Qml REQUIRED )
-find_package( Qt5Quick REQUIRED )
-find_package( Qt5Script REQUIRED )
-find_package( Eigen3 REQUIRED )
+find_package( ECM REQUIRED CONFIG )
+find_package( Qt5Core REQUIRED CONFIG )
+find_package( Qt5Gui REQUIRED CONFIG )
+
+list( APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH} )
+list( APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
 
 if( BUILD_TESTS )
     find_package( Qt5Test REQUIRED )
 endif()
 
-# KDE is a global optional dependency
-if( WITH_KDE )
-    find_package( KDE4 )
-    
-    if( NOT ${KDE4_FOUND} )
-        set( BUILD_GLUONCREATOR OFF )
-    endif( NOT ${KDE4_FOUND} )
-endif()
-
 # Enable automoc (Internal CMake version if available, external binary if not)
-if( CMAKE_VERSION VERSION_LESS "2.8.6" )
-    find_package( Automoc4 REQUIRED )
-else()
-    set( CMAKE_AUTOMOC TRUE )
-endif()
+set( CMAKE_AUTOMOC TRUE )
 
 include( cmake/GluonVariables.cmake )
 include( cmake/GluonMacros.cmake )
 
 # Set some variables
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${EIGEN3_INCLUDE_DIR} )
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} )
 
 if( CMAKE_CXX_COMPILER_ID STREQUAL "GNU" )
     if( CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.8.0" )
