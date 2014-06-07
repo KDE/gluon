@@ -26,6 +26,7 @@
 //player lib inclusions
 #include <gluon_global.h>
 #include <core/directoryprovider.h>
+#include <core/gluonobjectfactory.h>
  
 #include <player/gamemetadata.h>
 #include <player/gamemanager.h>
@@ -38,9 +39,11 @@
 int main(int argc, char *argv[])
 {
     Application app(argc, argv);
+
+    GluonCore::GluonObjectFactory::instance()->loadPlugins();
     
     QtQuick2ControlsApplicationViewer viewer;
-    viewer.setMainQmlFile(QStringLiteral("qml/main.qml"));
+    viewer.setMainQmlFile(QStringLiteral("main.qml"));
     viewer.show();
 
     return app.exec();

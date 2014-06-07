@@ -53,6 +53,8 @@ class QtQuick2ApplicationViewerPrivate
 
 QString QtQuick2ApplicationViewerPrivate::adjustPath(const QString &path)
 {
+    return GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/desktop/" + path;
+
 #if defined(Q_OS_MAC)
     if (!QDir::isAbsolutePath(path))
         return QStringLiteral("%1/../Resources/%2")
