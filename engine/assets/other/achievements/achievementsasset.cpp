@@ -21,8 +21,7 @@
 
 #include <core/gdlserializer.h>
 #include <engine/achievement.h>
-
-#include <QtGui/QAction>
+#include <engine/assetaction.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, AchievementsAsset )
 
@@ -34,7 +33,6 @@ class AchievementsAsset::AchievementsAssetPrivate
         AchievementsAssetPrivate() : fileExtension( "gluonachievements" ) {}
         ~AchievementsAssetPrivate() {}
 
-        QList<QAction*> actions;
         const QString fileExtension;
 };
 
@@ -42,29 +40,18 @@ AchievementsAsset::AchievementsAsset(QObject* parent)
     : Asset( parent )
     , d( new AchievementsAssetPrivate )
 {
-    QAction* newAchievement = new QAction( tr("New Achievement"), 0 );
-    connect( newAchievement, SIGNAL(triggered()), this, SLOT(createAchievement()) );
-    d->actions.append( newAchievement );
     savableDirty = true;
 }
 
 AchievementsAsset::~AchievementsAsset()
 {
-    qDeleteAll( d->actions );
     delete d;
-}
-
-const QStringList AchievementsAsset::supportedMimeTypes() const
-{
-    QStringList mimeTypes;
-    mimeTypes << "application/x-gluon-achievements";
-    return mimeTypes;
 }
 
 void AchievementsAsset::writeContents(QIODevice* device)
 {
     GluonCore::GluonObjectList objects;
-    foreach( QObject* object, children() )
+    for( QObject* object : children() )
     {
         GluonCore::GluonObject* gobj = qobject_cast< GluonCore::GluonObject* >( object );
         if( gobj )
@@ -72,18 +59,6 @@ void AchievementsAsset::writeContents(QIODevice* device)
     }
 
     GluonCore::GDLSerializer::instance()->write( device, objects );
-}
-
-const QList< AssetTemplate* > AchievementsAsset::templates()
-{
-    QList< AssetTemplate* > templates;
-    templates.append( new AssetTemplate( tr("Achievements Asset"), "achievements_template." + d->fileExtension, "achievements", this ) );
-    return templates;
-}
-
-QList< QAction* > AchievementsAsset::actions()
-{
-    return d->actions;
 }
 
 void AchievementsAsset::load()
@@ -156,7 +131,3 @@ void AchievementsAsset::populateMetaInfo(GluonCore::MetaInfo* info)
 {
     info->setDefaultExtension( d->fileExtension );
 }
-
-Q_EXPORT_PLUGIN2( gluon_asset_achievements, GluonEngine::AchievementsAsset )
-
-

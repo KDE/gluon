@@ -36,27 +36,16 @@ namespace GluonEngine
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::AchievementsAsset )
-
-            Q_CLASSINFO( "org.gluon.category", "Social Integration" )
-            Q_CLASSINFO( "org.gluon.icon", "text-mathml" )
+            GLUON_ASSET_PLUGIN( metadata.json )
 
         public:
             Q_INVOKABLE AchievementsAsset( QObject* parent = 0 );
             virtual ~AchievementsAsset();
 
-            /** Reimplemented from GluonCore::GluonObject::supportedMimeTypes() */
-            virtual const QStringList supportedMimeTypes() const;
-
             /**
              * Reimplemented from Savable::writeContents()
              */
             virtual void writeContents( QIODevice* device );
-
-            /** Reimplemented from Asset::templates() */
-            virtual const QList<AssetTemplate*> templates();
-
-            /** Reimplemented from Asset::actions() */
-            virtual QList<QAction*> actions();
 
             /** Reimplemented from Asset::load() */
             virtual void load();
