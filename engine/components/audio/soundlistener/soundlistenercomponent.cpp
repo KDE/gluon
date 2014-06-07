@@ -71,7 +71,3 @@ SoundListenerComponent* SoundListenerComponent::activeInstance()
 {
     return m_activeInstance;
 }
-
-Q_EXPORT_PLUGIN2( gluon_component_soundlistener, GluonEngine::SoundListenerComponent )
-
- 
