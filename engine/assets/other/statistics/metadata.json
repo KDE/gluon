@@ -1,0 +1,15 @@
+{
+    "name": "Statistic",
+    "icon": "text-mathml",
+    "category": "Social Integration",
+    "mimeTypes": [ "application/x-gluon-statistics" ],
+    "templates": [
+        { "name": "Statistics Asset", "file": "statistics_template.gluonstatistics" }
+    ],
+    "actions": [
+        { "name": "New Statistic", "method": "createStatistic" },
+        { "name": "New Tasks Statistic", "method": "createTasksStatistic" },
+        { "name": "New Multi-Score Statistic", "method": "createMutliScoreStatistic" },
+        { "name": "New Boolean Statistic", "method": "createBooleanStatistic" }
+    ]
+}

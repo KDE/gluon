@@ -1,4 +1,5 @@
-gluon_add_plugin(gluon_asset_statistics GluonEngine
+gluon_add_plugin(gluon_asset_statistics
+    MODULE Gluon::Engine
     SOURCES statisticsasset.cpp
 )
 
