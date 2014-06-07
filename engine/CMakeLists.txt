@@ -1,13 +1,13 @@
-option( BUILD_AUDIO_COMPONENTS "Build Components dependant on Gluon Audio" OFF )
-option( BUILD_AUDIO_ASSETS "Build Assets dependant on Gluon Audio" OFF )
+option( BUILD_AUDIO_COMPONENTS "Build Components dependant on Gluon Audio" ON )
+option( BUILD_AUDIO_ASSETS "Build Assets dependant on Gluon Audio" ON )
 option( BUILD_GRAPHICS_COMPONENTS "Build Components dependant on Gluon Graphics" OFF )
 option( BUILD_GRAPHICS_ASSETS "Build Assets dependant on Gluon Graphics" OFF )
 option( BUILD_INPUT_COMPONENTS "Build Components dependant on Gluon Input" OFF )
 option( BUILD_INPUT_ASSETS "Build Assets dependant on Gluon Input" OFF )
 option( BUILD_PHYSICS_COMPONENTS "Build Components related to physics" OFF )
 option( BUILD_PHYSICS_ASSETS "Build Assets related to physics" OFF )
-option( BUILD_OTHER_COMPONENTS "Build other Components" OFF )
-option( BUILD_OTHER_ASSETS "Build other Assets" OFF )
+option( BUILD_OTHER_COMPONENTS "Build other Components" ON )
+option( BUILD_OTHER_ASSETS "Build other Assets" ON )
 
 if( NOT BUILD_GLUONAUDIO )
     set( BUILD_AUDIO_COMPONENTS OFF )
@@ -23,11 +23,6 @@ if( NOT BUILD_GLUONINPUT )
 endif()
 
 find_package( Qt5Sql REQUIRED )
-
-# gluon_include_directories( GluonEngine
-#     ${GLUONCORE_INCLUDE_DIRS}
-#     ${Qt5Sql_INCLUDE_DIRS}
-# )
 
 set( GluonEngine_SRCS
     abstractprefabinstance.cpp
