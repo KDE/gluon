@@ -1,8 +1,5 @@
-gluon_include_directories( GluonCore
-    ${Qt5Core_INCLUDE_DIRS}
-    ${Qt5Gui_INCLUDE_DIRS}
-    ${Qt5Qml_INCLUDE_DIRS}
-)
+find_package( Qt5Script REQUIRED )
+find_package( Eigen3 REQUIRED )
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/gdl )
 
@@ -49,10 +46,11 @@ set( GluonCore_HEADERS
     gdlserializer.h
 )
 
-gluon_add_library( GluonCore SHARED
+gluon_add_library( Gluon::Core SHARED
     SOURCES ${GluonCore_SRCS}
     HEADERS ${GluonCore_HEADERS}
-    LIBRARIES Qt5::Core Qt5::Gui Qt5::Qml Qt5::Script
+    INCLUDES ${Qt5Core_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS} ${Qt5Script_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIR}
+    LIBRARIES Qt5::Core Qt5::Gui Qt5::Script
 )
 
 gluon_add_subdirectories( examples tests )
