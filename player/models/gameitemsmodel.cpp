@@ -27,7 +27,7 @@
 #include <QtCore/QMultiMap>
 
 #include <core/directoryprovider.h>
-//#include <engine/gameproject.h>
+#include <engine/gameproject.h>
 
 #include "serviceprovider.h"
 #include "gamedetaillistjob.h"
@@ -48,7 +48,6 @@ GameItemsModel::GameItemsModel( QObject* parent )
     : QAbstractListModel( parent )
     , d( new Private )
 {
-    /*
     QDir m_dir;
     m_dir.cd( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/games" );
     QStringList gameDirNameList = m_dir.entryList( QStringList() << QString( '*' + GluonEngine::projectSuffix ), QDir::Dirs | QDir::NoDotAndDotDot );
@@ -66,7 +65,6 @@ GameItemsModel::GameItemsModel( QObject* parent )
     }
 
     fetchGamesList();
-    */
 }
 
 QHash<int, QByteArray> GameItemsModel::roleNames() const

@@ -1,4 +1,5 @@
 find_package( Qt5 REQUIRED Widgets Qml Quick )
+find_package( KF5Attica REQUIRED)
 
 set(desktop_SRCS
     main.cpp
@@ -8,7 +9,7 @@ set(desktop_SRCS
 
 gluon_add_executable(gluonplayer-desktop
     SOURCES ${desktop_SRCS}
-    LIBRARIES Gluon::Player Qt5::Qml Qt5::Quick Qt5::Widgets
+    LIBRARIES Gluon::Player Gluon::Engine Qt5::Qml Qt5::Quick Qt5::Widgets
 )
 
 set( DESKTOP_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/desktop )

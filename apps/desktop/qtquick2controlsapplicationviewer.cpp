@@ -37,9 +37,11 @@ class QtQuick2ApplicationViewerPrivate
     QString mainQmlFile;
     QQmlEngine engine;
     QQuickWindow *window;
+    QQmlContext *context;
 
     QtQuick2ApplicationViewerPrivate() : window(0)
-    {}
+    {
+    }
 
     ~QtQuick2ApplicationViewerPrivate()
     {
@@ -79,12 +81,21 @@ QString QtQuick2ApplicationViewerPrivate::adjustPath(const QString &path)
 QtQuick2ControlsApplicationViewer::QtQuick2ControlsApplicationViewer()
     : d(new QtQuick2ApplicationViewerPrivate())
 {
+    d->context = d->engine.rootContext();
+    
     qmlRegisterType<GluonPlayer::GameMetadata>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "GameMetadata" );
     qmlRegisterType<GluonPlayer::CommentItemsModel>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "CommentItemsModel" );
     qmlRegisterUncreatableType<GluonPlayer::GameItem>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "GameItem", "To be used only for enums" );
     qmlRegisterUncreatableType<GluonPlayer::GameDownloadJob>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "GameDownloadJob", "Get an instance from serviceProvider" );
     
     qmlRegisterType<LoginForm>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "LoginForm");
+    d->context->setContextProperty("_gluon_player_qml_version", "0.1");
+    d->context->setContextProperty( "installedGamesModel",
+                                                          GluonPlayer::GameManager::instance()->installedGamesModel() );
+    d->context->setContextProperty( "downloadableGamesModel",
+                                                          GluonPlayer::GameManager::instance()->downloadableGamesModel() );
+    d->context->setContextProperty( "serviceProvider",
+                                                          GluonPlayer::ServiceProvider::instance() );
     /*
     qmlRegisterType<RegisterUserForm>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "RegisterUserForm");
     qmlRegisterType<UserBox>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "UserBox");
