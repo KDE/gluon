@@ -17,19 +17,19 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #ifndef GLUON_PLAYER_HIGHSCORESMODEL_H
 #define GLUON_PLAYER_HIGHSCORESMODEL_H
-
+ 
 #include "../gluon_player_export.h"
-
+ 
 #include <QtCore/QAbstractTableModel>
-
+ 
 namespace GluonCore
 {
     class GluonObject;
 };
-
+ 
 namespace GluonPlayer
 {
     class GLUON_PLAYER_EXPORT HighScoresModel : public QAbstractTableModel
@@ -42,29 +42,29 @@ namespace GluonPlayer
              */
             explicit HighScoresModel( QString gameId, QObject* parent = 0 );
             virtual ~HighScoresModel();
-
+ 
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
             Qt::ItemFlags flags( const QModelIndex& index ) const;
-
+ 
             enum Column
             {
                 NameColumn,
                 HighScoreColumn,
                 LevelColumn,
             };
-
+ 
         private:
             void loadData();
             void saveData();
-
+ 
             class Private;
             Private* const d;
     };
-
+ 
 }
-
+ 
 #endif // GLUON_PLAYER_HIGHSCORESMODEL_H
-
+ 

@@ -17,28 +17,28 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #ifndef GLUON_PLAYER_COMMENTITEMSMODEL_H
 #define GLUON_PLAYER_COMMENTITEMSMODEL_H
-
+ 
 #include "../gluon_player_export.h"
-
+ 
 #include <attica/providermanager.h>
 #include <attica/provider.h>
 #include <attica/comment.h>
-
+ 
 #include <QtCore/QAbstractListModel>
-
+ 
 namespace Attica
 {
     class BaseJob;
 }
-
+ 
 namespace GluonCore
 {
     class GluonObject;
 };
-
+ 
 namespace GluonPlayer
 {
     class CommentItem;
@@ -56,7 +56,7 @@ namespace GluonPlayer
     {
             Q_OBJECT
             Q_PROPERTY( QString gameId READ gameId WRITE setGameId NOTIFY gameIdChanged )
-
+ 
         public:
             enum Roles
             {
@@ -68,22 +68,22 @@ namespace GluonPlayer
                 DepthRole,
                 ParentIdRole
             };
-
+ 
             /**
              * @param gameId The game ID which will be used to perform the lookup in the online
              * service
              */
             explicit CommentItemsModel( QString gameId = QString(), QObject* parent = 0 );
             virtual ~CommentItemsModel();
-
+ 
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
-            virtual QHash<int, QByteArray> roleNames() const;
             virtual Qt::ItemFlags flags( const QModelIndex& index ) const;
-
+            QHash<int, QByteArray> roleNames() const;
+ 
             Q_INVOKABLE void uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message );
-
+ 
             /**
              * used to add and upload a new comment to the server.
              * If successful, the model reloads the comments and hence shows the new one
@@ -93,22 +93,22 @@ namespace GluonPlayer
              * @param   message         the message (body) of the comment
              */
             Q_INVOKABLE void uploadComment( const QString& parentId, const QString& subject, const QString& message );
-
+ 
             QString gameId() const;
             void setGameId( const QString& id );
-
+ 
         private Q_SLOTS:
             void addCommentFinished( Attica::BaseJob* job );
             void processFetchedComments();
             void uploadCommentFinished();
-
+ 
         Q_SIGNALS:
             /** signal which is emitted when the comment failed to be added
              */
             void addCommentFailed();
             void commentListFetchFailed();
             void gameIdChanged();
-
+ 
         private:
             void updateData();
             void loadData();
@@ -116,10 +116,10 @@ namespace GluonPlayer
             GluonCore::GluonObject* addComment( CommentItem* comment, GluonCore::GluonObject* parent );
             void treeTraversal( GluonCore::GluonObject* obj );
             void clear();
-
+ 
             class Private;
             Private* const d;
     };
 }
-
+ 
 #endif // GLUON_PLAYER_COMMENTITEMSMODEL_H

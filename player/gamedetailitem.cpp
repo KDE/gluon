@@ -16,23 +16,25 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #include "gamedetailitem.h"
-
+ 
 #include <QtCore/QStringList>
-
+ 
 using namespace GluonPlayer;
-
+ 
 class GameDetailItem::Private
 {
     public:
         Private()
         {
         }
-
+ 
         QString gameName;
         QString gameDescription;
         QString version;
+                QString summary;
+                QString preview1;
         QString category;
         QString categoryName;
         QString homePage;
@@ -45,8 +47,8 @@ class GameDetailItem::Private
         Status status;
         QString id;
 };
-
-GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDescription, const QString& version,
+ 
+GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDescription, const QString& version, const QString& summary, const QString& preview1,
                                 const QString& category, const QString& categoryName, const QString& homePage,
                                 const QString& license, const QString& changelog, const QString& projectDirName,
                                 const QString& projectFileName, const QStringList& screenshotUrls, int rating,
@@ -57,6 +59,8 @@ GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDesc
     d->gameName = gameName;
     d->gameDescription = gameDescription;
     d->version = version;
+        d->summary = summary;
+        d->preview1 = preview1;
     d->category = category;
     d->categoryName = categoryName;
     d->homePage = homePage;
@@ -69,80 +73,88 @@ GameDetailItem::GameDetailItem( const QString& gameName, const QString& gameDesc
     d->status = status;
     d->id = id;
 }
-
+ 
 GameDetailItem::~GameDetailItem()
 {
     delete d;
 }
-
+ 
+QString GameDetailItem::preview1() const
+{
+    return d->preview1;
+}
+ 
 QString GameDetailItem::gameDescription() const
 {
     return d->gameDescription;
 }
-
+ 
 QString GameDetailItem::version() const
 {
     return d->version;
 }
-
+ 
+QString GameDetailItem::summary() const
+{
+    return d->summary;
+}
+ 
 QString GameDetailItem::category() const
 {
     return d->category;
 }
-
+ 
 QString GameDetailItem::categoryName() const
 {
     return d->categoryName;
 }
-
+ 
 QString GameDetailItem::homePage() const
 {
     return d->homePage;
 }
-
+ 
 QString GameDetailItem::license() const
 {
     return d->license;
 }
-
+ 
 QString GameDetailItem::changelog() const
 {
     return d->changelog;
 }
-
+ 
 QString GameDetailItem::gameName() const
 {
     return d->gameName;
 }
-
+ 
 QString GameDetailItem::id() const
 {
     return d->id;
 }
-
+ 
 QString GameDetailItem::projectDirName() const
 {
     return d->projectDirName;
 }
-
+ 
 QString GameDetailItem::projectFileName() const
 {
     return d->projectFileName;
 }
-
+ 
 QStringList GameDetailItem::screenshotUrls() const
 {
     return d->screenshotUrls;
 }
-
+ 
 GameDetailItem::Status GameDetailItem::status() const
 {
     return d->status;
 }
-
+ 
 int GameDetailItem::rating() const
 {
     return d->rating;
 }
-
- 

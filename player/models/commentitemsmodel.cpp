@@ -17,46 +17,46 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #include "commentitemsmodel.h"
-
-#include "../serviceprovider.h"
-#include "../commentslistjob.h"
-#include "../commentuploadjob.h"
-#include "../gamemanager.h"
+ 
 #include "allgameitemsmodel.h"
-
-#include <gluon_global.h>
-
+#include "gamemanager.h"
+ 
+#include "serviceprovider.h"
+#include <commentslistjob.h>
+#include <commentuploadjob.h>
+ 
 #include <engine/gameproject.h>
-
+ 
 #include <core/gluonobject.h>
 #include <core/gdlserializer.h>
-
+#include <gluon_global.h>
+ 
 #include <attica/listjob.h>
-
+ 
 #include <QtCore/QStringList>
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QDir>
-
+ 
 using namespace GluonCore;
 using namespace GluonPlayer;
-
+ 
 class CommentItemsModel::Private
 {
     public:
     Private()
     {
     }
-
+ 
     GluonCore::GluonObject* m_rootNode;
     QStringList m_columnNames;
     bool m_isOnline;
     QString m_gameId;
     QList<GluonCore::GluonObject*> m_nodes;
 };
-
+ 
 CommentItemsModel::CommentItemsModel( QString gameId, QObject* parent )
     : QAbstractListModel( parent )
     , d(new Private)
@@ -65,10 +65,10 @@ CommentItemsModel::CommentItemsModel( QString gameId, QObject* parent )
     d->m_isOnline = false;
     d->m_gameId = gameId;
     d->m_columnNames << tr( "Author" ) << tr( "Title" ) << tr( "Body" ) << tr( "DateTime" ) << tr( "Rating" );
-
+ 
     loadData();     // Load comments stored locally
     updateData();   // Fetch latest comments from the web service
-
+    
 }
 
 QHash<int, QByteArray> CommentItemsModel::roleNames() const
@@ -92,7 +92,7 @@ void CommentItemsModel::updateData()
     connect(commentListJob, SIGNAL(failed()), SIGNAL(commentListFetchFailed()));
     commentListJob->start();
 }
-
+ 
 void CommentItemsModel::processFetchedComments()
 {
     QList<CommentItem*> list = qobject_cast<CommentsListJob*>(sender())->data().value< QList<CommentItem*> >();
@@ -100,13 +100,13 @@ void CommentItemsModel::processFetchedComments()
     foreach(CommentItem *comment, list) {
         addComment(comment, d->m_rootNode);
     }
-
+ 
     beginResetModel();
     treeTraversal(d->m_rootNode);
     endResetModel();
     d->m_isOnline = true;
 }
-
+ 
 void CommentItemsModel::addCommentFinished( Attica::BaseJob* job )
 {
     Attica::ListJob<Attica::Comment> *commentsJob = static_cast<Attica::ListJob<Attica::Comment>*>( job );
@@ -119,7 +119,7 @@ void CommentItemsModel::addCommentFinished( Attica::BaseJob* job )
         emit addCommentFailed();
     }
 }
-
+ 
 GluonObject* CommentItemsModel::addComment( CommentItem* comment, GluonObject* parent )
 {
     GluonObject* newComment = new GluonObject( comment->id(), parent );
@@ -130,19 +130,19 @@ GluonObject* CommentItemsModel::addComment( CommentItem* comment, GluonObject* p
     newComment->setProperty( "Rating", comment->score() );
     newComment->setProperty( "Depth", parent->property("Depth").toInt() + 1 );
     newComment->setProperty( "ParentId", parent->name() );
-
+ 
     foreach( QObject *child, comment->children() ) {
         addComment( static_cast<CommentItem*>(child), newComment );
     }
-
+ 
     return newComment;
 }
-
+ 
 void CommentItemsModel::treeTraversal( GluonCore::GluonObject* obj )
 {
     if( !obj )
         return;
-
+ 
     foreach( QObject * child, obj->children() )
     {
         GluonObject* gobj = qobject_cast<GluonObject*>( child );
@@ -153,56 +153,56 @@ void CommentItemsModel::treeTraversal( GluonCore::GluonObject* obj )
         }
     }
 }
-
+ 
 bool dateTimeLessThan( GluonCore::GluonObject* go1, GluonCore::GluonObject* go2 )
 {
     return go1->property( "DateTime" ).toString() < go2->property( "DateTime" ).toString();
 }
-
+ 
 void CommentItemsModel::loadData()
 {
     AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());
     QString gameCachePath = model->data(d->m_gameId, AllGameItemsModel::CacheUriRole).toUrl().toLocalFile();
-
+ 
     GluonCore::GluonObjectList list;
     if( gameCachePath.isEmpty() || !GluonCore::GDLSerializer::instance()->read( QUrl( gameCachePath + "/comments.gdl" ), list ) )
         return;
-
+ 
     d->m_rootNode = list.at( 0 );
     treeTraversal( d->m_rootNode );
     qSort( d->m_nodes.begin(), d->m_nodes.end(), dateTimeLessThan );
 }
-
+ 
 void CommentItemsModel::saveData()
 {
     if (d->m_gameId.isEmpty()) {
         qDebug() << "Failed to save the comment data for empty game id.";
         return;
     }
-
+ 
     qDebug() << "Saving data!";
-
+ 
     AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());
     QString gameCachePath = model->data(d->m_gameId, AllGameItemsModel::CacheUriRole).toUrl().toLocalFile();
-
+ 
     QDir gameCacheDir;
     gameCacheDir.mkpath( gameCachePath );
     gameCacheDir.cd( gameCachePath );
     QString filename = gameCacheDir.absoluteFilePath( "comments.gdl" );
-
+ 
     GluonCore::GDLSerializer::instance()->write( QUrl::fromLocalFile(filename), GluonCore::GluonObjectList() << d->m_rootNode );
 }
-
+ 
 CommentItemsModel::~CommentItemsModel()
 {
     saveData();     //Save data before exiting
 }
-
+ 
 QVariant CommentItemsModel::data( const QModelIndex& index, int role ) const
 {
     if (index.row() >= rowCount())
         return QVariant();
-
+ 
     switch (role) {
         case AuthorRole:
             return d->m_nodes.at(index.row())->property( "Author" );
@@ -219,36 +219,36 @@ QVariant CommentItemsModel::data( const QModelIndex& index, int role ) const
         case ParentIdRole:
             return d->m_nodes.at(index.row())->property( "ParentId" );
     }
-
+ 
     return QVariant();
 }
-
+ 
 int CommentItemsModel::rowCount( const QModelIndex& /* parent */ ) const
 {
     return d->m_nodes.count();
 }
-
+ 
 QVariant CommentItemsModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
     if( orientation == Qt::Horizontal && role == Qt::DisplayRole )
         return d->m_columnNames.at( section );
-
+ 
     return QVariant();
 }
-
+ 
 Qt::ItemFlags CommentItemsModel::flags( const QModelIndex& index ) const
 {
     if( !index.isValid() )
         return Qt::ItemIsEnabled;
-
+ 
     return QAbstractItemModel::flags( index );
 }
-
+ 
 void CommentItemsModel::uploadComment( const QModelIndex& parentIndex, const QString& subject, const QString& message )
 {
     uploadComment(d->m_nodes.at(parentIndex.row())->name(), subject, message);
 }
-
+ 
 void CommentItemsModel::uploadComment( const QString &parentId, const QString& subject, const QString& message )
 {
     if( d->m_gameId.isEmpty() )
@@ -263,12 +263,12 @@ void CommentItemsModel::uploadComment( const QString &parentId, const QString& s
     connect(commentsUploadJob, SIGNAL(failed()), SIGNAL(addCommentFailed()));
     commentsUploadJob->start();
 }
-
+ 
 QString CommentItemsModel::gameId() const
 {
     return d->m_gameId;
 }
-
+ 
 void CommentItemsModel::setGameId( const QString& id )
 {
     if (id.isEmpty())
@@ -277,7 +277,7 @@ void CommentItemsModel::setGameId( const QString& id )
     updateData();   // Fetch latest comments from the web serviceprovider
     emit gameIdChanged();
 }
-
+ 
 void CommentItemsModel::clear()
 {
     if (d->m_rootNode) {
@@ -285,10 +285,8 @@ void CommentItemsModel::clear()
     }
     d->m_nodes.clear();
 }
-
+ 
 void CommentItemsModel::uploadCommentFinished()
 {
     updateData();
 }
-
- 

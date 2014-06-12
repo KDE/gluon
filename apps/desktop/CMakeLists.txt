@@ -44,6 +44,13 @@ install(FILES
 )
 
 install(FILES
+    qml/center/gamelist/GameItem.qml
+    qml/center/gamelist/DownloadableList.qml
+    DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/center/gamelist
+    COMPONENT gluonplayer-desktop
+)
+
+install(FILES
     qml/center/highlights/HighlightBox.qml
     qml/center/highlights/HighlightItem.qml
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/center/highlights

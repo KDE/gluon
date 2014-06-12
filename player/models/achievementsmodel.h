@@ -20,7 +20,7 @@
 #ifndef GLUON_PLAYER_ACHIEVEMENTSMODEL_H
 #define GLUON_PLAYER_ACHIEVEMENTSMODEL_H
  
-#include "gluon_player_export.h"
+#include "../gluon_player_export.h"
  
 #include <QtCore/QAbstractTableModel>
  
@@ -45,7 +45,7 @@ namespace GluonPlayer
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
             virtual Qt::ItemFlags flags( const QModelIndex& index ) const;
-            virtual QHash<int, QByteArray> roleNames() const;
+            QHash<int, QByteArray> roleNames() const;
  
             const GluonEngine::AchievementsManager* achievementsManager() const;
             QString projectDir() const;

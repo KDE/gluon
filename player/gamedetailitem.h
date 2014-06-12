@@ -16,18 +16,16 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #ifndef GLUONPLAYER_GAMEDETAILITEM_H
 #define GLUONPLAYER_GAMEDETAILITEM_H
-
+ 
 #include <QtCore/QObject>
-
-#include "gluon_player_export.h"
-
+ 
 namespace GluonPlayer
 {
-
-    class GLUON_PLAYER_EXPORT GameDetailItem : public QObject
+ 
+    class GameDetailItem : public QObject
     {
             Q_OBJECT
             Q_ENUMS( Status )
@@ -38,17 +36,19 @@ namespace GluonPlayer
                 Installed,
                 Upgradable
             };
-
-            GameDetailItem( const QString& gameName, const QString& gameDescription, const QString& version,
+ 
+            GameDetailItem( const QString& gameName, const QString& gameDescription, const QString& version, const QString& summary, const QString& preview1,
                             const QString& category, const QString& categoryName, const QString& homePage,
                             const QString& license, const QString& changelog, const QString& projectDirName,
                             const QString& projectFileName, const QStringList& screenshotUrls, int rating,
                             GluonPlayer::GameDetailItem::Status status, const QString id, QObject* parent = 0 );
             virtual ~GameDetailItem();
-
+                        
+                        QString preview1() const;
             QString gameName() const;
             QString gameDescription() const;
             QString version() const;
+                        QString summary() const;
             QString category() const;
             QString categoryName() const;
             QString homePage() const;
@@ -60,12 +60,12 @@ namespace GluonPlayer
             int rating() const;
             Status status() const;
             QString id() const;
-
+ 
         private:
             class Private;
             Private* const d;
     };
-
+ 
 }
-
+ 
 #endif // GLUONPLAYER_GAMEDETAILITEM_H

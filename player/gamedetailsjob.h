@@ -17,47 +17,45 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #ifndef GLUON_PLAYER_GAMEDETAILSJOB_H
 #define GLUON_PLAYER_GAMEDETAILSJOB_H
-
+ 
 #include "gamedetailitem.h"
 #include "abstractsocialservicesjob.h"
-
+ 
 #include <QtCore/QList>
 #include <QtCore/QMetaType>
-
-#include "gluon_player_export.h"
-
+ 
 namespace Attica
 {
     class Provider;
     class BaseJob;
 }
-
+ 
 namespace GluonPlayer
 {
-    class GLUON_PLAYER_EXPORT GameDetailsJob : public AbstractSocialServicesJob
+    class GameDetailsJob : public AbstractSocialServicesJob
     {
             Q_OBJECT
         public:
             explicit GameDetailsJob( Attica::Provider* provider, const QString& id,  QObject* parent = 0 );
             virtual ~GameDetailsJob();
-
+ 
             virtual QVariant data();
-
+ 
         protected Q_SLOTS:
             virtual void startSocialService();
-
+ 
         private Q_SLOTS:
             void processFetchedGameDetails( Attica::BaseJob* job );
-
+ 
         private:
             class Private;
             Private* const d;
     };
 }
-
+ 
 Q_DECLARE_METATYPE( GluonPlayer::GameDetailItem* )
-
+ 
 #endif // GLUON_PLAYER_GAMEDETAILSJOB_H

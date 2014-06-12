@@ -17,15 +17,15 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #ifndef GLUONPLAYER_GAMEITEM_H
 #define GLUONPLAYER_GAMEITEM_H
-
+ 
 #include "../gluon_player_export.h"
-
+ 
 #include <QtCore/QStringList>
 #include <QUrl>
-
+ 
 namespace GluonPlayer
 {
     class GLUON_PLAYER_EXPORT GameItem : public QObject
@@ -45,12 +45,22 @@ namespace GluonPlayer
                 //Upgradable                      = 4 | Installed,        ///Game's new version is available on the OCS server
                 //OwnedByUser                     = 8 | Downloadable      ///Game's owner on the OCS server is the current user
             };
-
-            explicit GameItem( const QString& gameName, const QString& description, int rating,
+ 
+            explicit GameItem( const QString& gameName, const QString& description, const QString& gameSummary, const QString& changelog, const QString& version, const QString& preview1, int rating,
                                const Status& status, const QString& id, const QString& genre, const QUrl& cacheUri,
                                const QUrl& uri, QObject* parent = 0 );
             virtual ~GameItem();
-
+                        
+                        QString changelog() const;
+                        void setChangelog( const QString& changelog );
+                        QString version() const;
+                        void setVersion( const QString& version );
+                        QString preview1() const;
+                        void setPreview1( const QString& preview1 );
+                        QStringList gameScreenshotUrls() const;
+                        void setScreenshotUrls( const QStringList& gameScreenshotUrls );
+                        QString gameSummary() const;
+                        void setGameSummary( const QString& gameSummary );
             QString gameName() const;
             void setGameName( const QString& gameName );
             QString gameDescription() const;
@@ -66,11 +76,11 @@ namespace GluonPlayer
             void setCacheUri( const QString& cacheUri );
             QUrl uri() const;
             void setUri( const QString& uri );
-
+ 
         private:
             class Private;
             Private* const d;
     };
 }
-
+ 
 #endif // GLUONPLAYER_GAMEITEM_H

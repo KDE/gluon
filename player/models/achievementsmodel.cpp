@@ -85,7 +85,7 @@ QHash<int, QByteArray> AchievementsModel::roleNames() const
     roles[Qt::ToolTipRole] = "qtToolTipRole";
     return roles;
 }
- 
+
 AchievementsModel::~AchievementsModel()
 {
     delete d;
@@ -186,7 +186,3 @@ QString AchievementsModel::projectDir() const
 {
     return d->projectDir;
 }
- 
-#include "achievementsmodel.moc"
-
- 

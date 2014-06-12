@@ -16,36 +16,36 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #ifndef GLUONPLAYER_INSTALLEDGAMESMODEL_H
 #define GLUONPLAYER_INSTALLEDGAMESMODEL_H
-
-#include <QtCore/QSortFilterProxyModel>
-
+ 
+#include <QSortFilterProxyModel>
+ 
 #include "../gluon_player_export.h"
-
+ 
 namespace GluonPlayer
 {
-
+ 
     class GLUON_PLAYER_EXPORT InstalledGamesModel : public QSortFilterProxyModel
     {
             Q_OBJECT
             Q_PROPERTY( QObject* sourceModel READ sourceModel WRITE setSourceModel NOTIFY sourceModelChanged )
-
+ 
         public:
             InstalledGamesModel( QObject* parent = 0 );
             explicit InstalledGamesModel( QAbstractItemModel* sourceModel, QObject* parent = 0 );
             Q_INVOKABLE QVariant gameData( int gameIndex, QByteArray role );
-
+ 
             virtual void setSourceModel( QObject* sourceModel );
-
+ 
         Q_SIGNALS:
             void sourceModelChanged();
-
+ 
         protected:
             virtual bool filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const;
     };
-
+ 
 }
-
+ 
 #endif // GLUONPLAYER_INSTALLEDGAMESMODEL_H

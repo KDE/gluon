@@ -1,11 +1,33 @@
 import QtQuick 2.2
 import "../utils"
 import "highlights"
+import "gamelist"
 
-Box {
+Column{
     
-    //source on /qml/center/highlights
-    HighlightBox{}
+    Box{
+        id: userbox_bg
+        width: parent.width
+        //source on /qml/center/highlights
+        HighlightBox{}
+        
+        Component.onCompleted:{
+            height = childrenRect.height +40
+        }
+    }
     
-    anchors.fill: parent
+    Box{
+        id: downloadablelist_bg
+        width: parent.width
+        
+        Component.onCompleted:{
+            height = childrenRect.height +40
+        }
+        
+        onChildrenRectChanged:{
+            height = childrenRect.height +40
+        }
+        
+        DownloadableList{}
+    }
 }
