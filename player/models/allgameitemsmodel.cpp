@@ -56,6 +56,8 @@ AllGameItemsModel::AllGameItemsModel( QObject* parent )
     d->fsModel.setNameFilters( QStringList( '*' + GluonEngine::projectSuffix ) );
     connect( &d->fsModel, SIGNAL(directoryLoaded(QString)), SLOT(directoryLoaded(QString)) );
     d->fsModel.setRootPath( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/games" );
+    
+    fetchGamesList();
 }
 
 QHash<int, QByteArray> AllGameItemsModel::roleNames() const
