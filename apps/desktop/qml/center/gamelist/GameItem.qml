@@ -20,10 +20,32 @@
 import QtQuick 2.2
 import Gluon.Player.Desktop 0.72 as GluonPlayer
 
+import "../../utils"
+
+ 
 Item {
     id: gameItemRootItem
-    width: gamesListView.width
+    anchors.horizontalCenter: parent.horizontalCenter
+    
+    
+    width: gamesListView.width -6
     height: 64
+    
+    Rectangle {
+        anchors.left: parent.left
+        anchors.leftMargin: -3
+        anchors.right: parent.right
+        anchors.rightMargin: -3
+        anchors.top: parent.top
+        anchors.topMargin: -3
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: -3
+            
+        color: design.midcolor
+        radius: 5
+        
+        z:-1
+    }
     
     MouseArea{
         anchors.fill: parent
@@ -46,7 +68,11 @@ Item {
         anchors.leftMargin: 5
         id: gameItemTitle
         text: GameName
-        color: "black"
+        color: design.txlkcolor
+        
+        font.pointSize: 14
+        font.bold: true
+        
     }
 
     Text{
@@ -56,25 +82,30 @@ Item {
         anchors.leftMargin: 5
         anchors.rightMargin: 5
         text: GameSummary
-        color: "black"
+        color: design.txcolor
+        
+        wrapMode: Text.WordWrap
     }
     
-    /*
+    
     Rating {
         anchors.right: playDownloadButton.left
         anchors.rightMargin: 15
         rate: Rating
     }
-    */
-    /*
-    PlasmaComponents.ToolButton {
+    
+    
+    Image {
         anchors.right: parent.right
         id: playDownloadButton
         height: parent.height
         width: height
-
-        iconSource: Status == GluonPlayer.GameItem.Installed || Status == GluonPlayer.GameItem.Local ? "media-playback-start" : "download"
-        onClicked: Status == GluonPlayer.GameItem.Installed || Status == GluonPlayer.GameItem.Local ? mainWindow.playGame(Id) : serviceProvider.downloadGame(Id).startSocialService()
+        
+        source: Status == GluonPlayer.GameItem.Installed || Status == GluonPlayer.GameItem.Local ? "../../resources/play_128.png" : "../../resources/download_128.png"
+        
+        MouseArea{
+            anchors.fill: parent
+            onClicked: Status == GluonPlayer.GameItem.Installed || Status == GluonPlayer.GameItem.Local ? mainWindow.playGame(Id) : serviceProvider.downloadGame(Id).startSocialService()
+        }
     }
-    */
 }

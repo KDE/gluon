@@ -17,46 +17,41 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-import QtQuick 2.2
+import QtQuick 1.0
 import Gluon.Player.Desktop 0.72 as GluonPlayer
 
-import "../../utils"
+Rectangle {
+    id: gameDetailsRect
+    property alias gameId: gameMetadata.gameId
 
-Column {
-//     width: parent.width
-    spacing: 10
-    
-    anchors.top: parent.top
-    anchors.topMargin: 20
-    anchors.left: parent.left
-    anchors.leftMargin: 20
-    anchors.right: parent.right
-    anchors.rightMargin: 20
-    
-    height: childrenRect.height -20
-    
-    Text {
-        id: gameListTitle
-        
-        width: parent.width
-        text: "Last published"
-        font.pointSize: 20
-        
-        color: design.txcolor
+    radius: 10
+
+    GluonPlayer.GameMetadata
+    {
+        id: gameMetadata
     }
-    
-    ListView {
-        id: gamesListView
-        
-        width: parent.width
-        
-        height: childrenRect.height+10
-        
-        interactive: false
-        
-        clip: true
-        spacing: 10
-        model: downloadableGamesModel
-        delegate: GameItem { }
+
+    Column {
+        anchors.fill: parent
+        anchors.margins: 20
+        spacing: 20
+
+        Text {
+            width: parent.width
+
+            font.pointSize: 12; font.bold: true
+            text: gameMetadata.gameName
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            color: "black"
+        }
+
+        Text {
+            width: parent.width
+            wrapMode: Text.WordWrap
+
+            text: gameMetadata.gameDescription
+            color: "black"
+        }
     }
-}
+} 

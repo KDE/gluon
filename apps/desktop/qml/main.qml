@@ -50,8 +50,6 @@ ApplicationWindow {
         Loader{
             id: centerloader
             
-            width: 300
-            
             anchors.left: leftloader.right
             anchors.right: rightloader.left
             anchors.top: parent.top

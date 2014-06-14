@@ -46,6 +46,9 @@ install(FILES
 install(FILES
     qml/center/gamelist/GameItem.qml
     qml/center/gamelist/DownloadableList.qml
+    qml/center/gamelist/InstalledList.qml
+    qml/center/gamelist/Rating.qml
+    qml/center/gamelist/GameDetails.qml
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/center/gamelist
     COMPONENT gluonplayer-desktop
 )
@@ -82,6 +85,10 @@ install(FILES
     qml/resources/get_64.png
     qml/resources/home_64.png
     qml/resources/user_64.png
+    qml/resources/play_128.png
+    qml/resources/download_128.png
+    qml/resources/rating.png
+    qml/resources/ratinggs.png
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/resources
     COMPONENT gluonplayer-desktop
 )

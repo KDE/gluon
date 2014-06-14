@@ -96,10 +96,9 @@ QtQuick2ControlsApplicationViewer::QtQuick2ControlsApplicationViewer()
                                                           GluonPlayer::GameManager::instance()->downloadableGamesModel() );
     d->context->setContextProperty( "serviceProvider",
                                                           GluonPlayer::ServiceProvider::instance() );
-    /*
-    qmlRegisterType<RegisterUserForm>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "RegisterUserForm");
-    qmlRegisterType<UserBox>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "UserBox");
-    */
+    
+//     qmlRegisterType<RegisterUserForm>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "RegisterUserForm");
+    
 }
 
 QtQuick2ControlsApplicationViewer::~QtQuick2ControlsApplicationViewer()

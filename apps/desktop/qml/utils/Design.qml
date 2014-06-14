@@ -10,6 +10,8 @@ Item{
     //foreground
     property string fgcolor:   "#454545"
     
+    property string midcolor: "#616161"
+    
     //text
     property string txcolor:   "#CFCFCF"
     property string txlkcolor: "#EBEBEB"
