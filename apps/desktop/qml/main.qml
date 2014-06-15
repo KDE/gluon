@@ -54,6 +54,13 @@ ApplicationWindow {
             anchors.right: rightloader.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom
+            
+            function showSingleGame(id){
+                centerloader.setSource("center/singlegame/Game.qml",{"gameId":id});
+            }
+            function showHome(){
+                centerloader.setSource("center/main.qml");
+            }
         }
         
         //right area for modal

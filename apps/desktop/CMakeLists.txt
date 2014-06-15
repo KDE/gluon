@@ -33,6 +33,7 @@ install( FILES
     qml/utils/DesignTextField.qml
     qml/utils/Line.qml
     qml/utils/Box.qml
+    qml/utils/Heading.qml
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/utils
     COMPONENT gluonplayer-desktop
 )
@@ -50,6 +51,12 @@ install(FILES
     qml/center/gamelist/Rating.qml
     qml/center/gamelist/GameDetails.qml
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/center/gamelist
+    COMPONENT gluonplayer-desktop
+)
+
+install(FILES
+    qml/center/singlegame/Game.qml
+    DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/center/singlegame
     COMPONENT gluonplayer-desktop
 )
 

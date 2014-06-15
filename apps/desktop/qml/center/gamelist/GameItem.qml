@@ -50,7 +50,7 @@ Item {
     MouseArea{
         anchors.fill: parent
         onClicked:{
-            centralBox.showSingleGame(Id);
+            centerloader.showSingleGame(Id);
         }
     }
     

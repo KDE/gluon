@@ -1,5 +1,6 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.1
+import QtGraphicalEffects 1.0
 
 import "../utils"
 
@@ -17,10 +18,11 @@ Box{
         spacing: 10
         
         Rectangle{
-            color: design.txcolor
+            color: design.bgdarkcolor
             height: 64
             width: 64
             Image{
+                id: homeimage
                 anchors.fill: parent
                 source: "../resources/home_64.png"
                 //style: DesignButton{}
@@ -29,16 +31,17 @@ Box{
             MouseArea{
                 anchors.fill: parent
                 onClicked:{
-                    console.log("implement HOME button event on /qml/left/main.qml");
+                    centerloader.showHome();
                 }
             }
         }
         
         Rectangle{
-            color: design.txcolor
+            color: design.bgdarkcolor
             height: 64
             width: 64
             Image{
+                id: getimage
                 anchors.fill: parent
                 source: "../resources/get_64.png"
                 //style: DesignButton{}
@@ -53,10 +56,11 @@ Box{
         }
         
         Rectangle{
-            color: design.txcolor
+            color: design.bgdarkcolor
             height: 64
             width: 64
             Image{
+                id: favimage
                 anchors.fill: parent
                 source: "../resources/fav_64.png"
                 //style: DesignButton{}
@@ -71,10 +75,11 @@ Box{
         }
         
         Rectangle{
-            color: design.txcolor
+            color: design.bgdarkcolor
             height: 64
             width: 64
             Image{
+                id: userimage
                 anchors.fill: parent
                 source: "../resources/user_64.png"
                 //style: DesignButton{}
