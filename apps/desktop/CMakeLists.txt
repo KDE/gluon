@@ -56,6 +56,9 @@ install(FILES
 
 install(FILES
     qml/center/singlegame/Game.qml
+    qml/center/singlegame/AddCommentForm.qml
+    qml/center/singlegame/CommentDelegate.qml
+    qml/center/singlegame/CommentsView.qml
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/center/singlegame
     COMPONENT gluonplayer-desktop
 )

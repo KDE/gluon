@@ -15,4 +15,5 @@ Item{
     //text
     property string txcolor:   "#CFCFCF"
     property string txlkcolor: "#EBEBEB"
+    property string txlightcolor: "gray"
 }

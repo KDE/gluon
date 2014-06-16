@@ -129,7 +129,7 @@ Flickable{
                 level: 3;
                 text: "Comments:";
             }
-            /*
+            
             CommentsView {
                 id: gameCommentsView
                 gameId: gameMetadata.gameId
@@ -142,8 +142,7 @@ Flickable{
                 onAddComment:{
                     gameCommentsView.model.uploadComment(parentId, subjectText, bodyText);
                 }
-            }*/
-            
+            }
         }
     }
 } 
