@@ -1,6 +1,7 @@
 import QtQuick 2.2
 import Gluon.Player.Desktop 0.72 as GluonPlayer
 import QtQuick.Controls 1.1
+import QtGraphicalEffects 1.0
 
 import "../../utils"
 import "../gamelist"
@@ -61,9 +62,18 @@ Flickable{
             }
             
             
-            Text{
+            Heading{
                 id: singlegamebox_title
                 text: gameMetadata.gameName;
+                level: 2
+                Glow {
+                    radius: 8
+                    samples: 16
+                    color: "gray"
+                    source: singlegamebox_title
+                    anchors.fill: singlegamebox_title
+                    z: -1
+                }
                 Text{
                     anchors.left: parent.right
                     anchors.bottom: parent.bottom
@@ -136,11 +146,41 @@ Flickable{
                 width: parent.width
             }
             
+            Line{}
+            
+            Button{
+                anchors.right: parent.right
+                
+                text: "Add comment"
+                
+                style: DesignButton{}
+                
+                onClicked:{
+                    addcommentform.show();
+                    visible = false;
+                }
+            }
+            
             AddCommentForm{
+                id: addcommentform
+                
+                //TODO: use some kind of animation to show open/close
+                function show(){
+                    visible = true;
+                }
+                
+                function hide(){
+                    visible = false;
+                }
+                
                 parentId: singleGameView.gameId
                 
                 onAddComment:{
                     gameCommentsView.model.uploadComment(parentId, subjectText, bodyText);
+                }
+                
+                Component.onCompleted:{
+                    visible = false;
                 }
             }
         }

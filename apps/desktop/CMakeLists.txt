@@ -34,6 +34,7 @@ install( FILES
     qml/utils/Line.qml
     qml/utils/Box.qml
     qml/utils/Heading.qml
+    qml/utils/GluonTextArea.qml
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/utils
     COMPONENT gluonplayer-desktop
 )

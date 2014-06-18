@@ -255,6 +255,8 @@ void CommentItemsModel::uploadComment( const QString &parentId, const QString& s
     {
         qDebug() << "Invalid game id, can't upload comment";
         return;
+    } else {
+        qDebug() << "id: " << parentId << " | subject:" << subject << " | message:" << message << "\n";
     }
     CommentUploadJob *commentsUploadJob = ServiceProvider::instance()->uploadComment(d->m_gameId,
                                                                                    parentId,
@@ -288,5 +290,6 @@ void CommentItemsModel::clear()
  
 void CommentItemsModel::uploadCommentFinished()
 {
+    qDebug() << "upload comment went well";
     updateData();
 }

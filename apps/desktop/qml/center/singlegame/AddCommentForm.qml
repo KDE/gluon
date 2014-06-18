@@ -31,6 +31,8 @@ Column{
     property alias bodyText: commentBodyText.text;
     property string parentId;
     
+    spacing: 10
+    
     function checkLog(){
         if(serviceProvider.isLoggedIn == true){
             commentSubjectText.readOnly = false
@@ -48,20 +50,26 @@ Column{
         serviceProvider.loginFinished.connect(checkLog)
     }
     
+    Heading{
+        level: 4
+        text: "add comment:"
+    }
+    
     TextField {
         id: commentSubjectText
         height: 32; width: parent.width
-        placeholderText: "Subject"
         style: DesignTextField{}
         readOnly: true
+        
+        text: "comment subject"
     }
-    TextArea {
+    GluonTextArea {
         id: commentBodyText
         height: 300
         width: parent.width
-        backgroundVisible: false
-        //placeholderText: "write your comment here"
         readOnly: true
+        
+        text: "comment body"
     }
     Button {
         id: commentButton
