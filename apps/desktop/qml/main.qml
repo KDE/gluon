@@ -61,6 +61,9 @@ ApplicationWindow {
             function showHome(){
                 centerloader.setSource("center/main.qml");
             }
+            function showSocial(){
+                centerloader.setSource("center/social/Social.qml");
+            }
         }
         
         //right area for modal

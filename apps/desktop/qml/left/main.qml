@@ -87,7 +87,7 @@ Box{
             MouseArea{
                 anchors.fill: parent
                 onClicked:{
-                    console.log("implement USER button event on /qml/left/main.qml");
+                    centerloader.showSocial();
                 }
             }
         }

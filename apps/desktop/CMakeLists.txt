@@ -65,6 +65,12 @@ install(FILES
 )
 
 install(FILES
+    qml/center/social/Social.qml
+    DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/center/social
+    COMPONENT gluonplayer-desktop
+)
+
+install(FILES
     qml/center/highlights/HighlightBox.qml
     qml/center/highlights/HighlightItem.qml
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/center/highlights
