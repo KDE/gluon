@@ -54,7 +54,7 @@ namespace GluonPlayer
             Q_OBJECT
 
         public:
-            PersonsListJob( Attica::Provider* provider, const QString& id, int page, int pageSize );
+            PersonsListJob( Attica::Provider* provider, const QString& id);
             virtual ~PersonsListJob();
 
             virtual QVariant data();

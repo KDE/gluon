@@ -43,6 +43,7 @@ Flickable{
                 }
                 
                 TextField{
+                    id:searchFriendTextField
                     anchors.top:searchFriendButton.top
                     anchors.left: parent.left
                     anchors.right: searchFriendButton.left
@@ -57,6 +58,10 @@ Flickable{
                     anchors.right:parent.right
                     text: "search"
                     style: DesignButton{}
+                    
+                    onClicked:{
+                        personsModel.searchByName(searchFriendTextField.text);
+                    }
                 }
                 
             }
@@ -64,8 +69,31 @@ Flickable{
             Line{}
             
             Text{
+                id: personsnothingfound
                 color: design.txcolor
                 text: "No user found."
+            }
+            
+            Repeater {
+                id: personsListView
+                
+                model: GluonPlayer.PersonsModel { id: personsModel }
+                delegate: PersonDelegate{}
+                
+                onItemAdded:{
+                    if(personsListView.count==0){
+                        personsnothingfound.visible = true;
+                    } else {
+                        personsnothingfound.visible = false;
+                    }
+                }
+                onItemRemoved:{
+                    if(personsListView.count==0){
+                        personsnothingfound.visible = true;
+                    } else {
+                        personsnothingfound.visible = false;
+                    }
+                }
             }
         }
         

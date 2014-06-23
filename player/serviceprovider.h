@@ -45,7 +45,8 @@ namespace GluonPlayer
     class EditGameJob;
     class LicenseJob;
     class GameDetailsJob;
-        class PersonSelfJob;
+    class PersonSelfJob;
+    class PersonsListJob;
  
     /**
      * \brief Provides Open Collaboration Services
@@ -73,7 +74,12 @@ namespace GluonPlayer
              * @return  true if ready, false if not
              */
             Q_INVOKABLE bool isReady() const;
- 
+            
+            /**
+             * Fetch persons filtered by name
+             */
+            PersonsListJob* fetchPersonsByName( const QString& id );
+            
             /**
              * Fetch comments from the OCS compliant service
              *

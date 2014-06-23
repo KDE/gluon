@@ -263,7 +263,7 @@ void CommentItemsModel::uploadComment( const QString &parentId, const QString& s
     connect(commentsUploadJob, SIGNAL(failed()), SIGNAL(addCommentFailed()));
     commentsUploadJob->start();
 }
- 
+
 QString CommentItemsModel::gameId() const
 {
     return d->m_gameId;

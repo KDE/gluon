@@ -70,25 +70,19 @@ class PersonsListJob::Private
 {
     public:
         Private()
-            : page( 0 )
-            , pageSize( 0 )
         {
         }
 
         QString id;
-        int page;
-        int pageSize;
         QList<PersonItem*> personsList;
 };
 
 //specify here new filters eventually
-PersonsListJob::PersonsListJob( Attica::Provider* provider, const QString& id, int page, int pageSize )
+PersonsListJob::PersonsListJob( Attica::Provider* provider, const QString& id)
     : AbstractSocialServicesJob( provider )
     , d( new Private() )
 {
     d->id = id;
-    d->page = page;
-    d->pageSize = pageSize;
 }
 
 PersonsListJob::~PersonsListJob()
@@ -100,7 +94,7 @@ void PersonsListJob::startSocialService()
 {
     //Attica uses some weird stuff called id2 which can be "0" for our uses
     Attica::ListJob<Attica::Person> *job = provider()->requestPersonSearchByName( d->id );
-    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedCommentList(Attica::BaseJob*)) );
+    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedPersonList(Attica::BaseJob*)) );
     job->start();
 }
 

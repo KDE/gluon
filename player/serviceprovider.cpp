@@ -32,6 +32,7 @@
 #include "licensejob.h"
 #include "gamedetailsjob.h"
 #include "personselfjob.h"
+#include "personslistjob.h"
  
 #include <core/directoryprovider.h>
  
@@ -400,7 +401,12 @@ CategoryListJob* ServiceProvider::fetchCategories()
 {
     return new CategoryListJob( &d->provider );
 }
- 
+
+PersonsListJob* ServiceProvider::fetchPersonsByName( const QString& id )
+{
+    return new PersonsListJob( &d->provider, id );
+}
+
 EditGameJob* ServiceProvider::editGame( const QString& id )
 {
     return new EditGameJob( &d->provider, id );

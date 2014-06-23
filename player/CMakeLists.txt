@@ -39,6 +39,7 @@ set(GluonPlayer_SRCS
     models/gameviewitem.cpp
     models/highscoresmodel.cpp
     models/installedgamesmodel.cpp
+    models/personsmodel.cpp
 )
 
 set(GluonPlayer_HEADERS
@@ -47,6 +48,7 @@ set(GluonPlayer_HEADERS
     models/commentitemsmodel.h
     models/gameitemsmodel.h
     models/highscoresmodel.h
+    models/personsmodel.h
 )
 
 gluon_add_library(Gluon::Player SHARED
