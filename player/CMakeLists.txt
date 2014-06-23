@@ -23,6 +23,7 @@ set(GluonPlayer_SRCS
     gamemanager.cpp
     gamemetadata.cpp
     gameuploadjob.cpp
+    personslistjob.cpp
     personself.cpp
     personselfjob.cpp
     licensejob.cpp

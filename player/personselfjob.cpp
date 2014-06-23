@@ -65,20 +65,16 @@ void PersonSelfJob::processFetchedPersonSelf( Attica::BaseJob* job )
     {
         Attica::Person person = personJob->result();
         d->personData = new PersonSelf( person.id(), person.firstName(), person.lastName() );
-                
-                qDebug() << "person/self -> success";
  
         emitSucceeded();
     }
     //let's assume that if there's an ocs error it will be surely come from authentication needed
     else if( personJob->metadata().error() == Attica::Metadata::OcsError )
         {
-                qDebug() << "person/self -> auth needed (fail)";
                 emitFailed();
         }
     else
     {
-                qDebug() << "person/self -> unknown (fail)";
         emitFailed();
     }
 }
