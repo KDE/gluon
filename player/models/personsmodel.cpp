@@ -22,6 +22,7 @@
  
 #include "serviceprovider.h"
 #include <personslistjob.h>
+#include <getfriendsjob.h>
  
 #include <core/gluonobject.h>
 #include <core/gdlserializer.h>
@@ -46,6 +47,7 @@ class PersonsModel::Private
     
     QStringList m_columnNames;
     QList<PersonItem*> m_nodes;
+    QList<PersonItem*> m_friends;
 };
  
 PersonsModel::PersonsModel( QObject* parent )
@@ -53,6 +55,8 @@ PersonsModel::PersonsModel( QObject* parent )
     , d(new Private)
 {
     d->m_columnNames << tr( "Id" ) << tr( "Firstname" ) << tr( "Lastname" );
+    
+    fetchFriends();
 }
 
 QHash<int, QByteArray> PersonsModel::roleNames() const
@@ -61,9 +65,32 @@ QHash<int, QByteArray> PersonsModel::roleNames() const
     roles[IdRole] = "personid";
     roles[FirstnameRole] = "firstname";
     roles[LastnameRole] = "lastname";
+    roles[IsFriend] = "isfriend";
     return roles;
 }
 
+/*
+ * Getting self friends
+ */
+void PersonsModel::fetchFriends( )
+{
+    GetFriendsJob *friendsListJob = ServiceProvider::instance()->fetchFriends();
+    if(friendsListJob){
+        connect(friendsListJob, SIGNAL(succeeded()), SLOT(processFetchedFriends()));
+        connect(friendsListJob, SIGNAL(failed()), SIGNAL(personListFetchFailed()));
+        friendsListJob->start();
+    }
+}
+ 
+void PersonsModel::processFetchedFriends()
+{
+    d->m_friends = qobject_cast<GetFriendsJob*>(sender())->data().value< QList<PersonItem*> >();
+    qDebug() << d->m_friends.count() << " self friends successfully fetched from the server!";
+}
+
+/*
+ * Getting generic by nickname people
+ */
 void PersonsModel::searchByName( const QString& name )
 {
     clear();
@@ -79,12 +106,16 @@ void PersonsModel::processFetchedPersons()
     d->m_nodes = qobject_cast<PersonsListJob*>(sender())->data().value< QList<PersonItem*> >();
     endResetModel();
     qDebug() << d->m_nodes.count() << " persons Successfully Fetched from the server!";
+    
+    if(!d->m_friends.empty()){
+        qDebug() << "ci sono gli amici";
+    }
 }
 
 PersonsModel::~PersonsModel()
 {
 }
- 
+
 QVariant PersonsModel::data( const QModelIndex& index, int role ) const
 {
     if (index.row() >= rowCount())
@@ -97,6 +128,8 @@ QVariant PersonsModel::data( const QModelIndex& index, int role ) const
             return d->m_nodes.at(index.row())->firstname();
         case LastnameRole:
             return d->m_nodes.at(index.row())->lastname();
+        case IsFriend:
+            return d->m_nodes.at(index.row())->isFriend();
     }
  
     return QVariant();

@@ -47,6 +47,8 @@ namespace GluonPlayer
     class GameDetailsJob;
     class PersonSelfJob;
     class PersonsListJob;
+    class GetFriendsJob;
+    class AddFriendJob;
  
     /**
      * \brief Provides Open Collaboration Services
@@ -79,6 +81,15 @@ namespace GluonPlayer
              * Fetch persons filtered by name
              */
             PersonsListJob* fetchPersonsByName( const QString& id );
+            
+            /*
+             * Methods used to get friends.
+             * If specified, fetch friends of a specific user,
+             * get self friends instead.
+             */
+            GetFriendsJob* fetchFriends( const QString& id ); //don't needs auth
+            GetFriendsJob* fetchFriends( ); //needs auth
+            AddFriendJob* addFriend( const QString& to );
             
             /**
              * Fetch comments from the OCS compliant service
@@ -149,13 +160,13 @@ namespace GluonPlayer
              * @return a QString containing the password, empty string if not available
              */
             QString password() const;
-                        
-                        /**
+            
+            /**
              * Retrieve the base url of the ocs server
              *
              * @return a QString containing the password, empty string if not available
              */
-                        QString serverUrl() const;
+            QString serverUrl() const;
                         
             /**
              * Register a new user
@@ -173,7 +184,7 @@ namespace GluonPlayer
              * @return a PersonSelfJob object which the caller must
              * monitor to find out the result of the operation
              */
-                        PersonSelfJob* personSelf();
+            PersonSelfJob* personSelf();
  
             /**
              * Fetch a list of games available on the OCS server

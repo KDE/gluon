@@ -13,15 +13,22 @@ ApplicationWindow {
     menuBar: GluonMenuBar{ id: gluonmenubar }
     statusBar: GluonStatusBar{ id: gluonstatusbar }
     
-    
-    
-    
     Design{
         id:design
     }
     
     LoginModal{
         id: loginscreen
+        z:1
+    }
+    
+    ProfileWindow{
+        id: profilescreen
+        z:1
+    }
+    
+    NotificationWindow{
+        id: notification
         z:1
     }
     

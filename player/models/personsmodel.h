@@ -62,7 +62,8 @@ namespace GluonPlayer
             {
                 IdRole = Qt::UserRole,
                 FirstnameRole,
-                LastnameRole
+                LastnameRole,
+                IsFriend
             };
  
             /**
@@ -79,11 +80,11 @@ namespace GluonPlayer
             QHash<int, QByteArray> roleNames() const;
             
             Q_INVOKABLE void searchByName(const QString& name);
+            Q_INVOKABLE void fetchFriends();
  
         private Q_SLOTS:
-            //void addCommentFinished( Attica::BaseJob* job );
             void processFetchedPersons();
-            //void uploadCommentFinished();
+            void processFetchedFriends();
  
         Q_SIGNALS:
             void personListFetchFailed();

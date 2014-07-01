@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <shaan7in@gmail.com>
+ * Copyright (C) 2011 Laszlo Papp <lpapp@kde.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,48 +18,40 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_PERSONSLISTJOB_H
-#define GLUONPLAYER_PERSONSLISTJOB_H
+#ifndef GLUON_PLAYER_ADDFRIENDJOB_H
+#define GLUON_PLAYER_ADDFRIENDJOB_H
 
 #include "abstractsocialservicesjob.h"
 
-#include "models/personitem.h"
-
-#include <QtCore/QList>
-#include <QtCore/QMetaType>
+#include "gluon_player_export.h"
 
 namespace Attica
 {
+    class Provider;
     class BaseJob;
-    class Person;
 }
 
 namespace GluonPlayer
 {
-
-    class PersonsListJob : public AbstractSocialServicesJob
+    class GLUON_PLAYER_EXPORT AddFriendJob : public AbstractSocialServicesJob
     {
             Q_OBJECT
-
         public:
-            PersonsListJob( Attica::Provider* provider, const QString& id);
-            virtual ~PersonsListJob();
-
+            AddFriendJob( Attica::Provider* provider, const QString& to, QObject* parent = 0);
+            virtual ~AddFriendJob();
+            
             virtual QVariant data();
 
         protected Q_SLOTS:
-            virtual void startSocialService();
+            virtual void startSocialService( );
 
         private Q_SLOTS:
-            void processFetchedPersonList( Attica::BaseJob* job );
-
+            void addFriendComplete( Attica::BaseJob* baseJob );
+            
         private:
             class Private;
             Private* const d;
     };
-
 }
 
-Q_DECLARE_METATYPE( QList<GluonPlayer::PersonItem*> )
-
-#endif // GLUONPLAYER_COMMENTSLISTJOB_H
+#endif // GLUON_PLAYER_ADDFRIENDJOB_H

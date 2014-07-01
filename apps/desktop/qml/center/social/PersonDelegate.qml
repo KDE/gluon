@@ -19,15 +19,19 @@
 
 import QtQuick 2.2
 import QtGraphicalEffects 1.0
+import QtQuick.Controls 1.1
 import "../../utils"
 
 Rectangle{
+    id: persondelegate
     width: parent.width
     color: design.midcolor
     
-    radius: 2
-    
     height:30
+    
+    property string m_id : personid;
+    property string m_name : firstname;
+    property string m_surname : lastname;
     
     Image{
         id: userIcon
@@ -61,4 +65,22 @@ Rectangle{
         
         color: design.txcolor
     }
+    
+    Button{
+        anchors.right: parent.right
+        anchors.rightMargin: 3
+        anchors.verticalCenter: parent.verticalCenter
+        
+        text: "Profile"
+        
+        onClicked:{
+            profilescreen.username = persondelegate.m_id;
+            profilescreen.name = persondelegate.m_name;
+            profilescreen.surname = persondelegate.m_surname;
+            profilescreen.open();
+        }
+        
+        style: DesignButton{}
+    }
+    
 }

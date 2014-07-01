@@ -51,16 +51,16 @@ namespace GluonPlayer
                                const QUrl& uri, QObject* parent = 0 );
             virtual ~GameItem();
                         
-                        QString changelog() const;
-                        void setChangelog( const QString& changelog );
-                        QString version() const;
-                        void setVersion( const QString& version );
-                        QString preview1() const;
-                        void setPreview1( const QString& preview1 );
-                        QStringList gameScreenshotUrls() const;
-                        void setScreenshotUrls( const QStringList& gameScreenshotUrls );
-                        QString gameSummary() const;
-                        void setGameSummary( const QString& gameSummary );
+            QString changelog() const;
+            void setChangelog( const QString& changelog );
+            QString version() const;
+            void setVersion( const QString& version );
+            QString preview1() const;
+            void setPreview1( const QString& preview1 );
+            QStringList gameScreenshotUrls() const;
+            void setScreenshotUrls( const QStringList& gameScreenshotUrls );
+            QString gameSummary() const;
+            void setGameSummary( const QString& gameSummary );
             QString gameName() const;
             void setGameName( const QString& gameName );
             QString gameDescription() const;

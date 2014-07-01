@@ -16,6 +16,7 @@
 
 //desktop player inclusions
 #include "loginform.h"
+#include "singleuser.h"
 
 //player lib inclusions
 #include <gluon_global.h>
@@ -84,13 +85,17 @@ QtQuick2ControlsApplicationViewer::QtQuick2ControlsApplicationViewer()
 {
     d->context = d->engine.rootContext();
     
+    //qml objects representing ocs items
+    qmlRegisterType<SingleUser>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "SingleUser");
+    qmlRegisterType<LoginForm>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "LoginForm");
+    //models
     qmlRegisterType<GluonPlayer::GameMetadata>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "GameMetadata" );
     qmlRegisterType<GluonPlayer::CommentItemsModel>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "CommentItemsModel" );
     qmlRegisterType<GluonPlayer::PersonsModel>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "PersonsModel" );
     qmlRegisterUncreatableType<GluonPlayer::GameItem>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "GameItem", "To be used only for enums" );
     qmlRegisterUncreatableType<GluonPlayer::GameDownloadJob>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "GameDownloadJob", "Get an instance from serviceProvider" );
     
-    qmlRegisterType<LoginForm>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "LoginForm");
+    
     d->context->setContextProperty("_gluon_player_qml_version", "0.1");
     d->context->setContextProperty( "installedGamesModel",
                                                           GluonPlayer::GameManager::instance()->installedGamesModel() );

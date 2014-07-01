@@ -27,12 +27,14 @@
 #include "gameuploadjob.h"
 #include "ratingjob.h"
 #include "addgamejob.h"
+#include "addfriendjob.h"
 #include "categorylistjob.h"
 #include "editgamejob.h"
 #include "licensejob.h"
 #include "gamedetailsjob.h"
 #include "personselfjob.h"
 #include "personslistjob.h"
+#include "getfriendsjob.h"
  
 #include <core/directoryprovider.h>
  
@@ -67,7 +69,7 @@ class ServiceProvider::Private
         Attica::Provider provider;
         QString username;
         QString password;
-                QString serverUrl;
+        QString serverUrl;
 };
  
  
@@ -405,6 +407,28 @@ CategoryListJob* ServiceProvider::fetchCategories()
 PersonsListJob* ServiceProvider::fetchPersonsByName( const QString& id )
 {
     return new PersonsListJob( &d->provider, id );
+}
+
+GetFriendsJob* ServiceProvider::fetchFriends( const QString& id )
+{
+    return new GetFriendsJob( &d->provider, id );
+}
+
+GetFriendsJob* ServiceProvider::fetchFriends( )
+{
+    if( isLoggedIn() ){
+        return new GetFriendsJob( &d->provider, username() );
+    } else {
+        qDebug() << "GluonPlayer::ServiceProvider: error requesting self friends. Are you logged in?";
+        
+        //returning null pointer, this has to be checked when used
+        return 0;
+    }
+}
+
+AddFriendJob* ServiceProvider::addFriend( const QString& to )
+{
+    return new AddFriendJob( &d->provider, to );
 }
 
 EditGameJob* ServiceProvider::editGame( const QString& id )

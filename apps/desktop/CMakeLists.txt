@@ -4,6 +4,7 @@ find_package( KF5Attica REQUIRED)
 set(desktop_SRCS
     main.cpp
     loginform.cpp
+    singleuser.cpp
     qtquick2controlsapplicationviewer.cpp
 )
 
@@ -19,6 +20,8 @@ install( FILES
     qml/AboutWindow.qml
     qml/RegisterUser.qml
     qml/LoginModal.qml
+    qml/ProfileWindow.qml
+    qml/NotificationWindow.qml
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}
     COMPONENT gluonplayer-desktop
 )

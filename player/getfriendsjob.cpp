@@ -1,3 +1,4 @@
+ 
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (C) 2011 Shantanu Tushar <shaan7in@gmail.com>
@@ -17,8 +18,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "personslistjob.h"
 #include "models/personitem.h"
+#include "getfriendsjob.h"
+
+#include <QtCore/QObject>
 
 #include <attica/provider.h>
 #include <attica/listjob.h>
@@ -26,7 +29,7 @@
 
 using namespace GluonPlayer;
 
-class PersonsListJob::Private
+class GetFriendsJob::Private
 {
     public:
         Private()
@@ -38,33 +41,27 @@ class PersonsListJob::Private
 };
 
 //specify here new filters eventually
-PersonsListJob::PersonsListJob( Attica::Provider* provider, const QString& id)
+GetFriendsJob::GetFriendsJob( Attica::Provider* provider, const QString& id)
     : AbstractSocialServicesJob( provider )
     , d( new Private() )
 {
     d->id = id;
-    
-    if(provider->hasCredentials()){
-       
-    } else {
-       
-    }
 }
 
-PersonsListJob::~PersonsListJob()
+GetFriendsJob::~GetFriendsJob()
 {
     delete d;
 }
 
-void PersonsListJob::startSocialService()
+void GetFriendsJob::startSocialService()
 {
     //Attica uses some weird stuff called id2 which can be "0" for our uses
-    Attica::ListJob<Attica::Person> *job = provider()->requestPersonSearchByName( d->id );
+    Attica::ListJob<Attica::Person> *job = provider()->requestFriends( d->id );
     connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedPersonList(Attica::BaseJob*)) );
     job->start();
 }
 
-void PersonsListJob::processFetchedPersonList( Attica::BaseJob* job )
+void GetFriendsJob::processFetchedPersonList( Attica::BaseJob* job )
 {
     Attica::ListJob<Attica::Person> *personsJob = static_cast<Attica::ListJob<Attica::Person> *>( job );
     if( personsJob->metadata().error() == Attica::Metadata::NoError )
@@ -83,7 +80,7 @@ void PersonsListJob::processFetchedPersonList( Attica::BaseJob* job )
     }
 }
 
-QVariant PersonsListJob::data()
+QVariant GetFriendsJob::data()
 {
     return QVariant::fromValue( d->personsList );
 }

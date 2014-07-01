@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONPLAYER_PERSONSLISTJOB_H
-#define GLUONPLAYER_PERSONSLISTJOB_H
+#ifndef GLUONPLAYER_GETFRIENDSJOB_H
+#define GLUONPLAYER_GETFRIENDSJOB_H
 
 #include "abstractsocialservicesjob.h"
 
@@ -35,14 +35,13 @@ namespace Attica
 
 namespace GluonPlayer
 {
-
-    class PersonsListJob : public AbstractSocialServicesJob
+    class GetFriendsJob : public AbstractSocialServicesJob
     {
             Q_OBJECT
 
         public:
-            PersonsListJob( Attica::Provider* provider, const QString& id);
-            virtual ~PersonsListJob();
+            GetFriendsJob( Attica::Provider* provider, const QString& id);
+            virtual ~GetFriendsJob();
 
             virtual QVariant data();
 
@@ -59,6 +58,4 @@ namespace GluonPlayer
 
 }
 
-Q_DECLARE_METATYPE( QList<GluonPlayer::PersonItem*> )
-
-#endif // GLUONPLAYER_COMMENTSLISTJOB_H
+#endif // GLUONPLAYER_GETFRIENDSJOB_H

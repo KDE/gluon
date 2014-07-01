@@ -7,6 +7,7 @@ set(GluonPlayer_SRCS
     abstractjob.cpp
     abstractsocialservicesjob.cpp
     addgamejob.cpp
+    addfriendjob.cpp
 
     archive/archiver.cpp
     archive/extractor.cpp
@@ -29,6 +30,7 @@ set(GluonPlayer_SRCS
     licensejob.cpp
     ratingjob.cpp
     serviceprovider.cpp
+    getfriendsjob.cpp
 
     models/achievementsmodel.cpp
     models/allgameitemsmodel.cpp
@@ -40,6 +42,7 @@ set(GluonPlayer_SRCS
     models/highscoresmodel.cpp
     models/installedgamesmodel.cpp
     models/personsmodel.cpp
+    models/personitem.cpp
 )
 
 set(GluonPlayer_HEADERS

@@ -18,65 +18,55 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "addgamejob.h"
+#include "addfriendjob.h"
 
 #include <attica/provider.h>
 #include <attica/content.h>
 
 using namespace GluonPlayer;
 
-class AddGameJob::Private
+class AddFriendJob::Private
 {
     public:
-        QString gameCategory;
-        QString gameName;
-
-        QString id;
+        QString to;
 };
 
-AddGameJob::AddGameJob( Attica::Provider* provider, const QString& gameCategory,
-                        const QString& gameName, QObject* parent )
+AddFriendJob::AddFriendJob( Attica::Provider* provider, const QString& to, QObject* parent )
     : AbstractSocialServicesJob( provider )
     , d( new Private )
 {
-    d->gameCategory = gameCategory;
-    d->gameName = gameName;
+    d->to = to;
 }
 
-AddGameJob::~AddGameJob()
+AddFriendJob::~AddFriendJob()
 {
     delete d;
 }
 
-void AddGameJob::startSocialService()
+void AddFriendJob::startSocialService( )
 {
-    Attica::Category category;
-    category.setId( d->gameCategory );
-
-    Attica::Content content;
-    content.setName( d->gameName );
-
-    Attica::ItemPostJob<Attica::Content> *job = provider()->addNewContent( category, content );
-    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(addGameComplete(Attica::BaseJob*)) );
+    Attica::PostJob *job = provider()->inviteFriend( d->to, "hello" );
+    connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(addFriendComplete(Attica::BaseJob*)) );
     job->start();
 }
 
-void AddGameJob::addGameComplete( Attica::BaseJob* baseJob )
+void AddFriendJob::addFriendComplete( Attica::BaseJob* baseJob )
 {
-    Attica::ItemPostJob<Attica::Content>* job = static_cast<Attica::ItemPostJob<Attica::Content>*>( baseJob );
+    Attica::PostJob* job = static_cast<Attica::PostJob*>( baseJob );
 
     if( job->metadata().error() == Attica::Metadata::NoError )
     {
-        d->id = job->result().id();
         emitSucceeded();
     }
     else
     {
+        qDebug() << job->metadata().error();
         emitFailed();
     }
 }
 
-QVariant AddGameJob::data()
+QVariant AddFriendJob::data()
 {
-    return d->id;
+    return d->to;
 }
+ 
