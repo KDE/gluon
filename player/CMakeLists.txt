@@ -17,6 +17,7 @@ set(GluonPlayer_SRCS
     commentslistjob.cpp
     commentuploadjob.cpp
     editgamejob.cpp
+    friendrequestlistjob.cpp
     gamedetailitem.cpp
     gamedetailsjob.cpp
     gamedetaillistjob.cpp
@@ -36,6 +37,7 @@ set(GluonPlayer_SRCS
     models/allgameitemsmodel.cpp
     models/commentitemsmodel.cpp
     models/downloadablegamesmodel.cpp
+    models/friendrequestmodel.cpp
     models/gameitem.cpp
     models/gameitemsmodel.cpp
     models/gameviewitem.cpp

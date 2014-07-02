@@ -35,6 +35,7 @@
 #include "personselfjob.h"
 #include "personslistjob.h"
 #include "getfriendsjob.h"
+#include "friendrequestlistjob.h"
  
 #include <core/directoryprovider.h>
  
@@ -429,6 +430,11 @@ GetFriendsJob* ServiceProvider::fetchFriends( )
 AddFriendJob* ServiceProvider::addFriend( const QString& to )
 {
     return new AddFriendJob( &d->provider, to );
+}
+
+FriendRequestListJob* ServiceProvider::requestReceivedInvitations( )
+{
+    return new FriendRequestListJob( &d->provider );
 }
 
 EditGameJob* ServiceProvider::editGame( const QString& id )

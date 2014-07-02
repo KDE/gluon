@@ -19,6 +19,17 @@ class PersonItem::Private
 };
 
 //if no friendship is specified, let's assume this object is not a friend of the user
+PersonItem::PersonItem( const QString& id, QObject* parent )
+    : QObject( parent )
+    , d( new Private )
+{
+    d->id = id;
+    d->firstname = "";
+    d->lastname = "";
+    d->isFriend = false;
+}
+
+//if no friendship is specified, let's assume this object is not a friend of the user
 PersonItem::PersonItem( const QString& id, const QString& firstname, const QString& lastname, QObject* parent )
     : QObject( parent )
     , d( new Private )

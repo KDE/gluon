@@ -12,8 +12,9 @@ namespace GluonPlayer
     {
             Q_OBJECT
         public:
+            PersonItem( const QString& id, QObject* parent = 0);
             PersonItem( const QString& id, const QString& firstname, const QString& lastname, QObject* parent = 0 );
-            PersonItem( const QString& id, const QString& firstname, const QString& lastname, bool isFriend, QObject* parent );
+            PersonItem( const QString& id, const QString& firstname, const QString& lastname, bool isFriend, QObject* parent = 0);
             virtual ~PersonItem();
 
             QString id() const;

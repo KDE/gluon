@@ -49,6 +49,7 @@ namespace GluonPlayer
     class PersonsListJob;
     class GetFriendsJob;
     class AddFriendJob;
+    class FriendRequestListJob;
  
     /**
      * \brief Provides Open Collaboration Services
@@ -90,6 +91,7 @@ namespace GluonPlayer
             GetFriendsJob* fetchFriends( const QString& id ); //don't needs auth
             GetFriendsJob* fetchFriends( ); //needs auth
             AddFriendJob* addFriend( const QString& to );
+            FriendRequestListJob* requestReceivedInvitations( );
             
             /**
              * Fetch comments from the OCS compliant service

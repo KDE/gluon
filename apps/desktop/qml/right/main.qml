@@ -1,4 +1,5 @@
 import QtQuick 2.2
+import Gluon.Player.Desktop 0.72 as GluonPlayer
 
 import "../utils"
 import "userbox"
@@ -60,16 +61,79 @@ Column{
         }
         
         Text{
-            id:activitywindow
+            id:friendrequestwindow
             anchors.left:  parent.left
             anchors.leftMargin: 20
             anchors.right: parent.right
             anchors.rightMargin: 20
             anchors.top: parent.top
             anchors.topMargin: 20
-            text: "Friends' activity"
+            text: "Friend requests"
             font.pointSize: 20
             color: design.txcolor
+        }
+    }
+    
+    Box{
+        width: parent.width
+        
+        Component.onCompleted:{
+            height = childrenRect.height +40
+        }
+        
+        Column{
+            spacing: 10
+            
+            height: childrenRect.height
+            
+            Text{
+                id:activitywindow
+                anchors.left:  parent.left
+                anchors.leftMargin: 20
+                anchors.right: parent.right
+                anchors.rightMargin: 20
+                anchors.top: parent.top
+                anchors.topMargin: 20
+                text: "Social stream"
+                font.pointSize: 20
+                color: design.txcolor
+            }
+            
+            Text{
+                id: personsnothingfound_fr
+                color: design.txcolor
+                text: "No user found."
+            }
+            
+            Repeater {
+                id: friendRequestListView
+                
+                function setLogged(){
+                    model.fetchRequests();
+                }
+                
+                Component.onCompleted:{
+                    loginscreen.onLoginCompleted.connect(setLogged);
+                }
+                
+                model: GluonPlayer.FriendRequestModel { id: friendRequestModel }
+                delegate: Text{ text: "Bubba!" }
+                
+                onItemAdded:{
+                    if(friendRequestListView.count==0){
+                        personsnothingfound_fr.visible = true;
+                    } else {
+                        personsnothingfound_fr.visible = false;
+                    }
+                }
+                onItemRemoved:{
+                    if(friendRequestListView.count==0){
+                        personsnothingfound_fr.visible = true;
+                    } else {
+                        personsnothingfound_fr.visible = false;
+                    }
+                }
+            }
         }
     }
 }
