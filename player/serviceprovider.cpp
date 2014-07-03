@@ -28,6 +28,8 @@
 #include "ratingjob.h"
 #include "addgamejob.h"
 #include "addfriendjob.h"
+#include "acceptfriendjob.h"
+#include "declinefriendjob.h"
 #include "categorylistjob.h"
 #include "editgamejob.h"
 #include "licensejob.h"
@@ -430,6 +432,16 @@ GetFriendsJob* ServiceProvider::fetchFriends( )
 AddFriendJob* ServiceProvider::addFriend( const QString& to )
 {
     return new AddFriendJob( &d->provider, to );
+}
+
+AcceptFriendJob* ServiceProvider::acceptFriendship( const QString& to )
+{
+    return new AcceptFriendJob( &d->provider, to );
+}
+
+DeclineFriendJob* ServiceProvider::declineFriendship( const QString& to )
+{
+    return new DeclineFriendJob( &d->provider, to );
 }
 
 FriendRequestListJob* ServiceProvider::requestReceivedInvitations( )

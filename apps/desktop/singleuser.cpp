@@ -3,6 +3,8 @@
  
 #include <player/serviceprovider.h>
 #include <player/addfriendjob.h>
+#include <player/acceptfriendjob.h>
+#include <player/declinefriendjob.h>
 #include <attica/provider.h>
 
 #include "singleuser.h"
@@ -27,6 +29,22 @@ void SingleUser::addFriend()
     GluonPlayer::AddFriendJob * job = GluonPlayer::ServiceProvider::instance()->addFriend(m_username);
     connect(job, SIGNAL(succeeded()), SIGNAL(friendRequestSent()));
     connect(job, SIGNAL(failed()), SIGNAL(friendRequestFailed()));
+    job->start();
+}
+
+void SingleUser::acceptFriendship()
+{
+    GluonPlayer::AcceptFriendJob * job = GluonPlayer::ServiceProvider::instance()->acceptFriendship(m_username);
+    connect(job, SIGNAL(succeeded()), SIGNAL(friendRequestAccepted()));
+    connect(job, SIGNAL(failed()), SIGNAL(unknownError()));
+    job->start();
+}
+
+void SingleUser::declineFriendship()
+{
+    GluonPlayer::DeclineFriendJob * job = GluonPlayer::ServiceProvider::instance()->declineFriendship(m_username);
+    connect(job, SIGNAL(succeeded()), SIGNAL(friendRequestDeclined()));
+    connect(job, SIGNAL(failed()), SIGNAL(unknownError()));
     job->start();
 }
 

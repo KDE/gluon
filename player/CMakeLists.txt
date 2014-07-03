@@ -8,6 +8,8 @@ set(GluonPlayer_SRCS
     abstractsocialservicesjob.cpp
     addgamejob.cpp
     addfriendjob.cpp
+    acceptfriendjob.cpp
+    declinefriendjob.cpp
 
     archive/archiver.cpp
     archive/extractor.cpp

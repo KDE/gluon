@@ -25,6 +25,14 @@ GluonPlayer.SingleUser{
         close();
         notification.open("Friend request failed!");
     }
+
+    onFriendRequestAccepted:{
+        notification.open("Now you and "+username+" are friends!");
+    }
+    
+    onFriendRequestDeclined:{
+        notification.open(""+username+"'s friend request declined.");
+    }
 	
 	//open animation
 	NumberAnimation on opacity {

@@ -40,14 +40,16 @@ class SingleUser : public QQuickItem
 //         QUrl image() const;
         
         Q_INVOKABLE void addFriend();
+        Q_INVOKABLE void acceptFriendship();
+        Q_INVOKABLE void declineFriendship();
         
         Q_INVOKABLE QString username() const;
         Q_INVOKABLE QString name() const;
         Q_INVOKABLE QString surname() const;
         
-        void setUsername(const QString &username);
-        void setName(const QString &name);
-        void setSurname(const QString &surname);
+        Q_INVOKABLE void setUsername(const QString &username);
+        Q_INVOKABLE void setName(const QString &name);
+        Q_INVOKABLE void setSurname(const QString &surname);
         
     signals:
         void usernameChanged();
@@ -55,6 +57,9 @@ class SingleUser : public QQuickItem
         void surnameChanged();
         void friendRequestSent();
         void friendRequestFailed();
+        void friendRequestAccepted();
+        void friendRequestDeclined();
+        void unknownError();
         
     private:
         QString m_username;

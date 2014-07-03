@@ -1,10 +1,13 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.1
 
+
+import Gluon.Player.Desktop 0.72 as GluonPlayer
 import "../utils"
 
 
-Item{
+GluonPlayer.SingleUser{
+    id: singleuserdelegate
     anchors.left: parent.left
     anchors.leftMargin: 20
     anchors.right: parent.right
@@ -12,6 +15,18 @@ Item{
     
     height: 60
     width: parent.width
+    
+    property string pid: personid;
+    
+    onFriendRequestAccepted:{
+        notification.open("Now you and "+username+" are friends!");
+        friendRequestModel.fetchRequests();
+    }
+    
+    onFriendRequestDeclined:{
+        notification.open(""+username+"'s friend request declined.");
+        friendRequestModel.fetchRequests();
+    }
     
     Line{}
     
@@ -37,6 +52,11 @@ Item{
         anchors.left: parent.left
         style: DesignButton{ }
         text: "Accept"
+        
+        onClicked:{
+            singleuserdelegate.username = singleuserdelegate.pid;
+            singleuserdelegate.acceptFriendship();
+        }
     }
     
     Button{
@@ -45,7 +65,12 @@ Item{
         anchors.topMargin: 10
         anchors.right: parent.right
         style: DesignButton{ }
-        text: "Refuse"
+        text: "Decline"
+        
+        onClicked:{
+            singleuserdelegate.username = singleuserdelegate.pid;
+            singleuserdelegate.declineFriendship();
+        }
     }
     
 }

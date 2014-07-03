@@ -49,6 +49,8 @@ namespace GluonPlayer
     class PersonsListJob;
     class GetFriendsJob;
     class AddFriendJob;
+    class AcceptFriendJob;
+    class DeclineFriendJob;
     class FriendRequestListJob;
  
     /**
@@ -91,6 +93,8 @@ namespace GluonPlayer
             GetFriendsJob* fetchFriends( const QString& id ); //don't needs auth
             GetFriendsJob* fetchFriends( ); //needs auth
             AddFriendJob* addFriend( const QString& to );
+            AcceptFriendJob* acceptFriendship( const QString& to );
+            DeclineFriendJob* declineFriendship( const QString& to );
             FriendRequestListJob* requestReceivedInvitations( );
             
             /**
