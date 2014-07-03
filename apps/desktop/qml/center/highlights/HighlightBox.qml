@@ -25,10 +25,12 @@ Item{
 		}
 	}
 	
+	
 	Timer {
         interval: 10000; running: true; repeat: true;
         onTriggered: view.incrementCurrentIndex();
     }
+    
 	
 	XmlListModel {
 		id: highlightsModel

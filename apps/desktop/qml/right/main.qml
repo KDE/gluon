@@ -68,7 +68,7 @@ Column{
             anchors.rightMargin: 20
             anchors.top: parent.top
             anchors.topMargin: 20
-            text: "Friend requests"
+            text: "Social stream"
             font.pointSize: 20
             color: design.txcolor
         }
@@ -77,14 +77,17 @@ Column{
     Box{
         width: parent.width
         
-        Component.onCompleted:{
-            height = childrenRect.height +40
-        }
+        height: frcolumn.height+50
         
         Column{
+            id:frcolumn
             spacing: 10
             
+            anchors.top: parent.top
+            anchors.topMargin: 20
+            
             height: childrenRect.height
+            width: parent.width
             
             Text{
                 id:activitywindow
@@ -92,21 +95,28 @@ Column{
                 anchors.leftMargin: 20
                 anchors.right: parent.right
                 anchors.rightMargin: 20
-                anchors.top: parent.top
-                anchors.topMargin: 20
-                text: "Social stream"
+                text: "Friend requests"
                 font.pointSize: 20
                 color: design.txcolor
             }
             
             Text{
                 id: personsnothingfound_fr
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.rightMargin: 20
+                anchors.leftMargin: 20
                 color: design.txcolor
-                text: "No user found."
+                text: "Nothing found."
             }
             
             Repeater {
                 id: friendRequestListView
+                
+                height: childrenRect.height
+                
+                //needed for children width
+                width: parent.width
                 
                 function setLogged(){
                     model.fetchRequests();
@@ -117,7 +127,7 @@ Column{
                 }
                 
                 model: GluonPlayer.FriendRequestModel { id: friendRequestModel }
-                delegate: Text{ text: "Bubba!" }
+                delegate: FriendRequestDelegate{ }
                 
                 onItemAdded:{
                     if(friendRequestListView.count==0){
@@ -136,4 +146,5 @@ Column{
             }
         }
     }
+    
 }

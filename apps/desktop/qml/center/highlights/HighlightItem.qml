@@ -8,12 +8,24 @@ Item{
 	width: parent.width -20
 	height: parent.height -20
 	
+	states: [
+        State {
+            name: "running"; when: highImage.status != Image.Ready
+            PropertyChanges { target: ind; running: true }
+        },
+        State {
+            name: "stop"; when: highImage.status == Image.Ready
+            PropertyChanges { target: ind; running: false }
+        }
+    ]
+	
 	BusyIndicator{
+        id:ind
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.verticalCenter: parent.verticalCenter
-		running: true
-	}
-	
+		running: false
+    }
+    
 	Image{
 		id: highImage
 		source: image

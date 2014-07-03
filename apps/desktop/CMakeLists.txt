@@ -89,6 +89,7 @@ install(FILES
 
 install(FILES
     qml/right/main.qml
+    qml/right/FriendRequestDelegate.qml
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/right
     COMPONENT gluonplayer-desktop
 )
