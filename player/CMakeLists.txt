@@ -36,6 +36,7 @@ set(GluonPlayer_SRCS
     getfriendsjob.cpp
 
     models/achievementsmodel.cpp
+    models/activityitem.cpp
     models/allgameitemsmodel.cpp
     models/commentitemsmodel.cpp
     models/downloadablegamesmodel.cpp
