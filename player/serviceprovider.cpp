@@ -19,7 +19,8 @@
  */
 
 #include "serviceprovider.h"
- 
+
+#include "activitylistjob.h"
 #include "commentslistjob.h"
 #include "commentuploadjob.h"
 #include "gamedetaillistjob.h"
@@ -447,6 +448,11 @@ DeclineFriendJob* ServiceProvider::declineFriendship( const QString& to )
 FriendRequestListJob* ServiceProvider::requestReceivedInvitations( )
 {
     return new FriendRequestListJob( &d->provider );
+}
+
+ActivityListJob* ServiceProvider::requestActivities( )
+{
+    return new ActivityListJob( &d->provider );
 }
 
 EditGameJob* ServiceProvider::editGame( const QString& id )

@@ -1,6 +1,8 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.1
 
+import Gluon.Player.Desktop 0.72 as GluonPlayer
+
 import "utils"
 
 ApplicationWindow {

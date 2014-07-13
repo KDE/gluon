@@ -13,12 +13,13 @@ namespace GluonPlayer
             Q_OBJECT
         public:
             ActivityItem( const QString& id, QObject* parent = 0);
-            ActivityItem( const QString& id, const QString& firstname, const QString& lastname, QObject* parent = 0 );
+            ActivityItem( const QString& id, const QString& firstname, const QString& lastname, const QString& message, QObject* parent = 0 );
             virtual ~ActivityItem();
 
             QString id() const;
             QString firstname() const;
             QString lastname() const;
+            QString message() const;
 
         private:
             class Private;
@@ -27,4 +28,4 @@ namespace GluonPlayer
     
 }
 
-#endif //GLUONPLAYER_ActivityItem_H
+#endif //GLUONPLAYER_ACTIVITYITEM_H

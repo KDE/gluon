@@ -15,6 +15,7 @@ class ActivityItem::Private
         QString id;
         QString firstname;
         QString lastname;
+        QString message;
 };
 
 //if no friendship is specified, let's assume this object is not a friend of the user
@@ -25,16 +26,18 @@ ActivityItem::ActivityItem( const QString& id, QObject* parent )
     d->id = id;
     d->firstname = "";
     d->lastname = "";
+    d->message = "";
 }
 
 //if no friendship is specified, let's assume this object is not a friend of the user
-ActivityItem::ActivityItem( const QString& id, const QString& firstname, const QString& lastname, QObject* parent )
+ActivityItem::ActivityItem( const QString& id, const QString& firstname, const QString& lastname, const QString& message, QObject* parent )
     : QObject( parent )
     , d( new Private )
 {
     d->id = id;
     d->firstname = firstname;
     d->lastname = lastname;
+    d->message = message;
 }
 
 ActivityItem::~ActivityItem()
@@ -55,4 +58,9 @@ QString ActivityItem::firstname() const
 QString ActivityItem::lastname() const
 {
     return d->lastname;
+}
+
+QString ActivityItem::message() const
+{
+    return d->message;
 }

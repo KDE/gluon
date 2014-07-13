@@ -56,21 +56,73 @@ Column{
     Box{
         width: parent.width
         
-        Component.onCompleted:{
-            height = childrenRect.height +40
-        }
+        height: accolumn.height+50
         
-        Text{
-            id:friendrequestwindow
-            anchors.left:  parent.left
-            anchors.leftMargin: 20
-            anchors.right: parent.right
-            anchors.rightMargin: 20
+        Column{
+            id:accolumn
+            spacing: 10
+            
             anchors.top: parent.top
             anchors.topMargin: 20
-            text: "Social stream"
-            font.pointSize: 20
-            color: design.txcolor
+            
+            height: childrenRect.height
+            width: parent.width
+            
+            Text{
+                anchors.left:  parent.left
+                anchors.leftMargin: 20
+                anchors.right: parent.right
+                anchors.rightMargin: 20
+                text: "Social Stream"
+                font.pointSize: 20
+                color: design.txcolor
+            }
+            
+            Text{
+                id: personsnothingfound_ac
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.rightMargin: 20
+                anchors.leftMargin: 20
+                color: design.txcolor
+                text: "Nothing found."
+            }
+            
+            Repeater {
+                id: activityListView
+                
+                height: childrenRect.height
+                
+                //needed for children width
+                width: parent.width
+                
+                function setLogged(){
+                    activitymodel.fetchActivities();
+                }
+                
+                function ifEmpty(){
+                    if(activityListView.count==0){
+                        personsnothingfound_ac.visible = true;
+                    } else {
+                        personsnothingfound_ac.visible = false;
+                    }
+                }
+                
+                onItemAdded:{
+                    ifEmpty();
+                }
+                onItemRemoved:{
+                    ifEmpty();
+                }
+                
+                Component.onCompleted:{
+                    loginscreen.onLoginCompleted.connect(setLogged);
+                    ifEmpty();
+                }
+                
+                model: GluonPlayer.ActivityModel{ id: activitymodel }
+                delegate: ActivityDelegate{ }
+            }
         }
     }
     
@@ -90,7 +142,6 @@ Column{
             width: parent.width
             
             Text{
-                id:activitywindow
                 anchors.left:  parent.left
                 anchors.leftMargin: 20
                 anchors.right: parent.right

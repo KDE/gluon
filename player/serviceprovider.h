@@ -34,6 +34,7 @@ namespace Attica
  
 namespace GluonPlayer
 {
+    class ActivityListJob;
     class GameDetailListJob;
     class CommentsListJob;
     class GameDownloadJob;
@@ -96,6 +97,8 @@ namespace GluonPlayer
             AcceptFriendJob* acceptFriendship( const QString& to );
             DeclineFriendJob* declineFriendship( const QString& to );
             FriendRequestListJob* requestReceivedInvitations( );
+            
+            ActivityListJob* requestActivities( ); //needs auth
             
             /**
              * Fetch comments from the OCS compliant service

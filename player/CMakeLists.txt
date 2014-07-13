@@ -14,6 +14,7 @@ set(GluonPlayer_SRCS
     archive/archiver.cpp
     archive/extractor.cpp
 
+    activitylistjob.cpp
     atticamanager.cpp
     categorylistjob.cpp
     commentslistjob.cpp
@@ -37,6 +38,7 @@ set(GluonPlayer_SRCS
 
     models/achievementsmodel.cpp
     models/activityitem.cpp
+    models/activitymodel.cpp
     models/allgameitemsmodel.cpp
     models/commentitemsmodel.cpp
     models/downloadablegamesmodel.cpp

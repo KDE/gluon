@@ -27,6 +27,7 @@
 #include <player/models/commentitemsmodel.h>
 #include <player/models/personsmodel.h>
 #include <player/models/friendrequestmodel.h>
+#include <player/models/activitymodel.h>
 #include <player/serviceprovider.h>
 #include <player/models/allgameitemsmodel.h>
 #include <player/models/gameitem.h>
@@ -93,6 +94,7 @@ QtQuick2ControlsApplicationViewer::QtQuick2ControlsApplicationViewer()
     qmlRegisterType<GluonPlayer::GameMetadata>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "GameMetadata" );
     qmlRegisterType<GluonPlayer::CommentItemsModel>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "CommentItemsModel" );
     qmlRegisterType<GluonPlayer::FriendRequestModel>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "FriendRequestModel" );
+    qmlRegisterType<GluonPlayer::ActivityModel>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "ActivityModel" );
     qmlRegisterType<GluonPlayer::PersonsModel>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "PersonsModel" );
     qmlRegisterUncreatableType<GluonPlayer::GameItem>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "GameItem", "To be used only for enums" );
     qmlRegisterUncreatableType<GluonPlayer::GameDownloadJob>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "GameDownloadJob", "Get an instance from serviceProvider" );
