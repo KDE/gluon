@@ -37,6 +37,7 @@
 #include "gamedetailsjob.h"
 #include "personselfjob.h"
 #include "personslistjob.h"
+#include "postactivityjob.h"
 #include "getfriendsjob.h"
 #include "friendrequestlistjob.h"
  
@@ -420,14 +421,7 @@ GetFriendsJob* ServiceProvider::fetchFriends( const QString& id )
 
 GetFriendsJob* ServiceProvider::fetchFriends( )
 {
-    if( isLoggedIn() ){
-        return new GetFriendsJob( &d->provider, username() );
-    } else {
-        qDebug() << "GluonPlayer::ServiceProvider: error requesting self friends. Are you logged in?";
-        
-        //returning null pointer, this has to be checked when used
-        return 0;
-    }
+    return new GetFriendsJob( &d->provider, username() );
 }
 
 AddFriendJob* ServiceProvider::addFriend( const QString& to )
@@ -453,6 +447,11 @@ FriendRequestListJob* ServiceProvider::requestReceivedInvitations( )
 ActivityListJob* ServiceProvider::requestActivities( )
 {
     return new ActivityListJob( &d->provider );
+}
+
+PostActivityJob* ServiceProvider::postActivity( const QString& message )
+{
+    return new PostActivityJob( &d->provider, message );
 }
 
 EditGameJob* ServiceProvider::editGame( const QString& id )

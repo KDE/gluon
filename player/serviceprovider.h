@@ -53,6 +53,7 @@ namespace GluonPlayer
     class AcceptFriendJob;
     class DeclineFriendJob;
     class FriendRequestListJob;
+    class PostActivityJob;
  
     /**
      * \brief Provides Open Collaboration Services
@@ -91,7 +92,7 @@ namespace GluonPlayer
              * If specified, fetch friends of a specific user,
              * get self friends instead.
              */
-            GetFriendsJob* fetchFriends( const QString& id ); //don't needs auth
+            GetFriendsJob* fetchFriends( const QString& id );
             GetFriendsJob* fetchFriends( ); //needs auth
             AddFriendJob* addFriend( const QString& to );
             AcceptFriendJob* acceptFriendship( const QString& to );
@@ -99,6 +100,7 @@ namespace GluonPlayer
             FriendRequestListJob* requestReceivedInvitations( );
             
             ActivityListJob* requestActivities( ); //needs auth
+            PostActivityJob* postActivity( const QString& message ); //needs auth
             
             /**
              * Fetch comments from the OCS compliant service

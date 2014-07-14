@@ -20,6 +20,7 @@
  
 #include "activitymodel.h"
 #include <player/activitylistjob.h>
+#include <player/postactivityjob.h>
  
 #include "serviceprovider.h"
  
@@ -87,6 +88,20 @@ void ActivityModel::processFetchedActivity()
     qDebug() << d->m_nodes.count() << " activities Successfully Fetched from the server!";
 }
 
+void ActivityModel::postActivity( const QString& message  )
+{
+    clear();
+    PostActivityJob *activityListJob = ServiceProvider::instance()->postActivity( message );
+    connect(activityListJob, SIGNAL(succeeded()), SLOT(processPostedActivity()));
+    connect(activityListJob, SIGNAL(failed()), SIGNAL(activityPostFailed()));
+    activityListJob->start();
+}
+ 
+void ActivityModel::processPostedActivity()
+{
+    fetchActivities();
+}
+
 ActivityModel::~ActivityModel()
 {
 }
@@ -122,7 +137,7 @@ QVariant ActivityModel::headerData( int section, Qt::Orientation orientation, in
  
     return QVariant();
 }
- 
+
 Qt::ItemFlags ActivityModel::flags( const QModelIndex& index ) const
 {
     if( !index.isValid() )

@@ -31,6 +31,7 @@ set(GluonPlayer_SRCS
     personslistjob.cpp
     personself.cpp
     personselfjob.cpp
+    postactivityjob.cpp
     licensejob.cpp
     ratingjob.cpp
     serviceprovider.cpp

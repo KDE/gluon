@@ -80,12 +80,15 @@ namespace GluonPlayer
             QHash<int, QByteArray> roleNames() const;
             
             Q_INVOKABLE void fetchActivities( );
+            Q_INVOKABLE void postActivity( const QString& message );
  
         private Q_SLOTS:
             void processFetchedActivity();
+            void processPostedActivity();
  
         Q_SIGNALS:
             void activityListFetchFailed();
+            void activityPostFailed();
  
         private:
             void clear();
