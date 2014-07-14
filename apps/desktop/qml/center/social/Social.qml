@@ -95,6 +95,79 @@ Flickable{
                     }
                 }
             }
+            
+            Line{ }
+            
+            Item{
+                width:parent.width
+                height: childrenRect.height
+                
+                Heading{
+                    id: activitiesHeading
+                    level: 2
+                    text: "Friend activities"
+                }
+                
+                TextField{
+                    id:postActivityTextField
+                    anchors.top:postActivityButton.top
+                    anchors.left: parent.left
+                    anchors.right: postActivityButton.left
+                    anchors.rightMargin: 10
+                    style: DesignTextField{}
+                }
+                
+                Button{
+                    id:postActivityButton
+                    anchors.top:activitiesHeading.bottom
+                    anchors.topMargin: 10
+                    anchors.right:parent.right
+                    text: "post message"
+                    style: DesignButton{}
+                    
+                    onClicked:{
+                        activitymodelsocial.postActivity(postActivityTextField.text);
+                    }
+                }
+                
+            }
+            
+            Text{
+                id: activitiesnothingfound
+                color: design.txcolor
+                text: "No activities found."
+            }
+            
+            Repeater {
+                id: activityListView
+                
+                function setLogged(){
+                    activitymodelsocial.fetchActivities();
+                }
+                
+                model: GluonPlayer.ActivityModel{ id: activitymodelsocial}
+                delegate: ActivityDelegate{}
+                
+                function ifEmpty(){
+                    if(activityListView.count==0){
+                        activitiesnothingfound.visible = true;
+                    } else {
+                        activitiesnothingfound.visible = false;
+                    }
+                }
+                
+                onItemAdded:{
+                    ifEmpty();
+                }
+                onItemRemoved:{
+                    ifEmpty();
+                }
+                
+                Component.onCompleted:{
+                    loginscreen.onLoginCompleted.connect(setLogged);
+                    ifEmpty();
+                }
+            }
         }
         
     }

@@ -70,6 +70,7 @@ install(FILES
 install(FILES
     qml/center/social/Social.qml
     qml/center/social/PersonDelegate.qml
+    qml/center/social/ActivityDelegate.qml
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/center/social
     COMPONENT gluonplayer-desktop
 )

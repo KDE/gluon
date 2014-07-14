@@ -120,7 +120,7 @@ Column{
                     ifEmpty();
                 }
                 
-                model: GluonPlayer.ActivityModel{ id: activitymodel }
+                model: GluonPlayer.ActivityModel{ id:activitymodel }
                 delegate: ActivityDelegate{ }
             }
         }
