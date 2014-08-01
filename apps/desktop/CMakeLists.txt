@@ -1,16 +1,22 @@
 find_package( Qt5 REQUIRED Widgets Qml Quick )
-find_package( KF5Attica REQUIRED)
+find_package( KF5Attica REQUIRED )
+find_package( QXMPP REQUIRED )
 
 set(desktop_SRCS
     main.cpp
-    loginform.cpp
     singleuser.cpp
+    selfuser.cpp
+    xmppclient.cpp
     qtquick2controlsapplicationviewer.cpp
+)
+
+include_directories(
+    ${QXMPP_INCLUDE_DIR}
 )
 
 gluon_add_executable(gluonplayer-desktop
     SOURCES ${desktop_SRCS}
-    LIBRARIES Gluon::Player Gluon::Engine Qt5::Qml Qt5::Quick Qt5::Widgets
+    LIBRARIES Gluon::Player Gluon::Engine Qt5::Qml Qt5::Quick Qt5::Widgets ${QXMPP_LIBRARIES}
 )
 
 set( DESKTOP_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/desktop )

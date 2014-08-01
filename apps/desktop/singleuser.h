@@ -24,7 +24,13 @@
 #include <attica/providermanager.h>
 #include <attica/provider.h>
 #include <QQuickItem>
- 
+
+/*
+ * This class represents a single person that is not "self".
+ * We can interact by accepting, requesting, denying and deleting friendship.
+ * 
+ * Has QML interface
+ */
 class SingleUser : public QQuickItem
 {
         Q_OBJECT

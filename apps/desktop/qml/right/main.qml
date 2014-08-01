@@ -35,9 +35,9 @@ Column{
         }
         
         Component.onCompleted:{
-            loginscreen.onLoginCompleted.connect(setLogged);
-            loginscreen.onLoginFail.connect(setNotLogged);
-            loginscreen.onLogoutCompleted.connect(setNotLogged);
+            self.onLoginCompleted.connect(setLogged);
+            self.onLoginFail.connect(setNotLogged);
+            self.onLogoutCompleted.connect(setNotLogged);
             
             state = "notlogged";
         }

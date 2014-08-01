@@ -15,13 +15,8 @@ Item{
         
         Text{
             id: home_usertitle
-            text: "Hello, "+loginscreen.username()+"!"
+            text: "Hello, "+self.username()+"!"
             font.pointSize: 20
-            color: design.txcolor
-        }
-        Text{
-            id: home_userparagraph
-            text: "Logged as nickname"
             color: design.txcolor
         }
         
@@ -30,7 +25,7 @@ Item{
             text: "Logout"
             style: DesignButton{}
             onClicked:{
-                loginscreen.doLogout()
+                self.doLogout()
             }
         }
     }

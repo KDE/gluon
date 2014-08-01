@@ -8,12 +8,10 @@ Column{
     Box{
         id: userbox_bg
         width: parent.width
+        height: childrenRect.height
         //source on /qml/center/highlights
         HighlightBox{}
         
-        Component.onCompleted:{
-            height = childrenRect.height +40
-        }
     }
     
     Box{
@@ -21,11 +19,11 @@ Column{
         width: parent.width
         
         Component.onCompleted:{
-            height = childrenRect.height +40
+            height = childrenRect.height +32
         }
         
         onChildrenRectChanged:{
-            height = childrenRect.height +40
+            height = childrenRect.height +32
         }
         
         DownloadableList{}

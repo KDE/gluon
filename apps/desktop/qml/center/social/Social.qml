@@ -125,8 +125,10 @@ Flickable{
                     text: "post message"
                     style: DesignButton{}
                     
+                    //TODO: manage success and fail of message posting
                     onClicked:{
                         activitymodelsocial.postActivity(postActivityTextField.text);
+                        notification.open("Message successfully posted!");
                     }
                 }
                 

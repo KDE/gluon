@@ -16,4 +16,7 @@ Item{
     property string txcolor:   "#CFCFCF"
     property string txlkcolor: "#EBEBEB"
     property string txlightcolor: "gray"
+    
+    //warning text color
+    property string warning: "#E00000";
 }

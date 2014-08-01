@@ -1,14 +1,42 @@
-if (QXMPP_LIBRARIES AND QXMPP_INCLUDE_DIRS)
-  # in cache already
-  set(QXMPP_FOUND TRUE)
-else ()
-  
-  set(QXMPP_SEARCH_DIRS "${QXMPP_ROOT_DIR}" "/usr" "/usr/local" )
-  
-  find_path(QXMPP_INCLUDE_DIR QXmppClient.h PATH_SUFFIXES include/qxmpp HINTS ${QXMPP_SEARCH_DIRS})
+# Find QXmpp library
 
-  find_library(QXMPP_LIBRARY NAMES qxmpp qxmpp0 qxmpp_d PATH_SUFFIXES lib HINTS ${QXMPP_SEARCH_DIRS})
-  
-  include(FindPackageHandleStandardArgs)
-  find_package_handle_standard_args(QXMPP DEFAULT_MSG QXMPP_INCLUDE_DIR QXMPP_LIBRARY)
-endif ()
+#
+# QXMPP_INCLUDE_DIR
+# QXMPP_LIBRARIES
+# QXMPP_FOUND
+
+find_path(QXMPP_INCLUDE_DIR
+    NAMES
+    qxmpp/QXmppClient.h
+    HINTS
+    /usr/include /usr/local/include
+    PATH
+    ENV
+)
+find_library(QXMPP_LIBRARIES
+    NAMES
+    qxmpp0
+    qxmpp
+    qxmpp_d
+    HINTS
+    /usr/lib/x86_64-linux-gnu
+    /usr/lib
+)
+
+if(QXMPP_LIBRARIES AND QXMPP_INCLUDE_DIR)
+    set(QXMPP_INCLUDE_DIR
+        ${QXMPP_INCLUDE_DIR}
+    )
+    set(QXMPP_FOUND 1)
+endif()
+
+if(QXMPP_FOUND)
+    message(STATUS "Found QXmpp libraries at ${QXMPP_LIBRARIES}")
+    message(STATUS "Found QXmpp headers at ${QXMPP_INCLUDE_DIR}")
+else()
+    if(QXMPP_FIND_REQUIRED)
+        message(FATAL_ERROR "Could NOT find required QXmpp library, aborting")
+    else()
+        message(STATUS "Could NOT find QXmpp")
+    endif()
+endif()

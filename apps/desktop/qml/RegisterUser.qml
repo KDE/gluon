@@ -53,7 +53,40 @@ Item {
         closeAnimation.start();
         console.log("close loginscreen started");
     }
-	
+    
+    /*
+     * clean all form fields' value
+     */
+    function cleanFields()
+    {
+        register_login.text = "";
+        register_email.text = "";
+        register_firstname.text = "";
+        register_lastname.text = "";
+        register_password.text = "";
+        register_password2.text = "";
+    }
+    
+    function registrationProcessCompleted(hint){
+        if(hint!="Registration succeeded."){
+            register_outputlabel.text = hint;
+        } else {
+            register_outputlabel.text = "";
+            cleanFields();
+            close();
+            notification.open(hint);
+        }
+    }
+    
+    function register(){
+        self.addUser(register_login.text, register_password.text, register_password2.text, register_firstname.text, register_lastname.text, register_email.text);
+        xmppClient.createAccount(register_firstname.text + " " + register_lastname.text, register_login.text, register_email.text, register_password2.text); //createAccount(QString name, QString username, QString email, QString password)
+    }
+    
+    Component.onCompleted:{
+        self.onRegistrationProcessCompleted.connect(registrationProcessCompleted);
+    }
+    
     //black bg rectangle
     Rectangle{
         anchors.fill: parent
@@ -67,20 +100,18 @@ Item {
             }
         }
     }
-	
+    
     GluonModalDialog{
         id : loginFormProxy;
         target: registeruser_maincolumn
         space: 20
+        
+        //here in order to prevent accidental close of modal
+        //clicking inside modal but not on buttons
+        MouseArea{
+            anchors.fill: parent
+        }
     }
-	
-//          TODO: fix
-//         GluonPlayer.RegisterUserForm{
-// 			id: registerUserFormProxy;
-// 			onRegistrationProcessCompleted:{
-// 				register_outputlabel.text = "<b>"+message+"</b>";
-// 			}
-//         }
         
     Column {
         id: registeruser_maincolumn;
@@ -217,13 +248,21 @@ Item {
                 anchors.right : parent.right;
                 KeyNavigation.tab: register_login;
                 style: DesignTextField{}
-//                 Keys.onReturnPressed: registerUserFormProxy.addUser(register_login.text, register_password.text, register_password2.text, register_firstname.text, register_lastname.text, register_email.text);
+                Keys.onReturnPressed: register();
             }
         }
         
         Label {
+            anchors.left: parent.left
+            anchors.right: parent.right
             id: register_outputlabel;
             text: "";
+            
+            color: design.warning;
+            
+            horizontalAlignment: Text.AlignHCenter;
+            
+            font.bold: true;
         }
         
         Item {
@@ -245,7 +284,7 @@ Item {
                 text: "Send";
                 style: DesignButton{}
                 anchors.right : parent.right;
-//                 onClicked: registerUserFormProxy.addUser(register_login.text, register_password.text, register_password2.text, register_firstname.text, register_lastname.text, register_email.text);
+                onClicked: register();
             }
         }
     }

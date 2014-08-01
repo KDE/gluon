@@ -39,6 +39,16 @@ ApplicationWindow {
         z:1
     }
     
+    //xmpp client used to interact
+    GluonPlayer.XmppClient{
+        id: xmppClient
+    }
+    
+    //object that represents self person both with OCS and XMPP
+    GluonPlayer.SelfUser{
+        id: self
+    }
+    
     //main background
     Background{
         

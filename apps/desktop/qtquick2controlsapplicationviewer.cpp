@@ -15,8 +15,9 @@
 #include <QQuickView>
 
 //desktop player inclusions
-#include "loginform.h"
 #include "singleuser.h"
+#include "selfuser.h"
+#include "xmppclient.h"
 
 //player lib inclusions
 #include <gluon_global.h>
@@ -89,7 +90,8 @@ QtQuick2ControlsApplicationViewer::QtQuick2ControlsApplicationViewer()
     
     //qml objects representing ocs items
     qmlRegisterType<SingleUser>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "SingleUser");
-    qmlRegisterType<LoginForm>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "LoginForm");
+    qmlRegisterType<SelfUser>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "SelfUser");
+    qmlRegisterType<XmppClient>("Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "XmppClient");
     //models
     qmlRegisterType<GluonPlayer::GameMetadata>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "GameMetadata" );
     qmlRegisterType<GluonPlayer::CommentItemsModel>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "CommentItemsModel" );

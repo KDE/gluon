@@ -8,13 +8,16 @@ import Gluon.Player.Desktop 0.72 as GluonPlayer
 
 import "utils"
 
-GluonPlayer.LoginForm{
+Item{
 	id: loginScreen
 	
 	anchors.horizontalCenter: parent.horizontalCenter
 	anchors.verticalCenter: parent.verticalCenter
 	
 	anchors.fill:parent
+	
+	signal onLoginCompleted();
+    signal onLoginFail();
 	
 	//open animation
 	NumberAnimation on opacity {
@@ -57,13 +60,20 @@ GluonPlayer.LoginForm{
 	}
 	
     //result handle
-    onLoginCompleted: {
+    function loginCompleted() {
         loginScreen.close();
         console.log("LoginModal.qml: login succeeded");
+        onLoginCompleted();
     }
-    onLoginFail: {
+    function loginFail() {
         login_outputlabel.text = "<b>Login failed!</b>";
         console.log("LoginModal.qml: login failed");
+        onLoginFail();
+    }
+    
+    Component.onCompleted:{
+        self.onLoginCompleted.connect(loginCompleted);
+        self.onLoginFail.connect(loginFail);
     }
     
     //black bg rectangle
@@ -144,7 +154,7 @@ GluonPlayer.LoginForm{
                 style: DesignTextField{}
                 
                 //NEEDS PORT
-                Keys.onReturnPressed: loginScreen.doLogin(m_username.text,m_password.text);
+                Keys.onReturnPressed: self.doLogin(m_username.text,m_password.text);
             }
 
             Text{
@@ -196,7 +206,7 @@ GluonPlayer.LoginForm{
                 text: "Login";
                 onClicked: {
                     //NEEDS PORT
-                    loginScreen.doLogin(m_username.text,m_password.text);
+                    self.doLogin(m_username.text,m_password.text);
                 }
                 
                 style: DesignButton{}
