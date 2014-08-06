@@ -21,6 +21,9 @@
 #define XMPPCLIENT_H
 
 #include <QXmppClient.h>
+#include <QXmppMessage.h>
+#include <QXmppPresence.h>
+#include <QXmppIq.h>
 
 class XmppClient : public QXmppClient
 {
@@ -30,13 +33,28 @@ public:
     XmppClient(QObject *parent = 0);
     Q_INVOKABLE void createAccount(QString name, QString username, QString email, QString password);
     Q_INVOKABLE bool isReady();
+    Q_INVOKABLE void login(QString username, QString password);
     ~XmppClient();
 
 public slots:
     void connectedSuccess();
+    void onMessageReceived(const QXmppMessage &message);
+    void onPresenceReceived(const QXmppPresence &presence);
+    void rosterReceived();
+    void presenceChanged(const QString& bareJid, const QString& resource);
+    void onCreateAccountReady();
+    void disconnectedSuccess();
+    void onIqReceived(const QXmppIq& iq);
 
 private:
     bool ready;
+    bool logged;
+    bool registering;
+    QString m_host;
+    QString m_name;
+    QString m_username;
+    QString m_email;
+    QString m_password;
 };
 
 #endif // XMPPCLIENT_H

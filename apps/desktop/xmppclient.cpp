@@ -25,6 +25,8 @@
 #include <QXmppRegisterIq.h>
 #include <QXmppDataForm.h>
 #include <QXmppIq.h>
+#include <QXmppRosterManager.h>
+#include <QXmppPresence.h>
 
 #include "xmppclient.h"
 
@@ -35,19 +37,42 @@
 XmppClient::XmppClient(QObject *parent)
     : QXmppClient(parent)
 {
+    m_host = "myhost.io";
+    
     //client is not ready
     ready = false;
+    logged = false;
+    registering = false;
     
-    //just do something when connected
-    bool check = connect(this, SIGNAL(connected()), SLOT(connectedSuccess()));
-    Q_ASSERT(check);
+    bool check = false;
     Q_UNUSED(check);
     
+    //just do something when connected
+    check = connect(this, SIGNAL(connected()), SLOT(connectedSuccess()));
+    Q_ASSERT(check);
+    check = connect(this, SIGNAL(disconnected()), SLOT(disconnectedSuccess()));
+    Q_ASSERT(check);
+    check = connect(this, SIGNAL(messageReceived(QXmppMessage)), SLOT(onMessageReceived(QXmppMessage)));
+    Q_ASSERT(check);
+    check = connect(this, SIGNAL(presenceReceived(QXmppPresence)), SLOT(onPresenceReceived(QXmppPresence)));
+    Q_ASSERT(check);
+    check = connect(this, SIGNAL(iqReceived(QXmppIq)), SLOT(onIqReceived(QXmppIq)));
+    Q_ASSERT(check);
+    
+    
+    
+    check = connect(&this->rosterManager(), SIGNAL(rosterReceived()),
+                    SLOT(rosterReceived()));
+    Q_ASSERT(check);
+
+    /// Then QXmppRoster::presenceChanged() is emitted whenever presence of someone
+    /// in roster changes
+    check = connect(&this->rosterManager(), SIGNAL(presenceChanged(QString,QString)),
+                    SLOT(presenceChanged(QString,QString)));
+    Q_ASSERT(check);
+    
+    
     logger()->setLoggingType(QXmppLogger::StdoutLogging);
-    configuration().setHost("myhost.io");
-    configuration().setUseNonSASLAuthentication (false);
-    configuration().setUseSASLAuthentication (false);
-    connectToServer(configuration());
 }
 
 XmppClient::~XmppClient()
@@ -71,6 +96,21 @@ bool XmppClient::isReady()
  */
 void XmppClient::createAccount(QString name, QString username, QString email, QString password)
 {
+    m_name = name;
+    m_username = username;
+    m_email = email;
+    m_password = password;
+    //setting register status
+    registering = true;
+    
+    configuration().setHost(m_host);
+    configuration().setUseNonSASLAuthentication (false);
+    configuration().setUseSASLAuthentication (false);
+    connectToServer(configuration());
+
+}
+
+void XmppClient::onCreateAccountReady(){
     //checking if xmpp client is ready
     if(!isReady()){
         qDebug() << "Aborting xmppClient::createAccount. Client not ready.";
@@ -82,25 +122,25 @@ void XmppClient::createAccount(QString name, QString username, QString email, QS
     //creating a custom form, used to send xml data
     QXmppDataForm::Field field_name;
     field_name.setKey("name");
-    field_name.setValue(name);
+    field_name.setValue(m_name);
     field_name.setLabel("Full Name");
     field_name.setRequired(true);
     
     QXmppDataForm::Field field_username;
     field_username.setKey("username");
-    field_username.setValue(username);
+    field_username.setValue(m_username);
     field_username.setLabel("Username");
     field_username.setRequired(true);
     
     QXmppDataForm::Field field_email;
     field_email.setKey("email");
-    field_email.setValue(email);
+    field_email.setValue(m_email);
     field_email.setLabel("Email");
     field_email.setRequired(true);
     
     QXmppDataForm::Field field_password;
     field_password.setKey("password");
-    field_password.setValue(password);
+    field_password.setValue(m_password);
     field_password.setLabel("Password");
     field_password.setRequired(true);
     
@@ -123,6 +163,18 @@ void XmppClient::createAccount(QString name, QString username, QString email, QS
     sendPacket(iq);
 }
 
+void XmppClient::login(QString username, QString password)
+{
+    qDebug() << "xmppClient: trying to login with " << username << "and " << password;
+    
+    //if already connected, jsut disconnects (used also to switch from anonymous login to auth login)
+    if(logged == true || ready == true){
+        disconnectFromServer();
+    }
+    
+    connectToServer(username+"@"+m_host, password);
+}
+
 /**
  * Called in case of success connection (not necessarily log in) to server
  */
@@ -130,5 +182,55 @@ void XmppClient::connectedSuccess()
 {
     qDebug() << "xmppClient: connected()!";
     ready = true;
+    
+    if(registering == true){
+        onCreateAccountReady();
+    }
 }
 
+/**
+ * Called in case of success connection (not necessarily log in) to server
+ */
+void XmppClient::onMessageReceived(const QXmppMessage &message)
+{
+    qDebug() << "xmppClient: onMessageReceived!";
+}
+
+/**
+ * Called in case of success connection (not necessarily log in) to server
+ */
+void XmppClient::onPresenceReceived(const QXmppPresence &presence)
+{
+    qDebug() << "xmppClient: onPresenceReceived!";
+}
+
+void XmppClient::rosterReceived()
+{
+    qDebug("example_2_rosterHandling:: Roster received");
+    foreach (const QString &bareJid, rosterManager().getRosterBareJids()) {
+        QString name = rosterManager().getRosterEntry(bareJid).name();
+        if(name.isEmpty())
+            name = "-";
+        qDebug("example_2_rosterHandling:: Roster received: %s [%s]", qPrintable(bareJid), qPrintable(name));
+    }
+}
+
+void XmppClient::presenceChanged(const QString& bareJid,
+                                 const QString& resource)
+{
+    qDebug("example_2_rosterHandling:: Presence changed %s/%s", qPrintable(bareJid), qPrintable(resource));
+}
+
+void XmppClient::disconnectedSuccess()
+{
+    qDebug() << "xmppClient: disconnected!";
+}
+
+void XmppClient::onIqReceived(const QXmppIq& iq)
+{
+    if(registering){
+        disconnectFromServer();
+    } else {
+        qDebug() << "xmppClient: unknown xmpp Iq received!";
+    }
+}

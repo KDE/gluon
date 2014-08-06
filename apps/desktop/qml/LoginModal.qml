@@ -48,6 +48,11 @@ Item{
         }
     }
 	
+	function login(username, password){
+        xmppClient.login(username,password);
+        self.doLogin(username,password);
+    }
+	
 	function open(){
 		openAnimation.start();
         
@@ -154,7 +159,9 @@ Item{
                 style: DesignTextField{}
                 
                 //NEEDS PORT
-                Keys.onReturnPressed: self.doLogin(m_username.text,m_password.text);
+                Keys.onReturnPressed:{
+                    loginScreen.login(m_username.text,m_password.text);
+                }
             }
 
             Text{
@@ -175,7 +182,6 @@ Item{
                 MouseArea{
                     anchors.fill: parent
                     
-                    // NEEDS PORT
                     onClicked: {
                         loginScreen.close();
                         registerUserScreen.open();
@@ -205,8 +211,7 @@ Item{
                 id: "loginscreen_loginbutton";
                 text: "Login";
                 onClicked: {
-                    //NEEDS PORT
-                    self.doLogin(m_username.text,m_password.text);
+                    loginScreen.login(m_username.text,m_password.text);
                 }
                 
                 style: DesignButton{}
