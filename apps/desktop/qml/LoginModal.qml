@@ -76,6 +76,10 @@ Item{
         onLoginFail();
     }
     
+    function logoutCompleted() {
+        loginScreen.close();
+    }
+    
     Component.onCompleted:{
         self.onLoginCompleted.connect(loginCompleted);
         self.onLoginFail.connect(loginFail);

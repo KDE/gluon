@@ -8,6 +8,11 @@ Item{
     
     height: childrenRect.height
     
+    function doLogout(){
+        xmppClient.logout();
+        self.doLogout();
+    }
+    
     Column{
         spacing: 10
         
@@ -25,7 +30,7 @@ Item{
             text: "Logout"
             style: DesignButton{}
             onClicked:{
-                self.doLogout()
+                userbox_loggedpage.doLogout();
             }
         }
     }

@@ -77,6 +77,7 @@ void SelfUser::logoutDone()
     qDebug() << "logout done!";
     //clearing username
     setUsername("");
+    m_loggedIn = false;
     
     emit logoutCompleted();
 }

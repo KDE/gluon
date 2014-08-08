@@ -35,6 +35,7 @@ public:
     Q_INVOKABLE bool isReady();
     Q_INVOKABLE void login(QString username, QString password);
     Q_INVOKABLE void addSubscription(const QString& jid);
+    Q_INVOKABLE void logout();
     ~XmppClient();
 
 public slots:

@@ -208,6 +208,11 @@ void XmppClient::rosterReceived()
     }
 }
 
+void XmppClient::logout()
+{
+    disconnectFromServer();
+}
+
 void XmppClient::presenceChanged(const QString& bareJid,
                                  const QString& resource)
 {
