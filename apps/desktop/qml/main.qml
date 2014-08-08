@@ -4,6 +4,7 @@ import QtQuick.Controls 1.1
 import Gluon.Player.Desktop 0.72 as GluonPlayer
 
 import "utils"
+import "chat"
 
 ApplicationWindow {
     id: mainWindow
@@ -98,6 +99,7 @@ ApplicationWindow {
         }
     }
     Component.onCompleted: {
+        //loading left, right and center part of Gluon Player
         centerloader.source = "center/main.qml";
         leftloader.source = "left/main.qml";
         rightloader.source = "right/main.qml";

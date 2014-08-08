@@ -19,7 +19,11 @@ GluonPlayer.SingleUser{
     property string pid: personid;
     
     onFriendRequestAccepted:{
+        //add new friend to chat
+        xmppClient.addSubscription(singleuserdelegate.pid);
+        //notify
         notification.open("Now you and "+username+" are friends!");
+        //and requests new friends from model
         friendRequestModel.fetchRequests();
     }
     

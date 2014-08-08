@@ -34,6 +34,7 @@ public:
     Q_INVOKABLE void createAccount(QString name, QString username, QString email, QString password);
     Q_INVOKABLE bool isReady();
     Q_INVOKABLE void login(QString username, QString password);
+    Q_INVOKABLE void addSubscription(const QString& jid);
     ~XmppClient();
 
 public slots:
@@ -46,6 +47,10 @@ public slots:
     void disconnectedSuccess();
     void onIqReceived(const QXmppIq& iq);
 
+signals:
+    void loggedIn();
+    void loggedOut();
+    
 private:
     bool ready;
     bool logged;

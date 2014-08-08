@@ -59,16 +59,12 @@ XmppClient::XmppClient(QObject *parent)
     check = connect(this, SIGNAL(iqReceived(QXmppIq)), SLOT(onIqReceived(QXmppIq)));
     Q_ASSERT(check);
     
-    
-    
-    check = connect(&this->rosterManager(), SIGNAL(rosterReceived()),
-                    SLOT(rosterReceived()));
+    check = connect(&this->rosterManager(), SIGNAL(rosterReceived()), SLOT(rosterReceived()));
     Q_ASSERT(check);
 
     /// Then QXmppRoster::presenceChanged() is emitted whenever presence of someone
     /// in roster changes
-    check = connect(&this->rosterManager(), SIGNAL(presenceChanged(QString,QString)),
-                    SLOT(presenceChanged(QString,QString)));
+    check = connect(&this->rosterManager(), SIGNAL(presenceChanged(QString,QString)), SLOT(presenceChanged(QString,QString)));
     Q_ASSERT(check);
     
     
@@ -111,12 +107,6 @@ void XmppClient::createAccount(QString name, QString username, QString email, QS
 }
 
 void XmppClient::onCreateAccountReady(){
-    //checking if xmpp client is ready
-    if(!isReady()){
-        qDebug() << "Aborting xmppClient::createAccount. Client not ready.";
-        return;
-    }
-    
     //register request
     QXmppRegisterIq iq;
     //creating a custom form, used to send xml data
@@ -179,12 +169,15 @@ void XmppClient::login(QString username, QString password)
  * Called in case of success connection (not necessarily log in) to server
  */
 void XmppClient::connectedSuccess()
-{
-    qDebug() << "xmppClient: connected()!";
-    ready = true;
+{   
+    //TODO: move this on received iq handling
     
+    //if we're registering a user, we're also logged anonymous
     if(registering == true){
         onCreateAccountReady();
+    } else { //else we're logged auth, yeah FIXME: check iqs properly
+        ready = true;
+        emit loggedIn();
     }
 }
 
@@ -206,19 +199,19 @@ void XmppClient::onPresenceReceived(const QXmppPresence &presence)
 
 void XmppClient::rosterReceived()
 {
-    qDebug("example_2_rosterHandling:: Roster received");
+    qDebug("xmppClient:: Roster received");
     foreach (const QString &bareJid, rosterManager().getRosterBareJids()) {
         QString name = rosterManager().getRosterEntry(bareJid).name();
         if(name.isEmpty())
             name = "-";
-        qDebug("example_2_rosterHandling:: Roster received: %s [%s]", qPrintable(bareJid), qPrintable(name));
+        qDebug("xmppClient:: Roster received: %s [%s]", qPrintable(bareJid), qPrintable(name));
     }
 }
 
 void XmppClient::presenceChanged(const QString& bareJid,
                                  const QString& resource)
 {
-    qDebug("example_2_rosterHandling:: Presence changed %s/%s", qPrintable(bareJid), qPrintable(resource));
+    qDebug("xmppClient:: Presence changed %s/%s", qPrintable(bareJid), qPrintable(resource));
 }
 
 void XmppClient::disconnectedSuccess()
@@ -226,10 +219,19 @@ void XmppClient::disconnectedSuccess()
     qDebug() << "xmppClient: disconnected!";
 }
 
+void XmppClient::addSubscription(const QString& jid)
+{
+    QXmppPresence presence;
+    presence.setType(QXmppPresence::Subscribe);
+    presence.setTo(jid+"@"+m_host);
+    sendPacket(presence);
+}
+
 void XmppClient::onIqReceived(const QXmppIq& iq)
 {
     if(registering){
         disconnectFromServer();
+        registering = false;
     } else {
         qDebug() << "xmppClient: unknown xmpp Iq received!";
     }

@@ -89,6 +89,12 @@ install(FILES
 )
 
 install(FILES
+    qml/chat/ChatWindow.qml
+    DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/chat
+    COMPONENT gluonplayer-desktop
+)
+
+install(FILES
     qml/left/main.qml
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/left
     COMPONENT gluonplayer-desktop

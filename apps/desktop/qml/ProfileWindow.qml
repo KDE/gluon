@@ -17,6 +17,7 @@ GluonPlayer.SingleUser{
 	anchors.fill:parent
 	
 	onFriendRequestSent:{
+        xmppClient.addSubscription(username);
         close();
         notification.open("Friend request sent!");
     }
@@ -27,6 +28,7 @@ GluonPlayer.SingleUser{
     }
 
     onFriendRequestAccepted:{
+        xmppClient.addSubscription(username);
         notification.open("Now you and "+username+" are friends!");
     }
     
