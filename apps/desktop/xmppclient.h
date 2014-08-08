@@ -33,9 +33,12 @@ public:
     XmppClient(QObject *parent = 0);
     Q_INVOKABLE void createAccount(QString name, QString username, QString email, QString password);
     Q_INVOKABLE bool isReady();
+    Q_INVOKABLE bool isLogged();
     Q_INVOKABLE void login(QString username, QString password);
     Q_INVOKABLE void addSubscription(const QString& jid);
     Q_INVOKABLE void logout();
+    //simple singleton implementation
+    static XmppClient * getInstance(void);
     ~XmppClient();
 
 public slots:
@@ -53,6 +56,9 @@ signals:
     void loggedOut();
     
 private:
+    //simple singleton pointer set to null
+    static XmppClient * m_instance;
+    //others
     bool ready;
     bool logged;
     bool registering;

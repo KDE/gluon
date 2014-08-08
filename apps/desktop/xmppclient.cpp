@@ -69,6 +69,11 @@ XmppClient::XmppClient(QObject *parent)
     
     
     logger()->setLoggingType(QXmppLogger::StdoutLogging);
+    
+    //setting in case of direct initialization
+    if(m_instance==NULL){
+        m_instance = this;
+    }
 }
 
 XmppClient::~XmppClient()
@@ -76,9 +81,21 @@ XmppClient::~XmppClient()
 
 }
 
+
+XmppClient* XmppClient::getInstance(void)
+{
+    if(m_instance == NULL) m_instance = new XmppClient();
+    return m_instance;
+}
+
 bool XmppClient::isReady()
 {
     return ready;
+}
+
+bool XmppClient::isLogged()
+{
+    return logged;
 }
 
 /**
@@ -176,6 +193,7 @@ void XmppClient::connectedSuccess()
     if(registering == true){
         onCreateAccountReady();
     } else { //else we're logged auth, yeah FIXME: check iqs properly
+        logged = true;
         ready = true;
         emit loggedIn();
     }
@@ -211,6 +229,7 @@ void XmppClient::rosterReceived()
 void XmppClient::logout()
 {
     disconnectFromServer();
+    emit loggedOut();
 }
 
 void XmppClient::presenceChanged(const QString& bareJid,
@@ -241,3 +260,5 @@ void XmppClient::onIqReceived(const QXmppIq& iq)
         qDebug() << "xmppClient: unknown xmpp Iq received!";
     }
 }
+
+XmppClient * XmppClient::m_instance = 0;

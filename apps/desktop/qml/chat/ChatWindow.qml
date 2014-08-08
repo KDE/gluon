@@ -10,6 +10,14 @@ Window {
     
     title: "Friend chat - Gluon Player"
     
+    function load(){
+        if(xmppClient.isLogged()){
+            onLoggedIn();
+        } else {
+            onLoggedOut();
+        }
+    }
+    
     function onLoggedIn(){
         chatStatus.text = "You're online!";
     }
@@ -54,6 +62,9 @@ Window {
     Component.onCompleted:{
         xmppClient.onLoggedIn.connect(onLoggedIn);
         xmppClient.onLoggedOut.connect(onLoggedOut);
+        
+        //first time load
+        load();
     }
 }
  
