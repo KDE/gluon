@@ -23,6 +23,7 @@
 
 #include "gluon_smarts_export.h"
 
+#include <QtCore/QObject>
 #include <QtCore/QHash>
 #include <QtXml/QDomNode>
 
