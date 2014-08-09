@@ -7,9 +7,9 @@
 
 find_path(QXMPP_INCLUDE_DIR
     NAMES
-    qxmpp/QXmppClient.h
+    QXmppClient.h
     HINTS
-    /usr/include /usr/local/include
+    /usr/include/qxmpp /usr/local/include/qxmpp
     PATH
     ENV
 )
@@ -23,20 +23,6 @@ find_library(QXMPP_LIBRARIES
     /usr/lib
 )
 
-if(QXMPP_LIBRARIES AND QXMPP_INCLUDE_DIR)
-    set(QXMPP_INCLUDE_DIR
-        ${QXMPP_INCLUDE_DIR}
-    )
-    set(QXMPP_FOUND 1)
-endif()
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(QXmpp DEFAULT_MSG QXMPP_LIBRARIES QXMPP_INCLUDE_DIR)
 
-if(QXMPP_FOUND)
-    message(STATUS "Found QXmpp libraries at ${QXMPP_LIBRARIES}")
-    message(STATUS "Found QXmpp headers at ${QXMPP_INCLUDE_DIR}")
-else()
-    if(QXMPP_FIND_REQUIRED)
-        message(FATAL_ERROR "Could NOT find required QXmpp library, aborting")
-    else()
-        message(STATUS "Could NOT find QXmpp")
-    endif()
-endif()
