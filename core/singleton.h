@@ -1,7 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2009-2011 Arjen Hiemstra <ahiemstra@heimr.nl>
- * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
+ * Copyright (c) 2009-2014 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,14 +23,6 @@
 #include <QtCore/QObject>
 #include <QtCore/QMutex>
 #include <QtCore/QCoreApplication>
-
-#if defined __GNUC__ && __GNUC__ >= 4 && __GNUC_MINOR__ >= 4
-#define __MEMBARRIER __sync_synchronize();
-#elif defined _MSC_VER && defined _WIN64
-#define __MEMBARRIER MemoryBarrier();
-#else
-#define __MEMBARRIER
-#endif
 
 /**
  * Thread safe, lazy initialised, self deleting singleton template.
@@ -84,6 +75,11 @@
  * }
  * </blockquote>
  *
+ * \note QCoreApplication::instance() is used to parent the singleton object.
+ * This means that if there is no QCoreApplication instance yet, the singleton
+ * object will not be explicitly deleted and might leak. Thus, it is recommended
+ * to only call instance() after a QCoreApplication has been constructed.
+ *
  */
 namespace GluonCore
 {
@@ -108,8 +104,8 @@ namespace GluonCore
                     if( !tmp )
                         tmp = new T( QCoreApplication::instance() );
 
-                    mutex->unlock();
                     sm_instance.storeRelease(tmp);
+                    mutex->unlock();
                 }
 
                 return tmp;
@@ -136,6 +132,7 @@ namespace GluonCore
             }
 
         private:
+            friend class SingletonTest;
 
             static QMutex* mutexInstance()
             {
