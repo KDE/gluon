@@ -18,7 +18,7 @@ include_directories(
 
 gluon_add_executable(gluonplayer-desktop
     SOURCES ${desktop_SRCS}
-    LIBRARIES Gluon::Player Gluon::Engine Qt5::Qml Qt5::Quick Qt5::Widgets ${QXMPP_LIBRARIES}
+    LIBRARIES Gluon::Player Qt5::Qml Qt5::Quick Qt5::Widgets ${QXMPP_LIBRARIES}
 )
 
 set( DESKTOP_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/desktop )
