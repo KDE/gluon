@@ -1,5 +1,6 @@
 import QtQuick 2.2
 import QtQuick.Window 2.1  // needed for the Window component
+import Gluon.Player.Desktop 0.72 as GluonPlayer
 
 import "../utils"
 
@@ -27,35 +28,39 @@ Window {
     }
     
     Background {
+        anchors.fill:parent
         
-        Box{ //box needs size and placement
-            anchors.fill:parent
+        Repeater {
+            id: rosterListView
             
-            Column{
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.leftMargin: 10
-                anchors.rightMargin: 10
-                anchors.topMargin: 20
-                anchors.bottomMargin: 20
-                
-                spacing: 10
-                
-                Text {
-                    id: chatStatus
-                    width: parent.width -20
-                    horizontalAlignment: Text.AlignHCenter
-                    
-                    text: "Currently offline"
-                    
-                    font.pointSize: 9
-                    font.family: "Helvetica"
-                    
-                    color: design.txcolor
-                }
-            }
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: chatStatus.top
+            
+            clip: true;
+            
+            model: GluonPlayer.RosterModel{ id: rosterModel }
+            delegate: Text{ text: statusText }
+        }
+        
+        Text {
+            id: chatStatus
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            
+            height: 15
+            
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            
+            text: "Currently offline"
+            
+            font.pixelSize: 13
+            font.family: "Helvetica"
+            
+            color: design.txcolor
         }
     }
     

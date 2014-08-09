@@ -33,6 +33,7 @@ RosterItem::RosterItem(const QString& bareJid, QObject* parent)
     : QObject( parent )
     , d( new Private )
 {
+    d->name = bareJid;
     d->statusText = "Offline";
 }
 
@@ -54,6 +55,16 @@ void RosterItem::setStatusText(const QString& statusText)
 QString RosterItem::statusText()
 {
     return d->name;
+}
+
+int RosterItem::presenceType()
+{
+    return d->presenceType;
+}
+
+int RosterItem::statusType()
+{
+    return d->statusType;
 }
 
 void RosterItem::setPresence(const QXmppPresence &presence)

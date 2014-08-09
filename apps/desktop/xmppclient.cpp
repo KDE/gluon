@@ -81,7 +81,8 @@ XmppClient::~XmppClient()
 
 }
 
-
+//FIXME: except from C++11 this should be not thread safe
+//       still not sure though
 XmppClient* XmppClient::getInstance(void)
 {
     if(m_instance == NULL) m_instance = new XmppClient();
@@ -217,13 +218,9 @@ void XmppClient::onPresenceReceived(const QXmppPresence &presence)
 
 void XmppClient::rosterReceived()
 {
-    qDebug("xmppClient:: Roster received");
-    foreach (const QString &bareJid, rosterManager().getRosterBareJids()) {
-        QString name = rosterManager().getRosterEntry(bareJid).name();
-        if(name.isEmpty())
-            name = "-";
-        qDebug("xmppClient:: Roster received: %s [%s]", qPrintable(bareJid), qPrintable(name));
-    }
+    //TODO: try to remove me, if everything works, time has come
+    //kept here just for syntax
+    //this is going to be removed soon
 }
 
 void XmppClient::logout()

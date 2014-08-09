@@ -8,6 +8,7 @@ set(desktop_SRCS
     selfuser.cpp
     xmppclient.cpp
     rosteritem.cpp
+    rostermodel.cpp
     qtquick2controlsapplicationviewer.cpp
 )
 

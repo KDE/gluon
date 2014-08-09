@@ -1,14 +1,4 @@
 /*
- * Copyright (C) 2008-2014 The QXmpp developers
- *
- * Author:
- *	Manjeet Dahiya
- *
- * Source:
- *	https://github.com/qxmpp-project/qxmpp
- *
- * This file is a part of QXmpp library.
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -43,6 +33,9 @@ class RosterItem : public QObject
         QString name();
         void setStatusText(const QString& statusText);
         QString statusText();
+        int presenceType();
+        int statusType();
+        
         
     private:
         class Private;

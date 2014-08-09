@@ -17,7 +17,11 @@
 //desktop player inclusions
 #include "singleuser.h"
 #include "selfuser.h"
+
+//xmpp related
 #include "xmppclient.h"
+//xmpp models
+#include "rostermodel.h"
 
 //player lib inclusions
 #include <gluon_global.h>
@@ -100,6 +104,9 @@ QtQuick2ControlsApplicationViewer::QtQuick2ControlsApplicationViewer()
     qmlRegisterType<GluonPlayer::PersonsModel>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "PersonsModel" );
     qmlRegisterUncreatableType<GluonPlayer::GameItem>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "GameItem", "To be used only for enums" );
     qmlRegisterUncreatableType<GluonPlayer::GameDownloadJob>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "GameDownloadJob", "Get an instance from serviceProvider" );
+    
+    //xmpp
+    qmlRegisterType<RosterModel>( "Gluon.Player.Desktop", GLUON_VERSION_MAJOR,GLUON_VERSION_MINOR, "RosterModel" );
     
     
     d->context->setContextProperty("_gluon_player_qml_version", "0.1");

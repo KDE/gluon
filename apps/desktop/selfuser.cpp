@@ -4,6 +4,7 @@
 #include <attica/provider.h>
 
 #include "selfuser.h"
+#include "xmppclient.h"
 
 SelfUser::SelfUser()
 {
