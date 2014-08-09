@@ -1,4 +1,4 @@
-find_package( Qt5Network REQUIRED )
+find_package( Qt5Network REQUIRED CONFIG )
 
 set( LIBATTICA_MIN_VERSION 0.1.90 )
 find_package( KF5Attica REQUIRED )
@@ -65,7 +65,7 @@ set(GluonPlayer_HEADERS
 gluon_add_library(Gluon::Player SHARED
     SOURCES ${GluonPlayer_SRCS}
     HEADERS ${GluonPlayer_HEADERS}
-    INCLUDES ${LIBATTICA_INCLUDE_DIR} ${Qt5Network_INCLUDE_DIRS}
+    INCLUDES ${LIBATTICA_INCLUDE_DIR}
     LIBRARIES Gluon::Engine Qt5::Network KF5::Attica )
 
 gluon_add_subdirectories( tests )

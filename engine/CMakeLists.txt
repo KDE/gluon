@@ -88,7 +88,6 @@ set( GluonEngine_HEADERS
 gluon_add_library( Gluon::Engine SHARED
     SOURCES ${GluonEngine_SRCS}
     HEADERS ${GluonEngine_HEADERS}
-    INCLUDES ${Qt5Sql_INCLUDE_DIRS}
     LIBRARIES Gluon::Core Qt5::Sql
 )
 
