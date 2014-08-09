@@ -16,41 +16,41 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #include "achievementsmodel.h"
-
+ 
 #include <engine/game.h>
 #include <engine/gameproject.h>
 #include <engine/achievement.h>
 #include <engine/achievementsmanager.h>
 #include <engine/projectmetadata.h>
 #include <core/directoryprovider.h>
-
-#include <QtGui/QStyle>
-#include <QtGui/QApplication>
+ 
+#include <QtWidgets/QStyle>
+#include <QtWidgets/QApplication>
 #include <QtCore/QDebug>
-
+ 
 using namespace GluonPlayer;
-
+ 
 class AchievementsModel::AchievementsModelPrivate
 {
     public:
         AchievementsModelPrivate() : achievementsManager( 0 ), hiddenAchievements(0) {}
         ~AchievementsModelPrivate() { delete achievementsManager; }
-
+ 
         QStringList headerList;
         QString projectDir;
         GluonEngine::AchievementsManager* achievementsManager;
         int hiddenAchievements;
 };
-
+ 
 AchievementsModel::AchievementsModel( GluonEngine::ProjectMetaData* metaData, const QString& userName, QObject* parent)
     : QAbstractTableModel(parent)
     , d( new AchievementsModelPrivate() )
 {
     d->headerList << tr("Achievement") << tr("Progress") << tr("Achieved");
     d->achievementsManager = new GluonEngine::AchievementsManager(this);
-
+ 
     if( metaData )
     {
         d->projectDir = metaData->projectDir();
@@ -68,47 +68,50 @@ AchievementsModel::AchievementsModel( GluonEngine::ProjectMetaData* metaData, co
     {
         qDebug() << Q_FUNC_INFO << "metaData is NULL, so the model will be empty.";
     }
-
+ 
     // check for hidden achievements
     for( int i=0; i<d->achievementsManager->achievementsCount(); ++i )
     {
         if( d->achievementsManager->isHidden( i ) && !d->achievementsManager->isPastThreshold( i ) )
             d->hiddenAchievements++;
     }
+}
 
+QHash<int, QByteArray> AchievementsModel::roleNames() const
+{
     QHash<int, QByteArray> roles;
     roles[Qt::DisplayRole] = "qtDisplayRole";
     roles[Qt::DecorationRole] = "qtDecorationRole";
     roles[Qt::ToolTipRole] = "qtToolTipRole";
-    setRoleNames(roles);
+    return roles;
 }
 
 AchievementsModel::~AchievementsModel()
 {
     delete d;
 }
-
+ 
 int AchievementsModel::rowCount( const QModelIndex& parent ) const
 {
     if( !parent.isValid() )
         return d->achievementsManager->achievementsCount() - d->hiddenAchievements;
-
+ 
     return 0;
 }
-
+ 
 int AchievementsModel::columnCount( const QModelIndex& parent ) const
 {
     if( !parent.isValid() )
         return 3;
-
+ 
     return 0;
 }
-
+ 
 QVariant AchievementsModel::data( const QModelIndex& index, int role ) const
 {
     if( !index.isValid() )
         return QVariant();
-
+ 
     switch( index.column() )
     {
         case NameColumn:
@@ -122,7 +125,7 @@ QVariant AchievementsModel::data( const QModelIndex& index, int role ) const
             if( role == Qt::DecorationRole )
                 if( d->achievementsManager->dependencySatisfied( index.row() ) )
                     return QIcon( d->projectDir + '/' + d->achievementsManager->achievementIcon( index.row() ) );
-
+ 
             break;
         case ProgressColumn:
             if( role == Qt::DisplayRole )
@@ -154,34 +157,32 @@ QVariant AchievementsModel::data( const QModelIndex& index, int role ) const
         default:
             return QVariant();
     }
-
+ 
     return QVariant();
 }
-
+ 
 QVariant AchievementsModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
     if( orientation != Qt::Horizontal || role != Qt::DisplayRole )
         return QVariant();
-
+ 
     return d->headerList.at(section);
 }
-
+ 
 Qt::ItemFlags AchievementsModel::flags(const QModelIndex& index) const
 {
     if( d->achievementsManager->achievementAchieved(index.row()) )
         return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
-
+ 
     return Qt::ItemIsSelectable;
 }
-
+ 
 const GluonEngine::AchievementsManager* AchievementsModel::achievementsManager() const
 {
     return d->achievementsManager;
 }
-
+ 
 QString AchievementsModel::projectDir() const
 {
     return d->projectDir;
 }
-
- 

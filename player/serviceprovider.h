@@ -20,20 +20,21 @@
 
 #ifndef GLUON_PLAYER_SERVICEPROVIDER_H
 #define GLUON_PLAYER_SERVICEPROVIDER_H
-
+ 
 #include "gluon_player_export.h"
-
+ 
 #include <core/singleton.h>
-
+ 
 namespace Attica
 {
     class Provider;
     class BaseJob;
     class Metadata;
 }
-
+ 
 namespace GluonPlayer
 {
+    class ActivityListJob;
     class GameDetailListJob;
     class CommentsListJob;
     class GameDownloadJob;
@@ -45,7 +46,15 @@ namespace GluonPlayer
     class EditGameJob;
     class LicenseJob;
     class GameDetailsJob;
-
+    class PersonSelfJob;
+    class PersonsListJob;
+    class GetFriendsJob;
+    class AddFriendJob;
+    class AcceptFriendJob;
+    class DeclineFriendJob;
+    class FriendRequestListJob;
+    class PostActivityJob;
+ 
     /**
      * \brief Provides Open Collaboration Services
      *
@@ -63,7 +72,7 @@ namespace GluonPlayer
             Q_PROPERTY( QString username READ username )
             Q_PROPERTY( QString password READ password )
             GLUON_SINGLETON( ServiceProvider )
-
+ 
         public:
             /**
              * Check if the OCS Provider is ready to perform actions. To initialize,
@@ -72,7 +81,27 @@ namespace GluonPlayer
              * @return  true if ready, false if not
              */
             Q_INVOKABLE bool isReady() const;
-
+            
+            /**
+             * Fetch persons filtered by name
+             */
+            PersonsListJob* fetchPersonsByName( const QString& id );
+            
+            /*
+             * Methods used to get friends.
+             * If specified, fetch friends of a specific user,
+             * get self friends instead.
+             */
+            GetFriendsJob* fetchFriends( const QString& id );
+            GetFriendsJob* fetchFriends( ); //needs auth
+            AddFriendJob* addFriend( const QString& to );
+            AcceptFriendJob* acceptFriendship( const QString& to );
+            DeclineFriendJob* declineFriendship( const QString& to );
+            FriendRequestListJob* requestReceivedInvitations( );
+            
+            ActivityListJob* requestActivities( ); //needs auth
+            PostActivityJob* postActivity( const QString& message ); //needs auth
+            
             /**
              * Fetch comments from the OCS compliant service
              *
@@ -84,7 +113,7 @@ namespace GluonPlayer
              * monitor to find out the result of the operation
              */
             GluonPlayer::CommentsListJob* fetchCommentList( const QString& id, int page, int pageSize );
-
+ 
             /**
              * Upload a comment to the OCS compliant service
              *
@@ -98,7 +127,7 @@ namespace GluonPlayer
              */
             GluonPlayer::CommentUploadJob* uploadComment( const QString& id, const QString& parentId,
                     const QString& subject, const QString& message );
-
+ 
             /**
              * Execute a login. Connect to the signal loggedIn() and loginFailed() to know the result.
              * @param   username        The username to be used
@@ -107,42 +136,49 @@ namespace GluonPlayer
              * @return true if login was successfully initiated, false otherwise.
              */
             Q_INVOKABLE bool login( const QString& username, const QString& password );
-
+ 
             /**
              * Execute a logout. Connect to the signal loggedOut() and logoutFailed() to know the result.
              *
              * @return true if logout was successfully initiated, false otherwise.
              */
             Q_INVOKABLE bool logout();
-
+ 
             /**
              * Check if we are logged in
              *
              * @return true if logged in, false otherwise
              */
-            bool isLoggedIn() const;
-
+            Q_INVOKABLE bool isLoggedIn() const;
+ 
             /**
              * Check if saved credentials are available
              *
              * @return true if credentials are available
              */
             bool hasCredentials() const;
-
+ 
             /**
              * Retrieve the username
              *
              * @return a QString containing the username, empty string if not available
              */
             QString username() const;
-
+ 
             /**
              * Retrieve the password
              *
              * @return a QString containing the password, empty string if not available
              */
             QString password() const;
-
+            
+            /**
+             * Retrieve the base url of the ocs server
+             *
+             * @return a QString containing the password, empty string if not available
+             */
+            QString serverUrl() const;
+                        
             /**
              * Register a new user
              *
@@ -154,14 +190,20 @@ namespace GluonPlayer
              */
             void registerAccount( const QString& username, const QString& password, const QString& mail,
                                   const QString& firstName, const QString& lastName );
-
+                        /**
+             * Get the info of the user currently logged.
+             * @return a PersonSelfJob object which the caller must
+             * monitor to find out the result of the operation
+             */
+            PersonSelfJob* personSelf();
+ 
             /**
              * Fetch a list of games available on the OCS server
              * @return a GameDetailListJob object which the caller must
              * monitor to find out the result of the operation
              */
             GameDetailListJob* fetchGames();
-
+ 
             /**
              * Download the game with ID id
              *
@@ -171,7 +213,7 @@ namespace GluonPlayer
              * monitor to find out the result of the operation
              */
             Q_INVOKABLE GluonPlayer::GameDownloadJob* downloadGame( const QString& id );
-
+ 
             /**
              * Upload a game with ID
              *
@@ -182,7 +224,7 @@ namespace GluonPlayer
              * monitor to find out the result of the operation
              */
             GameUploadJob* uploadGame( const QString& id, const QString& path );
-
+ 
             /**
              * Rate a game having ID with a rating from 0 to 100
              *
@@ -193,7 +235,7 @@ namespace GluonPlayer
              * monitor to find out the result of the operation
              */
             RatingJob* setRating( const QString& id, uint rate );
-
+ 
             /**
              * Add a new game to the OCS server.
              *
@@ -204,7 +246,7 @@ namespace GluonPlayer
              * monitor to find out the result of the operation
              */
             GluonPlayer::AddGameJob* addGame( const QString& gameName, const QString& categoryId );
-
+ 
             /**
              * Request list of categories from the OCS server
              *
@@ -212,7 +254,7 @@ namespace GluonPlayer
              * monitor to find out the result of the operation
              */
             GluonPlayer::CategoryListJob* fetchCategories();
-
+ 
             /**
              * Edit an existing game on the server.
              *
@@ -222,7 +264,7 @@ namespace GluonPlayer
              * to start the upload of the changes.
              */
             GluonPlayer::EditGameJob* editGame( const QString& id );
-
+ 
             /**
              * Request list of licenses from the OCS server
              *
@@ -230,7 +272,7 @@ namespace GluonPlayer
              * monitor to find out the result of the operation
              */
             GluonPlayer::LicenseJob* fetchLicenses();
-
+ 
             /**
              * Use to fetch details about a particular game from the OCS server
              *
@@ -239,7 +281,7 @@ namespace GluonPlayer
              * monitor to find out the result of the operation
              */
             GluonPlayer::GameDetailsJob* fetchOneGame( const QString& id );
-
+ 
         private Q_SLOTS:
             void providersUpdated();
             void checkLoginResult( Attica::BaseJob* baseJob );
@@ -247,45 +289,49 @@ namespace GluonPlayer
             void doLogin();
             void doLogout();
             void onRegisterAccountFinished( Attica::BaseJob* job );
-
+ 
         public Q_SLOTS:
             /** Call to initialize the OCS Provider
              */
             void init();
-
+ 
         Q_SIGNALS:
             /** Signal which is emitted when the OCS Provider is initialized
             */
             void initializationFinished();
-
+ 
             /** Signal which is emitted if the OCS Provider failed to initialize
             */
             void initializeFailed();
-
+ 
             /** Signal which is emitted if the login is complete
             */
             void loginFinished();
-
+                        
+                        /** Signal which is emitted if the logout is complete
+            */
+            void logoutFinished();
+ 
             /** Signal which is emitted when the login failed
             */
             void loginFailed( const QString& errorMessage );
-
+ 
             /** Signal which is emitted when the registration completed
             */
             void registrationFinished();
-
+ 
             /** Signal which is emitted when the registration failed
             */
-            void registrationFailed();
-
+            void registrationFailed(int errorcode);
+ 
         private:
             ~ServiceProvider();
             void showRegisterError( const Attica::Metadata& metadata );
-
+ 
             class Private;
             Private* const d;
     };
 }
-
+ 
 #endif  // GLUON_PLAYER_SERVICEPROVIDER_H
 

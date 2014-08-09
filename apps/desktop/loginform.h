@@ -16,55 +16,42 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #ifndef LOGINFORM_H
 #define LOGINFORM_H
-
+ 
 #include <attica/providermanager.h>
 #include <attica/provider.h>
-
-#include <KDE/KLineEdit>
-#include <KDE/KPushButton>
-#include <KDE/KProgressDialog>
-
-#include <QtGui/QLabel>
-#include <QtGui/QCheckBox>
-
-class LoginForm : public QWidget
+#include <QQuickItem>
+ 
+class LoginForm : public QQuickItem
 {
         Q_OBJECT
-
+ 
     public:
-        explicit LoginForm( QWidget* parent = 0, Qt::WindowFlags wFlags = 0 );
+        LoginForm();
         virtual ~LoginForm();
-
+        void setUsername(QString username);
+        
     protected slots:
-        void doLogin();
-        void doLogout();
+        Q_INVOKABLE void doLogin(QString m_username, QString m_password);
+        Q_INVOKABLE QString username();
+        Q_INVOKABLE void doLogout();
         void loginDone();
         void logoutDone();
         void loginFailed();
-        void initDone();
-        void initFailed();
-        void loadCredentials();
-
+    
+    signals:
+        void loginCompleted();
+        void loginFail();
+        void logoutCompleted();
+    
     private:
-        void initialize();
-
-        KLineEdit* m_usernameEdit;
-        KLineEdit* m_passwordEdit;
-        KPushButton* m_loginButton;
-
-        QLabel* m_usernameLabel;
-        QLabel* m_passwordLabel;
-        QLabel* m_usernameFeedbackLabel;
-        QCheckBox* m_rememberMeCheckBox;
-        KProgressDialog* m_progressDialog;
-
         bool m_loggedIn;
-
+        QString m_username;
+ 
         Attica::ProviderManager m_manager;
         Attica::Provider m_provider;
 };
-
-#endif // LOGINFORM_H
+ 
+#endif // LOGINFORM_H 

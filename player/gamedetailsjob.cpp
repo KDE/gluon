@@ -17,61 +17,62 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #include "gamedetailsjob.h"
-
+ 
 #include "serviceprovider.h"
-
+ 
 #include <attica/itemjob.h>
 #include <attica/content.h>
 #include <attica/provider.h>
 #include <attica/downloaditem.h>
-
+ 
 #include <QtCore/QStringList>
 #include <QtCore/QDebug>
-
+ 
 using namespace GluonPlayer;
-
+ 
 class GameDetailsJob::Private
 {
     public:
         QString id;
         GameDetailItem *gameDetails;
 };
-
+ 
 GameDetailsJob::GameDetailsJob( Attica::Provider* provider, const QString& id,  QObject* parent )
     : AbstractSocialServicesJob( provider )
     , d( new Private() )
 {
     d->id = id;
 }
-
+ 
 GameDetailsJob::~GameDetailsJob()
 {
     delete d;
 }
-
+ 
 void GameDetailsJob::startSocialService()
 {
+    qDebug() << "fetching games...";
     Attica::ItemJob<Attica::Content> *job = provider()->requestContent (d->id);
     connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedGameDetails(Attica::BaseJob*)) );
     job->start();
 }
-
+ 
 void GameDetailsJob::processFetchedGameDetails( Attica::BaseJob* job )
 {
     qDebug() << "Game list successfully fetched from the server!";
-
-
+ 
+ 
     Attica::ItemJob<Attica::Content> *contentJob = static_cast<Attica::ItemJob<Attica::Content> *>( job );
     if( contentJob->metadata().error() == Attica::Metadata::NoError )
     {
         Attica::Content content = contentJob->result();
-        d->gameDetails = new GameDetailItem( content.name(), content.description(), content.version(),
+        d->gameDetails = new GameDetailItem( content.name(), content.description(), content.version(), content.summary(), content.previewPicture(),
                 content.attribute("typeid"), content.attribute("typename"), content.homePageEntry( 0 ).url().toString(),
                 content.license(), content.changelog(), "", "", QStringList(),
                 content.rating(), GameDetailItem::Downloadable, content.id() );
-
+ 
         emitSucceeded();
     }
     else
@@ -79,10 +80,8 @@ void GameDetailsJob::processFetchedGameDetails( Attica::BaseJob* job )
         emitFailed();
     }
 }
-
+ 
 QVariant GameDetailsJob::data()
 {
     return QVariant::fromValue( d->gameDetails );
 }
-
- 

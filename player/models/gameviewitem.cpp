@@ -16,25 +16,25 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #include "gameviewitem.h"
-
+ 
 #include <engine/projectmetadata.h>
-
+ 
 using namespace GluonPlayer;
-
+ 
 class GameViewItem::Private
 {
     public:
     Private() : metaData(0)
     {
     }
-
+ 
     GluonEngine::ProjectMetaData* metaData;
     QStringList screenshotUrls;
     Status status;
 };
-
+ 
 GameViewItem::GameViewItem( const QString& projectFilePath, const Status& status, QObject* parent )
     : QObject( parent )
     , d( new Private )
@@ -44,7 +44,7 @@ GameViewItem::GameViewItem( const QString& projectFilePath, const Status& status
     d->metaData->load();
     d->status = status;
 }
-
+ 
 GameViewItem::GameViewItem( const QString& projectName, const QString& projectDescription,
                             const QString& projectFilePath, const Status& status,
                             const QString& projectId, QObject* parent )
@@ -54,56 +54,54 @@ GameViewItem::GameViewItem( const QString& projectName, const QString& projectDe
     d->metaData = new GluonEngine::ProjectMetaData( projectFilePath, projectName, projectDescription, projectId, this );
     d->status = status;
 }
-
-
+ 
+ 
 GameViewItem::GameViewItem( const GameViewItem& /* other */, QObject* parent )
     : QObject( parent )
     , d( new Private() )
 {
 }
-
+ 
 GameViewItem::~GameViewItem()
 {
 }
-
+ 
 QString GameViewItem::projectName() const
 {
     return d->metaData->projectName();
 }
-
+ 
 QString GameViewItem::projectDescription() const
 {
     return d->metaData->projectDescription();
 }
-
+ 
 QString GameViewItem::projectDirPath() const
 {
     return d->metaData->projectDir();
 }
-
+ 
 QString GameViewItem::projectFilePath() const
 {
     return d->metaData->projectFilePath();
 }
-
+ 
 QStringList GameViewItem::screenshotUrls() const
 {
     return d->screenshotUrls;
 }
-
+ 
 GameViewItem::Status GameViewItem::status() const
 {
     return d->status;
 }
-
+ 
 QString GameViewItem::projectId() const
 {
     return d->metaData->projectId();
 }
-
+ 
 GluonEngine::ProjectMetaData* GameViewItem::metaData()
 {
     return d->metaData;
 }
-
- 

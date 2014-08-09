@@ -1,4 +1,5 @@
-gluon_unit_tests(GluonCore
+gluon_unit_tests(
+    MODULE GluonCore
     LIBRARIES ${GLUONCORE_LIBRARIES}
-    TESTS gluonobjecttest metainfotest #gdlhandlertest
+    TESTS gluonobjecttest metainfotest gdlserializertest singletontest
 )

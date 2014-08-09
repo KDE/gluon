@@ -31,12 +31,10 @@ namespace GluonEngine
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Component )
             GLUON_OBJECT( GluonEngine::SoundListenerComponent )
+            GLUON_COMPONENT_PLUGIN( metadata.json )
 
             Q_PROPERTY( bool active READ isActive WRITE setActive )
             Q_PROPERTY( bool effectsEnabled READ effectsEnabled WRITE setEffectsEnabled )
-
-            Q_CLASSINFO( "org.gluon.category", "Audio" )
-            Q_CLASSINFO( "org.gluon.icon", "audio-x-generic" )
 
         public:
             Q_INVOKABLE SoundListenerComponent( QObject* parent = 0 );

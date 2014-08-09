@@ -77,6 +77,3 @@ void StatisticsComponent::setStatistic( AbstractStatistic* statistic )
     d->statistic = statistic;
 }
 
-Q_EXPORT_PLUGIN2( gluon_component_statistics, GluonEngine::StatisticsComponent );
-
- 

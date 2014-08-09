@@ -24,7 +24,7 @@
 
 #include "singleton.h"
 
-#include <QtScript/QScriptEngine>
+class QScriptEngine;
 
 namespace GluonCore
 {

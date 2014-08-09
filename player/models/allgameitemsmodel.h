@@ -17,88 +17,95 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #ifndef GLUONPLAYER_ALLGAMEITEMSMODEL_H
 #define GLUONPLAYER_ALLGAMEITEMSMODEL_H
-
+ 
 #include "../gluon_player_export.h"
-
+ 
 #include <QtCore/QAbstractListModel>
 #include <QtCore/QStringList>
 #include <QtCore/QMultiMap>
 #include <QtCore/QDir>
 #include <QtCore/QModelIndex>
-
+ 
 namespace GluonEngine
 {
     class GameProject;
 }
-
+ 
 namespace Attica
 {
     class BaseJob;
 }
-
+ 
 namespace GluonPlayer
 {
-
+ 
     class GameItem;
     class GameDetailItem;
-
+ 
     //TODO: Documentation (especially about roles)
     class GLUON_PLAYER_EXPORT AllGameItemsModel : public QAbstractListModel
     {
             Q_OBJECT
-
+ 
         public:
             enum GameItemsModelRoles
             {
                 IdRole = Qt::UserRole + 1,
                 GameNameRole,
                 GameDescriptionRole,
+                                GameSummaryRole,
+                                PreviewPictureRole,
                 IconRole,
                 RatingRole,
                 GenreRole,
                 StatusRole,
                 CacheUriRole,
-                UriRole
+                UriRole,
+                                VersionRole,
+                                ChangelogRole
             };
-
+ 
             explicit AllGameItemsModel( QObject* parent = 0 );
             virtual ~AllGameItemsModel();
-
+ 
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual QVariant data( const QString& gameId, int role = Qt::DisplayRole ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
             virtual bool setData( const QModelIndex& index, const QVariant& value, int role = Qt::EditRole );
-
+ 
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
-
+            
+            //roles override
+            QHash<int, QByteArray> roleNames() const;
+ 
         protected Q_SLOTS:
             void processFetchedGamesList();
             void processFetchedGameDetails();
-
+ 
         private Q_SLOTS:
             void directoryLoaded( const QString& path );
             void ratingUploadFinished();
-
+ 
         private:
             void fetchGamesList();
-
+ 
             void addGameItemToList( GameItem* gameItem );
             GameItem* gameItemForId( const QString& id );
             QString addGameFromDirectory( const QString& directoryPath );
             void addOrUpdateGameFromFetchedGameItem( GameItem* gameItem );
-
+ 
             void updateExistingGameItem( const GameItem* newGameItem );
             void fetchAndUpdateExistingGameItem( const GameItem* gameItem );
-
+ 
             void removeGameFromList( const QString& id );
-
+ 
             class Private;
             Private* const d;
     };
 }
-
+ 
 #endif // GLUONPLAYER_ALLGAMEITEMSMODEL_H

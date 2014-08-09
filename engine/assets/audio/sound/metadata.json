@@ -1,0 +1,10 @@
+{
+    "name": "Sound",
+    "icon": "audio-x-generic",
+    "category": "Sound",
+    "mimeTypes": [ 
+        "audio/x-wav",
+        "audio/x-vorbis+ogg",
+        "audio/x-ogg"
+    ]
+}

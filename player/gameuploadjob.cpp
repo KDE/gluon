@@ -142,13 +142,13 @@ void GameUploadJob::uploadFileToDataServer()
     QByteArray buffer;
 
     QByteArray boundary("----------");
-    boundary += QString::number(QDateTime::currentMSecsSinceEpoch()).toAscii();
+    boundary += QString::number(QDateTime::currentMSecsSinceEpoch()).toLatin1();
 
     const QByteArray contentKey = "uploadfile";        //equivalent to <input type="file" name="uploadfile" />
     const QByteArray mimetype = "application/octet-stream";
 
     const QByteArray data = file.readAll();
-    const QByteArray fileSize = QString("%1").arg(data.size()).toAscii();
+    const QByteArray fileSize = QString("%1").arg(data.size()).toLatin1();
 
     // Add the HTTP POST with the content of the file
     QByteArray str;
@@ -180,7 +180,7 @@ void GameUploadJob::uploadFileToDataServer()
     apikeyData += boundary;
     apikeyData += "\r\n";
     apikeyData += "Content-Disposition: form-data; name=\"apikey\"\r\n\r\n";
-    apikeyData += d->apiKey.toAscii();
+    apikeyData += d->apiKey.toLatin1();
     apikeyData += "\r\n";
     apikeyData += "--";
     apikeyData += boundary;

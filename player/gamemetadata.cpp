@@ -19,16 +19,16 @@
 
 
 #include "gamemetadata.h"
-
+ 
 #include "gamemanager.h"
 #include "models/allgameitemsmodel.h"
-
+ 
 #include <engine/projectmetadata.h>
-
+ 
 #include <QDebug>
-
+ 
 using namespace GluonPlayer;
-
+ 
 class GameMetadata::Private
 {
     public:
@@ -36,63 +36,105 @@ class GameMetadata::Private
         {
             projectMetadata = 0;
         }
-
+ 
         GluonEngine::ProjectMetaData* projectMetadata;
         QString gameId;
         QString gameName;
         QString gameDescription;
+        QString gameChangelog;
+        QString gameSummary;
+        QString gameVersion;
+        QString gamePreviewPicture;
+        QString gameRating;
 };
-
+ 
 GameMetadata::GameMetadata( QObject* parent )
     : QObject( parent )
     , d(new Private())
 {
     d->projectMetadata = new GluonEngine::ProjectMetaData(this);
 }
-
+ 
 GameMetadata::~GameMetadata()
 {
     delete d;
 }
-
+ 
 QString GameMetadata::gameId() const
 {
     return d->gameId;
 }
-
+ 
 void GameMetadata::setGameId( const QString& gameId )
 {
+    qDebug() << "setgameid triggered";
     AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());
     QString gamePath = model->data(gameId, AllGameItemsModel::UriRole).toString();
-
+ 
     if (!gamePath.isEmpty() && QFileInfo(gamePath).exists())
     {
         d->gameId = gameId;
-
+ 
         d->projectMetadata->setProjectFilePath(gamePath);
         d->projectMetadata->load();
-
+ 
         d->gameName = d->projectMetadata->projectName();
         d->gameDescription = d->projectMetadata->projectDescription();
     } else {
         d->gameId = model->data(gameId, AllGameItemsModel::IdRole).toString();
         d->gameName = model->data(gameId, AllGameItemsModel::GameNameRole).toString();
         d->gameDescription = model->data(gameId, AllGameItemsModel::GameDescriptionRole).toString();
+        d->gameRating = model->data(gameId, AllGameItemsModel::RatingRole).toString();
+        d->gamePreviewPicture = model->data(gameId, AllGameItemsModel::PreviewPictureRole).toString();
+        d->gameChangelog = model->data(gameId, AllGameItemsModel::ChangelogRole).toString();
+        d->gameVersion = model->data(gameId, AllGameItemsModel::VersionRole).toString();
+        d->gameSummary = model->data(gameId, AllGameItemsModel::GameSummaryRole).toString();
     }
-
+ 
     emit gameIdChanged();
     emit gameNameChanged();
     emit gameDescriptionChanged();
+    emit gameChangelogChanged();
+    emit gameSummaryChanged();
+    emit gameVersionChanged();
+    emit gamePreviewPictureChanged();
+    emit gameRatingChanged();
+ 
 }
-
+ 
 QString GameMetadata::gameName() const
 {
     return d->gameName;
 }
-
+ 
 QString GameMetadata::gameDescription() const
 {
     return d->gameDescription;
+}
+ 
+QString GameMetadata::gameChangelog() const
+{
+    return d->gameChangelog;
+}
+ 
+QString GameMetadata::gameSummary() const
+{
+    return d->gameSummary;
+}
+ 
+QString GameMetadata::gameVersion() const
+{
+    return d->gameVersion;
+}
+ 
+QString GameMetadata::gamePreviewPicture() const
+{
+    return d->gamePreviewPicture;
+}
+ 
+QString GameMetadata::gameRating() const
+{
+    return d->gameRating;
 }
 
  

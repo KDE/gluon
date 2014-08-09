@@ -19,8 +19,6 @@
 
 #include "statisticsasset.h"
 
-#include <QtGui/QAction>
-
 #include <core/gdlserializer.h>
 #include <engine/statistic.h>
 #include <engine/tasksstatistic.h>
@@ -36,46 +34,18 @@ class StatisticsAsset::StatisticsAssetPrivate
     public:
         StatisticsAssetPrivate() {}
         ~StatisticsAssetPrivate() {}
-
-        QList<QAction*> actions;
 };
 
 StatisticsAsset::StatisticsAsset(QObject* parent)
     : Asset(parent)
     , d( new StatisticsAssetPrivate() )
 {
-    QAction* newStatistic = new QAction( tr("New Statistic"), 0 );
-    connect( newStatistic, SIGNAL(triggered()), this, SLOT(createStatistic()) );
-    d->actions.append(newStatistic);
-
-    QAction* newTasksStatistic = new QAction( tr("New Tasks Statistic"), this );
-    connect( newTasksStatistic, SIGNAL(triggered()), this, SLOT(createTasksStatistic()) );
-    d->actions.append(newTasksStatistic);
-
-    QAction* newMultiScoreStatistic = new QAction( tr("New Multi-Score Statistic" ), this );
-    connect( newMultiScoreStatistic, SIGNAL(triggered()), this, SLOT(createMultiScoreStatistic()) );
-    d->actions.append(newMultiScoreStatistic);
-
-    QAction* newBooleanStatistic = new QAction( tr("New Boolean Statistic"), this );
-    connect( newBooleanStatistic, SIGNAL(triggered()), this, SLOT(createBooleanStatistic()) );
-    d->actions.append(newBooleanStatistic);
-
     savableDirty = true;
 }
 
 StatisticsAsset::~StatisticsAsset()
 {
-    qDeleteAll( d->actions );
     delete d;
-}
-
-const QStringList StatisticsAsset::supportedMimeTypes() const
-{
-    QStringList mimeTypes;
-
-    mimeTypes << "application/x-gluon-statistics";
-
-    return mimeTypes;
 }
 
 void StatisticsAsset::writeContents(QIODevice* device)
@@ -88,18 +58,6 @@ void StatisticsAsset::writeContents(QIODevice* device)
             objects.append( statistic );
     }
     GluonCore::GDLSerializer::instance()->write( device, objects );
-}
-
-const QList< AssetTemplate* > StatisticsAsset::templates()
-{
-    QList< AssetTemplate* > templates;
-    templates.append( new AssetTemplate( tr("Statistics Asset"), "statistics_template.gluonstatistics", "statistics", this ) );
-    return templates;
-}
-
-QList< QAction* > StatisticsAsset::actions()
-{
-    return d->actions;
 }
 
 void StatisticsAsset::load()
@@ -197,7 +155,3 @@ bool StatisticsAsset::shouldSerializeChildren() const
 {
     return false;
 }
-
-Q_EXPORT_PLUGIN2( gluon_asset_statistics, GluonEngine::StatisticsAsset )
-
- 

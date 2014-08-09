@@ -32,6 +32,7 @@ namespace GluonEngine
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Component )
             GLUON_OBJECT( GluonEngine::SoundEmitterComponent )
+            GLUON_COMPONENT_PLUGIN( metadata.json )
 
             Q_PROPERTY( GluonEngine::Asset* sound READ sound WRITE setSound )
             Q_PROPERTY( float radius READ radius WRITE setRadius )
@@ -39,9 +40,6 @@ namespace GluonEngine
             Q_PROPERTY( float pitch READ pitch WRITE setPitch )
             Q_PROPERTY( bool loop READ isLooping WRITE setLoop )
             Q_PROPERTY( bool autoPlay READ autoPlay WRITE setAutoPlay )
-
-            Q_CLASSINFO( "org.gluon.category", "Audio" )
-            Q_CLASSINFO( "org.gluon.icon", "audio-x-generic" )
 
         public:
             Q_INVOKABLE SoundEmitterComponent( QObject* parent = 0 );

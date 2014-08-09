@@ -23,7 +23,6 @@
 #include "gluonobject.h"
 #include "debughelper.h"
 
-#include <QtGui/QApplication>
 #include <QtCore/QDir>
 #include <QtCore/QPluginLoader>
 #include <QtCore/QVariant>
@@ -153,7 +152,7 @@ GluonObjectFactory::loadPlugins()
         QDir pluginDirectory( pluginDirectoryPath );
         DEBUG_TEXT( QString( "Looking for pluggable components in %1" ).arg( pluginDirectory.absolutePath() ) )
 
-        pluginDirectory.setFilter( QDir::AllEntries| QDir::NoDotAndDotDot );
+        pluginDirectory.setFilter( QDir::AllEntries| QDir::NoDot | QDir::NoDotDot );
 
         DEBUG_TEXT2( "Found %1 potential plugins. Attempting to load...", pluginDirectory.count() )
         foreach( const QString & fileName, pluginDirectory.entryList( QDir::Files ) )

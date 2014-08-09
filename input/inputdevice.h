@@ -1,7 +1,6 @@
-/******************************************************************************
+/*
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
- * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
+ * Copyright (c) 2014 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,65 +15,43 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
  */
 
-#ifndef GLUON_INPUT_INPUTDEVICE_H
-#define GLUON_INPUT_INPUTDEVICE_H
+#ifndef GLUONINPUT_INPUTDEVICE_H
+#define GLUONINPUT_INPUTDEVICE_H
 
-#include "inputthread.h"
-#include "gluondevices.h"
+#include <QtCore/QObject>
 
-#include <core/gluonobject.h>
+#include <core/privatepointer.h>
+
+#include "gluoninput_export.h"
 
 namespace GluonInput
 {
-    class InputDevicePrivate;
-
-    class GLUON_INPUT_EXPORT InputDevice : public GluonCore::GluonObject
+    class InputParameter;
+    class GLUONINPUT_EXPORT InputDevice : public QObject
     {
-            Q_OBJECT
-            GLUON_OBJECT( GluonInput::InputDevice )
+        Q_OBJECT
 
         public:
-            explicit InputDevice( InputThread* inputThread = 0, QObject* parent = 0 );
-            InputDevice( const InputDevice& other, QObject* parent = 0 );
+            explicit InputDevice( QObject* parent = 0 );
             virtual ~InputDevice();
 
-            int vendor() const;
-            int product() const;
-            int version() const;
-            int bustype() const;
+            virtual void initialize() = 0;
 
-            const QString deviceName() const;
-            GluonInput::DeviceFlag deviceType()const;
+            virtual QString name() const;
 
-            QList<int> buttonCapabilities() const;
-            QList<int> absAxisCapabilities() const;
-            QList<int> relAxisCapabilities() const;
-            AbsVal axisInfo( int axisCode ) const;
-            bool buttonPressed( int code ) const;
-            QString buttonName( int code ) const;
-            QString axisName( int code ) const;
+            virtual QList< InputParameter* > parameters() const;
 
-            bool error() const;
-            QString msgError() const;
+            virtual InputParameter* parameter( int id ) const;
 
-            void setInputThread( InputThread* inputThread );
-            InputThread* inputThread() const;
+        protected:
+            void setName( const QString& name );
+            void setParameters( QList< InputParameter* > parameters );
 
-            bool isEnabled() const;
-            void setEnabled( bool enable );
-
-            void setButtonState( int button, int value );
-
-        private Q_SLOTS:
-            void buttonStateChanged( int button, int value );
-
-        private:
-            QSharedDataPointer<InputDevicePrivate> d;
+        GLUON_PRIVATE_POINTER;
     };
 }
 
-Q_DECLARE_METATYPE( GluonInput::InputDevice* )
-
-#endif // GLUON_INPUT_INPUTDEVICE_H
+#endif // GLUONINPUT_INPUTDEVICE_H

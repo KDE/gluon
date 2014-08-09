@@ -80,5 +80,3 @@ QVariant AddGameJob::data()
 {
     return d->id;
 }
-
- 

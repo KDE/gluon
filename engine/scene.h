@@ -81,7 +81,7 @@ namespace GluonEngine
              */
             Q_INVOKABLE GluonEngine::GameObject* sceneContents();
 
-            virtual QList< QAction* > actions();
+            virtual QList< AssetAction* > actions();
 
         public Q_SLOTS:
             /**

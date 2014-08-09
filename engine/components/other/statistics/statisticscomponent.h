@@ -32,17 +32,15 @@ namespace GluonEngine
     class StatisticsComponent : public Component
     {
             Q_OBJECT
-            GLUON_OBJECT( GluonEngine::StatisticsComponent )
             Q_INTERFACES( GluonEngine::Component )
+            GLUON_OBJECT( GluonEngine::StatisticsComponent )
+            GLUON_COMPONENT_PLUGIN( metadata.json )
 
             /**
              * The statistic which this component is connected to. The statistic
              * should be a sub class of AbstractStatistic.
              */
             Q_PROPERTY( GluonEngine::AbstractStatistic* statistic READ statistic WRITE setStatistic )
-
-            Q_CLASSINFO( "org.gluon.category", "Social Integration" )
-            Q_CLASSINFO( "org.gluon.icon", "text-mathml" )
 
         public:
             Q_INVOKABLE StatisticsComponent( QObject* parent = 0 );

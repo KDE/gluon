@@ -61,10 +61,19 @@ namespace GluonEngine
      * - Inherit from GluonEngine::Component
      * - Add the necessary macros as described in the GluonCore::GluonObject
      *   documentation
-     * - Implement using QSharedData since GameObjects can be duplicated
-     *   and the Components attached to it get duplicated along with it
-     *   http://doc.trolltech.com/qshareddata.html
      * - Expose any properties to be visible in the editor through Q_PROPERTY
+     *
+     * Components are designed to be plugins. Use the GLUON_COMPONENT_PLUGIN( metadatafile ) macro
+     * to declare them as such. The metadata file is a JSON file as used by the Qt plugin system.
+     * The following data can be contained in this file:
+     *
+     * <code>
+     * {
+     *     "name": The name of the component.
+     *     "icon": The icon used to represent the component.
+     *     "category": The category of component.
+     * }
+     * </code>
      */
     class GLUON_ENGINE_EXPORT Component : public GluonCore::GluonObject
     {
@@ -231,7 +240,9 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_INTERFACE( GluonEngine::Component, "org.gluon.component/1.0" )
+Q_DECLARE_INTERFACE( GluonEngine::Component, "org.gluon.engine.component/1.0" )
 Q_DECLARE_METATYPE( GluonEngine::Component* )
+
+#define GLUON_COMPONENT_PLUGIN(_file) Q_PLUGIN_METADATA(IID "org.gluon.engine.component/1.0" FILE #_file)
 
 #endif  // GLUON_ENGINE_COMPONENT_H

@@ -17,62 +17,61 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #include "highscoresmodel.h"
-
+ 
 #include "allgameitemsmodel.h"
-#include "../gamemanager.h"
-
-#include <gluon_global.h>
-
+#include "gamemanager.h"
+ 
 #include <engine/gameproject.h>
-
+ 
 #include <core/gluonobject.h>
 #include <core/gdlserializer.h>
-
+#include <gluon_global.h>
+ 
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtCore/QTextStream>
-
+ 
 using namespace GluonCore;
 using namespace GluonPlayer;
-
+ 
 class HighScoresModel::Private
 {
     public:
     Private()
     {
     }
-
+ 
     QString m_gameId;
     GluonCore::GluonObject* m_rootNode;
 };
-
+ 
 HighScoresModel::HighScoresModel( QString gameId, QObject* parent )
     : QAbstractTableModel( parent )
     , d(new Private)
 {
     d->m_gameId = gameId;
     d->m_rootNode = new GluonObject( "HighScores" );
-
+ 
     loadData();
 }
-
+ 
 HighScoresModel::~HighScoresModel()
 {
     saveData();
 }
-
+ 
 int HighScoresModel::rowCount( const QModelIndex& /* parent */ ) const
 {
     return d->m_rootNode->children().count();
 }
-
+ 
 int HighScoresModel::columnCount( const QModelIndex& /* parent */ ) const
 {
     return 3;
 }
-
+ 
 QVariant HighScoresModel::data( const QModelIndex& index, int role ) const
 {
     if( role == Qt::DisplayRole || role == Qt::EditRole )
@@ -92,7 +91,7 @@ QVariant HighScoresModel::data( const QModelIndex& index, int role ) const
     }
     return QVariant();
 }
-
+ 
 QVariant HighScoresModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
     if( role == Qt::DisplayRole && orientation == Qt::Horizontal )
@@ -110,49 +109,47 @@ QVariant HighScoresModel::headerData( int section, Qt::Orientation orientation, 
                 break;
         }
     }
-
+ 
     return QVariant();
 }
-
+ 
 Qt::ItemFlags HighScoresModel::flags( const QModelIndex& index ) const
 {
     if( !index.isValid() )
         return Qt::ItemIsEnabled;
-
+ 
     return QAbstractTableModel::flags( index ) | Qt::ItemIsEditable;
 }
-
-
+ 
+ 
 void HighScoresModel::loadData()
 {
     // TODO: ~/.gluon/games/$gamebundle/* will be used later
     QDir gluonDir = QDir::home();
     gluonDir.mkpath( GluonEngine::projectSuffix + "/games/" );
     gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
-
+ 
     GluonCore::GluonObjectList list;
     if( GluonCore::GDLSerializer::instance()->read( gluonDir.absoluteFilePath( "highscores.gdl" ), list ) )
         d->m_rootNode = list.at( 0 );
 }
-
+ 
 void HighScoresModel::saveData()
 {
     if (d->m_gameId.isEmpty()) {
         qDebug() << "Failed to save the high scores data for empty game id.";
         return;
     }
-
+ 
     qDebug() << "Saving high scores data!";
-
+ 
     AllGameItemsModel *model = qobject_cast<AllGameItemsModel*>(GameManager::instance()->allGamesModel());
     QString gameCachePath = model->data(d->m_gameId, AllGameItemsModel::CacheUriRole).toUrl().toLocalFile();
-
+ 
     QDir gameCacheDir;
     gameCacheDir.mkpath( gameCachePath );
     gameCacheDir.cd( gameCachePath );
     QString filename = gameCacheDir.absoluteFilePath( "highscores.gdl" );
-
+ 
     GluonCore::GDLSerializer::instance()->write( QUrl::fromLocalFile( filename ), GluonCore::GluonObjectList() << d->m_rootNode );
 }
-
- 

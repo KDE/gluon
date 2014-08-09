@@ -1,4 +1,5 @@
-gluon_add_plugin(gluon_asset_achievements GluonEngine
+gluon_add_plugin(gluon_asset_achievements
+    MODULE Gluon::Engine
     SOURCES achievementsasset.cpp
 )
 

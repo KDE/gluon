@@ -17,38 +17,38 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #include "allgameitemsmodel.h"
-
+ 
 #include "gameitem.h"
-
+ 
+#include <player/serviceprovider.h>
+#include <player/gamedetaillistjob.h>
+#include <player/ratingjob.h>
+ 
 #include <core/directoryprovider.h>
 #include <engine/gameproject.h>
-
+ 
 #include <QtCore/QHash>
 #include <QtCore/QByteArray>
 #include <QtCore/QDebug>
-#include <QtGui/QFileSystemModel>
-
-#include "../serviceprovider.h"
-#include "../gamedetaillistjob.h"
-#include "../ratingjob.h"
-#include "../gamedetailsjob.h"
-
+#include <QtWidgets/QFileSystemModel>
+#include <gamedetailsjob.h>
+ 
 using namespace GluonPlayer;
-
+ 
 class AllGameItemsModel::Private
 {
     public:
         Private()
         {
         }
-
+ 
         QList<GameItem*> gameItems;
         QHash<QString, int> listIndexForId;
         QFileSystemModel fsModel;
 };
-
+ 
 AllGameItemsModel::AllGameItemsModel( QObject* parent )
     : QAbstractListModel( parent )
     , d( new Private() )
@@ -56,20 +56,28 @@ AllGameItemsModel::AllGameItemsModel( QObject* parent )
     d->fsModel.setNameFilters( QStringList( '*' + GluonEngine::projectSuffix ) );
     connect( &d->fsModel, SIGNAL(directoryLoaded(QString)), SLOT(directoryLoaded(QString)) );
     d->fsModel.setRootPath( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/games" );
+    
+    fetchGamesList();
+}
 
+QHash<int, QByteArray> AllGameItemsModel::roleNames() const
+{
     QHash<int, QByteArray> roles;
     roles[IdRole] = "Id";
     roles[GameNameRole] = "GameName";
     roles[GameDescriptionRole] = "GameDescriptionRole";
+    roles[GameSummaryRole] = "GameSummary";
+    roles[PreviewPictureRole] = "PreviewPicture";
     roles[IconRole] = "Icon";
     roles[RatingRole] = "Rating";
     roles[GenreRole] = "Genre";
     roles[StatusRole] = "Status";
     roles[CacheUriRole] = "CacheUriRole";
     roles[UriRole] = "UriRole";
-    setRoleNames( roles );
-
-    fetchGamesList();
+    //new roles
+    roles[VersionRole] = "Version";
+    roles[ChangelogRole] = "Changelog";
+    return roles;
 }
 
 AllGameItemsModel::~AllGameItemsModel()
@@ -79,37 +87,36 @@ AllGameItemsModel::~AllGameItemsModel()
 void AllGameItemsModel::addGameItemToList( GameItem* gameItem )
 {
     QString id = gameItem->id();
-
     if( d->listIndexForId.contains( id ) )
     {
         qFatal( "Fatal: List already contains the game" );
     }
-
+ 
     int gameCount = d->gameItems.count();
     beginInsertRows( QModelIndex(), gameCount, gameCount );
     d->listIndexForId.insert( id, gameCount );
     d->gameItems.append( gameItem );
     endInsertRows();
 }
-
+ 
 GameItem* AllGameItemsModel::gameItemForId( const QString& id )
 {
     if( d->listIndexForId.contains( id ) )
     {
         return d->gameItems.at( d->listIndexForId.value( id ) );
     }
-
+ 
     return 0;
 }
-
+ 
 void AllGameItemsModel::directoryLoaded( const QString& path )
 {
     //TODO: Use standard gluon game dir
     if( QDir( path ) != QDir( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/games" ) )
         return;
-
+ 
     QModelIndex parentIndex = d->fsModel.index( path ); //QFSModel puts "/" as root, obtain parent to our games path
-
+ 
     QStringList deletedGames;
     foreach( const GameItem * gameItem, d->gameItems )
     {
@@ -118,41 +125,42 @@ void AllGameItemsModel::directoryLoaded( const QString& path )
             deletedGames.append( gameItem->id() );
         }
     }
-
+ 
     //Find all .gluon dirs
     for( int i = 0; i < d->fsModel.rowCount( parentIndex ); ++i )
     {
         QString gameDirPath = d->fsModel.filePath( d->fsModel.index( i, 0, parentIndex ) );
         deletedGames.removeOne( addGameFromDirectory( gameDirPath ) );
     }
-
+ 
     //Remove the local games that were not found in the games dir
     foreach( const QString & id, deletedGames )
     removeGameFromList( id );
-
-
+ 
+ 
     fetchGamesList();   //FIXME: Preferably do this only the first time
 }
-
+ 
 QString AllGameItemsModel::addGameFromDirectory( const QString& directoryPath )
 {
     QString id;
     QDir gameDir( directoryPath );
     QStringList gluonProjectFiles = gameDir.entryList( QStringList( GluonEngine::projectFilename ) );
-
+ 
     if( !gluonProjectFiles.isEmpty() )
     {
         QString projectFileName = gameDir.absoluteFilePath( gluonProjectFiles.at( 0 ) );
         GluonEngine::GameProject project;
         project.loadFromFile( projectFileName );
         id = project.property( "id" ).toString();
-
+ 
         QUrl cacheUri = QUrl::fromLocalFile(QDir::homePath() + GluonEngine::projectSuffix + "/games/" + project.name().toLower());
-
+ 
         if( d->listIndexForId.contains( id ) )
         {
             //FIXME: Get genre when project supports it
-            GameItem* gameItem = new GameItem( project.name(),  project.description(), 0,
+                        //FIXME: Get summary
+            GameItem* gameItem = new GameItem( project.name(),  project.description(), "", "", "", "", 0,
                                                GluonPlayer::GameItem::Installed, id, "Gluon Game", cacheUri,
                                                projectFileName, this );
             addOrUpdateGameFromFetchedGameItem( gameItem );
@@ -160,7 +168,8 @@ QString AllGameItemsModel::addGameFromDirectory( const QString& directoryPath )
         else
         {
             //FIXME: Get genre when project supports it
-            GameItem* gameItem = new GameItem( project.name(),  project.description(), 0,
+                        //FIXME: Get summary
+            GameItem* gameItem = new GameItem( project.name(),  project.description(), "", "", "", "", 0,
                                                GluonPlayer::GameItem::Installed, id, "Gluon Game", cacheUri,
                                                projectFileName, this );
             addGameItemToList( gameItem );
@@ -171,10 +180,10 @@ QString AllGameItemsModel::addGameFromDirectory( const QString& directoryPath )
     {
         qWarning() << "No " << GluonEngine::projectFilename << " in " << directoryPath;
     }
-
+ 
     return id;
 }
-
+ 
 void AllGameItemsModel::updateExistingGameItem( const GameItem* newGameItem )
 {
     /* TODO: Right now, if information such as game name exist both on file system
@@ -182,7 +191,7 @@ void AllGameItemsModel::updateExistingGameItem( const GameItem* newGameItem )
         However, in case the user is the owner of the game, we should ask
     */
     GameItem* existingGameItem = gameItemForId( newGameItem->id() );
-
+ 
     if( existingGameItem )
     {
         if( newGameItem->status() == GameItem::Downloadable )
@@ -190,24 +199,28 @@ void AllGameItemsModel::updateExistingGameItem( const GameItem* newGameItem )
             existingGameItem->setRating( newGameItem->rating() );
             existingGameItem->setGameName( newGameItem->gameName() );
             existingGameItem->setGameDescription( newGameItem->gameDescription() );
+                        existingGameItem->setGameSummary( newGameItem->gameSummary() );
+                        existingGameItem->setPreview1( newGameItem->preview1() );
         }
         else if( existingGameItem->status() != GameItem::Downloadable )
         {
             existingGameItem->setGameName( newGameItem->gameName() );
             existingGameItem->setGameDescription( newGameItem->gameDescription() );
+                        existingGameItem->setGameSummary( newGameItem->gameSummary() );
+                        existingGameItem->setPreview1( newGameItem->preview1() );
         }
-
+ 
         existingGameItem->setStatus( GameItem::Status( existingGameItem->status() | newGameItem->status() ) );
-
+ 
         int row = d->gameItems.indexOf( existingGameItem );
         dataChanged( index( row ), index( row ) );
     }
 }
-
+ 
 void AllGameItemsModel::addOrUpdateGameFromFetchedGameItem( GameItem* gameItem )
 {
     QString id = gameItem->id();
-
+ 
     if( d->listIndexForId.contains( id ) )
     {
         updateExistingGameItem( gameItem );
@@ -217,11 +230,11 @@ void AllGameItemsModel::addOrUpdateGameFromFetchedGameItem( GameItem* gameItem )
         addGameItemToList( gameItem );
     }
 }
-
+ 
 void AllGameItemsModel::removeGameFromList( const QString& id )
 {
     GameItem* oldGameItem = gameItemForId( id );
-
+ 
     if( oldGameItem )
     {
         int oldGameRow = d->gameItems.indexOf( oldGameItem );
@@ -229,10 +242,10 @@ void AllGameItemsModel::removeGameFromList( const QString& id )
         d->gameItems.removeAt( oldGameRow );
         d->listIndexForId.remove( id );
         delete oldGameItem;
-
+ 
         QHash<QString, int>::iterator iterator;
         iterator = d->listIndexForId.begin();
-
+ 
         /*After removing the GameItem from the list, all items below it will shift up.
             Hence update the list indexes in d->listIndexForId accordingly */
         do
@@ -242,23 +255,23 @@ void AllGameItemsModel::removeGameFromList( const QString& id )
             ++iterator;
         }
         while( iterator != d->listIndexForId.end() );
-
+ 
         endRemoveRows();
     }
 }
-
+ 
 QVariant AllGameItemsModel::data( const QString& gameId, int role ) const
 {
     if( !d->listIndexForId.contains( gameId ) )
         return QVariant();
     return data( index( d->listIndexForId.value( gameId ) ), role );
 }
-
+ 
 QVariant AllGameItemsModel::data( const QModelIndex& index, int role ) const
 {
     if( index.row() < 0 || index.row() > d->gameItems.count() )
         return QVariant();
-
+ 
     switch( role )
     {
         case Qt::UserRole:
@@ -270,6 +283,14 @@ QVariant AllGameItemsModel::data( const QModelIndex& index, int role ) const
             return d->gameItems.at( index.row() )->gameName();
         case GameDescriptionRole:
             return d->gameItems.at( index.row() )->gameDescription();
+                case GameSummaryRole:
+                        return d->gameItems.at( index.row() )->gameSummary();
+                case ChangelogRole:
+                        return d->gameItems.at( index.row() )->changelog();
+                case VersionRole:
+                        return d->gameItems.at( index.row() )->version();
+                case PreviewPictureRole:
+                        return d->gameItems.at( index.row() )->preview1();
         case IconRole:
             return "";  //TODO: make it work when icon stuff in core is working again
         case RatingRole:
@@ -285,10 +306,10 @@ QVariant AllGameItemsModel::data( const QModelIndex& index, int role ) const
         default:
             break;
     }
-
+ 
     return QVariant();
 }
-
+ 
 bool AllGameItemsModel::setData( const QModelIndex& index, const QVariant& value, int role )
 {
     switch( role )
@@ -300,37 +321,37 @@ bool AllGameItemsModel::setData( const QModelIndex& index, const QVariant& value
             ratingJob->start();
             return true;
     }
-
+ 
     return false;
 }
-
+ 
 int AllGameItemsModel::rowCount( const QModelIndex& /* parent */ ) const
 {
     return d->gameItems.count();
 }
-
+ 
 int AllGameItemsModel::columnCount( const QModelIndex& /* parent */ ) const
 {
     return 1;
 }
-
+ 
 QVariant AllGameItemsModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
     if( section == 0 )
     {
         return QString( "Game" );
     }
-
+ 
     return QAbstractItemModel::headerData( section, orientation, role );
 }
-
+ 
 void AllGameItemsModel::fetchGamesList()
 {
     GameDetailListJob* gameDetailListJob = ServiceProvider::instance()->fetchGames();
     connect( gameDetailListJob, SIGNAL(succeeded()), SLOT(processFetchedGamesList()) );
     gameDetailListJob->start();
 }
-
+ 
 void AllGameItemsModel::processFetchedGamesList()
 {
     GameDetailListJob* job = qobject_cast<GameDetailListJob*>( sender() );
@@ -338,9 +359,8 @@ void AllGameItemsModel::processFetchedGamesList()
     foreach( GameDetailItem * c, list )
     {
         QUrl cacheUri = QUrl::fromLocalFile(QDir::homePath() + GluonEngine::projectSuffix + "/games/" + c->gameName().toLower());
-        GameItem* gameItem = new GameItem( c->gameName(), c->gameDescription(), c->rating(), GameItem::Downloadable,
-                                           c->id(), c->categoryName(), cacheUri, c->homePage(), this );
-
+        GameItem* gameItem = new GameItem( c->gameName(), c->gameDescription(), c->summary(), c->changelog(), c->version(), c->preview1(), c->rating(), GameItem::Downloadable, c->id(), c->categoryName(), cacheUri, c->homePage(), this );
+ 
         addOrUpdateGameFromFetchedGameItem( gameItem );
     }
 }
@@ -349,27 +369,25 @@ void AllGameItemsModel::fetchAndUpdateExistingGameItem( const GameItem* gameItem
 {
     if( gameItem->id().isEmpty() )
         return;
-
+ 
     GameDetailsJob* gameDetailsJob = ServiceProvider::instance()->fetchOneGame( gameItem->id() );
     connect( gameDetailsJob, SIGNAL(finished()), SLOT(processFetchedGameDetails()) );
 }
-
+ 
 void AllGameItemsModel::processFetchedGameDetails()
 {
     GameDetailsJob* job = qobject_cast<GameDetailsJob*>( sender() );
     GameDetailItem* gameDetails = job->data().value<GameDetailItem*>();
     QUrl cacheUri = QUrl::fromLocalFile(QDir::homePath() + GluonEngine::projectSuffix + "/games/" + gameDetails->gameName().toLower());
-    GameItem* gameItem = new GameItem( gameDetails->gameName(), gameDetails->gameDescription(), gameDetails->rating(),
+    GameItem* gameItem = new GameItem( gameDetails->gameName(), gameDetails->gameDescription(), gameDetails->summary(), gameDetails->changelog(), gameDetails->version(), gameDetails->preview1(), gameDetails->rating(),
                                        GameItem::Downloadable, gameDetails->id(), gameDetails->categoryName(),
                                        cacheUri, gameDetails->homePage(), this );
     addOrUpdateGameFromFetchedGameItem( gameItem );
 }
-
-
+ 
+ 
 void AllGameItemsModel::ratingUploadFinished()
 {
     RatingJob* job = qobject_cast<RatingJob*>( sender() );
     fetchAndUpdateExistingGameItem( gameItemForId( job->data().toString() ) );
 }
-
- 

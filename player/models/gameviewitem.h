@@ -17,19 +17,19 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #ifndef GLUON_PLAYER_GAMEVIEWITEM_H
 #define GLUON_PLAYER_GAMEVIEWITEM_H
-
+ 
 #include "../gluon_player_export.h"
-
+ 
 #include <QtCore/QStringList>
-
+ 
 namespace GluonEngine
 {
     class ProjectMetaData;
 }
-
+ 
 namespace GluonPlayer
 {
     /**
@@ -39,7 +39,7 @@ namespace GluonPlayer
      * Use the different roles of the model to obtain required properties.
      *
      */
-
+ 
     class GLUON_PLAYER_EXPORT GameViewItem : public QObject
     {
             Q_OBJECT
@@ -51,16 +51,16 @@ namespace GluonPlayer
                 Installed,
                 Upgradable
             };
-
+ 
             GameViewItem( const QString& projectFilePath, const Status& status, QObject* parent = 0 );
-
+ 
             GameViewItem( const QString& projectName, const QString& projectDescription,
                           const QString& projectFilePath, const Status& status,
                           const QString& projectId, QObject* parent = 0 );
-
+ 
             GameViewItem( const GameViewItem& other, QObject* parent = 0 );
             virtual ~GameViewItem();
-
+ 
             QString projectName() const;
             QString projectDescription() const;
             QString projectDirPath() const;
@@ -68,13 +68,14 @@ namespace GluonPlayer
             QStringList screenshotUrls() const;
             Status status() const;
             QString projectId() const;
-
+ 
             GluonEngine::ProjectMetaData* metaData();
-
+ 
         private:
             class Private;
             Private* const d;
     };
 }
-
+ 
 #endif // GLUON_PLAYER_GAMEITEMSMODEL_H
+ 

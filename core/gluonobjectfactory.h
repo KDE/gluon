@@ -25,9 +25,9 @@
 #include "singleton.h"
 #include "debughelper.h"
 
-#include <QtScript/QScriptEngine>
 #include <QtCore/QHash>
 #include <QtCore/QStringList>
+#include <QtScript/QScriptEngine>
 
 namespace GluonCore
 {
@@ -227,7 +227,5 @@ REGISTER_OBJECTTYPE(GluonCore, GluonObject);
         engine->globalObject().setProperty(NAMESPACE :: NEWOBJECTTYPE::staticMetaObject.className(), objectClass);\
         qScriptRegisterMetaType( engine, NAMESPACE::NEWOBJECTTYPE::objectToScriptValue, NAMESPACE::NEWOBJECTTYPE::objectFromScriptValue );\
     }
-
-//Q_DECLARE_METATYPE(NAMESPACE :: NEWOBJECTTYPE *)
 
 #endif  // GLUON_CORE_GLUONOBJECTFACTORY_H

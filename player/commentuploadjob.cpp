@@ -66,7 +66,6 @@ void CommentUploadJob::uploadCommentFinished( Attica::BaseJob* job )
     Attica::PostJob* commentsJob = static_cast<Attica::PostJob*>( job );
     if( commentsJob->metadata().error() == Attica::Metadata::NoError )
     {
-        qDebug() << "ERROR:" << commentsJob->metadata().error();
         emitSucceeded();
     }
     else

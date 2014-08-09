@@ -33,28 +33,18 @@ namespace GluonEngine
     class StatisticsAsset : public Asset, public Savable
     {
             Q_OBJECT
-            GLUON_OBJECT( GluonEngine::StatisticsAsset )
             Q_INTERFACES( GluonEngine::Asset )
-
-            Q_CLASSINFO( "org.gluon.category", "Social Integration" )
-            Q_CLASSINFO( "org.gluon.icon", "text-mathml" )
+            GLUON_OBJECT( GluonEngine::StatisticsAsset )
+            GLUON_ASSET_PLUGIN(metadata.json)
 
         public:
             Q_INVOKABLE StatisticsAsset( QObject* parent = 0 );
             virtual ~StatisticsAsset();
 
-            virtual const QStringList supportedMimeTypes() const;
-
             /**
              * Reimplemented from Savable::writeContents()
              */
             virtual void writeContents( QIODevice* device );
-
-            /** Reimplemented from Asset::templates() */
-            virtual const QList<AssetTemplate*> templates();
-
-            /** Reimplemented from Asset::actions() */
-            virtual QList<QAction*> actions();
 
             /** Reimplemented from Asset::load() */
             virtual void load();

@@ -1,6 +1,5 @@
-gluon_include_directories( GluonCore
-    ${QT_INCLUDES}
-)
+find_package( Qt5Script REQUIRED CONFIG )
+find_package( Eigen3 REQUIRED )
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/gdl )
 
@@ -15,6 +14,7 @@ set( GluonCore_SRCS
     referencecounter.cpp
     scriptengine.cpp
     gdlserializer.cpp
+    pluginloader.cpp
 
     bindings/com_trolltech_qt_gui_init.cpp
     bindings/qtscript_QColor.cpp
@@ -45,12 +45,15 @@ set( GluonCore_HEADERS
     scriptengine.h
     singleton.h
     gdlserializer.h
+    privatepointer.h
+    pluginloader.h
 )
 
-gluon_add_library( GluonCore SHARED
+gluon_add_library( Gluon::Core SHARED
     SOURCES ${GluonCore_SRCS}
     HEADERS ${GluonCore_HEADERS}
-    LIBRARIES ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTSCRIPT_LIBRARY}
+    INCLUDES ${EIGEN3_INCLUDE_DIR}
+    LIBRARIES Qt5::Core Qt5::Gui Qt5::Script
 )
 
 gluon_add_subdirectories( examples tests )

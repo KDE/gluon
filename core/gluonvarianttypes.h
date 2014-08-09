@@ -42,7 +42,7 @@ namespace GluonCore
         static const int Float = 135;
         static const int Vector2f = qRegisterMetaType<Eigen::Vector2f>( "Vector2f" );
         static const int Vector3f = qRegisterMetaType<Eigen::Vector3f>( "Vector3f" );
-        static const int Vector4f = qRegisterMetaType<Eigen::Vector3f>( "Vector4f" );
+        static const int Vector4f = qRegisterMetaType<Eigen::Vector4f>( "Vector4f" );
         static const int Quaternionf = qRegisterMetaType<Eigen::Quaternionf>( "Quaternionf" );
         static const int Affine3f = qRegisterMetaType<Eigen::Affine3f>( "Affine3f" );
     }

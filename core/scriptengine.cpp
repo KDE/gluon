@@ -62,20 +62,14 @@ QScriptEngine* ScriptEngine::scriptEngine()
     if( QCoreApplication::instance() && !d->engine )
     {
         d->engine = new QScriptEngine( this );
-        d->engine->importExtension( "jsmoke.qtcore" );
-        d->engine->importExtension( "jsmoke.qtgui" );
-        d->engine->importExtension( "jsmoke.qtopengl" );
 
         QScriptValue extensionObject = d->engine->globalObject();
         qtscript_initialize_com_trolltech_qt_gui_bindings( extensionObject );
 
-        QScriptEngine::QObjectWrapOptions wrapOptions = QScriptEngine::AutoCreateDynamicProperties | QScriptEngine::ExcludeDeleteLater | QScriptEngine::PreferExistingWrapperObject;
-        QScriptEngine::ValueOwnership ownership = QScriptEngine::QtOwnership;
-
-        QScriptValue objectFactory = d->engine->newQObject( GluonObjectFactory::instance(), ownership, wrapOptions );
+        QScriptValue objectFactory = d->engine->newQObject( GluonObjectFactory::instance() );
         extensionObject.setProperty( "ObjectFactory", objectFactory );
 
-        QScriptValue messageHandler = d->engine->newQObject( MessageHandler::instance(), ownership, wrapOptions );
+        QScriptValue messageHandler = d->engine->newQObject( MessageHandler::instance() );
         extensionObject.setProperty( "MessageHandler", messageHandler );
 
         // Finally, register all the objects in the factory...

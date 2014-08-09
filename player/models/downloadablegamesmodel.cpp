@@ -16,19 +16,19 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #include "downloadablegamesmodel.h"
-
+ 
 #include "allgameitemsmodel.h"
 #include "gameitem.h"
-
+ 
 using namespace GluonPlayer;
-
+ 
 DownloadableGamesModel::DownloadableGamesModel( QObject* parent ): QSortFilterProxyModel( parent )
 {
     DownloadableGamesModel(0, parent);
 }
-
+ 
 DownloadableGamesModel::DownloadableGamesModel(QAbstractItemModel* sourceModel, QObject* parent)
     : QSortFilterProxyModel(parent)
 {
@@ -38,18 +38,16 @@ DownloadableGamesModel::DownloadableGamesModel(QAbstractItemModel* sourceModel, 
     }
     setDynamicSortFilter( true );
 }
-
+ 
 void DownloadableGamesModel::setSourceModel(QObject* sourceModel)
 {
     emit sourceModelChanged();
     QSortFilterProxyModel::setSourceModel(qobject_cast<QAbstractItemModel*>(sourceModel));
 }
-
+ 
 bool DownloadableGamesModel::filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const
 {
     Q_ASSERT( !source_parent.isValid() );
-
+ 
     return ( sourceModel()->data( sourceModel()->index( source_row, 0 ), AllGameItemsModel::StatusRole ) == GameItem::Downloadable );
 }
-
- 

@@ -23,6 +23,7 @@
 
 #include <QtCore/QtGlobal>
 #include <QtCore/QMetaType>
+#include <QtCore/QList>
 
 namespace GluonSmarts
 {

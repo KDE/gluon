@@ -16,17 +16,17 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #ifndef GLUONPLAYER_DOWNLOADABLEGAMESMODEL_H
 #define GLUONPLAYER_DOWNLOADABLEGAMESMODEL_H
-
-#include <QtGui/QSortFilterProxyModel>
-
+ 
+#include <QSortFilterProxyModel>
+ 
 #include "../gluon_player_export.h"
-
+ 
 namespace GluonPlayer
 {
-
+ 
     class GLUON_PLAYER_EXPORT DownloadableGamesModel : public QSortFilterProxyModel
     {
             Q_OBJECT
@@ -35,14 +35,14 @@ namespace GluonPlayer
             DownloadableGamesModel( QObject* parent = 0 );
             explicit DownloadableGamesModel( QAbstractItemModel* sourceModel, QObject* parent = 0 );
             virtual void setSourceModel( QObject* sourceModel );
-
+ 
         Q_SIGNALS:
             void sourceModelChanged();
-
+ 
         protected:
             virtual bool filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const;
     };
-
+ 
 }
-
+ 
 #endif // GLUONPLAYER_DOWNLOADABLEGAMESMODEL_H

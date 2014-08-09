@@ -16,50 +16,51 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #ifndef GLUON_PLAYER_ACHIEVEMENTSMODEL_H
 #define GLUON_PLAYER_ACHIEVEMENTSMODEL_H
-
+ 
 #include "../gluon_player_export.h"
-
+ 
 #include <QtCore/QAbstractTableModel>
-
+ 
 namespace GluonEngine
 {
     class ProjectMetaData;
     class AchievementsManager;
 }
-
+ 
 namespace GluonPlayer
 {
     class GLUON_PLAYER_EXPORT AchievementsModel : public QAbstractTableModel
     {
             Q_OBJECT
-
+ 
         public:
             AchievementsModel( GluonEngine::ProjectMetaData* metaData, const QString& userName, QObject* parent = 0 );
             virtual ~AchievementsModel();
-
+ 
             virtual int rowCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual int columnCount( const QModelIndex& parent = QModelIndex() ) const;
             virtual QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const;
             virtual QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
             virtual Qt::ItemFlags flags( const QModelIndex& index ) const;
-
+            QHash<int, QByteArray> roleNames() const;
+ 
             const GluonEngine::AchievementsManager* achievementsManager() const;
             QString projectDir() const;
-
+ 
             enum Column
             {
                 NameColumn,
                 ProgressColumn,
                 AchievedColumn
             };
-
+ 
         private:
             class AchievementsModelPrivate;
             AchievementsModelPrivate* const d;
     };
 }
-
+ 
 #endif // GLUON_PLAYER_ACHIEVEMENTSMODEL_H

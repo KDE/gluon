@@ -27,16 +27,17 @@
 #include <core/referencecounter.h>
 
 #include <QtCore/QtPlugin>
-#include <QtGui/QIcon>
 #include <QtCore/QUrl>
 #include <QtCore/QMimeData>
+#include <QtGui/QIcon>
 
-class QAction;
+// class QAction;
 class QMimeData;
 
 namespace GluonEngine
 {
     class AssetPrivate;
+    class AssetAction;
 
     /**
      * \brief Representation of a template for a specific GluonEngine::Asset
@@ -80,6 +81,28 @@ namespace GluonEngine
      *
      * The Asset class is a fat interface used to allow file access to GluonEngine based
      * games without allowing direct access to the file system.
+     *
+     * Assets are designed to be plugins, use the GLUON_ASSET_PLUGIN( metadatafile ) to
+     * declare them as such. The metadata file is a JSON file as used by the Qt plugin
+     * system. The following data can be contained in the JSON file:
+     *
+     * <code>
+     * {
+     *    "name": The name of the asset.
+     *    "icon": The icon used for the asset.
+     *    "category": The category of the asset.
+     *    "mimeTypes": An array of strings with supported mime types.
+     *    "templates": An array of objects describing the templates to use.
+     *          Each object is expected to have a name and template property.
+     *    "actions": An array of objects describing the actions that can be
+     *          performed on this asset. Each object is expected to have a name
+     *          and method property, where method should be the name of a slot on the asset.
+     * }
+     * </code>
+     *
+     * Note that if you override supportedMimeTypes() or actions() and return
+     * a non-empty list those lists will be used instead of the mime data from the
+     * plugin.
      */
     class GLUON_ENGINE_EXPORT Asset : public GluonCore::GluonObject, public GluonCore::ReferenceCounter
     {
@@ -124,18 +147,18 @@ namespace GluonEngine
              */
             virtual QUrl absolutePath() const;
 
-            /**
-             * An icon to represent the asset. Think of it as a thumbnail representation
-             * of the contents of the asset. The default implementation returns a null icon
-             */
-            virtual QIcon icon() const;
+//             /**
+//              * An icon to represent the asset. Think of it as a thumbnail representation
+//              * of the contents of the asset. The default implementation returns a null icon
+//              */
+//             virtual QIcon icon() const;
 
-            /**
-             * The templates provided by the asset. The default
-             * implementation returns no templates, as many assets will not
-             * be able to provide templates.
-             */
-            virtual const QList<AssetTemplate*> templates();
+//             /**
+//              * The templates provided by the asset. The default
+//              * implementation returns no templates, as many assets will not
+//              * be able to provide templates.
+//              */
+//             virtual const QList<AssetTemplate*> templates();
 
             /**
              * Retrieve a list of actions relating to the current asset.
@@ -143,7 +166,7 @@ namespace GluonEngine
              * \return A QList of QActions that can be shown in pop-up menus and
              * other places.
              */
-            virtual QList<QAction*> actions();
+            virtual QList<AssetAction*> actions();
 
             /**
              * This function should return a QMimeType containing the data the asset
@@ -222,7 +245,10 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_INTERFACE( GluonEngine::Asset, "org.gluon.asset/1.0" )
+Q_DECLARE_INTERFACE( GluonEngine::Asset, "org.gluon.engine.asset/1.0" )
 Q_DECLARE_METATYPE( GluonEngine::Asset* )
+
+#define GLUON_ASSET_PLUGIN(_file)\
+    Q_PLUGIN_METADATA(IID "org.gluon.engine.asset/1.0" FILE #_file)
 
 #endif  // GLUON_ENGINE_ASSET_H

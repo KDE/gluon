@@ -1,4 +1,5 @@
-gluon_add_plugin( gluon_component_soundemitter GluonEngine
+gluon_add_plugin( gluon_component_soundemitter
+    MODULE Gluon::Engine
     SOURCES soundemittercomponent.cpp
-    LIBRARIES ${GLUONAUDIO_LIBRARIES}
+    LIBRARIES Gluon::Audio
 )

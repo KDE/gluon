@@ -1,0 +1,12 @@
+{
+    "name": "Achievement",
+    "icon": "text-mathml",
+    "category": "Social Integration",
+    "mimeTypes": [ "application/x-gluon-achievements" ],
+    "templates": [
+        { "name": "Achievements Asset", "file": "achievements_template.gluonstatistics" }
+    ],
+    "actions": [
+        { "name": "New Achievement", "method": "createAchievement" }
+    ]
+}

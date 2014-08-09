@@ -1,7 +1,6 @@
-/******************************************************************************
+/*
  * This file is part of the Gluon Development Platform
- * Copyright (C) 2010 Kim Jung Nissen <jungnissen@gmail.com>
- * Copyright (C) 2010 Laszlo Papp <lpapp@kde.org>
+ * Copyright (c) 2014 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,187 +15,51 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
  */
 
 #include "inputdevice.h"
-#include "inputdevice_p.h"
-
-#include "absval.h"
-#include "inputbuffer.h"
-#include "gluondevices.h"
-
-#include <QtGui/QKeySequence>
-#include <QtCore/QDebug>
-
-REGISTER_OBJECTTYPE( GluonInput, InputDevice )
 
 using namespace GluonInput;
 
-InputDevice::InputDevice( InputThread* inputThread, QObject* parent )
-    : GluonCore::GluonObject( parent )
-    , d( new InputDevicePrivate )
+class InputDevice::Private
 {
-    d->inputBuffer = new InputBuffer();
-    d->inputBuffer->setParent( this );
+    public:
+        QString name;
+        QList< InputParameter* > parameters;
+};
 
-    if( inputThread )
-    {
-        d->inputThread = inputThread;
-        d->inputThread->setParent( this );
-
-        connect( inputThread, SIGNAL(buttonStateChanged(int,int)), SLOT(buttonStateChanged(int,int)), Qt::DirectConnection );
-    }
-}
-
-InputDevice::InputDevice( const InputDevice& other, QObject* parent )
-    : GluonObject( parent )
-    , d( other.d )
+InputDevice::InputDevice( QObject* parent )
+    : QObject( parent )
 {
+
 }
 
 InputDevice::~InputDevice()
 {
-    setEnabled( false );
-    if( d )
-    {
-        if( d->inputThread )
-            qDebug() << "Close the device:" << deviceName();
-
-        delete d->inputThread;
-        d->inputThread = 0;
-
-        delete d->inputBuffer;
-        d->inputBuffer = 0;
-    }
 }
 
-int InputDevice::vendor() const
+QString InputDevice::name() const
 {
-    return d->inputThread->vendor();
+    return d->name;
 }
 
-int InputDevice::product() const
+QList< InputParameter* > InputDevice::parameters() const
 {
-    return d->inputThread->product();
+    return d->parameters;
 }
 
-int InputDevice::version() const
+InputParameter* InputDevice::parameter(int id) const
 {
-    return d->inputThread->version();
+    return nullptr;
 }
 
-int InputDevice::bustype() const
+void InputDevice::setName(const QString& name)
 {
-    return d->inputThread->bustype();
+    d->name = name;
 }
 
-const QString InputDevice::deviceName() const
+void InputDevice::setParameters(QList< InputParameter* > parameters)
 {
-    return d->inputThread->deviceName();
-}
-
-GluonInput::DeviceFlag InputDevice::deviceType() const
-{
-    return d->inputThread->deviceType();
-}
-
-QList<int> InputDevice::buttonCapabilities() const
-{
-    return d->inputThread->buttonCapabilities();
-}
-
-QList<int> InputDevice::absAxisCapabilities() const
-{
-    return d->inputThread->absAxisCapabilities();
-}
-
-QList<int> InputDevice::relAxisCapabilities() const
-{
-    return d->inputThread->relAxisCapabilities();
-}
-
-AbsVal InputDevice::axisInfo( int axisCode ) const
-{
-    return d->inputThread->axisInfo( axisCode );
-}
-
-bool InputDevice::error() const
-{
-    return d->inputThread->error();
-}
-
-QString InputDevice::msgError() const
-{
-    return d->inputThread->msgError();
-}
-
-bool InputDevice::isEnabled() const
-{
-    return d->inputThread->isEnabled();
-}
-
-void InputDevice::setEnabled( bool enable )
-{
-    if( !d || !d->inputThread )
-        return;
-
-    if( enable && !d->inputThread->isEnabled() )
-    {
-        d->inputThread->start();
-    }
-    else if( !enable && d->inputThread->isEnabled() )
-    {
-        d->inputThread->stop();
-    }
-}
-
-void InputDevice::setInputThread( InputThread* inputThread )
-{
-    d->inputThread->stop();
-    delete d->inputThread;
-    d->inputThread = inputThread;
-}
-
-InputThread* InputDevice::inputThread() const
-{
-    return d->inputThread;
-}
-
-bool InputDevice::buttonPressed( int code ) const
-{
-    return d->inputBuffer->buttonState( code );
-}
-
-QString InputDevice::buttonName( int code ) const
-{
-    switch( deviceType() )
-    {
-        case KeyboardDevice:
-            return QKeySequence( code ).toString();
-        default:
-            return "Unknown";
-    }
-}
-
-QString InputDevice::axisName( int code ) const
-{
-    switch( deviceType() )
-    {
-        case MouseDevice:
-        case JoystickDevice:
-            return GluonButtons::instance()->axisName( deviceType(), code );
-        default:
-            return "Unknown";
-    }
-}
-
-void InputDevice::setButtonState( int button, int value )
-{
-    // qDebug() << "WRITE - KEYCODE:  " << button << "PRESSED: " << value;
-    d->inputBuffer->setButtonState( button, value );
-}
-
-void InputDevice::buttonStateChanged( int button, int value )
-{
-    d->inputBuffer->setButtonState( button, value );
+    d->parameters = parameters;
 }

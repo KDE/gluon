@@ -204,7 +204,4 @@ void SphereCollisionComponent::addComponent( SphereCollisionComponent* comp )
         }
     }
 }
-
-Q_EXPORT_PLUGIN2( gluon_component_spherecollision, GluonEngine::SphereCollisionComponent )
-
  

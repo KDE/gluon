@@ -17,75 +17,65 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+ 
 #include "gamedetaillistjob.h"
-
+ 
 #include "serviceprovider.h"
-
+ 
 #include <attica/listjob.h>
 #include <attica/content.h>
 #include <attica/provider.h>
 #include <attica/downloaditem.h>
-
+ 
 #include <QtCore/QStringList>
 #include <QtCore/QDebug>
-
+ 
 using namespace GluonPlayer;
-
+ 
 class GameDetailListJob::Private
 {
     public:
         QList<GameDetailItem*> gameDetailList;
 };
-
+ 
 GameDetailListJob::GameDetailListJob( Attica::Provider* provider, QObject* parent )
     : AbstractSocialServicesJob( provider )
     , d( new Private() )
 {
-
+ 
 }
-
+ 
 GameDetailListJob::~GameDetailListJob()
 {
     delete d;
 }
-
+ 
 void GameDetailListJob::startSocialService()
 {
-    QStringList gluonGamesCategories;
-    gluonGamesCategories << "4400" << "4410" << "4420" << "4430" << "4440";
-    Attica::Category::List categories;
-
-    foreach( const QString & gluonCategory, gluonGamesCategories )
-    {
-        Attica::Category category;
-        category.setId( gluonCategory );
-        categories.append( category );
-    }
-
-    Attica::ListJob<Attica::Content> *job = provider()->searchContents( categories );
+    qDebug() << "fetching games...";
+    Attica::ListJob<Attica::Content> *job = provider()->searchContents( QList<Attica::Category>() );
     connect( job, SIGNAL(finished(Attica::BaseJob*)), SLOT(processFetchedGameList(Attica::BaseJob*)) );
     job->start();
 }
-
+ 
 void GameDetailListJob::processFetchedGameList( Attica::BaseJob* job )
 {
     qDebug() << "Game list successfully fetched from the server!";
-
+ 
     d->gameDetailList.clear();
-
+ 
     Attica::ListJob<Attica::Content> *contentJob = static_cast<Attica::ListJob<Attica::Content> *>( job );
     if( contentJob->metadata().error() == Attica::Metadata::NoError )
     {
         foreach( const Attica::Content & content, contentJob->itemList() )
         {
-            GameDetailItem* details = new GameDetailItem( content.name(), content.description(), content.version(),
+            GameDetailItem* details = new GameDetailItem( content.name(), content.description(), content.version(), content.summary(), content.attribute("preview1"),
                     content.attribute("typeid"), content.attribute("typename"), content.homePageEntry( 0 ).url().toString(),
                     content.license(), content.changelog(), "", "", QStringList(),
                     content.rating(), GameDetailItem::Downloadable, content.id() );
             d->gameDetailList.append( details );
         }
-
+ 
         emitSucceeded();
     }
     else
@@ -93,10 +83,8 @@ void GameDetailListJob::processFetchedGameList( Attica::BaseJob* job )
         emitFailed();
     }
 }
-
+ 
 QVariant GameDetailListJob::data()
 {
     return QVariant::fromValue( d->gameDetailList );
 }
-
- 

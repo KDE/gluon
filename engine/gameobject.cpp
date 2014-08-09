@@ -261,7 +261,7 @@ GameObject::findComponent( const QString& name ) const
 Component*
 GameObject::findComponentByType( const QString& typeName ) const
 {
-    int typeID = QMetaType::type( typeName.toAscii().data() );
+    int typeID = QMetaType::type( typeName.toUtf8().data() );
     return findComponentByType( typeID );
 }
 
@@ -277,7 +277,7 @@ GameObject::findComponentByType( int type ) const
 QList<Component*>
 GameObject::findComponentsByType( const QString& typeName ) const
 {
-    int typeID = QMetaType::type( typeName.toAscii().data() );
+    int typeID = QMetaType::type( typeName.toUtf8().data() );
     return findComponentsByType( typeID );
 }
 

@@ -37,13 +37,11 @@ namespace GluonEngine
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Component )
             GLUON_OBJECT( GluonEngine::SphereCollisionComponent )
+            GLUON_COMPONENT_PLUGIN(metadata.json)
 
             Q_PROPERTY( int collisionGroup READ collisionGroup WRITE setCollisionGroup )
             Q_PROPERTY( int targetGroup READ targetGroup WRITE setTargetGroup )
             Q_PROPERTY( float radius READ radius WRITE setRadius )
-
-            Q_CLASSINFO( "org.gluon.category", "Physics" )
-            Q_CLASSINFO( "org.gluon.icon", "application-x-executable" )
 
         public:
             /**

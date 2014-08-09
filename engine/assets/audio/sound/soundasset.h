@@ -30,9 +30,7 @@ namespace GluonEngine
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::SoundAsset )
-
-            Q_CLASSINFO( "org.gluon.category", "Sound" )
-            Q_CLASSINFO( "org.gluon.icon", "audio-x-generic" )
+            GLUON_ASSET_PLUGIN( metadata.json )
 
         public:
             Q_INVOKABLE SoundAsset( QObject* parent = 0 );

@@ -1,188 +1,117 @@
 # This file contains macros that are used inside the Gluon Project
+include( CMakeParseArguments )
 
-macro(gluon_unit_tests _module)
-    set( _libs "" )
-    set( _tests "" )
-    
-    set( _current_target "_libs" )
-    
-    foreach( _arg ${ARGN} )
-      string( TOLOWER ${_arg} _arg_lc )
-      if( ${_arg_lc} STREQUAL "libraries" )
-            set( _current_target "_libs" )
-        elseif( ${_arg_lc} STREQUAL "tests" )
-            set( _current_target "_tests" )
-        else()
-            list( APPEND ${_current_target} ${_arg} )
-        endif()
-    endforeach()
+macro( gluon_unit_tests )
+    cmake_parse_arguments("" "" "MODULE" "LIBRARIES;TESTS" ${ARGN})
+    if( _UNPARSED_ARGUMENTS )
+        message(FATAL_ERROR "Unknown keywords given to gluon_unit_tests: ${_UNPARSED_ARGUMENTS}")
+    endif()
 
-    foreach(_test ${_tests})
-	set(_test_target "${_module}-${_test}")
+    string( REGEX REPLACE "([^a-zA-Z])" "" _module_simple ${_MODULE} )
+
+    foreach(_test ${_TESTS})
+	set(_test_target "${_module_simple}-${_test}")
         add_executable(${_test_target} "${_test}.cpp")
-        if( CMAKE_VERSION VERSION_LESS "2.8.6" )
-	    automoc4( ${_test_target} "${_test}.cpp" )
-	endif()
-        target_link_libraries(${_test_target} ${_libs} ${QT_QTTEST_LIBRARY})
-        add_test(${_test_target} ${_module}-${_test})
+        target_link_libraries(${_test_target} ${_LIBRARIES} Qt5::Test)
+        add_test(${_test_target} ${_module_simple}-${_test})
     endforeach()
 endmacro(gluon_unit_tests)
 
-macro(gluon_add_library _target _type)
-    set( _sources "" )
-    set( _headers "" )
-    set( _libs "" )
-
-    set( _current_target "_sources" )
-
-    foreach( _arg ${ARGN} )
-        string( TOLOWER ${_arg} _arg_lc )
-        if( ${_arg_lc} STREQUAL "sources" )
-            set( _current_target "_sources" )
-        elseif( ${_arg_lc} STREQUAL "headers" )
-            set( _current_target "_headers" )
-        elseif( ${_arg_lc} STREQUAL "libraries" )
-            set( _current_target "_libs" )
-        else()
-            list( APPEND ${_current_target} ${_arg} )
-        endif()
-    endforeach()
-
-    add_library( ${_target} ${_type} ${_sources} ${_headers} )
-    if( CMAKE_VERSION VERSION_LESS "2.8.6" )
-        automoc4( ${_target} ${_sources} )
+macro( gluon_add_library _target _type )
+    cmake_parse_arguments("" "" "" "SOURCES;HEADERS;LIBRARIES;INCLUDES" ${ARGN})
+    if( _UNPARSED_ARGUMENTS )
+        message(FATAL_ERROR "Unknown keywords given to gluon_add_library: ${_UNPARSED_ARGUMENTS}")
     endif()
 
-    string( TOUPPER ${_target} _target_uc )
-    set_target_properties( ${_target} PROPERTIES
+    string( REGEX REPLACE "([^a-zA-Z])" "" _target_simple ${_target} )
+
+    add_library( ${_target_simple} ${_type} ${_SOURCES} ${_HEADERS} )
+    if( NOT ${_target_simple} STREQUAL ${_target} )
+        add_library( ${_target} ALIAS ${_target_simple} )
+    endif()
+
+    string( REGEX REPLACE "[A-Z][a-z]+([A-Z][a-z]+).*" "\\1" _target_short ${_target_simple} )
+    string( TOUPPER ${_target_simple} _target_uc )
+    string( TOLOWER ${_target_short} _target_include_dir )
+
+    set_target_properties( ${_target_simple} PROPERTIES
         VERSION ${GLUON_VERSION_STRING}
         SOVERSION ${GLUON_VERSION_STRING}
         DEFINE_SYMBOL MAKE_${_target_uc}_LIB
+        EXPORT_NAME ${_target_short}
     )
 
-    target_link_libraries( ${_target} ${_libs} )
-    set(${_target_uc}_LIBRARIES
-        ${_target}
-        ${_libs}
-        CACHE INTERNAL "Libraries required for ${_target}"
-    )
+    target_include_directories( ${_target_simple} PUBLIC ${_INCLUDES} )
+    target_include_directories( ${_target_simple} PUBLIC "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/${_target_include_dir}>" )
+    target_link_libraries( ${_target_simple} PUBLIC ${_LIBRARIES} )
 
-    if( APPLE )
-        _gluon_setup_framework( ${_target} ${_headers} )
-    endif()
-
-    install( TARGETS ${_target}
+    install( TARGETS ${_target_simple}
+        EXPORT ${_target_simple}Targets
         RUNTIME DESTINATION ${BIN_INSTALL_DIR} COMPONENT ${_target}
         LIBRARY DESTINATION ${LIB_INSTALL_DIR} COMPONENT ${_target}
         ARCHIVE DESTINATION ${LIB_INSTALL_DIR} COMPONENT ${_target}
         FRAMEWORK DESTINATION ${LIB_INSTALL_DIR} COMPONENT ${_target}
     )
 
-    string( REGEX REPLACE "[A-Z][a-z]+([A-Z][a-z]+).*" "\\1" _target_include_dir ${_target} )
-    string( TOLOWER ${_target_include_dir} _target_include_dir )
-
     install( FILES ${_headers} 
-        DESTINATION ${INCLUDE_INSTALL_DIR}/${_target_include_dir} COMPONENT ${_target}
+        DESTINATION ${INCLUDE_INSTALL_DIR}/${_target_include_dir}
+        COMPONENT ${_target}
+    )
+
+    install( EXPORT ${_target_simple}Targets
+        DESTINATION ${LIB_INSTALL_DIR}/cmake/${_target_simple}
+        NAMESPACE Gluon::
+        COMPONENT ${_target}
     )
 endmacro(gluon_add_library)
 
-macro(gluon_add_plugin _target _component)
-    set( _sources "" )
-    set( _libs "" )
-    set( _dest "" )
-
-    set( _current_target "_sources" )
-
-    foreach( _arg ${ARGN} )
-        string( TOLOWER ${_arg} _arg_lc )
-        if( ${_arg_lc} STREQUAL "sources" )
-            set( _current_target "_sources" )
-        elseif( ${_arg_lc} STREQUAL "libraries" )
-            set( _current_target "_libs" )
-        elseif( ${_arg_lc} STREQUAL "destination" )
-            set( _current_target "_dest" )
-        else()
-            list( APPEND ${_current_target} ${_arg} )
-        endif()
-    endforeach()
-
-    if( "${_dest}" STREQUAL "" )
-        set( _dest ${PLUGIN_INSTALL_DIR} )
+macro(gluon_add_plugin _target)
+    cmake_parse_arguments("" "" "DESTINATION;MODULE" "SOURCES;LIBRARIES" ${ARGN})
+    if( _UNPARSED_ARGUMENTS )
+        message(FATAL_ERROR "Unknown keywords given to gluon_add_plugin: ${_UNPARSED_ARGUMENTS}")
     endif()
 
-    string( TOUPPER "${_component}_libraries" _comp_uc )
-    list( APPEND _libs ${${_comp_uc}} )
-
-    add_library( ${_target} MODULE ${_sources} )
-    if( CMAKE_VERSION VERSION_LESS "2.8.6" )
-        automoc4( ${_target} ${_sources} )
+    if( "${_DESTINATION}" STREQUAL "" )
+        set( _DESTINATION ${PLUGIN_INSTALL_DIR} )
     endif()
+
+    add_library( ${_target} MODULE ${_SOURCES} )
 
     string( TOUPPER ${_target} _target_uc )
-    set_target_properties(${_target} PROPERTIES
-        PREFIX ""
-    )
+    set_target_properties(${_target} PROPERTIES PREFIX "" )
     
-    target_link_libraries( ${_target} ${_libs} )
+    target_link_libraries( ${_target} ${_MODULE} ${_LIBRARIES} )
 
-    install( TARGETS ${_target}
-        DESTINATION ${_dest} COMPONENT ${_component}
-    )
+    install( TARGETS ${_target} DESTINATION ${_DESTINATION} COMPONENT ${_MODULE}    )
 endmacro(gluon_add_plugin)
 
 macro(gluon_add_executable _target)
-    set( _sources "" )
-    set( _headers "" )
-    set( _libs "" )
-
-    set( _current_target "_sources" )
-
-    foreach( _arg ${ARGN} )
-        string( TOLOWER ${_arg} _arg_lc )
-        if( ${_arg_lc} STREQUAL "sources" )
-            set( _current_target "_sources" )
-        elseif( ${_arg_lc} STREQUAL "headers" )
-            set( _current_target "_headers" )
-        elseif( ${_arg_lc} STREQUAL "libraries" )
-            set( _current_target "_libs" )
-        else()
-            list( APPEND ${_current_target} ${_arg} )
-        endif()
-    endforeach()
-
-    add_executable( ${_target} ${_sources} )
-    if( CMAKE_VERSION VERSION_LESS "2.8.6" )
-        automoc4( ${_target} ${_sources} )
+    cmake_parse_arguments("" "" "" "SOURCES;HEADERS;LIBRARIES" ${ARGN})
+    if( _UNPARSED_ARGUMENTS )
+        message(FATAL_ERROR "Unknown keywords given to gluon_add_executable: ${_UNPARSED_ARGUMENTS}")
     endif()
 
-    target_link_libraries( ${_target} ${_libs} )
+    add_executable( ${_target} ${_SOURCES} )
+
+    target_link_libraries( ${_target} ${_LIBRARIES} )
 
     install(TARGETS ${_target} DESTINATION ${BIN_INSTALL_DIR} COMPONENT ${_target})
 endmacro(gluon_add_executable)
 
-macro(gluon_include_directories _target)
-    include_directories(${ARGN})
-    string(TOUPPER ${_target} _target_uc)
-    set(${_target_uc}_INCLUDE_DIRS
-        ${ARGN}
-        CACHE INTERNAL "Includes required for ${_target}"
-    )
-endmacro(gluon_include_directories)
-
-macro( _gluon_setup_framework _target )
-
-    #hack for being able to set headers as public in a osx framework
-    set(_public_headers ${ARGN})
-    list(APPEND _public_headers ${_public_headers})
-
-    set_target_properties(${_target} PROPERTIES FRAMEWORK TRUE)
-    set_target_properties(${_target} PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
-    set_target_properties(${_target} PROPERTIES PUBLIC_HEADER "${_public_headers}")
-
-    set(MACOSX_FRAMEWORK_IDENTIFIER ${_target})
-    set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
-    set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
-endmacro( _gluon_setup_framework )
+# macro( _gluon_setup_framework _target )
+#
+#     #hack for being able to set headers as public in a osx framework
+#     set(_public_headers ${ARGN})
+#     list(APPEND _public_headers ${_public_headers})
+#
+#     set_target_properties(${_target} PROPERTIES FRAMEWORK TRUE)
+#     set_target_properties(${_target} PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
+#     set_target_properties(${_target} PROPERTIES PUBLIC_HEADER "${_public_headers}")
+#
+#     set(MACOSX_FRAMEWORK_IDENTIFIER ${_target})
+#     set(MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
+#     set(MACOSX_FRAMEWORK_BUNDLE_VERSION ${GLUON_VERSION_STRING})
+# endmacro( _gluon_setup_framework )
 
 macro( log_status _target )
     string( TOUPPER ${_target} _target_uc )
