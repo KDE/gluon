@@ -1,4 +1,4 @@
-find_package( Qt5Script REQUIRED )
+find_package( Qt5Script REQUIRED CONFIG )
 find_package( Eigen3 REQUIRED )
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/gdl )
@@ -52,7 +52,7 @@ set( GluonCore_HEADERS
 gluon_add_library( Gluon::Core SHARED
     SOURCES ${GluonCore_SRCS}
     HEADERS ${GluonCore_HEADERS}
-    INCLUDES ${Qt5Core_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS} ${Qt5Script_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIR}
+    INCLUDES ${EIGEN3_INCLUDE_DIR}
     LIBRARIES Qt5::Core Qt5::Gui Qt5::Script
 )
 
