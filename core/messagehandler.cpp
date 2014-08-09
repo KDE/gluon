@@ -23,16 +23,16 @@
 
 #include <QtCore/QHash>
 #include <QtCore/QPointer>
-#include <QtQml/QJSValue>
+#include <QtScript/QScriptValue>
 
 using namespace GluonCore;
 
-GLUON_DEFINE_SINGLETON(MessageHandler)
+GLUON_DEFINE_SINGLETON( MessageHandler )
 
 struct JSFunctionBinding
 {
-    QJSValue receiver;
-    QJSValue thisObject;
+    QScriptValue receiver;
+    QScriptValue thisObject;
 };
 
 class MessageHandler::Private
@@ -47,7 +47,7 @@ void MessageHandler::subscribe( const QString& message, GluonObject* receiver )
     d->subscribedObjects.insert( message, QPointer<GluonObject>( receiver ) );
 }
 
-void MessageHandler::subscribe( const QString& message, const QJSValue& receiver, const QJSValue& thisObject )
+void MessageHandler::subscribe( const QString& message, const QScriptValue& receiver, const QScriptValue& thisObject )
 {
     d->subscribedFunctions.insert( message, JSFunctionBinding{ receiver, thisObject } );
 }
@@ -57,7 +57,7 @@ void MessageHandler::unsubscribe( const QString& message, GluonObject* receiver 
     d->subscribedObjects.remove( message, QPointer<GluonObject>( receiver ) );
 }
 
-void MessageHandler::unsubscribe( const QString& message, const QJSValue& receiver, const QJSValue&  thisObject )
+void MessageHandler::unsubscribe( const QString& message, const QScriptValue& receiver, const QScriptValue&  thisObject )
 {
     JSFunctionBinding binding{ receiver, thisObject };
     QMultiHash<QString, JSFunctionBinding>::iterator itr;
@@ -84,7 +84,7 @@ void MessageHandler::publish( const QString& message )
     QMultiHash<QString, JSFunctionBinding>::iterator fitr;
     for( fitr = d->subscribedFunctions.find( message ); fitr != d->subscribedFunctions.end() && fitr.key() == message; ++fitr )
     {
-        fitr.value().receiver.callWithInstance( fitr.value().thisObject, QJSValueList() << message );
+        fitr.value().receiver.call( fitr.value().thisObject, QScriptValueList() << message );
     }
 
     emit publishMessage( message );

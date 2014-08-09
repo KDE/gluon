@@ -24,7 +24,7 @@
 
 #include "singleton.h"
 
-class QJSValue;
+class QScriptValue;
 
 namespace GluonCore
 {
@@ -64,7 +64,7 @@ namespace GluonCore
              * message is published.
              * \param thisObject The "this" object to use when calling receiver.
              */
-            Q_INVOKABLE void subscribe( const QString& message, const QJSValue& receiver, const QJSValue& thisObject );
+            Q_INVOKABLE void subscribe( const QString& message, const QScriptValue& receiver, const QScriptValue& thisObject );
 
             /**
              * Unsubscribe from a message.
@@ -74,7 +74,7 @@ namespace GluonCore
              */
             Q_INVOKABLE void unsubscribe( const QString& message, GluonObject* receiver );
 
-            Q_INVOKABLE void unsubscribe( const QString& message, const QJSValue& receiver, const QJSValue& thisObject );
+            Q_INVOKABLE void unsubscribe( const QString& message, const QScriptValue& receiver, const QScriptValue& thisObject );
 
         public Q_SLOTS:
             /**
