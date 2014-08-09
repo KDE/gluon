@@ -19,7 +19,7 @@
 #ifndef GLUON_AUDIO_EXPORT_H
 #define GLUON_AUDIO_EXPORT_H
 
-#include <QtCore/qglobal.h>
+#include <QtCore/QtGlobal>
 
 #ifndef GLUON_AUDIO_EXPORT
 #if defined(MAKE_GLUONAUDIO_LIB)
