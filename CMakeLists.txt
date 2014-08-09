@@ -1,6 +1,9 @@
 cmake_minimum_required( VERSION 2.8.12 )
 project( Gluon )
 
+# Because CMake acts weird otherwise
+cmake_policy(SET CMP0028 OLD)
+
 #### Project Options ####
 option( WITH_KDE "Build with KDE Development Platform Support" ON )
 option( BUILD_GLUONAUDIO "Build Gluon Audio Library" ON )
