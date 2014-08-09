@@ -14,6 +14,7 @@ set( GluonCore_SRCS
     referencecounter.cpp
     scriptengine.cpp
     gdlserializer.cpp
+    pluginloader.cpp
 
     bindings/com_trolltech_qt_gui_init.cpp
     bindings/qtscript_QColor.cpp
@@ -44,6 +45,8 @@ set( GluonCore_HEADERS
     scriptengine.h
     singleton.h
     gdlserializer.h
+    privatepointer.h
+    pluginloader.h
 )
 
 gluon_add_library( Gluon::Core SHARED
