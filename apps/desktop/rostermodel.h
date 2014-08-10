@@ -53,6 +53,7 @@ class RosterModel : public QAbstractListModel
 
     private Q_SLOTS:
         void updateRoster();
+        void onLoggedOut();
         void presenceChanged(const QString& bareJid, const QString& resource);
 
     private:

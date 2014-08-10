@@ -25,6 +25,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QDebug>
 
+#include <QXmppClient.h>
 #include <QXmppRosterManager.h>
  
 class RosterModel::Private
@@ -48,7 +49,9 @@ RosterModel::RosterModel( QObject* parent )
     //retrieving xmpp singleton
     d->m_xmpp = XmppClient::getInstance();
     
-    //connecting roster updates from qxmpp to model
+    //xmpp client
+    connect(d->m_xmpp, SIGNAL(loggedOut()), SLOT(onLoggedOut()));
+    //roster
     connect(&d->m_xmpp->rosterManager(), SIGNAL(rosterReceived()), SLOT(updateRoster()));
     connect(&d->m_xmpp->rosterManager(), SIGNAL(presenceChanged(QString,QString)), SLOT(presenceChanged(QString,QString)));
     
@@ -175,7 +178,14 @@ Qt::ItemFlags RosterModel::flags( const QModelIndex& index ) const
  
     return QAbstractItemModel::flags( index );
 }
- 
+
+void RosterModel::onLoggedOut()
+{
+    beginResetModel();
+    clear();
+    endResetModel();
+}
+
 void RosterModel::clear()
 {
     d->m_nodes.clear();
