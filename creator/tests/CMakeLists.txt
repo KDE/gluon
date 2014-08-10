@@ -6,9 +6,9 @@ include_directories(
 
 ########### next target ###############
 
-GLUON_UNIT_TESTS(
-    "${GLUON_CREATOR_LIBS}"   # libraries arguement
-    "gluoncreator"            # modulename argument
 
-    # Source files without the extension
+gluon_unit_tests(
+    MODULE GluonCreator
+    LIBRARIES ${GLUONCREATOR_LIBRARIES}
+    TESTS
 )
