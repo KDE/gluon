@@ -18,19 +18,18 @@
  *
  */
 
-#include <QtGui/QGuiApplication>
-#include <QtGui/QWindow>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QLabel>
 
 #include <input/inputmanager.h>
 #include <input/inputdevice.h>
 #include <input/inputparameter.h>
-#include <input/enums.h>
 
 using namespace GluonInput;
 
 int main( int argc, char** argv )
 {
-    QGuiApplication app( argc, argv );
+    QApplication app( argc, argv );
 
     InputManager::instance()->initialize();
 
@@ -44,11 +43,12 @@ int main( int argc, char** argv )
     if( !parameter )
         qFatal( "No return key found!" );
 
-    QObject::connect( parameter, &InputParameter::buttonStateChanged, [parameter]() {
-        if( parameter->buttonState() == GluonInput::ButtonPressed ) qDebug( "Hello World!" );
+    QLabel label;
+
+    QObject::connect( parameter, &InputParameter::buttonStateChanged, [&]() {
+        label.setText( parameter->buttonState() == InputParameter::ButtonPressed ? "Return Pressed" : "Return Released" );
     } );
 
-    QWindow win;
-    win.show();
+    label.show();
     app.exec();
 }
