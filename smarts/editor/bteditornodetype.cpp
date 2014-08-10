@@ -25,7 +25,7 @@
 #include "nodetypefactory.h"
 #include "bteditornode.h"
 
-#include <QtGui/QRadioButton>
+#include <QtWidgets/QRadioButton>
 #include <QtCore/QXmlStreamWriter>
 
 btEditorNodeType::btEditorNodeType(QObject * parent)

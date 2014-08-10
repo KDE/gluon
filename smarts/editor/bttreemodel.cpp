@@ -36,7 +36,6 @@ btTreeModel::btTreeModel(QObject* parent, btBrain* containingBrain)
     , m_rootNode(new btEditorNode())
     , brain(containingBrain)
 {
-    setSupportedDragActions(Qt::MoveAction);
 }
 
 btTreeModel::~btTreeModel()
@@ -46,9 +45,10 @@ btTreeModel::~btTreeModel()
 
 void btTreeModel::setRootNode(btEditorNode *newRoot)
 {
+    beginResetModel();
     delete(m_rootNode);
     m_rootNode = newRoot;
-    reset();
+    endResetModel();
 }
 
 btEditorNode * btTreeModel::rootNode() const
@@ -265,6 +265,7 @@ bool btTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int
 
         if (node)
         {
+            beginResetModel();
             if (row == -1 && column  == -1)
             {
                 if (oldParentNode->type()->className() == "[parallel]")
@@ -322,7 +323,7 @@ bool btTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int
                 parentNode->insertChild(row, node);
             }
 
-            reset();
+            endResetModel();
             emit dataChanged(parent, parent);
 
             return true;

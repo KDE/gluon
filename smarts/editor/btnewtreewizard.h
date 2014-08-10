@@ -21,7 +21,7 @@
 #ifndef GLUON_SMARTS_BTNEWTREEWIZARD_H
 #define GLUON_SMARTS_BTNEWTREEWIZARD_H
 
-#include <QtGui/QWizard>
+#include <QtWidgets/QWizard>
 
 class QLabel;
 class QLineEdit;

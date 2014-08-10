@@ -21,7 +21,7 @@
 #ifndef GLUON_SMARTS_BTNODEEDITWIDGET_H
 #define GLUON_SMARTS_BTNODEEDITWIDGET_H
 
-#include <QtGui/QWidget>
+#include <QtWidgets/QWidget>
 
 class QLabel;
 class QLineEdit;

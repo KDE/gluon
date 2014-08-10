@@ -49,8 +49,8 @@ class btTreeModel : public QAbstractItemModel
         QVariant data( const QModelIndex& index, int role ) const;
         bool setData( const QModelIndex& index, const QVariant& value, int role = Qt::EditRole );
 
-        Qt::ItemFlags flags( const QModelIndex& index ) const;
-        Qt::DropActions supportedDropActions() const;
+        virtual Qt::ItemFlags flags( const QModelIndex& index ) const;
+        virtual Qt::DropActions supportedDropActions() const;
         QStringList mimeTypes() const;
         bool dropMimeData( const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent );
         QMimeData* mimeData( const QModelIndexList& indexes ) const;

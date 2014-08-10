@@ -1,5 +1,5 @@
-
-include_directories(${KDE4_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+find_package(Qt5Widgets REQUIRED)
+find_package(KF5Parts REQUIRED)
 
 set(bteditor_SRCS
     btavailablenodestreeview.cpp
@@ -38,14 +38,17 @@ set(bteditor_SRCS
 	btparallelconditionswidget.cpp
 )
 
-
-set(bteditor_UIS
+qt5_wrap_ui(
+    bteditor_UISRCS
     bteditor.ui
 )
 
-#  qt4_wrap_ui(bteditor_UIS_H ${bteditor_UIS})
-#
-#  qt4_automoc(${bteditor_SRCS})
+gluon_add_executable(
+    bteditor
+    SOURCES ${bteditor_SRCS} ${bteditor_UISRCS}
+    LIBRARIES Qt5::Widgets KF5::XmlGui KF5::Parts Gluon::Player Gluon::Smarts
+)
+
 # if(APPLE)
 # 	add_executable(bteditor MACOSX_BUNDLE ${bteditor_SRCS} ${bteditor_UIS_H})
 # 	#MACOSX_BUNDLE_INFO_STRING
@@ -63,25 +66,16 @@ set(bteditor_UIS
 # 	add_executable(bteditor ${bteditor_SRCS} ${bteditor_UIS_H})
 # endif()
 
-kde4_add_ui_files(
-    bteditor_SRCS
-    bteditor.ui
+gluon_add_plugin(
+    gluon_bteditor
+    SOURCES ${bteditor_SRCS} ${bteditor_UISRCS}
+    LIBRARIES Qt5::Widgets KF5::XmlGui KF5::Parts Gluon::Player Gluon::Smarts
 )
 
-kde4_add_plugin(gluon_bteditor ${bteditor_SRCS})
+# install(FILES gluon_bteditor.desktop
+#         DESTINATION ${SERVICES_INSTALL_DIR}/applications
+#         COMPONENT gluonbteditor)
 
-target_link_libraries(gluon_bteditor ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTXML_LIBRARY} ${KDE4_KDEUI_LIBS} ${KDE4_KPARTS_LIBS} ${GLUON_ENGINE_LIBS} ${GLUON_GRAPHICS_LIBS} ${GLUON_INPUT_LIBS} ${GLUON_PLAYER_LIBS} ${KDE4_KIO_LIBS})
-
-
-install(TARGETS gluon_bteditor
-        DESTINATION ${PLUGIN_INSTALL_DIR}
-        COMPONENT gluonbteditor)
-
-install(FILES gluon_bteditor.desktop
-        DESTINATION ${SERVICES_INSTALL_DIR}/applications
-        COMPONENT gluonbteditor)
-
-install(FILES gluon_bteditor.rc
-        DESTINATION ${DATA_INSTALL_DIR}/bteditor
-        COMPONENT gluonbteditor)
-
+# install(FILES gluon_bteditor.rc
+#         DESTINATION ${DATA_INSTALL_DIR}/bteditor
+#         COMPONENT gluonbteditor)

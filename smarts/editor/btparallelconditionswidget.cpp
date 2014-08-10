@@ -25,9 +25,9 @@
 #include "btnode.h"
 
 #include <QtCore/QVariant>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QRadioButton>
-#include <QtGui/QGroupBox>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QRadioButton>
+#include <QtWidgets/QGroupBox>
 
 btParallelConditionsWidget::btParallelConditionsWidget(QWidget * parent)
     : QWidget(parent)

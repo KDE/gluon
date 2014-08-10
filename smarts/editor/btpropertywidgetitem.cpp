@@ -28,11 +28,11 @@
 #include "bteditornodetype.h"
 #include "btparallelconditionswidget.h"
 
-#include <QtGui/QListWidgetItem>
-#include <QtGui/QLabel>
-#include <QtGui/QSpinBox>
-#include <QtGui/QLineEdit>
-#include <QtGui/QGridLayout>
+#include <QtWidgets/QListWidgetItem>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QSpinBox>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QGridLayout>
 
 btPropertyWidgetItem::btPropertyWidgetItem(QObject * parent, Qt::WindowFlags f)
 {

@@ -36,9 +36,9 @@
 #include "bteditornodetype.h"
 #include "btnewtreewizard.h"
 
-#include <QtGui/QMessageBox>
-#include <QtGui/QFileDialog>
-#include <QtGui/QMenu>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QMenu>
 
 bteditor::bteditor(QWidget *parent)
     : KParts::MainWindow()

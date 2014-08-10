@@ -24,7 +24,7 @@
 #include "ui_bteditor.h"
 #include "treeselectordialog.h"
 
-#include <kparts/mainwindow.h>
+#include <KParts/MainWindow>
 
 class Menu;
 

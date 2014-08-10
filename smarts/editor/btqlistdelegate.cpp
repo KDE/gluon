@@ -22,8 +22,7 @@
 
 #include "btglobal.h"
 
-#include <QtGui/QComboBox>
-#include <QtGui/QItemDelegate>
+#include <QtWidgets/QComboBox>
 
 btQListDeletgate::btQListDeletgate(QObject *parent)
 : QItemDelegate(parent)

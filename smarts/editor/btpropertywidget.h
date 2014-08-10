@@ -22,7 +22,7 @@
 #define GLUON_SMARTS_BTPROPERTYWIDGET_H
 
 #include <QtCore/QVariant>
-#include <QtGui/QWidget>
+#include <QtWidgets/QWidget>
 
 class QMenu;
 

@@ -21,8 +21,8 @@
 #ifndef GLUON_SMARTS_BTPROPERTYWIDGETITEM_H
 #define GLUON_SMARTS_BTPROPERTYWIDGETITEM_H
 
-#include <QtGui/QWidget>
-#include <QtGui/QListWidgetItem>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QListWidgetItem>
 
 /**
  * The Property Widget Item is a class which will take an object and the name

@@ -21,7 +21,7 @@
 #ifndef GLUON_SMARTS_BTTREEEDITOR_H
 #define GLUON_SMARTS_BTTREEEDITOR_H
 
-#include <QtGui/QTreeView>
+#include <QTreeView>
 
 class btTreeEditor: public QTreeView
 {

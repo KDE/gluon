@@ -21,7 +21,7 @@
 #ifndef GLUON_SMARTS_BTQVARIANTLISTWIDGET_H
 #define GLUON_SMARTS_BTQVARIANTLISTWIDGET_H
 
-#include <QtGui/QWidget>
+#include <QtWidgets/QWidget>
 
 class QVBoxLayout;
 class QHBoxLayout;

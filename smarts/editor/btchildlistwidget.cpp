@@ -25,9 +25,9 @@
 #include "bteditornodetype.h"
 
 #include <QtCore/QVariant>
-#include <QtGui/QLabel>
-#include <QtGui/QDoubleSpinBox>
-#include <QtGui/QVBoxLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QDoubleSpinBox>
+#include <QtWidgets/QVBoxLayout>
 
 btChildListWidget::btChildListWidget(QWidget * parent)
     : QWidget(parent)

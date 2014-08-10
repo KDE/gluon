@@ -21,7 +21,7 @@
 #ifndef GLUON_SMARTS_BTCHILDLISTWIDGET_H
 #define GLUON_SMARTS_BTCHILDLISTWIDGET_H
 
-#include <QtGui/QWidget>
+#include <QtWidgets/QWidget>
 
 class QVBoxLayout;
 

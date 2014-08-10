@@ -23,9 +23,9 @@
 #include "bteditor.h"
 #include "btnodeeditwidget.h"
 
-#include <QtGui/QWizard>
-#include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
+#include <QtWidgets/QWizard>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 
 NewTreeWizard::NewTreeWizard(QWidget *parent)
         : QWizard(parent)

@@ -21,7 +21,7 @@
 #ifndef GLUON_SMARTS_BTQLISTDELEGATE_H
 #define GLUON_SMARTS_BTQLISTDELEGATE_H
 
-#include <QtGui/QItemDelegate>
+#include <QtWidgets/QItemDelegate>
 
 class QModelIndex;
 

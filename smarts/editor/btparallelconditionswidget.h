@@ -21,7 +21,7 @@
 #ifndef GLUON_SMARTS_BTPARALLELCONDITIONSWIDGET_H
 #define GLUON_SMARTS_BTPARALLELCONDITIONSWIDGET_H
 
-#include <QtGui/QWidget>
+#include <QtWidgets/QWidget>
 
 class QVBoxLayout;
 

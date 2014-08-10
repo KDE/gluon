@@ -26,11 +26,11 @@
 #include "colorgen.h"
 
 #include <QtCore/QVariant>
-#include <QtGui/QLabel>
-#include <QtGui/QGridLayout>
-#include <QtGui/QToolButton>
-#include <QtGui/QMenu>
-#include <QtGui/QAction>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QToolButton>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QAction>
 
 btPropertyWidget::btPropertyWidget(QObject * parent)
     : m_node(NULL)

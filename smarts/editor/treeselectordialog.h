@@ -21,14 +21,14 @@
 #ifndef TREESELECTORDIALOG_H
 #define TREESELECTORDIALOG_H
 
-#include <QDialog>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QListView>
-#include <QPushButton>
-#include <QStringListModel>
-#include <QMessageBox>
-#include <QDebug>
+#include <QtWidgets/QDialog>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QListView>
+#include <QtWidgets/QPushButton>
+#include <QtCore/QStringListModel>
+#include <QtWidgets/QMessageBox>
+#include <QtCore/QDebug>
 
 #include "bteditor.h"
 #include "bttreemodel.h"

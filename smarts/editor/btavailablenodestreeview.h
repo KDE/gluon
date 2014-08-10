@@ -21,7 +21,7 @@
 #ifndef GLUON_SMARTS_BTAVAILABLENODESTREEVIEW_H
 #define GLUON_SMARTS_BTAVAILABLENODESTREEVIEW_H
 
-#include <QtGui/QTreeView>
+#include <QtWidgets/QTreeView>
 
 class btAvailableNodesTreeView : public QTreeView
 {

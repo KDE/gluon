@@ -25,13 +25,13 @@
 #include "bttreemodel.h"
 #include "btqlistdelegate.h"
 
-#include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGridLayout>
-#include <QtGui/QTableView>
-#include <QtGui/QPushButton>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QTableView>
+#include <QtWidgets/QPushButton>
 
 btNodeEditWidget::btNodeEditWidget(QWidget * parent)
 {

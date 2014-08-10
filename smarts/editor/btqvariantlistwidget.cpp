@@ -20,11 +20,11 @@
 
 #include "btqvariantlistwidget.h"
 
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QListWidget>
-#include <QtGui/QListWidgetItem>
-#include <QtGui/QPushButton>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QListWidget>
+#include <QtWidgets/QListWidgetItem>
+#include <QtWidgets/QPushButton>
 
 btQVariantListWidget::btQVariantListWidget(bool enabled, QWidget * parent) : QWidget(parent)
 {
