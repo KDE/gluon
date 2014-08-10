@@ -4,6 +4,3 @@ gluon_add_plugin(gluoncreator_dockplugin_projectdock
     LIBRARIES Gluon::Creator
 )
 
-install(FILES gluoncreator_dockplugin_projectdock.desktop
-        DESTINATION ${SERVICES_INSTALL_DIR}
-        COMPONENT gluoncreator)

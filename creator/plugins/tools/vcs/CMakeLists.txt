@@ -19,6 +19,3 @@ install(TARGETS gluon_creator_toolplugin_vcstool
         DESTINATION ${PLUGIN_INSTALL_DIR}
         COMPONENT gluoncreator)
 
-install(FILES gluon_creator_toolplugin_vcstool.desktop
-        DESTINATION ${SERVICES_INSTALL_DIR}
-        COMPONENT gluoncreator)

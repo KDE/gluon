@@ -65,6 +65,4 @@ gluon_add_library( Gluon::Creator SHARED
 #add_subdirectory( nodeeditor )
 add_subdirectory( plugins )
 
-install( FILES gluoncreator_plugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR} COMPONENT gluoncreator )
-
 gluon_add_subdirectories( tests )

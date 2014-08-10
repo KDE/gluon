@@ -28,8 +28,9 @@ namespace GluonCreator
     class VcsToolPlugin : public ToolPlugin
     {
             Q_OBJECT
+            GLUON_TOOL_PLUGIN( metadata.json )
         public:
-            VcsToolPlugin( QObject* parent, const QList<QVariant>& params );
+            VcsToolPlugin( QObject* parent=0, const QList<QVariant>& params=QList<QVariant>() );
             ~VcsToolPlugin();
 
             void initialize() {}

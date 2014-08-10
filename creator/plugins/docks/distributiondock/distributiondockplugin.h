@@ -28,8 +28,9 @@ namespace GluonCreator
     class DistributionDockPlugin : public DockPlugin
     {
             Q_OBJECT
+            GLUON_DOCK_PLUGIN( metadata.json )
         public:
-            DistributionDockPlugin( QObject* parent, const QList< QVariant >& params );
+            DistributionDockPlugin( QObject* parent=0, const QList< QVariant >& params=QList<QVariant>() );
             ~DistributionDockPlugin();
 
         protected:

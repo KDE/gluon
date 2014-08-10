@@ -32,7 +32,7 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            DockPlugin( QObject* parent, const QList<QVariant>& params );
+            DockPlugin( QObject* parent, const QList<QVariant>& params=QList<QVariant>() );
             virtual ~DockPlugin();
 
             virtual void load( KXmlGuiWindow* mainWindow );
@@ -45,5 +45,7 @@ namespace GluonCreator
     };
 
 }
+
+#define GLUON_DOCK_PLUGIN(_file) Q_PLUGIN_METADATA(IID "org.gluon.creator.dock/1.0" FILE #_file)
 
 #endif // GLUON_CREATOR_DOCKPLUGIN_H

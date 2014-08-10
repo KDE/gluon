@@ -28,8 +28,9 @@ namespace GluonCreator
     class MessageDockPlugin : public DockPlugin
     {
             Q_OBJECT
+            GLUON_DOCK_PLUGIN( metadata.json )
         public:
-            MessageDockPlugin( QObject* parent, const QList<QVariant>& params );
+            MessageDockPlugin( QObject* parent=0, const QList<QVariant>& params=QList<QVariant>() );
             ~MessageDockPlugin();
 
         protected:

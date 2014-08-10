@@ -1,0 +1,20 @@
+{
+    "Comment": "Provides a list with components in a dock.",
+    "Encoding": "UTF-8",
+    "Icon": "gluon",
+    "Name": "Components Dock",
+    "ServiceTypes": "GluonCreator/Plugin",
+    "Type": "Service",
+    "X-KDE-GluonCreatorPluginVersion": "1",
+    "X-KDE-Library": "gluoncreator_dockplugin_componentsdock",
+    "X-KDE-PluginInfo-Author": "Arjen Hiemstra",
+    "X-KDE-PluginInfo-Category": "dock",
+    "X-KDE-PluginInfo-Depends": [
+    ],
+    "X-KDE-PluginInfo-Email": "djfreestyler@gmail.com",
+    "X-KDE-PluginInfo-EnabledByDefault": true,
+    "X-KDE-PluginInfo-License": "GPL",
+    "X-KDE-PluginInfo-Name": "gluoncreator_dockplugin_componentsdock",
+    "X-KDE-PluginInfo-Version": "0.1",
+    "X-KDE-PluginInfo-Website": "http://gluon.tuxfamily.org"
+}

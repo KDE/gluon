@@ -37,7 +37,7 @@ namespace GluonCreator
     {
             Q_OBJECT
         public:
-            Plugin( QObject* parent, const QList<QVariant>& params );
+            Plugin( QObject* parent, const QList<QVariant>& params = QList<QVariant>() );
             virtual ~Plugin();
 
             virtual void load( KXmlGuiWindow* mainWindow ) = 0;

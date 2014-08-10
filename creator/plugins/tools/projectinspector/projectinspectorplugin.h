@@ -28,8 +28,9 @@ namespace GluonCreator
     class ProjectInspectorPlugin : public GluonCreator::ToolPlugin
     {
             Q_OBJECT
+            GLUON_TOOL_PLUGIN( metadata.json )
         public:
-            ProjectInspectorPlugin( QObject* parent, const QList<QVariant>& params );
+            ProjectInspectorPlugin( QObject* parent=0, const QList<QVariant>& params=QList<QVariant>() );
             ~ProjectInspectorPlugin();
 
         public Q_SLOTS:

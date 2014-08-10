@@ -28,8 +28,9 @@ namespace GluonCreator
     class ProjectDockPlugin : public DockPlugin
     {
             Q_OBJECT
+            GLUON_DOCK_PLUGIN( metadata.json )
         public:
-            ProjectDockPlugin( QObject* parent, const QList< QVariant >& params );
+            ProjectDockPlugin( QObject* parent=0, const QList< QVariant >& params=QList<QVariant>() );
             ~ProjectDockPlugin();
 
         protected:

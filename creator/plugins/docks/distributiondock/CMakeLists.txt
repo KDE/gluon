@@ -16,4 +16,3 @@ gluon_add_plugin(gluoncreator_dockplugin_distributiondock
     LIBRARIES Gluon::Creator
 )
 
-install(FILES gluoncreator_dockplugin_distributiondock.desktop DESTINATION ${SERVICES_INSTALL_DIR})

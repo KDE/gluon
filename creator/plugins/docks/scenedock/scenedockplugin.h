@@ -28,8 +28,9 @@ namespace GluonCreator
     class SceneDockPlugin : public DockPlugin
     {
             Q_OBJECT
+            GLUON_DOCK_PLUGIN( metadata.json )
         public:
-            SceneDockPlugin( QObject* parent, const QList<QVariant>& params );
+            SceneDockPlugin( QObject* parent=0, const QList<QVariant>& params=QList<QVariant>() );
             ~SceneDockPlugin();
 
         protected:
