@@ -81,7 +81,8 @@ bool QtKeyboardDevice::eventFilter(QObject* target, QEvent* event)
         QKeyEvent* kevent = static_cast< QKeyEvent* >( event );
         if( d->parameters.contains( kevent->key() ) )
         {
-            d->parameters.value( kevent->key() )->setButtonState( ButtonPressed );
+            d->parameters.value( kevent->key() )->setButtonState( InputParameter::ButtonPressed );
+            return true;
         }
     }
     else if( event->type() == QEvent::KeyRelease )
@@ -89,7 +90,8 @@ bool QtKeyboardDevice::eventFilter(QObject* target, QEvent* event)
         QKeyEvent* kevent = static_cast< QKeyEvent* >( event );
         if( d->parameters.contains( kevent->key() ) )
         {
-            d->parameters.value( kevent->key() )->setButtonState( ButtonReleased );
+            d->parameters.value( kevent->key() )->setButtonState( InputParameter::ButtonReleased );
+            return true;
         }
     }
 

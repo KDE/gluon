@@ -1,7 +1,5 @@
 
 set( GluonInput_SRCS
-#     axisparameter.cpp
-#     buttonparameter.cpp
     inputaction.cpp
     inputparameter.cpp
     inputmanager.cpp
@@ -9,8 +7,6 @@ set( GluonInput_SRCS
 )
 
 set( GluonInput_HEADERS
-#     axisparameter.h
-#     buttonparameter.h
     inputaction.h
     inputparameter.h
     inputmanager.h

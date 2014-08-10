@@ -52,7 +52,7 @@ bool InputParameter::hasButtonState() const
     return d->type == Button;
 }
 
-ButtonState InputParameter::buttonState() const
+InputParameter::ButtonState InputParameter::buttonState() const
 {
     return d->buttonState;
 }

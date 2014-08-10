@@ -25,7 +25,6 @@
 
 #include <core/privatepointer.h>
 
-#include "enums.h"
 #include "gluoninput_export.h"
 
 namespace GluonInput
@@ -41,6 +40,14 @@ namespace GluonInput
         Q_PROPERTY( bool hasAxisValue READ hasAxisValue CONSTANT )
 
         public:
+            enum ButtonState
+            {
+                ButtonUnknown,
+                ButtonPressed,
+                ButtonReleased,
+            };
+            Q_ENUMS( ButtonState );
+
             enum ParameterType
             {
                 Button,
