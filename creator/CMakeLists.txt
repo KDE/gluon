@@ -1,7 +1,5 @@
-gluon_include_directories( GluonCreator
-    ${GLUONPLAYER_INCLUDES}
-    ${KDE4_INCLUDES}
-)
+find_package( Qt5Widgets REQUIRED CONFIG )
+find_package( KF5 REQUIRED Parts GuiAddons WidgetsAddons KIO TextEditor XmlGui CoreAddons Service Completion I18n Config )
 
 set( GluonCreator_SRCS
     abstractundocommand.cpp
@@ -58,10 +56,10 @@ set( GluonCreator_HEADERS
     widgets/propertywidget.h
 )
 
-gluon_add_library( GluonCreator SHARED
+gluon_add_library( Gluon::Creator SHARED
     SOURCES ${GluonCreator_SRCS}
     HEADERS ${GluonCreator_HEADERS}
-    LIBRARIES ${GLUONPLAYER_LIBRARIES} ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KPARTS_LIBS} ${KDE4_KTEXTEDITOR_LIBS}
+    LIBRARIES Gluon::Player KF5::GuiAddons KF5::KIOCore KF5::KIOWidgets KF5::Parts KF5::TextEditor KF5::XmlGui KF5::CoreAddons KF5::Service KF5::Completion KF5::ConfigCore KF5::I18n
 )
 
 #add_subdirectory( nodeeditor )

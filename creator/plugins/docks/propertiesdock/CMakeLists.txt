@@ -18,10 +18,10 @@ set(propertiesdock_SRCS
     propertywidgetitems/qvariantlistpropertywidgetitem.cpp
 )
 
-gluon_add_plugin(gluoncreator_dockplugin_propertiesdock GluonCreator
+gluon_add_plugin(gluoncreator_dockplugin_propertiesdock 
+    MODULE Gluon::Creator
     SOURCES ${propertiesdock_SRCS}
-    LIBRARIES ${GLUONCREATOR_LIBRARIES}
-    DESTINATION ${KDE4_PLUGIN_INSTALL_DIR}
+    LIBRARIES Gluon::Creator
 )
 
 install(FILES gluoncreator_dockplugin_propertiesdock.desktop

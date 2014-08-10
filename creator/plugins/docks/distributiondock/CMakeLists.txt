@@ -3,17 +3,17 @@ set(distributiondock_SRCS
     distributiondockplugin.cpp
 )
 
-kde4_add_ui_files(
+qt5_wrap_ui(
     distributiondock_SRCS
     distributiondock.ui
 )
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-gluon_add_plugin(gluoncreator_dockplugin_distributiondock GluonCreator
+gluon_add_plugin(gluoncreator_dockplugin_distributiondock 
+    MODULE Gluon::Creator
     SOURCES ${distributiondock_SRCS}
-    LIBRARIES ${GLUONCREATOR_LIBRARIES}
-    DESTINATION ${KDE4_PLUGIN_INSTALL_DIR}
+    LIBRARIES Gluon::Creator
 )
 
 install(FILES gluoncreator_dockplugin_distributiondock.desktop DESTINATION ${SERVICES_INSTALL_DIR})

@@ -1,7 +1,7 @@
-gluon_add_plugin(gluon_viewer_part GluonCreator
+gluon_add_plugin(gluon_viewer_part 
+    MODULE Gluon::Creator
     SOURCES gluonviewerpart.cpp
-    LIBRARIES ${GLUONENGINE_LIBRARIES} ${GLUONGRAPHICS_LIBRARIES} ${GLUONINPUT_LIBRARIES} ${KDE4_KDEUI_LIBS} ${KDE4_KPARTS_LIBS}
-    DESTINATION ${KDE4_PLUGIN_INSTALL_DIR}
+    LIBRARIES Gluon::Engine KF5::Parts #Gluon::Graphics Gluon::Input
 )
 
 install(FILES gluon_viewer_part.desktop

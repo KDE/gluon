@@ -5,10 +5,10 @@ set(projectinspector_SRCS
     qobjecttreemodel.cpp
 )
 
-gluon_add_plugin(gluoncreator_toolplugin_projectinspector GluonCreator
+gluon_add_plugin(gluoncreator_toolplugin_projectinspector 
+    MODULE Gluon::Creator
     SOURCES ${projectinspector_SRCS}
-    LIBRARIES ${GLUONCREATOR_LIBRARIES}
-    DESTINATION ${KDE4_PLUGIN_INSTALL_DIR}
+    LIBRARIES Gluon::Creator
 )
 
 install(FILES gluoncreator_toolplugin_projectinspector.desktop

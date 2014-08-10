@@ -1,7 +1,7 @@
-gluon_add_plugin(gluoncreator_dockplugin_componentsdock GluonCreator
+gluon_add_plugin(gluoncreator_dockplugin_componentsdock 
+    MODULE Gluon::Creator
     SOURCES componentsdock.cpp componentsdockplugin.cpp
-    LIBRARIES ${GLUONCREATOR_LIBRARIES}
-    DESTINATION ${KDE4_PLUGIN_INSTALL_DIR}
+    LIBRARIES Gluon::Creator
 )
 
 install(FILES gluoncreator_dockplugin_componentsdock.desktop
