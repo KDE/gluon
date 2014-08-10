@@ -19,6 +19,7 @@
  */
 
 #include "inputdevice.h"
+#include "inputparameter.h"
 
 using namespace GluonInput;
 
@@ -47,6 +48,17 @@ QString InputDevice::name() const
 QList< InputParameter* > InputDevice::parameters() const
 {
     return d->parameters;
+}
+
+InputParameter* InputDevice::parameter(const QString& name) const
+{
+    for( auto p : d->parameters )
+    {
+        if( p->name() == name )
+            return p;
+    }
+
+    return nullptr;
 }
 
 InputParameter* InputDevice::parameter(int id) const

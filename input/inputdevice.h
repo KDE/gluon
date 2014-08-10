@@ -44,6 +44,7 @@ namespace GluonInput
 
             virtual QList< InputParameter* > parameters() const;
 
+            virtual InputParameter* parameter( const QString& name ) const;
             virtual InputParameter* parameter( int id ) const;
 
         protected:
