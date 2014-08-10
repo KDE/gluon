@@ -55,6 +55,10 @@ namespace GluonCore
              * Decrease the number of references by one.
              */
             void deref();
+            /**
+             * Retrieve the number of references.
+             */
+            int count() const;
 
         private:
             QAtomicInt m_ref;
