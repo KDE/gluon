@@ -22,7 +22,7 @@
 
 #include "../gluoncreator_macros.h"
 
-#include <QtGui/QWidget>
+#include <QtWidgets/QWidget>
 
 namespace GluonCreator
 {

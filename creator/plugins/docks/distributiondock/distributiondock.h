@@ -20,7 +20,7 @@
 #ifndef GLUON_CREATOR_DISTRIBUTIONDOCK_H
 #define GLUON_CREATOR_DISTRIBUTIONDOCK_H
 
-#include <QtGui/QDockWidget>
+#include <QtWidgets/QDockWidget>
 
 namespace GluonPlayer
 {

@@ -21,9 +21,9 @@
 
 #include "vectorpropertywidgetitem.h"
 
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QDoubleSpinBox>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QDoubleSpinBox>
 #include <cfloat>
 #include <core/gluonvarianttypes.h>
 #include <Eigen/Core>

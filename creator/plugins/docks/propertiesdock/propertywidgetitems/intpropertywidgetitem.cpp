@@ -21,7 +21,7 @@
 
 #include "intpropertywidgetitem.h"
 
-#include <QtGui/QSpinBox>
+#include <QtWidgets/QSpinBox>
 #include <QtCore/QDebug>
 
 #include <core/gluonobject.h>

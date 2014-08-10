@@ -23,9 +23,7 @@
 #include <core/gluonobject.h>
 #include <core/metainfo.h>
 
-#include <knuminput.h>
-
-#include <QtGui/QDoubleSpinBox>
+#include <QtWidgets/QDoubleSpinBox>
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, QRealPropertyWidgetItem )
 
 using namespace GluonCreator;
@@ -62,30 +60,24 @@ QRealPropertyWidgetItem::setEditProperty( const QString& value )
     delete editWidget();
 
     GluonCore::GluonObject* theObject = qobject_cast<GluonCore::GluonObject*>( editObject() );
-    bool noPropertyRange = true;;
-    if( theObject )
+    
+    double min, max;
+    if( theObject && theObject->hasMetaInfo() && theObject->metaInfo()->hasPropertyRange(value) )
     {
-        if( theObject->hasMetaInfo() )
-        {
-            if( theObject->metaInfo()->hasPropertyRange( value ) )
-            {
-                noPropertyRange = false;
-                KDoubleNumInput* editor = new KDoubleNumInput( this );
-                editor->setRange( theObject->metaInfo()->propertyRangeMin( value ), theObject->metaInfo()->propertyRangeMax( value ) );
-                setEditWidget( editor );
-            }
-        }
+        min = theObject->metaInfo()->propertyRangeMin( value );
+        max = theObject->metaInfo()->propertyRangeMax( value );
     }
-
-    if( noPropertyRange )
+    else
     {
-        QDoubleSpinBox* spinBox = new QDoubleSpinBox( this );
-        spinBox->setMinimum( -FLT_MAX );
-        spinBox->setMaximum( FLT_MAX );
-        spinBox->setSingleStep( 0.01f );
-        setEditWidget( spinBox );
-
+        min = -FLT_MIN;
+        max = FLT_MAX;
     }
+    
+    QDoubleSpinBox* spinBox = new QDoubleSpinBox( this );
+    spinBox->setMinimum( min );
+    spinBox->setMaximum( max );
+    spinBox->setSingleStep( 0.01f );
+    setEditWidget( spinBox );
 
     connect( editWidget(), SIGNAL(valueChanged(double)), SLOT(qrealValueChanged(double)) );
     GluonCreator::PropertyWidgetItem::setEditProperty( value );

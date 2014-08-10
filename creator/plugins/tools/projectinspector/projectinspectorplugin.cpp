@@ -19,9 +19,9 @@
 
 #include "projectinspectorplugin.h"
 
-#include <KDE/KAction>
-#include <KDE/KActionCollection>
-#include <KDE/KLocalizedString>
+#include <QtWidgets/QAction>
+#include <KXmlGui/KActionCollection>
+#include <KI18n/KLocalizedString>
 #include "projectinspectorwindow.h"
 
 using namespace GluonCreator;
@@ -34,7 +34,7 @@ class ProjectInspectorPlugin::Private
 ProjectInspectorPlugin::ProjectInspectorPlugin(QObject* parent, const QList< QVariant >& params)
     : ToolPlugin(parent, params), d( new Private )
 {
-    setComponentData( KGlobal::mainComponent() );
+    //setComponentData( KGlobal::mainComponent() ); TODO: Plugins
     setXMLFile( "gluoncreator_toolplugin_projectinspectorui.rc", true );
 }
 
@@ -50,7 +50,7 @@ void ProjectInspectorPlugin::showWindow()
 
 void ProjectInspectorPlugin::initialize()
 {
-    KAction* showAction = new KAction( i18nc( "Show the Project Inspector window", "Project Inspector..." ), this );
+    QAction* showAction = new QAction( i18nc( "Show the Project Inspector window", "Project Inspector..." ), this );
     connect( showAction, SIGNAL(triggered(bool)), SLOT(showWindow()) );
     actionCollection()->addAction( "show_projectinspector", showAction );
 }

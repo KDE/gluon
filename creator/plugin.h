@@ -22,7 +22,7 @@
 
 #include "gluoncreator_macros.h"
 
-#include <KDE/KXmlGuiWindow>
+#include <KXmlGui/KXmlGuiWindow>
 
 #include <QtCore/QObject>
 

@@ -32,9 +32,9 @@
 #include <player/gameuploadjob.h>
 #include <player/archive/archiver.h>
 
-#include <KDE/KLocalizedString>
+#include <KI18n/KLocalizedString>
 
-#include <QtGui/QPushButton>
+#include <QtWidgets/QPushButton>
 #include <QtCore/QStateMachine>
 #include <QtCore/QHistoryState>
 

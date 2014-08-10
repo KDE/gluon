@@ -21,15 +21,15 @@
 #include "qvariantlistpropertywidgetitem.h"
 #include "core/debughelper.h"
 
-#include <KIcon>
-#include <KLocalizedString>
+#include <KI18n/KLocalizedString>
 
-#include <QtGui/QGridLayout>
-#include <QtGui/QToolButton>
-#include <QtGui/QLabel>
-#include <QtGui/QSpinBox>
-#include <QtGui/QLineEdit>
-#include <QtGui/QMenu>
+#include <QtGui/QIcon>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QToolButton>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QSpinBox>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QMenu>
 
 using namespace GluonCreator;
 
@@ -61,7 +61,7 @@ QVariantListPropertyWidgetItem::QVariantListPropertyWidgetItem(QWidget* parent, 
     layout->setSpacing( 0 );
 
     addButton = new QToolButton( centralWidget );
-    addButton->setIcon( KIcon( "list-add" ) );
+    addButton->setIcon( QIcon::fromTheme( "list-add" ) );
     connect( addButton, SIGNAL(clicked(bool)), SLOT(showAdditionMenu()) );
     layout->addWidget( addButton, 0, 0 );
 
@@ -195,7 +195,7 @@ void QVariantListPropertyWidgetItem::addItem(QVariant value)
     containerLayout->setSpacing( 0 );
 
     QToolButton* removeButton = new QToolButton( listItems );
-    removeButton->setIcon( KIcon( "list-remove" ) );
+    removeButton->setIcon( QIcon::fromTheme( "list-remove" ) );
     connect( removeButton, SIGNAL(clicked(bool)), SLOT(removeClicked()) );
     containerLayout->addWidget( removeButton );
 

@@ -21,8 +21,8 @@
 
 #include "qsizefpropertywidgetitem.h"
 
-#include <QtGui/QDoubleSpinBox>
-#include <QtGui/QHBoxLayout>
+#include <QtWidgets/QDoubleSpinBox>
+#include <QtWidgets/QHBoxLayout>
 
 #include <cfloat>
 

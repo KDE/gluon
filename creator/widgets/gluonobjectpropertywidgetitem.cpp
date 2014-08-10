@@ -26,13 +26,13 @@
 #include <engine/gameproject.h>
 #include <engine/gluon_engine_metatypes.h>
 
-#include <KDE/KMessageBox>
-#include <KDE/KLocalizedString>
-#include <KDE/KInputDialog>
+#include <KWidgetsAddons/KMessageBox>
+#include <KI18n/KLocalizedString>
 
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QToolButton>
-#include <QtGui/QPushButton>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QToolButton>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QInputDialog>
 
 namespace GluonCreator
 {
@@ -87,7 +87,7 @@ GluonObjectPropertyWidgetItem::GluonObjectPropertyWidgetItem( const QString& typ
     connect( d->currentValue, SIGNAL(clicked(bool)), SLOT(browseForItems()) );
 
     d->editButton = new QToolButton( this );
-    d->editButton->setIcon( KIcon( "document-edit" ) );
+    d->editButton->setIcon( QIcon::fromTheme( "document-edit" ) );
     d->editButton->setText( i18nc( "Edit/preview currently selected object", "Edit" ) );
     d->editButton->setToolTip( i18n( "Edit/preview currently selected object" ) );
     base->addWidget( d->editButton );
@@ -149,7 +149,7 @@ GluonObjectPropertyWidgetItem::browseForItems()
         foreach( const GluonCore::GluonObject * item, items )
         nameList.append( item->fullyQualifiedName() );
 
-        QString chosen = KInputDialog::getItem( caption, label, nameList, 0, false, &ok, this );
+        QString chosen = QInputDialog::getItem( this, caption, label, nameList, 0, false, &ok );
         if( ok )
         {
             GluonCore::GluonObject* chosenItem = 0;

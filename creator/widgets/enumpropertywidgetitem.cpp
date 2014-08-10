@@ -23,9 +23,9 @@
 #include <core/debughelper.h>
 #include <core/gluonobjectfactory.h>
 
-#include <KDE/KComboBox>
+#include <KCompletion/KComboBox>
 
-#include <QtGui/QLayout>
+#include <QtWidgets/QLayout>
 #include <QtCore/QMetaEnum>
 
 namespace GluonCreator

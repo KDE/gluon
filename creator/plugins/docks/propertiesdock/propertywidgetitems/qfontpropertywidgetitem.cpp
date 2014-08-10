@@ -21,7 +21,7 @@
 
 #include "qfontpropertywidgetitem.h"
 
-#include <KFontRequester>
+#include <KWidgetsAddons/KFontRequester>
 
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, QFontPropertyWidgetItem );
 

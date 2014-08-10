@@ -19,9 +19,9 @@
 
 #include "nullpropertywidgetitem.h"
 
-#include <KDE/KLocalizedString>
+#include <KI18n/KLocalizedString>
 
-#include <QtGui/QLabel>
+#include <QtWidgets/QLabel>
 
 // This is commented out specifically to inform you that this should not be done.
 // As this class is not supposed to be used normally, it is a special case

@@ -27,11 +27,11 @@
 #include <core/gluonobject.h>
 #include <core/debughelper.h>
 
-#include <KDE/KLocalizedString>
-#include <KDE/KIcon>
+#include <KI18n/KLocalizedString>
 
 #include <QtCore/QMimeData>
 #include <QtCore/QMetaClassInfo>
+#include <QtGui/QIcon>
 
 namespace GluonCreator
 {
@@ -185,7 +185,7 @@ ComponentModel::data( const QModelIndex& index, int role ) const
             }
             break;
         case Qt::DecorationRole:
-            return KIcon( item->iconName );
+            return QIcon::fromTheme( item->iconName );
             break;
         default:
             return QVariant();

@@ -24,7 +24,7 @@
 
 #include <core/singleton.h>
 
-#include <KDE/KPluginInfo>
+#include <KService/KPluginInfo>
 
 #include <QtCore/QHash>
 

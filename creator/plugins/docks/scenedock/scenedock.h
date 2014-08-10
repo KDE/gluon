@@ -22,7 +22,7 @@
 #define GLUON_CREATOR_SCENEDOCK_H
 
 #include <QtCore/QModelIndex>
-#include <QtGui/QDockWidget>
+#include <QtWidgets/QDockWidget>
 
 #include <creator/selectionmanager.h>
 

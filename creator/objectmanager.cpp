@@ -41,14 +41,15 @@
 
 #include <core/debughelper.h>
 
-#include <KDE/KLocalizedString>
-#include <KDE/KMimeType>
-#include <KDE/KDirWatch>
+#include <KI18n/KLocalizedString>
+#include <KCoreAddons/KDirWatch>
 
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
 #include <QtCore/QStringBuilder>
 #include <QtCore/QDebug>
+#include <QtCore/QMimeDatabase>
+#include <QtCore/QMimeType>
 
 using namespace GluonCreator;
 
@@ -105,9 +106,10 @@ GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, Gluo
     GluonCore::GluonObject* newChild = 0;
     if( className.isEmpty() )
     {
-        KMimeType::Ptr type = KMimeType::findByFileContent( fileName );
-        DEBUG_TEXT( QString( "Creating asset for file %1 of mimetype %2" ).arg( fileName ).arg( type->name() ) )
-        newChild = GluonCore::GluonObjectFactory::instance()->instantiateObjectByMimetype( type->name() );
+        QMimeDatabase db;
+        QMimeType type = db.mimeTypeForFile(fileName, QMimeDatabase::MatchContent);
+        DEBUG_TEXT( QString( "Creating asset for file %1 of mimetype %2" ).arg( fileName ).arg( type.name() ) )
+        newChild = GluonCore::GluonObjectFactory::instance()->instantiateObjectByMimetype( type.name() );
     }
     else
     {

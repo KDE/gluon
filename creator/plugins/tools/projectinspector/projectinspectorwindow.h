@@ -21,7 +21,7 @@
 #ifndef GLUONCREATOR_PROJECTINSPECTORWINDOW_H
 #define GLUONCREATOR_PROJECTINSPECTORWINDOW_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets/QDialog>
 
 class QModelIndex;
 namespace GluonCreator

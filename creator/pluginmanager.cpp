@@ -22,9 +22,11 @@
 
 #include <core/debughelper.h>
 
-#include <KDE/KServiceTypeTrader>
-#include <KDE/KXmlGuiWindow>
-#include <KDE/KMessageBox>
+#include <KService/KServiceTypeTrader>
+#include <KXmlGui/KXmlGuiWindow>
+#include <KWidgetsAddons/KMessageBox>
+#include <KConfigCore/KSharedConfig>
+#include <KI18n/KLocalizedString>
 
 using namespace GluonCreator;
 
@@ -63,7 +65,7 @@ void PluginManager::loadPlugins()
 {
     DEBUG_FUNC_NAME
     int requiredPluginCount = 0;
-    KConfigGroup group = KGlobal::config()->group( "Plugins" );
+    KConfigGroup group = KSharedConfig::openConfig()->group( "Plugins" );
     KService::List offers = KServiceTypeTrader::self()->query(
                                 QString::fromLatin1( "GluonCreator/Plugin" ),
                                 QString( "[X-KDE-GluonCreatorPluginVersion] == %1" ).arg( GLUONCREATOR_PLUGIN_VERSION ) );

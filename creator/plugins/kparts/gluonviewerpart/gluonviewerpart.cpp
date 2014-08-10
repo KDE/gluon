@@ -20,21 +20,21 @@
 
 #include "gluonviewerpart.h"
 
-#include <graphics/renderwidget.h>
+// #include <graphics/renderwidget.h> TODO: readd after graphics is ported
 #include <graphics/viewport.h>
 #include <graphics/manager.h>
 
 #include <engine/gameproject.h>
 #include <engine/game.h>
 
-#include <input/inputmanager.h>
+//#include <input/inputmanager.h> TODO: after Input
 
-#include <kdemacros.h>
-#include <kparts/genericfactory.h>
-#include <KDE/KActionCollection>
-#include <KDE/KAction>
+#include <KI18n/KLocalizedString>
+#include <KXmlGui/KActionCollection>
+#include <KCoreAddons/KPluginFactory>
 
-#include <QtGui/QWidget>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QAction>
 #include <QtCore/QTimer>
 
 using namespace GluonCreator;
@@ -45,7 +45,8 @@ class GluonViewerPart::GluonViewerPartPrivate
     public:
         GluonViewerPartPrivate() : project(0), autoplay( false ), forceLoad( false ) { }
 
-        GluonGraphics::RenderWidget* widget;
+        //GluonGraphics::RenderWidget* widget; TODO: after Graphics
+        QWidget* widget;
         GluonEngine::GameProject* project;
 
         bool autoplay;
@@ -56,10 +57,11 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* /* parentWidget */, QOb
     : ReadOnlyPart( parent ),
       d( new GluonViewerPartPrivate )
 {
-    KComponentData data( "gluonviewerpart", "gluoncreator" );
-    setComponentData( data );
+    // TODO: Learn hwo to create good kparts
+    //KComponentData data( "gluonviewerpart", "gluoncreator" );
+    //setComponentData( data );
 
-    d->widget = new GluonGraphics::RenderWidget();
+    d->widget = new QWidget(); //new GluonGraphics::RenderWidget(); TODO: after graphics
     setWidget( d->widget );
 
     GluonGraphics::Manager::instance()->initialize();
@@ -78,27 +80,27 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* /* parentWidget */, QOb
     QActionGroup* group = new QActionGroup( actionCollection() );
     group->setExclusive( true );
 
-    KAction* solid = new KAction( KIcon( "draw-polyline" ), i18nc( "Draw type", "Solid" ), actionCollection() );
+    QAction* solid = new QAction( QIcon::fromTheme( "draw-polyline" ), i18nc( "Draw type", "Solid" ), actionCollection() );
     solid->setCheckable( true );
     solid->setChecked( true );
     connect( solid, SIGNAL(triggered(bool)), SLOT(setSolid()) );
     group->addAction( solid );
     actionCollection()->addAction( "toggleSolidAction", solid );
 
-    KAction* wire = new KAction( KIcon( "draw-line" ), i18n( "Wireframe" ), actionCollection() );
+    QAction* wire = new QAction( QIcon::fromTheme( "draw-line" ), i18n( "Wireframe" ), actionCollection() );
     wire->setCheckable( true );
     connect( wire, SIGNAL(triggered(bool)), SLOT(setWireframe()) );
     group->addAction( wire );
     actionCollection()->addAction( "toggleWireframeAction", wire );
 
-    KAction* points = new KAction( KIcon( "edit-node" ), i18n( "Points" ), actionCollection() );
+    QAction* points = new QAction( QIcon::fromTheme( "edit-node" ), i18n( "Points" ), actionCollection() );
     points->setCheckable( true );
     connect( points, SIGNAL(triggered(bool)), SLOT(setPoints()) );
     group->addAction( points );
     actionCollection()->addAction( "togglePointsAction", points );
 
     setXMLFile( "gluonviewerpartui.rc" );
-    GluonInput::InputManager::instance()->setFilteredObject( d->widget );
+    //GluonInput::InputManager::instance()->setFilteredObject( d->widget );
 }
 
 GluonCreator::GluonViewerPart::~GluonViewerPart()
@@ -160,4 +162,3 @@ void GluonViewerPart::redraw()
 }
 
 K_PLUGIN_FACTORY( GluonViewerPartFactory, registerPlugin<GluonViewerPart>(); )
-K_EXPORT_PLUGIN( GluonViewerPartFactory( "GluonViewerPart", "GluonViewerPart" ) )

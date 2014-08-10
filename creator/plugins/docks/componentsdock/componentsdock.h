@@ -21,7 +21,7 @@
 #ifndef GLUON_CREATOR_COMPONENTSDOCK_H
 #define GLUON_CREATOR_COMPONENTSDOCK_H
 
-#include <QtGui/QDockWidget>
+#include <QtWidgets/QDockWidget>
 
 namespace GluonCreator
 {

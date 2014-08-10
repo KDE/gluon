@@ -20,7 +20,9 @@
 #ifndef GLUON_CREATOR_MESSAGEDOCK_H
 #define GLUON_CREATOR_MESSAGEDOCK_H
 
-#include <QtGui/QDockWidget>
+#include <core/gluonobject.h>
+
+#include <QtWidgets/QDockWidget>
 
 namespace GluonCreator
 {

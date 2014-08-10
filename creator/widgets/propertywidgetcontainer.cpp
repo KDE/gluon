@@ -36,17 +36,17 @@
 #include <engine/abstractprefabinstance.h>
 #include <engine/component.h>
 
-#include <KDE/KIcon>
-#include <KDE/KLocalizedString>
-#include <KDE/KMessageBox>
-#include <KDE/KSqueezedTextLabel>
+#include <KI18n/KLocalizedString>
+#include <KWidgetsAddons/KMessageBox>
+#include <KWidgetsAddons/KSqueezedTextLabel>
 
-#include <QtGui/QGridLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QToolButton>
-#include <QtGui/QCheckBox>
-#include <QtGui/QMenu>
+#include <QtGui/QIcon>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QToolButton>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QMenu>
 #include <QtCore/QHash>
 #include <QtCore/QMetaProperty>
 #include <QtCore/QStringBuilder>
@@ -95,7 +95,7 @@ namespace GluonCreator
                 titleLayout->addWidget( enabler );
 
                 menuButton = new QToolButton( titleWidget );
-                menuButton->setIcon( KIcon( "preferences-other" ) );
+                menuButton->setIcon( QIcon::fromTheme( "preferences-other" ) );
                 menuButton->setAutoRaise( true );
                 menuButton->setPopupMode( QToolButton::InstantPopup );
                 menuButton->setMenu( menu );

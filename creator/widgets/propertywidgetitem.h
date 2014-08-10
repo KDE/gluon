@@ -25,7 +25,7 @@
 #include "propertywidgetitemfactory.h"
 
 #include <QtCore/QVariant>
-#include <QtGui/QWidget>
+#include <QtWidgets/QWidget>
 
 namespace GluonCreator
 {

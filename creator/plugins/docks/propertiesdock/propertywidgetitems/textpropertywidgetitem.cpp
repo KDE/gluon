@@ -21,7 +21,7 @@
 
 #include "textpropertywidgetitem.h"
 
-#include <KDE/KLineEdit>
+#include <KCompletion/KLineEdit>
 
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, TextPropertyWidgetItem )
 

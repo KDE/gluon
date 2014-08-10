@@ -34,24 +34,25 @@
 #include <engine/gameproject.h>
 #include <engine/scene.h>
 #include <engine/asset.h>
+#include <engine/assetaction.h>
 
 #include <core/debughelper.h>
 #include <core/directoryprovider.h>
 
-#include <KDE/KIcon>
-#include <KDE/KLocalizedString>
-#include <KDE/KMessageBox>
-#include <KDE/KToolBar>
-#include <KDE/KFileItemListProperties>
-#include <KDE/KFileItemActions>
-#include <KDE/KFileDialog>
+#include <KI18n/KLocalizedString>
+#include <KWidgetsAddons/KMessageBox>
+#include <KXmlGui/KToolBar>
+#include <KIOCore/KFileItemListProperties>
+#include <KIOWidgets/KFileItemActions>
 
 #include <QtCore/QMetaClassInfo>
-#include <QtGui/QMenu>
-#include <QtGui/QTreeView>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QToolButton>
-#include <QtGui/QItemSelection>
+#include <QtWidgets/QMenu>
+#include <QtGui/QIcon>
+#include <QtWidgets/QTreeView>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QToolButton>
+#include <QtCore/QItemSelection>
+#include <QtWidgets/QFileDialog>
 
 using namespace GluonCreator;
 
@@ -75,7 +76,8 @@ class ProjectDock::ProjectDockPrivate
                     if( category.isEmpty() )
                         category = i18nc( "Asset without a category", "Uncategorised" );
 
-                    const QList<GluonEngine::AssetTemplate*> templates = theItem->templates();
+                    // TODO: fix this by somehow exposing the metadata for plugins
+                    const QList<GluonEngine::AssetTemplate*> templates = QList<GluonEngine::AssetTemplate*>();// theItem->templates();
                     for( int j = 0; j < templates.length(); ++j )
                     {
                         assetTemplates.insert( category, templates[j] );
@@ -125,7 +127,7 @@ void ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex index, QMenu* m
                 {
                     if( !asset->inherits( "GluonEngine::Scene" ) )
                     {
-                        KFileItem item( KFileItem::Unknown, KFileItem::Unknown, KUrl( asset->absolutePath() ) );
+                        KFileItem item( KFileItem::Unknown, KFileItem::Unknown, asset->absolutePath() );
                         KFileItemListProperties properties( KFileItemList() << item );
                         KFileItemActions* openWithActions = new KFileItemActions( menu );
                         openWithActions->setItemListProperties( properties );
@@ -135,11 +137,16 @@ void ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex index, QMenu* m
 
                     menu->addSeparator();
 
-                    QList<QAction*> actions = asset->actions();
-                    foreach( QAction * action, actions )
+                    QList<GluonEngine::AssetAction*> actions = asset->actions();
+                    foreach( GluonEngine::AssetAction * action, actions )
                     {
-                        connect( action, SIGNAL(triggered(bool)), model, SIGNAL(layoutChanged()) );
-                        menu->addAction( action );
+                        // BEGIN needed because Qt is stupid (QAction drags in QtWidgets)
+                        QAction* qaction = new QAction( action->icon(), action->name(), action->parent() );
+                        connect( qaction, SIGNAL(triggered(bool)), action, SLOT(trigger()) );
+                        // END needed because Qt is stupid
+                        
+                        connect( qaction, SIGNAL(triggered(bool)), model, SIGNAL(layoutChanged()) );
+                        menu->addAction( qaction );
                     }
                 }
             }
@@ -152,7 +159,7 @@ void ProjectDock::ProjectDockPrivate::menuForObject( QModelIndex index, QMenu* m
             {
                 menu->addSeparator();
 
-                action = new QAction( KIcon( "edit-delete" ), i18n( "Delete \"%1\"...", object->name() ), q );
+                action = new QAction( QIcon::fromTheme( "edit-delete" ), i18n( "Delete \"%1\"...", object->name() ), q );
                 connect( action, SIGNAL(triggered()), q, SLOT(deleteActionTriggered()) );
                 menu->addAction( action );
             }
@@ -196,7 +203,7 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     d->newMenu = new QMenu( i18nc( "Add asset menu", "Add" ), d->toolBar );
 
     QToolButton* menuButton = new QToolButton( d->toolBar );
-    menuButton->setIcon( KIcon( "document-new" ) );
+    menuButton->setIcon( QIcon::fromTheme( "document-new" ) );
     menuButton->setText( i18nc( "Add asset menu", "Add" ) );
     menuButton->setPopupMode( QToolButton::InstantPopup );
     menuButton->setToolButtonStyle( Qt::ToolButtonTextBesideIcon );
@@ -204,8 +211,8 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
 
     d->toolBar->insertWidget( 0, menuButton );
 
-    d->newMenu->addAction( KIcon( "folder" ), i18n( "New Folder" ), this, SLOT(createNewFolder()) );
-    d->newMenu->addAction( KIcon( "document-new" ), i18n( "New Scene" ), this, SLOT(createNewScene()) );
+    d->newMenu->addAction( QIcon::fromTheme( "folder" ), i18n( "New Folder" ), this, SLOT(createNewFolder()) );
+    d->newMenu->addAction( QIcon::fromTheme( "document-new" ), i18n( "New Scene" ), this, SLOT(createNewScene()) );
     d->newMenu->addSeparator();
 
     QHash< QString, QMenu* > menus;
@@ -227,7 +234,7 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
 
         GluonEngine::AssetTemplate* item = itr.value();
         QAction* action = menu->addAction( i18nc( "Add a new asset", "New %1", item->name ), this, SLOT(createNewAsset()) );
-        action->setIcon( KIcon( d->assetIcons.value( item ) ) );
+        action->setIcon( QIcon::fromTheme( d->assetIcons.value( item ) ) );
         action->setProperty( "newAssetClassname", item->parent()->metaObject()->className() );
         action->setProperty( "newAssetName", item->name );
         action->setProperty( "newAssetPluginname", item->pluginname );
@@ -235,9 +242,9 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
     }
 
     d->newMenu->addSeparator();
-    d->newMenu->addAction( KIcon( "document-import" ), i18n( "Import Assets..." ), this, SLOT(importAssetsTriggered()) );
+    d->newMenu->addAction( QIcon::fromTheme( "document-import" ), i18n( "Import Assets..." ), this, SLOT(importAssetsTriggered()) );
 
-    d->toolBar->addAction( KIcon( "edit-delete" ), i18nc( "Delete selected object from project", "Delete" ), this, SLOT(deleteActionTriggered()) );
+    d->toolBar->addAction( QIcon::fromTheme( "edit-delete" ), i18nc( "Delete selected object from project", "Delete" ), this, SLOT(deleteActionTriggered()) );
 
     layout->addWidget( d->toolBar );
     layout->addWidget( d->view );
@@ -410,5 +417,5 @@ void ProjectDock::createNewAsset()
 
 void ProjectDock::importAssetsTriggered()
 {
-    ObjectManager::instance()->createAssets( KFileDialog::getOpenFileNames(), static_cast<GluonCore::GluonObject*>( d->currentContextIndex.internalPointer() ) );
+    ObjectManager::instance()->createAssets( QFileDialog::getOpenFileNames(), static_cast<GluonCore::GluonObject*>( d->currentContextIndex.internalPointer() ) );
 }

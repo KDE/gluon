@@ -21,7 +21,7 @@
 #ifndef GLUONCREATOR_PROPERTYLIST_H
 #define GLUONCREATOR_PROPERTYLIST_H
 
-#include <QtGui/QTextEdit>
+#include <QtWidgets/QTextEdit>
 
 namespace GluonCreator
 {

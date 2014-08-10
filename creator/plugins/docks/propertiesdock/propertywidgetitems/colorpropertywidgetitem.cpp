@@ -22,7 +22,7 @@
 #include "colorpropertywidgetitem.h"
 
 #include <QtGui/QColor>
-#include <KColorButton>
+#include <KWidgetsAddons/KColorButton>
 
 #include <core/gluonvarianttypes.h>
 

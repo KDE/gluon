@@ -36,12 +36,11 @@
 #include <engine/prefab.h>
 #include <engine/prefabinstance.h>
 
-#include <KDE/KLocalizedString>
-#include <KDE/KMimeType>
-#include <KDE/KIcon>
+#include <KI18n/KLocalizedString>
 
 #include <QtCore/QMimeData>
 #include <QtCore/QMetaClassInfo>
+#include <QtGui/QIcon>
 
 using namespace GluonCreator;
 
@@ -83,6 +82,8 @@ ProjectModel::setProject( GluonEngine::GameProject* project )
 {
     if( project )
     {
+        beginResetModel();
+        
         d->root = new QObject( this );
         d->project = project;
         project->setParent( d->root );
@@ -92,7 +93,7 @@ ProjectModel::setProject( GluonEngine::GameProject* project )
             asset->load();
         }
 
-        reset();
+        endResetModel();
     }
 }
 
@@ -110,9 +111,9 @@ ProjectModel::data( const QModelIndex& index, int role ) const
             QString icon = obj->metaObject()->classInfo( obj->metaObject()->indexOfClassInfo( "org.gluon.icon" ) ).value();
 
             if( !icon.isEmpty() )
-                return KIcon( icon );
+                return QIcon::fromTheme( icon );
 
-            return KIcon( "text-x-generic" );
+            return QIcon::fromTheme( "text-x-generic" );
             //QVariant filename = gobj->property( "file" );
             /*if( gobj->metaObject()->className() == QString( "GluonCore::GluonObject" ) )
             {
@@ -413,6 +414,7 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int /*
                 GluonEngine::GameObject* parentGO = gameObject->parentGameObject();
                 if(parentGO)
                 {
+                    Models::instance()->sceneModel()->beginResetModel();
                     DEBUG_TEXT("// Add Prefab on parent, set name to name of the dropped GameObject")
                     GluonEngine::Prefab* prefab = new GluonEngine::Prefab();
                     prefab->setName( gameObject->name() );
@@ -422,7 +424,7 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int /*
                     DEBUG_TEXT("// Remove item from current parent, which automatically adds a new instance in the same place!")
                     prefab->setGameObject(gameObject);
                     // Unfortunately the model needs to be reset here, as we can't do anything else
-                    Models::instance()->sceneModel()->reset();
+                    Models::instance()->sceneModel()->endResetModel();
                 }
             }
         }

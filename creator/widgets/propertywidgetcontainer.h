@@ -21,7 +21,7 @@
 #ifndef GLUON_CREATOR_PROPERTYWIDGETCONTAINER_H
 #define GLUON_CREATOR_PROPERTYWIDGETCONTAINER_H
 
-#include <QtGui/QWidget>
+#include <QtWidgets/QWidget>
 #include <QtCore/QString>
 
 namespace GluonCore

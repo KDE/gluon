@@ -20,8 +20,8 @@
 #define GLUON_CREATOR_MACROS
 
 #include <kdemacros.h>
-#include <KDE/KPluginFactory>
-#include <KDE/KPluginLoader>
+#include <KCoreAddons/KPluginFactory>
+#include <KCoreAddons/KPluginLoader>
 
 #ifndef GLUONCREATOR_EXPORT
 #if defined(MAKE_GLUONCREATOR_LIB)

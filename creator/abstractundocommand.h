@@ -22,7 +22,7 @@
 
 #include "gluoncreator_macros.h"
 
-#include <QtGui/QUndoCommand>
+#include <QtWidgets/QUndoCommand>
 
 namespace GluonCore
 {

@@ -22,7 +22,7 @@
 
 #include <creator/selectionmanager.h>
 
-#include <QtGui/QDockWidget>
+#include <QtWidgets/QDockWidget>
 
 namespace GluonEngine
 {

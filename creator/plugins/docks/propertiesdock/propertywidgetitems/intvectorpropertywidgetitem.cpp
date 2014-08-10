@@ -19,14 +19,14 @@
 
 #include "intvectorpropertywidgetitem.h"
 
-#include <QtGui/QGridLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QSpinBox>
-#include <QtGui/QToolButton>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QSpinBox>
+#include <QtWidgets/QToolButton>
+#include <QtGui/QIcon>
 
-#include <KIcon>
-#include <KLocalizedString>
+#include <KI18n/KLocalizedString>
 
 using namespace GluonCreator;
 
@@ -45,7 +45,7 @@ IntVectorPropertyWidgetItem::IntVectorPropertyWidgetItem( QWidget* parent, Qt::W
     layout->setSpacing( 0 );
 
     addButton = new QToolButton( centralWidget );
-    addButton->setIcon( KIcon( "list-add" ) );
+    addButton->setIcon( QIcon::fromTheme( "list-add" ) );
     connect( addButton, SIGNAL(clicked(bool)), SLOT(addItem()) );
     layout->addWidget( addButton, 0, 0 );
 
@@ -142,7 +142,7 @@ void IntVectorPropertyWidgetItem::addItem( int value )
     containerLayout->setSpacing( 0 );
 
     QToolButton* removeButton = new QToolButton( listItems );
-    removeButton->setIcon( KIcon( "list-remove" ) );
+    removeButton->setIcon( QIcon::fromTheme( "list-remove" ) );
     connect( removeButton, SIGNAL(clicked(bool)), SLOT(removeClicked()) );
     containerLayout->addWidget( removeButton );
 

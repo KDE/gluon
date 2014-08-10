@@ -22,7 +22,7 @@
 #define GLUON_CREATOR_PROJECTDOCK_H
 
 #include <QtCore/QModelIndex>
-#include <QtGui/QDockWidget>
+#include <QtWidgets/QDockWidget>
 
 class QItemSelection;
 

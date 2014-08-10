@@ -23,7 +23,7 @@
 
 #include <creator/dockmanager.h>
 
-#include <KDE/KLocalizedString>
+#include <KI18n/KLocalizedString>
 
 using namespace GluonCreator;
 

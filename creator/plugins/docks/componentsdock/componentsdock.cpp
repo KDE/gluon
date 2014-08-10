@@ -27,7 +27,7 @@
 #include <core/gluonobject.h>
 #include <engine/component.h>
 
-#include <QtGui/QTreeView>
+#include <QtWidgets/QTreeView>
 
 using namespace GluonCreator;
 

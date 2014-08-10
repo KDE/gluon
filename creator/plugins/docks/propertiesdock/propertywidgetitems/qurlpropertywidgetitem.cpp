@@ -20,8 +20,8 @@
 #include "qurlpropertywidgetitem.h"
 
 #include <QtCore/QUrl>
-#include <QtGui/QLayout>
-#include <KLineEdit>
+#include <QtWidgets/QLayout>
+#include <KCompletion/KLineEdit>
 
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, QUrlPropertyWidgetItem )
 

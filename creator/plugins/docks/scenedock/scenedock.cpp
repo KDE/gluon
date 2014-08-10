@@ -31,13 +31,14 @@
 #include <creator/objectmanager.h>
 #include <creator/models/models.h>
 
-#include <KDE/KAction>
-#include <KDE/KLocalizedString>
-#include <KDE/KToolBar>
+#include <KI18n/KLocalizedString>
+#include <KXmlGui/KToolBar>
 
-#include <QtGui/QTreeView>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QItemSelection>
+#include <QtWidgets/QTreeView>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QAction>
+#include <QtGui/QIcon>
+#include <QtCore/QItemSelection>
 
 using namespace GluonCreator;
 
@@ -90,14 +91,14 @@ SceneDock::SceneDock( const QString& title, QWidget* parent, Qt::WindowFlags fla
     KToolBar* toolBar = new KToolBar( this );
     toolBar->setIconDimensions( 16 );
 
-    QAction* newGameObject = toolBar->addAction( KIcon( "document-new" ), i18n( "New Game Object" ), this, SLOT(newGameObjectAction()) );
+    QAction* newGameObject = toolBar->addAction( QIcon::fromTheme( "document-new" ), i18n( "New Game Object" ), this, SLOT(newGameObjectAction()) );
     d->view->addAction( newGameObject );
 
-    KAction* separator = new KAction( d->view );
+    QAction* separator = new QAction( d->view );
     separator->setSeparator( true );
     d->view->addAction( separator );
 
-    QAction* deleteAction = toolBar->addAction( KIcon( "edit-delete" ), i18n( "Delete" ), this, SLOT(deleteSelection()) );
+    QAction* deleteAction = toolBar->addAction( QIcon::fromTheme( "edit-delete" ), i18n( "Delete" ), this, SLOT(deleteSelection()) );
     d->view->addAction( deleteAction );
 
     layout->addWidget( toolBar );

@@ -21,7 +21,7 @@
 #ifndef GLUON_CREATOR_PREFABCONTROLS_H
 #define GLUON_CREATOR_PREFABCONTROLS_H
 
-#include <QtGui/QWidget>
+#include <QtWidgets/QWidget>
 
 namespace GluonEngine
 {

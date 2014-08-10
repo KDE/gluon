@@ -21,7 +21,7 @@
 
 #include "floatpropertywidgetitem.h"
 
-#include <QtGui/QDoubleSpinBox>
+#include <QtWidgets/QDoubleSpinBox>
 #include "cfloat"
 
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, FloatPropertyWidgetItem )

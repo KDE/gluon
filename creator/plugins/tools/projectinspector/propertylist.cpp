@@ -21,10 +21,10 @@
 #include "propertylist.h"
 
 #include <QtCore/QMetaProperty>
-#include <QtGui/QGridLayout>
-#include <QtGui/QLabel>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QLabel>
 
-#include <KDE/KLocalizedString>
+#include <KI18n/KLocalizedString>
 
 #include <core/gluonobject.h>
 

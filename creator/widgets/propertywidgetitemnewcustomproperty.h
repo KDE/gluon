@@ -20,7 +20,7 @@
 #ifndef GLUON_CREATOR_PROPERTYWIDGETITEMNEWCUSTOMPROPERTY_H
 #define GLUON_CREATOR_PROPERTYWIDGETITEMNEWCUSTOMPROPERTY_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets/QDialog>
 
 class KLineEdit;
 class KComboBox;

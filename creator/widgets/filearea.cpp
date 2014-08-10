@@ -23,15 +23,15 @@
 
 #include <core/debughelper.h>
 
-#include <KDE/KParts/PartManager>
-#include <KDE/KParts/ReadOnlyPart>
-#include <KDE/KTabBar>
-#include <KDE/KToolBar>
-#include <KDE/KIcon>
+#include <KParts/PartManager>
+#include <KParts/ReadOnlyPart>
+#include <KXmlGui/KToolBar>
 
-#include <KDE/KTextEditor/Document>
+#include <KTextEditor/Document>
 
-#include <QtGui/QVBoxLayout>
+#include <QtGui/QIcon>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QTabBar>
 #include <QApplication>
 
 using namespace GluonCreator;
@@ -53,7 +53,7 @@ class FileArea::Private
 
         KParts::Part* currentPart;
 
-        KTabBar* tabBar;
+        QTabBar* tabBar;
         KToolBar* toolBar;
 
         QVBoxLayout* layout;
@@ -67,7 +67,7 @@ FileArea::FileArea( QWidget* parent, Qt::WindowFlags f )
 {
     d->layout = new QVBoxLayout( this );
 
-    d->tabBar = new KTabBar( this );
+    d->tabBar = new QTabBar( this );
     d->tabBar->setTabsClosable( true );
     d->tabBar->setDocumentMode( true );
     d->tabBar->setMovable( true );
@@ -104,14 +104,14 @@ void FileArea::addTab( const QString& name, const QString& title, const QString&
         d->tabBar->setCurrentIndex( d->tabs.value( name ) );
         d->tabBar->setTabText( d->tabBar->currentIndex(), title );
         if( !icon.isEmpty() )
-            d->tabBar->setTabIcon( d->tabBar->currentIndex(), KIcon( icon ) );
+            d->tabBar->setTabIcon( d->tabBar->currentIndex(), QIcon::fromTheme( icon ) );
         return;
     }
 
     int tab;
     if( !icon.isEmpty() )
     {
-        tab = d->tabBar->addTab( KIcon( icon ), title );
+        tab = d->tabBar->addTab( QIcon::fromTheme( icon ), title );
     }
     else
     {

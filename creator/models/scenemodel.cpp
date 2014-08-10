@@ -32,7 +32,7 @@
 #include <engine/prefab.h>
 #include <engine/prefabinstance.h>
 
-#include <KDE/KLocalizedString>
+#include <KI18n/KLocalizedString>
 
 #include <QtCore/QMimeData>
 
@@ -53,7 +53,6 @@ class SceneModel::SceneModelPrivate
 
 SceneModel::SceneModel( QObject* parent ): QAbstractItemModel( parent ), d( new SceneModelPrivate )
 {
-    setSupportedDragActions( Qt::MoveAction );
     connect( HistoryManager::instance(), SIGNAL(historyChanged()), SIGNAL(layoutChanged()) );
     //   new ModelTest(this, this);
 }
@@ -73,8 +72,9 @@ void SceneModel::setRootGameObject( GluonEngine::GameObject* obj )
 {
     if( obj )
     {
+        beginResetModel();
         d->root = obj;
-        reset();
+        endResetModel();
     }
 }
 
@@ -431,6 +431,11 @@ bool SceneModel::insertRows( int row, const QList<GluonEngine::GameObject*> &chi
 bool SceneModel::removeRows( int row, int count, const QModelIndex& parent )
 {
     return QAbstractItemModel::removeRows( row, count, parent );
+}
+
+Qt::DropActions SceneModel::supportedDragActions() const
+{
+    return Qt::MoveAction;
 }
 
 int SceneModel::SceneModelPrivate::rowIndex( GluonEngine::GameObject* object ) const

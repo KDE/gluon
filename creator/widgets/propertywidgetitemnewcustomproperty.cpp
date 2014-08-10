@@ -24,13 +24,14 @@
 #include <core/gluonobject.h>
 #include <core/gluonvarianttypes.h>
 
-#include <KDE/KLocalizedString>
-#include <KDE/KComboBox>
-#include <KDE/KLineEdit>
+#include <KI18n/KLocalizedString>
+#include <KCompletion/KComboBox>
+#include <KCompletion/KLineEdit>
 
-#include <QtGui/QFormLayout>
-#include <QtGui/QPushButton>
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QPushButton>
 #include <QtGui/QColor>
+#include <QtWidgets/QLineEdit>
 
 #include <QtCore/QUrl>
 #include <QtCore/QSizeF>

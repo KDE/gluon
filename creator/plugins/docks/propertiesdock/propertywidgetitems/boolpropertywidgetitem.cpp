@@ -20,7 +20,7 @@
 
 #include "boolpropertywidgetitem.h"
 
-#include <QtGui/QCheckBox>
+#include <QtWidgets/QCheckBox>
 
 REGISTER_PROPERTYWIDGETITEM( GluonCreator, BoolPropertyWidgetItem )
 

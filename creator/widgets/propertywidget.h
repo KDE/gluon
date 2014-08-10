@@ -23,8 +23,8 @@
 
 #include "../gluoncreator_macros.h"
 
-#include <QtGui/QWidget>
-#include <QtGui/QScrollArea>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QScrollArea>
 
 namespace GluonCore
 {

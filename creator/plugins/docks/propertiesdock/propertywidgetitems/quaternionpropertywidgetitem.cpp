@@ -21,9 +21,9 @@
 
 #include "quaternionpropertywidgetitem.h"
 
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QDoubleSpinBox>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QDoubleSpinBox>
 #include <cfloat>
 #include <cmath>
 #include <core/gluonvarianttypes.h>

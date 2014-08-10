@@ -21,8 +21,8 @@
 
 #include <core/debughelper.h>
 
-#include <QtGui/QLineEdit>
-#include <QtGui/QDoubleSpinBox>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QDoubleSpinBox>
 
 #include <limits.h>
 

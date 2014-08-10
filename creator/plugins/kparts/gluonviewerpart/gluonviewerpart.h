@@ -22,7 +22,7 @@
 #ifndef GLUONVIEWERPART_H
 #define GLUONVIEWERPART_H
 
-#include <KDE/KParts/ReadOnlyPart>
+#include <KParts/ReadOnlyPart>
 
 namespace GluonGraphics
 {

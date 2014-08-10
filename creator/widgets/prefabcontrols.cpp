@@ -22,8 +22,8 @@
 
 #include "engine/abstractprefabinstance.h"
 
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QPushButton>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QPushButton>
 
 using namespace GluonCreator;
 

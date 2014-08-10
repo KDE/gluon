@@ -23,18 +23,20 @@
 #include <engine/asset.h>
 
 #include <QtCore/QMetaClassInfo>
-#include <QTimer>
-#include <QAction>
-#include <QMenu>
+#include <QtCore/QTimer>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QMenu>
 
-#include <KDE/KParts/ReadWritePart>
-#include <KDE/KParts/PartManager>
-#include <KDE/KMimeType>
-#include <KDE/KMimeTypeTrader>
-#include <KDE/KService>
-#include <KDE/KActionCollection>
+#include <KParts/ReadWritePart>
+#include <KParts/PartManager>
 
-#include <KDE/KTextEditor/Document>
+#include <KService/KMimeTypeTrader>
+#include <KService/KService>
+#include <KXmlGui/KActionCollection>
+
+#include <KTextEditor/Document>
+#include <QMimeDatabase>
+#include <QMimeType>
 
 using namespace GluonCreator;
 
@@ -92,7 +94,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
     if( fileName.isEmpty() )
         return;
 
-    QString fullName = name.isEmpty() ? KUrl( fileName ).fileName() : name;
+    QString fullName = name.isEmpty() ? QUrl::fromLocalFile( fileName ).fileName() : name;
     QString fullTitle = title.isEmpty() ? fullName : title;
     if( d->files.contains( fullName ) )
     {
@@ -100,7 +102,8 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
         return;
     }
 
-    KMimeType::Ptr mime = KMimeType::findByPath( fileName );
+    QMimeDatabase db;
+    QMimeType mime = db.mimeTypeForFile( fileName );
 
     KParts::ReadOnlyPart* part = 0;
     KService::List parts;
@@ -108,16 +111,16 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
     if( !partName.isEmpty() )
     {
         KService::Ptr service = KService::serviceByDesktopName( partName );
-        if( !service.isNull() )
+        if( service )
             parts.append( service );
     }
 
     if( parts.count() == 0 )
     {
-        parts.append( KMimeTypeTrader::self()->query( mime->name(), "KParts/ReadWritePart" ) );
-        parts.append( KMimeTypeTrader::self()->query( mime->name(), "KParts/ReadOnlyPart" ) );
+        parts.append( KMimeTypeTrader::self()->query( mime.name(), "KParts/ReadWritePart" ) );
+        parts.append( KMimeTypeTrader::self()->query( mime.name(), "KParts/ReadOnlyPart" ) );
 
-        if( mime->name().contains( "audio" ) && parts.count() == 0 )
+        if( mime.name().contains( "audio" ) && parts.count() == 0 )
             parts.append( KService::serviceByStorageId( "dragonplayer_part.desktop" ) );
     }
 
@@ -131,7 +134,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
     if( part )
     {
         // Add the part if it is found
-        KUrl url( fileName );
+        QUrl url = QUrl::fromLocalFile( fileName );
         part->openUrl( url );
 
         Private::OpenedFile openFile;

@@ -19,7 +19,7 @@
 
 #include "historymanager.h"
 
-#include <KDE/KUndoStack>
+#include <QtWidgets/QUndoStack>
 
 #include "filemanager.h"
 
@@ -32,14 +32,14 @@ class HistoryManager::HistoryManagerPrivate
     public:
         HistoryManagerPrivate()
         {
-            stack = new KUndoStack();
+            stack = new QUndoStack();
         }
         ~HistoryManagerPrivate()
         {
             delete stack;
         }
 
-        KUndoStack* stack;
+        QUndoStack* stack;
 };
 
 void HistoryManager::addCommand( QUndoCommand* command )

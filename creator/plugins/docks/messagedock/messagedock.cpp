@@ -22,14 +22,14 @@
 #include <gluon_global.h>
 #include <engine/game.h>
 
-#include <KDE/KLocalizedString>
-#include <KDE/KToolBar>
-#include <KDE/KAction>
+#include <KI18n/KLocalizedString>
+#include <KXmlGui/KToolBar>
 
 // Yup, this should be a view... but for now...
-#include <QtGui/QListWidget>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QApplication>
+#include <QtWidgets/QListWidget>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QApplication>
 #include <QtGui/QClipboard>
 
 using namespace GluonCreator;
@@ -65,20 +65,20 @@ MessageDock::MessageDock( const QString& title, QWidget* parent, Qt::WindowFlags
     KToolBar* toolBar = new KToolBar( this );
     toolBar->setIconDimensions( 16 );
 
-    QAction* selectAll = toolBar->addAction( KIcon( "edit-select-all" ), i18n( "Select All" ), this, SLOT(selectAll()) );
+    QAction* selectAll = toolBar->addAction( QIcon::fromTheme( "edit-select-all" ), i18n( "Select All" ), this, SLOT(selectAll()) );
     d->view->addAction( selectAll );
 
-    QAction* copy = toolBar->addAction( KIcon( "edit-copy" ), i18n( "Copy" ), this, SLOT(copy()) );
+    QAction* copy = toolBar->addAction( QIcon::fromTheme( "edit-copy" ), i18n( "Copy" ), this, SLOT(copy()) );
     d->view->addAction( copy );
 
-    KAction* separator = new KAction( d->view );
+    QAction* separator = new QAction( d->view );
     separator->setSeparator( true );
     d->view->addAction( separator );
 
-    QAction* clearSelection = toolBar->addAction( KIcon( "edit-clear-list" ), i18n( "Clear Selection" ), this, SLOT(clearSelection()) );
+    QAction* clearSelection = toolBar->addAction( QIcon::fromTheme( "edit-clear-list" ), i18n( "Clear Selection" ), this, SLOT(clearSelection()) );
     d->view->addAction( clearSelection );
 
-    QAction* clearAll = toolBar->addAction( KIcon( "edit-clear" ), i18n( "Clear All" ), d->view, SLOT(clear()) );
+    QAction* clearAll = toolBar->addAction( QIcon::fromTheme( "edit-clear" ), i18n( "Clear All" ), d->view, SLOT(clear()) );
     d->view->addAction( clearAll );
 
     layout->addWidget( toolBar );

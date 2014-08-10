@@ -20,10 +20,10 @@
 
 #include "projectinspectorwindow.h"
 
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QTreeView>
-#include <QtGui/QDesktopWidget>
-#include <QtGui/QApplication>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QTreeView>
+#include <QtWidgets/QDesktopWidget>
+#include <QtWidgets/QApplication>
 
 #include <engine/game.h>
 

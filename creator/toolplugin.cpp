@@ -19,7 +19,7 @@
 
 #include "toolplugin.h"
 
-#include <KDE/KXmlGuiWindow>
+#include <KXmlGui/KXmlGuiWindow>
 
 using namespace GluonCreator;
 
