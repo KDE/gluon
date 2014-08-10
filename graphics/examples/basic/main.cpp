@@ -24,14 +24,14 @@
 #include "graphics/material.h"
 
 #include <QtCore/QSizeF>
-#include <QtGui/QApplication>
+#include <QtGui/QGuiApplication>
 
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
 #include <core/directoryprovider.h>
 #include <graphics/manager.h>
-#include <graphics/renderwidget.h>
+#include <graphics/renderwindow.h>
 #include <graphics/shader.h>
 #include <graphics/backend.h>
 #include <graphics/texture.h>
@@ -47,10 +47,10 @@ using namespace GluonGraphics;
 
 int main( int argc, char* argv[] )
 {
-    QApplication app( argc, argv );
+    QGuiApplication app( argc, argv );
 
-    RenderWidget widget;
-    widget.show();
+    RenderWindow window;
+    window.show();
 
     Manager::instance()->initialize();
 

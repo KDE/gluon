@@ -1,6 +1,7 @@
 find_package( OpenGL REQUIRED )
+find_package( Qt5X11Extras REQUIRED CONFIG )
 
-include_directories( ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/graphics ${OPENGL_INCLUDE_DIR} )
+include_directories( ${OPENGL_INCLUDE_DIR} )
 
 set( gluongraphics_backend_SRCS
     glxbackend.cpp
@@ -14,7 +15,8 @@ set( gluongraphics_backend_SRCS
     glxmeshdata.cpp
 )
 
-gluon_add_plugin( gluongraphics_backend GluonGraphics 
+gluon_add_plugin( gluongraphics_backend
+    MODULE Gluon::Graphics
     SOURCES ${gluongraphics_backend_SRCS}
-    LIBRARIES ${OPENGL_LIBRARIES} dl
+    LIBRARIES ${OPENGL_LIBRARIES} dl Qt5::X11Extras
 )

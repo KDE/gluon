@@ -1,19 +1,9 @@
 option( BUILD_MESH_LOADING "Build mesh loading support" OFF )
 
-set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake  )
-
 if( BUILD_MESH_LOADING )
+    set( CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake  )
     find_package( AssImp )
 endif( BUILD_MESH_LOADING )
-
-gluon_include_directories( GluonGraphics
-    ${GLUONCORE_INCLUDE_DIRS}
-)
-
-if( ASSIMP_FOUND )
-    include_directories( ${ASSIMP_INCLUDE_DIR} )
-    list( APPEND GLUONGRAPHICS_INCLUDE_DIRS ${ASSIMP_INCLUDE_DIR} )
-endif( ASSIMP_FOUND )
 
 set( GluonGraphics_SRCS
     camera.cpp
@@ -24,7 +14,7 @@ set( GluonGraphics_SRCS
     materialinstance.cpp
     mathutils.cpp
     rendertarget.cpp
-    renderwidget.cpp
+    renderwindow.cpp
     technique.cpp
     texture.cpp
     mesh.cpp
@@ -39,7 +29,7 @@ set( GluonGraphics_SRCS
     renderchainitem.cpp
     sprite.cpp
 
-    qtquickrenderer.cpp
+#     qtquickrenderer.cpp
 )
 
 set( GluonGraphics_HEADERS
@@ -53,7 +43,7 @@ set( GluonGraphics_HEADERS
     materialinstance.h
     mathutils.h
     rendertarget.h
-    renderwidget.h
+    renderwindow.h
     technique.h
     texture.h
     viewport.h
@@ -65,15 +55,15 @@ if( ASSIMP_FOUND )
     list( APPEND GluonGraphics_HEADERS filemesh.h )
 endif( ASSIMP_FOUND )
 
-gluon_add_library( GluonGraphics SHARED 
+gluon_add_library( Gluon::Graphics SHARED
     SOURCES ${GluonGraphics_SRCS}
     HEADERS ${GluonGraphics_HEADERS}
-    LIBRARIES ${GLUONCORE_LIBRARIES} ${QT_QTDECLARATIVE_LIBRARY}
+    LIBRARIES Gluon::Core
 )
 
 if( ASSIMP_FOUND )
+    target_include_directories( Gluon::Graphics ${ASSIMP_INCLUDE_DIR} )
     target_link_libraries( GluonGraphics ${ASSIMP_LIBRARY} )
-    list( APPEND GLUONGRAPHICS_LIBRARIES ${ASSIMP_LIBRARY} )
 endif( ASSIMP_FOUND )
 
 if( APPLE )

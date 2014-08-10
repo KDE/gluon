@@ -20,7 +20,8 @@
 #ifndef GLUONGRAPHICS_SHADER_H
 #define GLUONGRAPHICS_SHADER_H
 
-#include <QHash>
+#include <QtCore/QHash>
+#include <QtCore/QStringList>
 
 #include "gluon_graphics_export.h"
 

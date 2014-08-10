@@ -20,9 +20,9 @@
 #ifndef GLUONGRAPHICS_GLXMESHDATA_H
 #define GLUONGRAPHICS_GLXMESHDATA_H
 
-#include <QVector>
+#include <QtCore/QVector>
 
-#include <meshdata.h>
+#include <graphics/meshdata.h>
 
 namespace GluonGraphics
 {

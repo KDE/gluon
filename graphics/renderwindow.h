@@ -17,36 +17,33 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONGRAPHICS_RENDERWIDGET_H
-#define GLUONGRAPHICS_RENDERWIDGET_H
+#ifndef GLUONGRAPHICS_RENDERWINDOW_H
+#define GLUONGRAPHICS_RENDERWINDOW_H
 
 #include "gluon_graphics_export.h"
 
-#include <QtGui/QWidget>
+#include <QtGui/QWindow>
+
+#include <core/privatepointer.h>
 
 namespace GluonGraphics
 {
-    class GLUON_GRAPHICS_EXPORT RenderWidget : public QWidget
+    class GLUON_GRAPHICS_EXPORT RenderWindow : public QWindow
     {
             Q_OBJECT
         public:
-            explicit RenderWidget( QWidget* parent = 0, Qt::WindowFlags f = 0 );
-            virtual ~RenderWidget();
+            explicit RenderWindow( QWindow* parent = 0 );
+            virtual ~RenderWindow();
 
-            virtual void paintEvent( QPaintEvent* event );
-            virtual void resizeEvent( QResizeEvent* event );
-
-            virtual void enterEvent( QEvent* event );
-            virtual void leaveEvent( QEvent* event );
+            virtual void exposeEvent( QExposeEvent* event ) override;
+            virtual void resizeEvent( QResizeEvent* event ) override;
 
         public Q_SLOTS:
             virtual void update();
 
-        private:
-            class Private;
-            Private* const d;
+        GLUON_PRIVATE_POINTER;
     };
 }
 
 
-#endif // GLUON_GRAPHICS_RENDERWIDGET_H
+#endif // GLUON_GRAPHICS_RENDERWINDOW_H

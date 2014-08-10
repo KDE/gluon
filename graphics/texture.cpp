@@ -60,13 +60,13 @@ Texture::~Texture()
     delete d;
 }
 
-bool Texture::load( const QUrl& url )
+bool Texture::load( const QString& path )
 {
     //TODO: Add support for non-2D textures and non-RGBA colour formats.
-    if( !d->image.load( url.toLocalFile() ) )
+    if( !d->image.load( path ) )
     {
         DEBUG_BLOCK
-        DEBUG_TEXT2( "Failed to load texture %1", url.toLocalFile() );
+        DEBUG_TEXT2( "Failed to load texture %1", path );
         return false;
     }
 

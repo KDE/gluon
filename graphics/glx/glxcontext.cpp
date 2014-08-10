@@ -20,8 +20,8 @@
 #include "glxcontext.h"
 
 #include <QtCore/QDebug>
-#include <QtGui/QX11Info>
-#include <QtGui/QWidget>
+#include <QtGui/QWindow>
+#include <QtX11Extras/QX11Info>
 
 #include <GL/glx.h>
 
@@ -32,12 +32,12 @@ using namespace GluonGraphics::GLX;
 class Context::Private
 {
     public:
-        Private() : currentWidget( 0 ) { }
+        Private() { }
 
         Version parseVersion( const QByteArray& string );
 
         GLXContext context;
-        QWidget* currentWidget;
+        QWindow* currentWindow = nullptr;
 
         Version glXVersion;
         Version glVersion;
@@ -72,7 +72,7 @@ Context::~Context()
     delete d;
 }
 
-bool Context::initialize( QWidget* widget )
+bool Context::initialize( QWindow* window )
 {
     //Clear any error state.
     glGetError();
@@ -92,9 +92,9 @@ bool Context::initialize( QWidget* widget )
     }
 
     //Set it to current so we can initialize some properties.
-    glXMakeCurrent( QX11Info::display(), widget->winId(), d->context );
+    glXMakeCurrent( QX11Info::display(), window->winId(), d->context );
     // Workaround for an NVidia bug, the first call will fail to make the context current but the second will succeed
-    glXMakeCurrent( QX11Info::display(), widget->winId(), d->context );
+    glXMakeCurrent( QX11Info::display(), window->winId(), d->context );
 
     //Set all the version related properties.
     d->glXVersion = d->parseVersion( glXGetClientString( QX11Info::display(), GLX_VERSION ) );
@@ -141,24 +141,24 @@ void Context::destroy()
     d->context = 0;
 }
 
-void Context::makeCurrent( QWidget* widget )
+void Context::makeCurrent( QWindow* window )
 {
-    if( widget == d->currentWidget )
+    if( window == d->currentWindow )
         return;
 
-    glXMakeCurrent( QX11Info::display(), widget->winId(), d->context );
-    d->currentWidget = widget;
+    glXMakeCurrent( QX11Info::display(), window->winId(), d->context );
+    d->currentWindow = window;
 }
 
 void Context::clearCurrent()
 {
     glXMakeCurrent( QX11Info::display(), None, NULL );
-    d->currentWidget = 0;
+    d->currentWindow = 0;
 }
 
 bool Context::isCurrent() const
 {
-    return d->currentWidget != 0;
+    return d->currentWindow != nullptr;
 }
 
 QString Context::errorString() const

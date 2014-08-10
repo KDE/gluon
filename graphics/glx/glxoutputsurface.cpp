@@ -19,21 +19,23 @@
 
 #include "glxoutputsurface.h"
 
-#include <manager.h>
-
-#include <QtGui/QWidget>
-#include <QtGui/QX11Info>
+#include <QtGui/QWindow>
+#include <QtX11Extras/QX11Info>
 
 #include <GL/gl.h>
 #include <GL/glx.h>
+#undef Bool // see http://eigen.tuxfamily.org/bz/show_bug.cgi?id=253 (but Qt related)
+#undef CursorShape // see http://eigen.tuxfamily.org/bz/show_bug.cgi?id=253 (but Qt related)
 #undef Success // see http://eigen.tuxfamily.org/bz/show_bug.cgi?id=253
 
+#include <graphics/manager.h>
+#include <graphics/rendertarget.h>
+#include <graphics/spritemesh.h>
+#include <graphics/shader.h>
+#include <graphics/backend.h>
+#include <graphics/mathutils.h>
+
 #include "glxcontext.h"
-#include <rendertarget.h>
-#include <spritemesh.h>
-#include <shader.h>
-#include <backend.h>
-#include <mathutils.h>
 
 using namespace GluonGraphics::GLX;
 
@@ -51,7 +53,7 @@ class GLXOutputSurface::Private
         bool firstFrame;
 };
 
-GLXOutputSurface::GLXOutputSurface( GLX::Context* context, QWidget* container, QObject* parent )
+GLXOutputSurface::GLXOutputSurface( GLX::Context* context, QWindow* container, QObject* parent )
     : GluonGraphics::OutputSurface( container, parent ), d( new Private )
 {
     d->context = context;
@@ -64,7 +66,7 @@ GLXOutputSurface::~GLXOutputSurface()
 
 void GLXOutputSurface::renderContents()
 {
-    d->context->makeCurrent( widget() );
+    d->context->makeCurrent( window() );
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
@@ -83,7 +85,7 @@ void GLXOutputSurface::renderContents()
     if( renderTarget() )
         renderTarget()->renderContents();
 
-    glXSwapBuffers( QX11Info::display(), widget()->winId() );
+    glXSwapBuffers( QX11Info::display(), window()->winId() );
 }
 
 void GLXOutputSurface::setSize(int width, int height)

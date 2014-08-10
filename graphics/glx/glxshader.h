@@ -20,7 +20,7 @@
 #ifndef GLUONGRAPHICS_GLXSHADER_H
 #define GLUONGRAPHICS_GLXSHADER_H
 
-#include <shader.h>
+#include <graphics/shader.h>
 
 namespace GluonGraphics
 {

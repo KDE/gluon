@@ -25,6 +25,7 @@
 
 #include <core/directoryprovider.h>
 #include <core/debughelper.h>
+#include <core/pluginloader.h>
 
 #include "backend.h"
 #include "world.h"
@@ -141,16 +142,10 @@ Manager::~Manager()
 
 void Manager::Private::createBackend()
 {
-    QString pluginPath = GluonCore::DirectoryProvider::instance()->libDirectory() + "/gluon/gluongraphics_backend.so";
-    QPluginLoader loader( pluginPath );
-    if( !loader.load() )
-    {
-        qFatal( loader.errorString().toUtf8().data() );
-    }
-
-    backend = qobject_cast< Backend*>( loader.instance() );
+    GluonCore::PluginLoader loader( "gluongraphics_backend" );
+    backend = qobject_cast< Backend*>( loader.load( q ) );
     if( !backend )
-        qFatal( "The backend plugin %s does not provide a GluonGraphics::Backend object!", pluginPath.toUtf8().data() );
+        qFatal( "Could not load a backend for Gluon Graphics!" );
 }
 
 void Manager::Private::aboutToQuit()

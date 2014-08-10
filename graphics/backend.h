@@ -23,6 +23,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QtPlugin>
 
+class QWindow;
 namespace GluonGraphics
 {
     class Shader;
@@ -64,7 +65,7 @@ namespace GluonGraphics
              *
              * \return true when successfully initialized, false if not.
              */
-            virtual bool initialize( QWidget* widget ) = 0;
+            virtual bool initialize( QWindow* window ) = 0;
 
             /**
              * A description of the last error that occurred.
@@ -112,13 +113,17 @@ namespace GluonGraphics
              *
              * \return A platform-specific implementation of an OutputSurface object.
              */
-            virtual OutputSurface* createOutputSurface( QWidget* widget ) = 0;
+            virtual OutputSurface* createOutputSurface( QWindow* widget ) = 0;
 
             virtual MeshData* createMeshData() = 0;
     };
 
 }
 
-Q_DECLARE_INTERFACE( GluonGraphics::Backend, "org.gluon.graphics.backend/1.0" );
+Q_DECLARE_INTERFACE( GluonGraphics::Backend, "org.kde.gluon.graphics.backend" );
+
+#define GLUONGRAPHICS_BACKENDPLUGIN \
+    Q_INTERFACES( GluonGraphics::Backend )\
+    Q_PLUGIN_METADATA( IID "org.kde.gluon.graphics.backend" )
 
 #endif // GLUONGRAPHICS_BACKEND_H

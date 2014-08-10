@@ -19,7 +19,7 @@
 
 #include "outputsurface.h"
 
-#include <QWidget>
+#include <QtGui/QWindow>
 
 #include "manager.h"
 #include "rendertarget.h"
@@ -32,7 +32,7 @@ using namespace GluonGraphics;
 class OutputSurface::Private
 {
     public:
-        QWidget* widget;
+        QWindow* window;
         RenderTarget* renderTarget;
         int width;
         int height;
@@ -41,10 +41,10 @@ class OutputSurface::Private
         Shader* shader;
 };
 
-OutputSurface::OutputSurface(QWidget* container, QObject* parent)
+OutputSurface::OutputSurface( QWindow* container, QObject* parent )
     : QObject( parent ), d( new Private )
 {
-    d->widget = container;
+    d->window = container;
     d->renderTarget = Manager::instance()->resource< RenderTarget >( Manager::Defaults::RenderTarget );
 }
 
@@ -72,9 +72,9 @@ void OutputSurface::setRenderTarget( const QString& targetIdentifier )
     setRenderTarget( Manager::instance()->resource< RenderTarget >( targetIdentifier ) );
 }
 
-QWidget* OutputSurface::widget()
+QWindow* OutputSurface::window()
 {
-    return d->widget;
+    return d->window;
 }
 
 void OutputSurface::setSize(int width, int height)

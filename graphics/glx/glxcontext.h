@@ -20,9 +20,9 @@
 #ifndef GLUONGRAPHICS_GLXCONTEXT_H
 #define GLUONGRAPHICS_GLXCONTEXT_H
 
-#include <QList>
+#include <QtCore/QList>
 
-class QWidget;
+class QWindow;
 namespace GluonGraphics
 {
     namespace GLX
@@ -42,10 +42,10 @@ namespace GluonGraphics
                 Context();
                 virtual ~Context();
 
-                bool initialize( QWidget* widget );
+                bool initialize( QWindow* window );
                 void destroy();
 
-                void makeCurrent( QWidget* widget );
+                void makeCurrent( QWindow* window );
                 void clearCurrent();
                 bool isCurrent() const;
 

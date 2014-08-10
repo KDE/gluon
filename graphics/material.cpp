@@ -58,9 +58,9 @@ Material::~Material()
     delete d;
 }
 
-bool Material::load( const QUrl& url )
+bool Material::load( const QString& path )
 {
-    if( !url.isValid() )
+    if( path.isEmpty() )
         return false;
 
     if( d->shader )
@@ -73,7 +73,7 @@ bool Material::load( const QUrl& url )
     d->shader = Manager::instance()->backend()->createShader();
 
     GluonCore::GluonObjectList objects;
-    if( !GluonCore::GDLSerializer::instance()->read( url, objects ) )
+    if( !GluonCore::GDLSerializer::instance()->read( path, objects ) )
         return false;
 
     GluonCore::GluonObject* obj = objects.at( 0 );

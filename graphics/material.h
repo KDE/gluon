@@ -70,15 +70,15 @@ namespace GluonGraphics
             /**
              * Load a material definition from a file.
              *
-             * The url passed should point to a GDL file describing
+             * The path passed should point to a GDL file describing
              * the material. See GluonCore::GDLHandler for more
              * information about GDL.
              *
-             * \param url The url of the file to load.
+             * \param path The path of the file to load.
              *
              * \return True if successful, false if not.
              */
-            bool load( const QUrl& url );
+            bool load( const QString& path );
 
             /**
              * Build the shader.

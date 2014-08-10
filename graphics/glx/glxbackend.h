@@ -20,6 +20,7 @@
 #ifndef GLUONGRAPHICS_GLXBACKEND_H
 #define GLUONGRAPHICS_GLXBACKEND_H
 
+#include <core/privatepointer.h>
 #include <graphics/backend.h>
 
 namespace GluonGraphics
@@ -31,12 +32,13 @@ namespace GluonGraphics
         class GLXBackend : public GluonGraphics::Backend
         {
                 Q_OBJECT
-                Q_INTERFACES( GluonGraphics::Backend )
+                GLUONGRAPHICS_BACKENDPLUGIN
+
             public:
                 GLXBackend();
                 virtual ~GLXBackend();
 
-                virtual bool initialize( QWidget* widget );
+                virtual bool initialize( QWindow* window );
                 virtual QString errorString();
 
                 virtual QString identifier();
@@ -47,12 +49,11 @@ namespace GluonGraphics
                 virtual GluonGraphics::TextureData* createTextureData();
                 virtual GluonGraphics::RenderTarget* createRenderTarget();
                 virtual GluonGraphics::Shader* createShader();
-                virtual GluonGraphics::OutputSurface* createOutputSurface( QWidget* widget );
+                virtual GluonGraphics::OutputSurface* createOutputSurface( QWindow* window );
                 virtual GluonGraphics::MeshData* createMeshData();
 
-            private:
-                class Private;
-                Private* const d;
+
+            GLUON_PRIVATE_POINTER;
         };
     }
 }

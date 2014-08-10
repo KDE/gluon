@@ -22,9 +22,9 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 
-#include <QString>
-#include <QDebug>
-#include <QColor>
+#include <QtCore/QString>
+#include <QtCore/QDebug>
+#include <QtGui/QColor>
 
 #include <Eigen/Core>
 #include <Eigen/Geometry>

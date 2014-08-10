@@ -20,9 +20,9 @@
 #include "glxbackend.h"
 
 #include <QtCore/QTextStream>
-#include <QtGui/QX11Info>
-#include <QtGui/QWidget>
-#include <QtGui/QApplication>
+#include <QtCore/QCoreApplication>
+#include <QtGui/QWindow>
+#include <QtX11Extras/QX11Info>
 
 #include <GL/gl.h>
 #include <GL/glx.h>
@@ -44,14 +44,12 @@ using namespace GluonGraphics::GLX;
 class GLXBackend::Private
 {
     public:
-        Private() : context( 0 ) { }
-
-        Context* context;
+        Context* context = nullptr;
 
         QString errorString;
 };
 
-GLXBackend::GLXBackend() : d( new Private )
+GLXBackend::GLXBackend()
 {
 }
 
@@ -62,17 +60,16 @@ GLXBackend::~GLXBackend()
         d->context->clearCurrent();
         delete d->context;
     }
-    delete d;
 }
 
-bool GLXBackend::initialize( QWidget* widget )
+bool GLXBackend::initialize( QWindow* window )
 {
     if( d->context )
         return true;
 
     d->context = new Context();
 
-    if( !d->context->initialize( widget ) )
+    if( !d->context->initialize( window ) )
     {
         d->errorString = d->context->errorString();
         return false;
@@ -151,16 +148,12 @@ GluonGraphics::Shader* GLXBackend::createShader()
     return new GLXShader();
 }
 
-GluonGraphics::OutputSurface* GLXBackend::createOutputSurface( QWidget* widget )
+GluonGraphics::OutputSurface* GLXBackend::createOutputSurface( QWindow* window )
 {
-    return new GLXOutputSurface( d->context, widget, widget );
+    return new GLXOutputSurface( d->context, window, window );
 }
 
 GluonGraphics::MeshData* GLXBackend::createMeshData()
 {
     return new GLXMeshData();
 }
-
-Q_EXPORT_PLUGIN2( gluongraphics_glx_backend, GluonGraphics::GLX::GLXBackend )
-
- 

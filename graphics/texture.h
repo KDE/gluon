@@ -63,7 +63,7 @@ namespace GluonGraphics
              *
              * \return True if successful, false if not.
              */
-            virtual bool load( const QUrl& url );
+            virtual bool load( const QString& path );
 
             /**
              * Retrieve the image used for this texture.

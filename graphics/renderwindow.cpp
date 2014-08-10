@@ -17,11 +17,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "renderwidget.h"
+#include "renderwindow.h"
 
-#include <QResizeEvent>
-#include <QDebug>
-#include <QApplication>
+#include <QtCore/QCoreApplication>
+#include <QtGui/QResizeEvent>
 
 #include "manager.h"
 #include "outputsurface.h"
@@ -31,35 +30,30 @@
 
 using namespace GluonGraphics;
 
-class RenderWidget::Private
+class RenderWindow::Private
 {
     public:
-        Private() : surface( 0 ) { }
-
-        OutputSurface* surface;
-
-        Shader* shader;
-        MeshData* data;
+        OutputSurface* surface = nullptr;
 };
 
-RenderWidget::RenderWidget( QWidget* parent, Qt::WindowFlags f ) :
-    QWidget( parent, f ), d( new Private )
+RenderWindow::RenderWindow( QWindow* parent ) : QWindow( parent )
 {
-    setAttribute( Qt::WA_PaintOnScreen );
-    setAttribute( Qt::WA_OpaquePaintEvent );
+    setSurfaceType( QSurface::OpenGLSurface );
 
     if( !Manager::instance()->backend()->initialize( this ) )
         qFatal( Manager::instance()->backend()->errorString().toUtf8() );
 }
 
-RenderWidget::~RenderWidget()
+RenderWindow::~RenderWindow()
 {
     delete d->surface;
-    delete d;
 }
 
-void RenderWidget::paintEvent( QPaintEvent* event )
+void RenderWindow::exposeEvent( QExposeEvent* event )
 {
+    if( !isExposed() )
+        return;
+
     if( !d->surface )
     {
         Manager::instance()->initialize();
@@ -67,30 +61,22 @@ void RenderWidget::paintEvent( QPaintEvent* event )
         d->surface->setSize( width(), height() );
     }
 
+    requestActivate();
     d->surface->renderContents();
 }
 
-void RenderWidget::resizeEvent( QResizeEvent* event )
+void RenderWindow::resizeEvent( QResizeEvent* event )
 {
     if( d->surface )
         d->surface->setSize( event->size().width(), event->size().height() );
-    QWidget::resizeEvent( event );
+
+    QWindow::resizeEvent( event );
 }
 
-void RenderWidget::enterEvent(QEvent* event)
+void RenderWindow::update()
 {
-    setFocus();
-}
-
-void RenderWidget::leaveEvent(QEvent* event)
-{
-    clearFocus();
-}
-
-void RenderWidget::update()
-{
-    QPaintEvent* ev = new QPaintEvent( geometry() );
-    QApplication::sendEvent( this, ev );
+    QExposeEvent* ev = new QExposeEvent( geometry() );
+    QCoreApplication::sendEvent( this, ev );
 }
 
  

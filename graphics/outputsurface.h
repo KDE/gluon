@@ -24,6 +24,7 @@
 
 #include "gluon_graphics_export.h"
 
+class QWindow;
 namespace GluonGraphics
 {
     class RenderTarget;
@@ -31,7 +32,7 @@ namespace GluonGraphics
     {
             Q_OBJECT
         public:
-            OutputSurface( QWidget* container, QObject* parent = 0 );
+            OutputSurface( QWindow* container, QObject* parent = 0 );
             virtual ~OutputSurface();
 
             RenderTarget* renderTarget() const;
@@ -45,7 +46,7 @@ namespace GluonGraphics
             virtual void setSize( int width, int height );
 
         protected:
-            QWidget* widget();
+            QWindow* window();
 
         private:
             class Private;

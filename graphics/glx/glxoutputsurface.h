@@ -32,7 +32,7 @@ namespace GluonGraphics
         {
                 Q_OBJECT
             public:
-                GLXOutputSurface( GLX::Context* context, QWidget* container, QObject* parent = 0 );
+                GLXOutputSurface( GLX::Context* context, QWindow* container, QObject* parent = 0 );
                 virtual ~GLXOutputSurface();
 
                 virtual void createDebug();
