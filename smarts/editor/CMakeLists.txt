@@ -20,22 +20,22 @@ set(bteditor_SRCS
     btnodetypesmodel.cpp
     btnodetypesmodelnode.cpp
     bttreemodel.cpp
-	btactionnode.cpp
-	btcompositenode.cpp
-	btconditionnode.cpp
-	btdecoratornode.cpp
-	btreferencenode.cpp
-	btunusablenode.cpp
+    btactionnode.cpp
+    btcompositenode.cpp
+    btconditionnode.cpp
+    btdecoratornode.cpp
+    btreferencenode.cpp
+    btunusablenode.cpp
     btnewtreewizard.cpp
     treeselectordialog.cpp
-	main.cpp
+    main.cpp
     modeltest.cpp
     colorgen.cpp
     images.cpp
-	btqlistdelegate.cpp
-	btqvariantlistwidget.cpp
+    btqlistdelegate.cpp
+    btqvariantlistwidget.cpp
     btchildlistwidget.cpp
-	btparallelconditionswidget.cpp
+    btparallelconditionswidget.cpp
 )
 
 qt5_wrap_ui(
@@ -46,30 +46,30 @@ qt5_wrap_ui(
 gluon_add_executable(
     bteditor
     SOURCES ${bteditor_SRCS} ${bteditor_UISRCS}
-    LIBRARIES Qt5::Widgets KF5::XmlGui KF5::Parts Gluon::Player Gluon::Smarts
+    LIBRARIES KF5::Parts Gluon::Smarts
 )
 
 # if(APPLE)
-# 	add_executable(bteditor MACOSX_BUNDLE ${bteditor_SRCS} ${bteditor_UIS_H})
-# 	#MACOSX_BUNDLE_INFO_STRING
-# 	#MACOSX_BUNDLE_ICON_FILE
-# 	#MACOSX_BUNDLE_GUI_IDENTIFIER
-# 	#set(MACOSX_BUNDLE_LONG_VERSION_STRING ${GLUON_VERSION_STRING})
-# 	#set(MACOSX_BUNDLE_BUNDLE_NAME GluonPlayer)
-# 	#set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
-# 	#set(MACOSX_BUNDLE_BUNDLE_VERSION ${GLUON_VERSION_STRING})
-# 	#MACOSX_BUNDLE_COPYRIGHT
+#     add_executable(bteditor MACOSX_BUNDLE ${bteditor_SRCS} ${bteditor_UIS_H})
+#     #MACOSX_BUNDLE_INFO_STRING
+#     #MACOSX_BUNDLE_ICON_FILE
+#     #MACOSX_BUNDLE_GUI_IDENTIFIER
+#     #set(MACOSX_BUNDLE_LONG_VERSION_STRING ${GLUON_VERSION_STRING})
+#     #set(MACOSX_BUNDLE_BUNDLE_NAME GluonPlayer)
+#     #set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${GLUON_VERSION_STRING})
+#     #set(MACOSX_BUNDLE_BUNDLE_VERSION ${GLUON_VERSION_STRING})
+#     #MACOSX_BUNDLE_COPYRIGHT
 #
-# 	set_target_properties(bteditor PROPERTIES OUTPUT_NAME "SMARTS Editor")
+#     set_target_properties(bteditor PROPERTIES OUTPUT_NAME "SMARTS Editor")
 #
 # else()
-# 	add_executable(bteditor ${bteditor_SRCS} ${bteditor_UIS_H})
+#     add_executable(bteditor ${bteditor_SRCS} ${bteditor_UIS_H})
 # endif()
 
 gluon_add_plugin(
     gluon_bteditor
     SOURCES ${bteditor_SRCS} ${bteditor_UISRCS}
-    LIBRARIES Qt5::Widgets KF5::XmlGui KF5::Parts Gluon::Player Gluon::Smarts
+    LIBRARIES KF5::Parts Gluon::Smarts
 )
 
 # install(FILES gluon_bteditor.desktop

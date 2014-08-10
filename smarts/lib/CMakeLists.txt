@@ -1,11 +1,6 @@
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
+find_package(Qt5Xml REQUIRED)
 
-include_directories(
-    ${QT_INCLUDES}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/../common/
-)
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
 
 set(GluonSmarts_SRCS
     btcharacter.cpp
@@ -49,12 +44,12 @@ gluon_add_library(Gluon::Smarts SHARED
     SOURCES ${GluonSmarts_SRCS}
     HEADERS ${GluonSmarts_HEADERS}
     INCLUDES ${Qt5_XML_INCLUDE_DIRS}
-    LIBRARIES Gluon::Core Qt5Xml
+    LIBRARIES Qt5::Xml Gluon::Core
 )
 
 if(APPLE)
     set_target_properties(Gluon::Smarts PROPERTIES FRAMEWORK TRUE)
-	set_target_properties(Gluon::Smarts PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
+    set_target_properties(Gluon::Smarts PROPERTIES BUILD_WITH_INSTALL_RPATH 1 INSTALL_NAME_DIR "@executable_path/../Frameworks")
     set_target_properties(Gluon::Smarts PROPERTIES PUBLIC_HEADER "${GluonSmarts_HEADERS}")
 
     set(MACOSX_FRAMEWORK_IDENTIFIER smarts)
