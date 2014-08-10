@@ -33,26 +33,6 @@ TestSingleton::TestSingleton(QObject* parent)
 
 QTEST_MAIN(SingletonTest);
 
-void SingletonTest::initTestCase()
-{
-    // Called before the first testfunction is executed
-}
-
-void SingletonTest::cleanupTestCase()
-{
-    // Called after the last testfunction was executed
-}
-
-void SingletonTest::init()
-{
-    // Called before each testfunction is executed
-}
-
-void SingletonTest::cleanup()
-{
-    // Called after every testfunction
-}
-
 void SingletonTest::testThreadedRead()
 {
 
@@ -60,11 +40,11 @@ void SingletonTest::testThreadedRead()
 
 void SingletonTest::testRead()
 {
-//     QCOMPARE(TestSingleton::sm_instance.load(), nullptr);
+    QVERIFY( TestSingleton::sm_instance.load() == nullptr );
 
-//     TestSingleton::instance();
+    TestSingleton::instance();
 
-    QCOMPARE(TestSingleton::instance(), TestSingleton::sm_instance.load());
+    QCOMPARE( TestSingleton::instance(), TestSingleton::sm_instance.load() );
 }
 
 

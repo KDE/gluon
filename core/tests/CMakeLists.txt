@@ -1,5 +1,4 @@
 gluon_unit_tests(
-    MODULE GluonCore
-    LIBRARIES ${GLUONCORE_LIBRARIES}
+    MODULE Gluon::Core
     TESTS gluonobjecttest metainfotest gdlserializertest singletontest
 )

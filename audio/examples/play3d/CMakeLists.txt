@@ -1,12 +1,6 @@
-include_directories(${GLUONAUDIO_INCLUDES})
-
-set(gluonexamples_audio_play3d_SRCS
-    main.cpp
-)
-
 gluon_add_executable(gluonexamples_audio_play3d
     SOURCES main.cpp
-    LIBRARIES ${GLUONAUDIO_LIBRARIES}
+    LIBRARIES Gluon::Audio
 )
 
 install(FILES
