@@ -53,6 +53,8 @@ namespace GluonCore
              */
             bool read( const QUrl& url, GluonObjectList& objects, GluonObject* project = 0, GluonObject* parent = 0 );
 
+            bool read( const QString& path, GluonObjectList& objects, GluonObject* project = 0, GluonObject* parent = 0 );
+
             /**
              * Write a list of GluonObjects to a file.
              *

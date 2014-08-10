@@ -36,11 +36,16 @@ GLUON_DEFINE_SINGLETON( GDLSerializer )
 
 bool GDLSerializer::read(const QUrl& url, GluonObjectList& objects, GluonObject* project, GluonObject* parent )
 {
-    QFile file( url.toLocalFile() );
+    return read( url.toLocalFile(), objects, project, parent );
+}
+
+bool GDLSerializer::read(const QString& path, GluonObjectList& objects, GluonObject* project, GluonObject* parent )
+{
+    QFile file( path );
     if( !file.open( QIODevice::ReadOnly | QIODevice::Text ) )
     {
         DEBUG_BLOCK
-        DEBUG_TEXT2( "Could not open file %1", url.toLocalFile() );
+        DEBUG_TEXT2( "Could not open file %1", path );
         return false;
     }
 
@@ -54,13 +59,13 @@ bool GDLSerializer::read(const QUrl& url, GluonObjectList& objects, GluonObject*
         if( !result )
         {
             DEBUG_BLOCK
-            DEBUG_TEXT2( "Parse error when parsing %1", url.toLocalFile() );
+            DEBUG_TEXT2( "Parse error when parsing %1", path );
         }
     }
     else
     {
         DEBUG_BLOCK
-        DEBUG_TEXT2( "Unable to read from file %1", url.toLocalFile() );
+        DEBUG_TEXT2( "Unable to read from file %1", path );
     }
 
     return result;
