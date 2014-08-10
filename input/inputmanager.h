@@ -21,7 +21,6 @@
 #ifndef GLUONINPUT_INPUTMANAGER_H
 #define GLUONINPUT_INPUTMANAGER_H
 
-#include <core/manager.h>
 #include <core/singleton.h>
 #include <core/privatepointer.h>
 
