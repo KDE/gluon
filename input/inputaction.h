@@ -35,25 +35,37 @@ namespace GluonInput
     class GLUONINPUT_EXPORT InputAction : public QObject
     {
         Q_OBJECT
-        Q_PROPERTY(InputDevice* device READ device WRITE setDevice NOTIFY deviceChanged)
-        Q_PROPERTY(InputParameter* parameter READ parameter WRITE setParameter NOTIFY parameterChanged)
+        Q_PROPERTY( InputDevice* device READ device WRITE setDevice NOTIFY deviceChanged )
+        Q_PROPERTY( InputParameter* parameter READ parameter WRITE setParameter NOTIFY parameterChanged )
 
         public:
-            explicit InputAction(QObject* parent);
+            explicit InputAction( QObject* parent = 0 );
             virtual ~InputAction();
 
             InputDevice* device() const;
             InputParameter* parameter() const;
 
+            float value() const;
+
+            bool isPressed() const;
+
         public Q_SLOTS:
-            void setDevice(InputDevice* device);
-            void setParameter(InputParameter* parameter);
+            void setDevice( InputDevice* device );
+            void setParameter( InputParameter* parameter );
 
         Q_SIGNALS:
             void deviceChanged();
             void parameterChanged();
             
+            void pressed();
+            void released();
             void triggered();
+
+            void valueChanged();
+
+        private Q_SLOTS:
+            void axisValueChanged();
+            void buttonStateChanged();
 
         private:
             GLUON_PRIVATE_POINTER;
