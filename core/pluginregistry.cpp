@@ -267,14 +267,14 @@ PluginRegistry::Private::findPluginsByType( const QString& type )
                 continue;
             }
 
-            if( !loader->metaData().contains( "type" ) )
+            if( !loader->metaData().contains( "IID" ) )
             {
                 qWarning() << "Unable to determine type for plugin:" << loader->fileName();
                 delete loader;
                 continue;
             }
 
-            QString pluginType = loader->metaData().value( "type" ).toString();
+            QString pluginType = loader->metaData().value( "IID" ).toString();
             if( !knownTypes.contains( pluginType ) )
             {
                 qWarning() << "Unknown type" << type << "of plugin" << loader->fileName();
