@@ -29,15 +29,15 @@ using namespace GluonCreator;
 
 ConfigDialog::ConfigDialog( QWidget* parent, const QString& name, KConfigSkeleton* config ): KConfigDialog( parent, name, config )
 {
-    QList<KPluginInfo> plugins = PluginManager::instance()->pluginInfos();
-
-    m_plugins = new KPluginSelector();
-    m_plugins->addPlugins( plugins, KPluginSelector::ReadConfigFile, i18n( "Docks" ), QString( "dock" ) );
-    m_plugins->addPlugins( plugins, KPluginSelector::ReadConfigFile, i18n( "Tools" ), QString( "tool" ) );
-    m_plugins->addPlugins( plugins, KPluginSelector::ReadConfigFile, i18n( "Others" ), QString() );
-
-    addPage( m_plugins, i18n( "Plugins" ), "gluon" );
-    connect( m_plugins, SIGNAL(changed(bool)), SLOT(enableButtonApply(bool)) );
+//     QList<KPluginInfo> plugins = PluginManager::instance()->pluginInfos();
+//
+//     m_plugins = new KPluginSelector();
+//     m_plugins->addPlugins( plugins, KPluginSelector::ReadConfigFile, i18n( "Docks" ), QString( "dock" ) );
+//     m_plugins->addPlugins( plugins, KPluginSelector::ReadConfigFile, i18n( "Tools" ), QString( "tool" ) );
+//     m_plugins->addPlugins( plugins, KPluginSelector::ReadConfigFile, i18n( "Others" ), QString() );
+//
+//     addPage( m_plugins, i18n( "Plugins" ), "gluon" );
+//     connect( m_plugins, SIGNAL(changed(bool)), SLOT(enableButtonApply(bool)) );
 }
 
 ConfigDialog::~ConfigDialog()
@@ -47,7 +47,7 @@ ConfigDialog::~ConfigDialog()
 
 void ConfigDialog::accept()
 {
-    m_plugins->save();
-    PluginManager::instance()->loadPlugins();
+//     m_plugins->save();
+//     PluginManager::instance()->loadPlugins();
     QDialog::accept();
 }
