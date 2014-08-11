@@ -21,6 +21,7 @@
 #include "plugin.h"
 
 #include <core/debughelper.h>
+#include <core/pluginregistry.h>
 
 #include <KService/KServiceTypeTrader>
 #include <KXmlGui/KXmlGuiWindow>
@@ -51,10 +52,10 @@ const QStringList PluginManager::PluginManagerPrivate::requiredPlugins = QString
     "gluoncreator_dockplugin_componentsdock" <<
     "gluoncreator_dockplugin_messagedock";
 
-QList< KPluginInfo > PluginManager::pluginInfos() const
-{
-    return KPluginInfo::fromServices( KServiceTypeTrader::self()->query( "GluonCreator/Plugin" ) );
-}
+// QList< KPluginInfo > PluginManager::pluginInfos() const
+// {
+//     return KPluginInfo::fromServices( KServiceTypeTrader::self()->query( "GluonCreator/Plugin" ) );
+// }
 
 void PluginManager::setMainWindow( KXmlGuiWindow* window )
 {
@@ -64,66 +65,73 @@ void PluginManager::setMainWindow( KXmlGuiWindow* window )
 void PluginManager::loadPlugins()
 {
     DEBUG_FUNC_NAME
-    int requiredPluginCount = 0;
-    KConfigGroup group = KSharedConfig::openConfig()->group( "Plugins" );
-    KService::List offers = KServiceTypeTrader::self()->query(
-                                QString::fromLatin1( "GluonCreator/Plugin" ),
-                                QString( "[X-KDE-GluonCreatorPluginVersion] == %1" ).arg( GLUONCREATOR_PLUGIN_VERSION ) );
+    QObjectList plugins = GluonCore::PluginRegistry::instance()->loadType( "org.kde.gluon.creator.dock" );
 
-    KService::List::const_iterator iter;
-    for( iter = offers.begin(); iter < offers.end(); ++iter )
+    plugins.append( GluonCore::PluginRegistry::instance()->loadType( "org.kde.gluon.creator.tool" ) );
+
+    for( auto plugin : plugins )
     {
-        QString error;
-        KService::Ptr service = *iter;
-
-        QString serviceName = service->desktopEntryName();
-        bool loadPlugin = group.readEntry<bool>( QString( "%1Enabled" ).arg( serviceName ), true );
-
-        if( d->requiredPlugins.contains( serviceName ) )
-	{
-	    DEBUG_TEXT2( "%1 is a required plugin", serviceName );
-            requiredPluginCount++;
-	}
-
-        if( !d->loadedPlugins.contains( serviceName ) && loadPlugin )
+        Plugin* p = qobject_cast< Plugin* >( plugin );
+        if( p )
         {
-            KPluginLoader loader( service->library() );
-            KPluginFactory* factory = loader.factory();
-
-            if( !factory )
-            {
-                DEBUG_TEXT2( "KPluginFactory could not load the plugin: %1", service->library() )
-                DEBUG_TEXT( loader.errorString() );
-                continue;
-            }
-
-            Plugin* plugin = factory->create<Plugin>( this );
-
-            if( plugin )
-            {
-                DEBUG_TEXT2( "Load plugin: %1", service->name() )
-                plugin->load( d->mainWindow );
-                d->loadedPlugins.insert( serviceName, plugin );
-            }
-            else
-            {
-                DEBUG_TEXT( error )
-            }
-        }
-        else if( !loadPlugin && d->loadedPlugins.contains( serviceName ) )
-        {
-            Plugin* plugin = d->loadedPlugins.value( serviceName );
-            plugin->unload( d->mainWindow );
-            delete plugin;
-            d->loadedPlugins.remove( serviceName );
+            p->load( d->mainWindow );
         }
     }
 
-    if( requiredPluginCount < d->requiredPlugins.count() )
-    {
-        KMessageBox::error( d->mainWindow, i18n( "Could not load all required plugins!" ), i18n( "Unable to load plugins" ) ); 
-	qFatal( "Unable to load all required plugins!" );
-    }
+
+//     for( iter = offers.begin(); iter < offers.end(); ++iter )
+//     {
+//         QString error;
+//         KService::Ptr service = *iter;
+//
+//         QString serviceName = service->desktopEntryName();
+//         bool loadPlugin = group.readEntry<bool>( QString( "%1Enabled" ).arg( serviceName ), true );
+//
+//         if( d->requiredPlugins.contains( serviceName ) )
+// 	{
+// 	    DEBUG_TEXT2( "%1 is a required plugin", serviceName );
+//             requiredPluginCount++;
+// 	}
+//
+//         if( !d->loadedPlugins.contains( serviceName ) && loadPlugin )
+//         {
+//             KPluginLoader loader( service->library() );
+//             KPluginFactory* factory = loader.factory();
+//
+//             if( !factory )
+//             {
+//                 DEBUG_TEXT2( "KPluginFactory could not load the plugin: %1", service->library() )
+//                 DEBUG_TEXT( loader.errorString() );
+//                 continue;
+//             }
+//
+//             Plugin* plugin = factory->create<Plugin>( this );
+//
+//             if( plugin )
+//             {
+//                 DEBUG_TEXT2( "Load plugin: %1", service->name() )
+//                 plugin->load( d->mainWindow );
+//                 d->loadedPlugins.insert( serviceName, plugin );
+//             }
+//             else
+//             {
+//                 DEBUG_TEXT( error )
+//             }
+//         }
+//         else if( !loadPlugin && d->loadedPlugins.contains( serviceName ) )
+//         {
+//             Plugin* plugin = d->loadedPlugins.value( serviceName );
+//             plugin->unload( d->mainWindow );
+//             delete plugin;
+//             d->loadedPlugins.remove( serviceName );
+//         }
+//     }
+//
+//     if( requiredPluginCount < d->requiredPlugins.count() )
+//     {
+//         KMessageBox::error( d->mainWindow, i18n( "Could not load all required plugins!" ), i18n( "Unable to load plugins" ) );
+// 	qFatal( "Unable to load all required plugins!" );
+//     }
 }
 
 PluginManager::PluginManager( QObject* parent )
