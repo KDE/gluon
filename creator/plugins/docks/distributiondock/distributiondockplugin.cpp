@@ -44,4 +44,3 @@ QDockWidget* DistributionDockPlugin::createDock( KXmlGuiWindow* parent )
     return dock;
 }
 
-GLUON_CREATOR_PLUGIN_EXPORT( DistributionDockPlugin )

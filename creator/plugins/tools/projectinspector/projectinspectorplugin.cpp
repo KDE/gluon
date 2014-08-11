@@ -55,4 +55,3 @@ void ProjectInspectorPlugin::initialize()
     actionCollection()->addAction( "show_projectinspector", showAction );
 }
 
-GLUON_CREATOR_PLUGIN_EXPORT( ProjectInspectorPlugin )

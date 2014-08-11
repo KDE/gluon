@@ -44,4 +44,3 @@ QWidget* VcsToolPlugin::createTool( KXmlGuiWindow* parent )
     return tool;
 }
 
-GLUON_CREATOR_PLUGIN_EXPORT( VcsToolPlugin )
