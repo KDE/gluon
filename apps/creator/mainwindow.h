@@ -21,14 +21,12 @@
 #ifndef GLUONCREATOR_MAINWINDOW_H
 #define GLUONCREATOR_MAINWINDOW_H
 
-#include <KDE/KParts/MainWindow>
-#include <QtDeclarative/QDeclarativeView>
-#include <KDE/KStandardDirs>
-#include <QtDeclarative/QDeclarativeItem>
+#include <KParts/MainWindow>
+#include <QtQuick/QQuickView>
+#include <QtCore/QStandardPaths>
+#include <QtQuick/QQuickItem>
 
-class KStandardDirs;
-class QDeclarativeView;
-class KUrl;
+class QUrl;
 class KRecentFilesAction;
 namespace GluonCreator
 {
@@ -48,7 +46,7 @@ namespace GluonCreator
 
         public slots:
             void openProject();
-            void openProject( const KUrl& url );
+            void openProject( const QUrl& url );
             void openProject( const QString& fileName );
             void openRecentProject( int index );
             void saveProject();

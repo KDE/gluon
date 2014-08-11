@@ -22,11 +22,8 @@
 
 #include <QtCore/QRect>
 #include <QtCore/QTimer>
-#include <KDE/KApplication>
-
-class QTimer;
-class QRect;
-class KApplication;
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QWidget>
 
 class DockerOverlay::Private
 {
@@ -38,8 +35,8 @@ class DockerOverlay::Private
         QString dockerName;
 };
 
-DockerOverlay::DockerOverlay( QDeclarativeItem* parent )
-    : QDeclarativeItem( parent ), d( new Private( this ) )
+DockerOverlay::DockerOverlay( QQuickItem* parent )
+    : QQuickItem( parent ), d( new Private( this ) )
 {
 
 }
@@ -67,7 +64,7 @@ void DockerOverlay::setDockerName( const QString& name )
 
 void DockerOverlay::Private::updateDocker()
 {
-    QWidget* docker = kapp->activeWindow()->findChild<QWidget*>(dockerName);
+    QWidget* docker = qApp->activeWindow()->findChild<QWidget*>(dockerName);
 
     if( docker )
     {

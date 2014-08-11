@@ -1,9 +1,5 @@
-find_package(KDeclarative REQUIRED)
-
-include_directories(
-    ${GLUONCREATOR_INCLUDES}
-    ${KDECLARATIVE_INCLUDE_DIRS}
-)
+find_package( Qt5 REQUIRED Quick Widgets )
+find_package( KF5 REQUIRED Declarative Config KCMUtils Parts )
 
 # find_package(KDevPlatform 1.0.2)
 # if(KDevPlatform_FOUND)
@@ -22,11 +18,11 @@ set(gluoncreator_SRCS
     intro/dockeroverlay.cpp
 )
 
-kde4_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)
-kde4_add_app_icon(gluoncreator_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-gluon_creator.png")
+kconfig_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)
+#kde4_add_app_icon(gluoncreator_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-gluon_creator.png")
 gluon_add_executable(gluoncreator 
     SOURCES ${gluoncreator_SRCS}
-    LIBRARIES ${GLUONCREATOR_LIBRARIES} ${QT_QTDECLARATIVE_LIBRARY} ${KDECLARATIVE_LIBRARIES} ${KDE4_KUTILS_LIBS} ${KDE4_KFILE_LIBS}
+    LIBRARIES Gluon::Creator Qt5::Quick KF5::Declarative KF5::ConfigCore KF5::ConfigWidgets KF5::KCMUtils KF5::Parts
 )
 
 install(FILES
@@ -40,14 +36,14 @@ install(FILES
 install(FILES
     config/gluoncreatorsettings.kcfg
 
-    DESTINATION ${KCFG_INSTALL_DIR}
+    DESTINATION ${SHARE_INSTALL_DIR}/config.kcfg
     COMPONENT gluoncreator
 )
 
 install(FILES
     gluon-creator.desktop
 
-    DESTINATION  ${XDG_APPS_INSTALL_DIR}
+    DESTINATION  ${SHARE_INSTALL_DIR}/applications
     COMPONENT gluoncreator
 )
 

@@ -24,24 +24,27 @@
 #include <QtCore/QVariantList>
 #include <QtCore/QFileInfo>
 #include <QtCore/QTimer>
-#include <QtGui/QWidget>
-#include <QtGui/QFileDialog>
-#include <QtDeclarative/QDeclarativeContext>
-#include <KDE/KFileDialog>
-#include <KDE/KStandardAction>
-#include <KDE/KActionCollection>
-#include <KDE/KAction>
-#include <KDE/KStatusBar>
-#include <KDE/KMessageBox>
-#include <KDE/KConfigDialog>
-#include <KDE/KLocalizedString>
-#include <KDE/KRecentFilesAction>
-#include <KDE/KParts/PartManager>
-#include <KDE/KMenuBar>
-#include <KDE/KApplication>
-#include <KDE/KAboutData>
+#include <QtCore/QDir>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QFileDialog>
+#include <QtGui/QKeySequence>
+#include <QtQml/QQmlContext>
+#include <QtWidgets/QFileDialog>
+#include <KConfigCore/KSharedConfig>
+#include <KConfigWidgets/KStandardAction>
+#include <KXmlGui/KActionCollection>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QStatusBar>
+#include <KWidgetsAddons/KMessageBox>
+#include <KConfigWidgets/KConfigDialog>
+#include <KI18n/KLocalizedString>
+#include <KConfigWidgets/KRecentFilesAction>
+#include <KParts/PartManager>
+#include <QtWidgets/QMenuBar>
+#include <QtWidgets/QApplication>
+#include <KCoreAddons/KAboutData>
 
-#include <kdeclarative.h>
+#include <KDeclarative/KDeclarative>
 
 #include <engine/game.h>
 #include <engine/gameproject.h>
@@ -72,13 +75,13 @@ class MainWindow::Private
         KRecentFilesAction* recentFiles;
 
         FileArea* mainArea;
-        QDeclarativeView* qmlOverlay;
+        QQuickView* qmlOverlay;
 };
 
 MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlags flags )
     : KParts::MainWindow( parent, flags ), d( new Private )
 {
-    kapp->setActiveWindow(this);
+    qApp->setActiveWindow(this);
     d->modified = false;
     GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
@@ -144,7 +147,7 @@ QString MainWindow::selectDirectory()
     return QFileDialog::getExistingDirectory( this, i18n( "Selection location of project" ) );
 }
 
-void MainWindow::openProject( const KUrl& url )
+void MainWindow::openProject( const QUrl& url )
 {
     openProject( url.path() );
 }
@@ -153,16 +156,18 @@ void MainWindow::loadView()
 {
     qmlRegisterType< DockerOverlay >( "Gluon.Creator.Introduction", 1, 0, "DockerOverlay" );
 
-    d->qmlOverlay = new QDeclarativeView( this );
+    d->qmlOverlay = new QQuickView();
+    QWidget* viewContainer = QWidget::createWindowContainer(d->qmlOverlay);
+    viewContainer->setParent(this);
 
-    KDeclarative kdeclarative;
+    KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine( d->qmlOverlay->engine() );
     kdeclarative.initialize();
     kdeclarative.setupBindings();
 
-    d->qmlOverlay->setStyleSheet( "background: transparent" );
-    d->qmlOverlay->setResizeMode( QDeclarativeView::SizeRootObjectToView );
-    d->qmlOverlay->setGeometry( rect() );
+    viewContainer->setStyleSheet( "background: transparent" );
+    d->qmlOverlay->setResizeMode( QQuickView::SizeRootObjectToView );
+    viewContainer->setGeometry( rect() );
 
     //TODO: These should really not be context properties. Need to create a proper import plugin for it though, which needs Qt5 due to MainWindow essentially being a singleton.
 
@@ -170,10 +175,10 @@ void MainWindow::loadView()
 
 
     QStringList recentFiles;
-    KUrl::List recentUrls = d->recentFiles->urls();
-    foreach( const KUrl& url, recentUrls )
+    QList<QUrl> recentUrls = d->recentFiles->urls();
+    foreach( const QUrl& url, recentUrls )
     {
-        recentFiles.append( url.directory() );
+        recentFiles.append( url.adjusted(QUrl::RemoveFilename).toString() );
     }
 
     d->qmlOverlay->rootContext()->setContextProperty( "recentFiles", recentFiles );
@@ -208,8 +213,8 @@ void MainWindow::openProject()
     GluonEngine::Game::instance()->drawAll();
     ObjectManager::instance()->watchCurrentAssets();
 
-    d->recentFiles->addUrl( KUrl( d->fileName ) );
-    d->recentFiles->saveEntries( KGlobal::config()->group( "Recent Files" ) );
+    d->recentFiles->addUrl( QUrl::fromLocalFile( d->fileName ) );
+    d->recentFiles->saveEntries( KSharedConfig::openConfig()->group( "Recent Files" ) );
 
     stateChanged( "fileOpened" );
     DockManager::instance()->setDocksEnabled( true );
@@ -245,7 +250,7 @@ void MainWindow::saveProject( const QString& fileName )
     {
         statusBar()->showMessage( i18n( "Saving project..." ) );
         GluonEngine::Game::instance()->gameProject()->setFilename( QUrl::fromLocalFile( fileName ) );
-        QDir::setCurrent( KUrl( fileName ).directory() );
+        QDir::setCurrent( QUrl::fromLocalFile( fileName ).adjusted(QUrl::RemoveFilename).toString() );
         if( !GluonEngine::Game::instance()->gameProject()->saveToFile() )
         {
             KMessageBox::error( this, i18n( "Could not save file." ) );
@@ -255,7 +260,7 @@ void MainWindow::saveProject( const QString& fileName )
         setCaption( i18n( "%1 - Gluon Creator", fileName.section( '/', -1 ) ) );
         HistoryManager::instance()->setClean();
 
-        d->recentFiles->addUrl( KUrl( fileName ) );
+        d->recentFiles->addUrl( QUrl::fromLocalFile( fileName ) );
     }
     else
     {
@@ -265,76 +270,76 @@ void MainWindow::saveProject( const QString& fileName )
 
 void MainWindow::saveProjectAs()
 {
-    d->fileName = KFileDialog::getSaveFileName( KUrl(), i18n( "*%1|Gluon Project Files", GluonEngine::projectFilename ), 0, QString(), KFileDialog::ConfirmOverwrite );
+    d->fileName = QFileDialog::getSaveFileName( this, QString(), QString(), i18n( "*%1|Gluon Project Files", GluonEngine::projectFilename ), 0 );
     if( !d->fileName.isEmpty() )
         saveProject();
 }
 
 void MainWindow::setupActions()
 {
-    KAction* newProject = new KAction( KIcon( "document-new" ), i18n( "New Project..." ), actionCollection() );
+    QAction* newProject = new QAction( QIcon::fromTheme( "document-new" ), i18n( "New Project..." ), actionCollection() );
     actionCollection()->addAction( "project_new", newProject );
     connect( newProject, SIGNAL(triggered(bool)), SLOT(showWelcomeDialog()) );
-    newProject->setShortcut( KShortcut( "Ctrl+N" ) );
+    newProject->setShortcut( QKeySequence( "Ctrl+N" ) );
 
-    KAction* openProject = new KAction( KIcon( "document-open" ), i18n( "Open Project..." ), actionCollection() );
+    QAction* openProject = new QAction( QIcon::fromTheme( "document-open" ), i18n( "Open Project..." ), actionCollection() );
     actionCollection()->addAction( "project_open", openProject );
     connect( openProject, SIGNAL(triggered(bool)), SLOT(showOpenProjectDialog()) );
-    openProject->setShortcut( KShortcut( "Ctrl+O" ) );
+    openProject->setShortcut( QKeySequence( "Ctrl+O" ) );
 
-    KAction* saveProject = new KAction( KIcon( "document-save" ), i18n( "Save Project" ), actionCollection() );
+    QAction* saveProject = new QAction( QIcon::fromTheme( "document-save" ), i18n( "Save Project" ), actionCollection() );
     actionCollection()->addAction( "project_save", saveProject );
     connect( saveProject, SIGNAL(triggered(bool)), SLOT(saveProject()) );
-    saveProject->setShortcut( KShortcut( "Ctrl+S" ) );
+    saveProject->setShortcut( QKeySequence( "Ctrl+S" ) );
 
-    KAction* saveProjectAs = new KAction( KIcon( "document-save-as" ), i18n( "Save Project As..." ), actionCollection() );
+    QAction* saveProjectAs = new QAction( QIcon::fromTheme( "document-save-as" ), i18n( "Save Project As..." ), actionCollection() );
     actionCollection()->addAction( "project_save_as", saveProjectAs );
     connect( saveProjectAs, SIGNAL(triggered(bool)), SLOT(saveProjectAs()) );
 
     KStandardAction::quit( this, SLOT(close()), actionCollection() );
     KStandardAction::preferences( this, SLOT(showPreferences()), actionCollection() );
 
-    KAction* undo = KStandardAction::undo( HistoryManager::instance(), SLOT(undo()), actionCollection() );
+    QAction* undo = KStandardAction::undo( HistoryManager::instance(), SLOT(undo()), actionCollection() );
     connect( HistoryManager::instance(), SIGNAL(canUndoChanged(bool)), undo, SLOT(setEnabled(bool)) );
 
-    KAction* redo = KStandardAction::redo( HistoryManager::instance(), SLOT(redo()), actionCollection() );
+    QAction* redo = KStandardAction::redo( HistoryManager::instance(), SLOT(redo()), actionCollection() );
     connect( HistoryManager::instance(), SIGNAL(canRedoChanged(bool)), redo, SLOT(setEnabled(bool)) );
 
     connect( HistoryManager::instance(), SIGNAL(cleanChanged(bool)), SLOT(cleanChanged(bool)) );
 
-    d->recentFiles = new KRecentFilesAction( KIcon( "document-open-recent" ), i18n( "Recent Projects" ), actionCollection() );
-    connect( d->recentFiles, SIGNAL(urlSelected(KUrl)), SLOT(openProject(KUrl)) );
+    d->recentFiles = new KRecentFilesAction( QIcon::fromTheme( "document-open-recent" ), i18n( "Recent Projects" ), actionCollection() );
+    connect( d->recentFiles, SIGNAL(urlSelected(QUrl)), SLOT(openProject(QUrl)) );
     d->recentFiles->setText( i18n( "Open Recent Project" ) );
     d->recentFiles->setToolTip( i18n( "Open recent project" ) );
     d->recentFiles->setWhatsThis( i18n( "<b>Open recent project</b><p>Opens recently opened project.</p>" ) );
     actionCollection()->addAction( "project_open_recent", d->recentFiles );
-    d->recentFiles->loadEntries( KGlobal::config()->group( "Recent Files" ) );
+    d->recentFiles->loadEntries( KSharedConfig::openConfig()->group( "Recent Files" ) );
 
-    KAction* newObject = new KAction( KIcon( "document-new" ), i18n( "New Game Object" ), actionCollection() );
+    QAction* newObject = new QAction( QIcon::fromTheme( "document-new" ), i18n( "New Game Object" ), actionCollection() );
     actionCollection()->addAction( "gameobject_new", newObject );
     connect( newObject, SIGNAL(triggered(bool)), ObjectManager::instance(), SLOT(createNewGameObject()) );
 
-    KAction* newScene = new KAction( KIcon( "document-new" ), i18n( "New Scene" ), actionCollection() );
+    QAction* newScene = new QAction( QIcon::fromTheme( "document-new" ), i18n( "New Scene" ), actionCollection() );
     actionCollection()->addAction( "scene_new", newScene );
     connect( newScene, SIGNAL(triggered(bool)), ObjectManager::instance(), SLOT(createNewScene()) );
 
-    KAction* play = new KAction( KIcon( "media-playback-start" ), i18n( "Play Game" ), actionCollection() );
+    QAction* play = new QAction( QIcon::fromTheme( "media-playback-start" ), i18n( "Play Game" ), actionCollection() );
     actionCollection()->addAction( "game_play", play );
     connect( play, SIGNAL(triggered(bool)), SLOT(playGame()) );
 
-    KAction* pause = new KAction( KIcon( "media-playback-pause" ), i18n( "Pause Game" ), actionCollection() );
+    QAction* pause = new QAction( QIcon::fromTheme( "media-playback-pause" ), i18n( "Pause Game" ), actionCollection() );
     actionCollection()->addAction( "game_pause", pause );
     connect( pause, SIGNAL(triggered(bool)), SLOT(pauseGame()) );
 
-    KAction* stop = new KAction( KIcon( "media-playback-stop" ), i18n( "Stop Game" ), actionCollection() );
+    QAction* stop = new QAction( QIcon::fromTheme( "media-playback-stop" ), i18n( "Stop Game" ), actionCollection() );
     actionCollection()->addAction( "game_stop", stop );
     connect( stop, SIGNAL(triggered(bool)), SLOT(stopGame()) );
 
-    KAction* addAsset = new KAction( KIcon( "document-import" ), i18n( "Import Assets..." ), actionCollection() );
+    QAction* addAsset = new QAction( QIcon::fromTheme( "document-import" ), i18n( "Import Assets..." ), actionCollection() );
     actionCollection()->addAction( "asset_import", addAsset );
     connect( addAsset, SIGNAL(triggered(bool)), SLOT(addAsset()) );
 
-    KAction* lockLayout = new KAction( KIcon( "object-locked" ), i18n( "Lock layout" ), actionCollection() );
+    QAction* lockLayout = new QAction( QIcon::fromTheme( "object-locked" ), i18n( "Lock layout" ), actionCollection() );
     actionCollection()->addAction( "lock_layout", lockLayout );
     lockLayout->setCheckable( true );
     lockLayout->setChecked( GluonCreator::Settings::lockLayout() );
@@ -445,7 +450,7 @@ bool MainWindow::queryClose()
 
 void MainWindow::addAsset()
 {
-    ObjectManager::instance()->createAssets( KFileDialog::getOpenFileNames() );
+    ObjectManager::instance()->createAssets( QFileDialog::getOpenFileNames() );
 }
 
 void MainWindow::showOpenProjectDialog()
@@ -570,15 +575,20 @@ void MainWindow::createProject( const QString& projectName, const QString& locat
     project->addChild( new GluonCore::GluonObject( "Assets" ) );
     project->addChild( new GluonCore::GluonObject( "Prefabs" ) );
 
-    KUrl locationUrl = KUrl::fromLocalFile( location );
+    QUrl locationUrl = QUrl::fromLocalFile( location );
     QString gameBundleDir = GluonEngine::Asset::fullyQualifiedFileName( project.data(), QFileInfo( GluonEngine::projectSuffix ).completeSuffix() );
-    locationUrl.addPath( gameBundleDir );
+    
+    locationUrl = locationUrl.adjusted( QUrl::StripTrailingSlash );
+    locationUrl.setPath( locationUrl.path() + '/' + gameBundleDir );
     project->setDirname( locationUrl );
-    locationUrl.addPath( GluonEngine::projectFilename );
+    
+    locationUrl = locationUrl.adjusted( QUrl::StripTrailingSlash );
+    locationUrl.setPath( locationUrl.path() + '/' + GluonEngine::projectFilename );
     project->setFilename( locationUrl );
 
-    KUrl currentLocation = KUrl::fromLocalFile( location );
-    currentLocation.addPath( gameBundleDir );
+    QUrl currentLocation = QUrl::fromLocalFile( location );
+    currentLocation = currentLocation.adjusted( QUrl::StripTrailingSlash );
+    currentLocation.setPath( currentLocation.path() + '/' + gameBundleDir );
     QDir dir = QDir( location );
     dir.mkpath( gameBundleDir );
     QDir::setCurrent( currentLocation.toLocalFile() );
@@ -601,5 +611,5 @@ void MainWindow::showIntroduction()
 
 void MainWindow::switchQmlSource( const QString& source )
 {
-    d->qmlOverlay->setSource( QUrl::fromLocalFile( KGlobal::dirs()->locate( "appdata", source ) ) );
+    d->qmlOverlay->setSource( QUrl::fromLocalFile( QStandardPaths::locate( QStandardPaths::DataLocation, source )  ) );
 }

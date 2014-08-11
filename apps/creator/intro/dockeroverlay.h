@@ -21,15 +21,15 @@
 #ifndef DOCKEROVERLAY_H
 #define DOCKEROVERLAY_H
 
-#include <QtDeclarative/QDeclarativeItem>
+#include <QtQuick/QQuickItem>
 
-class DockerOverlay : public QDeclarativeItem
+class DockerOverlay : public QQuickItem
 {
         Q_OBJECT
         Q_PROPERTY(QString dockerName READ dockerName WRITE setDockerName NOTIFY dockerNameChanged)
 
         public:
-            DockerOverlay(QDeclarativeItem* parent = 0);
+            DockerOverlay(QQuickItem* parent = 0);
             virtual ~DockerOverlay();
 
             QString dockerName() const;

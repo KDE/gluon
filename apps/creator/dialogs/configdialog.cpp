@@ -20,7 +20,9 @@
 #include "configdialog.h"
 #include <creator/pluginmanager.h>
 
-#include <KDE/KPluginSelector>
+#include <KCMUtils/KPluginSelector>
+#include <KConfigGui/KConfigSkeleton>
+#include <KI18n/KLocalizedString>
 
 using namespace GluonCreator;
 

@@ -21,9 +21,10 @@
 #ifndef GLUON_CREATOR_CONFIGDIALOG_H
 #define GLUON_CREATOR_CONFIGDIALOG_H
 
-#include <KDE/KConfigDialog>
+#include <KConfigWidgets/KConfigDialog>
 
 class KPluginSelector;
+class KConfigSkeleton;
 
 namespace GluonCreator
 {

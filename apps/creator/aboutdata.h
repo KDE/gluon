@@ -26,8 +26,8 @@
 #ifndef GLUONCREATOR_ABOUTDATA_H
 #define GLUONCREATOR_ABOUTDATA_H
 
-#include <KDE/KAboutData>
-#include <KDE/KLocalizedString>
+#include <KCoreAddons/KAboutData>
+#include <KI18n/KLocalizedString>
 
 #include <gluon_global.h>
 
@@ -36,24 +36,23 @@ namespace GluonCreator
     KAboutData aboutData()
     {
         KAboutData data(
-            "gluoncreator",
-            0,
-            ki18n( "Gluon Creator" ),
+            QString("gluoncreator"),
+            i18n( "Gluon Creator" ),
             QString( "%1 (%2)" ).arg( GLUON_VERSION_STRING ).arg( GLUON_VERSION_NAME ).toUtf8(),
-            ki18n( "A game creation environment" ),
-            KAboutData::License_LGPL_V2,
-            ki18n( "Copyright 2009-2011 by the Gluon Team." ),
-            KLocalizedString(),
-            "http://gluon.gamingfreedom.org"
+            i18n( "A game creation environment" ),
+            KAboutLicense::LGPL_V2,
+            i18n( "Copyright 2009-2014 by the Gluon Team." ),
+            QString(),
+            QString("http://gluon.gamingfreedom.org")
         );
 
-        data.addAuthor( ki18n( "Arjen Hiemstra" ), ki18n( "Gluon Core, Gluon Graphics, Gluon Engine, Gluon Creator" ), "ahiemstra@heimr.nl", QByteArray(), "ahiemstra" );
-        data.addAuthor( ki18n( "Dan Leinir Tuthra Jensen" ), ki18n( "Gluon Core, Gluon Engine, Gluon Creator, SMARTS" ), "admin@leinir.dk", "" );
-        data.addAuthor( ki18n( "Sacha Schutz" ), ki18n( "Gluon Graphics, Gluon Audio, Gluon Input" ), "istdasklar@free.fr" );
-        data.addAuthor( ki18n( "Guillaume Martres" ), ki18n( "Gluon Audio, Gluon Graphics" ), "smarter@ubuntu.com" );
-        data.addAuthor( ki18n( "Shantanu Tushar Jha" ), ki18n( "Gluon Player, Gluon Creator" ), "shaan7@gmail.com" );
-        data.addAuthor( ki18n( "Kim Jung Nissen" ), ki18n( "Gluon Input, Mac Compatibility" ), "jungnissen@gmail.com" );
-        data.addAuthor( ki18n( "Laszlo Papp" ), ki18n( "Gluon Creator, Input, Player, Mobile support" ), "lpapp@kde.org" );
+        data.addAuthor( i18n( "Arjen Hiemstra" ), i18n( "Gluon Core, Gluon Graphics, Gluon Engine, Gluon Creator" ), "ahiemstra@heimr.nl", QByteArray(), "ahiemstra" );
+        data.addAuthor( i18n( "Dan Leinir Tuthra Jensen" ), i18n( "Gluon Core, Gluon Engine, Gluon Creator, SMARTS" ), "admin@leinir.dk", "" );
+        data.addAuthor( i18n( "Sacha Schutz" ), i18n( "Gluon Graphics, Gluon Audio, Gluon Input" ), "istdasklar@free.fr" );
+        data.addAuthor( i18n( "Guillaume Martres" ), i18n( "Gluon Audio, Gluon Graphics" ), "smarter@ubuntu.com" );
+        data.addAuthor( i18n( "Shantanu Tushar Jha" ), i18n( "Gluon Player, Gluon Creator" ), "shaan7@gmail.com" );
+        data.addAuthor( i18n( "Kim Jung Nissen" ), i18n( "Gluon Input, Mac Compatibility" ), "jungnissen@gmail.com" );
+        data.addAuthor( i18n( "Laszlo Papp" ), i18n( "Gluon Creator, Input, Player, Mobile support" ), "lpapp@kde.org" );
 
         return data;
     }

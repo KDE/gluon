@@ -21,32 +21,38 @@
 
 #include <unistd.h>
 
-#include <KDE/KSplashScreen>
-#include <KDE/KApplication>
-#include <KDE/KAboutData>
-#include <QString>
-#include <KDE/KCmdLineArgs>
-#include <KDE/KStandardDirs>
+#include <KCoreAddons/KAboutData>
+#include <KI18n/KLocalizedString>
+
+#include <QtCore/QString>
+#include <QtCore/QDebug>
+#include <QtCore/QCommandLineParser>
+#include <QtCore/QCommandLineOption>
+#include <QtWidgets/QApplication>
 
 #include "aboutdata.h"
-#include <QDebug>
-
 
 int main( int argc, char** argv )
 {
+    QApplication app(argc, argv);
+    
     KAboutData aboutData = GluonCreator::aboutData();
+    KAboutData::setApplicationData(aboutData);
+    
+    QCommandLineParser parser;
+    parser.addVersionOption();
+    parser.addHelpOption();
+    //PORTING SCRIPT: adapt aboutdata variable if necessary
+    aboutData.setupCommandLine(&parser);
+    parser.process(app);
+    aboutData.processCommandLine(&parser);
+    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("+project"), i18n( "Project to open" )));
 
-    KCmdLineArgs::init( argc, argv, &aboutData );
-    KCmdLineOptions options;
-    options.add( "+project", ki18n( "Project to open" ) );
-    KCmdLineArgs::addCmdLineOptions( options );
-
-    KApplication app;
-    KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
+    QStringList posArgs = parser.positionalArguments();
 
     //Create the main window
-    GluonCreator::MainWindow* window = new GluonCreator::MainWindow( args->count() > 0 ? args->arg( 0 ) : QString() );
+    GluonCreator::MainWindow* window = new GluonCreator::MainWindow( posArgs.count() > 0 ? posArgs.at(0) : QString() );
     window->show();
-    kapp->setActiveWindow(window);
+    app.setActiveWindow(window);
     app.exec();
 }

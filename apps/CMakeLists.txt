@@ -1,4 +1,4 @@
-option( BUILD_CREATOR_APP "Build the Creator application" OFF )
+option( BUILD_CREATOR_APP "Build the Creator application" ON )
 option( BUILD_DESKTOP_PLAYER "Build the Desktop Player" ON )
 option( BUILD_ACTIVE_PLAYER "Build the Plasma Active Player" OFF )
 option( BUILD_PLASMOID "Build the Plasma Widget Player" OFF )
