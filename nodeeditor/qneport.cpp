@@ -79,11 +79,15 @@ void QNEPort::updatePath()
     if(m_portFlags & NamePort || m_portFlags & TypePort) {
         // don't do anything, as we want an empty path for these
     }
-    else if(isOutput_) {
-        p.addEllipse(-radius_, -radius_, 2*radius_, 2*radius_);
+    else if((isOutput_ && position() != QNEPort::RightPosition) || (!isOutput_ && position() == QNEPort::RightPosition)) {
+        QPolygon polygon;
+        polygon << QPoint(radius_ * 0.7, radius_) << QPoint(radius_ * 0.7, -radius_) << QPoint(-radius_, 0);
+        p.addPolygon(polygon);
     }
     else {
-        p.addRect(-radius_, -radius_, 2*radius_, 2*radius_);
+        QPolygon polygon;
+        polygon << QPoint(-radius_ * 0.7, -radius_) << QPoint(-radius_ * 0.7, radius_) << QPoint(radius_, 0);
+        p.addPolygon(polygon);
     }
     setPath(p);
 
@@ -118,6 +122,7 @@ void QNEPort::setPosition(QNEPort::Position position)
             // Nuh! Bad position! Bad! Go to your room and think about what you've done.
             break;
     }
+    updatePath();
 }
 
 QNEPort::Position QNEPort::position() const
