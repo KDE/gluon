@@ -53,10 +53,12 @@ public:
 	int type() const { return Type; }
 
 private:
+    QPolygonF createArrowPoly(QPainterPath& p, QNEPort* conn);
 	QPointF pos1;
 	QPointF pos2;
 	QNEPort *m_port1;
 	QNEPort *m_port2;
+    int arrowSize;
 };
 
 #endif // QNECONNECTION_H
