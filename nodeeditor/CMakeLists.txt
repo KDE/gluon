@@ -19,3 +19,13 @@ gluon_add_library(Gluon::NodeEditor SHARED
     HEADERS ${nodeeditor_HEADERS}
     LIBRARIES Qt5::Core Qt5::Gui Qt5::Widgets
 )
+
+set(qnodeeditor_SRCS
+    main.cpp
+    qnemainwindow.cpp
+)
+
+gluon_add_executable(qnodeeditor
+    SOURCES ${qnodeeditor_SRCS}
+    LIBRARIES Gluon::NodeEditor
+)
