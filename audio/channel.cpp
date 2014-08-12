@@ -40,6 +40,7 @@ Channel::Channel(QObject* parent)
 
 Channel::~Channel()
 {
+    delete d;
 }
 
 bool Channel::isValid() const
@@ -70,6 +71,7 @@ float Channel::channelVolume() const
 void Channel::addSubchannel(Channel* subchannel)
 {
     d->channels.append( subchannel );
+    subchannel->setParent(this);
     if( d->valid )
         subchannel->setParentChannelVolume( d->volume * d->parentVolume );
 }
@@ -82,6 +84,7 @@ QList<Channel*> Channel::subchannels() const
 void Channel::addSource(Source* source)
 {
     d->sources.append(source);
+    source->setParent(this);
     if( d->valid )
         source->setParentChannelVolume( d->volume * d->parentVolume );
 }

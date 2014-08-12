@@ -57,6 +57,7 @@ Source::Source(QObject* parent)
 
 Source::~Source()
 {
+    delete d;
 }
 
 void Source::queueBuffer( unsigned int bufferName )
