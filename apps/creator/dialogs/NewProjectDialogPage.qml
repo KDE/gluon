@@ -17,11 +17,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-import QtQuick 1.1
-import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.plasma.extras 0.1 as PlasmaExtras
+import QtQuick 2.0
+import QtQuick.Controls 1.0
 
-PlasmaComponents.Page {
+Item {
     id: base;
 
     Item {
@@ -32,37 +31,37 @@ PlasmaComponents.Page {
             anchors.margins: 10;
             spacing: 5;
 
-            PlasmaExtras.Heading {
+            Label {
                 width: parent.width;
                 text: "Create Empty Project";
                 horizontalAlignment: Text.AlignHCenter;
-                level: 2;
+
             }
-            PlasmaComponents.Label {
+            Label {
                 text: "Project Name";
             }
-            PlasmaComponents.TextField {
+            TextField {
                 id: projectNameField;
                 width: parent.width;
             }
-            PlasmaComponents.Label {
+            Label {
                 text: "Location";
             }
             Row {
                 width: parent.width;
 
-                PlasmaComponents.TextField {
+                TextField {
                     id: locationField;
                     width: parent.width - selectDirIcon.width;
                 }
 
-                PlasmaComponents.Button {
+                Button {
                     id: selectDirIcon;
                     iconSource: "folder-open";
                     onClicked: locationField.text = mainWindow.selectDirectory();
                 }
             }
-            PlasmaComponents.Label {
+            Label {
                 id: projectNameErrorText;
 
                 text: "Project name cannot be empty.";
@@ -72,7 +71,7 @@ PlasmaComponents.Page {
                 Behavior on opacity { NumberAnimation { } }
             }
 
-            PlasmaComponents.Label {
+            Label {
                 id: locationErrorText;
 
                 text: "Location cannot be empty.";
@@ -83,7 +82,7 @@ PlasmaComponents.Page {
             }
         }
 
-        PlasmaComponents.Button {
+        Button {
             anchors {
                 bottom: parent.bottom;
                 bottomMargin: 5;
@@ -100,7 +99,7 @@ PlasmaComponents.Page {
             }
         }
 
-        PlasmaComponents.Button {
+        Button {
             anchors {
                 bottom: parent.bottom;
                 bottomMargin: 5;
@@ -109,7 +108,7 @@ PlasmaComponents.Page {
             }
             text: "Cancel";
 
-            onClicked: pageStack.pop();
+            onClicked: base.Stack.view.pop();
         }
     }
 }

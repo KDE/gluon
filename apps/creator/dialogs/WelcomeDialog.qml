@@ -17,62 +17,82 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-import QtQuick 1.1
-import org.kde.plasma.core 0.1 as PlasmaCore
-import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.plasma.extras 0.1 as PlasmaExtras
-import org.kde.qtextracomponents 0.1
+import QtQuick 2.1
+import QtQuick.Controls 1.0
+import QtQuick.Window 2.1
 
 Item {
     id: base;
 
-    Rectangle {
-        id: overlayBackground;
+    SystemPalette { id: palette }
 
-        anchors.fill: parent;
-        color: "black";
-        opacity: 0;
+    property int gridWidth: _gridWidth;
+    property int gridHeight: _gridHeight;
 
-        Behavior on opacity { NumberAnimation { duration: 250; } }
-    }
+    Column {
+        width: 60 * base.gridWidth
 
-    PlasmaComponents.Dialog {
-        id: dialog;
+        Rectangle {
+            width: parent.width;
+            height: 6 * base.gridHeight;
+            color: palette.alternateBase;
 
-        title: PlasmaCore.FrameSvgItem {
-            width: 800;
-            height: 75;
-
-            imagePath: "widgets/extender-dragger";
-            prefix: "root";
-
-            QIconItem { id: icon; width: 64; height: 64; icon: "gluon_creator"; }
-            PlasmaExtras.Title {
+            Row {
+                width: childrenRect.width;
+                height: 5 * base.gridHeight;
                 anchors.centerIn: parent;
-                text: "Welcome to Gluon Creator"
+                spacing: base.gridWidth;
+
+                Image {
+                    anchors.verticalCenter: parent.verticalCenter;
+                    source: creatorIcon;
+                    width: 5 * base.gridHeight;
+                    height: width;
+                }
+
+                Label {
+                    anchors.verticalCenter: parent.verticalCenter;
+                    text: "Welcome to Gluon Creator"
+                    font.pixelSize: 3 * base.gridHeight;
+                }
             }
 
-            PlasmaComponents.ToolButton {
+            Button {
                 anchors {
                     top: parent.top;
+                    topMargin: 0.5 * base.gridHeight;
                     right: parent.right;
+                    rightMargin: 0.5 * base.gridWidth;
                 }
-                iconSource: "window-close";
 
-                onClicked: { dialog.allowClose = true; dialog.close(); overlayBackground.opacity = 0; closeOverlayTimer.start(); }
+                width: base.gridWidth;
+                height: width;
+
+                iconName: "window-close";
+
+                onClicked: mainWindow.closeWelcomeDialog();
             }
         }
 
-        content:
+        Rectangle {
+            width: parent.width;
+            height: 1;
+            color: palette.dark;
+        }
+
         Item {
-            width: 800;
-            height: 430;
+            width: parent.width - base.gridWidth;
+            height: 30 * base.gridHeight;
+            anchors.horizontalCenter: parent.horizontalCenter;
 
             WelcomeDialogColumn {
                 id: newItemsColumn;
 
                 height: parent.height;
                 width: parent.width / 3 - 1;
+
+                gridHeight: base.gridHeight;
+                gridWidth: base.gridWidth;
 
                 headerText: "Create";
                 headerVisible: rightSide.depth == 1;
@@ -88,7 +108,7 @@ Item {
                 }
             }
 
-            PlasmaComponents.PageStack {
+            StackView {
                 id: rightSide;
                 clip: true;
 
@@ -96,11 +116,16 @@ Item {
                 height: parent.height;
                 width: parent.width - newItemsColumn.width - 1;
 
-                initialPage:
-                PlasmaComponents.Page {
+                initialItem:
+                Item {
+                    anchors.fill: parent;
+
                     WelcomeDialogColumn {
                         height: parent.height;
                         width: parent.width / 2 - 1;
+
+                        gridHeight: base.gridHeight;
+                        gridWidth: base.gridWidth;
 
                         model: recentFiles;
 
@@ -116,6 +141,9 @@ Item {
                         height: parent.height;
                         width: parent.width / 2 - 1;
 
+                        gridHeight: base.gridHeight;
+                        gridWidth: base.gridWidth;
+
                         model: newsItemsModel;
 
                         headerText: "News";
@@ -124,52 +152,42 @@ Item {
             }
         }
 
-        buttons:
-        PlasmaCore.FrameSvgItem {
+        Rectangle {
             width: parent.width;
-            height: 45;
+            height: 1;
+            color: palette.dark;
+        }
 
-            imagePath: "widgets/extender-dragger";
-            prefix: "root";
-
-            rotation: 180;
+        Rectangle {
+            width: parent.width;
+            height: 4 * base.gridHeight;
+            color: palette.alternateBase;
 
             Row {
                 anchors.fill: parent;
-                anchors.bottomMargin: 10;
-
-                rotation: 180;
-
-                PlasmaComponents.ToolButton {
+                ToolButton {
                     width: parent.width / 3;
                     height: parent.height;
-                    flat: true;
                     text: "New to Creator? Click here!";
 
                     onClicked: { dialog.allowClose = true; dialog.close(); showIntroductionTimer.start(); }
                 }
 
-                PlasmaComponents.ToolButton {
+                ToolButton {
                     width: parent.width / 3;
                     height: parent.height;
-                    flat: true;
                     text: "Visit gamingfreedom.org";
 
                     onClicked: Qt.openUrlExternally( "http://www.gamingfreedom.org" );
                 }
 
-                PlasmaComponents.ToolButton {
+                ToolButton {
                     width: parent.width / 3;
                     height: parent.height;
-                    flat: true;
                     text: "Not logged in.";
                 }
             }
         }
-
-        //Hack because clicking outside the dialog will always close it without us being able to prevent that
-        property bool allowClose: false;
-        onStatusChanged: if( status == PlasmaComponents.DialogStatus.Closing && !allowClose ) dialog.open();
     }
 
     ListModel {
@@ -195,55 +213,13 @@ Item {
     Component {
         id: openColumnHeader;
 
-        Item {
+        ToolButton {
             width: parent.width;
-            height: 50;
+            height: 3 * base.gridHeight;
 
-            PlasmaComponents.Highlight {
-                id: headerHighlight;
-                anchors.fill: parent;
-                opacity: 0;
-                Behavior on opacity { NumberAnimation { } }
-            }
+            text: "Open project..."
 
-            PlasmaComponents.Label {
-                anchors {
-                    left: parent.left;
-                    leftMargin: 10;
-                    verticalCenter: parent.verticalCenter;
-                }
-                text: "Open project..."
-            }
-
-            MouseArea {
-                anchors.fill: parent;
-                hoverEnabled: true;
-                onEntered: headerHighlight.opacity = 1;
-                onExited: headerHighlight.opacity = 0;
-                onClicked: mainWindow.showOpenProjectDialog();
-            }
+            onClicked: mainWindow.showOpenProjectDialog();
         }
-    }
-
-    Component.onCompleted: overlayBackground.opacity = 0.7; //So we fade in the background instead of it immediately flashing into view
-
-    // Because dialog.open() cannot be called from Compnent.onCompleted apparently...
-    Timer {
-        interval: 500;
-        running: true;
-        onTriggered: dialog.open();
-    }
-
-    //Workaround for a bug in Dialog where status will never become Closed
-    Timer {
-        id: showIntroductionTimer;
-        interval: 250;
-        onTriggered: mainWindow.showIntroduction();
-    }
-
-    Timer {
-        id: closeOverlayTimer;
-        interval: 250;
-        onTriggered: mainWindow.closeQmlOverlay();
     }
 }

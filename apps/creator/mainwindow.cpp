@@ -44,7 +44,13 @@
 #include <QtWidgets/QApplication>
 #include <KCoreAddons/KAboutData>
 
-#include <KDeclarative/KDeclarative>
+#include <QtGui/QFontMetrics>
+
+#include <QtQuickWidgets/QQuickWidget>
+
+// #include <KDeclarative/KDeclarative>
+
+#include <core/directoryprovider.h>
 
 #include <engine/game.h>
 #include <engine/gameproject.h>
@@ -63,6 +69,7 @@
 
 #include "gluoncreatorsettings.h"
 #include "dialogs/configdialog.h"
+#include "dialogs/welcomewindow.h"
 #include "intro/dockeroverlay.h"
 
 using namespace GluonCreator;
@@ -75,7 +82,9 @@ class MainWindow::Private
         KRecentFilesAction* recentFiles;
 
         FileArea* mainArea;
-        QQuickView* qmlOverlay;
+//         QQuickWidget* qmlOverlay;
+
+        WelcomeWindow* welcomeWindow;
 };
 
 MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlags flags )
@@ -114,7 +123,7 @@ MainWindow::MainWindow( const QString& fileName, QWidget* parent, Qt::WindowFlag
 
     if( fileName.isEmpty() )
     {
-        showWelcomeDialog();
+        QTimer::singleShot( 500, this, SLOT(showWelcomeDialog()) );
     }
     else
     {
@@ -130,7 +139,7 @@ MainWindow::~MainWindow()
 {
     GluonCreator::Settings::setLockLayout( actionCollection()->action( "lock_layout" )->isChecked() );
     GluonCreator::Settings::self()->writeConfig();
-
+    delete d->welcomeWindow;
 
     if( GluonEngine::Game::instance()->currentScene() )
         GluonEngine::Game::instance()->cleanupAll();
@@ -154,25 +163,32 @@ void MainWindow::openProject( const QUrl& url )
 
 void MainWindow::loadView()
 {
-    qmlRegisterType< DockerOverlay >( "Gluon.Creator.Introduction", 1, 0, "DockerOverlay" );
+//     qmlRegisterType< DockerOverlay >( "Gluon.Creator.Introduction", 1, 0, "DockerOverlay" );
 
-    d->qmlOverlay = new QQuickView();
-    QWidget* viewContainer = QWidget::createWindowContainer(d->qmlOverlay);
-    viewContainer->setParent(this);
+//     d->qmlOverlay = new QQuickWidget(this);
+    d->welcomeWindow = new WelcomeWindow( );
+//     QWidget* viewContainer = QWidget::createWindowContainer(d->qmlOverlay);
+//     viewContainer->setParent(this);
 
-    KDeclarative::KDeclarative kdeclarative;
-    kdeclarative.setDeclarativeEngine( d->qmlOverlay->engine() );
-    kdeclarative.initialize();
-    kdeclarative.setupBindings();
+//     KDeclarative::KDeclarative kdeclarative;
+//     kdeclarative.setDeclarativeEngine( d->qmlOverlay->engine() );
+//     kdeclarative.initialize();
+//     kdeclarative.setupBindings();
 
-    viewContainer->setStyleSheet( "background: transparent" );
-    d->qmlOverlay->setResizeMode( QQuickView::SizeRootObjectToView );
-    viewContainer->setGeometry( rect() );
+//     d->qmlOverlay->setStyleSheet( "background: transparent" );
+//     d->qmlOverlay->setResizeMode( QQuickWidget::SizeRootObjectToView );
+//     d->qmlOverlay->setGeometry( rect() );
 
     //TODO: These should really not be context properties. Need to create a proper import plugin for it though, which needs Qt5 due to MainWindow essentially being a singleton.
 
-    d->qmlOverlay->rootContext()->setContextProperty( "mainWindow", this );
+    d->welcomeWindow->rootContext()->setContextProperty( "mainWindow", this );
+    QRect charRect = QFontMetrics( QGuiApplication::font() ).boundingRect( 'M' );
+    d->welcomeWindow->setWidth( 60.f * charRect.width() );
+    d->welcomeWindow->setHeight( 40.1f * charRect.height() );
+    d->welcomeWindow->rootContext()->setContextProperty( "_gridWidth", charRect.width() );
+    d->welcomeWindow->rootContext()->setContextProperty( "_gridHeight", charRect.height() );
 
+    d->welcomeWindow->rootContext()->setContextProperty( "creatorIcon", GluonCore::DirectoryProvider::instance()->dataDirectory() + "/icons/hicolor/scalable/apps/gluoncreator.svg" );
 
     QStringList recentFiles;
     QList<QUrl> recentUrls = d->recentFiles->urls();
@@ -181,13 +197,13 @@ void MainWindow::loadView()
         recentFiles.append( url.adjusted(QUrl::RemoveFilename).toString() );
     }
 
-    d->qmlOverlay->rootContext()->setContextProperty( "recentFiles", recentFiles );
+    d->welcomeWindow->rootContext()->setContextProperty( "recentFiles", recentFiles );
 }
 
 void MainWindow::openProject( const QString& fileName )
 {
-    if( d->qmlOverlay->isVisible() )
-        d->qmlOverlay->hide();
+    if( d->welcomeWindow->isVisible() )
+        d->welcomeWindow->hide();
 
     if( !fileName.isEmpty() && QFile::exists( fileName ) )
     {
@@ -525,7 +541,7 @@ void MainWindow::partChanged( KParts::Part* part )
 
 void MainWindow::closeQmlOverlay()
 {
-    d->qmlOverlay->hide();
+    d->welcomeWindow->hide();
 }
 
 void MainWindow::createProject( const QString& projectName, const QString& location )
@@ -599,17 +615,22 @@ void MainWindow::createProject( const QString& projectName, const QString& locat
 
 void MainWindow::showWelcomeDialog()
 {
-    d->qmlOverlay->show();
-    QMetaObject::invokeMethod( this, "switchQmlSource", Qt::QueuedConnection, Q_ARG( QString, "dialogs/WelcomeDialog.qml" ) );
+    d->welcomeWindow->setSource( QStandardPaths::locate( QStandardPaths::DataLocation, "dialogs/WelcomeDialog.qml" ) );
+    d->welcomeWindow->show();
+}
+
+void MainWindow::closeWelcomeDialog()
+{
+    d->welcomeWindow->hide();
 }
 
 void MainWindow::showIntroduction()
 {
-    d->qmlOverlay->show();
-    QMetaObject::invokeMethod( this, "switchQmlSource", Qt::QueuedConnection, Q_ARG( QString, "intro/Introduction.qml" ) );
+//     d->qmlOverlay->show();
+//     QMetaObject::invokeMethod( this, "switchQmlSource", Qt::QueuedConnection, Q_ARG( QString, "intro/Introduction.qml" ) );
 }
 
 void MainWindow::switchQmlSource( const QString& source )
 {
-    d->qmlOverlay->setSource( QUrl::fromLocalFile( QStandardPaths::locate( QStandardPaths::DataLocation, source )  ) );
+    d->welcomeWindow->setSource( QUrl::fromLocalFile( QStandardPaths::locate( QStandardPaths::DataLocation, source )  ) );
 }

@@ -72,6 +72,7 @@ namespace GluonCreator
 
             void showIntroduction();
             void showWelcomeDialog();
+            void closeWelcomeDialog();
 
             void switchQmlSource(const QString& source);
 

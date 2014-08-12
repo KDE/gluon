@@ -1,5 +1,5 @@
-find_package( Qt5 REQUIRED Quick Widgets )
-find_package( KF5 REQUIRED Declarative Config KCMUtils Parts )
+find_package( Qt5 REQUIRED Quick Widgets QuickWidgets )
+find_package( KF5 REQUIRED Declarative Config KCMUtils Parts WindowSystem )
 
 # find_package(KDevPlatform 1.0.2)
 # if(KDevPlatform_FOUND)
@@ -15,6 +15,7 @@ set(gluoncreator_SRCS
     mainwindow.cpp
 
     dialogs/configdialog.cpp
+    dialogs/welcomewindow.cpp
     intro/dockeroverlay.cpp
 )
 
@@ -22,14 +23,14 @@ kconfig_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)
 #kde4_add_app_icon(gluoncreator_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-gluon_creator.png")
 gluon_add_executable(gluoncreator 
     SOURCES ${gluoncreator_SRCS}
-    LIBRARIES Gluon::Creator Qt5::Quick KF5::Declarative KF5::ConfigCore KF5::ConfigWidgets KF5::KCMUtils KF5::Parts
+    LIBRARIES Gluon::Creator Qt5::Quick Qt5::QuickWidgets KF5::Declarative KF5::ConfigCore KF5::ConfigWidgets KF5::KCMUtils KF5::Parts KF5::WindowSystem
 )
 
 install(FILES
     ui/gluoncreatorui.rc
     icons/gluon-creator-splash.png
 
-    DESTINATION ${SHARE_INSTALL_DIR}/apps/gluoncreator
+    DESTINATION ${SHARE_INSTALL_DIR}/gluoncreator
     COMPONENT gluoncreator
 )
 
@@ -52,14 +53,14 @@ install(FILES
     dialogs/WelcomeDialog.qml
     dialogs/WelcomeDialogColumn.qml
 
-    DESTINATION ${SHARE_INSTALL_DIR}/apps/gluoncreator/dialogs
+    DESTINATION ${SHARE_INSTALL_DIR}/gluoncreator/dialogs
 )
 
 install(FILES
     intro/Introduction.qml
     intro/IntroductionText.qml
 
-    DESTINATION ${SHARE_INSTALL_DIR}/apps/gluoncreator/intro
+    DESTINATION ${SHARE_INSTALL_DIR}/gluoncreator/intro
 )
 
 find_package(SharedMimeInfo)
