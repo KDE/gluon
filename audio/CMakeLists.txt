@@ -4,10 +4,12 @@ find_package( OpenAL 1.8 REQUIRED )
 
 set( GluonAudio_SRCS
     source.cpp
+    channel.cpp
 )
 
 set( GluonAudio_HEADERS
     source.h
+    channel.h
 )
 
 gluon_add_library( Gluon::Audio SHARED
