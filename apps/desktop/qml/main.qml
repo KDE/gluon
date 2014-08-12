@@ -45,6 +45,10 @@ ApplicationWindow {
         id: xmppClient
     }
     
+    GluonPlayer.RosterModel{
+        id: rosterModel
+    }
+    
     //object that represents self person both with OCS and XMPP
     GluonPlayer.SelfUser{
         id: self

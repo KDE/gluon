@@ -130,6 +130,8 @@ install(FILES
     qml/resources/ratinggs.png
     qml/resources/chatgray.png
     qml/resources/chatgreen.png
+    qml/resources/chatred.png
+    qml/resources/chatorange.png
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/resources
     COMPONENT gluonplayer-desktop
 )

@@ -93,18 +93,22 @@ Window {
             color: design.bgdarkcolor
         }
         
-        ListView {
-            id: rosterListView
-            
+        Column{
             anchors.top: chatSeparator.bottom
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             
-            clip: true;
-            
-            model: GluonPlayer.RosterModel{ id: rosterModel }
-            delegate: ContactDelegate{ }
+            ListView {
+                id: rosterListView
+                
+                anchors.fill: parent
+                
+                clip: true;
+                
+                model: rosterModel
+                delegate: ContactDelegate{ }
+            }
         }
         
         //text shown in case we're offline

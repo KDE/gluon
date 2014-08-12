@@ -5,10 +5,7 @@ import "../utils"
 Rectangle{
     id: chatHeader
     
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.top: parent.top
-    
+    width: parent.width
     height: 35
     
     color: design.midcolor
@@ -31,6 +28,31 @@ Rectangle{
     Image{
         id: chatImageStatus
         
+        states: [
+            State{
+                name: "online"
+                when: presence == "online"
+                PropertyChanges{ target: chatImageStatus; source: "../resources/chatgreen.png" }
+            },
+            State{
+                name: "away"
+                when: presence == "away"
+                PropertyChanges{ target: chatImageStatus; source: "../resources/chatorange.png" }
+            },
+            State{
+                name: "busy"
+                when: presence == "busy"
+                PropertyChanges{ target: chatImageStatus; source: "../resources/chatred.png" }
+            },
+            State{
+                name: "offline"
+                when: presence == "offline"
+                PropertyChanges{ target: chatImageStatus; source: "../resources/chatgray.png" }
+            }
+        ]
+        
+        state: "offline"
+        
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -38,8 +60,6 @@ Rectangle{
         anchors.leftMargin: 10
         anchors.topMargin: 10
         anchors.bottomMargin: 10
-        
-        source: "../resources/chatgray.png"
         
         width: height
     }
@@ -56,5 +76,12 @@ Rectangle{
         
         color: design.txcolor
         verticalAlignment: Text.AlignVCenter
+        
+        Component.onCompleted:{
+            //delete domain part
+            if(statusText){
+                text = statusText.split("@")[0];
+            }
+        }
     }
 } 
