@@ -29,10 +29,10 @@ using namespace GluonAudio;
 class Source::Private
 {
     public:
-        Private() : valid(false), ambient(false), name(0), state(Stopped), volume(1.0f), parentVolume(0.0f) {}
+        Private() : valid(false), global(false), name(0), state(Stopped), volume(1.0f), parentVolume(0.0f) {}
         
         bool valid;
-        bool ambient;
+        bool global;
         ALuint name;
         PlayingState state;
         QList<ALuint> currentBuffers;
@@ -107,17 +107,17 @@ bool Source::isValid() const
     return d->valid;
 }
 
-bool Source::isAmbient() const
+bool Source::isGlobal() const
 {
-    return d->ambient;
+    return d->global;
 }
 
-void Source::setAmbient( bool isAmbient )
+void Source::setGlobal( bool isGlobal )
 {
     DEBUG_BLOCK
-    if( isAmbient == d->ambient )
+    if( isGlobal == d->global )
         return;
-    alSourcei( d->name, AL_SOURCE_RELATIVE, isAmbient ? AL_TRUE : AL_FALSE );
+    alSourcei( d->name, AL_SOURCE_RELATIVE, isGlobal ? AL_TRUE : AL_FALSE );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
@@ -125,7 +125,7 @@ void Source::setAmbient( bool isAmbient )
         return;
     }
     setPosition( Eigen::Vector3f(0.0f, 0.0f, 0.0f) );
-    d->ambient = isAmbient;
+    d->global = isGlobal;
 }
 
 Eigen::Vector3f Source::position() const
@@ -136,7 +136,7 @@ Eigen::Vector3f Source::position() const
 void Source::setPosition( Eigen::Vector3f position )
 {
     DEBUG_BLOCK
-    if( d->ambient )
+    if( d->global )
         return;
     alSource3f( d->name, AL_POSITION, position[0], position[1], position[2] );
     ALCenum error = alGetError();

@@ -64,16 +64,17 @@ namespace GluonAudio
             bool isValid() const;
             
             /**
-             * Checks whether the Source is ambient.
-             * Ambient sources can be heard everywhere.
+             * Checks whether the Source is global.
+             * Global sources can be heard everywhere.
+             * Note: Stereo output is always global.
              */
-            bool isAmbient() const;
+            bool isGlobal() const;
             
             /**
-             * Set whether this source is ambient or not.
-             * @see isAmbient()
+             * Set whether this source is global or not.
+             * @see isGlobal()
              */
-            void setAmbient( bool isAmbient );
+            void setGlobal( bool isAmbient );
             
             /**
              * Get the position of the Source. This (and the position of the listener) decides how loud and from
