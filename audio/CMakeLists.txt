@@ -6,12 +6,15 @@ set( GluonAudio_SRCS
     source.cpp
     channel.cpp
     listener.cpp
+    decoderplugin.cpp
 )
 
 set( GluonAudio_HEADERS
     source.h
     channel.h
     listener.h
+    decoder.h
+    decoderplugin.h
 )
 
 gluon_add_library( Gluon::Audio SHARED
@@ -20,6 +23,8 @@ gluon_add_library( Gluon::Audio SHARED
     INCLUDES ${OPENAL_INCLUDE_DIR}
     LIBRARIES Gluon::Core ${OPENAL_LIBRARY}
 )
+
+add_subdirectory( plugins/decoder )
 
 #gluon_add_subdirectories( examples tests )
 
