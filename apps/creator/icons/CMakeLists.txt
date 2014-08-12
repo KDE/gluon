@@ -1,2 +1,47 @@
 include(ECMInstallIcons)
-ecm_install_icons(DESTINATION ${ICON_INSTALL_DIR})
+ecm_install_icons(
+    ICONS 
+        hi128-apps-gluonaudio.png
+        hi128-apps-gluon_creator.png
+        hi128-apps-gluongraphics.png
+        hi128-apps-gluoninput.png
+        hi128-apps-gluon.png
+        hi16-apps-gluonaudio.png
+        hi16-apps-gluon_creator.png
+        hi16-apps-gluongraphics.png
+        hi16-apps-gluoninput.png
+        hi16-apps-gluon.png
+        hi22-apps-gluonaudio.png
+        hi22-apps-gluongraphics.png
+        hi22-apps-gluoninput.png
+        hi22-apps-gluon.png
+        hi24-apps-gluon_creator.png
+        hi256-apps-gluonaudio.png
+        hi256-apps-gluongraphics.png
+        hi256-apps-gluoninput.png
+        hi256-apps-gluon.png
+        hi32-apps-gluonaudio.png
+        hi32-apps-gluon_creator.png
+        hi32-apps-gluongraphics.png
+        hi32-apps-gluoninput.png
+        hi32-apps-gluon.png
+        hi48-apps-gluonaudio.png
+        hi48-apps-gluon_creator.png
+        hi48-apps-gluongraphics.png
+        hi48-apps-gluoninput.png
+        hi48-apps-gluon.png
+        hi64-apps-gluonaudio.png
+        hi64-apps-gluon_creator.png
+        hi64-apps-gluongraphics.png
+        hi64-apps-gluoninput.png
+        hi64-apps-gluon.png
+        hisc-apps-gluonaudio.svg
+        hisc-apps-gluonaudio.svgz
+        hisc-apps-gluongraphics.svg
+        hisc-apps-gluongraphics.svgz
+        hisc-apps-gluoninput.svg
+        hisc-apps-gluoninput.svgz
+        hisc-apps-gluon.svg
+        hisc-apps-gluon.svgz
+    DESTINATION ${ICON_INSTALL_DIR}
+)

@@ -1,6 +1,6 @@
-/******************************************************************************
+/*
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2010 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2014 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -15,31 +15,33 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
  */
 
-#include "componentsdockplugin.h"
-#include "componentsdock.h"
+#ifndef ACTIONWINDOW_H
+#define ACTIONWINDOW_H
 
-#include <creator/dockmanager.h>
+#include <QtWidgets/QWidget>
 
-#include <KI18n/KLocalizedString>
+#include <core/privatepointer.h>
 
-using namespace GluonCreator;
-
-ComponentsDockPlugin::ComponentsDockPlugin( QObject* parent, const QList< QVariant >& params ) : DockPlugin( parent, params )
+class ActionWindow : public QWidget
 {
+    Q_OBJECT
 
-}
+    public:
+        explicit ActionWindow( QWidget* parent = 0, Qt::WindowFlags f = 0 );
+        ~ActionWindow();
 
-ComponentsDockPlugin::~ComponentsDockPlugin()
-{
+    private Q_SLOTS:
+        void deviceChanged( int index );
+        void parameterChanged( int index );
+        void valueChanged();
+        void pressed();
+        void released();
+        void triggered();
 
-}
+    GLUON_PRIVATE_POINTER;
+};
 
-QDockWidget* ComponentsDockPlugin::createDock( KXmlGuiWindow* parent )
-{
-    ComponentsDock* dock = new ComponentsDock( i18n( "Components" ), parent );
-    DockManager::instance()->addDock( dock, Qt::LeftDockWidgetArea, Qt::Vertical );
-    return dock;
-}
-
+#endif // ACTIONWINDOW_H

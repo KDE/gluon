@@ -19,16 +19,17 @@
  */
 
 #include "inputaction.h"
+#include "inputparameter.h"
 
 using namespace GluonInput;
 
 class InputAction::Private
 {
     public:
-        Private() { }
+        InputDevice* device = nullptr;
+        InputParameter* parameter = nullptr;
 
-        InputDevice* device;
-        InputParameter* parameter;
+        bool pressed = false;
 };
 
 InputAction::InputAction(QObject* parent)
@@ -50,6 +51,19 @@ InputParameter* InputAction::parameter() const
     return d->parameter;
 }
 
+float InputAction::value() const
+{
+    if( d->parameter && d->parameter->hasAxisValue() )
+        return d->parameter->axisValue();
+
+    return qQNaN();
+}
+
+bool InputAction::isPressed() const
+{
+    return d->pressed;
+}
+
 void InputAction::setDevice( InputDevice* device )
 {
     if( device != d->device )
@@ -63,7 +77,36 @@ void InputAction::setParameter( InputParameter* parameter )
 {
     if( parameter != d->parameter )
     {
+        if( d->parameter )
+            d->parameter->disconnect( this );
+
         d->parameter = parameter;
+
+        connect( d->parameter, &InputParameter::axisValueChanged, this, &InputAction::axisValueChanged );
+        connect( d->parameter, &InputParameter::buttonStateChanged, this, &InputAction::buttonStateChanged );
+
         emit parameterChanged();
+    }
+}
+
+void InputAction::axisValueChanged()
+{
+    emit valueChanged();
+}
+
+void InputAction::buttonStateChanged()
+{
+    if( d->parameter->buttonState() == InputParameter::ButtonPressed )
+    {
+        d->pressed = true;
+        emit pressed();
+    }
+    else
+    {
+        if( d->pressed )
+            emit triggered();
+
+        d->pressed = false;
+        emit released();
     }
 }

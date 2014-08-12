@@ -26,6 +26,7 @@ SelfUser::~SelfUser()
 void SelfUser::setUsername(QString username)
 {
     m_username = username;
+    emit usernameChanged();
 }
 
 QString SelfUser::username()

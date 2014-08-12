@@ -45,6 +45,6 @@ namespace GluonCreator
 
 }
 
-#define GLUON_TOOL_PLUGIN(_file) Q_PLUGIN_METADATA(IID "org.gluon.creator.tool/1.0" FILE #_file)
+#define GLUON_TOOL_PLUGIN(_file) Q_PLUGIN_METADATA(IID "org.kde.gluon.creator.tool" FILE #_file)
 
 #endif // GLUON_CREATOR_TOOLPLUGIN_H

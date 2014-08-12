@@ -24,7 +24,7 @@
 
 #include <core/singleton.h>
 
-#include <KService/KPluginInfo>
+// #include <KService/KPluginInfo>
 
 #include <QtCore/QHash>
 
@@ -39,7 +39,7 @@ namespace GluonCreator
             Q_OBJECT
             GLUON_SINGLETON( PluginManager )
         public:
-            QList<KPluginInfo> pluginInfos() const;
+//             QList<KPluginInfo> pluginInfos() const;
             QHash<QString, Plugin*> loadedPlugins();
 
         public Q_SLOTS:

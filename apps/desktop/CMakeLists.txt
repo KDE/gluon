@@ -92,6 +92,7 @@ install(FILES
 
 install(FILES
     qml/chat/ChatWindow.qml
+    qml/chat/ContactDelegate.qml
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/chat
     COMPONENT gluonplayer-desktop
 )
@@ -127,6 +128,10 @@ install(FILES
     qml/resources/download_128.png
     qml/resources/rating.png
     qml/resources/ratinggs.png
+    qml/resources/chatgray.png
+    qml/resources/chatgreen.png
+    qml/resources/chatred.png
+    qml/resources/chatorange.png
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/resources
     COMPONENT gluonplayer-desktop
 )

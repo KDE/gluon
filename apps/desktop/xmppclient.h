@@ -20,6 +20,9 @@
 #ifndef XMPPCLIENT_H
 #define XMPPCLIENT_H
 
+//qt
+#include <QQuickItem>
+//qxmpp
 #include <QXmppClient.h>
 #include <QXmppMessage.h>
 #include <QXmppPresence.h>
@@ -28,12 +31,14 @@
 class XmppClient : public QXmppClient
 {
     Q_OBJECT
+    Q_PROPERTY(bool logged READ logged NOTIFY loggedChanged)
 
 public:
     XmppClient(QObject *parent = 0);
     Q_INVOKABLE void createAccount(QString name, QString username, QString email, QString password);
     Q_INVOKABLE bool isReady();
-    Q_INVOKABLE bool isLogged();
+    Q_INVOKABLE bool logged();
+    Q_INVOKABLE void setLogged(bool logged);
     Q_INVOKABLE void login(QString username, QString password);
     Q_INVOKABLE void addSubscription(const QString& jid);
     Q_INVOKABLE void logout();
@@ -54,13 +59,14 @@ public slots:
 signals:
     void loggedIn();
     void loggedOut();
+    void loggedChanged();
     
 private:
     //simple singleton pointer set to null
     static XmppClient * m_instance;
     //others
     bool ready;
-    bool logged;
+    bool m_logged;
     bool registering;
     QString m_host;
     QString m_name;

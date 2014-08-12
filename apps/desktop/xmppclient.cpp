@@ -41,7 +41,7 @@ XmppClient::XmppClient(QObject *parent)
     
     //client is not ready
     ready = false;
-    logged = false;
+    setLogged(false);
     registering = false;
     
     bool check = false;
@@ -94,9 +94,17 @@ bool XmppClient::isReady()
     return ready;
 }
 
-bool XmppClient::isLogged()
+//get logged
+bool XmppClient::logged()
 {
-    return logged;
+    return m_logged;
+}
+
+//set logged
+void XmppClient::setLogged(bool logged)
+{
+    m_logged = logged;
+    emit loggedChanged();
 }
 
 /**
@@ -176,7 +184,7 @@ void XmppClient::login(QString username, QString password)
     qDebug() << "xmppClient: trying to login with " << username << "and " << password;
     
     //if already connected, jsut disconnects (used also to switch from anonymous login to auth login)
-    if(logged == true || ready == true){
+    if(logged() == true || ready == true){
         disconnectFromServer();
     }
     
@@ -194,7 +202,7 @@ void XmppClient::connectedSuccess()
     if(registering == true){
         onCreateAccountReady();
     } else { //else we're logged auth, yeah FIXME: check iqs properly
-        logged = true;
+        setLogged(true);
         ready = true;
         emit loggedIn();
     }
@@ -225,7 +233,11 @@ void XmppClient::rosterReceived()
 
 void XmppClient::logout()
 {
+    //qxmpp call
     disconnectFromServer();
+    //qml property
+    setLogged(false);
+    //signal
     emit loggedOut();
 }
 
