@@ -45,6 +45,7 @@ class Source::Private
 
 Source::Source(QObject* parent)
     : QObject(parent)
+    , d( new Private() )
 {
     DEBUG_BLOCK
     Listener::instance();

@@ -35,6 +35,7 @@ class Channel::Private
 
 Channel::Channel(QObject* parent)
     : QObject(parent)
+    , d(new Private())
 {   
 }
 
