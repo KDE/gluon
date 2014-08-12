@@ -34,45 +34,52 @@ class QNEConnection;
 class QNEPort : public QGraphicsPathItem
 {
 public:
-	enum { Type = QGraphicsItem::UserType + 1 };
-	enum { NamePort = 1, TypePort = 2 };
+    /// Defines the GraphicsItem type of QNEPorts, so they can be easily identified when
+    /// looking through a list of QGraphicsItem instances, by checking QGraphicsItem::type()
+    enum QNEPortItemType { Type = QGraphicsItem::UserType + 1 };
+    enum QNEPortType { StandardPort = 0, NamePort = 1, TypePort = 2 };
+    enum Position { TopPosition, RightPosition, BottomPosition, LeftPosition };
 
     QNEPort(QGraphicsItem *parent = 0);
-	~QNEPort();
+    ~QNEPort();
 
-	void setNEBlock(QNEBlock*);
-	void setName(const QString &n);
-	void setIsOutput(bool o);
-	int radius();
-	bool isOutput();
-	QVector<QNEConnection*>& connections();
-	void setPortFlags(int);
+    void setNEBlock(QNEBlock*);
+    void setName(const QString &n);
+    void setIsOutput(bool o);
+    void setPosition(Position position);
+    Position position() const;
+    static int radius();
+    bool isOutput();
+    QVector<QNEConnection*>& connections();
+    void setPortFlags(int);
 
-	const QString& portName() const { return name; }
-	int portFlags() const { return m_portFlags; }
+    const QString& portName() const { return name; }
+    int portFlags() const { return m_portFlags; }
 
-	int type() const { return Type; }
+    int type() const { return Type; }
 
-	QNEBlock* block() const;
+    QNEBlock* block() const;
 
-	quint64 ptr();
-	void setPtr(quint64);
+    quint64 ptr();
+    void setPtr(quint64);
 
-	bool isConnected(QNEPort*);
+    bool isConnected(QNEPort*);
 
 protected:
-	QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
-	QNEBlock *m_block;
-	QString name;
-	bool isOutput_;
-	QGraphicsTextItem *label;
-	int radius_;
-	int margin;
-	QVector<QNEConnection*> m_connections;
-	int m_portFlags;
-	quint64 m_ptr;
+    void updatePath();
+    QNEBlock *m_block;
+    QString name;
+    bool isOutput_;
+    QGraphicsTextItem *label;
+    int radius_;
+    int margin;
+    QVector<QNEConnection*> m_connections;
+    int m_portFlags;
+    quint64 m_ptr;
+    Position m_position;
 };
 
 #endif // QNEPORT_H

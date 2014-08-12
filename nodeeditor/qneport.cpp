@@ -24,131 +24,177 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "qneport.h"
+#include "qneconnection.h"
 
 #include <QGraphicsScene>
 #include <QFontMetrics>
 
 #include <QPen>
+#include <QtCore/QRect>
+#include <QtGui/QPalette>
 
-#include "qneconnection.h"
 
 QNEPort::QNEPort(QGraphicsItem *parent):
     QGraphicsPathItem(parent)
 {
-	label = new QGraphicsTextItem(this);
+    label = new QGraphicsTextItem(this);
 
-	radius_ = 5;
-	margin = 2;
+    radius_ = radius();
+    margin = 2;
 
-	QPainterPath p;
-	p.addEllipse(-radius_, -radius_, 2*radius_, 2*radius_);
-	setPath(p);
+    setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
 
-	setPen(QPen(Qt::darkRed));
-	setBrush(Qt::red);
-
-	setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
-
-	m_portFlags = 0;
+    m_portFlags = QNEPort::StandardPort;
+    m_position = QNEPort::LeftPosition;
+    setIsOutput(false);
 }
 
 QNEPort::~QNEPort()
 {
-	foreach(QNEConnection *conn, m_connections)
-		delete conn;
+    Q_FOREACH(QNEConnection *conn, m_connections) {
+        delete conn;
+    }
 }
 
 void QNEPort::setNEBlock(QNEBlock *b)
 {
-	m_block = b;
+    m_block = b;
 }
 
 void QNEPort::setName(const QString &n)
 {
-	name = n;
-	label->setPlainText(n);
+    name = n;
+    label->setPlainText(n);
 }
 
 void QNEPort::setIsOutput(bool o)
 {
-	isOutput_ = o;
+    isOutput_ = o;
+    updatePath();
+}
 
-	QFontMetrics fm(scene()->font());
-	QRect r = fm.boundingRect(name);
+void QNEPort::updatePath()
+{
+    QPainterPath p;
+    if(m_portFlags & NamePort || m_portFlags & TypePort) {
+        // don't do anything, as we want an empty path for these
+    }
+    else if(isOutput_) {
+        p.addEllipse(-radius_, -radius_, 2*radius_, 2*radius_);
+    }
+    else {
+        p.addRect(-radius_, -radius_, 2*radius_, 2*radius_);
+    }
+    setPath(p);
 
-	if (isOutput_)
-		label->setPos(-radius_ - margin - label->boundingRect().width(), -label->boundingRect().height()/2);
-	else
-		label->setPos(radius_ + margin, -label->boundingRect().height()/2);
+    QPalette palette = scene()->palette();
+    setPen(palette.buttonText().color());
+    setBrush(palette.link());
+}
+
+void QNEPort::setPosition(QNEPort::Position position)
+{
+    m_position = position;
+
+    switch(position)
+    {
+        case QNEPort::RightPosition:
+            label->setPos(-radius_ - margin - label->boundingRect().width(), -label->boundingRect().height()/2);
+            setRotation(0);
+            break;
+        case QNEPort::TopPosition:
+            label->setPos(radius_ + margin, -label->boundingRect().height()/2);
+            setRotation(90);
+            break;
+        case QNEPort::BottomPosition:
+            label->setPos(radius_ + margin, -label->boundingRect().height()/2);
+            setRotation(-90);
+            break;
+        case QNEPort::LeftPosition:
+            label->setPos(radius_ + margin, -label->boundingRect().height()/2);
+            setRotation(0);
+            break;
+        default:
+            // Nuh! Bad position! Bad! Go to your room and think about what you've done.
+            break;
+    }
+}
+
+QNEPort::Position QNEPort::position() const
+{
+    return m_position;
 }
 
 int QNEPort::radius()
 {
-	return radius_;
+    return 5;
 }
 
 bool QNEPort::isOutput()
 {
-	return isOutput_;
+    return isOutput_;
 }
 
 QVector<QNEConnection*>& QNEPort::connections()
 {
-	return m_connections;
+    return m_connections;
 }
 
 void QNEPort::setPortFlags(int f)
 {
-	m_portFlags = f;
+    m_portFlags = f;
 
-	if (m_portFlags & TypePort)
-	{
-		QFont font(scene()->font());
-		font.setItalic(true);
-		label->setFont(font);
-		setPath(QPainterPath());
-	} else if (m_portFlags & NamePort)
-	{
-		QFont font(scene()->font());
-		font.setBold(true);
-		label->setFont(font);
-		setPath(QPainterPath());
-	}
+    // If the flaf is type or name, then it's not really
+    // a port and consequently is given a non-path, and
+    // different font options
+    if (m_portFlags & TypePort)
+    {
+        QFont font(scene()->font());
+        font.setItalic(true);
+        label->setFont(font);
+    } else if (m_portFlags & NamePort)
+    {
+        QFont font(scene()->font());
+        font.setBold(true);
+        label->setFont(font);
+    }
+    updatePath();
 }
 
 QNEBlock* QNEPort::block() const
 {
-	return m_block;
+    return m_block;
 }
 
 quint64 QNEPort::ptr()
 {
-	return m_ptr;
+    return m_ptr;
 }
 
 void QNEPort::setPtr(quint64 p)
 {
-	m_ptr = p;
+    m_ptr = p;
 }
 
 bool QNEPort::isConnected(QNEPort *other)
 {
-	foreach(QNEConnection *conn, m_connections)
-		if (conn->port1() == other || conn->port2() == other)
-			return true;
+    Q_FOREACH(QNEConnection *conn, m_connections) {
+        if (conn->port1() == other || conn->port2() == other)
+            return true;
+    }
 
-	return false;
+    return false;
 }
 
 QVariant QNEPort::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-	if (change == ItemScenePositionHasChanged)
-	{
-		foreach(QNEConnection *conn, m_connections)
-		{
-			conn->updatePosFromPorts();
-			conn->updatePath();
-		}
-	}
-	return value;
+    if (change == ItemScenePositionHasChanged)
+    {
+        Q_FOREACH(QNEConnection *conn, m_connections)
+        {
+            conn->updatePosFromPorts();
+            conn->updatePath();
+        }
+    }
+    return value;
 }
