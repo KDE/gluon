@@ -18,10 +18,6 @@
 #include <QObject>
 #include "QXmppPresence.h"
 
-/*
- * IMPLEMENTA DPOINTER CLASS E AGGIUSTA L'ITEM, FAI IL MODEL E FAI FUNZIONARE STA CEPPA DE CHATTE
- */
-
 class RosterItem : public QObject
 {
     public:
@@ -31,6 +27,7 @@ class RosterItem : public QObject
         void setPresence(const QXmppPresence &presence);
         void setName(const QString& name);
         QString name();
+        QString presence();
         void setStatusText(const QString& statusText);
         QString statusText();
         int presenceType();

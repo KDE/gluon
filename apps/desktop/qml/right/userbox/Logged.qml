@@ -20,7 +20,7 @@ Item{
         
         Text{
             id: home_usertitle
-            text: "Hello, "+self.username()+"!"
+            text: "Hello, "+self.username+"!"
             font.pointSize: 20
             color: design.txcolor
         }

@@ -27,16 +27,17 @@
 class SelfUser : public QQuickItem
 {
         Q_OBJECT
+        Q_PROPERTY(QString username READ username WRITE setUsername NOTIFY usernameChanged)
  
     public:
         SelfUser();
         virtual ~SelfUser();
-        void setUsername(QString username);
         
     protected slots:
         //login logout methods
         Q_INVOKABLE void doLogin(QString m_username, QString m_password);
         Q_INVOKABLE QString username();
+        Q_INVOKABLE void setUsername(QString username);
         Q_INVOKABLE void doLogout();
         void loginDone();
         void logoutDone();
@@ -52,6 +53,9 @@ class SelfUser : public QQuickItem
         void loginCompleted();
         void loginFail();
         void logoutCompleted();
+        
+        //qml
+        void usernameChanged();
         
         //registration
         void registrationProcessCompleted(QString message);

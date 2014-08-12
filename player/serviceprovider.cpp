@@ -364,9 +364,7 @@ void ServiceProvider::onRegisterAccountFinished( Attica::BaseJob* job )
  
 PersonSelfJob* ServiceProvider::personSelf()
 {
-        if( isReady() ){
-                return new PersonSelfJob( &d->provider );
-        }
+    return new PersonSelfJob( &d->provider );
 }
  
 GameDetailListJob* ServiceProvider::fetchGames()

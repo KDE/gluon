@@ -25,6 +25,7 @@ class RosterItem::Private
 
         QString name;
         QString statusText;
+        QString presence;
         int presenceType;
         int statusType;
 };
@@ -35,6 +36,7 @@ RosterItem::RosterItem(const QString& bareJid, QObject* parent)
 {
     d->name = bareJid;
     d->statusText = "Offline";
+    d->presence = "offline";
 }
 
 void RosterItem::setName(const QString& name)
@@ -45,6 +47,11 @@ void RosterItem::setName(const QString& name)
 QString RosterItem::name()
 {
     return d->name;
+}
+
+QString RosterItem::presence()
+{
+    return d->presence;
 }
 
 void RosterItem::setStatusText(const QString& statusText)
@@ -73,9 +80,9 @@ void RosterItem::setPresence(const QXmppPresence &presence)
     QString statusText = presence.statusText();
     if (statusText.isEmpty()) {
         if(presence.type() == QXmppPresence::Available)
-            statusText = "Available";
+            d->statusText = "Available";
         else if(presence.type() == QXmppPresence::Unavailable)
-            statusText = "Offline";
+            d->statusText = "Offline";
     }
 
     // store data
@@ -83,27 +90,26 @@ void RosterItem::setPresence(const QXmppPresence &presence)
     d->presenceType = static_cast<int>(presence.type());
     d->statusType = static_cast<int>(presence.availableStatusType());
 
-    // update icon
-    QString icon;
+    // update presence
     if (presence.type() == QXmppPresence::Available) {
         switch (presence.availableStatusType())
         {
         case QXmppPresence::Online:
         case QXmppPresence::Chat:
-            icon = "green";
+            d->presence = "online";
             break;
         case QXmppPresence::Away:
         case QXmppPresence::XA:
-            icon = "orange";
+            d->presence = "away";
             break;
         case QXmppPresence::DND:
-            icon = "red";
+            d->presence = "busy";
             break;
         case QXmppPresence::Invisible:
-            icon = "gray";
+            d->presence = "offline";
             break;
         }
     } else {
-        icon = "gray";
+        d->presence = "offline";
     }
 }

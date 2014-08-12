@@ -6,70 +6,136 @@ import "../utils"
 
 Window {
     id: chatWindow
-    width: 400
-    height: 400
+    width: 350
+    height: 485
     
-    title: "Friend chat - Gluon Player"
-    
-    function load(){
-        if(xmppClient.isLogged()){
-            onLoggedIn();
-        } else {
-            onLoggedOut();
-        }
-    }
-    
-    function onLoggedIn(){
-        chatStatus.text = "You're online!";
-    }
-    
-    function onLoggedOut(){
-        chatStatus.text = "You're offline!\nPlease log in on Gluon Desktop!";
-    }
+    title: "Friends - Gluon Player"
     
     Background {
         anchors.fill:parent
         
-        Repeater {
-            id: rosterListView
+        //set states here, Window component doesn't support states
+        states: [
+            State {
+                name: "logged";
+                when: xmppClient.logged == true;
+                PropertyChanges { target: chatStatus; visible: false }
+                PropertyChanges { target: chatMyName; text: self.username }
+                PropertyChanges { target: chatImageStatus; source: "../resources/chatgreen.png" }
+                PropertyChanges { target: chatHeaderStatus; text: "(Online)" }
+            },
+            State {
+                name: "notlogged"
+                when: xmppClient.logged == false;
+                PropertyChanges { target: chatStatus; text: "You're offline! Please log in on Gluon Desktop!" }
+                PropertyChanges { target: chatMyName; text: "anonymous" }
+                PropertyChanges { target: chatImageStatus; source: "../resources/chatgray.png" }
+                PropertyChanges { target: chatHeaderStatus; text: "(Offline)" }
+            }
+        ]
+        
+        state: "notlogged"
+        
+        Rectangle{
+            id: chatHeader
             
-            anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.bottom: chatStatus.top
+            anchors.top: parent.top
             
-            clip: true;
+            height: 35
             
-            model: GluonPlayer.RosterModel{ id: rosterModel }
-            delegate: Text{ text: statusText }
+            color: design.fgcolor
+            
+            Image{
+                id: chatImageStatus
+                
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                
+                anchors.leftMargin: 10
+                anchors.topMargin: 10
+                anchors.bottomMargin: 10
+                
+                width: height
+            }
+            
+            Text{
+                id: chatMyName
+                   
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.left: chatImageStatus.right
+                anchors.leftMargin: 10
+                
+                color: design.txcolor
+                verticalAlignment: Text.AlignVCenter
+            }
+            
+            Text{
+                id: chatHeaderStatus
+                
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.left: chatMyName.right
+                anchors.leftMargin: 10
+                
+                color: design.midcolor
+                verticalAlignment: Text.AlignVCenter
+            }
         }
         
+        Line{
+            id: chatSeparator
+            anchors.top: chatHeader.bottom
+            
+            color: design.bgdarkcolor
+        }
+        
+        Column{
+            anchors.top: chatSeparator.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            
+            ListView {
+                id: rosterListView
+                
+                anchors.fill: parent
+                
+                clip: true;
+                
+                model: rosterModel
+                delegate: ContactDelegate{ }
+            }
+        }
+        
+        //text shown in case we're offline
         Text {
             id: chatStatus
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.right: parent.right
+            anchors.top: parent.top
             
-            height: 15
+            anchors.bottomMargin: 10
+            anchors.leftMargin: 10
+            anchors.rightMargin: 10
+            anchors.topMargin: 10
             
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             
-            text: "Currently offline"
+            text: "You're offline! Please log in on Gluon Desktop!";
             
-            font.pixelSize: 13
-            font.family: "Helvetica"
+            font.pixelSize: 25
+            font.family: "Arial"
+            
+            wrapMode: Text.WordWrap
             
             color: design.txcolor
         }
-    }
-    
-    Component.onCompleted:{
-        xmppClient.onLoggedIn.connect(onLoggedIn);
-        xmppClient.onLoggedOut.connect(onLoggedOut);
-        
-        //first time load
-        load();
     }
 }
  

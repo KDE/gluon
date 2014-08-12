@@ -1,8 +1,10 @@
 cmake_minimum_required( VERSION 2.8.12 )
 project( Gluon )
 
-# Because CMake acts weird otherwise
-cmake_policy(SET CMP0028 OLD)
+if( NOT( CMAKE_MAJOR_VERSION LESS 3) )
+    # Because CMake acts weird otherwise
+    cmake_policy(SET CMP0028 OLD)
+endif()
 
 #### Project Options ####
 option( WITH_KDE "Build with KDE Development Platform Support" ON )
