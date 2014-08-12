@@ -8,11 +8,11 @@ import "../gamelist"
 
 Flickable{
     id: singleGameView
-    contentWidth: parent.width
+    contentWidth: 600
     contentHeight: singlegamebox.height + 40  //20 pixels margin top + 20 margin bottom
     flickableDirection: Flickable.VerticalFlick
     clip: false
-    boundsBehavior: Flickable.StopAtBounds
+    //boundsBehavior: Flickable.StopAtBounds
     
     anchors.left: parent.left;
     anchors.right: parent.right;
@@ -185,4 +185,4 @@ Flickable{
             }
         }
     }
-} 
+}

@@ -6,32 +6,35 @@ import "../../utils"
 Item{
     id: userbox_loggedpage
     
-    height: childrenRect.height
+    anchors.fill: parent
     
     function doLogout(){
         xmppClient.logout();
         self.doLogout();
     }
+        
+    Text{
+        id: home_usertitle
+        
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        
+        text: self.username
+        font.pixelSize: 20
+        font.bold: true
+        color: design.txcolor
+    }
     
-    Column{
-        spacing: 10
+    Button{
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
         
-        height: childrenRect.height
+        anchors.rightMargin: 20
         
-        Text{
-            id: home_usertitle
-            text: "Hello, "+self.username+"!"
-            font.pointSize: 20
-            color: design.txcolor
-        }
-        
-        Button{
-            anchors.left: parent.left
-            text: "Logout"
-            style: DesignButton{}
-            onClicked:{
-                userbox_loggedpage.doLogout();
-            }
+        text: "Logout"
+        style: DesignButton{}
+        onClicked:{
+            userbox_loggedpage.doLogout();
         }
     }
 }
