@@ -136,6 +136,8 @@ Eigen::Vector3f Source::position() const
 void Source::setPosition( Eigen::Vector3f position )
 {
     DEBUG_BLOCK
+    if( d->ambient )
+        return;
     alSource3f( d->name, AL_POSITION, position[0], position[1], position[2] );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
