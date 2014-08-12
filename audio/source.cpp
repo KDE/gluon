@@ -24,6 +24,8 @@
 
 #include <core/debughelper.h>
 
+#include "listener.h"
+
 using namespace GluonAudio;
 
 class Source::Private
@@ -45,7 +47,7 @@ Source::Source(QObject* parent)
     : QObject(parent)
 {
     DEBUG_BLOCK
-    //Listener::instance();
+    Listener::instance();
     alGenSources(1, &d->name);
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
