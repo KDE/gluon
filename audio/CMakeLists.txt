@@ -7,6 +7,7 @@ set( GluonAudio_SRCS
     channel.cpp
     listener.cpp
     decoderplugin.cpp
+    audiohelper.cpp
 )
 
 set( GluonAudio_HEADERS
@@ -14,7 +15,9 @@ set( GluonAudio_HEADERS
     channel.h
     listener.h
     decoder.h
+    buffer.h
     decoderplugin.h
+    audiohelper.h
 )
 
 gluon_add_library( Gluon::Audio SHARED
