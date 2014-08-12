@@ -6,46 +6,62 @@ import "../../utils"
 Item{
     id: userbox_loggedpage
     
-    height: childrenRect.height
-    
-    Column{
-        spacing: 10
+    anchors.fill: parent
+
+    Text{
+        id: home_usertitle
         
-        height: childrenRect.height
+        anchors.top: parent.top
+        anchors.left: parent.left
         
-        Text{
-            id: home_usertitle
-            text: "Log In"
-            font.pointSize: 20
-            color: design.txcolor
-        }
-        Text{
-            id: home_userparagraph
-            text: "You're browsing as anonymous.<br />Please Log In or register a new account."
-            color: design.txcolor
-        }
-        Row{
-            spacing: 10
-            Button{ 
-                text: "Log in"
-                style: DesignButton{}
-                onClicked:{
-                    loginscreen.open()
-                }
-            }
-            Button{
-                text: "Register"
-                style: DesignButton{}
-                onClicked:{
-                    registeruserscreen.open()
-                }
-            }
-        }
+        font.pixelSize: 20
+        font.bold: true
+        
+        text: "Account"
+        
+        color: design.txcolor
+    }
+    Text{
+        id: home_userparagraph
+        
+        anchors.top: home_usertitle.bottom
+        anchors.topMargin: 10
+        
+        width: parent.width
+        
+        text: "You're browsing as anonymous.<br />Please Log In or register a new account."
+        
+        font.pixelSize: 15
+        
+        wrapMode: Text.WordWrap
+        
+        color: design.txcolor
     }
     
-    Component.onCompleted:{
-        //TODO: refactor
-        //manually setting container height
-        userbox_bg.height = childrenRect.height +40
+    Item{
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 10
+        
+        anchors.horizontalCenter: parent.horizontalCenter
+        
+        width: childrenRect.width
+        height: childrenRect.height
+        
+        Button{
+            id: loginbutton
+            text: "Log in"
+            style: DesignButton{}
+            onClicked: loginscreen.open()
+        }
+        Button{
+            id: registerbutton
+            
+            anchors.left: loginbutton.right
+            anchors.leftMargin: 10
+            
+            text: "Register"
+            style: DesignButton{}
+            onClicked: registeruserscreen.open()
+        }
     }
 }

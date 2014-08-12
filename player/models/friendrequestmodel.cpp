@@ -46,6 +46,7 @@ class FriendRequestModel::Private
     
     QStringList m_columnNames;
     QList<PersonItem*> m_nodes;
+    bool m_empty;
 };
  
 FriendRequestModel::FriendRequestModel( QObject* parent )
@@ -53,6 +54,10 @@ FriendRequestModel::FriendRequestModel( QObject* parent )
     , d(new Private)
 {
     d->m_columnNames << tr( "Id" ) << tr( "Firstname" ) << tr( "Lastname" );
+    
+    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFinished()), SLOT(fetchRequests()) );
+    
+    setEmpty(true);
     
     fetchRequests();
 }
@@ -64,6 +69,20 @@ QHash<int, QByteArray> FriendRequestModel::roleNames() const
     roles[FirstnameRole] = "firstname";
     roles[LastnameRole] = "lastname";
     return roles;
+}
+
+/*
+ * QML propertis
+ */
+bool FriendRequestModel::empty()
+{
+    return d->m_empty;
+}
+
+void FriendRequestModel::setEmpty(bool empty)
+{
+    d->m_empty = empty;
+    emit emptyChanged();
 }
 
 /*
@@ -83,7 +102,12 @@ void FriendRequestModel::processFetchedFriendRequest()
     beginResetModel();
     d->m_nodes = qobject_cast<FriendRequestListJob*>(sender())->data().value< QList<PersonItem*> >();
     endResetModel();
-    qDebug() << d->m_nodes.count() << " FriendRequest Successfully Fetched from the server!";
+    
+    if(d->m_nodes.count()>0){
+        setEmpty(false);
+    } else {
+        setEmpty(true);
+    }
 }
 
 FriendRequestModel::~FriendRequestModel()

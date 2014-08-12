@@ -28,6 +28,7 @@ class SelfUser : public QQuickItem
 {
         Q_OBJECT
         Q_PROPERTY(QString username READ username WRITE setUsername NOTIFY usernameChanged)
+        Q_PROPERTY(bool logged READ logged WRITE setLogged NOTIFY loggedChanged)
  
     public:
         SelfUser();
@@ -36,9 +37,14 @@ class SelfUser : public QQuickItem
     protected slots:
         //login logout methods
         Q_INVOKABLE void doLogin(QString m_username, QString m_password);
+        Q_INVOKABLE void doLogout();
+        
         Q_INVOKABLE QString username();
         Q_INVOKABLE void setUsername(QString username);
-        Q_INVOKABLE void doLogout();
+        
+        Q_INVOKABLE bool logged();
+        Q_INVOKABLE void setLogged(bool logged);
+        
         void loginDone();
         void logoutDone();
         void loginFailed();
@@ -56,12 +62,13 @@ class SelfUser : public QQuickItem
         
         //qml
         void usernameChanged();
+        void loggedChanged();
         
         //registration
         void registrationProcessCompleted(QString message);
     
     private:
-        bool m_loggedIn;
+        bool m_logged;
         QString m_username;
  
         Attica::ProviderManager m_manager;

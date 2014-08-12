@@ -8,7 +8,7 @@
 
 SelfUser::SelfUser()
 {
-    m_loggedIn = false;
+    setLogged(false);
     
     //login logout
     connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFinished()), SLOT(loginDone()) );
@@ -34,9 +34,20 @@ QString SelfUser::username()
     return m_username;
 }
 
+void SelfUser::setLogged(bool logged)
+{
+    m_logged = logged;
+    emit loggedChanged();
+}
+
+bool SelfUser::logged()
+{
+    return m_logged;
+}
+
 void SelfUser::doLogin(QString m_username, QString m_password)
 {
-    if( m_loggedIn )
+    if( logged() )
     {
         doLogout();
         return;
@@ -50,13 +61,11 @@ void SelfUser::doLogin(QString m_username, QString m_password)
     setUsername(m_username);
     
     GluonPlayer::ServiceProvider::instance()->login( m_username, m_password );
-    // Note: the login result should be checked
 }
  
 void SelfUser::doLogout()
 {
-    if( m_loggedIn == false ){
-        qDebug() << "not logged in yet?";
+    if( !logged() ){
         return;
     }
  
@@ -65,83 +74,81 @@ void SelfUser::doLogout()
         //clearing username
         setUsername("");
     }
-    // Note: the login result should be checked
 }
  
 void SelfUser::loginDone()
 {
-    m_loggedIn = true;
+    setLogged(true);
+    
     emit loginCompleted();
 }
 
 void SelfUser::logoutDone()
 {
-    qDebug() << "logout done!";
-    //clearing username
     setUsername("");
-    m_loggedIn = false;
+    setLogged(false);
     
     emit logoutCompleted();
 }
  
 void SelfUser::loginFailed()
 {
-    emit loginFail();
-    //clearing username
     setUsername("");
+    setLogged(false);
+    
+    emit loginFail();
 }
 
 void SelfUser::addUser(QString login, QString password, QString password2, QString firstname, QString lastname, QString email)
 {       
-        //check if all mandatory fields are not empty
+    //check if all mandatory fields are not empty
     if( login.isEmpty() || password.isEmpty() || password2.isEmpty() || firstname.isEmpty() || lastname.isEmpty() || email.isEmpty() )
     {
-                return;
+        return;
     }
     
     //check if passwords are the same
-        if(password != password2){
-                return;
-        }
+    if(password != password2){
+        return;
+    }
     
     GluonPlayer::ServiceProvider::instance()->registerAccount( login, password, email, firstname, lastname );
 }
  
 void SelfUser::registrationComplete()
 {
-        emit registrationProcessCompleted("Registration succeeded.");
-        return;
+    emit registrationProcessCompleted("Registration succeeded.");
 }
  
 void SelfUser::registrationFailed(int errorcode)
 {
-        QString hint;
-        
-        switch( errorcode )
-        {
-            case 100:
-                hint = tr( "Registration succeeded." );
-                break;
-            case 101:
-                hint = tr( "Specify all mandatory fields." );
-            case 102:
-                hint = tr( "Invalid password." );
-                break;
-            case 103:
-                hint = tr( "Invalid username." );
-                break;
-            case 104:
-                hint = tr( "Username is already taken." );
-                break;
-            case 105:
-                hint = tr( "Email address is already taken." );
-                break;
-            case 106:
-                hint = tr( "Email address is invalid." );
-            default:
-                hint = tr( "Failed to register new account." );
-                break;
-        }
-        emit registrationProcessCompleted(hint);
-        return;
+    QString hint;
+    
+    switch( errorcode )
+    {
+        case 100:
+            hint = tr( "Registration succeeded." );
+            break;
+        case 101:
+            hint = tr( "Specify all mandatory fields." );
+        case 102:
+            hint = tr( "Invalid password." );
+            break;
+        case 103:
+            hint = tr( "Invalid username." );
+            break;
+        case 104:
+            hint = tr( "Username is already taken." );
+            break;
+        case 105:
+            hint = tr( "Email address is already taken." );
+            break;
+        case 106:
+            hint = tr( "Email address is invalid." );
+        default:
+            hint = tr( "Failed to register new account." );
+            break;
+    }
+    emit registrationProcessCompleted(hint);
+    return;
 }

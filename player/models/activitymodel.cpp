@@ -47,6 +47,8 @@ class ActivityModel::Private
     
     QStringList m_columnNames;
     QList<ActivityItem*> m_nodes;
+    
+    bool m_empty;
 };
  
 ActivityModel::ActivityModel( QObject* parent )
@@ -55,7 +57,13 @@ ActivityModel::ActivityModel( QObject* parent )
 {
     d->m_columnNames << tr( "Id" ) << tr( "Firstname" ) << tr( "Lastname" );
     
-    fetchActivities ();
+    connect( GluonPlayer::ServiceProvider::instance(), SIGNAL(loginFinished()), SLOT(fetchActivities()) );
+    
+    //setting model to empty
+    setEmpty(true);
+    
+    //trying to fetch
+    fetchActivities();
 }
 
 QHash<int, QByteArray> ActivityModel::roleNames() const
@@ -66,6 +74,20 @@ QHash<int, QByteArray> ActivityModel::roleNames() const
     roles[LastnameRole] = "lastname";
     roles[MessageRole] = "message";
     return roles;
+}
+
+/*
+ * QML propertis
+ */
+bool ActivityModel::empty()
+{
+    return d->m_empty;
+}
+
+void ActivityModel::setEmpty(bool empty)
+{
+    d->m_empty = empty;
+    emit emptyChanged();
 }
 
 /*
@@ -85,7 +107,12 @@ void ActivityModel::processFetchedActivity()
     beginResetModel();
     d->m_nodes = qobject_cast<ActivityListJob*>(sender())->data().value< QList<ActivityItem*> >();
     endResetModel();
-    qDebug() << d->m_nodes.count() << " activities Successfully Fetched from the server!";
+    
+    if(d->m_nodes.count()>0){
+        setEmpty(false);
+    } else {
+        setEmpty(true);
+    }
 }
 
 void ActivityModel::postActivity( const QString& message  )

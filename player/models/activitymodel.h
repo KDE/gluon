@@ -55,7 +55,7 @@ namespace GluonPlayer
     class GLUON_PLAYER_EXPORT ActivityModel : public QAbstractListModel
     {
             Q_OBJECT
-            //Q_PROPERTY( QString gameId READ gameId WRITE setGameId NOTIFY gameIdChanged )
+            Q_PROPERTY( bool empty READ empty WRITE setEmpty NOTIFY emptyChanged )
  
         public:
             enum Roles
@@ -65,11 +65,7 @@ namespace GluonPlayer
                 LastnameRole,
                 MessageRole
             };
- 
-            /**
-             * @param gameId The game ID which will be used to perform the lookup in the online
-             * service
-             */
+            
             explicit ActivityModel( QObject* parent = 0 );
             virtual ~ActivityModel();
  
@@ -79,9 +75,14 @@ namespace GluonPlayer
             virtual Qt::ItemFlags flags( const QModelIndex& index ) const;
             QHash<int, QByteArray> roleNames() const;
             
-            Q_INVOKABLE void fetchActivities( );
+            bool empty();
+            void setEmpty(bool empty);
+            
             Q_INVOKABLE void postActivity( const QString& message );
- 
+            
+        public Q_SLOTS:
+            Q_INVOKABLE void fetchActivities( );
+            
         private Q_SLOTS:
             void processFetchedActivity();
             void processPostedActivity();
@@ -89,6 +90,8 @@ namespace GluonPlayer
         Q_SIGNALS:
             void activityListFetchFailed();
             void activityPostFailed();
+            
+            void emptyChanged();
  
         private:
             void clear();
