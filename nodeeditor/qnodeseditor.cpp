@@ -47,135 +47,138 @@ void QNodesEditor::install(QGraphicsScene *s)
 
 QGraphicsItem* QNodesEditor::itemAt(const QPointF &pos)
 {
-	QList<QGraphicsItem*> items = scene->items(QRectF(pos - QPointF(1,1), QSize(3,3)));
+    QList<QGraphicsItem*> items = scene->items(QRectF(pos - QPointF(1,1), QSize(3,3)));
 
-	foreach(QGraphicsItem *item, items)
-		if (item->type() > QGraphicsItem::UserType)
-			return item;
+    Q_FOREACH(QGraphicsItem *item, items) {
+        if (item->type() > QGraphicsItem::UserType)
+        return item;
+    }
 
-	return 0;
+    return 0;
 }
 
 bool QNodesEditor::eventFilter(QObject *o, QEvent *e)
 {
-	QGraphicsSceneMouseEvent *me = (QGraphicsSceneMouseEvent*) e;
+    QGraphicsSceneMouseEvent *me = (QGraphicsSceneMouseEvent*) e;
 
-	switch ((int) e->type())
-	{
-	case QEvent::GraphicsSceneMousePress:
-	{
+    switch ((int) e->type())
+    {
+    case QEvent::GraphicsSceneMousePress:
+    {
 
-		switch ((int) me->button())
-		{
-		case Qt::LeftButton:
-		{
-			QGraphicsItem *item = itemAt(me->scenePos());
-			if (item && item->type() == QNEPort::Type)
-			{
+        switch ((int) me->button())
+        {
+        case Qt::LeftButton:
+        {
+            QGraphicsItem *item = itemAt(me->scenePos());
+            if (item && item->type() == QNEPort::Type && ((QNEPort*)item)->isOutput())
+            {
                 conn = new QNEConnection(0);
                 scene->addItem(conn);
-				conn->setPort1((QNEPort*) item);
-				conn->setPos1(item->scenePos());
-				conn->setPos2(me->scenePos());
-				conn->updatePath();
+                conn->setPort1((QNEPort*) item);
+                conn->setPos1(item->scenePos());
+                conn->setPos2(me->scenePos());
+                conn->updatePath();
 
-				return true;
-			} else if (item && item->type() == QNEBlock::Type)
-			{
-				/* if (selBlock)
-					selBlock->setSelected(); */
-				// selBlock = (QNEBlock*) item;
-			}
-			break;
-		}
-		case Qt::RightButton:
-		{
-			QGraphicsItem *item = itemAt(me->scenePos());
-			if (item && (item->type() == QNEConnection::Type || item->type() == QNEBlock::Type))
-				delete item;
-			// if (selBlock == (QNEBlock*) item)
-				// selBlock = 0;
-			break;
-		}
-		}
-	}
-	case QEvent::GraphicsSceneMouseMove:
-	{
-		if (conn)
-		{
-			conn->setPos2(me->scenePos());
-			conn->updatePath();
-			return true;
-		}
-		break;
-	}
-	case QEvent::GraphicsSceneMouseRelease:
-	{
-		if (conn && me->button() == Qt::LeftButton)
-		{
-			QGraphicsItem *item = itemAt(me->scenePos());
-			if (item && item->type() == QNEPort::Type)
-			{
-				QNEPort *port1 = conn->port1();
-				QNEPort *port2 = (QNEPort*) item;
+                return true;
+            } else if (item && item->type() == QNEBlock::Type)
+            {
+                /* if (selBlock)
+                    selBlock->setSelected(); */
+                // selBlock = (QNEBlock*) item;
+            }
+            break;
+        }
+        case Qt::RightButton:
+        {
+            QGraphicsItem *item = itemAt(me->scenePos());
+            if (item && (item->type() == QNEConnection::Type || item->type() == QNEBlock::Type))
+                delete item;
+            // if (selBlock == (QNEBlock*) item)
+                // selBlock = 0;
+            break;
+        }
+        }
+    }
+    case QEvent::GraphicsSceneMouseMove:
+    {
+        if (conn)
+        {
+            conn->setPos2(me->scenePos());
+            conn->updatePath();
+            return true;
+        }
+        break;
+    }
+    case QEvent::GraphicsSceneMouseRelease:
+    {
+        if (conn && me->button() == Qt::LeftButton)
+        {
+            QGraphicsItem *item = itemAt(me->scenePos());
+            if (item && item->type() == QNEPort::Type)
+            {
+                QNEPort *port1 = conn->port1();
+                QNEPort *port2 = (QNEPort*) item;
 
-				if (port1->block() != port2->block() && port1->isOutput() != port2->isOutput() && !port1->isConnected(port2))
-				{
-					conn->setPos2(port2->scenePos());
-					conn->setPort2(port2);
-					conn->updatePath();
-					conn = 0;
-					return true;
-				}
-			}
+                if (port1->block() != port2->block() && port1->isOutput() != port2->isOutput() && !port1->isConnected(port2))
+                {
+                    conn->setPos2(port2->scenePos());
+                    conn->setPort2(port2);
+                    conn->updatePath();
+                    conn = 0;
+                    return true;
+                }
+            }
 
-			delete conn;
-			conn = 0;
-			return true;
-		}
-		break;
-	}
-	}
-	return QObject::eventFilter(o, e);
+            delete conn;
+            conn = 0;
+            return true;
+        }
+        break;
+    }
+    }
+    return QObject::eventFilter(o, e);
 }
 
 void QNodesEditor::save(QDataStream &ds)
 {
-	foreach(QGraphicsItem *item, scene->items())
-		if (item->type() == QNEBlock::Type)
-		{
-			ds << item->type();
-			((QNEBlock*) item)->save(ds);
-		}
+    Q_FOREACH(QGraphicsItem *item, scene->items()) {
+        if (item->type() == QNEBlock::Type)
+        {
+            ds << item->type();
+            ((QNEBlock*) item)->save(ds);
+        }
+    }
 
-	foreach(QGraphicsItem *item, scene->items())
-		if (item->type() == QNEConnection::Type)
-		{
-			ds << item->type();
-			((QNEConnection*) item)->save(ds);
-		}
+    Q_FOREACH(QGraphicsItem *item, scene->items()) {
+        if (item->type() == QNEConnection::Type)
+        {
+            ds << item->type();
+            ((QNEConnection*) item)->save(ds);
+        }
+    }
 }
 
 void QNodesEditor::load(QDataStream &ds)
 {
-	scene->clear();
+    scene->clear();
 
-	QMap<quint64, QNEPort*> portMap;
+    QMap<quint64, QNEPort*> portMap;
 
-	while (!ds.atEnd())
-	{
-		int type;
-		ds >> type;
-		if (type == QNEBlock::Type)
-		{
+    while (!ds.atEnd())
+    {
+        int type;
+        ds >> type;
+        if (type == QNEBlock::Type)
+        {
             QNEBlock *block = new QNEBlock(0);
             scene->addItem(block);
-			block->load(ds, portMap);
-		} else if (type == QNEConnection::Type)
-		{
+            block->load(ds, portMap);
+        } else if (type == QNEConnection::Type)
+        {
             QNEConnection *conn = new QNEConnection(0);
             scene->addItem(conn);
-			conn->load(ds, portMap);
-		}
-	}
+            conn->load(ds, portMap);
+        }
+    }
 }
