@@ -61,6 +61,11 @@ gluon_add_library( Gluon::Graphics SHARED
     LIBRARIES Gluon::Core
 )
 
+gluon_add_plugin( gluongraphics_types
+    MODULE Gluon::Graphics
+    SOURCES factoryplugin.cpp
+)
+
 if( ASSIMP_FOUND )
     target_include_directories( Gluon::Graphics ${ASSIMP_INCLUDE_DIR} )
     target_link_libraries( GluonGraphics ${ASSIMP_LIBRARY} )
