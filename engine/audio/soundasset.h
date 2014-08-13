@@ -28,9 +28,8 @@ namespace GluonEngine
     class SoundAsset : public Asset
     {
             Q_OBJECT
-            Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::SoundAsset )
-            GLUON_ASSET_PLUGIN( metadata.json )
+            Q_INTERFACES( GluonEngine::Asset )
 
         public:
             Q_INVOKABLE SoundAsset( QObject* parent = 0 );

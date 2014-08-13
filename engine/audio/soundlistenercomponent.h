@@ -25,13 +25,11 @@
 
 namespace GluonEngine
 {
-
     class SoundListenerComponent : public Component
     {
             Q_OBJECT
-            Q_INTERFACES( GluonEngine::Component )
             GLUON_OBJECT( GluonEngine::SoundListenerComponent )
-            GLUON_COMPONENT_PLUGIN( metadata.json )
+            Q_INTERFACES( GluonEngine::Component )
 
             Q_PROPERTY( bool active READ isActive WRITE setActive )
             Q_PROPERTY( bool effectsEnabled READ effectsEnabled WRITE setEffectsEnabled )

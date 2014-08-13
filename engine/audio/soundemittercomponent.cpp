@@ -20,7 +20,7 @@
 
 #include "soundemittercomponent.h"
 
-#include <engine/assets/audio/sound/soundasset.h>
+#include <engine/asset.h>
 #include <engine/gameobject.h>
 #include <audio/engine.h>
 #include <audio/sound.h>

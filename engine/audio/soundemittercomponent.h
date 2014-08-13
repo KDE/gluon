@@ -30,9 +30,8 @@ namespace GluonEngine
     class SoundEmitterComponent : public Component
     {
             Q_OBJECT
-            Q_INTERFACES( GluonEngine::Component )
             GLUON_OBJECT( GluonEngine::SoundEmitterComponent )
-            GLUON_COMPONENT_PLUGIN( metadata.json )
+            Q_INTERFACES( GluonEngine::Component )
 
             Q_PROPERTY( GluonEngine::Asset* sound READ sound WRITE setSound )
             Q_PROPERTY( float radius READ radius WRITE setRadius )
