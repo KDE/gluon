@@ -21,6 +21,20 @@
 #define GLUON_CORE_GLUONOBJECTTEST_H
 
 #include <QtCore/QObject>
+#include <core/gluonobject.h>
+
+namespace GluonCore
+{
+    class TestObject : public GluonCore::GluonObject
+    {
+        Q_OBJECT
+        GLUON_OBJECT( TestObject )
+
+    public:
+        explicit TestObject(const QString& name = QString(), QObject* parent = 0);
+    };
+}
+Q_DECLARE_METATYPE( GluonCore::TestObject* )
 
 class GluonObjectTest : public QObject
 {
@@ -43,6 +57,7 @@ class GluonObjectTest : public QObject
         void testQualifiedName();
         void testFullyQualifiedName();
         void testNameToObjectName();
+        void testConvertQVariant();
 };
 
-#endif // GLUON_CORE_GLUONOBJECTTEST_H
+#endif // GLUON_CORE_GLUONOBJECTTEST_Hs

@@ -25,6 +25,14 @@
 
 using namespace GluonCore;
 
+REGISTER_OBJECTTYPE( GluonCore, TestObject )
+
+TestObject::TestObject( const QString& name, QObject* parent )
+    : GluonObject( name, parent)
+{
+
+}
+
 GluonObjectTest::GluonObjectTest()
 {
 }
@@ -167,6 +175,20 @@ void GluonObjectTest::testNameToObjectName()
     QCOMPARE(gluonObject.nameToObjectName("@_Gluon Object1&"), QString("_GluonObject1"));
 }
 
-QTEST_MAIN(GluonObjectTest)
+void GluonObjectTest::testConvertQVariant()
+{
+    //This primarily tests whether we can convert from and to QVariant
+    //and from QVariant to a superclass of a subclass of GluonObject.
+    TestObject* object = new TestObject( "Test" );
+    QVariant v = QVariant::fromValue( object );
 
- 
+    QVERIFY( v.isValid() );
+    QVERIFY( v.canConvert< TestObject* >() );
+    QVERIFY( v.canConvert< GluonObject* >() );
+
+    GluonObject* g = v.value< GluonObject* >();
+    QVERIFY( g );
+    QCOMPARE( g->name(), QString( "Test" ) );
+}
+
+QTEST_MAIN(GluonObjectTest)
