@@ -16,6 +16,7 @@ set( GluonCore_SRCS
     gdlserializer.cpp
     pluginloader.cpp
     pluginregistry.cpp
+    factoryplugin.cpp
 
     bindings/com_trolltech_qt_gui_init.cpp
     bindings/qtscript_QColor.cpp
@@ -49,6 +50,7 @@ set( GluonCore_HEADERS
     privatepointer.h
     pluginloader.h
     pluginregistry.h
+    factoryplugin.h
 )
 
 gluon_add_library( Gluon::Core SHARED
