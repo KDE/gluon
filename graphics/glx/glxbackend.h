@@ -38,7 +38,7 @@ namespace GluonGraphics
                 GLXBackend();
                 virtual ~GLXBackend();
 
-                virtual bool initialize( QWindow* window );
+                virtual bool initialize( WId id );
                 virtual QString errorString();
 
                 virtual QString identifier();

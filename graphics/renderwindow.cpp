@@ -40,7 +40,7 @@ RenderWindow::RenderWindow( QWindow* parent ) : QWindow( parent )
 {
     setSurfaceType( QSurface::OpenGLSurface );
 
-    if( !Manager::instance()->backend()->initialize( this ) )
+    if( !Manager::instance()->backend()->initialize( winId() ) )
         qFatal( Manager::instance()->backend()->errorString().toUtf8() );
 }
 

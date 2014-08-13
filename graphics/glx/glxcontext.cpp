@@ -37,7 +37,7 @@ class Context::Private
         Version parseVersion( const QByteArray& string );
 
         GLXContext context;
-        QWindow* currentWindow = nullptr;
+        WId currentWindow = 0;
 
         Version glXVersion;
         Version glVersion;
@@ -72,7 +72,7 @@ Context::~Context()
     delete d;
 }
 
-bool Context::initialize( QWindow* window )
+bool Context::initialize( WId winId )
 {
     //Clear any error state.
     glGetError();
@@ -92,9 +92,9 @@ bool Context::initialize( QWindow* window )
     }
 
     //Set it to current so we can initialize some properties.
-    glXMakeCurrent( QX11Info::display(), window->winId(), d->context );
+    glXMakeCurrent( QX11Info::display(), winId, d->context );
     // Workaround for an NVidia bug, the first call will fail to make the context current but the second will succeed
-    glXMakeCurrent( QX11Info::display(), window->winId(), d->context );
+    glXMakeCurrent( QX11Info::display(), winId, d->context );
 
     //Set all the version related properties.
     d->glXVersion = d->parseVersion( glXGetClientString( QX11Info::display(), GLX_VERSION ) );
@@ -141,13 +141,13 @@ void Context::destroy()
     d->context = 0;
 }
 
-void Context::makeCurrent( QWindow* window )
+void Context::makeCurrent( WId winId )
 {
-    if( window == d->currentWindow )
+    if( winId == d->currentWindow )
         return;
 
-    glXMakeCurrent( QX11Info::display(), window->winId(), d->context );
-    d->currentWindow = window;
+    glXMakeCurrent( QX11Info::display(), winId, d->context );
+    d->currentWindow = winId;
 }
 
 void Context::clearCurrent()
@@ -158,7 +158,7 @@ void Context::clearCurrent()
 
 bool Context::isCurrent() const
 {
-    return d->currentWindow != nullptr;
+    return d->currentWindow != 0;
 }
 
 QString Context::errorString() const

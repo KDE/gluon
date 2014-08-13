@@ -62,14 +62,14 @@ GLXBackend::~GLXBackend()
     }
 }
 
-bool GLXBackend::initialize( QWindow* window )
+bool GLXBackend::initialize( WId id )
 {
     if( d->context )
         return true;
 
     d->context = new Context();
 
-    if( !d->context->initialize( window ) )
+    if( !d->context->initialize( id ) )
     {
         d->errorString = d->context->errorString();
         return false;

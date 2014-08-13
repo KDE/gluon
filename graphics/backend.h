@@ -22,8 +22,8 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QtPlugin>
+#include <QtGui/QWindow>
 
-class QWindow;
 namespace GluonGraphics
 {
     class Shader;
@@ -61,11 +61,11 @@ namespace GluonGraphics
             /**
              * Initialize the backend.
              *
-             * \param widget A widget that can be used during initialization.
+             * \param id The winId of a window that can be used during initialization.
              *
              * \return true when successfully initialized, false if not.
              */
-            virtual bool initialize( QWindow* window ) = 0;
+            virtual bool initialize( WId id ) = 0;
 
             /**
              * A description of the last error that occurred.
