@@ -8,7 +8,6 @@ set(projectinspector_SRCS
 gluon_add_plugin(gluoncreator_toolplugin_projectinspector 
     MODULE Gluon::Creator
     SOURCES ${projectinspector_SRCS}
-    LIBRARIES Gluon::Creator
 )
 
 install(FILES gluoncreator_toolplugin_projectinspectorui.rc

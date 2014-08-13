@@ -38,6 +38,8 @@
 #include <QMimeDatabase>
 #include <QMimeType>
 
+#define DEBUG_KPART_LOADING 0
+
 using namespace GluonCreator;
 
 GLUON_DEFINE_SINGLETON( FileManager )
@@ -85,12 +87,17 @@ void FileManager::openAsset( GluonEngine::Asset* asset )
     if( !asset )
         return;
 
-    QString icon = asset->metaObject()->classInfo( asset->metaObject()->indexOfClassInfo( "org.gluon.icon" ) ).value();
-    openFile( asset->absolutePath().toLocalFile(), asset->name(), asset->name(), icon );
+    // Disable until the meta data port has happened
+    //QString icon = asset->metaObject()->classInfo( asset->metaObject()->indexOfClassInfo( "org.gluon.icon" ) ).value();
+    openFile( asset->absolutePath().toLocalFile(), asset->name(), asset->name(), QString() );
 }
 
 void FileManager::openFile( const QString& fileName, const QString& name, const QString& title, const QString& icon,  const QString& partName, const QVariantList& partParams, bool closeable )
 {
+#ifdef DEBUG_KPART_LOADING
+    DEBUG_FUNC_NAME
+#endif
+
     if( fileName.isEmpty() )
         return;
 
@@ -114,8 +121,7 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
         if( service )
             parts.append( service );
     }
-
-    if( parts.count() == 0 )
+    else
     {
         parts.append( KMimeTypeTrader::self()->query( mime.name(), "KParts/ReadWritePart" ) );
         parts.append( KMimeTypeTrader::self()->query( mime.name(), "KParts/ReadOnlyPart" ) );
@@ -126,9 +132,21 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
 
     if( parts.count() > 0 )
     {
-        part = parts.first()->createInstance<KParts::ReadWritePart>( 0, partParams );
+#ifdef DEBUG_KPART_LOADING
+        qDebug() << Q_FUNC_INFO << "Library for part:" << parts.first()->library();
+#endif
+        QString error;
+        part = parts.first()->createInstance<KParts::ReadWritePart>( 0, partParams, &error );
+#ifdef DEBUG_KPART_LOADING
+        if( !error.isEmpty() )
+            qDebug() << error;
+#endif
         if( !part )
-            part = parts.first()->createInstance<KParts::ReadOnlyPart>( 0, partParams );
+            part = parts.first()->createInstance<KParts::ReadOnlyPart>( 0, partParams, &error );
+#ifdef DEBUG_KPART_LOADING
+        if( !error.isEmpty() )
+            qDebug() << error;
+#endif
     }
 
     if( part )
