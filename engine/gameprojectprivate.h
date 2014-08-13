@@ -61,7 +61,7 @@ namespace GluonEngine
             QString userName;
 
             QList<Asset*> assets;
-            QMultiHash<int, Asset*> assetTypes;
+            QMultiHash< QString, Asset* > assetTypes;
 
             static bool saveChildren( const GluonCore::GluonObject* parent );
     };

@@ -141,7 +141,7 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
         if( propertyIndex != -1 )
             type = ref.object->metaObject()->property( propertyIndex ).typeName();
 
-        if( !ref.object->setProperty( ref.property.toUtf8(), GluonCore::GluonObjectFactory::instance()->wrapObject( type, target ) ) )
+        if( !ref.object->setProperty( ref.property.toUtf8(), QVariant::fromValue( target ) ) )
         {
             if( propertyIndex != -1 )
                 ref.object->debug( QString("Warning: Could not set property %1 on object %2").arg(ref.property, ref.object->fullyQualifiedName()) );
