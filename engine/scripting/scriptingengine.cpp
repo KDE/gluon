@@ -19,7 +19,7 @@
 
 #include "scriptingengine.h"
 
-#include <QtScript>
+#include <QtCore/QTimer>
 
 #include <core/gluonobjectfactory.h>
 #include <core/scriptengine.h>

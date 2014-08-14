@@ -22,7 +22,6 @@
 
 #include "scriptingasset.h"
 
-#include <engine/gluon_engine_export.h>
 #include <engine/component.h>
 
 class QScriptValue;

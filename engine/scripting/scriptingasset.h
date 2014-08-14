@@ -20,7 +20,6 @@
 #ifndef GLUONENGINE_SCRIPTINGASSET_H
 #define GLUONENGINE_SCRIPTINGASSET_H
 
-#include <engine/gluon_engine_export.h>
 #include <engine/asset.h>
 
 namespace GluonEngine
@@ -30,9 +29,6 @@ namespace GluonEngine
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::ScriptingAsset )
-
-            Q_CLASSINFO( "org.gluon.category", "Game Logic" )
-            Q_CLASSINFO( "org.gluon.icon", "application-javascript" )
 
         public:
             Q_INVOKABLE ScriptingAsset( QObject* parent = 0 );

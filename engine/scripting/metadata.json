@@ -1,0 +1,18 @@
+{
+    "GluonEngine::ScriptingAsset": {
+        "name": "Scripted Logic",
+        "icon": "application-javascript",
+        "category": "Game Logic",
+        "mimeTypes": [
+            "audio/javascript"
+        ],
+        "templates": {
+            "Script": "scripting/scripting_template.js"
+        }
+    },
+    "GluonEngine::ScriptingComponent": {
+        "name": "Scripted Logic",
+        "icon": "application-javascript",
+        "category": "Game Logic"
+    }
+}

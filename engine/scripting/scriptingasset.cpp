@@ -112,7 +112,3 @@ void ScriptingAsset::unload()
         Asset::unload();
     }
 }
-
-Q_EXPORT_PLUGIN2( gluon_component_scripting, GluonEngine::ScriptingAsset )
-
- 

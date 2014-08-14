@@ -1,4 +1,5 @@
 option( BUILD_AUDIO_PLUGIN "Build Assets and Components dependant on Gluon Audio" ON )
+
 option( BUILD_GRAPHICS_COMPONENTS "Build Components dependant on Gluon Graphics" OFF )
 option( BUILD_GRAPHICS_ASSETS "Build Assets dependant on Gluon Graphics" OFF )
 option( BUILD_INPUT_COMPONENTS "Build Components dependant on Gluon Input" OFF )
@@ -97,6 +98,8 @@ gluon_add_plugin( gluonengine_types
 if( BUILD_AUDIO_PLUGIN )
     add_subdirectory( audio )
 endif()
+
+add_subdirectory( scripting )
 
 add_subdirectory( assets )
 add_subdirectory( components )
