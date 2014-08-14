@@ -26,12 +26,6 @@
 
 using namespace GluonEngine;
 
-AudioPlugin::AudioPlugin( QObject* parent )
-    : GluonCore::FactoryPlugin( parent )
-{
-
-}
-
 GluonCore::GluonObjectList AudioPlugin::typesToRegister()
 {
     return GluonCore::GluonObjectList()

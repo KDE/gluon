@@ -30,7 +30,6 @@ namespace GluonEngine
         Q_OBJECT
         GLUONCORE_FACTORYPLUGIN_WITH_JSON( metadata.json )
     public:
-        explicit AudioPlugin( QObject* parent = 0 );
         GluonCore::GluonObjectList typesToRegister() override;
     };
 }
