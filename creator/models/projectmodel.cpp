@@ -108,7 +108,7 @@ ProjectModel::data( const QModelIndex& index, int role ) const
         QObject* obj = static_cast<QObject*>( index.internalPointer() );
         if( obj )
         {
-            QString icon = obj->metaObject()->classInfo( obj->metaObject()->indexOfClassInfo( "org.gluon.icon" ) ).value();
+            QString icon = GluonCore::GluonObjectFactory::instance()->metaData( obj->metaObject()->className() ).value( "icon" ).toString();
 
             if( !icon.isEmpty() )
                 return QIcon::fromTheme( icon );
