@@ -21,13 +21,12 @@
 #ifndef GLUONCORE_FACTORYPLUGIN_H
 #define GLUONCORE_FACTORYPLUGIN_H
 
-#include <QObject>
-
-#include <core/gluonobject.h>
+#include "gluonobject.h"
+#include "gluoncore_export.h"
 
 namespace GluonCore
 {
-    class FactoryPlugin : public QObject
+    class GLUONCORE_EXPORT FactoryPlugin : public QObject
     {
         Q_OBJECT
 
