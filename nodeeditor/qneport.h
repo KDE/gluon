@@ -31,8 +31,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 class QNEBlock;
 class QNEConnection;
 
-class QNEPort : public QGraphicsPathItem
+class QNEPort : public QObject, public QGraphicsPathItem
 {
+    Q_OBJECT;
 public:
     /// Defines the GraphicsItem type of QNEPorts, so they can be easily identified when
     /// looking through a list of QGraphicsItem instances, by checking QGraphicsItem::type()
@@ -49,6 +50,7 @@ public:
     void setPosition(Position position);
     Position position() const;
     static int radius();
+    static int margin();
     bool isOutput();
     QVector<QNEConnection*>& connections();
     void setPortFlags(int);
@@ -69,13 +71,13 @@ protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
-    void updatePath();
+    Q_SLOT void updatePath();
     QNEBlock *m_block;
     QString name;
     bool isOutput_;
     QGraphicsTextItem *label;
-    int radius_;
-    int margin;
+    int m_radius;
+    int m_margin;
     QVector<QNEConnection*> m_connections;
     int m_portFlags;
     quint64 m_ptr;

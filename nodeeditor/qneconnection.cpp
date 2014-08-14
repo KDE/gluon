@@ -31,6 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QPen>
 #include <QGraphicsScene>
 #include <QtGui/QPalette>
+#include <QTimer>
 
 QNEConnection::QNEConnection(QGraphicsItem *parent) : QGraphicsPathItem(parent)
 {
@@ -74,8 +75,10 @@ void QNEConnection::setPort2(QNEPort *p)
 
 void QNEConnection::updatePosFromPorts()
 {
-    pos1 = m_port1->scenePos();
-    pos2 = m_port2->scenePos();
+    if(m_port1 && m_port2) {
+        pos1 = m_port1->scenePos();
+        pos2 = m_port2->scenePos();
+    }
 }
 
 //FIXME: width and length for arrow
@@ -416,9 +419,11 @@ void QNEConnection::updatePath()
         p.addPolygon(createArrowPoly(p, m_port2));
     this->setPath(p);
 
-    QPalette palette = scene()->palette();
-    setPen(QPen(palette.dark().color(), 2));
-    setBrush(Qt::NoBrush);
+    if(scene()) {
+        QPalette palette = scene()->palette();
+        setPen(QPen(palette.dark().color(), 2));
+        setBrush(Qt::NoBrush);
+    }
 }
 
 QNEPort* QNEConnection::port1() const

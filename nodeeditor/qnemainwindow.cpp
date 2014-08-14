@@ -148,8 +148,7 @@ void QNEMainWindow::addBlock()
 	static const char* names[] = {"Vin", "Voutsadfasdf", "Imin", "Imax", "mul", "add", "sub", "div", "Conv", "FFT"};
 	for (int i = 0; i < 4 + rand() % 3; i++)
 	{
-        int lORr = rand() % 2;
-		b->addPort(names[rand() % 10], (QNEPort::Position)lORr, lORr, 0, 0);
+		b->addPort(names[rand() % 10], (QNEPort::Position)(rand() % 4), rand() % 2, 0, 0);
         b->setPos(view->sceneRect().center().toPoint());
 	}
 }

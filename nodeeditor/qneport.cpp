@@ -31,6 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include <QPen>
 #include <QtCore/QRect>
+#include <QTimer>
 #include <QtGui/QPalette>
 
 
@@ -39,8 +40,8 @@ QNEPort::QNEPort(QGraphicsItem *parent):
 {
     label = new QGraphicsTextItem(this);
 
-    radius_ = radius();
-    margin = 2;
+    m_radius = radius();
+    m_margin = margin();
 
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
 
@@ -75,18 +76,38 @@ void QNEPort::setIsOutput(bool o)
 
 void QNEPort::updatePath()
 {
+    if(!scene()) {
+        QTimer::singleShot(10, this, SLOT(updatePath()));
+        return;
+    }
+
+    // If the flag is type or name, then it's not really
+    // a port and consequently is given a non-path, and
+    // different font options
+    if (m_portFlags & TypePort)
+    {
+        QFont font(scene()->font());
+        font.setItalic(true);
+        label->setFont(font);
+    } else if (m_portFlags & NamePort)
+    {
+        QFont font(scene()->font());
+        font.setBold(true);
+        label->setFont(font);
+    }
+
     QPainterPath p;
     if(m_portFlags & NamePort || m_portFlags & TypePort) {
         // don't do anything, as we want an empty path for these
     }
     else if((isOutput_ && position() != QNEPort::RightPosition) || (!isOutput_ && position() == QNEPort::RightPosition)) {
         QPolygon polygon;
-        polygon << QPoint(radius_ * 0.7, radius_) << QPoint(radius_ * 0.7, -radius_) << QPoint(-radius_, 0);
+        polygon << QPoint(m_radius * 0.7, m_radius) << QPoint(m_radius * 0.7, -m_radius) << QPoint(-m_radius, 0);
         p.addPolygon(polygon);
     }
     else {
         QPolygon polygon;
-        polygon << QPoint(-radius_ * 0.7, -radius_) << QPoint(-radius_ * 0.7, radius_) << QPoint(radius_, 0);
+        polygon << QPoint(-m_radius * 0.7, -m_radius) << QPoint(-m_radius * 0.7, m_radius) << QPoint(m_radius, 0);
         p.addPolygon(polygon);
     }
     setPath(p);
@@ -103,19 +124,19 @@ void QNEPort::setPosition(QNEPort::Position position)
     switch(position)
     {
         case QNEPort::RightPosition:
-            label->setPos(-radius_ - margin - label->boundingRect().width(), -label->boundingRect().height()/2);
+            label->setPos(-m_radius - m_margin - label->boundingRect().width(), -label->boundingRect().height()/2);
             setRotation(0);
             break;
         case QNEPort::TopPosition:
-            label->setPos(radius_ + margin, -label->boundingRect().height()/2);
+            label->setPos(m_radius + m_margin, -label->boundingRect().height()/2);
             setRotation(90);
             break;
         case QNEPort::BottomPosition:
-            label->setPos(radius_ + margin, -label->boundingRect().height()/2);
+            label->setPos(m_radius + m_margin, -label->boundingRect().height()/2);
             setRotation(-90);
             break;
         case QNEPort::LeftPosition:
-            label->setPos(radius_ + margin, -label->boundingRect().height()/2);
+            label->setPos(m_radius + m_margin, -label->boundingRect().height()/2);
             setRotation(0);
             break;
         default:
@@ -135,6 +156,11 @@ int QNEPort::radius()
     return 5;
 }
 
+int QNEPort::margin()
+{
+    return 2;
+}
+
 bool QNEPort::isOutput()
 {
     return isOutput_;
@@ -148,21 +174,6 @@ QVector<QNEConnection*>& QNEPort::connections()
 void QNEPort::setPortFlags(int f)
 {
     m_portFlags = f;
-
-    // If the flaf is type or name, then it's not really
-    // a port and consequently is given a non-path, and
-    // different font options
-    if (m_portFlags & TypePort)
-    {
-        QFont font(scene()->font());
-        font.setItalic(true);
-        label->setFont(font);
-    } else if (m_portFlags & NamePort)
-    {
-        QFont font(scene()->font());
-        font.setBold(true);
-        label->setFont(font);
-    }
     updatePath();
 }
 

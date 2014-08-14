@@ -30,8 +30,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 class QNEPort;
 
-class QNEConnection : public QGraphicsPathItem
+class QNEConnection : public QObject, public QGraphicsPathItem
 {
+    Q_OBJECT
 public:
 	enum { Type = QGraphicsItem::UserType + 2 };
 
@@ -42,7 +43,7 @@ public:
 	void setPos2(const QPointF &p);
 	void setPort1(QNEPort *p);
 	void setPort2(QNEPort *p);
-	void updatePosFromPorts();
+	Q_SLOT void updatePosFromPorts();
 	void updatePath();
 	QNEPort* port1() const;
 	QNEPort* port2() const;

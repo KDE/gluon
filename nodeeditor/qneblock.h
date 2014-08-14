@@ -29,8 +29,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QGraphicsPathItem>
 #include "qneport.h"
 
-class QNEBlock : public QGraphicsPathItem
+class QNEBlock : public QObject, public QGraphicsPathItem
 {
+    Q_OBJECT
 public:
     enum { Type = QGraphicsItem::UserType + 3 };
 
@@ -49,11 +50,12 @@ public:
 
     int type() const { return Type; }
 
+    Q_SIGNAL void positionChanged();
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
-    void relayoutPorts();
+    Q_SLOT void relayoutPorts();
     int horzMargin;
     int vertMargin;
     int width;

@@ -30,6 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QFontMetrics>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
+#include <QTimer>
 
 #include "qneport.h"
 
@@ -37,6 +38,7 @@ QNEBlock::QNEBlock(QGraphicsItem *parent) : QGraphicsPathItem(parent)
 {
     setFlag(QGraphicsItem::ItemIsMovable);
     setFlag(QGraphicsItem::ItemIsSelectable);
+    setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
     horzMargin = 20;
     vertMargin = 5;
     portSpacing = 8;
@@ -44,6 +46,10 @@ QNEBlock::QNEBlock(QGraphicsItem *parent) : QGraphicsPathItem(parent)
 
 void QNEBlock::relayoutPorts()
 {
+    if(!scene()) {
+        QTimer::singleShot(10, this, SLOT(relayoutPorts()));
+        return;
+    }
     int topTextLength = 0, rightTextLength = 0, bottomTextLength = 0, leftTextLength = 0;
     int topCount = 0, rightCount = 0, bottomCount = 0, leftCount = 0;
     QFontMetrics fm(scene()->font());
@@ -89,20 +95,20 @@ void QNEBlock::relayoutPorts()
     else
         width = leftTextLength + horzMargin * 2 + rightTextLength + bottomCount * (QNEPort::radius() + portSpacing);
     if(leftCount == 0 && rightCount == 0)
-        height = topTextLength + vertMargin + bottomTextLength;
+        height = topTextLength + QNEPort::radius() * 2 + QNEPort::margin() * 2 + vertMargin * 2 + bottomTextLength;
     else if(leftCount > rightCount)
-        height = topTextLength + QNEPort::radius() * 2  + vertMargin + (leftCount * (QNEPort::radius() + portSpacing)) + vertMargin + bottomTextLength;
+        height = topTextLength + QNEPort::radius() * 2  + QNEPort::margin() * 2 + vertMargin + (leftCount * (QNEPort::radius() + portSpacing)) + vertMargin + bottomTextLength;
     else
-        height = topTextLength + QNEPort::radius() * 2  + vertMargin + (rightCount * (QNEPort::radius() + portSpacing)) + vertMargin + bottomTextLength;
+        height = topTextLength + QNEPort::radius() * 2  + QNEPort::margin() * 2 + vertMargin + (rightCount * (QNEPort::radius() + portSpacing)) + vertMargin + bottomTextLength;
 
     QPainterPath p;
     p.addRoundedRect(-width / 2, -height / 2, width, height, 5, 5);
     setPath(p);
 
     int topStart = - (((topCount - 1) * portSpacing) + (topCount * QNEPort::radius())) / 2;
-    int rightStart = - (height / 2) + (topTextLength + vertMargin + QNEPort::radius() * 2);
+    int rightStart = - (height / 2) + (topTextLength + vertMargin + QNEPort::radius() * 2) + vertMargin;
     int bottomStart = - (((bottomCount - 1) * portSpacing) + (bottomCount * QNEPort::radius())) / 2;
-    int leftStart = - (height / 2) + (topTextLength + vertMargin + QNEPort::radius() * 2);
+    int leftStart = - (height / 2) + (topTextLength + vertMargin + QNEPort::radius() * 2) + vertMargin;
     int top = 0, right = 0, bottom = 0, left = 0;
     Q_FOREACH(QGraphicsItem *port_, childItems()) {
         if (port_->type() != QNEPort::Type)
@@ -270,8 +276,9 @@ QVector<QNEPort*> QNEBlock::ports()
 
 QVariant QNEBlock::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-    Q_UNUSED(change);
-
-    return value;
+    if (change == ItemPositionChange && scene()) {
+        emit positionChanged();
+    }
+    return QGraphicsItem::itemChange(change, value);
 }
 
