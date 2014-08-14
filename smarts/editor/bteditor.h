@@ -56,7 +56,7 @@ class bteditor : public KParts::MainWindow, private Ui::BtEditor
         void showBehaviorTreeListCicked();
         void setBehaviorTree( int index );
         void replaceBrain();
-        void editorSelectionChanged( const QItemSelection& selected, const QItemSelection& deselected );
+        void editorSelectionChanged( btNode* newSelection );
         void nodeTypeDeleted( int row );
         void updateView( const QModelIndex& one, const QModelIndex& two );
 
