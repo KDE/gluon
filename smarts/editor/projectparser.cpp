@@ -269,6 +269,12 @@ void projectParser::parseBehaviorTrees(QDomNode xNode, btEditorNode * node ,btBr
             {
                 newBTNode->setDescription(nodeAttributes.namedItem("description").nodeValue());
             }
+            if (!nodeAttributes.namedItem("xposition").isNull() && !nodeAttributes.namedItem("yposition").isNull())
+            {
+                double xpos = nodeAttributes.namedItem("xposition").nodeValue().toDouble();
+                double ypos = nodeAttributes.namedItem("yposition").nodeValue().toDouble();
+                newBTNode->setPosition(QPointF(xpos, ypos));
+            }
 
             if (currentNode.hasChildNodes())
             {
