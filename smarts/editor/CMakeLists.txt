@@ -2,6 +2,7 @@ find_package(Qt5Widgets REQUIRED)
 find_package(KF5Parts REQUIRED)
 
 set(bteditor_SRCS
+    btnodeeditor.cpp
     btavailablenodestreeview.cpp
     bttreeeditor.cpp
     projectparser.cpp
@@ -46,7 +47,7 @@ qt5_wrap_ui(
 gluon_add_executable(
     bteditor
     SOURCES ${bteditor_SRCS} ${bteditor_UISRCS}
-    LIBRARIES KF5::Parts Gluon::Smarts
+    LIBRARIES Qt5::Core Qt5::Widgets KF5::Parts Gluon::NodeEditor Gluon::Smarts
 )
 
 # if(APPLE)
@@ -69,7 +70,7 @@ gluon_add_executable(
 gluon_add_plugin(
     gluon_bteditor
     SOURCES ${bteditor_SRCS} ${bteditor_UISRCS}
-    LIBRARIES KF5::Parts Gluon::Smarts
+    LIBRARIES Qt5::Core Qt5::Widgets KF5::Parts Gluon::NodeEditor Gluon::Smarts
 )
 
 # install(FILES gluon_bteditor.desktop
