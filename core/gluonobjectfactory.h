@@ -24,7 +24,7 @@
 
 #include "singleton.h"
 #include "debughelper.h"
-#include "privatepointer.h"
+// #include "privatepointer.h"
 
 #include <QtCore/QHash>
 #include <QtCore/QStringList>
@@ -92,7 +92,11 @@ namespace GluonCore
 
             QJsonObject metaData( const QString& type ) const;
 
-        GLUON_PRIVATE_POINTER;
+        private:
+            virtual ~GluonObjectFactory();
+
+            class Private;
+            Private * const d;
     };
 }
 

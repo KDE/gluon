@@ -28,6 +28,8 @@
 #include <QtCore/QDir>
 #include <QtCore/QPluginLoader>
 #include <QtCore/QVariant>
+#include <QtCore/QJsonArray>
+#include <QtCore/QSet>
 
 using namespace GluonCore;
 
@@ -39,27 +41,19 @@ public:
     QHash<QString, const QMetaObject*> objectTypes;
     QHash<QString, QString> mimeTypes;
     QHash<QString, QJsonObject> metaData;
+    QSet< QString > loadedPlugins;
 };
 
 void GluonObjectFactory::registerObjectType( const QJsonObject& metaData, GluonObject* object )
 {
     QString type = object->metaObject()->className();
 
-    DEBUG_BLOCK
-    DEBUG_TEXT( QString( "Registering object type %1" ).arg( type ) );
-
     d->objectTypes[ type ] = object->metaObject();
     d->metaData[ type ] = metaData;
 
-    QString mimetypenames;
-    for( auto mimetype : object->supportedMimeTypes() )
+    for( auto mimetype : metaData.value( "mimeTypes" ).toArray() )
     {
-        mimetypenames.append( ' ' + mimetype );
-        d->mimeTypes[ mimetype ] = type;
-    }
-    if( mimetypenames.length() > 0 )
-    {
-        DEBUG_TEXT( QString( "Added mimetypes %1 to the index" ).arg( mimetypenames ) )
+        d->mimeTypes[ mimetype.toString() ] = type;
     }
 }
 
@@ -123,17 +117,29 @@ GluonObjectFactory::loadPlugins()
     auto pluginNames = PluginRegistry::instance()->pluginNamesForType( "org.kde.gluon.core.factoryplugin" );
     for( auto plugin : pluginNames )
     {
+        if( d->loadedPlugins.contains( plugin ) )
+        {
+            continue;
+        }
+
         QJsonObject metaData = PluginRegistry::instance()->metaData( plugin );
         FactoryPlugin* p = qobject_cast< FactoryPlugin* >( PluginRegistry::instance()->load( plugin ) );
         if( p )
         {
             for( auto object : p->typesToRegister() )
             {
+                //Prevent multiple plugins from registering the same type
+                if( d->objectTypes.contains( object->metaObject()->className() ) )
+                {
+                    continue;
+                }
+
                 registerObjectType( metaData.value( "MetaData" ).toObject().value( object->metaObject()->className() ).toObject(), object );
             }
-
             delete p;
         }
+
+        d->loadedPlugins.insert( plugin );
     }
 }
 
@@ -145,9 +151,14 @@ QJsonObject GluonObjectFactory::metaData(const QString& type) const
     return QJsonObject();
 }
 
+GluonObjectFactory::~GluonObjectFactory()
+{
+    delete d;
+}
+
 GluonObjectFactory::GluonObjectFactory ( QObject* parent )
-    : GluonCore::Singleton< GluonCore::GluonObjectFactory >( parent )
+    : GluonCore::Singleton< GluonCore::GluonObjectFactory >( parent ), d{ new Private }
 {
     GluonObject obj;
-    registerObjectType( QJsonObject(), &obj );
+    registerObjectType( QJsonObject::fromVariantMap( QVariantMap{ { "icon", "folder" } } ), &obj );
 }
