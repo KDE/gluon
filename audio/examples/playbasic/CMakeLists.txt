@@ -1,4 +1,4 @@
 gluon_add_executable(gluonexamples_audio_playbasic
     SOURCES main.cpp
-    LIBRARIES Gluon::Audio
+    LIBRARIES Gluon::Audio Gluon::Core
 )

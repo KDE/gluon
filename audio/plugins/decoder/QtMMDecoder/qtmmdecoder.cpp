@@ -24,6 +24,7 @@
 #include <QtMultimedia/QAudioFormat>
 #include <QtCore/QIODevice>
 #include <QtCore/QFile>
+#include <QtCore/QDebug>
 
 #include <core/debughelper.h>
 
@@ -51,6 +52,8 @@ QtMMDecoder::QtMMDecoder(QString fileName, QObject* parent)
     connect( d->decoder, SIGNAL(finished()), this, SLOT(gotFinished()) );
     connect( d->decoder, SIGNAL(formatChanged(const QAudioFormat&)), this, SLOT(gotFormatChanged(const QAudioFormat&)) );
     d->decoder->setSourceFilename( fileName );
+    DEBUG_TEXT2( "Loading %1...", fileName );
+    d->loaded = true;
 }
 
 QtMMDecoder::~QtMMDecoder()
@@ -61,6 +64,13 @@ QtMMDecoder::~QtMMDecoder()
 
 void QtMMDecoder::startDecoding()
 {
+    QAudioFormat format;
+    format.setCodec("audio/pcm");
+    format.setSampleSize(16);
+    format.setSampleType(QAudioFormat::SignedInt);
+    format.setSampleRate(44100);
+    format.setChannelCount(1);
+    d->decoder->setAudioFormat(format);
     d->decoder->start();
 }
 
@@ -83,9 +93,11 @@ Buffer QtMMDecoder::getBuffer()
 {
     Buffer buffer;
     QAudioBuffer b = d->decoder->read();
-    buffer.data = b.data<quint8>();
+    buffer.data = new qint16[b.byteCount()/2];
+    memcpy(buffer.data, b.constData<qint16>(), b.byteCount());
     buffer.size = b.byteCount();
-    buffer.length = b.duration()/1000.f;
+    buffer.length = b.duration()/1000000.f;
+    buffer.frequency = b.format().sampleRate();
     return buffer;
 }
 
@@ -130,3 +142,11 @@ void QtMMDecoder::gotFinished()
 {
     d->finished = true;
 }
+
+void QtMMDecoder::gotFormatChanged(const QAudioFormat& format)
+{
+    DEBUG_BLOCK
+    DEBUG_TEXT( "Decoder loaded file" );
+    d->loaded = true;
+}
+

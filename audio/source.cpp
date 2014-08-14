@@ -63,6 +63,11 @@ Source::~Source()
     delete d;
 }
 
+Source::PlayingState Source::getPlayingState()
+{
+    return d->state;
+}
+
 void Source::queueBuffer( unsigned int bufferName )
 {
     DEBUG_BLOCK
@@ -98,6 +103,12 @@ int Source::removeOldBuffers()
             DEBUG_TEXT2( "OpenAL-Error while removing buffer: %1", error )
         }
     }
+    
+    int asd;
+    alGetSourcei( d->name, AL_BUFFERS_QUEUED, &asd);
+    alGetError();
+    //DEBUG_TEXT2( "Buffers left: %1", asd );
+    
     return processed; 
 }
 
@@ -166,7 +177,7 @@ void Source::setVolume( float vol )
 {
     DEBUG_BLOCK
     d->volume = vol;
-    alSourcei( d->name, AL_GAIN, realVolume() );
+    alSourcef( d->name, AL_GAIN, realVolume() );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
@@ -179,7 +190,7 @@ void Source::setParentChannelVolume( float vol )
 {
     DEBUG_BLOCK
     d->parentVolume = vol;
-    alSourcei( d->name, AL_GAIN, realVolume() );
+    alSourcef( d->name, AL_GAIN, realVolume() );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
@@ -190,9 +201,23 @@ void Source::setParentChannelVolume( float vol )
         d->valid = true;
 }
 
+float Source::positionInBuffers()
+{
+    DEBUG_BLOCK
+    float position = 0.0f;
+    alGetSourcef(d->name, AL_SEC_OFFSET, &position );
+    ALCenum error = alGetError();
+    if( error != AL_NO_ERROR )
+    {
+        DEBUG_TEXT2( "OpenAL-Error while getting second offset: %1", error )
+    }
+    return position;
+}
+
 void Source::play()
 {
     DEBUG_BLOCK
+    //DEBUG_TEXT("Play")
     if( d->state == Started )
         return;
     alSourcePlay( d->name );
@@ -202,6 +227,7 @@ void Source::play()
         DEBUG_TEXT2( "OpenAL-Error while starting to play: %1", error )
         return;
     }
+    d->state = Started;
 }
 
 void Source::pause()

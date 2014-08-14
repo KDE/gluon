@@ -8,6 +8,7 @@ set( GluonAudio_SRCS
     listener.cpp
     decoderplugin.cpp
     audiohelper.cpp
+    audiofile.cpp
 )
 
 set( GluonAudio_HEADERS
@@ -18,6 +19,7 @@ set( GluonAudio_HEADERS
     buffer.h
     decoderplugin.h
     audiohelper.h
+    audiofile.h
 )
 
 gluon_add_library( Gluon::Audio SHARED
@@ -29,5 +31,5 @@ gluon_add_library( Gluon::Audio SHARED
 
 add_subdirectory( plugins/decoder )
 
-#gluon_add_subdirectories( examples tests )
+gluon_add_subdirectories( examples )
 

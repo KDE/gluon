@@ -57,7 +57,8 @@ const QStringList PluginRegistry::Private::knownTypes =
                   << "org.kde.gluon.input.device"
                   << "org.kde.gluon.engine.objectProvider"
                   << "org.kde.gluon.creator.dock"
-                  << "org.kde.gluon.creator.tool";
+                  << "org.kde.gluon.creator.tool"
+                  << "org.kde.gluon.audio.decoder";
 
 QStringList PluginRegistry::Private::pluginLocations;
 

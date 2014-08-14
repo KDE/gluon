@@ -42,6 +42,8 @@ namespace GluonAudio
             Source(QObject* parent=0);
             virtual ~Source();
             
+            PlayingState getPlayingState();
+            
             /**
              * Add more or the initial buffers to the source. This should be done via an
              * AudioFile object.
@@ -107,6 +109,11 @@ namespace GluonAudio
              * Called by the parent channel.
              */
             void setParentChannelVolume( float volume );
+            
+            /**
+             * The position (in seconds) in the currently loaded buffers
+             */
+            float positionInBuffers();
             
         public Q_SLOTS:
             void play();

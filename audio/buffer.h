@@ -29,10 +29,11 @@ namespace GluonAudio {
     class GLUON_AUDIO_EXPORT Buffer
     {
         public:
-            quint8* data;
+            qint16* data;
             int size;
             float length;
-            
+            unsigned int name;
+            int frequency;
     };
 }
 

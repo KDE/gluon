@@ -17,45 +17,28 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_AUDIO_QTMMDECODER_H
-#define GLUON_AUDIO_QTMMDECODER_H
+#ifndef GLUON_AUDIO_AUDIOFILE_H
+#define GLUON_AUDIO_AUDIOFILE_H
 
 #include <QtCore/QObject>
-#include <QtMultimedia/QAudioDecoder>
-#include <QtMultimedia/QAudioFormat>
-
-#include <audio/decoder.h>
-#include <audio/buffer.h>
 
 namespace GluonAudio
 {
-    class QtMMDecoder: public QObject, public Decoder
+    class Source;
+    
+    class AudioFile : public QObject
     {
             Q_OBJECT
         public:
-            QtMMDecoder( QString file, QObject* parent=0 );
-            ~QtMMDecoder();
+            AudioFile( QString file, QObject* parent=0 );
+            virtual ~AudioFile();
             
-            virtual void startDecoding();
-            virtual void stopDecoding();
+            bool isValid();
             
-            virtual void setBufferSize( int bytes );
+            void feedSource( Source* source );
+            void stopFeedingSource( Source* source );
             
-            virtual bool buffersAvailable();
-            virtual Buffer getBuffer();
-            
-            virtual bool isLoaded();
-            virtual bool isValid();
-            virtual float duration();
-            virtual int size();
-            
-            virtual bool isStereo();
-            virtual bool isEndOfFile();
-            
-        protected Q_SLOTS:
-            void gotError(QAudioDecoder::Error error);
-            void gotFinished();
-            void gotFormatChanged(const QAudioFormat& format);
+            void update();
             
         private:
             class Private;
@@ -63,4 +46,4 @@ namespace GluonAudio
     };
 }
 
-#endif // GLUON_AUDIO_QTMMDECODER_H
+#endif // GLUON_AUDIO_AUDIOFILE_H

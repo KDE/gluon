@@ -19,23 +19,45 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "audio/sound.h"
+#include <audio/source.h>
+#include <audio/audiofile.h>
+#include <audio/listener.h>
 
 #include <QtCore/QDebug>
+#include <QtGui/QGuiApplication>
 
 int main( int argc, char* argv[] )
 {
-    GluonAudio::Sound* sound = new GluonAudio::Sound;
-    sound->load( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
-    sound->setVolume( 0.9 );  //between 0 and 1
-
-    qDebug() << "Playing sound with duration" << sound->duration() << "seconds.";
-    sound->play();
-
-    while( sound->isPlaying() );
-
-    delete sound;
-
+    QGuiApplication app(argc, argv);
+    
+    GluonAudio::AudioFile* file = new GluonAudio::AudioFile( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
+    GluonAudio::Source* source = new GluonAudio::Source();
+    source->setGlobal(true);
+    GluonAudio::Listener::instance()->addSource(source);
+    file->feedSource(source);
+    
+    //source->play();
+    
+    app.exec();
+    
+    delete file;
+    delete source;
+    
     return 0;
+    
+    
+    
+//     GluonAudio::Sound* sound = new GluonAudio::Sound;
+//     sound->load( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
+//     sound->setVolume( 0.9 );  //between 0 and 1
+// 
+//     qDebug() << "Playing sound with duration" << sound->duration() << "seconds.";
+//     sound->play();
+// 
+//     while( sound->isPlaying() );
+// 
+//     delete sound;
+// 
+//     return 0;
 }
 

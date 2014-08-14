@@ -62,10 +62,10 @@ Listener::Listener ( QObject* parent )
     alGetError(); // Reset error stack
     
     d->context = alcCreateContext(d->device, NULL);
-    if( alcMakeContextCurrent(d->context) )
+    if( !alcMakeContextCurrent(d->context) )
     {
         DEBUG_TEXT( "OpenAL Error: Could not make context current." )
-        return;
+        
     }
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )

@@ -20,12 +20,15 @@
 #include "audiohelper.h"
 
 #include <core/pluginregistry.h>
+#include <core/debughelper.h>
 
 #include "audiofile.h"
 #include "decoder.h"
 #include "decoderplugin.h"
 
 using namespace GluonAudio;
+
+GLUON_DEFINE_SINGLETON( AudioHelper )
 
 class AudioHelper::Private
 {
@@ -41,14 +44,16 @@ class AudioHelper::Private
 
 void AudioHelper::Private::loadPlugins()
 {
-    QObjectList plugins = GluonCore::PluginRegistry::instance()->loadType( "org.kde.gluon.audio.decoder" );
+    DEBUG_BLOCK
+    QObjectList qobjects = GluonCore::PluginRegistry::instance()->loadType( "org.kde.gluon.audio.decoder" );
     
-    for( QObject* plugin : plugins )
+    for( QObject* plugin : qobjects )
     {
         DecoderPlugin* p = qobject_cast<DecoderPlugin*>(plugin);
         if(p)
             plugins.append(p);
     }
+    DEBUG_TEXT2( "%1 decoder plugins loaded.", plugins.count())
 }
 
 AudioHelper::AudioHelper(QObject* parent)
@@ -69,7 +74,7 @@ void AudioHelper::registerForUpdates(AudioFile* file)
     d->registeredAudioFiles.append(file);
     if( d->registeredAudioFiles.count() == 1 )
     {
-        d->timerid = startTimer(100);
+        d->timerid = startTimer(30);
     }
 }
 
