@@ -27,22 +27,6 @@
     <property name="bottomMargin">
      <number>0</number>
     </property>
-    <item row="1" column="0">
-     <widget class="btTreeEditor" name="btEditor">
-      <property name="acceptDrops">
-       <bool>true</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="animated">
-       <bool>true</bool>
-      </property>
-      <attribute name="headerDefaultSectionSize">
-       <number>150</number>
-      </attribute>
-     </widget>
-    </item>
     <item row="0" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
@@ -63,6 +47,16 @@
        </widget>
       </item>
      </layout>
+    </item>
+    <item row="1" column="0">
+     <widget class="btNodeEditor" name="btEditor" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -351,9 +345,10 @@
    <header>btavailablenodestreeview.h</header>
   </customwidget>
   <customwidget>
-   <class>btTreeEditor</class>
-   <extends>QTreeView</extends>
-   <header>bttreeeditor.h</header>
+   <class>btNodeEditor</class>
+   <extends>QWidget</extends>
+   <header>btnodeeditor.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
