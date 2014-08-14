@@ -33,16 +33,6 @@
 
 using namespace GluonEngine;
 
-FactoryPlugin::FactoryPlugin( QObject* parent )
-    : GluonCore::FactoryPlugin( parent )
-{
-
-}
-
-FactoryPlugin::~FactoryPlugin()
-{
-}
-
 GluonCore::GluonObjectList FactoryPlugin::typesToRegister()
 {
     return GluonCore::GluonObjectList()

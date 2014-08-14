@@ -29,10 +29,8 @@ namespace GluonEngine
     class FactoryPlugin : public GluonCore::FactoryPlugin
     {
         Q_OBJECT
-        GLUONCORE_FACTORYPLUGIN
+        GLUONCORE_FACTORYPLUGIN_WITH_JSON( factorypluginmetadata.json )
     public:
-        explicit FactoryPlugin( QObject* parent = 0 );
-        ~FactoryPlugin();
         GluonCore::GluonObjectList typesToRegister() override;
     };
 }
