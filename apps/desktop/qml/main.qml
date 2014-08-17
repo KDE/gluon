@@ -1,5 +1,6 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.1
+import QtQuick.Window 2.1  // needed for the Window component
 
 import Gluon.Player.Desktop 0.72 as GluonPlayer
 
@@ -38,6 +39,32 @@ ApplicationWindow {
     RegisterUser{
         id: registeruserscreen
         z:1
+    }
+    
+    Item{
+        id: chatManager
+        
+        //rosterWindow prop
+        property Window rosterWindow;
+        
+        Item{
+            id: conversations
+        }
+        
+        property list<Window> conversations;
+        
+        //just open once roster
+        function showRoster(){
+            
+            if(!rosterWindow){
+                var rosterWindowComponent = Qt.createComponent("chat/ChatWindow.qml");
+                rosterWindow = rosterWindowComponent.createObject(chatManager);
+                rosterWindow.show();
+            } else {
+                rosterWindow.show();
+            }
+            
+        }
     }
     
     //xmpp client used to interact

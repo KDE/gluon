@@ -30,9 +30,7 @@ MenuBar {
         MenuItem {
             text: qsTr("Open Chat")
             onTriggered:{
-                var component = Qt.createComponent("../chat/ChatWindow.qml");
-                var win = component.createObject(mainWindow);
-                win.show();
+                chatManager.showRoster();
             }
         }
     }
