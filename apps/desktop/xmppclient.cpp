@@ -213,7 +213,11 @@ void XmppClient::connectedSuccess()
  */
 void XmppClient::onMessageReceived(const QXmppMessage &message)
 {
-    qDebug() << "xmppClient: onMessageReceived!";
+    emit newMessage(message.from(), message.state(), message.body());
+}
+
+void XmppClient::sendConversationMessage(QString body, QString to){
+    sendPacket(QXmppMessage("", to, body));
 }
 
 /**

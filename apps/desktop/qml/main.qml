@@ -46,16 +46,10 @@ ApplicationWindow {
         
         //rosterWindow prop
         property Window rosterWindow;
-        
-        Item{
-            id: conversations
-        }
-        
-        property list<Window> conversations;
+        property var conversations: new Array();
         
         //just open once roster
         function showRoster(){
-            
             if(!rosterWindow){
                 var rosterWindowComponent = Qt.createComponent("chat/ChatWindow.qml");
                 rosterWindow = rosterWindowComponent.createObject(chatManager);
@@ -63,13 +57,47 @@ ApplicationWindow {
             } else {
                 rosterWindow.show();
             }
+        }
+        
+        function openConversation(jid){
+            var conversationComponent = Qt.createComponent("chat/ChatWindow.qml");
+            var conversation = conversationComponent.createObject(chatManager);
+            conversation.show();
+        }
+        
+        function getOrCreateConversation(jid){
             
+        }
+        
+        function dispatchMessage(from, state, body){
+            //if there's already an opened window
+            for (var i=0; i<conversations.length; ++i) {
+                
+                if(conversations[i].jid==from){ //window found
+                        conversations[i].addMessage(state, body);
+                    return;
+                }
+            }
+            
+            //if there's not, open new one, but only for incoming messages
+            //not for status update
+            if(body){
+                var conversationComponent = Qt.createComponent("chat/ConversationWindow.qml");
+                var conversation = conversationComponent.createObject(chatManager);
+                conversations.push(conversation);
+                conversation.jid = from;
+                conversation.addMessage(state,body);
+            }
         }
     }
     
     //xmpp client used to interact
     GluonPlayer.XmppClient{
         id: xmppClient
+        
+        onNewMessage:{
+            chatManager.dispatchMessage(from.split("@")[0], state, body);
+        }
     }
     
     GluonPlayer.RosterModel{

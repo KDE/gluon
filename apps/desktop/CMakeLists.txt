@@ -92,6 +92,7 @@ install(FILES
 
 install(FILES
     qml/chat/ChatWindow.qml
+    qml/chat/ConversationWindow.qml
     qml/chat/ContactDelegate.qml
     DESTINATION ${DESKTOP_DATA_INSTALL_DIR}/chat
     COMPONENT gluonplayer-desktop
