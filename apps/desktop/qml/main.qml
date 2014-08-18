@@ -59,14 +59,22 @@ ApplicationWindow {
             }
         }
         
-        function openConversation(jid){
-            var conversationComponent = Qt.createComponent("chat/ChatWindow.qml");
-            var conversation = conversationComponent.createObject(chatManager);
-            conversation.show();
-        }
-        
-        function getOrCreateConversation(jid){
+        function openConversation(from){
+            //if there's already an opened window
+            for (var i=0; i<conversations.length; ++i) {
+                if(conversations[i].jid==from){ //window found
+                    conversations[i].show();
+                    return;
+                }
+            }
             
+            //if there's not, open new one, but only for incoming messages
+            //not for status update
+            var conversationComponent = Qt.createComponent("chat/ConversationWindow.qml");
+            var conversation = conversationComponent.createObject(chatManager);
+            conversations.push(conversation);
+            conversation.jid = from;
+            conversation.show();
         }
         
         function dispatchMessage(from, state, body){

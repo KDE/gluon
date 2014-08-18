@@ -23,6 +23,10 @@ Rectangle{
         hoverEnabled: true
         onEntered: { chatHeader.state = "hovered" }
         onExited: { chatHeader.state = "" }
+        
+        onClicked:{
+            chatManager.openConversation(statusText.split("@")[0]);
+        }
     }
     
     Image{
