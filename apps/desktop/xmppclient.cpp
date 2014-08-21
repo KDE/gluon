@@ -27,6 +27,8 @@
 #include <QXmppIq.h>
 #include <QXmppRosterManager.h>
 #include <QXmppPresence.h>
+#include <QXmppUtils.h>
+#include <QtWidgets/QMessageBox>
 
 #include "xmppclient.h"
 
@@ -216,8 +218,32 @@ void XmppClient::onMessageReceived(const QXmppMessage &message)
     emit newMessage(message.from(), message.state(), message.body());
 }
 
+/**
+ * Send a text message through xmpp protocol
+ */
 void XmppClient::sendConversationMessage(QString body, QString to){
     sendPacket(QXmppMessage("", to, body));
+}
+/**
+ * Send a status message for people in a conversation
+ * e.g. active when the two people are doing nothing,
+ *      composing when one of them is writing a message
+ *      gone when one of them goes away (closes the chat window)
+ */
+void XmppClient::sendStatusMessage(QString to, QString s)
+{
+    QXmppMessage message("", to, "");
+    if(s=="active"){
+        message.setState(QXmppMessage::Active);
+    } else if(s=="composing"){
+        message.setState(QXmppMessage::Composing);
+    } else if(s=="gone"){
+        message.setState(QXmppMessage::Gone);
+    } else {
+        qDebug() << "XmppClient: unrecognized sending status";
+    }
+    
+    sendPacket(message);
 }
 
 /**
@@ -225,7 +251,31 @@ void XmppClient::sendConversationMessage(QString body, QString to){
  */
 void XmppClient::onPresenceReceived(const QXmppPresence &presence)
 {
-    qDebug() << "xmppClient: onPresenceReceived!";
+    QString status;
+    // update presence
+    if (presence.type() == QXmppPresence::Available) {
+        switch (presence.availableStatusType())
+        {
+        case QXmppPresence::Online:
+        case QXmppPresence::Chat:
+            status = "online";
+            break;
+        case QXmppPresence::Away:
+        case QXmppPresence::XA:
+            status = "away";
+            break;
+        case QXmppPresence::DND:
+            status = "busy";
+            break;
+        case QXmppPresence::Invisible:
+            status = "offline";
+            break;
+        }
+    } else {
+        status = "offline";
+    }
+    
+    emit accountChangedPresence(QXmppUtils::jidToUser(presence.from()), status);
 }
 
 void XmppClient::rosterReceived()
@@ -258,10 +308,16 @@ void XmppClient::disconnectedSuccess()
 
 void XmppClient::addSubscription(const QString& jid)
 {
-    QXmppPresence presence;
-    presence.setType(QXmppPresence::Subscribe);
-    presence.setTo(jid+"@"+m_host);
-    sendPacket(presence);
+    QXmppPresence subscribed;
+    subscribed.setTo(jid+"@"+m_host);
+    subscribed.setType(QXmppPresence::Subscribed);
+    sendPacket(subscribed);
+
+    // reciprocal subscription
+    QXmppPresence subscribe;
+    subscribe.setTo(jid+"@"+m_host);
+    subscribe.setType(QXmppPresence::Subscribe);
+    sendPacket(subscribe);
 }
 
 void XmppClient::onIqReceived(const QXmppIq& iq)

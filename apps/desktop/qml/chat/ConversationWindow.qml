@@ -19,8 +19,16 @@ Window {
             chatMessagesModel.append({"body": "<"+jid+">: "+body});
             show();
         } else {
-            
+            if(state==4){
+                chatStatus.text = "(Composing)";
+            } else if(state==1) {
+                chatStatus.text = "(Active)";
+            }
         }
+    }
+    
+    function setPresence(presence){
+        chatImageStatus.state = presence;
     }
     
     function addSelfMessage(body){
@@ -38,10 +46,12 @@ Window {
             State {
                 name: "logged";
                 when: xmppClient.logged == true;
+                PropertyChanges{ target: isWritingTimer; running: true }
             },
             State {
                 name: "notlogged"
                 when: xmppClient.logged == false;
+                PropertyChanges{ target: isWritingTimer; running: false }
             }
         ]
         
@@ -60,6 +70,33 @@ Window {
             
             Image{
                 id: chatImageStatus
+                
+                property string presence: "offline"
+                
+                states: [
+                    State{
+                        name: "online"
+                        when: presence == "online"
+                        PropertyChanges{ target: chatImageStatus; source: "../resources/chatgreen.png" }
+                    },
+                    State{
+                        name: "away"
+                        when: presence == "away"
+                        PropertyChanges{ target: chatImageStatus; source: "../resources/chatorange.png" }
+                    },
+                    State{
+                        name: "busy"
+                        when: presence == "busy"
+                        PropertyChanges{ target: chatImageStatus; source: "../resources/chatred.png" }
+                    },
+                    State{
+                        name: "offline"
+                        when: presence == "offline"
+                        PropertyChanges{ target: chatImageStatus; source: "../resources/chatgray.png" }
+                    }
+                ]
+                
+                state: "offline"
                 
                 anchors.left: parent.left
                 anchors.top: parent.top
@@ -81,6 +118,20 @@ Window {
                 anchors.leftMargin: 10
                 
                 text: jid
+                
+                color: design.txcolor
+                verticalAlignment: Text.AlignVCenter
+            }
+            
+            Text{
+                id: chatStatus
+                
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.left: chatMyName.right
+                anchors.leftMargin: 10
+                
+                text: "(Active)"
                 
                 color: design.txcolor
                 verticalAlignment: Text.AlignVCenter
@@ -120,11 +171,14 @@ Window {
         TextField {
             id: messageArea
             
+            property int previousLength: 0;
+            property string previousState: "active";
+            
             anchors.top: sendMessageButton.top
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-                
+            
             style: DesignTextField{}
             
             //NEEDS PORT
@@ -134,6 +188,31 @@ Window {
                 //clear textbox
                 text = "";
             }
+            
+            /**
+             * Send status messages depenant on if the user is typing or not
+             */
+            Timer {
+                id: isWritingTimer
+                interval: 3000
+                repeat: true
+                running: true
+                onTriggered: {
+                    if (messageArea.previousLength!=messageArea.length) {
+                        if(messageArea.previousState!="composing"){
+                            xmppClient.sendStatusMessage(jid+"@myhost.io", "composing");
+                            messageArea.previousState = "composing";
+                        }
+                        messageArea.previousLength = messageArea.length;
+                    } else {
+                        if(messageArea.previousState!="active"){
+                            xmppClient.sendStatusMessage(jid+"@myhost.io", "active");
+                            messageArea.previousState = "active";
+                        }
+                    }
+                }
+            }
+            
         }
         
         Button {

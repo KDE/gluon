@@ -51,6 +51,8 @@ class RosterModel : public QAbstractListModel
         QHash<int, QByteArray> roleNames() const;
         
         RosterItem* getOrCreateItem(const QString& bareJid);
+        Q_INVOKABLE QString getPresenceFromJid(const QString& bareJid);
+        
         int positionOfItem(const QString& bareJid);
         void updatePresence(const QString& bareJid, const QMap<QString, QXmppPresence>& presences);
         void updateRosterEntry(const QString& bareJid, const QXmppRosterIq::Item& rosterEntry);

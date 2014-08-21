@@ -98,6 +98,11 @@ RosterItem* RosterModel::getOrCreateItem(const QString& bareJid)
     return item;
 }
 
+QString RosterModel::getPresenceFromJid(const QString& bareJid)
+{
+    return getOrCreateItem(bareJid)->presence();
+}
+
 /**
  * Find the position of the item named bareJid
  * 

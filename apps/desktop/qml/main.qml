@@ -74,7 +74,19 @@ ApplicationWindow {
             var conversation = conversationComponent.createObject(chatManager);
             conversations.push(conversation);
             conversation.jid = from;
+            conversation.setPresence(rosterModel.getPresenceFromJid(from+"@myhost.io"));
             conversation.show();
+        }
+        
+        function changePresence(jid, presence){
+            //if there's already an opened window
+            for (var i=0; i<conversations.length; ++i) {
+                
+                if(conversations[i].jid==jid){ //window found
+                        conversations[i].setPresence(presence);
+                    return;
+                }
+            }
         }
         
         function dispatchMessage(from, state, body){
@@ -83,6 +95,7 @@ ApplicationWindow {
                 
                 if(conversations[i].jid==from){ //window found
                         conversations[i].addMessage(state, body);
+                        //conversations[i].changePrensence(presence);
                     return;
                 }
             }
@@ -94,6 +107,7 @@ ApplicationWindow {
                 var conversation = conversationComponent.createObject(chatManager);
                 conversations.push(conversation);
                 conversation.jid = from;
+                conversation.setPresence(rosterModel.getPresenceFromJid(from+"@myhost.io"));
                 conversation.addMessage(state,body);
             }
         }
@@ -105,6 +119,10 @@ ApplicationWindow {
         
         onNewMessage:{
             chatManager.dispatchMessage(from.split("@")[0], state, body);
+        }
+        
+        onAccountChangedPresence:{
+            chatManager.changePresence(who, what);
         }
     }
     

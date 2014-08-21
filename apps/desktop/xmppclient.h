@@ -43,6 +43,7 @@ public:
     Q_INVOKABLE void addSubscription(const QString& jid);
     Q_INVOKABLE void logout();
     Q_INVOKABLE void sendConversationMessage(QString body, QString to);
+    Q_INVOKABLE void sendStatusMessage(QString to, QString s);
     //simple singleton implementation
     static XmppClient * getInstance(void);
     ~XmppClient();
@@ -62,6 +63,7 @@ signals:
     void loggedOut();
     void loggedChanged();
     void newMessage(QString from, int state, QString body);
+    void accountChangedPresence(QString who, QString what);
     
 private:
     //simple singleton pointer set to null
