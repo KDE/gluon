@@ -180,8 +180,6 @@ void AudioFile::update()
             data->source->queueBuffer(buffer.name);
             data->remainingTimeInBuffer += buffer.length;
             data->currentBuffers.prepend(buffer);
-            if( data->remainingTimeInBuffer > .1f )
-                data->source->play();
         }
         
         if( data->dec->isEndOfFile() )

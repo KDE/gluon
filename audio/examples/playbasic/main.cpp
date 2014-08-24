@@ -36,7 +36,7 @@ int main( int argc, char* argv[] )
     GluonAudio::Listener::instance()->addSource(source);
     file->feedSource(source);
     
-    //source->play();
+    source->play();
     
     app.exec();
     

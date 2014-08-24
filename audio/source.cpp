@@ -80,6 +80,9 @@ void Source::queueBuffer( unsigned int bufferName )
         return;
     }
     d->currentBuffers.prepend(name);
+    
+    if( d->state == Started )
+      play();
 }
 
 int Source::removeOldBuffers()
@@ -219,7 +222,19 @@ void Source::play()
     DEBUG_BLOCK
     //DEBUG_TEXT("Play")
     if( d->state == Started )
-        return;
+    {
+        ALenum state;
+        alGetSourcei( d->name, AL_SOURCE_STATE, &state );
+        ALCenum error = alGetError();
+        if( error != AL_NO_ERROR )
+        {
+            DEBUG_TEXT2( "OpenAL-Error while getting playing state: %1", error );
+            return;
+        }
+        if( state == AL_PLAYING )
+            return;
+    }
+    
     alSourcePlay( d->name );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
