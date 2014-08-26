@@ -51,7 +51,7 @@ void AchievementsManager::save( const QString& directory )
             objects.append( gobj );
     }
 
-    if( !GluonCore::GDLSerializer::instance()->write( QUrl::fromLocalFile( directory + "/achievementscache.gdl" ), objects ) )
+    if( !GluonCore::GDLSerializer::write( QUrl::fromLocalFile( directory + "/achievementscache.gdl" ), objects ) )
         return;
 }
 
@@ -67,7 +67,7 @@ void AchievementsManager::load( const QString& directory )
     QDir::home().mkpath(directory);
 
     GluonCore::GluonObjectList objectList;
-    if( !GluonCore::GDLSerializer::instance()->read( QUrl::fromLocalFile( directory + "/achievementscache.gdl" ), objectList ) )
+    if( !GluonCore::GDLSerializer::read( QUrl::fromLocalFile( directory + "/achievementscache.gdl" ), objectList ) )
         return;
 
     foreach( GluonCore::GluonObject* object, objectList )

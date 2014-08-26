@@ -165,7 +165,7 @@ void CommentItemsModel::loadData()
     QString gameCachePath = model->data(d->m_gameId, AllGameItemsModel::CacheUriRole).toUrl().toLocalFile();
  
     GluonCore::GluonObjectList list;
-    if( gameCachePath.isEmpty() || !GluonCore::GDLSerializer::instance()->read( QUrl( gameCachePath + "/comments.gdl" ), list ) )
+    if( gameCachePath.isEmpty() || !GluonCore::GDLSerializer::read( QUrl( gameCachePath + "/comments.gdl" ), list ) )
         return;
  
     d->m_rootNode = list.at( 0 );
@@ -190,7 +190,7 @@ void CommentItemsModel::saveData()
     gameCacheDir.cd( gameCachePath );
     QString filename = gameCacheDir.absoluteFilePath( "comments.gdl" );
  
-    GluonCore::GDLSerializer::instance()->write( QUrl::fromLocalFile(filename), GluonCore::GluonObjectList() << d->m_rootNode );
+    GluonCore::GDLSerializer::write( QUrl::fromLocalFile(filename), GluonCore::GluonObjectList() << d->m_rootNode );
 }
  
 CommentItemsModel::~CommentItemsModel()

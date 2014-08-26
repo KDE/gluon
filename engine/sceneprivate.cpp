@@ -74,7 +74,7 @@ ScenePrivate::loadContents( const QUrl& file )
     }
 
     GluonCore::GluonObjectList objects;
-    if( GluonCore::GDLSerializer::instance()->read( file, objects, q->gameProject() ) )
+    if( GluonCore::GDLSerializer::read( file, objects, q->gameProject() ) )
         sceneContents = qobject_cast< GameObject*>( objects.at( 0 ) );
 
     if( !sceneContents )

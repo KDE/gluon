@@ -65,13 +65,13 @@ GameProject::addChild( GluonObject* child )
 {
     GluonCore::GluonObject::addChild( child );
 
-    connect( child, SIGNAL(showDebug(QString,GluonCore::DebugType)), Game::instance(), SIGNAL(showDebug(QString,GluonCore::DebugType)) );
+//     connect( child, SIGNAL(showDebug(QString,GluonCore::DebugType)), Game::instance(), SIGNAL(showDebug(QString,GluonCore::DebugType)) );
 }
 
 bool
 GameProject::removeChild( GluonObject* child )
 {
-    disconnect( child, SIGNAL(showDebug(QString,GluonCore::DebugType)), Game::instance(), SIGNAL(showDebug(QString,GluonCore::DebugType)) );
+//     disconnect( child, SIGNAL(showDebug(QString,GluonCore::DebugType)), Game::instance(), SIGNAL(showDebug(QString,GluonCore::DebugType)) );
 
     return GluonCore::GluonObject::removeChild( child );
 }
@@ -82,7 +82,7 @@ GameProject::saveToFile()
     // Run through everything first and save each of the saveable assets
     GameProjectPrivate::saveChildren( this );
 
-    if( !GluonCore::GDLSerializer::instance()->write( filename(), GluonCore::GluonObjectList() << this ) )
+    if( !GluonCore::GDLSerializer::write( filename(), GluonCore::GluonObjectList() << this ) )
         return false;
 
     QString projectDir = filename().toLocalFile().section( '/', 0, -2 );
@@ -164,7 +164,7 @@ GameProject::loadFromFile()
     setFilename( filename().toLocalFile() );
 
     QList<GluonObject*> objectList;
-    if( GluonCore::GDLSerializer::instance()->read( filename(), objectList, this ) )
+    if( GluonCore::GDLSerializer::read( filename(), objectList, this ) )
     {
         if( objectList.at(0)->metaObject() )
         {

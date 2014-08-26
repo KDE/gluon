@@ -31,8 +31,6 @@
 
 using namespace GluonCore;
 
-GLUON_DEFINE_SINGLETON( GDLSerializer )
-
 bool GDLSerializer::read(const QUrl& url, GluonObjectList& objects, GluonObject* project, GluonObject* parent )
 {
     return read( url.toLocalFile(), objects, project, parent );
@@ -118,9 +116,4 @@ bool GDLSerializer::parse(const QByteArray& data, GluonObjectList& objects, Gluo
     }
 
     return true;
-}
-
-GDLSerializer::GDLSerializer(QObject* parent): Singleton< GluonCore::GDLSerializer >(parent)
-{
-
 }

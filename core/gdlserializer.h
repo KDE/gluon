@@ -34,11 +34,8 @@ namespace GluonCore
      * This class provides a simple API for reading and writing GDL
      * files to disk.
      */
-    class GLUONCORE_EXPORT GDLSerializer : public Singleton< GDLSerializer >
+    class GLUONCORE_EXPORT GDLSerializer
     {
-            Q_OBJECT
-            GLUON_SINGLETON( GDLSerializer )
-
         public:
             /**
              * Read in a file and parse its contents to a list of objects.
@@ -51,9 +48,9 @@ namespace GluonCore
              *
              * \return True when successful, false if any error occurred.
              */
-            bool read( const QUrl& url, GluonObjectList& objects, GluonObject* project = 0, GluonObject* parent = 0 );
+            static bool read( const QUrl& url, GluonObjectList& objects, GluonObject* project = 0, GluonObject* parent = 0 );
 
-            bool read( const QString& path, GluonObjectList& objects, GluonObject* project = 0, GluonObject* parent = 0 );
+            static bool read( const QString& path, GluonObjectList& objects, GluonObject* project = 0, GluonObject* parent = 0 );
 
             /**
              * Write a list of GluonObjects to a file.
@@ -63,7 +60,7 @@ namespace GluonCore
              *
              * \return True when successful, false if any error occurred.
              */
-            bool write( const QUrl& url, const GluonObjectList& objects );
+            static bool write( const QUrl& url, const GluonObjectList& objects );
 
             /**
              * Write a list of GluonObjects to a device.
@@ -73,7 +70,7 @@ namespace GluonCore
              *
              * \return True if successful, false if any error occurred.
              */
-            bool write( QIODevice* device, const GluonObjectList& objects );
+            static bool write( QIODevice* device, const GluonObjectList& objects );
 
             /**
              * Parse a string to a list of objects.
@@ -86,7 +83,7 @@ namespace GluonCore
              *
              * \return True when successful, false if any error occurred.
              */
-            bool parse( const QByteArray& data, GluonObjectList& objects, GluonObject* project = 0, GluonObject* parent = 0 );
+            static bool parse( const QByteArray& data, GluonObjectList& objects, GluonObject* project = 0, GluonObject* parent = 0 );
     };
 
 }

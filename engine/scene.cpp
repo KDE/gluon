@@ -82,7 +82,7 @@ void Scene::resetScene()
 
 void Scene::writeContents(QIODevice* device)
 {
-    GluonCore::GDLSerializer::instance()->write( device, GluonCore::GluonObjectList() << sceneContents() );
+    GluonCore::GDLSerializer::write( device, GluonCore::GluonObjectList() << sceneContents() );
 }
 
 GameObject*

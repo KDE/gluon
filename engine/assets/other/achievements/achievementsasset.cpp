@@ -58,7 +58,7 @@ void AchievementsAsset::writeContents(QIODevice* device)
             objects.append( gobj );
     }
 
-    GluonCore::GDLSerializer::instance()->write( device, objects );
+    GluonCore::GDLSerializer::write( device, objects );
 }
 
 void AchievementsAsset::load()
@@ -78,7 +78,7 @@ void AchievementsAsset::load()
     setLoaded( true );
 
     GluonCore::GluonObjectList list;
-    if( !GluonCore::GDLSerializer::instance()->read( absolutePath(), list, gameProject(), this ) )
+    if( !GluonCore::GDLSerializer::read( absolutePath(), list, gameProject(), this ) )
     {
         setLoaded( false );
         return;

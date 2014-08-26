@@ -140,7 +140,7 @@ void Prefab::setPreCacheSize(int newPreCacheSize)
 
 void Prefab::writeContents(QIODevice* device)
 {
-    GluonCore::GDLSerializer::instance()->write( device, GluonCore::GluonObjectList() << gameObject() );
+    GluonCore::GDLSerializer::write( device, GluonCore::GluonObjectList() << gameObject() );
 }
 
 void Prefab::updateFromInstance(GluonEngine::PrefabInstance* updateFrom)
