@@ -7,7 +7,7 @@ endif( BUILD_MESH_LOADING )
 
 set( GluonGraphics_SRCS
     camera.cpp
-    frustrum.cpp
+    frustum.cpp
     entity.cpp
     material.cpp
     materialelement.cpp
@@ -34,7 +34,7 @@ set( GluonGraphics_SRCS
 
 set( GluonGraphics_HEADERS
     camera.h
-    frustrum.h
+    frustum.h
     gluon_graphics_export.h
     entity.h
     mesh.h

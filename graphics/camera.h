@@ -35,7 +35,7 @@ class QSizeF;
 
 namespace GluonGraphics
 {
-    class Frustrum;
+    class Frustum;
 
     /**
      * \brief A view point and volume.
@@ -64,7 +64,7 @@ namespace GluonGraphics
              * \param frustum The frustum to use for this camera.
              * \param parent The parent QObject.
              */
-            explicit Camera( Frustrum* frustum, QObject* parent = 0 );
+            explicit Camera( Frustum* frustum, QObject* parent = 0 );
 
             /**
              * Destructor.
@@ -86,7 +86,7 @@ namespace GluonGraphics
              *
              * \return The frustum used.
              */
-            Frustrum* frustrum() const;
+            Frustum* frustum() const;
 
             QSizeF visibleArea() const;
 
@@ -102,7 +102,7 @@ namespace GluonGraphics
              *
              * \param frustum The frustum to use.
              */
-            void setFrustrum( GluonGraphics::Frustrum* frustrum );
+            void setFrustum( GluonGraphics::Frustum* frustum );
 
             void setVisibleArea( QSizeF area );
 
@@ -112,8 +112,14 @@ namespace GluonGraphics
 
             virtual void resize( int width, int height );
 
+            /**
+             * Render a representation of this camera.
+             */
             virtual void render();
 
+            /**
+             * Render the contents (i.e. what the camera 'sees') of this camera.
+             */
             virtual void renderContents();
 
         private:

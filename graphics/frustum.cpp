@@ -17,14 +17,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "frustrum.h"
+#include "frustum.h"
 #include "mathutils.h"
 
 #include <Eigen/Core>
 
 using namespace GluonGraphics;
 
-class Frustrum::Private
+class Frustum::Private
 {
     public:
         Private()
@@ -54,19 +54,19 @@ class Frustrum::Private
         float fov;
 };
 
-Frustrum::Frustrum()
+Frustum::Frustum()
     : d( new Private )
 {
     d->matrix = MathUtils::ortho( -50, 50, -50, 50, 1, 100 );
 }
 
-Frustrum::Frustrum( const GluonGraphics::Frustrum& other )
+Frustum::Frustum( const GluonGraphics::Frustum& other )
     : d( new Private )
 {
     *d = *other.d;
 }
 
-Frustrum& Frustrum::operator=( const GluonGraphics::Frustrum& other )
+Frustum& Frustum::operator=( const GluonGraphics::Frustum& other )
 {
     d->matrix = other.d->matrix;
 
@@ -74,46 +74,46 @@ Frustrum& Frustrum::operator=( const GluonGraphics::Frustrum& other )
 }
 
 
-Frustrum::~Frustrum()
+Frustum::~Frustum()
 {
     delete d;
 }
 
 Eigen::Affine3f
-Frustrum::projectionMatrix()
+Frustum::projectionMatrix()
 {
     return d->matrix;
 }
 
 bool
-Frustrum::containsPoint( const Eigen::Vector3f& point )
+Frustum::containsPoint( const Eigen::Vector3f& point )
 {
     return false;
 }
 
 bool
-Frustrum::containsSphere( const Eigen::Vector3f& point, float radius )
+Frustum::containsSphere( const Eigen::Vector3f& point, float radius )
 {
     return false;
 }
 
-float Frustrum::nearPlane()
+float Frustum::nearPlane()
 {
     return d->nearPlane;
 }
 
-float Frustrum::farPlane()
+float Frustum::farPlane()
 {
     return d->farPlane;
 }
 
-QRectF Frustrum::viewPlane()
+QRectF Frustum::viewPlane()
 {
     return d->viewPlane;
 }
 
 void
-Frustrum::setOrthographic( float left, float right, float bottom, float top, float near, float far )
+Frustum::setOrthographic( float left, float right, float bottom, float top, float near, float far )
 {
     d->matrix = MathUtils::ortho( left, right, bottom, top, near, far );
 
@@ -126,7 +126,7 @@ Frustrum::setOrthographic( float left, float right, float bottom, float top, flo
 }
 
 void
-Frustrum::setOrthoAdjusted( const QSizeF& area, float aspect, float near, float far )
+Frustum::setOrthoAdjusted( const QSizeF& area, float aspect, float near, float far )
 {
     float visibleWidth = area.width();
     float visibleHeight = area.height();
@@ -151,7 +151,7 @@ Frustrum::setOrthoAdjusted( const QSizeF& area, float aspect, float near, float 
 }
 
 void
-Frustrum::setPerspective( float fov, float aspect, float near, float far )
+Frustum::setPerspective( float fov, float aspect, float near, float far )
 {
     d->matrix = MathUtils::perspective( fov, aspect, near, far );
 
@@ -164,7 +164,7 @@ Frustrum::setPerspective( float fov, float aspect, float near, float far )
     d->mode = Private::FM_PERSPECTIVE;
 }
 
-void Frustrum::updateFrustrum( float aspect )
+void Frustum::updateFrustum( float aspect )
 {
     switch( d->mode )
     {

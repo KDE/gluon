@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef FRUSTRUM_H
-#define FRUSTRUM_H
+#ifndef GLUONGRAPHICS_FRUSTUM_H
+#define GLUONGRAPHICS_FRUSTUM_H
 
 #include "gluon_graphics_export.h"
 
@@ -31,87 +31,87 @@ class QSizeF;
 namespace GluonGraphics
 {
     /**
-     * \brief Describes a geometrical frustrum for projection calculations.
+     * \brief Describes a geometrical frustum for projection calculations.
      *
-     * A frustrum is essentially a pyramid with the top removed. It is
-     * used for projection calculations and a technique called frustrum
+     * A frustum is essentially a pyramid with the top removed. It is
+     * used for projection calculations and a technique called frustum
      * culling.
      *
      * \todo Expand this description and its use.
      */
-    class GLUON_GRAPHICS_EXPORT Frustrum
+    class GLUON_GRAPHICS_EXPORT Frustum
     {
         public:
             /**
              * Constructor.
              *
-             * Creates an identity frustrum.
+             * Creates an identity frustum.
              */
-            Frustrum();
+            Frustum();
 
             /**
              * Destructor.
              */
-            virtual ~Frustrum();
+            virtual ~Frustum();
 
-            Frustrum( const Frustrum& other );
+            Frustum( const Frustum& other );
 
-            Frustrum& operator=( const Frustrum& other );
+            Frustum& operator=( const Frustum& other );
 
             /**
              * Retrieve the projection matrix.
              *
-             * \return The projection matrix of this frustrum.
+             * \return The projection matrix of this frustum.
              */
             Eigen::Affine3f projectionMatrix();
 
             /**
-             * Check whether a point falls within the frustrum.
+             * Check whether a point falls within the frustum.
              *
              * \param point The point to check whether it is inside the
-             * frustrum.
+             * frustum.
              *
              * \return True if the point is inside, false if outside.
              */
             bool containsPoint( const Eigen::Vector3f& point );
 
             /**
-             * Check whether a sphere falls within the frustrum.
+             * Check whether a sphere falls within the frustum.
              *
              * \param point The centre point of the sphere that needs to be
              * checked.
              * \param radius The radius of the sphere to check.
              *
              * \return True if the sphere is inside or intersects the
-             * frustrum. False if not.
+             * frustum. False if not.
              */
             bool containsSphere( const Eigen::Vector3f& point, float radius );
 
             /**
-             * Retrieve the distance to the near plane of this frustrum.
+             * Retrieve the distance to the near plane of this frustum.
              *
-             * \return The distance to the near plane of this frustrum.
+             * \return The distance to the near plane of this frustum.
              */
             float nearPlane();
 
             /**
-             * Retrieve the distance to the far plane of this frustrum.
+             * Retrieve the distance to the far plane of this frustum.
              *
-             * \return The distance to the far plane of this frustrum.
+             * \return The distance to the far plane of this frustum.
              */
             float farPlane();
 
             /**
-             * Retrieve the view plane of this frustrum.
+             * Retrieve the view plane of this frustum.
              *
              * The view plane is equal to the near plane.
              *
-             * \return The view plane of this frustrum.
+             * \return The view plane of this frustum.
              */
             QRectF viewPlane();
 
             /**
-             * Set this frustrum to use an orthographic projection.
+             * Set this frustum to use an orthographic projection.
              *
              * \param left The left coordinate of the view plane.
              * \param right The right coordinate of the view plane.
@@ -123,7 +123,7 @@ namespace GluonGraphics
             void setOrthographic( float left, float right, float bottom, float top, float near, float far );
 
             /**
-             * Set this frustrum to use an orthographic projection, adjusted
+             * Set this frustum to use an orthographic projection, adjusted
              * for aspect ratio.
              *
              * Note that the view plane will always be centred on 0,0; that
@@ -137,21 +137,21 @@ namespace GluonGraphics
             void setOrthoAdjusted( const QSizeF& area, float aspect, float near, float far );
 
             /**
-             * Set this frustrum to use a perspective projection.
+             * Set this frustum to use a perspective projection.
              *
              * \param fov The field of view, in radians.
-             * \param aspect Aspect ratio of the frustrum.
+             * \param aspect Aspect ratio of the frustum.
              * \param near Distance to the near plane.
              * \param far Distance to the far plane.
              */
             void setPerspective( float fov, float aspect, float near, float far );
 
             /**
-             * Update the frustrum to account for a new aspect ratio.
+             * Update the frustum to account for a new aspect ratio.
              *
              * \param aspect The new aspect ratio to use.
              */
-            void updateFrustrum( float aspect );
+            void updateFrustum( float aspect );
 
         private:
             class Private;
@@ -160,4 +160,4 @@ namespace GluonGraphics
 
 }
 
-#endif // GLUONGRAPHICS_FRUSTRUM_H
+#endif // GLUONGRAPHICS_FRUSTUM_H
