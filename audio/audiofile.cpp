@@ -53,6 +53,8 @@ class AudioFile::Private
         
         void stopFeedingSource( SourceData* data );
         static bool generateBuffer( Buffer* buffer, bool isStereo );
+        static void initializeDecoding( SourceData* data );
+        static void queueBuffer( SourceData* data );
         
         AudioFile* parent;
         QString file;
@@ -60,38 +62,6 @@ class AudioFile::Private
         QList<SourceData*> dataList;
         float maxBufferTime;
 };
-
-void AudioFile::Private::stopFeedingSource(AudioFile::Private::SourceData* data)
-{
-    data->dec->stopDecoding();
-    delete data->dec;
-    delete data;
-    dataList.removeOne(data);
-    if( dataList.empty() )
-        AudioHelper::instance()->unregisterForUpdates(parent);
-}
-
-bool AudioFile::Private::generateBuffer( Buffer* buffer, bool isStereo )
-{
-    DEBUG_BLOCK
-    ALenum format = isStereo ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16;
-    Listener::instance();
-    alGenBuffers( 1, &buffer->name );
-    ALCenum error = alGetError();
-    if( error != AL_NO_ERROR )
-    {
-        DEBUG_TEXT2( "OpenAL-Error while creating buffer: %1", error )
-        return false;
-    }
-    alBufferData( buffer->name, format, (void*) buffer->data, buffer->size, buffer->frequency );
-    error = alGetError();
-    if( error != AL_NO_ERROR )
-    {
-        DEBUG_TEXT2( "OpenAL-Error while filling buffer: %1", error )
-        return false;
-    }
-    return true;
-}
 
 AudioFile::AudioFile(QString file, QObject* parent)
     : QObject(parent)
@@ -151,10 +121,7 @@ void AudioFile::update()
         {
             if( data->dec->isLoaded() )
             {
-                if( data->dec->isStereo() )
-                    data->source->setGlobal( true );
-                data->dec->startDecoding();
-                data->isDecoding = true;
+                Private::initializeDecoding(data);
             }
             return;
         }
@@ -189,5 +156,43 @@ void AudioFile::update()
     }
 }
 
+void AudioFile::Private::stopFeedingSource(AudioFile::Private::SourceData* data)
+{
+    data->dec->stopDecoding();
+    delete data->dec;
+    delete data;
+    dataList.removeOne(data);
+    if( dataList.empty() )
+        AudioHelper::instance()->unregisterForUpdates(parent);
+}
 
+bool AudioFile::Private::generateBuffer( Buffer* buffer, bool isStereo )
+{
+    DEBUG_BLOCK
+    ALenum format = isStereo ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16;
+    Listener::instance();
+    alGenBuffers( 1, &buffer->name );
+    ALCenum error = alGetError();
+    if( error != AL_NO_ERROR )
+    {
+        DEBUG_TEXT2( "OpenAL-Error while creating buffer: %1", error )
+        return false;
+    }
+    alBufferData( buffer->name, format, (void*) buffer->data, buffer->size, buffer->frequency );
+    error = alGetError();
+    if( error != AL_NO_ERROR )
+    {
+        DEBUG_TEXT2( "OpenAL-Error while filling buffer: %1", error )
+        return false;
+    }
+    return true;
+}
+
+void AudioFile::Private::initializeDecoding(AudioFile::Private::SourceData* data)
+{
+    if( data->dec->isStereo() )
+        data->source->setGlobal( true );
+    data->dec->startDecoding();
+    data->isDecoding = true;
+}
 
