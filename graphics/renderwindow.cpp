@@ -49,6 +49,11 @@ RenderWindow::~RenderWindow()
     delete d->surface;
 }
 
+OutputSurface* RenderWindow::outputSurface() const
+{
+    return d->surface;
+}
+
 void RenderWindow::exposeEvent( QExposeEvent* event )
 {
     if( !isExposed() )
@@ -78,5 +83,3 @@ void RenderWindow::update()
     QExposeEvent* ev = new QExposeEvent( geometry() );
     QCoreApplication::sendEvent( this, ev );
 }
-
- 
