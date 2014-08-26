@@ -41,15 +41,10 @@ namespace GluonCreator
             virtual void enterEvent( QEvent* event );
             virtual void leaveEvent( QEvent* event );
 
-        public Q_SLOTS:
-            virtual void update();
-
-        private Q_SLOTS:
-            void initializeEngine();
+            virtual QPaintEngine* paintEngine() const;
 
         GLUON_PRIVATE_POINTER;
     };
 }
-
 
 #endif // GLUON_GRAPHICS_RENDERWIDGET_H

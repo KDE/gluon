@@ -43,12 +43,11 @@ class RenderWidget::Private
 };
 
 RenderWidget::RenderWidget( QWidget* parent, Qt::WindowFlags f ) :
-    QWidget( parent, f ), d( new Private )
+    QWidget( parent, f )
 {
     setAttribute( Qt::WA_PaintOnScreen );
     setAttribute( Qt::WA_OpaquePaintEvent );
 
-//     QMetaObject::invokeMethod( this, "initializeEngine", Qt::QueuedConnection );
     if( !Manager::instance()->backend()->initialize( winId() ) )
         qFatal( Manager::instance()->backend()->errorString().toUtf8() );
 }
@@ -87,13 +86,7 @@ void RenderWidget::leaveEvent(QEvent* event)
     clearFocus();
 }
 
-void RenderWidget::update()
+QPaintEngine* RenderWidget::paintEngine() const
 {
-    QPaintEvent* ev = new QPaintEvent( geometry() );
-    QApplication::sendEvent( this, ev );
-}
-
-void RenderWidget::initializeEngine()
-{
-
+    return nullptr;
 }
