@@ -24,6 +24,11 @@
 
 namespace GluonGraphics
 {
+    /**
+     * A class for handling sprites.
+     *
+     * \todo Implement.
+     */
     class Sprite : public GluonGraphics::Entity
     {
         public:

@@ -26,6 +26,11 @@
 
 namespace GluonGraphics
 {
+    /**
+     * An element of a material tree.
+     *
+     * \todo Implement.
+     */
     class GLUON_GRAPHICS_EXPORT MaterialElement : public GluonCore::GluonObject
     {
             Q_OBJECT

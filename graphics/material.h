@@ -48,6 +48,9 @@ namespace GluonGraphics
     * the material. In addition, each material has a default technqiue
     * which will be used if no override has been given.
     *
+    * \todo The entire Technique/MaterialElement system needs to be implemented,
+    * but that does not make a whole lot of sense without a proper editor for it.
+    *
     * \see MaterialInstance
     */
     class GLUON_GRAPHICS_EXPORT Material : public GluonCore::GluonObject

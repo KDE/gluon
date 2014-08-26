@@ -37,7 +37,7 @@ namespace GluonGraphics
      * elements of a shader. The technique class bundles
      * these elements and builds a shader out of this tree.
      *
-     * \ingroup Gluon Graphics
+     * \todo Implement
      */
     class GLUON_GRAPHICS_EXPORT Technique : public GluonCore::GluonObject
     {

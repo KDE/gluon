@@ -28,6 +28,11 @@
 class QDeclarativeContext;
 namespace GluonGraphics
 {
+    /**
+     * A class providing a rendered version of a QtQuick scene.
+     *
+     * \todo This needs porting to Qt5.
+     */
     class GLUON_GRAPHICS_EXPORT QtQuickRenderer : public Texture, public RenderChainItem
     {
             Q_OBJECT
