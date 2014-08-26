@@ -30,10 +30,14 @@
 #include <QtCore/QCommandLineOption>
 #include <QtWidgets/QApplication>
 
+#include <core/log.h>
+
 #include "aboutdata.h"
 
 int main( int argc, char** argv )
 {
+    qInstallMessageHandler( GluonCore::gluonMessageHandler );
+
     QApplication app(argc, argv);
     
     KAboutData aboutData = GluonCreator::aboutData();
