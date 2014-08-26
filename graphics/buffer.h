@@ -127,6 +127,12 @@ namespace GluonGraphics
              * If the buffer is not valid, this will do nothing.
              */
             virtual void release() = 0;
+            /**
+             * Check whether the buffer has been initialized and is usable.
+             *
+             * \return True if the buffer is valid and usable, false if not.
+             */
+            virtual bool isValid() = 0;
     };
 
 }
