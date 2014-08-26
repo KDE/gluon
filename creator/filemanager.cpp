@@ -38,6 +38,8 @@
 #include <QMimeDatabase>
 #include <QMimeType>
 
+#include <core/log.h>
+
 #define DEBUG_KPART_LOADING 0
 
 using namespace GluonCreator;
@@ -93,10 +95,7 @@ void FileManager::openAsset( GluonEngine::Asset* asset )
 
 void FileManager::openFile( const QString& fileName, const QString& name, const QString& title, const QString& icon,  const QString& partName, const QVariantList& partParams, bool closeable )
 {
-#if DEBUG_KPART_LOADING
-    DEBUG_FUNC_NAME
-    qDebug() << partName;
-#endif
+    DEBUG() << "Opening file " << fileName;
 
     if( fileName.isEmpty() )
         return;
@@ -130,27 +129,22 @@ void FileManager::openFile( const QString& fileName, const QString& name, const 
             parts.append( KService::serviceByStorageId( "dragonplayer_part.desktop" ) );
     }
 
-#if DEBUG_KPART_LOADING
-    qDebug() << parts;
-#endif
+    DEBUG() << "Found " << parts.count() << " potential KPart(s)";
 
     if( parts.count() > 0 )
     {
-#if DEBUG_KPART_LOADING
-        qDebug() << Q_FUNC_INFO << "Library for part:" << parts.first()->library();
-#endif
-        QString error;
-        part = parts.first()->createInstance<KParts::ReadWritePart>( 0, partParams, &error );
-#if DEBUG_KPART_LOADING
-        if( !error.isEmpty() )
-            qDebug() << error;
-#endif
+        QString rwError;
+        part = parts.first()->createInstance<KParts::ReadWritePart>( 0, partParams, &rwError );
+
+        QString roError;
         if( !part )
-            part = parts.first()->createInstance<KParts::ReadOnlyPart>( 0, partParams, &error );
-#if DEBUG_KPART_LOADING
-        if( !error.isEmpty() )
-            qDebug() << error;
-#endif
+            part = parts.first()->createInstance<KParts::ReadOnlyPart>( 0, partParams, &roError );
+
+        if( !rwError.isEmpty() && !roError.isEmpty() )
+        {
+            NOTICE() << "Unable to load KPart " << parts.first().data()->name() << " for file " << fileName;
+            NOTICE() << "The error was: " << roError;
+        }
     }
 
     if( part )

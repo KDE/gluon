@@ -21,6 +21,7 @@
 
 #include <gluon_global.h>
 #include <engine/game.h>
+#include <core/log.h>
 
 #include <KI18n/KLocalizedString>
 #include <KXmlGui/KToolBar>
@@ -41,6 +42,9 @@ class MessageDock::MessageDockPrivate
         {
             view = 0;
         }
+
+        QIcon logLevelToIcon( GluonCore::LogLevel level );
+
         QListWidget* view;
 };
 
@@ -51,10 +55,11 @@ MessageDock::MessageDock( const QString& title, QWidget* parent, Qt::WindowFlags
     setObjectName( "MessageDock" );
 
     d->view = new QListWidget( this );
-    d->view->addItem( new QListWidgetItem( i18n( "Welcome to Gluon Creator %1", GluonCore::Global::versionString() ), d->view ) );
+//     d->view->addItem( new QListWidgetItem( i18n( "Welcome to Gluon Creator %1", GluonCore::Global::versionString() ), d->view ) );
     d->view->setSelectionMode( QAbstractItemView::ExtendedSelection );
 
-    connect( GluonEngine::Game::instance(), SIGNAL(showDebug(QString,GluonCore::DebugType)), SLOT(showDebug(QString,GluonCore::DebugType)) );
+//     connect( GluonEngine::Game::instance(), SIGNAL(showDebug(QString,GluonCore::DebugType)), SLOT(showDebug(QString,GluonCore::DebugType)) );
+    connect( GluonCore::Log::instance(), &GluonCore::Log::newMessage, this, &MessageDock::newMessage );
 
     QWidget* widget = new QWidget( this );
     QVBoxLayout* layout = new QVBoxLayout();
@@ -84,6 +89,8 @@ MessageDock::MessageDock( const QString& title, QWidget* parent, Qt::WindowFlags
     layout->addWidget( toolBar );
     layout->addWidget( d->view );
     setWidget( widget );
+
+    INFO() << "Welcome to Gluon Creator " << GluonCore::Global::versionString() << " (" << GluonCore::Global::versionName() << ")";
 }
 
 void MessageDock::showDebug( const QString& debugText, const GluonCore::DebugType& debugType )
@@ -119,4 +126,31 @@ void MessageDock::clearSelection()
     int itemsCount = d->view->count();
     for( int i = 0; i < itemsCount; ++i )
         d->view->item( i )->setSelected( false );
+}
+
+void MessageDock::newMessage( const GluonCore::LogData& message )
+{
+    if( message.category == GluonCore::QtCategory || message.level == GluonCore::LogDebug )
+        return;
+
+    QListWidgetItem* item = new QListWidgetItem( d->view );
+    item->setIcon( d->logLevelToIcon( message.level ) );
+    item->setText( "[" + message.time.toString( "HH:mm:ss" ) + "] " + message.message );
+}
+
+QIcon MessageDock::MessageDockPrivate::logLevelToIcon( GluonCore::LogLevel level )
+{
+    switch( level )
+    {
+        case GluonCore::LogCritical:
+        case GluonCore::LogError:
+            return QIcon::fromTheme( "dialog-error" );
+        case GluonCore::LogWarning:
+            return QIcon::fromTheme( "dialog-warning" );
+        case GluonCore::LogInfo:
+        case GluonCore::LogNotice:
+            return QIcon::fromTheme( "dialog-information" );
+        default:
+            return QIcon();
+    };
 }
