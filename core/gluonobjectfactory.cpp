@@ -19,17 +19,18 @@
 
 #include "gluonobjectfactory.h"
 
-#include "directoryprovider.h"
-#include "gluonobject.h"
-#include "debughelper.h"
-#include "pluginregistry.h"
-#include "factoryplugin.h"
-
 #include <QtCore/QDir>
 #include <QtCore/QPluginLoader>
 #include <QtCore/QVariant>
 #include <QtCore/QJsonArray>
 #include <QtCore/QSet>
+
+#include "directoryprovider.h"
+#include "gluonobject.h"
+#include "debughelper.h"
+#include "pluginregistry.h"
+#include "factoryplugin.h"
+#include "log.h"
 
 using namespace GluonCore;
 
@@ -84,7 +85,6 @@ GluonObjectFactory::objectMimeTypes() const
 GluonObject*
 GluonObjectFactory::instantiateObjectByName( const QString& objectTypeName )
 {
-    DEBUG_BLOCK
     const QMetaObject* meta;
     if( ( meta = d->objectTypes.value( objectTypeName, 0 ) ) )
     {
@@ -95,12 +95,12 @@ GluonObjectFactory::instantiateObjectByName( const QString& objectTypeName )
         }
         else
         {
-            DEBUG_TEXT2( "If you are seeing this message, you have most likely failed to mark the constructor of %1 as Q_INVOKABLE", objectTypeName )
+            WARNING() << objectTypeName << " does not have its constructor marked Q_INVOKABLE";
             return 0;
         }
     }
 
-    DEBUG_TEXT( QString( "Object type named %1 not found in factory!" ).arg( objectTypeName ) )
+    CRITICAL() << objectTypeName << " not found in factory!";
 
     return 0;
 }
@@ -114,6 +114,8 @@ GluonObjectFactory::instantiateObjectByMimetype( const QString& objectMimeType )
 void
 GluonObjectFactory::loadPlugins()
 {
+    DEBUG() << "Begin loading plugins";
+
     auto pluginNames = PluginRegistry::instance()->pluginNamesForType( "org.kde.gluon.core.factoryplugin" );
     for( auto plugin : pluginNames )
     {
@@ -121,6 +123,8 @@ GluonObjectFactory::loadPlugins()
         {
             continue;
         }
+
+        DEBUG() << "  Loading plugin " << plugin;
 
         QJsonObject metaData = PluginRegistry::instance()->metaData( plugin );
         FactoryPlugin* p = qobject_cast< FactoryPlugin* >( PluginRegistry::instance()->load( plugin ) );
@@ -134,9 +138,14 @@ GluonObjectFactory::loadPlugins()
                     continue;
                 }
 
+                DEBUG() << "    Registering type " << object->metaObject()->className();
                 registerObjectType( metaData.value( "MetaData" ).toObject().value( object->metaObject()->className() ).toObject(), object );
             }
             delete p;
+        }
+        else
+        {
+            NOTICE() << "  Plugin " << plugin << " does not provide the right plugin object";
         }
 
         d->loadedPlugins.insert( plugin );

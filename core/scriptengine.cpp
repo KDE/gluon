@@ -58,7 +58,6 @@ ScriptEngine::~ScriptEngine()
 
 QScriptEngine* ScriptEngine::scriptEngine()
 {
-    DEBUG_BLOCK
     if( QCoreApplication::instance() && !d->engine )
     {
         d->engine = new QScriptEngine( this );

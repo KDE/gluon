@@ -17,13 +17,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
 #include "gdlserializer.h"
 
 #include <QtCore/QFile>
 #include <QtCore/QUrl>
 
-#include "debughelper.h"
+#include "log.h"
 #include "gdl/gdlast.h"
 #include "gdl/gdlparser.h"
 #include "gdl/gdllexer.h"
@@ -44,8 +43,7 @@ bool GDLSerializer::read(const QString& path, GluonObjectList& objects, GluonObj
     QFile file( path );
     if( !file.open( QIODevice::ReadOnly | QIODevice::Text ) )
     {
-        DEBUG_BLOCK
-        DEBUG_TEXT2( "Could not open file %1", path );
+        ERROR() << "Could not open file" << path;
         return false;
     }
 
@@ -58,14 +56,12 @@ bool GDLSerializer::read(const QString& path, GluonObjectList& objects, GluonObj
         result = parse( data, objects, project, parent );
         if( !result )
         {
-            DEBUG_BLOCK
-            DEBUG_TEXT2( "Parse error when parsing %1", path );
+            ERROR() << "Parse error when parsing" << path;
         }
     }
     else
     {
-        DEBUG_BLOCK
-        DEBUG_TEXT2( "Unable to read from file %1", path );
+        ERROR() << "Unable to read from file" << path;
     }
 
     return result;
@@ -105,6 +101,7 @@ bool GDLSerializer::parse(const QByteArray& data, GluonObjectList& objects, Gluo
     GDL::StartAst* ast;
     if(!parser.parseStart(&ast))
     {
+        ERROR() << "Parsing failed!";
         return false;
     }
 
