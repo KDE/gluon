@@ -1,5 +1,5 @@
 find_package( Qt5 REQUIRED Quick Widgets QuickWidgets )
-find_package( KF5 REQUIRED Declarative Config KCMUtils Parts WindowSystem )
+find_package( KF5 REQUIRED Config KCMUtils Parts WindowSystem )
 
 # find_package(KDevPlatform 1.0.2)
 # if(KDevPlatform_FOUND)
@@ -23,7 +23,7 @@ kconfig_add_kcfg_files(gluoncreator_SRCS config/gluoncreatorsettings.kcfgc)
 #kde4_add_app_icon(gluoncreator_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-gluon_creator.png")
 gluon_add_executable(gluoncreator 
     SOURCES ${gluoncreator_SRCS}
-    LIBRARIES Gluon::Creator Qt5::Quick Qt5::QuickWidgets KF5::Declarative KF5::ConfigCore KF5::ConfigWidgets KF5::KCMUtils KF5::Parts KF5::WindowSystem
+    LIBRARIES Gluon::Creator Qt5::Quick Qt5::QuickWidgets KF5::ConfigCore KF5::ConfigWidgets KF5::KCMUtils KF5::Parts KF5::WindowSystem
 )
 
 install(FILES
