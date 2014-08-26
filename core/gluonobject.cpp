@@ -43,7 +43,12 @@ class GluonObject::Private
         QString name;
         GluonObject* gameProject;
         MetaInfo* metaInfo;
+
+        static const QByteArray dynamicTypeSuffix;
 };
+
+const QByteArray GluonObject::internalPropertyPrefix{ "_gluon_" };
+const QByteArray GluonObject::Private::dynamicTypeSuffix{ "_type" };
 
 GluonObject::GluonObject( QObject* parent )
     : QObject( parent )
@@ -469,4 +474,39 @@ GluonObject::shouldSerializeChildren() const
 void
 GluonObject::handleMessage( const QString& /* message */ )
 {
+}
+
+bool
+GluonObject::hasProperty( const QString& property )
+{
+    if( metaObject()->indexOfProperty( property.toUtf8() ) != -1 )
+        return true;
+
+    if( dynamicPropertyNames().contains( property.toUtf8() ) )
+        return true;
+
+    return false;
+}
+
+int
+GluonObject::propertyType( const QString& prop )
+{
+    const QMetaObject* mo = metaObject();
+    QByteArray propName = prop.toUtf8();
+    if( mo->indexOfProperty( propName ) != -1 )
+    {
+        QMetaProperty prop = mo->property( mo->indexOfProperty( propName ) );
+        return prop.userType();
+    }
+
+    if( dynamicPropertyNames().contains( propName ) )
+    {
+        QByteArray dynamicTypeName = internalPropertyPrefix + propName + Private::dynamicTypeSuffix;
+        if( dynamicPropertyNames().contains( dynamicTypeName ) )
+            return property( dynamicTypeName ).toInt();
+
+        return property( propName ).userType();
+    }
+
+    return QMetaType::UnknownType;
 }

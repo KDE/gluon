@@ -181,8 +181,6 @@ namespace GluonCore
             Q_PROPERTY( QString name READ name WRITE setName )
             // There is deliberately no gameProject property
 
-            Q_CLASSINFO( "org.gluon.icon", "folder" )
-
         public:
             Q_INVOKABLE GluonObject( QObject* parent = 0 );
             explicit GluonObject( const QString& name, QObject* parent = 0 );
@@ -438,6 +436,41 @@ namespace GluonCore
              * \param message The message that was sent.
              */
             virtual void handleMessage( const QString& message );
+
+            /**
+             * Find out whether this object has a certain property. This includes
+             * both static and dynamic properties.
+             *
+             * \return true if the property exists on this object, false if not.
+             */
+            bool hasProperty( const QString& property );
+
+            /**
+             * Get the type of a property.
+             *
+             * For static properties, this will return the QMetaType::Type of the property
+             * as returned by QMetaProperty.
+             *
+             * For dynamic properties, this will return the QMetaType::Type of the QVariant
+             * value returned by QObject::property(), unless there is a dynamic property called
+             * {prefix}{property}_type (where prefix is the internal property prefix), in which
+             * case the returned type is that set in the type property.
+             *
+             * \param property The name of the property to get the type of.
+             * \return a QMetaType::Type value of the property tCype, or QMetaType::UnknownType if
+             * the property does not exist.
+             */
+            int propertyType( const QString& property );
+
+            /**
+             * The prefix used for internal dynamic properties.
+             *
+             * Dynamic properties can be added by the platform where necessary. Any property that is
+             * prefix with the internal property prefix is considered an internal property and is not
+             * meant to be modified outside of the code that set it. Internal properties will not be
+             * serialized and will be excluded from display in Gluon Creator's property editor.
+             */
+            static const QByteArray internalPropertyPrefix;
 
         protected:
             /**
