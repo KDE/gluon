@@ -28,7 +28,6 @@
 #include <KXmlGui/KActionCollection>
 #include <KCoreAddons/KPluginFactory>
 
-#include <graphics/viewport.h>
 #include <graphics/manager.h>
 #include <graphics/backend.h>
 

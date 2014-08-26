@@ -18,7 +18,6 @@ set( GluonGraphics_SRCS
     technique.cpp
     texture.cpp
     mesh.cpp
-    viewport.cpp
     spritemesh.cpp
 
     manager.cpp
@@ -46,7 +45,6 @@ set( GluonGraphics_HEADERS
     renderwindow.h
     technique.h
     texture.h
-    viewport.h
     texturedata.h
 )
 

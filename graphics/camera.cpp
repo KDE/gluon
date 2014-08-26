@@ -20,7 +20,6 @@
 #include "camera.h"
 
 #include "frustum.h"
-#include "viewport.h"
 #include "world.h"
 
 #include <QSizeF>
