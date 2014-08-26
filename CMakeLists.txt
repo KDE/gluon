@@ -48,9 +48,11 @@ if( CMAKE_CXX_COMPILER_ID STREQUAL "GNU" )
         set( CMAKE_CXX_FLAGS "-fPIC -std=c++1x -Wall -Wno-switch" )
     else( CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.8.0" )
         set( CMAKE_CXX_FLAGS "-fPIC -std=c++11 -Wall -Wno-switch -Wno-unused-local-typedefs" )
+        set( CMAKE_CXX_FLAGS_RELEASE "-DGLUON_MAX_LOG_LEVEL=GluonCore::LogWarning" )
     endif( CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.8.0" )
 elseif( CMAKE_CXX_COMPILER_ID STREQUAL "Clang" )
     set( CMAKE_CXX_FLAGS "-std=c++11 -Wall -Wno-switch" )
+    set( CMAKE_CXX_FLAGS_RELEASE "-DGLUON_MAX_LOG_LEVEL=GluonCore::LogWarning" )
 endif( CMAKE_CXX_COMPILER_ID STREQUAL "GNU" )
 
 # To make sure we can run when not installed into $LD_LIBRARY_PATH
