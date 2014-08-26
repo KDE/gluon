@@ -79,7 +79,7 @@ namespace GluonGraphics
              *
              * \return A new instance of World or an existing instance if the named world already exists.
              */
-            World* createWorld( const QString& identifier = Defaults::World );
+            World* createWorld( const QString& identifier );
             /**
              * Retrieve a world.
              *

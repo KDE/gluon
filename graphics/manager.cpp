@@ -75,7 +75,7 @@ void Manager::initialize()
     if( d->currentWorld )
         return;
 
-    d->currentWorld = createWorld();
+    d->currentWorld = createWorld( Defaults::World );
     SpriteMesh* defaultSpriteMesh = createResource< SpriteMesh >( Defaults::SpriteMesh );
     defaultSpriteMesh->initialize();
     createResource< Material >( Defaults::Material );
