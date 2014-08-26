@@ -93,10 +93,3 @@ void GLXOutputSurface::setSize(int width, int height)
     GluonGraphics::OutputSurface::setSize(width, height);
     glViewport( 0, 0, width, height );
 }
-
-void GLXOutputSurface::createDebug()
-{
-
-}
-
- 
