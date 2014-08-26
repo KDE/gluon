@@ -27,12 +27,12 @@
 #define GLUON_VERSION_MAJOR     ${GLUON_VERSION_MAJOR}
 #define GLUON_VERSION_MINOR     ${GLUON_VERSION_MINOR}
 #define GLUON_VERSION_PATCH     ${GLUON_VERSION_PATCH}
-#define GLUON_VERSION_NAME      QString("${GLUON_VERSION_NAME}")
-#define GLUON_VERSION_STRING    QString("${GLUON_VERSION_STRING}")
+#define GLUON_VERSION_NAME      QStringLiteral("${GLUON_VERSION_NAME}")
+#define GLUON_VERSION_STRING    QStringLiteral("${GLUON_VERSION_STRING}")
 
 #define GLUON_PLATFORM_NAME     "Gluon Development Platform"
 
-#define GLUON_ARCHITECTURE	QString("${GLUON_ARCHITECTURE}")
+#define GLUON_ARCHITECTURE	QStringLiteral("${GLUON_ARCHITECTURE}")
 
 #include <QtCore/QString>
 
@@ -44,6 +44,11 @@ namespace GluonCore
             static QString versionString()
             {
                 return GLUON_VERSION_STRING;
+            }
+
+            static QString versionName()
+            {
+                return GLUON_VERSION_NAME;
             }
     };
 }
