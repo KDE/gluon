@@ -39,6 +39,7 @@ macro( gluon_add_library _target _type )
         SOVERSION ${GLUON_VERSION_STRING}
         DEFINE_SYMBOL MAKE_${_target_uc}_LIB
         EXPORT_NAME ${_target_short}
+        COMPILE_FLAGS -DGLUON_DEFAULT_LOG_CATEGORY=GluonCore::${_target_simple}Category
     )
 
     target_include_directories( ${_target_simple} PUBLIC ${_INCLUDES} )
@@ -78,7 +79,12 @@ macro(gluon_add_plugin _target)
     add_library( ${_target} MODULE ${_SOURCES} )
 
     string( TOUPPER ${_target} _target_uc )
-    set_target_properties(${_target} PROPERTIES PREFIX "" )
+    string( REGEX REPLACE "([^a-zA-Z])" "" _module_simple ${_MODULE} )
+
+    set_target_properties(${_target} PROPERTIES
+        PREFIX ""
+        COMPILE_FLAGS -DGLUON_DEFAULT_LOG_CATEGORY=GluonCore::${_module_simple}Category
+    )
     
     target_link_libraries( ${_target} ${_MODULE} ${_LIBRARIES} )
 
