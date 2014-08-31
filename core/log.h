@@ -45,6 +45,8 @@ namespace GluonCore
 
     /**
      * The category a message belongs to.
+     *
+     * \todo It probably makes sense to change category to a QByteArray so we have more flexibility.
      */
     enum LogCategory
     {
@@ -74,6 +76,9 @@ namespace GluonCore
 
     /**
      * Helper class for building a log message to output.
+     *
+     * While it is possible to construct this manually, we recommend using the LOG()
+     * and related macros instead, as they greatly simplify the process.
      */
     class GLUONCORE_EXPORT LogBuilder
     {
@@ -97,6 +102,40 @@ namespace GluonCore
      * to log and where to log to. LogBuilder constructs a LogData object that is sent
      * to Log on destruction. Log then outputs the data of that LogData object to
      * whatever output was selected.
+     *
+     * There is no way to use the Log class to directly send a message. Instead, create
+     * an instance of LogBuilder to add a message. LogBuilder will send the message on
+     * destruction, so it is best to create it on the stack.
+     *
+     * ## LogLevel and LogCategory
+     *
+     * Each message has a level and category. These are used to determine whether a
+     * message should be logged at all. During compile time, a maximum log level can
+     * be set using the `GLUON_MAX_LOG_LEVEL` define. This will define a global maximum
+     * logging level, anything above that level will be ignored.The value of this define
+     * defaults to LogDebug for debug builds and LogWarning for release builds.
+     *
+     * In addition, each category can have a different maximum logging level set at runtime.
+     * If a message is under the maximum log level but over a category's runtime defined
+     * maximum log level it is also ignored. Finally, if it passes the check the category
+     * and log level will be used to print a log message.
+     *
+     * ## Logging Context
+     *
+     * Each message additionally has a context. This is a string used to provide
+     * context to a message, that is, indicate where the message originated from. The Log
+     * class maintains a stack of contexts. Each time setCurrentContext is called, this
+     * will add a new context to the stack, whereas clearCurrentContext will remove the top
+     * context from the stack. The macros DEBUG(), NOTICE(), INFO(), WARNING(), ERROR() and
+     * CRITICAL() will all provide a default context of file, line and function name. The
+     * macros suffixed with _NC will provide an empty context, which means it will use
+     * whatever context is current. This can be used to provide a different context for
+     * messages not originating from a certain file, like compilation errors from a script
+     * file pointing to the script file rather than the C++ source file.
+     *
+     * \warning Code supplied to the LOG() related macros may be ignored or even completely
+     * removed depending on the maximum compile and runtime log level. Therefore, you should
+     * never rely on logging code to perform important function like initialization.
      */
     class GLUONCORE_EXPORT Log : public Singleton< Log >
     {
@@ -215,6 +254,8 @@ namespace GluonCore
 
 /**
  * A series of macros to output at a certain log level, using the default category and an empty context.
+ *
+ * Use these in combination with Log::setCurrentContext() to provide custom contexts, like Asset files.
  */
 #define CRITICAL_NC() LOG( GLUON_DEFAULT_LOG_CATEGORY, GluonCore::LogCritical, QByteArray() )
 #define ERROR_NC() LOG( GLUON_DEFAULT_LOG_CATEGORY, GluonCore::LogError, QByteArray() )
