@@ -4,7 +4,10 @@
         "icon": "application-javascript",
         "category": "Game Logic",
         "mimeTypes": [
-            "audio/javascript"
+            "application/javascript",
+            "application/x-javascript",
+            "application/ecmascript",
+            "text/javascript"
         ],
         "templates": {
             "Script": "scripting/scripting_template.js"

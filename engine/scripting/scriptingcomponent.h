@@ -35,9 +35,6 @@ namespace GluonEngine
 
             Q_PROPERTY( GluonEngine::ScriptingAsset* script READ script WRITE setScript )
 
-            Q_CLASSINFO( "org.gluon.category", "Game Logic" )
-            Q_CLASSINFO( "org.gluon.icon", "application-javascript" )
-
         public:
             Q_INVOKABLE ScriptingComponent( QObject* parent = 0 );
             virtual ~ScriptingComponent();
