@@ -20,35 +20,73 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "audio/sound.h"
+#include "audio/source.h"
+#include "audio/audiofile.h"
 
 #include <core/directoryprovider.h>
 
 #include <QtCore/QDebug>
+#include <QTimer>
+#include <QtGui/QGuiApplication>
+
+GluonAudio::AudioFile* leftF;
+GluonAudio::AudioFile* rightF;
+GluonAudio::AudioFile* centerF;
+
+GluonAudio::Source* leftSource;
+GluonAudio::Source* rightSource;
+GluonAudio::Source* centerSource;
+
+void playRight()
+{
+    rightF->feedSource( rightSource );
+}
+
+void playCenter()
+{
+    centerF->feedSource( centerSource );
+}
 
 int main( int argc, char* argv[] )
 {
+    QGuiApplication app(argc, argv);
+    
     QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
-    GluonAudio::Sound* left = new GluonAudio::Sound( shareInstallDir + "/gluon/examples/audio/Front_Left.wav" );
-    GluonAudio::Sound* right = new GluonAudio::Sound( shareInstallDir + "/gluon/examples/audio/Front_Right.wav" );
-    GluonAudio::Sound* center = new GluonAudio::Sound( shareInstallDir + "/gluon/examples/audio/Front_Center.wav" );
+    leftF = new GluonAudio::AudioFile( shareInstallDir + "/gluon/examples/audio/Front_Left.wav" );
+    rightF = new GluonAudio::AudioFile( shareInstallDir + "/gluon/examples/audio/Front_Right.wav" );
+    centerF = new GluonAudio::AudioFile( shareInstallDir + "/gluon/examples/audio/Front_Center.wav" );
+    
+    leftSource = new GluonAudio::Source();
+    rightSource = new GluonAudio::Source();
+    centerSource = new GluonAudio::Source();
 
-    left->setPosition( -1, 0, 0 );
-    right->setPosition( 1, 0, 0 );
+    leftSource->setPosition( Eigen::Vector3f(-1.f, 0.f, 0.f) );
+    rightSource->setPosition( Eigen::Vector3f(1.f, 0.f, 0.f) );
+    
+    QTimer timerRight;
+    timerRight.setSingleShot(true);
+    timerRight.setInterval(3000);
+    QObject::connect( &timerRight, &QTimer::timeout, playRight );
+    timerRight.start();
+    
+    QTimer timerCenter;
+    timerCenter.setSingleShot(true);
+    timerCenter.setInterval(6000);
+    QObject::connect( &timerCenter, &QTimer::timeout, playCenter );
+    timerCenter.start();
 
-    qDebug() << "Playing left. Press enter to continue.";
-    left->play();
-    QTextStream( stdin ).readLine();
+    //qDebug() << "Playing left. Press enter to continue.";
+    leftF->feedSource( leftSource );
+    //QTextStream( stdin ).readLine();
 
-    qDebug() << "Playing right. Press enter to continue.";
-    right->play();
-    QTextStream( stdin ).readLine();
+    //qDebug() << "Playing right. Press enter to continue.";
+    //right->feedSource( rightSource );
+    //QTextStream( stdin ).readLine();
 
-    qDebug() << "Playing center. Press enter to continue.";
-    center->play();
-    QTextStream( stdin ).readLine();
+    //qDebug() << "Playing center. Press enter to continue.";
+    //center->feedSource( centerSource );
+    //QTextStream( stdin ).readLine();
+    
+    app.exec();
 
-    delete left;
-    delete right;
-    delete center;
 }
