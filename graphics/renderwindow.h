@@ -50,6 +50,7 @@ namespace GluonGraphics
             virtual void resizeEvent( QResizeEvent* event ) override;
 
         public Q_SLOTS:
+            virtual void render();
             virtual void update();
 
         GLUON_PRIVATE_POINTER;

@@ -21,6 +21,7 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtGui/QResizeEvent>
+#include <QtGui/QBackingStore>
 
 #include "manager.h"
 #include "outputsurface.h"
@@ -34,11 +35,17 @@ class RenderWindow::Private
 {
     public:
         OutputSurface* surface = nullptr;
+        QBackingStore* store = nullptr;
 };
 
 RenderWindow::RenderWindow( QWindow* parent ) : QWindow( parent )
 {
-    setSurfaceType( QSurface::OpenGLSurface );
+    setSurfaceType( QSurface::RasterSurface );
+
+    //This is used to indirectly call some platform methods to handle resizing.
+    d->store = new QBackingStore{ this };
+
+    resize( 640, 480 );
 
     if( !Manager::instance()->backend()->initialize( winId() ) )
         qFatal( Manager::instance()->backend()->errorString().toUtf8() );
@@ -56,6 +63,28 @@ OutputSurface* RenderWindow::outputSurface() const
 
 void RenderWindow::exposeEvent( QExposeEvent* event )
 {
+    Q_UNUSED( event )
+    render();
+}
+
+void RenderWindow::resizeEvent( QResizeEvent* event )
+{
+    if( d->surface )
+        d->surface->setSize( event->size().width(), event->size().height() );
+
+    //QWindow fails to properly resize if certain platform methods are not called.
+    //However, those methods are not publicly available thus we need to use
+    //QBackingStore to indirectly call them. Rather than having a backing store that
+    //takes as much memory as the window size, we can use a 1x1 backing store since
+    //it just needs a non-zero size. In addition, the small size prevent flickering
+    //as it means the window doesn't get completely redrawn twice.
+    d->store->resize( QSize{ 1, 1 } );
+    d->store->flush( QRect{ 0, 0, 1, 1 } );
+    render();
+}
+
+void RenderWindow::render()
+{
     if( !isExposed() )
         return;
 
@@ -66,20 +95,12 @@ void RenderWindow::exposeEvent( QExposeEvent* event )
         d->surface->setSize( width(), height() );
     }
 
-    requestActivate();
     d->surface->renderContents();
-}
-
-void RenderWindow::resizeEvent( QResizeEvent* event )
-{
-    if( d->surface )
-        d->surface->setSize( event->size().width(), event->size().height() );
-
-    QWindow::resizeEvent( event );
 }
 
 void RenderWindow::update()
 {
     QExposeEvent* ev = new QExposeEvent( geometry() );
-    QCoreApplication::sendEvent( this, ev );
+    QCoreApplication::postEvent( this, ev );
+
 }
