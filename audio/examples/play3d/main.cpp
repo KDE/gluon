@@ -40,11 +40,13 @@ GluonAudio::Source* centerSource;
 void playRight()
 {
     rightF->feedSource( rightSource );
+    rightSource->play();
 }
 
 void playCenter()
 {
     centerF->feedSource( centerSource );
+    centerSource->play();
 }
 
 int main( int argc, char* argv[] )
@@ -74,19 +76,16 @@ int main( int argc, char* argv[] )
     timerCenter.setInterval(6000);
     QObject::connect( &timerCenter, &QTimer::timeout, playCenter );
     timerCenter.start();
-
-    //qDebug() << "Playing left. Press enter to continue.";
+    
     leftF->feedSource( leftSource );
-    //QTextStream( stdin ).readLine();
-
-    //qDebug() << "Playing right. Press enter to continue.";
-    //right->feedSource( rightSource );
-    //QTextStream( stdin ).readLine();
-
-    //qDebug() << "Playing center. Press enter to continue.";
-    //center->feedSource( centerSource );
-    //QTextStream( stdin ).readLine();
+    leftSource->play();
     
     app.exec();
 
+    delete leftF;
+    delete rightF;
+    delete centerF;
+    delete leftSource;
+    delete rightSource;
+    delete centerSource;
 }
