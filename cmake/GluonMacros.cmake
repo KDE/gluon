@@ -35,11 +35,13 @@ macro( gluon_add_library _target _type )
     string( TOLOWER ${_target_short} _target_include_dir )
 
     set_target_properties( ${_target_simple} PROPERTIES
+        FRAMEWORK TRUE
         VERSION ${GLUON_VERSION_STRING}
         SOVERSION ${GLUON_VERSION_STRING}
         DEFINE_SYMBOL MAKE_${_target_uc}_LIB
         EXPORT_NAME ${_target_short}
         COMPILE_FLAGS -DGLUON_DEFAULT_LOG_CATEGORY=GluonCore::${_target_simple}Category
+        PUBLIC_HEADER "${_HEADERS}"
     )
 
     target_include_directories( ${_target_simple} PUBLIC ${_INCLUDES} )
@@ -52,11 +54,7 @@ macro( gluon_add_library _target _type )
         LIBRARY DESTINATION ${LIB_INSTALL_DIR} COMPONENT ${_target}
         ARCHIVE DESTINATION ${LIB_INSTALL_DIR} COMPONENT ${_target}
         FRAMEWORK DESTINATION ${LIB_INSTALL_DIR} COMPONENT ${_target}
-    )
-
-    install( FILES ${_headers} 
-        DESTINATION ${INCLUDE_INSTALL_DIR}/${_target_include_dir}
-        COMPONENT ${_target}
+        PUBLIC_HEADER DESTINATION ${INCLUDE_INSTALL_DIR}/${_target_include_dir} COMPONENT ${_target}_devel
     )
 
     install( EXPORT ${_target_simple}Targets
