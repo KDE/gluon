@@ -32,7 +32,9 @@ class QGraphicsScene;
 class QGraphicsView;
 class QNodesEditor;
 
-class QNEMainWindow : public QMainWindow
+#include "gluonnodeeditor_export.h"
+
+class GLUONNODEEDITOR_EXPORT QNEMainWindow : public QMainWindow
 {
 	Q_OBJECT
 

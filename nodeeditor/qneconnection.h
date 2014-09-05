@@ -30,7 +30,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 class QNEPort;
 
-class QNEConnection : public QObject, public QGraphicsPathItem
+#include "gluonnodeeditor_export.h"
+
+class GLUONNODEEDITOR_EXPORT QNEConnection : public QObject, public QGraphicsPathItem
 {
     Q_OBJECT
 public:

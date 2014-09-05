@@ -34,7 +34,9 @@ class QGraphicsItem;
 class QPointF;
 class QNEBlock;
 
-class QNodesEditor : public QObject
+#include "gluonnodeeditor_export.h"
+
+class GLUONNODEEDITOR_EXPORT QNodesEditor : public QObject
 {
 	Q_OBJECT
 public:

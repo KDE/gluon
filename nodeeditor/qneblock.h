@@ -29,7 +29,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <QGraphicsPathItem>
 #include "qneport.h"
 
-class QNEBlock : public QObject, public QGraphicsPathItem
+#include "gluonnodeeditor_export.h"
+
+class GLUONNODEEDITOR_EXPORT QNEBlock : public QObject, public QGraphicsPathItem
 {
     Q_OBJECT
 public:
