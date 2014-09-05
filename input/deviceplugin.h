@@ -23,11 +23,13 @@
 
 #include <QtCore/QObject>
 
+#include "gluoninput_export.h"
+
 namespace GluonInput
 {
     class InputDevice;
 
-    class DevicePlugin : public QObject
+    class GLUONINPUT_EXPORT DevicePlugin : public QObject
     {
         Q_OBJECT
 
