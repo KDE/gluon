@@ -6,6 +6,10 @@ if( NOT( CMAKE_MAJOR_VERSION LESS 3) )
     cmake_policy(SET CMP0028 OLD)
 endif()
 
+if( CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.7.0" )
+    message(FATAL_ERROR "Gluon requires GCC version 4.7 or higher" )
+endif()
+
 #### Project Options ####
 option( WITH_KDE "Build with KDE Development Platform Support" ON )
 option( BUILD_GLUONAUDIO "Build Gluon Audio Library" ON )
@@ -34,22 +38,24 @@ if( BUILD_TESTS )
     find_package( Qt5Test REQUIRED )
 endif()
 
-# Enable automoc (Internal CMake version if available, external binary if not)
-set( CMAKE_AUTOMOC TRUE )
-
-include( cmake/GluonVariables.cmake )
 include( cmake/GluonMacros.cmake )
 
-# Set some variables
+#### Global Variables and Defaults ####
+include( cmake/GluonVariables.cmake )
+
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} )
 
+# Enable moc generation by default
+set( CMAKE_AUTOMOC TRUE )
+
+# Default to hidden symbols
+set( CMAKE_CXX_VISIBILITY_PRESET hidden )
+set( CMAKE_VISIBILITY_INLINES_HIDDEN 1 )
+
+# Use C++11 by default and enable almost all warnings
 if( CMAKE_CXX_COMPILER_ID STREQUAL "GNU" )
-    if( CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.8.0" )
-        set( CMAKE_CXX_FLAGS "-fPIC -std=c++1x -Wall -Wno-switch" )
-    else( CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.8.0" )
-        set( CMAKE_CXX_FLAGS "-fPIC -std=c++11 -Wall -Wno-switch -Wno-unused-local-typedefs" )
-        set( CMAKE_CXX_FLAGS_RELEASE "-DGLUON_MAX_LOG_LEVEL=GluonCore::LogWarning" )
-    endif( CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.8.0" )
+    set( CMAKE_CXX_FLAGS "-fPIC -std=c++11 -Wall -Wno-switch -Wno-unused-local-typedefs" )
+    set( CMAKE_CXX_FLAGS_RELEASE "-DGLUON_MAX_LOG_LEVEL=GluonCore::LogWarning" )
 elseif( CMAKE_CXX_COMPILER_ID STREQUAL "Clang" )
     set( CMAKE_CXX_FLAGS "-std=c++11 -Wall -Wno-switch" )
     set( CMAKE_CXX_FLAGS_RELEASE "-DGLUON_MAX_LOG_LEVEL=GluonCore::LogWarning" )
