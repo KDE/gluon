@@ -23,9 +23,11 @@
 
 #include <core/singleton.h>
 
+#include "gluon_player_export.h"
+
 namespace GluonPlayer
 {
-    class GameManager : public GluonCore::Singleton<GameManager>
+    class GLUON_PLAYER_EXPORT GameManager : public GluonCore::Singleton<GameManager>
     {
             Q_OBJECT
             Q_PROPERTY( QObject* allGamesModel READ allGamesModel CONSTANT )
