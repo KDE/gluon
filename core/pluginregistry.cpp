@@ -119,6 +119,10 @@ QObject* PluginRegistry::load( const QString& plugin )
     {
         d->plugins.insert( plugin, loader );
         d->pluginNames.insert( loader->metaData().value( "type" ).toString(), plugin );
+
+        if( !loader->load() )
+            WARNING() << loader->errorString();
+
         return loader->instance();
     }
 
@@ -145,12 +149,15 @@ QObjectList PluginRegistry::loadType( const QString& type )
         QString pluginName = QFileInfo( loader->fileName() ).baseName();
         if( !d->pluginNames.contains( pluginName ) )
         {
-            QObject* o = loader->instance();
-            if( o )
+            if( loader->load() )
             {
-                list.append( o );
+                list.append( loader->instance() );
                 d->plugins.insert( pluginName, loader );
                 d->pluginNames.insert( type, pluginName );
+            }
+            else
+            {
+                WARNING() << loader->errorString();
             }
         }
         else
