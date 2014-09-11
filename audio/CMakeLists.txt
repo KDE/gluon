@@ -9,6 +9,8 @@ set( GluonAudio_SRCS
     decoderplugin.cpp
     audiohelper.cpp
     audiofile.cpp
+    abstractplaylist.cpp
+    playlists/linearplaylist.cpp
 )
 
 set( GluonAudio_HEADERS
@@ -20,6 +22,8 @@ set( GluonAudio_HEADERS
     decoderplugin.h
     audiohelper.h
     audiofile.h
+    abstractplaylist.h
+    playlists/linearplaylist.h
 )
 
 gluon_add_library( Gluon::Audio SHARED
