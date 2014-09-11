@@ -50,7 +50,12 @@ namespace GluonAudio
              * @p bufferName The (OpenAL-internal) name of the buffer you want to add.
              * @p bufferLength The length of the buffer, in seconds
              */
-            void queueBuffer(unsigned int bufferName, float bufferLength);
+            void queueBuffer(unsigned int bufferName);
+            
+            /**
+             * Returns the current number of buffers the source has.
+             */
+            int getNumberOfBuffers();
             
             /**
              * Remove all buffers that are processed and not needed any longer.

@@ -23,6 +23,7 @@
 #include <AL/alc.h>
 
 #include <QtCore/QVector>
+#include <QtCore/QDebug>
 
 #include <core/debughelper.h>
 
@@ -73,7 +74,7 @@ Source::PlayingState Source::getPlayingState()
     return d->state;
 }
 
-void Source::queueBuffer( unsigned int bufferName, float bufferLength )
+void Source::queueBuffer( unsigned int bufferName)
 {
     DEBUG_BLOCK
     ALuint name = bufferName;
@@ -90,6 +91,20 @@ void Source::queueBuffer( unsigned int bufferName, float bufferLength )
       play();
 }
 
+int Source::getNumberOfBuffers()
+{
+    DEBUG_BLOCK
+    int buffers;
+    alGetSourcei( d->name, AL_BUFFERS_QUEUED, &buffers);
+    ALCenum error = alGetError();
+    if( error != AL_NO_ERROR )
+    {
+        DEBUG_TEXT2( "OpenAL-Error while checking number of buffers: %1", error )
+        return 0;
+    }
+    return buffers;
+}
+
 int Source::removeOldBuffers()
 {
     DEBUG_BLOCK
@@ -98,7 +113,7 @@ int Source::removeOldBuffers()
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while checking number of buffers: %1", error )
+        DEBUG_TEXT2( "OpenAL-Error while checking number of processed buffers: %1", error )
         return 0;
     }
     for( int i=0; i<processed; i++ )
@@ -122,6 +137,7 @@ int Source::removeOldBuffers()
 
 void Source::fileNearlyFinished()
 {
+    qDebug() << "fileNearlyFinished" << d->filesQueued;
     if( d->filesQueued <= 1 )
         emit queueNext();
     d->filesQueued--;

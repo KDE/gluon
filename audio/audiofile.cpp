@@ -49,6 +49,7 @@ class AudioFile::Private
             bool loopOnce;
             QList<Buffer> currentBuffers;
             float remainingTimeInBuffer;
+            int buffersFromPrevious;
         };
         
         void stopFeedingSource( SourceData* data );
@@ -89,6 +90,7 @@ void AudioFile::feedSource(Source* source)
     data->isDecoding = false;
     data->remainingTimeInBuffer = 0.0f;
     data->loopOnce = false;
+    data->buffersFromPrevious = source->getNumberOfBuffers();
     d->dataList.prepend(data);
     source->audioFileAdded();
 }
@@ -129,7 +131,12 @@ void AudioFile::update()
         {
             int removed = data->source->removeOldBuffers();
             for( int i=0; i<removed; i++ )
-                data->currentBuffers.removeLast();
+            {
+                if( data->buffersFromPrevious > 0 )
+                    data->buffersFromPrevious--;
+                else
+                    data->currentBuffers.removeLast();
+            }
         }
         data->remainingTimeInBuffer=0.0f;
         for( const Buffer& b : data->currentBuffers )
@@ -144,13 +151,14 @@ void AudioFile::update()
                 d->stopFeedingSource(data);
             }
 
-            data->source->queueBuffer(buffer.name, buffer.length);
+            data->source->queueBuffer(buffer.name);
             data->remainingTimeInBuffer += buffer.length;
             data->currentBuffers.prepend(buffer);
         }
         
         if( data->dec->isEndOfFile() )
         {
+            data->source->fileNearlyFinished();
             d->stopFeedingSource(data);
         }
     }
