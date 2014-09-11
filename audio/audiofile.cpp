@@ -90,6 +90,7 @@ void AudioFile::feedSource(Source* source)
     data->remainingTimeInBuffer = 0.0f;
     data->loopOnce = false;
     d->dataList.prepend(data);
+    source->audioFileAdded();
 }
 
 void AudioFile::stopFeedingSource(Source* source)

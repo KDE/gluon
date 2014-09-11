@@ -64,6 +64,16 @@ namespace GluonAudio
              */
             void fileNearlyFinished();
             
+            /**
+             * Tell the source a file was added. This should be called by AudioFile.
+             */
+            void audioFileAdded();
+            
+            /**
+             * Remove leftovers from a file not finished playing.
+             */
+            void clear();
+            
             bool isValid() const;
             
             /**

@@ -36,7 +36,7 @@ namespace GluonAudio
             virtual void setSource( Source* source );
             virtual Source* source() const;
             
-        public slots:
+        protected slots:
             virtual void queueNext() = 0;
             
         private:
