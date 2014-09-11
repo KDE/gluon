@@ -48,8 +48,9 @@ namespace GluonAudio
              * Add more or the initial buffers to the source. This should be done via an
              * AudioFile object.
              * @p bufferName The (OpenAL-internal) name of the buffer you want to add.
+             * @p bufferLength The length of the buffer, in seconds
              */
-            void queueBuffer(unsigned int bufferName);
+            void queueBuffer(unsigned int bufferName, float bufferLength);
             
             /**
              * Remove all buffers that are processed and not needed any longer.
@@ -114,6 +115,11 @@ namespace GluonAudio
              * The position (in seconds) in the currently loaded buffers
              */
             float positionInBuffers();
+            
+            /**
+             * Get the maximal buffer size for each file
+             */
+            float getMaxBufferSize();
             
         public Q_SLOTS:
             void play();

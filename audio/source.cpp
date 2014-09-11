@@ -31,16 +31,20 @@ using namespace GluonAudio;
 class Source::Private
 {
     public:
-        Private() : valid(false), global(false), name(0), state(Stopped), volume(1.0f), parentVolume(0.0f) {}
+        Private() : valid(false), global(false), name(0), state(Stopped), volume(1.0f), parentVolume(0.0f), maxBufferSize(1.f) {}
         
         bool valid;
         bool global;
         ALuint name;
         PlayingState state;
         QList<ALuint> currentBuffers;
+        QList<float> currentLengths;
         Eigen::Vector3f position;
         float volume;
         float parentVolume;
+        float maxBufferSize;
+        
+        float timeInBuffer();
 };
 
 Source::Source(QObject* parent)
@@ -68,7 +72,7 @@ Source::PlayingState Source::getPlayingState()
     return d->state;
 }
 
-void Source::queueBuffer( unsigned int bufferName )
+void Source::queueBuffer( unsigned int bufferName, float bufferLength )
 {
     DEBUG_BLOCK
     ALuint name = bufferName;
@@ -80,6 +84,7 @@ void Source::queueBuffer( unsigned int bufferName )
         return;
     }
     d->currentBuffers.prepend(name);
+    d->currentLengths.prepend(bufferLength);
     
     if( d->state == Started )
       play();
@@ -99,6 +104,7 @@ int Source::removeOldBuffers()
     for( int i=0; i<processed; i++ )
     {
         ALuint buffer = d->currentBuffers.takeLast();
+        d->currentLengths.removeLast();
         alSourceUnqueueBuffers( d->name, 1, &buffer );
         error = alGetError();
         if( error != AL_NO_ERROR )
@@ -117,7 +123,8 @@ int Source::removeOldBuffers()
 
 void Source::fileNearlyFinished()
 {
-    emit queueNext();
+    if( d->timeInBuffer() < d->maxBufferSize*1.01f )
+        emit queueNext();
 }
 
 bool Source::isValid() const
@@ -217,6 +224,11 @@ float Source::positionInBuffers()
     return position;
 }
 
+float Source::getMaxBufferSize()
+{
+    return d->maxBufferSize;
+}
+
 void Source::play()
 {
     DEBUG_BLOCK
@@ -271,5 +283,17 @@ void Source::stop()
         DEBUG_TEXT2( "OpenAL-Error while stopping to play: %1", error )
         return;
     }
+}
+
+////////////////////
+// Private functions
+////////////////////
+
+float Source::Private::timeInBuffer()
+{
+    float time = 0;
+    for( float bufferLength : currentLengths )
+        time += bufferLength;
+    return time;
 }
 

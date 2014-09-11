@@ -39,7 +39,7 @@ using namespace GluonAudio;
 class AudioFile::Private
 {
     public:
-        Private(AudioFile* p) : parent(p), valid(false), maxBufferTime(20.0f) {}
+        Private(AudioFile* p) : parent(p), valid(false) {}
         
         struct SourceData
         {
@@ -60,7 +60,6 @@ class AudioFile::Private
         QString file;
         bool valid;
         QList<SourceData*> dataList;
-        float maxBufferTime;
 };
 
 AudioFile::AudioFile(QString file, QObject* parent)
@@ -135,7 +134,7 @@ void AudioFile::update()
         for( const Buffer& b : data->currentBuffers )
             data->remainingTimeInBuffer += b.length;
         
-        while( data->remainingTimeInBuffer < d->maxBufferTime && data->dec->buffersAvailable() )
+        while( data->remainingTimeInBuffer < data->source->getMaxBufferSize() && data->dec->buffersAvailable() )
         {
             Buffer buffer = data->dec->getBuffer();
             if( !Private::generateBuffer(&buffer, data->dec->isStereo()) )
@@ -144,7 +143,7 @@ void AudioFile::update()
                 d->stopFeedingSource(data);
             }
 
-            data->source->queueBuffer(buffer.name);
+            data->source->queueBuffer(buffer.name, buffer.length);
             data->remainingTimeInBuffer += buffer.length;
             data->currentBuffers.prepend(buffer);
         }
