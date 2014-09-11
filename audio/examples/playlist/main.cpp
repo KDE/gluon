@@ -17,7 +17,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "audio/player.h"
+#include "audio/source.h"
+#include "audio/audiofile.h"
+#include "audio/playlists/linearplaylist.h"
 
 #include <QtCore/QCoreApplication>
 // #include <QtCore/QDebug>
@@ -25,18 +27,18 @@
 int main( int argc, char* argv[] )
 {
     QCoreApplication app( argc, argv );
-
-    GluonAudio::Player* player = new GluonAudio::Player;
-    player->append( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
-    player->append( "/usr/share/sounds/KDE-Sys-Log-Out.ogg" );
-    player->setVolume( 0.9 );  //between 0 and 1
-
-    // qDebug() << "Playing sound "<< player->currentDuration() << "seconds.";
-    QObject::connect( player, SIGNAL(finished()), &app, SLOT(quit()) );
-    player->play();
+    
+    GluonAudio::Source source;
+    
+    QList<GluonAudio::AudioFile*> files;
+    files << new GluonAudio::AudioFile( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
+    files << new GluonAudio::AudioFile( "/usr/share/sounds/KDE-Sys-Log-Out.ogg" );
+    
+    GluonAudio::LinearPlaylist playlist(&source);
+    playlist.setFiles(files);
+    
+    source.play();
 
     app.exec();
-
-    delete player;
 }
 

@@ -5,4 +5,4 @@ set(AUDIO_EXAMPLES_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/examples/audio)
 
 add_subdirectory(play3d)
 add_subdirectory(playbasic)
-#add_subdirectory(playlist)
+add_subdirectory(playlist)
