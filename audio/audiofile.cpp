@@ -150,6 +150,8 @@ void AudioFile::update()
                 data->source->stop();
                 d->stopFeedingSource(data);
             }
+            
+            delete [] buffer.data;
 
             data->source->queueBuffer(buffer.name);
             data->remainingTimeInBuffer += buffer.length;

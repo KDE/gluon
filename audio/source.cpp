@@ -123,6 +123,13 @@ int Source::removeOldBuffers()
         error = alGetError();
         if( error != AL_NO_ERROR )
         {
+            DEBUG_TEXT2( "OpenAL-Error while unqueueing buffer: %1", error )
+            continue;
+        }
+        alDeleteBuffers( 1, &buffer );
+        error = alGetError();
+        if( error != AL_NO_ERROR )
+        {
             DEBUG_TEXT2( "OpenAL-Error while removing buffer: %1", error )
         }
     }
