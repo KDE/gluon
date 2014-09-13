@@ -17,29 +17,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONAUDIO_LINEARPLAYLIST_H
-#define GLUONAUDIO_LINEARPLAYLIST_H
+#ifndef GLUONAUDIO_SINGLEFILE_H
+#define GLUONAUDIO_SINGLEFILE_H
 
 #include "../abstractplaylist.h"
+
+#include <QtCore/QString>
 
 namespace GluonAudio
 {
     class AudioFile;
     
-    class LinearPlaylist: public AbstractPlaylist
+    class SingleFile: public AbstractPlaylist
     {
             Q_OBJECT
         public:
-            LinearPlaylist(Source* source);
-            ~LinearPlaylist();
+            SingleFile(Source* source);
+            ~SingleFile();
             
-            void setFiles( QList<AudioFile*> files );
-            
-            bool random();
-            void setRandom( bool random );
-            
-            bool repeatAll();
-            void setRepeatAll( bool repeat );
+            void setFile( AudioFile* file );
+            void setFile( QString path );
             
             void setSource( Source* source );
             
@@ -52,4 +49,4 @@ namespace GluonAudio
     };
 }           
 
-#endif // GLUONAUDIO_LINEARPLAYLIST_H
+#endif // GLUONAUDIO_SINGLEFILE_H

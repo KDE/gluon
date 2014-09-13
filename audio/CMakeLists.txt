@@ -11,6 +11,7 @@ set( GluonAudio_SRCS
     audiofile.cpp
     abstractplaylist.cpp
     playlists/linearplaylist.cpp
+    playlists/singlefile.cpp
 )
 
 set( GluonAudio_HEADERS
@@ -24,6 +25,7 @@ set( GluonAudio_HEADERS
     audiofile.h
     abstractplaylist.h
     playlists/linearplaylist.h
+    playlists/singlefile.h
 )
 
 gluon_add_library( Gluon::Audio SHARED

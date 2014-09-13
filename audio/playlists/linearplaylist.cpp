@@ -51,19 +51,23 @@ LinearPlaylist::~LinearPlaylist()
 
 void LinearPlaylist::setFiles(QList< AudioFile* > files)
 {
-    d->files = files;
-    
     Source::PlayingState oldState = source()->getPlayingState();
+    if( oldState == Source::Started || oldState == Source::Paused )
+        source()->stop();
+    if( !d->files.empty() )
+        d->files[d->currentFile]->stopFeedingSource( source() );
+    source()->clear();
+    
+    d->files = files;
     
     if( oldState == Source::Started || oldState == Source::Paused )
         source()->stop();
+    source()->clear();
     
     if( d->files.empty() )
         return;
     
     d->files[0]->feedSource(source());
-    if( oldState == Source::Started )
-        source()->play();
 }
 
 bool LinearPlaylist::random()
@@ -85,6 +89,24 @@ void LinearPlaylist::setRepeatAll(bool repeat)
 {
     d->repeatAll = repeat;
 }
+
+void LinearPlaylist::setSource(Source* source)
+{
+    Source::PlayingState oldState = this->source()->getPlayingState();
+    if( oldState == Source::Started || oldState == Source::Paused )
+        this->source()->stop();
+    if( !d->files.empty() )
+        d->files[d->currentFile]->stopFeedingSource( this->source() );
+    this->source()->clear();
+    
+    GluonAudio::AbstractPlaylist::setSource(source);
+    
+    if( d->files.empty() )
+        return;
+    
+    d->files[0]->feedSource(source);
+}
+
 
 void LinearPlaylist::queueNext()
 {
