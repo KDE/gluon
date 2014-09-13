@@ -22,7 +22,24 @@
 #include "audio/playlists/linearplaylist.h"
 
 #include <QtCore/QCoreApplication>
+#include <QtCore/QString>
+#include <QtCore/QFile>
 // #include <QtCore/QDebug>
+
+QList<GluonAudio::AudioFile*> readFilesFromFile( char* file )
+{
+    QList<GluonAudio::AudioFile*> files;
+    
+    QFile qfile( file );
+    if( !qfile.open( QIODevice::ReadOnly ) )
+        return files;
+    while (!qfile.atEnd()) {
+        QString line = QString::fromUtf8( qfile.readLine() );
+        if( !line.trimmed().isEmpty() )
+            files << new GluonAudio::AudioFile( line.trimmed() );
+    }
+    return files;
+}
 
 int main( int argc, char* argv[] )
 {
@@ -31,8 +48,16 @@ int main( int argc, char* argv[] )
     GluonAudio::Source source;
     
     QList<GluonAudio::AudioFile*> files;
-    files << new GluonAudio::AudioFile( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
-    files << new GluonAudio::AudioFile( "/usr/share/sounds/KDE-Sys-Log-Out.ogg" );
+    
+    if( argc == 1 )
+    {
+        files << new GluonAudio::AudioFile( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
+        files << new GluonAudio::AudioFile( "/usr/share/sounds/KDE-Sys-Log-Out.ogg" );
+    }
+    else
+    {
+        files = readFilesFromFile(argv[1]);
+    }
     
     GluonAudio::LinearPlaylist playlist(&source);
     playlist.setFiles(files);
