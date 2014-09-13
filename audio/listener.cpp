@@ -36,7 +36,7 @@ GLUON_DEFINE_SINGLETON( Listener )
 class Listener::Private
 {
     public:
-        Private() : isValid(false), device(0), context(0), volume(1.0f) {}
+        Private() : isValid(false), device(0), context(0), volume(1.0f), position(0,0,0) {}
         ~Private() {}
 
         bool isValid;
@@ -46,6 +46,7 @@ class Listener::Private
         ALCdevice* device;
         ALCcontext* context;
         float volume;
+        Eigen::Vector3f position;
 };
 
 Listener::Listener ( QObject* parent )
@@ -128,13 +129,13 @@ void Listener::addSource(Source* source)
 
 Eigen::Vector3f Listener::listenerPosition()
 {
-    ALfloat listener[3];
-    alGetListenerfv( AL_POSITION, listener );
-
-    return Eigen::Vector3f( listener[0], listener[1], listener[2] );
+    return d->position;
 }
 
 void Listener::setListenerPosition( const Eigen::Vector3f& position )
 {
+    if( position == d->position )
+        return;
+    d->position = position;
     alListener3f( AL_POSITION, position.x(), position.y(), position.z() );
 }
