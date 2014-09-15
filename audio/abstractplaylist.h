@@ -27,17 +27,26 @@ namespace GluonAudio
     class Source;
     
     class AbstractPlaylist : public QObject
-    {
+    {   
             Q_OBJECT
         public:
-            AbstractPlaylist( Source* source );
+            enum PlayingState { Started, Stopped, Paused };
+            
+            AbstractPlaylist();
             virtual ~AbstractPlaylist();
             
-            virtual void setSource( Source* source );
-            virtual Source* source() const;
+            virtual void fileNearlyFinished()=0;
             
-        protected slots:
-            virtual void queueNext() = 0;
+            virtual void addedToSource( Source* source );
+            virtual void removedFromSource( Source* source );
+            
+        public slots:
+            virtual void start()=0;
+            virtual void pause()=0;
+            virtual void stop()=0;
+            
+        protected:
+            Source* source() const;
             
         private:
             class Private;

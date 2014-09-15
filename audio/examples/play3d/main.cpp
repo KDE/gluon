@@ -22,6 +22,7 @@
 
 #include "audio/source.h"
 #include "audio/audiofile.h"
+#include "audio/playlists/singlefile.h"
 
 #include <core/directoryprovider.h>
 
@@ -37,16 +38,20 @@ GluonAudio::Source* leftSource;
 GluonAudio::Source* rightSource;
 GluonAudio::Source* centerSource;
 
+GluonAudio::SingleFile* playlist;
+
 void playRight()
 {
-    rightF->feedSource( rightSource );
-    rightSource->play();
+    rightSource->setPlaylist(playlist);
+    playlist->setFile( rightF );
+    playlist->start();
 }
 
 void playCenter()
 {
-    centerF->feedSource( centerSource );
-    centerSource->play();
+    centerSource->setPlaylist(playlist);
+    playlist->setFile( centerF );
+    playlist->start();
 }
 
 int main( int argc, char* argv[] )
@@ -57,6 +62,8 @@ int main( int argc, char* argv[] )
     leftF = new GluonAudio::AudioFile( shareInstallDir + "/gluon/examples/audio/Front_Left.wav" );
     rightF = new GluonAudio::AudioFile( shareInstallDir + "/gluon/examples/audio/Front_Right.wav" );
     centerF = new GluonAudio::AudioFile( shareInstallDir + "/gluon/examples/audio/Front_Center.wav" );
+    
+    playlist = new GluonAudio::SingleFile();
     
     leftSource = new GluonAudio::Source();
     rightSource = new GluonAudio::Source();
@@ -77,8 +84,9 @@ int main( int argc, char* argv[] )
     QObject::connect( &timerCenter, &QTimer::timeout, playCenter );
     timerCenter.start();
     
-    leftF->feedSource( leftSource );
-    leftSource->play();
+    leftSource->setPlaylist(playlist);
+    playlist->setFile( leftF );
+    playlist->start();
     
     app.exec();
 
@@ -88,4 +96,5 @@ int main( int argc, char* argv[] )
     delete leftSource;
     delete rightSource;
     delete centerSource;
+    delete playlist;
 }

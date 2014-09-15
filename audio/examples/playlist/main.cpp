@@ -59,10 +59,11 @@ int main( int argc, char* argv[] )
         files = readFilesFromFile(argv[1]);
     }
     
-    GluonAudio::LinearPlaylist playlist(&source);
+    GluonAudio::LinearPlaylist playlist;
     playlist.setFiles(files);
+    source.setPlaylist(&playlist);
     
-    source.play();
+    playlist.start();
 
     app.exec();
 }

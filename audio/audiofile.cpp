@@ -33,23 +33,20 @@
 #include "decoderplugin.h"
 #include "buffer.h"
 #include "listener.h"
+#include "abstractplaylist.h"
 
 using namespace GluonAudio;
 
 class AudioFile::Private
 {
     public:
-        Private(AudioFile* p) : parent(p), valid(false) {}
+        Private(AudioFile* p) : parent(p), valid(true) {}
         
         struct SourceData
         {
             Source* source;
             Decoder* dec;
             bool isDecoding;
-            bool loopOnce;
-            QList<Buffer> currentBuffers;
-            float remainingTimeInBuffer;
-            int buffersFromPrevious;
         };
         
         void stopFeedingSource( SourceData* data );
@@ -67,7 +64,13 @@ AudioFile::AudioFile(QString file, QObject* parent)
     : QObject(parent)
     , d(new Private(this))
 {
+    DEBUG_BLOCK
     d->file = file;
+    if( AudioHelper::instance()->decoderPlugins().empty() )
+    {
+        DEBUG_TEXT( "No decoder plugins found!" )
+        d->valid = false;
+    }
 }
 
 AudioFile::~AudioFile()
@@ -82,15 +85,14 @@ bool AudioFile::isValid()
 
 void AudioFile::feedSource(Source* source)
 {
+    if( !d->valid )
+        return;
     if( d->dataList.empty() )
         AudioHelper::instance()->registerForUpdates(this);
     Private::SourceData* data = new Private::SourceData();
     data->source = source;
     data->dec = AudioHelper::instance()->decoderPlugins()[0]->createDecoder(d->file);
     data->isDecoding = false;
-    data->remainingTimeInBuffer = 0.0f;
-    data->loopOnce = false;
-    data->buffersFromPrevious = source->getNumberOfBuffers();
     d->dataList.prepend(data);
     source->audioFileAdded();
 }
@@ -109,13 +111,15 @@ void AudioFile::stopFeedingSource(Source* source)
 
 void AudioFile::update()
 {
+    if( !d->valid )
+        return;
     for( Private::SourceData* data : d->dataList )
     {
         if( !data->dec->isValid() )
         {
             DEBUG_BLOCK
             DEBUG_TEXT( "Invalid decoder state..." )
-            data->source->stop();
+            data->source->clear();
             d->stopFeedingSource(data);
             continue;
         }
@@ -127,22 +131,11 @@ void AudioFile::update()
             }
             return;
         }
-        if( data->currentBuffers.count() > 0 )
-        {
-            int removed = data->source->removeOldBuffers();
-            for( int i=0; i<removed; i++ )
-            {
-                if( data->buffersFromPrevious > 0 )
-                    data->buffersFromPrevious--;
-                else
-                    data->currentBuffers.removeLast();
-            }
-        }
-        data->remainingTimeInBuffer=0.0f;
-        for( const Buffer& b : data->currentBuffers )
-            data->remainingTimeInBuffer += b.length;
+        data->source->removeOldBuffers();
         
-        while( data->remainingTimeInBuffer < data->source->getMaxBufferSize() && data->dec->buffersAvailable() )
+        float remainingTimeInBuffer = data->source->remaingTime();
+        
+        while( remainingTimeInBuffer < data->source->getMaxBufferSize() && data->dec->buffersAvailable() )
         {
             Buffer buffer = data->dec->getBuffer();
             if( !Private::generateBuffer(&buffer, data->dec->isStereo()) )
@@ -153,14 +146,13 @@ void AudioFile::update()
             
             delete [] buffer.data;
 
-            data->source->queueBuffer(buffer.name);
-            data->remainingTimeInBuffer += buffer.length;
-            data->currentBuffers.prepend(buffer);
+            data->source->queueBuffer(buffer);
+            remainingTimeInBuffer += buffer.length;
         }
         
         if( data->dec->isEndOfFile() )
         {
-            data->source->fileNearlyFinished();
+            data->source->playlist()->fileNearlyFinished();
             d->stopFeedingSource(data);
         }
     }

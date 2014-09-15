@@ -30,7 +30,7 @@ namespace GluonAudio
     {
             Q_OBJECT
         public:
-            LinearPlaylist(Source* source);
+            LinearPlaylist();
             ~LinearPlaylist();
             
             void setFiles( QList<AudioFile*> files );
@@ -41,10 +41,14 @@ namespace GluonAudio
             bool repeatAll();
             void setRepeatAll( bool repeat );
             
-            void setSource( Source* source );
+            void removedFromSource(Source* source);
             
-        protected slots:
-            void queueNext();
+            void fileNearlyFinished();
+            
+        public slots:
+            void start();
+            void pause();
+            void stop();
             
         private:
             class Private;

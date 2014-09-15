@@ -32,16 +32,20 @@ namespace GluonAudio
     {
             Q_OBJECT
         public:
-            SingleFile(Source* source);
+            SingleFile();
             ~SingleFile();
             
             void setFile( AudioFile* file );
             void setFile( QString path );
             
-            void setSource( Source* source );
+            void removedFromSource( Source* source );
             
-        protected slots:
-            void queueNext();
+            void fileNearlyFinished();
+            
+        public slots:
+            void start();
+            void pause();
+            void stop();
             
         private:
             class Private;

@@ -28,25 +28,31 @@
 #include <core/debughelper.h>
 
 #include "listener.h"
+#include "abstractplaylist.h"
 
 using namespace GluonAudio;
 
 class Source::Private
 {
     public:
-        Private() : valid(false), global(false), name(0), state(Stopped), volume(1.0f), parentVolume(0.0f), maxBufferSize(1.f)
-                  , filesQueued(0) {}
+        Private() : valid(false), global(false), name(0), currentBufferLength(0), position(0.f,0.f,0.f), volume(1.0f), parentVolume(0.0f)
+                  , maxBufferSize(1.f), filesQueued(0), paused(false), playlist(0) {}
         
         bool valid;
         bool global;
         ALuint name;
-        PlayingState state;
-        QList<ALuint> currentBuffers;
+        QList<Buffer> currentBuffers;
+        float currentBufferLength;
         Eigen::Vector3f position;
         float volume;
         float parentVolume;
         float maxBufferSize;
         int filesQueued;
+        bool paused;
+        AbstractPlaylist* playlist;
+        
+        void play();
+        void calculateBufferLength();
 };
 
 Source::Source(QObject* parent)
@@ -69,15 +75,10 @@ Source::~Source()
     delete d;
 }
 
-Source::PlayingState Source::getPlayingState()
-{
-    return d->state;
-}
-
-void Source::queueBuffer( unsigned int bufferName)
+void Source::queueBuffer( Buffer buffer )
 {
     DEBUG_BLOCK
-    ALuint name = bufferName;
+    ALuint name = buffer.name;
     alSourceQueueBuffers( d->name, 1, &name );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
@@ -85,10 +86,10 @@ void Source::queueBuffer( unsigned int bufferName)
         DEBUG_TEXT2( "OpenAL-Error while queueing buffer: %1", error )
         return;
     }
-    d->currentBuffers.prepend(name);
+    d->currentBuffers.prepend(buffer);
     
-    if( d->state == Started )
-      play();
+    d->play();
+    d->calculateBufferLength();
 }
 
 int Source::getNumberOfBuffers()
@@ -118,15 +119,15 @@ int Source::removeOldBuffers()
     }
     for( int i=0; i<processed; i++ )
     {
-        ALuint buffer = d->currentBuffers.takeLast();
-        alSourceUnqueueBuffers( d->name, 1, &buffer );
+        Buffer buffer = d->currentBuffers.takeLast();
+        alSourceUnqueueBuffers( d->name, 1, &buffer.name );
         error = alGetError();
         if( error != AL_NO_ERROR )
         {
             DEBUG_TEXT2( "OpenAL-Error while unqueueing buffer: %1", error )
             continue;
         }
-        alDeleteBuffers( 1, &buffer );
+        alDeleteBuffers( 1, &buffer.name );
         error = alGetError();
         if( error != AL_NO_ERROR )
         {
@@ -134,20 +135,14 @@ int Source::removeOldBuffers()
         }
     }
     
+    d->calculateBufferLength();
+    
     int asd;
     alGetSourcei( d->name, AL_BUFFERS_QUEUED, &asd);
     alGetError();
     //DEBUG_TEXT2( "Buffers left: %1", asd );
     
     return processed; 
-}
-
-void Source::fileNearlyFinished()
-{
-    qDebug() << "fileNearlyFinished" << d->filesQueued;
-    if( d->filesQueued <= 1 )
-        emit queueNext();
-    d->filesQueued--;
 }
 
 void Source::audioFileAdded()
@@ -158,17 +153,26 @@ void Source::audioFileAdded()
 void Source::clear()
 {
     DEBUG_BLOCK
-    if( getPlayingState() != Stopped )
-        stop();
     d->filesQueued = 0;
-    QVector<ALuint> v = d->currentBuffers.toVector();
-    alSourceUnqueueBuffers( d->name, d->currentBuffers.count(), &v[0] );
-    ALCenum error = alGetError();
-    if( error != AL_NO_ERROR )
+    for( Buffer& buffer : d->currentBuffers )
     {
-        DEBUG_TEXT2( "OpenAL-Error while removing buffers: %1", error )
-        return;
+        alSourceUnqueueBuffers( d->name, 1, &buffer.name );
+        ALCenum error = alGetError();
+        if( error != AL_NO_ERROR )
+        {
+            DEBUG_TEXT2( "OpenAL-Error while unqueueing buffers: %1", error )
+            return;
+        }
+        alDeleteBuffers( 1, &buffer.name );
+        error = alGetError();
+        if( error != AL_NO_ERROR )
+        {
+            DEBUG_TEXT2( "OpenAL-Error while removing buffers: %1", error )
+            return;
+        }
     }
+    d->currentBufferLength = 0.f;
+    d->currentBuffers.clear();
 }
 
 bool Source::isValid() const
@@ -270,43 +274,38 @@ float Source::positionInBuffers()
     return position;
 }
 
+float Source::remaingTime()
+{
+    return d->currentBufferLength - positionInBuffers();
+}
+
+
 float Source::getMaxBufferSize()
 {
     return d->maxBufferSize;
 }
 
-void Source::play()
+AbstractPlaylist* Source::playlist() const
 {
-    DEBUG_BLOCK
-    //DEBUG_TEXT("Play")
-    if( d->state == Started )
-    {
-        ALenum state;
-        alGetSourcei( d->name, AL_SOURCE_STATE, &state );
-        ALCenum error = alGetError();
-        if( error != AL_NO_ERROR )
-        {
-            DEBUG_TEXT2( "OpenAL-Error while getting playing state: %1", error );
-            return;
-        }
-        if( state == AL_PLAYING )
-            return;
-    }
+    return d->playlist;
+}
+
+void Source::setPlaylist(AbstractPlaylist* playlist)
+{
+    if( d->playlist )
+        d->playlist->removedFromSource(this);
     
-    alSourcePlay( d->name );
-    ALCenum error = alGetError();
-    if( error != AL_NO_ERROR )
-    {
-        DEBUG_TEXT2( "OpenAL-Error while starting to play: %1", error )
-        return;
-    }
-    d->state = Started;
+    clear();
+    
+    d->playlist = playlist;
+    if( d->playlist )
+        d->playlist->addedToSource(this);
 }
 
 void Source::pause()
 {
     DEBUG_BLOCK
-    if( d->state == Paused )
+    if( d->paused )
         return;
     alSourcePause( d->name );
     ALCenum error = alGetError();
@@ -317,11 +316,23 @@ void Source::pause()
     }
 }
 
+void Source::continuePlaying()
+{
+    DEBUG_BLOCK
+    if( !d->paused )
+        return;
+    alSourcePause( d->name );
+    ALCenum error = alGetError();
+    if( error != AL_NO_ERROR )
+    {
+        DEBUG_TEXT2( "OpenAL-Error while continueing: %1", error )
+        return;
+    }
+}
+
 void Source::stop()
 {
     DEBUG_BLOCK
-    if( d->state == Stopped )
-        return;
     alSourceStop( d->name );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
@@ -329,5 +340,45 @@ void Source::stop()
         DEBUG_TEXT2( "OpenAL-Error while stopping to play: %1", error )
         return;
     }
+    d->paused = false;
 }
+
+/////////////////////////////////////////
+// Private Functions
+/////////////////////////////////////////
+
+void Source::Private::play()
+{
+    DEBUG_BLOCK
+    //DEBUG_TEXT("Play")
+    ALenum state;
+    alGetSourcei( name, AL_SOURCE_STATE, &state );
+    ALCenum error = alGetError();
+    if( error != AL_NO_ERROR )
+    {
+        DEBUG_TEXT2( "OpenAL-Error while getting playing state: %1", error );
+        return;
+    }
+    if( state == AL_PLAYING )
+        return;
+    
+    alSourcePlay( name );
+    error = alGetError();
+    if( error != AL_NO_ERROR )
+    {
+        DEBUG_TEXT2( "OpenAL-Error while starting to play: %1", error )
+        return;
+    }
+}
+
+void Source::Private::calculateBufferLength()
+{
+    currentBufferLength = 0;
+    for( const Buffer& buffer : currentBuffers )
+    {
+        currentBufferLength += buffer.length;
+    }
+}
+
+
 

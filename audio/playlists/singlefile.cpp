@@ -28,13 +28,14 @@ using namespace GluonAudio;
 class SingleFile::Private
 {
     public:
-        Private() : file(0) {}
+        Private() : file(0), state(Stopped) {}
         
         AudioFile* file;
+        PlayingState state;
 };
 
-SingleFile::SingleFile(Source* source)
-    : AbstractPlaylist(source)
+SingleFile::SingleFile()
+    : AbstractPlaylist()
     , d( new Private() )
 {
 }
@@ -54,10 +55,6 @@ void SingleFile::setFile(AudioFile* file)
     }
     
     d->file = file;
-    if( d->file )
-    {
-        d->file->feedSource( source() );
-    }
 }
 
 void SingleFile::setFile( QString path )
@@ -67,26 +64,55 @@ void SingleFile::setFile( QString path )
     setFile( file );
 }
 
-void SingleFile::setSource(Source* source)
+void SingleFile::removedFromSource(Source* source)
 {
-    if( d->file )
+    GluonAudio::SingleFile::removedFromSource(source);
+    
+    if( d->state == Started || d->state == Paused )
     {
-        d->file->stopFeedingSource( this->source() );
-        this->source()->stop();
-        this->source()->clear();
+        d->file->stopFeedingSource(source);
     }
-    
-    GluonAudio::AbstractPlaylist::setSource(source);
-    
-    if( d->file )
+    d->state = Stopped;
+}
+
+void SingleFile::fileNearlyFinished()
+{
+    // nothing to do
+}
+
+void SingleFile::start()
+{
+    switch( d->state )
     {
-        d->file->feedSource( source );
+        case Started:
+            break;
+        case Paused:
+            source()->continuePlaying();
+            break;
+        case Stopped:
+            if( !d->file || !source() )
+            {
+                return;
+            }
+            d->file->feedSource( source() );
+            break;
     }
 }
 
-void SingleFile::queueNext()
+void SingleFile::pause()
 {
-    // nothing to do
+    if( d->state != Started )
+        return;
+    source()->pause();
+}
+
+void SingleFile::stop()
+{
+    if( d->state == Stopped )
+        return;
+    d->file->stopFeedingSource( source() );
+    source()->stop();
+    source()->clear();
 }
 
 

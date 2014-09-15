@@ -24,10 +24,14 @@
 
 #include <Eigen/Core>
 
+#include "buffer.h"
+
 #include "gluon_audio_export.h"
 
 namespace GluonAudio
 {
+    class AbstractPlaylist;
+    
     /**
      * Source is an audio source at some place in the game. If the listener is near 
      * enough (or it's ambient sound), you will hear its sounds. It's a wrapper around
@@ -37,20 +41,14 @@ namespace GluonAudio
     {
             Q_OBJECT
         public:
-            enum PlayingState { Started, Stopped, Paused };
-            
             Source(QObject* parent=0);
             virtual ~Source();
-            
-            PlayingState getPlayingState();
             
             /**
              * Add more or the initial buffers to the source. This should be done via an
              * AudioFile object.
-             * @p bufferName The (OpenAL-internal) name of the buffer you want to add.
-             * @p bufferLength The length of the buffer, in seconds
              */
-            void queueBuffer(unsigned int bufferName);
+            void queueBuffer(Buffer buffer);
             
             /**
              * Returns the current number of buffers the source has.
@@ -62,12 +60,6 @@ namespace GluonAudio
              * @returns the number of buffers removed
              */
             int removeOldBuffers();
-            
-            /**
-             * Tell the source you don't have many buffers for it anymore.
-             * This should normally only be called by AudioFile.
-             */
-            void fileNearlyFinished();
             
             /**
              * Tell the source a file was added. This should be called by AudioFile.
@@ -132,17 +124,40 @@ namespace GluonAudio
             float positionInBuffers();
             
             /**
+             * The remaining time in the buffer in seconds
+             */
+            float remaingTime();
+            
+            /**
              * Get the maximal buffer size for each file
              */
             float getMaxBufferSize();
             
-        public Q_SLOTS:
-            void play();
+            /**
+             * The current playlist
+             */
+            AbstractPlaylist* playlist() const;
+            
+            /**
+             * Set the current playlist
+             */
+            void setPlaylist( AbstractPlaylist* playlist );
+            
+            /**
+             * Pause playback
+             */
             void pause();
+            
+            /**
+             * Continue playback after pause
+             */
+            void continuePlaying();
+            
+            /**
+             * Stop playing
+             */
             void stop();
             
-        Q_SIGNALS:
-            void queueNext();
             
         private:
             class Private;

@@ -31,14 +31,9 @@ class AbstractPlaylist::Private
         Source* source;
 };
 
-AbstractPlaylist::AbstractPlaylist(Source* source)
+AbstractPlaylist::AbstractPlaylist()
     : d(new Private())
 {
-    d->source = source;
-    if( d->source )
-    {
-        connect( d->source, SIGNAL(queueNext()), this, SLOT(queueNext()) );
-    }
 }
 
 AbstractPlaylist::~AbstractPlaylist()
@@ -46,17 +41,17 @@ AbstractPlaylist::~AbstractPlaylist()
     delete d;
 }
 
-void AbstractPlaylist::setSource(Source* source)
+void AbstractPlaylist::addedToSource(Source* source)
 {
-    if( d->source )
-    {
-        disconnect( d->source, SIGNAL(queueNext()), this, SLOT(queueNext()) );
-    }
-    if( source )
-    {
-        connect( d->source, SIGNAL(queueNext()), this, SLOT(queueNext()) );
-    }
     d->source = source;
+}
+
+void AbstractPlaylist::removedFromSource(Source* source)
+{
+    d->source = 0;
+    
+    source->stop();
+    source->clear();
 }
 
 Source* AbstractPlaylist::source() const

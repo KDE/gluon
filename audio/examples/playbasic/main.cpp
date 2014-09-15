@@ -22,6 +22,7 @@
 #include <audio/source.h>
 #include <audio/audiofile.h>
 #include <audio/listener.h>
+#include <audio/playlists/singlefile.h>
 
 #include <QtCore/QDebug>
 #include <QtGui/QGuiApplication>
@@ -32,32 +33,20 @@ int main( int argc, char* argv[] )
     
     GluonAudio::AudioFile* file = new GluonAudio::AudioFile( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
     GluonAudio::Source* source = new GluonAudio::Source();
+    GluonAudio::SingleFile* playlist = new GluonAudio::SingleFile();
     source->setGlobal(true);
     GluonAudio::Listener::instance()->addSource(source);
-    file->feedSource(source);
+    source->setPlaylist(playlist);
     
-    source->play();
+    playlist->setFile(file);
+    playlist->start();
     
     app.exec();
     
     delete file;
     delete source;
+    delete playlist;
     
     return 0;
-    
-    
-    
-//     GluonAudio::Sound* sound = new GluonAudio::Sound;
-//     sound->load( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
-//     sound->setVolume( 0.9 );  //between 0 and 1
-// 
-//     qDebug() << "Playing sound with duration" << sound->duration() << "seconds.";
-//     sound->play();
-// 
-//     while( sound->isPlaying() );
-// 
-//     delete sound;
-// 
-//     return 0;
 }
 
