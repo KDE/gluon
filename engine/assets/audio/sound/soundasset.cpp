@@ -20,8 +20,6 @@
 
 #include "soundasset.h"
 
-#include <audio/engine.h>
-
 REGISTER_OBJECTTYPE( GluonEngine, SoundAsset )
 
 using namespace GluonEngine;

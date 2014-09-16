@@ -30,7 +30,7 @@ namespace GluonAudio
     {
             Q_OBJECT
         public:
-            LinearPlaylist();
+            LinearPlaylist(QObject* parent=0);
             ~LinearPlaylist();
             
             void setFiles( QList<AudioFile*> files );

@@ -34,8 +34,9 @@ class AbstractPlaylist::Private
         PlayingState state;
 };
 
-AbstractPlaylist::AbstractPlaylist()
-    : d(new Private())
+AbstractPlaylist::AbstractPlaylist( QObject* parent )
+    : QObject(parent)
+    , d(new Private())
 {
 }
 

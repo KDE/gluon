@@ -20,9 +20,9 @@
 
 #include "soundlistenercomponent.h"
 
-#include <engine/gameobject.h>
+#include <audio/listener.h>
 
-#include <audio/engine.h>
+#include <engine/gameobject.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, SoundListenerComponent )
 
@@ -47,13 +47,13 @@ QString SoundListenerComponent::category() const
 void SoundListenerComponent::start()
 {
     if( isActive() )
-        GluonAudio::Engine::instance()->setListenerPosition( gameObject()->position() );
+        GluonAudio::Listener::instance()->setListenerPosition( gameObject()->position() );
 }
 
 void SoundListenerComponent::draw( int /* timeLapse */ )
 {
     if( isActive() )
-        GluonAudio::Engine::instance()->setListenerPosition( gameObject()->position() );
+        GluonAudio::Listener::instance()->setListenerPosition( gameObject()->position() );
 }
 
 void SoundListenerComponent::setActive( bool active )

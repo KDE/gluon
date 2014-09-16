@@ -32,7 +32,7 @@ namespace GluonAudio
         public:
             enum PlayingState { Started, Stopped, Paused };
             
-            AbstractPlaylist();
+            AbstractPlaylist( QObject* parent=0 );
             virtual ~AbstractPlaylist();
             
             virtual void fileNearlyFinished()=0;

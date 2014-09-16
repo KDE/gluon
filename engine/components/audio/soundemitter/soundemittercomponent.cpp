@@ -22,8 +22,8 @@
 
 #include <engine/assets/audio/sound/soundasset.h>
 #include <engine/gameobject.h>
-#include <audio/engine.h>
-#include <audio/sound.h>
+#include <audio/source.h>
+#include <audio/playlists/singlefile.h>
 #include <core/metainfo.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, SoundEmitterComponent )
@@ -36,7 +36,8 @@ class SoundEmitterComponent::SoundEmitterComponentPrivate
     public:
         SoundEmitterComponentPrivate()
             : asset( 0 )
-            , sound( 0 )
+            , source( 0 )
+            , playlist( 0 )
             , radius( 10000.0f )
             , volume( 1.0f )
             , pitch( 1.0f )
@@ -45,7 +46,8 @@ class SoundEmitterComponent::SoundEmitterComponentPrivate
         {}
 
         Asset* asset;
-        GluonAudio::Sound* sound;
+        GluonAudio::Source* source;
+        GluonAudio::SingleFile* playlist;
         float radius;
         float volume;
         float pitch;
@@ -57,18 +59,19 @@ SoundEmitterComponent::SoundEmitterComponent( QObject* parent )
     : Component( parent )
     , d( new SoundEmitterComponentPrivate )
 {
-    d->sound = new GluonAudio::Sound(this);
+    d->source = new GluonAudio::Source(this);
+    d->playlist = new GluonAudio::SingleFile(this);
+    d->source->setPlaylist( d->playlist );
 }
 
 SoundEmitterComponent::~SoundEmitterComponent()
 {
-    if( d->sound->isValid() )
-        d->sound->stop();
+    if( d->source->isValid() )
+        d->source->stop();
 
     if( d->asset )
         d->asset->deref();
 
-    d->sound->deleteLater();
     delete d;
 }
 
@@ -79,8 +82,8 @@ QString SoundEmitterComponent::category() const
 
 void SoundEmitterComponent::play()
 {
-    if( d->sound->isValid() )
-        d->sound->play();
+    if( d->source->isValid() )
+        d->playlist->start();
 }
 
 Asset* SoundEmitterComponent::sound()
@@ -104,7 +107,7 @@ void SoundEmitterComponent::setSound( Asset* asset )
     if( asset->data()->hasText() )
     {
         //debug(asset->data()->text());
-        d->sound->load( asset->data()->text() ) ;
+        d->playlist->setFile( asset->data()->text() ) ;
     }
 }
 
@@ -118,34 +121,34 @@ void SoundEmitterComponent::start()
     {
         if( !d->asset->isLoaded() )
             d->asset->load();
-        d->sound->load( d->asset->data()->text() );
+        d->playlist->setFile( d->asset->data()->text() );
     }
 
-    d->sound->setPosition( gameObject()->position() );
-    d->sound->setRadius( d->radius );
-    d->sound->setVolume( d->volume );
-    d->sound->setPitch( d->pitch );
-    d->sound->setLoop( d->loop );
+    d->source->setPosition( gameObject()->position() );
+    d->source->setRadius( d->radius );
+    d->source->setVolume( d->volume );
+    d->source->setPitch( d->pitch );
+    d->playlist->setRepeat( d->loop );
 
-    if( d->autoPlay && d->sound->isValid() )
-        d->sound->play();
+    if( d->autoPlay && d->source->isValid() )
+        d->playlist->start();
 }
 
 void SoundEmitterComponent::draw( int /* timeLapse */ )
 {
-    if( d->sound->isValid() )
-        d->sound->setPosition( gameObject()->position() );
+    if( d->source->isValid() )
+        d->source->setPosition( gameObject()->position() );
 }
 
 void SoundEmitterComponent::stop()
 {
-    if( d->sound->isValid() )
-        d->sound->stop();
+    if( d->source->isValid() )
+        d->source->stop();
 }
 
 void SoundEmitterComponent::cleanup()
 {
-    d->sound->clear();
+    d->source->clear();
 }
 
 float SoundEmitterComponent::radius() const
@@ -156,8 +159,8 @@ float SoundEmitterComponent::radius() const
 void SoundEmitterComponent::setRadius( float radius )
 {
     d->radius = radius;
-    if( d->sound->isValid() )
-        d->sound->setRadius( radius );
+    if( d->source->isValid() )
+        d->source->setRadius( radius );
 }
 
 float SoundEmitterComponent::volume() const
@@ -168,8 +171,8 @@ float SoundEmitterComponent::volume() const
 void SoundEmitterComponent::setVolume( float volume )
 {
     d->volume = volume;
-    if( d->sound->isValid() )
-        d->sound->setVolume( volume );
+    if( d->source->isValid() )
+        d->source->setVolume( volume );
 }
 
 float SoundEmitterComponent::pitch() const
@@ -180,8 +183,8 @@ float SoundEmitterComponent::pitch() const
 void SoundEmitterComponent::setPitch( float pitch )
 {
     d->pitch = pitch;
-    if( d->sound->isValid() )
-        d->sound->setPitch( pitch );
+    if( d->source->isValid() )
+        d->source->setPitch( pitch );
 }
 
 bool SoundEmitterComponent::isLooping() const
@@ -191,9 +194,9 @@ bool SoundEmitterComponent::isLooping() const
 
 bool SoundEmitterComponent::isPlaying() const
 {
-    if( d->sound->isValid() )
+    if( d->source->isValid() )
     {
-        return d->sound->isPlaying();
+        return d->playlist->getPlayingState() == AbstractPlaylist::Started;
     }
     return false;
 }
@@ -202,8 +205,8 @@ void SoundEmitterComponent::setLoop( bool loop )
 {
     d->loop = loop;
 
-    if( d->sound->isValid() )
-        d->sound->setLoop( loop );
+    if( d->source->isValid() )
+        d->playlist->setRepeat( loop );
 }
 
 bool SoundEmitterComponent::autoPlay() const

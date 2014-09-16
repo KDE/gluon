@@ -28,13 +28,14 @@ using namespace GluonAudio;
 class SingleFile::Private
 {
     public:
-        Private() : file(0) {}
+        Private() : file(0), repeat(false) {}
         
         AudioFile* file;
+        bool repeat;
 };
 
-SingleFile::SingleFile()
-    : AbstractPlaylist()
+SingleFile::SingleFile(QObject* parent)
+    : AbstractPlaylist(parent)
     , d( new Private() )
 {
 }
@@ -76,7 +77,20 @@ void SingleFile::removedFromSource(Source* source)
 
 void SingleFile::fileNearlyFinished()
 {
-    setPlayingState(Stopped);
+    if( d->repeat )
+        d->file->feedSource( source() );
+    else
+        setPlayingState(Stopped);
+}
+
+bool SingleFile::repeat() const
+{
+    return d->repeat;
+}
+
+void SingleFile::setRepeat(bool repeat)
+{
+    d->repeat = repeat;
 }
 
 void SingleFile::start()

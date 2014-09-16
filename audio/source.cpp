@@ -37,7 +37,7 @@ class Source::Private
 {
     public:
         Private() : valid(false), global(false), name(0), currentBufferLength(0), position(0.f,0.f,0.f), volume(1.0f), parentVolume(0.0f)
-                  , maxBufferSize(1.f), filesQueued(0), paused(false), updatesRegistered(false), playlist(0) {}
+                  , maxBufferSize(1.f), pitch(1.f), radius(1.f), filesQueued(0), paused(false), updatesRegistered(false), playlist(0) {}
         
         bool valid;
         bool global;
@@ -48,6 +48,8 @@ class Source::Private
         float volume;
         float parentVolume;
         float maxBufferSize;
+        float pitch;
+        float radius;
         int filesQueued;
         bool paused;
         bool updatesRegistered;
@@ -372,6 +374,48 @@ void Source::update()
         d->updatesRegistered = false;
         emit endOfBuffer(this);
     }
+}
+
+float Source::pitch() const
+{
+    return d->pitch;
+}
+
+void Source::setPitch(float pitch)
+{
+    DEBUG_BLOCK
+    if( pitch == d->pitch )
+        return;
+
+    alSourcef( d->name, AL_PITCH, pitch );
+    ALCenum error = alGetError();
+    if( error != AL_NO_ERROR )
+    {
+        DEBUG_TEXT2( "OpenAL-Error while setting pitch: %1", error );
+        return;
+    }
+    d->pitch = pitch;
+}
+
+float Source::radius() const
+{
+    return d->radius;
+}
+
+void Source::setRadius(float radius)
+{
+    DEBUG_BLOCK
+    if( radius == d->radius )
+        return;
+    
+    alSourcef( d->name, AL_REFERENCE_DISTANCE, radius );
+    ALCenum error = alGetError();
+    if( error != AL_NO_ERROR )
+    {
+        DEBUG_TEXT2( "OpenAL-Error while setting radius: %1", error );
+        return;
+    }
+    d->radius = radius;
 }
 
 /////////////////////////////////////////

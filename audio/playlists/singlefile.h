@@ -32,7 +32,7 @@ namespace GluonAudio
     {
             Q_OBJECT
         public:
-            SingleFile();
+            SingleFile(QObject* parent=0);
             ~SingleFile();
             
             void setFile( AudioFile* file );
@@ -41,6 +41,9 @@ namespace GluonAudio
             void removedFromSource( Source* source );
             
             void fileNearlyFinished();
+            
+            bool repeat() const;
+            void setRepeat( bool repeat );
             
         public slots:
             void start();

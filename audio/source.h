@@ -163,6 +163,12 @@ namespace GluonAudio
              */
             void update();
             
+            float pitch() const;
+            void setPitch( float pitch );
+            
+            float radius() const;
+            void setRadius( float radius );
+            
         signals:
             void endOfBuffer(Source* s);
             

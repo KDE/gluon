@@ -37,8 +37,8 @@ class LinearPlaylist::Private
         bool repeatAll;
 };
 
-LinearPlaylist::LinearPlaylist()
-    : AbstractPlaylist()
+LinearPlaylist::LinearPlaylist(QObject* parent)
+    : AbstractPlaylist(parent)
     , d(new Private())
 {
     qsrand(QTime::currentTime().msec());
