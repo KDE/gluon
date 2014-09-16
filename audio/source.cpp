@@ -29,6 +29,7 @@
 
 #include "listener.h"
 #include "abstractplaylist.h"
+#include "audiohelper.h"
 
 using namespace GluonAudio;
 
@@ -36,7 +37,7 @@ class Source::Private
 {
     public:
         Private() : valid(false), global(false), name(0), currentBufferLength(0), position(0.f,0.f,0.f), volume(1.0f), parentVolume(0.0f)
-                  , maxBufferSize(1.f), filesQueued(0), paused(false), playlist(0) {}
+                  , maxBufferSize(1.f), filesQueued(0), paused(false), updatesRegistered(false), playlist(0) {}
         
         bool valid;
         bool global;
@@ -49,6 +50,7 @@ class Source::Private
         float maxBufferSize;
         int filesQueued;
         bool paused;
+        bool updatesRegistered;
         AbstractPlaylist* playlist;
         
         void play();
@@ -90,6 +92,11 @@ void Source::queueBuffer( Buffer buffer )
     
     d->play();
     d->calculateBufferLength();
+    if( !d->updatesRegistered )
+    {
+        AudioHelper::instance()->registerForUpdates(this);
+        d->updatesRegistered = true;
+    }
 }
 
 int Source::getNumberOfBuffers()
@@ -173,6 +180,8 @@ void Source::clear()
     }
     d->currentBufferLength = 0.f;
     d->currentBuffers.clear();
+    AudioHelper::instance()->unregisterForUpdates(this);
+    d->updatesRegistered = false;
 }
 
 bool Source::isValid() const
@@ -343,6 +352,28 @@ void Source::stop()
     d->paused = false;
 }
 
+void Source::update()
+{
+    if( !d->updatesRegistered )
+        return;
+    DEBUG_BLOCK
+    ALenum state;
+    alGetSourcei( d->name, AL_SOURCE_STATE, &state );
+    ALCenum error = alGetError();
+    if( error != AL_NO_ERROR )
+    {
+        DEBUG_TEXT2( "OpenAL-Error while getting playing state: %1", error );
+        return;
+    }
+    if( state == AL_STOPPED )
+    {
+        // Buffer ran out
+        AudioHelper::instance()->unregisterForUpdates(this);
+        d->updatesRegistered = false;
+        emit endOfBuffer(this);
+    }
+}
+
 /////////////////////////////////////////
 // Private Functions
 /////////////////////////////////////////
@@ -351,6 +382,7 @@ void Source::Private::play()
 {
     DEBUG_BLOCK
     //DEBUG_TEXT("Play")
+    
     ALenum state;
     alGetSourcei( name, AL_SOURCE_STATE, &state );
     ALCenum error = alGetError();

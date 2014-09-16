@@ -24,6 +24,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QString>
 #include <QtCore/QFile>
+#include <QtCore/QObject>
 // #include <QtCore/QDebug>
 
 QList<GluonAudio::AudioFile*> readFilesFromFile( char* file )
@@ -62,6 +63,8 @@ int main( int argc, char* argv[] )
     GluonAudio::LinearPlaylist playlist;
     playlist.setFiles(files);
     source.setPlaylist(&playlist);
+    
+    QObject::connect( &playlist, SIGNAL(stopped()), &app, SLOT(quit()) );
     
     playlist.start();
 

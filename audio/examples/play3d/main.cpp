@@ -30,63 +30,39 @@
 #include <QTimer>
 #include <QtGui/QGuiApplication>
 
-GluonAudio::AudioFile* leftF;
-GluonAudio::AudioFile* rightF;
-GluonAudio::AudioFile* centerF;
-
-GluonAudio::Source* leftSource;
-GluonAudio::Source* rightSource;
-GluonAudio::Source* centerSource;
-
-GluonAudio::SingleFile* playlist;
-
-void playRight()
-{
-    rightSource->setPlaylist(playlist);
-    playlist->setFile( rightF );
-    playlist->start();
-}
-
-void playCenter()
-{
-    centerSource->setPlaylist(playlist);
-    playlist->setFile( centerF );
-    playlist->start();
-}
-
 int main( int argc, char* argv[] )
 {
     QGuiApplication app(argc, argv);
     
     QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
-    leftF = new GluonAudio::AudioFile( shareInstallDir + "/gluon/examples/audio/Front_Left.wav" );
-    rightF = new GluonAudio::AudioFile( shareInstallDir + "/gluon/examples/audio/Front_Right.wav" );
-    centerF = new GluonAudio::AudioFile( shareInstallDir + "/gluon/examples/audio/Front_Center.wav" );
+    GluonAudio::AudioFile* leftF = new GluonAudio::AudioFile( shareInstallDir + "/gluon/examples/audio/Front_Left.wav" );
+    GluonAudio::AudioFile* rightF = new GluonAudio::AudioFile( shareInstallDir + "/gluon/examples/audio/Front_Right.wav" );
+    GluonAudio::AudioFile* centerF = new GluonAudio::AudioFile( shareInstallDir + "/gluon/examples/audio/Front_Center.wav" );
     
-    playlist = new GluonAudio::SingleFile();
+    GluonAudio::SingleFile* leftPlaylist = new GluonAudio::SingleFile();
+    GluonAudio::SingleFile* rightPlaylist = new GluonAudio::SingleFile();
+    GluonAudio::SingleFile* centerPlaylist = new GluonAudio::SingleFile();
     
-    leftSource = new GluonAudio::Source();
-    rightSource = new GluonAudio::Source();
-    centerSource = new GluonAudio::Source();
+    GluonAudio::Source* leftSource = new GluonAudio::Source();
+    GluonAudio::Source* rightSource = new GluonAudio::Source();
+    GluonAudio::Source* centerSource = new GluonAudio::Source();
 
     leftSource->setPosition( Eigen::Vector3f(-1.f, 0.f, 0.f) );
     rightSource->setPosition( Eigen::Vector3f(1.f, 0.f, 0.f) );
     
-    QTimer timerRight;
-    timerRight.setSingleShot(true);
-    timerRight.setInterval(3000);
-    QObject::connect( &timerRight, &QTimer::timeout, playRight );
-    timerRight.start();
+    leftSource->setPlaylist( leftPlaylist );
+    rightSource->setPlaylist( rightPlaylist );
+    centerSource->setPlaylist( centerPlaylist );
     
-    QTimer timerCenter;
-    timerCenter.setSingleShot(true);
-    timerCenter.setInterval(6000);
-    QObject::connect( &timerCenter, &QTimer::timeout, playCenter );
-    timerCenter.start();
+    leftPlaylist->setFile( leftF );
+    rightPlaylist->setFile( rightF );
+    centerPlaylist->setFile( centerF );
     
-    leftSource->setPlaylist(playlist);
-    playlist->setFile( leftF );
-    playlist->start();
+    QObject::connect( leftPlaylist, SIGNAL(stopped()), rightPlaylist, SLOT(start()) );
+    QObject::connect( rightPlaylist, SIGNAL(stopped()), centerPlaylist, SLOT(start()) );
+    QObject::connect( centerPlaylist, SIGNAL(stopped()), &app, SLOT(quit()) );
+    
+    leftPlaylist->start();
     
     app.exec();
 
@@ -96,5 +72,7 @@ int main( int argc, char* argv[] )
     delete leftSource;
     delete rightSource;
     delete centerSource;
-    delete playlist;
+    delete leftPlaylist;
+    delete rightPlaylist;
+    delete centerPlaylist;
 }

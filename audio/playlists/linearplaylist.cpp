@@ -29,13 +29,12 @@ using namespace GluonAudio;
 class LinearPlaylist::Private
 {
     public:
-        Private() : currentFile(0), random(false), repeatAll(false), state(Stopped) {}
+        Private() : currentFile(0), random(false), repeatAll(false) {}
         
         QList<AudioFile*> files;
         int currentFile;
         bool random;
         bool repeatAll;
-        PlayingState state;
 };
 
 LinearPlaylist::LinearPlaylist()
@@ -52,7 +51,7 @@ LinearPlaylist::~LinearPlaylist()
 
 void LinearPlaylist::setFiles(QList< AudioFile* > files)
 {
-    if( d->state == Started || d->state == Paused )
+    if( getPlayingState() == Started || getPlayingState() == Paused )
         stop();
     
     d->files = files;
@@ -82,16 +81,16 @@ void LinearPlaylist::removedFromSource(Source* source)
 {
     GluonAudio::AbstractPlaylist::removedFromSource(source);
     
-    if( d->state == Started || d->state == Paused )
+    if( getPlayingState() == Started || getPlayingState() == Paused )
     {
         d->files[d->currentFile]->stopFeedingSource(source);
     }
-    d->state = Stopped;
+    setPlayingState(Stopped);
 }
 
 void LinearPlaylist::fileNearlyFinished()
 {
-    if( d->state == Stopped )
+    if( getPlayingState() == Stopped )
         return;
     
     if( random() )
@@ -102,20 +101,23 @@ void LinearPlaylist::fileNearlyFinished()
     {
         d->currentFile = (d->currentFile + 1) % d->files.count();
         if( d->currentFile == 0 && !d->repeatAll )
+        {
+            setPlayingState(Stopped);
             return; // let it stop
+        }
     }
     d->files[d->currentFile]->feedSource(source());
 }
 
 void LinearPlaylist::start()
 {
-    switch( d->state )
+    switch( getPlayingState() )
     {
         case Started:
             break;
         case Paused:
             source()->continuePlaying();
-            d->state = Started;
+            setPlayingState(Started);
             break;
         case Stopped:
             if( d->files.empty() || !source() )
@@ -123,25 +125,27 @@ void LinearPlaylist::start()
                 return;
             }
             d->files[d->currentFile]->feedSource( source() );
-            d->state = Started;
+            setPlayingState(Started);
             break;
     }
 }
 
 void LinearPlaylist::pause()
 {
-    if( d->state != Started )
+    if( getPlayingState() != Started )
         return;
     source()->pause();
+    setPlayingState(Paused);
 }
 
 void LinearPlaylist::stop()
 {
-    if( d->state == Stopped )
+    if( getPlayingState() == Stopped )
         return;
     d->files[d->currentFile]->stopFeedingSource( source() );
     source()->stop();
     source()->clear();
+    setPlayingState(Stopped);
 }
 
 

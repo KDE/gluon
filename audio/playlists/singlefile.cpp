@@ -28,10 +28,9 @@ using namespace GluonAudio;
 class SingleFile::Private
 {
     public:
-        Private() : file(0), state(Stopped) {}
+        Private() : file(0) {}
         
         AudioFile* file;
-        PlayingState state;
 };
 
 SingleFile::SingleFile()
@@ -68,26 +67,27 @@ void SingleFile::removedFromSource(Source* source)
 {
     GluonAudio::SingleFile::removedFromSource(source);
     
-    if( d->state == Started || d->state == Paused )
+    if( getPlayingState() == Started || getPlayingState() == Paused )
     {
         d->file->stopFeedingSource(source);
     }
-    d->state = Stopped;
+    setPlayingState(Stopped);
 }
 
 void SingleFile::fileNearlyFinished()
 {
-    // nothing to do
+    setPlayingState(Stopped);
 }
 
 void SingleFile::start()
 {
-    switch( d->state )
+    switch( getPlayingState() )
     {
         case Started:
             break;
         case Paused:
             source()->continuePlaying();
+            setPlayingState(Started);
             break;
         case Stopped:
             if( !d->file || !source() )
@@ -95,24 +95,27 @@ void SingleFile::start()
                 return;
             }
             d->file->feedSource( source() );
+            setPlayingState(Started);
             break;
     }
 }
 
 void SingleFile::pause()
 {
-    if( d->state != Started )
+    if( getPlayingState() != Started )
         return;
     source()->pause();
+    setPlayingState(Paused);
 }
 
 void SingleFile::stop()
 {
-    if( d->state == Stopped )
+    if( getPlayingState() == Stopped )
         return;
     d->file->stopFeedingSource( source() );
     source()->stop();
     source()->clear();
+    setPlayingState(Stopped);
 }
 
 

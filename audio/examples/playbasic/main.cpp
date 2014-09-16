@@ -39,6 +39,7 @@ int main( int argc, char* argv[] )
     source->setPlaylist(playlist);
     
     playlist->setFile(file);
+    QObject::connect( playlist, SIGNAL(stopped()), &app, SLOT(quit()) );
     playlist->start();
     
     app.exec();

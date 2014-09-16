@@ -40,13 +40,22 @@ namespace GluonAudio
             virtual void addedToSource( Source* source );
             virtual void removedFromSource( Source* source );
             
+            virtual PlayingState getPlayingState() const;
+            
         public slots:
             virtual void start()=0;
             virtual void pause()=0;
             virtual void stop()=0;
             
+            virtual void sourceOutOfBuffer(Source* s);
+            
+        signals:
+            void stopped();
+            
         protected:
             Source* source() const;
+            
+            void setPlayingState( PlayingState state );
             
         private:
             class Private;

@@ -158,6 +158,14 @@ namespace GluonAudio
              */
             void stop();
             
+            /**
+             * Regular called function to do stuff (like checking if the buffer ran out)
+             */
+            void update();
+            
+        signals:
+            void endOfBuffer(Source* s);
+            
             
         private:
             class Private;

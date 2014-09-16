@@ -23,6 +23,7 @@
 #include <core/debughelper.h>
 
 #include "audiofile.h"
+#include "source.h"
 #include "decoder.h"
 #include "decoderplugin.h"
 
@@ -33,13 +34,15 @@ GLUON_DEFINE_SINGLETON( AudioHelper )
 class AudioHelper::Private
 {
     public:
-        Private() : timerid(0) {}
+        Private() : fileTimer(0), sourceTimer(0) {}
         
         void loadPlugins();
         
         QList<DecoderPlugin*> plugins;
         QList<AudioFile*> registeredAudioFiles;
-        int timerid;
+        QList<Source*> registeredSources;
+        int fileTimer;
+        int sourceTimer;
 };
 
 void AudioHelper::Private::loadPlugins()
@@ -74,7 +77,7 @@ void AudioHelper::registerForUpdates(AudioFile* file)
     d->registeredAudioFiles.append(file);
     if( d->registeredAudioFiles.count() == 1 )
     {
-        d->timerid = startTimer(30);
+        d->fileTimer = startTimer(30);
     }
 }
 
@@ -82,9 +85,26 @@ void AudioHelper::unregisterForUpdates(AudioFile* file)
 {
     if( d->registeredAudioFiles.removeOne(file) )
         if( d->registeredAudioFiles.count() == 0)
-            killTimer(d->timerid);
+            killTimer(d->fileTimer);
 }
 
+void AudioHelper::registerForUpdates(Source* source)
+{
+    if( d->registeredSources.contains( source ) )
+        return;
+    d->registeredSources.append(source);
+    if( d->registeredSources.count() == 1 )
+    {
+        d->sourceTimer = startTimer(200);
+    }
+}
+
+void AudioHelper::unregisterForUpdates(Source* source)
+{
+    if( d->registeredSources.removeOne(source) )
+        if( d->registeredSources.count() == 0 )
+            killTimer( d->sourceTimer );
+}
 
 QList< DecoderPlugin* > AudioHelper::decoderPlugins()
 {
@@ -93,9 +113,19 @@ QList< DecoderPlugin* > AudioHelper::decoderPlugins()
 
 void AudioHelper::timerEvent(QTimerEvent* event)
 {
-    for( AudioFile* file : d->registeredAudioFiles )
+    if( event->timerId() == d->fileTimer )
     {
-        file->update();
+        for( AudioFile* file : d->registeredAudioFiles )
+        {
+            file->update();
+        }
+    }
+    else if( event->timerId() == d->sourceTimer )
+    {
+        for( Source* source : d->registeredSources )
+        {
+            source->update();
+        }
     }
 }
 

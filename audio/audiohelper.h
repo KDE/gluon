@@ -27,6 +27,7 @@
 namespace GluonAudio
 {
     class AudioFile;
+    class Source;
     class DecoderPlugin;
     
     class GLUON_AUDIO_EXPORT AudioHelper: public GluonCore::Singleton<AudioHelper>
@@ -36,6 +37,9 @@ namespace GluonAudio
         public:
             void registerForUpdates( AudioFile* file );
             void unregisterForUpdates( AudioFile* file );
+            
+            void registerForUpdates( Source* source );
+            void unregisterForUpdates( Source* source );
             
             QList<DecoderPlugin*> decoderPlugins();
             
