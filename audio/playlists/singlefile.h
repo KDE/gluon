@@ -26,7 +26,7 @@
 
 namespace GluonAudio
 {
-    class AudioFile;
+    class AbstractFile;
     
     class SingleFile: public AbstractPlaylist
     {
@@ -35,7 +35,7 @@ namespace GluonAudio
             SingleFile(QObject* parent=0);
             ~SingleFile();
             
-            void setFile( AudioFile* file );
+            void setFile( AbstractFile* file );
             void setFile( QString path );
             
             void removedFromSource( Source* source );

@@ -17,28 +17,33 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_AUDIO_AUDIOFILE_H
-#define GLUON_AUDIO_AUDIOFILE_H
+#ifndef GLUON_AUDIO_ABSTRACTFILE_H
+#define GLUON_AUDIO_ABSTRACTFILE_H
 
 #include <QtCore/QObject>
 
 namespace GluonAudio
 {
     class Source;
+    class Buffer;
     
-    class AudioFile : public QObject
+    class AbstractFile : public QObject
     {
             Q_OBJECT
         public:
-            AudioFile( QString file, QObject* parent=0 );
-            virtual ~AudioFile();
+            AbstractFile( QString file, QObject* parent=0 );
+            virtual ~AbstractFile();
             
-            bool isValid();
+            virtual bool isValid();
             
-            void feedSource( Source* source );
-            void stopFeedingSource( Source* source );
+            virtual void feedSource( Source* source )=0;
+            virtual void stopFeedingSource( Source* source )=0;
             
-            void update();
+            virtual void update()=0;
+            
+        protected:
+            QString file();
+            bool generateBuffer( Buffer* buffer, bool isStereo );
             
         private:
             class Private;
@@ -46,4 +51,4 @@ namespace GluonAudio
     };
 }
 
-#endif // GLUON_AUDIO_AUDIOFILE_H
+#endif // GLUON_AUDIO_ABSTRACTFILE_H

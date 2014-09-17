@@ -21,7 +21,7 @@
  */
 
 #include "audio/source.h"
-#include "audio/audiofile.h"
+#include "audio/musicfile.h"
 #include "audio/playlists/singlefile.h"
 
 #include <core/directoryprovider.h>
@@ -35,9 +35,9 @@ int main( int argc, char* argv[] )
     QGuiApplication app(argc, argv);
     
     QString shareInstallDir = GluonCore::DirectoryProvider::instance()->dataDirectory();
-    GluonAudio::AudioFile* leftF = new GluonAudio::AudioFile( shareInstallDir + "/gluon/examples/audio/Front_Left.wav" );
-    GluonAudio::AudioFile* rightF = new GluonAudio::AudioFile( shareInstallDir + "/gluon/examples/audio/Front_Right.wav" );
-    GluonAudio::AudioFile* centerF = new GluonAudio::AudioFile( shareInstallDir + "/gluon/examples/audio/Front_Center.wav" );
+    GluonAudio::MusicFile* leftF = new GluonAudio::MusicFile( shareInstallDir + "/gluon/examples/audio/Front_Left.wav" );
+    GluonAudio::MusicFile* rightF = new GluonAudio::MusicFile( shareInstallDir + "/gluon/examples/audio/Front_Right.wav" );
+    GluonAudio::MusicFile* centerF = new GluonAudio::MusicFile( shareInstallDir + "/gluon/examples/audio/Front_Center.wav" );
     
     GluonAudio::SingleFile* leftPlaylist = new GluonAudio::SingleFile();
     GluonAudio::SingleFile* rightPlaylist = new GluonAudio::SingleFile();

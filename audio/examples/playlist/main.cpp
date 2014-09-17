@@ -18,7 +18,8 @@
  */
 
 #include "audio/source.h"
-#include "audio/audiofile.h"
+#include "audio/abstractfile.h"
+#include "audio/musicfile.h"
 #include "audio/playlists/linearplaylist.h"
 
 #include <QtCore/QCoreApplication>
@@ -27,9 +28,9 @@
 #include <QtCore/QObject>
 // #include <QtCore/QDebug>
 
-QList<GluonAudio::AudioFile*> readFilesFromFile( char* file )
+QList<GluonAudio::AbstractFile*> readFilesFromFile( char* file )
 {
-    QList<GluonAudio::AudioFile*> files;
+    QList<GluonAudio::AbstractFile*> files;
     
     QFile qfile( file );
     if( !qfile.open( QIODevice::ReadOnly ) )
@@ -37,7 +38,7 @@ QList<GluonAudio::AudioFile*> readFilesFromFile( char* file )
     while (!qfile.atEnd()) {
         QString line = QString::fromUtf8( qfile.readLine() );
         if( !line.trimmed().isEmpty() )
-            files << new GluonAudio::AudioFile( line.trimmed() );
+            files << new GluonAudio::MusicFile( line.trimmed() );
     }
     return files;
 }
@@ -48,12 +49,12 @@ int main( int argc, char* argv[] )
     
     GluonAudio::Source source;
     
-    QList<GluonAudio::AudioFile*> files;
+    QList<GluonAudio::AbstractFile*> files;
     
     if( argc == 1 )
     {
-        files << new GluonAudio::AudioFile( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
-        files << new GluonAudio::AudioFile( "/usr/share/sounds/KDE-Sys-Log-Out.ogg" );
+        files << new GluonAudio::MusicFile( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
+        files << new GluonAudio::MusicFile( "/usr/share/sounds/KDE-Sys-Log-Out.ogg" );
     }
     else
     {

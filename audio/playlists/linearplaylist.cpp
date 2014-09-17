@@ -20,7 +20,7 @@
 #include "linearplaylist.h"
 
 #include "../source.h"
-#include "../audiofile.h"
+#include "../abstractfile.h"
 
 #include <QtCore/QTime>
 
@@ -31,7 +31,7 @@ class LinearPlaylist::Private
     public:
         Private() : currentFile(0), random(false), repeatAll(false) {}
         
-        QList<AudioFile*> files;
+        QList<AbstractFile*> files;
         int currentFile;
         bool random;
         bool repeatAll;
@@ -49,7 +49,7 @@ LinearPlaylist::~LinearPlaylist()
     delete d;
 }
 
-void LinearPlaylist::setFiles(QList< AudioFile* > files)
+void LinearPlaylist::setFiles(QList< AbstractFile* > files)
 {
     if( getPlayingState() == Started || getPlayingState() == Paused )
         stop();

@@ -20,7 +20,7 @@
  */
 
 #include <audio/source.h>
-#include <audio/audiofile.h>
+#include <audio/musicfile.h>
 #include <audio/listener.h>
 #include <audio/playlists/singlefile.h>
 
@@ -31,7 +31,7 @@ int main( int argc, char* argv[] )
 {
     QGuiApplication app(argc, argv);
     
-    GluonAudio::AudioFile* file = new GluonAudio::AudioFile( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
+    GluonAudio::MusicFile* file = new GluonAudio::MusicFile( "/usr/share/sounds/KDE-Sys-Log-In.ogg" );
     GluonAudio::Source* source = new GluonAudio::Source();
     GluonAudio::SingleFile* playlist = new GluonAudio::SingleFile();
     source->setGlobal(true);

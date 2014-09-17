@@ -22,7 +22,7 @@
 #include <core/pluginregistry.h>
 #include <core/debughelper.h>
 
-#include "audiofile.h"
+#include "abstractfile.h"
 #include "source.h"
 #include "decoder.h"
 #include "decoderplugin.h"
@@ -39,7 +39,7 @@ class AudioHelper::Private
         void loadPlugins();
         
         QList<DecoderPlugin*> plugins;
-        QList<AudioFile*> registeredAudioFiles;
+        QList<AbstractFile*> registeredFiles;
         QList<Source*> registeredSources;
         int fileTimer;
         int sourceTimer;
@@ -70,21 +70,21 @@ AudioHelper::~AudioHelper()
     delete d;
 }
 
-void AudioHelper::registerForUpdates(AudioFile* file)
+void AudioHelper::registerForUpdates(AbstractFile* file)
 {
-    if( d->registeredAudioFiles.contains(file) )
+    if( d->registeredFiles.contains(file) )
         return;
-    d->registeredAudioFiles.append(file);
-    if( d->registeredAudioFiles.count() == 1 )
+    d->registeredFiles.append(file);
+    if( d->registeredFiles.count() == 1 )
     {
         d->fileTimer = startTimer(30);
     }
 }
 
-void AudioHelper::unregisterForUpdates(AudioFile* file)
+void AudioHelper::unregisterForUpdates(AbstractFile* file)
 {
-    if( d->registeredAudioFiles.removeOne(file) )
-        if( d->registeredAudioFiles.count() == 0)
+    if( d->registeredFiles.removeOne(file) )
+        if( d->registeredFiles.count() == 0)
             killTimer(d->fileTimer);
 }
 
@@ -115,7 +115,7 @@ void AudioHelper::timerEvent(QTimerEvent* event)
 {
     if( event->timerId() == d->fileTimer )
     {
-        for( AudioFile* file : d->registeredAudioFiles )
+        for( AbstractFile* file : d->registeredFiles )
         {
             file->update();
         }

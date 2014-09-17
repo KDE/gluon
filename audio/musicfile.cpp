@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "audiofile.h"
+#include "musicfile.h"
 
 #include <QtCore/QHash>
 #include <QtCore/QDebug>
@@ -37,10 +37,10 @@
 
 using namespace GluonAudio;
 
-class AudioFile::Private
+class MusicFile::Private
 {
     public:
-        Private(AudioFile* p) : parent(p), valid(true) {}
+        Private(MusicFile* p) : parent(p) {}
         
         struct SourceData
         {
@@ -54,50 +54,36 @@ class AudioFile::Private
         static void initializeDecoding( SourceData* data );
         static void queueBuffer( SourceData* data );
         
-        AudioFile* parent;
-        QString file;
-        bool valid;
+        MusicFile* parent;
         QList<SourceData*> dataList;
 };
 
-AudioFile::AudioFile(QString file, QObject* parent)
-    : QObject(parent)
+MusicFile::MusicFile(QString file, QObject* parent)
+    : AbstractFile(file,parent)
     , d(new Private(this))
 {
-    DEBUG_BLOCK
-    d->file = file;
-    if( AudioHelper::instance()->decoderPlugins().empty() )
-    {
-        DEBUG_TEXT( "No decoder plugins found!" )
-        d->valid = false;
-    }
 }
 
-AudioFile::~AudioFile()
+MusicFile::~MusicFile()
 {
     delete d;
 }
 
-bool AudioFile::isValid()
+void MusicFile::feedSource(Source* source)
 {
-    return d->valid;
-}
-
-void AudioFile::feedSource(Source* source)
-{
-    if( !d->valid )
+    if( !isValid() )
         return;
     if( d->dataList.empty() )
         AudioHelper::instance()->registerForUpdates(this);
     Private::SourceData* data = new Private::SourceData();
     data->source = source;
-    data->dec = AudioHelper::instance()->decoderPlugins()[0]->createDecoder(d->file);
+    data->dec = AudioHelper::instance()->decoderPlugins()[0]->createDecoder(file());
     data->isDecoding = false;
     d->dataList.prepend(data);
     source->audioFileAdded();
 }
 
-void AudioFile::stopFeedingSource(Source* source)
+void MusicFile::stopFeedingSource(Source* source)
 {
     for( Private::SourceData* data : d->dataList )
     {
@@ -109,9 +95,9 @@ void AudioFile::stopFeedingSource(Source* source)
     }
 }
 
-void AudioFile::update()
+void MusicFile::update()
 {
-    if( !d->valid )
+    if( !isValid() )
         return;
     for( Private::SourceData* data : d->dataList )
     {
@@ -138,7 +124,7 @@ void AudioFile::update()
         while( remainingTimeInBuffer < data->source->getMaxBufferSize() && data->dec->buffersAvailable() )
         {
             Buffer buffer = data->dec->getBuffer();
-            if( !Private::generateBuffer(&buffer, data->dec->isStereo()) )
+            if( !generateBuffer(&buffer, data->dec->isStereo()) )
             {
                 data->source->stop();
                 d->stopFeedingSource(data);
@@ -158,7 +144,7 @@ void AudioFile::update()
     }
 }
 
-void AudioFile::Private::stopFeedingSource(AudioFile::Private::SourceData* data)
+void MusicFile::Private::stopFeedingSource(MusicFile::Private::SourceData* data)
 {
     data->dec->stopDecoding();
     delete data->dec;
@@ -168,29 +154,7 @@ void AudioFile::Private::stopFeedingSource(AudioFile::Private::SourceData* data)
         AudioHelper::instance()->unregisterForUpdates(parent);
 }
 
-bool AudioFile::Private::generateBuffer( Buffer* buffer, bool isStereo )
-{
-    DEBUG_BLOCK
-    ALenum format = isStereo ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16;
-    Listener::instance();
-    alGenBuffers( 1, &buffer->name );
-    ALCenum error = alGetError();
-    if( error != AL_NO_ERROR )
-    {
-        DEBUG_TEXT2( "OpenAL-Error while creating buffer: %1", error )
-        return false;
-    }
-    alBufferData( buffer->name, format, (void*) buffer->data, buffer->size, buffer->frequency );
-    error = alGetError();
-    if( error != AL_NO_ERROR )
-    {
-        DEBUG_TEXT2( "OpenAL-Error while filling buffer: %1", error )
-        return false;
-    }
-    return true;
-}
-
-void AudioFile::Private::initializeDecoding(AudioFile::Private::SourceData* data)
+void MusicFile::Private::initializeDecoding(MusicFile::Private::SourceData* data)
 {
     if( data->dec->isStereo() )
         data->source->setGlobal( true );

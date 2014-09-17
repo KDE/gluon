@@ -8,7 +8,9 @@ set( GluonAudio_SRCS
     listener.cpp
     decoderplugin.cpp
     audiohelper.cpp
-    audiofile.cpp
+    abstractfile.cpp
+    musicfile.cpp
+    effectfile.cpp
     abstractplaylist.cpp
     playlists/linearplaylist.cpp
     playlists/singlefile.cpp
@@ -22,7 +24,9 @@ set( GluonAudio_HEADERS
     buffer.h
     decoderplugin.h
     audiohelper.h
-    audiofile.h
+    abstractfile.h
+    musicfile.h
+    effectfile.h
     abstractplaylist.h
     playlists/linearplaylist.h
     playlists/singlefile.h

@@ -26,7 +26,7 @@
 
 namespace GluonAudio
 {
-    class AudioFile;
+    class AbstractFile;
     class Source;
     class DecoderPlugin;
     
@@ -35,8 +35,8 @@ namespace GluonAudio
             Q_OBJECT
             GLUON_SINGLETON( AudioHelper )
         public:
-            void registerForUpdates( AudioFile* file );
-            void unregisterForUpdates( AudioFile* file );
+            void registerForUpdates( AbstractFile* file );
+            void unregisterForUpdates( AbstractFile* file );
             
             void registerForUpdates( Source* source );
             void unregisterForUpdates( Source* source );

@@ -20,7 +20,8 @@
 #include "singlefile.h"
 
 #include "../abstractplaylist.h"
-#include "../audiofile.h"
+#include "../abstractfile.h"
+#include "../musicfile.h"
 #include "../source.h"
 
 using namespace GluonAudio;
@@ -30,7 +31,7 @@ class SingleFile::Private
     public:
         Private() : file(0), repeat(false) {}
         
-        AudioFile* file;
+        AbstractFile* file;
         bool repeat;
 };
 
@@ -45,7 +46,7 @@ SingleFile::~SingleFile()
     delete d;
 }
 
-void SingleFile::setFile(AudioFile* file)
+void SingleFile::setFile(AbstractFile* file)
 {
     if( d->file )
     {
@@ -60,7 +61,7 @@ void SingleFile::setFile(AudioFile* file)
 void SingleFile::setFile( QString path )
 {
     //TODO: Use the Audio File Manager
-    AudioFile* file = new AudioFile( path );
+    AbstractFile* file = new MusicFile( path );
     setFile( file );
 }
 

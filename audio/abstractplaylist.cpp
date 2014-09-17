@@ -48,7 +48,6 @@ AbstractPlaylist::~AbstractPlaylist()
 void AbstractPlaylist::addedToSource(Source* source)
 {
     d->source = source;
-    if( source )
     connect( source, SIGNAL(endOfBuffer(Source*)), this, SLOT(sourceOutOfBuffer(Source*)) );
 }
 

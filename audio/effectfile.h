@@ -17,43 +17,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONAUDIO_LINEARPLAYLIST_H
-#define GLUONAUDIO_LINEARPLAYLIST_H
+#ifndef GLUON_AUDIO_EFFECTFILE_H
+#define GLUON_AUDIO_EFFECTFILE_H
 
-#include "../abstractplaylist.h"
+#include "abstractfile.h"
 
 namespace GluonAudio
 {
-    class AbstractFile;
-    
-    class LinearPlaylist: public AbstractPlaylist
+    class EffectFile: public AbstractFile
     {
             Q_OBJECT
         public:
-            LinearPlaylist(QObject* parent=0);
-            ~LinearPlaylist();
+            EffectFile( QString file, QObject* parent=0 );
+            ~EffectFile();
             
-            void setFiles( QList<AbstractFile*> files );
+            void feedSource( Source* source );
+            void stopFeedingSource( Source* source );
             
-            bool random();
-            void setRandom( bool random );
-            
-            bool repeatAll();
-            void setRepeatAll( bool repeat );
-            
-            void removedFromSource(Source* source);
-            
-            void fileNearlyFinished();
-            
-        public slots:
-            void start();
-            void pause();
-            void stop();
+            void update();
             
         private:
             class Private;
             Private* d;
     };
-}           
+}
 
-#endif // GLUONAUDIO_LINEARPLAYLIST_H
+#endif // GLUON_AUDIO_EFFECTFILE_H
