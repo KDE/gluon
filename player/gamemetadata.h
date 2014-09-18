@@ -22,10 +22,12 @@
 #define GLUONPLAYER_GAMEMETADATA_H
  
 #include <QtCore/QObject>
+
+#include "gluon_player_export.h"
  
 namespace GluonPlayer
 {
-    class GameMetadata : public QObject
+    class GLUON_PLAYER_EXPORT GameMetadata : public QObject
     {
             Q_OBJECT
             Q_PROPERTY( QString gameId READ gameId WRITE setGameId NOTIFY gameIdChanged )

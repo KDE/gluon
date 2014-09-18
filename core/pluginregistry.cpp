@@ -26,8 +26,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QDebug>
 
-#include "debughelper.h"
-
+#include "log.h"
 #include "directoryprovider.h"
 
 using namespace GluonCore;
@@ -52,10 +51,10 @@ class PluginRegistry::Private
 };
 
 const QStringList PluginRegistry::Private::knownTypes =
-    QStringList() << "org.kde.gluon.graphics.backend"
+    QStringList() << "org.kde.gluon.core.factoryplugin"
+                  << "org.kde.gluon.graphics.backend"
                   << "org.kde.gluon.input.platform"
                   << "org.kde.gluon.input.device"
-                  << "org.kde.gluon.engine.objectProvider"
                   << "org.kde.gluon.creator.dock"
                   << "org.kde.gluon.creator.tool"
                   << "org.kde.gluon.audio.decoder";
@@ -102,8 +101,10 @@ QList< QJsonObject > PluginRegistry::metaDataForType( const QString& type )
             d->plugins.insert( pluginName, loader );
             d->pluginNames.insert( type, pluginName );
         }
-
-        delete loader;
+        else
+        {
+            delete loader;
+        }
     }
 
     return list;
@@ -119,6 +120,10 @@ QObject* PluginRegistry::load( const QString& plugin )
     {
         d->plugins.insert( plugin, loader );
         d->pluginNames.insert( loader->metaData().value( "type" ).toString(), plugin );
+
+        if( !loader->load() )
+            WARNING() << loader->errorString();
+
         return loader->instance();
     }
 
@@ -145,17 +150,21 @@ QObjectList PluginRegistry::loadType( const QString& type )
         QString pluginName = QFileInfo( loader->fileName() ).baseName();
         if( !d->pluginNames.contains( pluginName ) )
         {
-            QObject* o = loader->instance();
-            if( o )
+            if( loader->load() )
             {
-                list.append( o );
+                list.append( loader->instance() );
                 d->plugins.insert( pluginName, loader );
                 d->pluginNames.insert( type, pluginName );
-                continue;
+            }
+            else
+            {
+                WARNING() << loader->errorString();
             }
         }
-
-        delete loader;
+        else
+        {
+            delete loader;
+        }
     }
 
     return list;
@@ -163,10 +172,27 @@ QObjectList PluginRegistry::loadType( const QString& type )
 
 QStringList PluginRegistry::pluginNamesForType( const QString& type )
 {
+    QStringList names;
     if( d->pluginNames.contains( type ) )
-        return d->pluginNames.values( type );
+        names.append( d->pluginNames.values( type ) );
 
-    return QStringList();
+    QList< QPluginLoader* > plugins = d->findPluginsByType( type );
+    for( auto loader : plugins )
+    {
+        QString pluginName = QFileInfo( loader->fileName() ).baseName();
+        if( !d->pluginNames.contains( pluginName ) )
+        {
+            d->plugins.insert( pluginName, loader );
+            d->pluginNames.insert( type, pluginName );
+            names.append( pluginName );
+        }
+        else
+        {
+            delete loader;
+        }
+    }
+
+    return names;
 }
 
 QStringList PluginRegistry::pluginDirectories()
@@ -193,6 +219,8 @@ PluginRegistry::Private::findPlugin( const QString& pluginName )
     if( pluginLocations.isEmpty() )
         updatePluginDirectories();
 
+    DEBUG() << "Looking for plugin " << pluginName;
+
     for( auto location : pluginLocations )
     {
         QDir dir( location );
@@ -208,14 +236,14 @@ PluginRegistry::Private::findPlugin( const QString& pluginName )
                 QPluginLoader* loader = new QPluginLoader( file.absoluteFilePath(), q );
                 if( loader->metaData().isEmpty() )
                 {
-                    qWarning() << "No metadata for plugin:" << loader->fileName();
+                    WARNING() << "No metadata for plugin " << loader->fileName();
                     delete loader;
                     continue;
                 }
 
                 if( !loader->metaData().contains( "IID" ) )
                 {
-                    qWarning() << "Unable to determine type for plugin:" << loader->fileName();
+                    WARNING() << "Unable to determine type for plugin " << loader->fileName();
                     delete loader;
                     continue;
                 }
@@ -223,7 +251,7 @@ PluginRegistry::Private::findPlugin( const QString& pluginName )
                 QString type = loader->metaData().value( "IID" ).toString();
                 if( !knownTypes.contains( type ) )
                 {
-                    qWarning() << "Unknown type" << type << "of plugin" << loader->fileName();
+                    WARNING() << "Unknown type " << type << " of plugin " << loader->fileName();
                     delete loader;
                     continue;
                 }
@@ -244,9 +272,11 @@ PluginRegistry::Private::findPluginsByType( const QString& type )
 
     QList< QPluginLoader* > loaders;
 
+    DEBUG() << "Looking for plugins of type " << type;
+
     if( !knownTypes.contains( type ) )
     {
-        qWarning() << "Unknown plugin type" << type;
+        WARNING() << "Trying to find unknown plugin type " << type;
         return loaders;
     }
 
@@ -260,17 +290,20 @@ PluginRegistry::Private::findPluginsByType( const QString& type )
             if( !QLibrary::isLibrary( file.absoluteFilePath() ) )
                 continue;
 
+            if( plugins.contains(  file.baseName() ) )
+                continue;
+
             QPluginLoader* loader = new QPluginLoader( file.absoluteFilePath(), q );
             if( loader->metaData().isEmpty() )
             {
-                qWarning() << "No metadata for plugin:" << loader->fileName();
+                WARNING() << "No metadata for plugin " << loader->fileName();
                 delete loader;
                 continue;
             }
 
             if( !loader->metaData().contains( "IID" ) )
             {
-                qWarning() << "Unable to determine type for plugin:" << loader->fileName();
+                WARNING() << "Unable to determine type for plugin " << loader->fileName();
                 delete loader;
                 continue;
             }
@@ -278,7 +311,7 @@ PluginRegistry::Private::findPluginsByType( const QString& type )
             QString pluginType = loader->metaData().value( "IID" ).toString();
             if( !knownTypes.contains( pluginType ) )
             {
-                qWarning() << "Unknown type" << type << "of plugin" << loader->fileName();
+                WARNING() << "Unknown type " << pluginType << " of plugin " << loader->fileName();
                 delete loader;
                 continue;
             }
@@ -292,6 +325,8 @@ PluginRegistry::Private::findPluginsByType( const QString& type )
             loaders.append( loader );
         }
     }
+
+    DEBUG() << "Found " << loaders.count() << " new plugins.";
 
     return loaders;
 }
@@ -325,5 +360,10 @@ void PluginRegistry::Private::updatePluginDirectories()
         pluginLocations.append( libDir + "/gluon" );
 
     if( pluginLocations.isEmpty() )
-        qFatal( "Could not find any sensible plugin directories!" );
+    {
+        CRITICAL() << "Could not find any sensible plugin directories!";
+        abort();
+    }
+
+    DEBUG() << "Found " << pluginLocations.count() << " plugin locations.";
 }

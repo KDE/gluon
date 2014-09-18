@@ -1,7 +1,8 @@
 gluon_add_plugin(gluon_viewer_part 
     MODULE Gluon::Creator
     SOURCES gluonviewerpart.cpp
-    LIBRARIES Gluon::Engine KF5::Parts #Gluon::Graphics Gluon::Input
+    LIBRARIES Gluon::Graphics Gluon::Input Gluon::Engine KF5::Parts
+    DESTINATION ${LIB_INSTALL_DIR}/qt/plugins
 )
 
 kservice_desktop_to_json( gluon_viewer_part gluon_viewer_part.desktop )
@@ -11,5 +12,5 @@ install(FILES gluon_viewer_part.desktop
         COMPONENT gluoncreator)
 
 install(FILES gluonviewerpartui.rc
-        DESTINATION ${SHARE_INSTALL_DIR}/apps/gluonviewerpart
+        DESTINATION ${XMLGUI_INSTALL_DIR}
         COMPONENT gluoncreator)

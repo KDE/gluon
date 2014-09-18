@@ -74,9 +74,6 @@ namespace GluonGraphics
 
             virtual TextureData* data() const;
 
-        protected:
-            void qImageToGL( QImage* image );
-
         private:
             class Private;
             Private* const d;

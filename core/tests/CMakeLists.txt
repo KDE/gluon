@@ -1,4 +1,9 @@
 gluon_unit_tests(
     MODULE Gluon::Core
-    TESTS gluonobjecttest metainfotest gdlserializertest singletontest
+    TESTS
+        gluonobjecttest
+        metainfotest
+        gdlserializertest
+        singletontest
+        gluonobjectfactorytest
 )

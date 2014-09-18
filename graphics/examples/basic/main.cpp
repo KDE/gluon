@@ -41,7 +41,7 @@
 #include <graphics/spritemesh.h>
 #include <graphics/materialinstance.h>
 #include <graphics/rendertarget.h>
-#include <graphics/frustrum.h>
+#include <graphics/frustum.h>
 
 using namespace GluonGraphics;
 

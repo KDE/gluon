@@ -7,7 +7,7 @@ endif( BUILD_MESH_LOADING )
 
 set( GluonGraphics_SRCS
     camera.cpp
-    frustrum.cpp
+    frustum.cpp
     entity.cpp
     material.cpp
     materialelement.cpp
@@ -18,7 +18,6 @@ set( GluonGraphics_SRCS
     technique.cpp
     texture.cpp
     mesh.cpp
-    viewport.cpp
     spritemesh.cpp
 
     manager.cpp
@@ -34,7 +33,7 @@ set( GluonGraphics_SRCS
 
 set( GluonGraphics_HEADERS
     camera.h
-    frustrum.h
+    frustum.h
     gluon_graphics_export.h
     entity.h
     mesh.h
@@ -46,7 +45,6 @@ set( GluonGraphics_HEADERS
     renderwindow.h
     technique.h
     texture.h
-    viewport.h
     texturedata.h
 )
 
@@ -59,6 +57,11 @@ gluon_add_library( Gluon::Graphics SHARED
     SOURCES ${GluonGraphics_SRCS}
     HEADERS ${GluonGraphics_HEADERS}
     LIBRARIES Gluon::Core
+)
+
+gluon_add_plugin( gluongraphics_types
+    MODULE Gluon::Graphics
+    SOURCES factoryplugin.cpp
 )
 
 if( ASSIMP_FOUND )

@@ -43,5 +43,6 @@ ecm_install_icons(
         hisc-apps-gluoninput.svgz
         hisc-apps-gluon.svg
         hisc-apps-gluon.svgz
+        hisc-apps-gluoncreator.svg
     DESTINATION ${ICON_INSTALL_DIR}
 )

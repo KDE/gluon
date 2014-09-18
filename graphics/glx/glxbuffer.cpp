@@ -49,7 +49,7 @@ GLXBuffer::GLXBuffer() : d( new Private )
 
 GLXBuffer::~GLXBuffer()
 {
-    if( d->buffer )
+    if( isValid() )
         destroy();
 
     delete d;
@@ -57,6 +57,9 @@ GLXBuffer::~GLXBuffer()
 
 void GLXBuffer::initialize( Buffer::BufferType type, Buffer::UpdateMode mode )
 {
+    if( type != Vertex && type != Index )
+        return;
+
     d->type = type;
     d->target = type == Vertex ? GL_ARRAY_BUFFER : GL_ELEMENT_ARRAY_BUFFER;
     d->usage = mode == Static ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
@@ -66,13 +69,16 @@ void GLXBuffer::initialize( Buffer::BufferType type, Buffer::UpdateMode mode )
 
 void GLXBuffer::destroy()
 {
+    if( !isValid() )
+        return;
+
     glDeleteBuffersARB(1, &d->buffer);
     d->buffer = 0;
 }
 
 void GLXBuffer::setSize( int size )
 {
-    if( !d->buffer )
+    if( !isValid() )
         return;
 
     bind();
@@ -98,7 +104,7 @@ void GLXBuffer::setSize( int size )
 
 void GLXBuffer::setData( void* data, int size, int offset )
 {
-    if( !d->buffer )
+    if( !isValid() )
         return;
 
     bind();
@@ -114,7 +120,7 @@ void GLXBuffer::setData( void* data, int size, int offset )
 
 void GLXBuffer::bind()
 {
-    if( !d->buffer )
+    if( !isValid() )
         return;
 
     if( d->timesBound > 0 )
@@ -129,6 +135,9 @@ void GLXBuffer::bind()
 
 void GLXBuffer::release()
 {
+    if( !isValid() )
+        return;
+
     if( d->timesBound > 0 )
     {
         d->timesBound--;
@@ -136,4 +145,9 @@ void GLXBuffer::release()
         if( d->timesBound == 0 )
             glBindBufferARB( d->target, 0 );
     }
+}
+
+bool GLXBuffer::isValid()
+{
+    return d->buffer != 0;
 }

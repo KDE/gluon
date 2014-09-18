@@ -17,10 +17,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-import QtQuick 1.1
-import org.kde.plasma.core 0.1 as PlasmaCore
-import org.kde.plasma.components 0.1 as PlasmaComponents
-import org.kde.plasma.extras 0.1 as PlasmaExtras
+import QtQuick 2.0
+import QtQuick.Controls 1.0
+import QtQuick.Controls.Styles 1.0
 
 Item {
     id: base;
@@ -31,6 +30,9 @@ Item {
     property alias model: itemView.model;
     property string dataRole: "modelData";
     property alias listHeader: itemView.header;
+
+    property int gridHeight;
+    property int gridWidth;
 
     signal itemClicked( int index );
 
@@ -43,22 +45,23 @@ Item {
             right: parent.right;
         }
 
-        height: base.headerVisible ? 35 : 0;
+        height: base.headerVisible ? 2.5 * base.gridHeight : 0;
         Behavior on height { NumberAnimation { } }
 
         clip: true;
 
-        PlasmaExtras.Heading {
+        Label {
             id: headerTextItem;
 
             width: parent.width;
             text: "News";
-            level: 2;
             horizontalAlignment: Text.AlignHCenter;
+
+            font.pixelSize: 2 * base.gridHeight;
         }
     }
 
-    PlasmaCore.FrameSvgItem {
+    Item {
         anchors {
             top: header.bottom;
             left: parent.left;
@@ -66,25 +69,25 @@ Item {
             bottom: parent.bottom;
         }
 
-        imagePath: "widgets/frame";
-        prefix: "sunken";
-
         MouseArea {
             anchors.fill: parent;
             hoverEnabled: true;
-            onEntered: itemView.highlightItem.opacity = 1;
-            onPositionChanged: { var index = itemView.indexAt(mouse.x, mouse.y + itemView.contentY); if( index != -1 ) itemView.currentIndex = index }
-            onExited: itemView.highlightItem.opacity = 0;
+//             onEntered: itemView.highlightItem.opacity = 1;
+//             onPositionChanged: { var index = itemView.indexAt(mouse.x, mouse.y + itemView.contentY); if( index != -1 ) itemView.currentIndex = index }
+//             onExited: itemView.highlightItem.opacity = 0;
         }
 
-        PlasmaExtras.ScrollArea {
+        ScrollView {
             anchors.fill: parent;
+//             clip: true;
+
             ListView {
                 id: itemView;
+//             anchors.fill: parent;
                 clip: true;
 
                 delegate: listDelegate;
-                highlight: listHighlight;
+//             highlight: listHighlight;
             }
         }
     }
@@ -92,35 +95,35 @@ Item {
     Component {
         id: listDelegate;
 
-        Item {
+        ToolButton {
             width: parent.width;
-            height: 50;
-            PlasmaComponents.Label {
-                anchors {
-                    left: parent.left;
-                    leftMargin: 10;
-                    right: parent.right;
-                    rightMargin: 10;
-                    verticalCenter: parent.verticalCenter;
-                }
-                elide: Text.ElideLeft;
+            height: 3 * base.gridHeight;
+//             Label {
+//                 anchors {
+//                     left: parent.left;
+//                     leftMargin: 10;
+//                     right: parent.right;
+//                     rightMargin: 10;
+//                     verticalCenter: parent.verticalCenter;
+//                 }
+//                 elide: Text.ElideLeft;
                 text: model[base.dataRole];
-            }
+//             }
 
-            MouseArea {
-                anchors.fill: parent;
+//             MouseArea {
+//                 anchors.fill: parent;
 
                 onClicked: base.itemClicked( index );
-            }
+//             }
         }
     }
 
-    Component {
-        id: listHighlight;
-
-        PlasmaComponents.Highlight {
-            opacity: 0;
-            Behavior on opacity { NumberAnimation { } }
-        }
-    }
+//     Component {
+//         id: listHighlight;
+//
+//         PlasmaComponents.Highlight {
+//             opacity: 0;
+//             Behavior on opacity { NumberAnimation { } }
+//         }
+//     }
 }

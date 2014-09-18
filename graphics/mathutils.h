@@ -36,75 +36,16 @@ namespace GluonGraphics
     {
         public:
             /**
-             * Convert a 4x4 Eigen::Matrix to a float array.
-             *
-             * This will convert a 4x4 Eigen::Matrix to an array of 16 floats
-             * which can be used by OpenGL's matrix functions, most
-             * notably glUniformMatrix4fv.
-             *
-             * Note that this method is mostly a workaround for stuff lacking
-             * from Qt (is that still the case with Eigen?).
-             *
-             * \param matrix The Matrix to convert.
-             * \param out An array of 16 floats into which the converted
-             * matrix will be copied.
-             *
-             * TODO: Check if this is still needed/valid with Eigen, maybe rename?
-             */
-            static void qmatrixToGLMatrix( const Eigen::Affine3f& matrix, float* out );
-
-            /**
-             * Calculate a Model-View-Projection matrix.
-             *
-             * This type of matrix is used to transform vertices into screen
-             * space prior to rendering.
-             *
-             * \param model The object-space matrix. (Object's transformation)
-             * \param view The view matrix. (Camera's transformation)
-             * \param projection The projection matrix.
-             */
-            static Eigen::Affine3f calculateModelViewProj( const Eigen::Affine3f& model, const Eigen::Affine3f& view, const Eigen::Affine3f& projection );
-
-            /**
-             * Convert a QImage to an array of unsigned chars.
-             *
-             * This method will convert a 32 bits ARGB QImage to
-             * an RGBA array of unsigned chars.
-             *
-             * Note that this method is mostly a workaround for stuff lacking
-             * from Qt.
-             *
-             * \param image The image to convert.
-             * \param out An array of unsigned chars to which the data needs to
-             * be copied.
-             */
-            static void qImageToGL( const QImage& image, uchar* out );
-
-            /**
-             * Calculate an orthographic matrix.
+             * Calculate an orthographic projection matrix.
              *
              * See https://www.opengl.org/sdk/docs/man2/xhtml/glOrtho.xml
              */
             static Eigen::Affine3f ortho( float left, float right, float bottom, float top, float nearVal, float farVal );
 
+            /**
+             * Calculate a perspective projection matrix.
+             */
             static Eigen::Affine3f perspective( float angle, float aspect, float nearPlane, float farPlane );
-
-            /**
-             * X-axis unit vector, (1, 0, 0).
-             */
-            static const Eigen::Vector3f      VECTOR_UNIT_X;
-            /**
-             * Y-axis unit vector, (0, 1, 0).
-             */
-            static const Eigen::Vector3f      VECTOR_UNIT_Y;
-            /**
-             * Z-axis unit vector, (0, 0, 1).
-             */
-            static const Eigen::Vector3f      VECTOR_UNIT_Z;
-            /**
-             * Default scale vector, (1, 1, 1).
-             */
-            static const Eigen::Vector3f      VECTOR_UNIT_SCALE;
     };
 
 }

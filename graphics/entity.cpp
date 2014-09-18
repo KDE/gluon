@@ -25,7 +25,7 @@
 #include "world.h"
 
 #include "camera.h"
-#include "frustrum.h"
+#include "frustum.h"
 
 #include <core/gluonvarianttypes.h>
 
@@ -115,7 +115,7 @@ Entity::render()
         return;
 
     // TODO: Implement view frustum culling. After all, that is what that damn class is for... ;)
-    d->materialInstance->setProperty( "projectionMatrix", QVariant::fromValue( activeCam->frustrum()->projectionMatrix() ) );
+    d->materialInstance->setProperty( "projectionMatrix", QVariant::fromValue( activeCam->frustum()->projectionMatrix() ) );
     d->materialInstance->setProperty( "viewMatrix", QVariant::fromValue( activeCam->viewMatrix() ) );
     d->materialInstance->setProperty( "modelMatrix", QVariant::fromValue( d->transform ) );
 

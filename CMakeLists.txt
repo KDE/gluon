@@ -6,19 +6,24 @@ if( NOT( CMAKE_MAJOR_VERSION LESS 3) )
     cmake_policy(SET CMP0028 OLD)
 endif()
 
+if( CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.7.0" )
+    message(FATAL_ERROR "Gluon requires GCC version 4.7 or higher" )
+endif()
+
 #### Project Options ####
 option( WITH_KDE "Build with KDE Development Platform Support" ON )
 option( BUILD_GLUONAUDIO "Build Gluon Audio Library" ON )
-option( BUILD_GLUONINPUT "Build Gluon Input Library" OFF )
-option( BUILD_GLUONSMARTS "Build SMARTS Game AI Library" OFF )
-option( BUILD_GLUONGRAPHICS "Build Gluon Graphics Library" OFF )
-option( BUILD_GLUONENGINE "Build Gluon Engine Library" OFF )
-option( BUILD_GLUONPLAYER "Build Gluon Player Library" OFF )
-option( BUILD_GLUONCREATOR "Build Gluon Creator Library" OFF )
-option( BUILD_GLUONAPPS "Build the Gluon applications" OFF )
+option( BUILD_GLUONINPUT "Build Gluon Input Library" ON )
+option( BUILD_GLUONSMARTS "Build SMARTS Game AI Library" ON )
+option( BUILD_GLUONGRAPHICS "Build Gluon Graphics Library" ON )
+option( BUILD_GLUONENGINE "Build Gluon Engine Library" ON )
+option( BUILD_GLUONPLAYER "Build Gluon Player Library" ON )
+option( BUILD_GLUONCREATOR "Build Gluon Creator Library" ON )
+option( BUILD_NODEEDITOR "Build the Node Editor component" ON)
+option( BUILD_GLUONAPPS "Build the Gluon applications" ON )
 option( BUILD_TOOLS "Build Gluon Tools" OFF )
-option( BUILD_TESTS "Build Unit Tests for the Gluon libraries and applications" OFF )
-option( BUILD_EXAMPLES "Build and install example applications" OFF )
+option( BUILD_TESTS "Build Unit Tests for the Gluon libraries and applications" ON )
+option( BUILD_EXAMPLES "Build and install example applications" ON )
 option( INSTALL_GAMES "Install the example games" OFF )
 
 #### Global Dependencies ####
@@ -33,23 +38,27 @@ if( BUILD_TESTS )
     find_package( Qt5Test REQUIRED )
 endif()
 
-# Enable automoc (Internal CMake version if available, external binary if not)
-set( CMAKE_AUTOMOC TRUE )
-
-include( cmake/GluonVariables.cmake )
 include( cmake/GluonMacros.cmake )
 
-# Set some variables
+#### Global Variables and Defaults ####
+include( cmake/GluonVariables.cmake )
+
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} )
 
+# Enable moc generation by default
+set( CMAKE_AUTOMOC TRUE )
+
+# Default to hidden symbols
+set( CMAKE_CXX_VISIBILITY_PRESET hidden )
+set( CMAKE_VISIBILITY_INLINES_HIDDEN 1 )
+
+# Use C++11 by default and enable almost all warnings
 if( CMAKE_CXX_COMPILER_ID STREQUAL "GNU" )
-    if( CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.8.0" )
-        set( CMAKE_CXX_FLAGS "-fPIC -std=c++1x -Wall -Wno-switch" )
-    else( CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.8.0" )
-        set( CMAKE_CXX_FLAGS "-fPIC -std=c++11 -Wall -Wno-switch -Wno-unused-local-typedefs" )
-    endif( CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.8.0" )
+    set( CMAKE_CXX_FLAGS "-fPIC -std=c++11 -Wall -Wno-switch -Wno-unused-local-typedefs" )
+    set( CMAKE_CXX_FLAGS_RELEASE "-DGLUON_MAX_LOG_LEVEL=GluonCore::LogWarning" )
 elseif( CMAKE_CXX_COMPILER_ID STREQUAL "Clang" )
     set( CMAKE_CXX_FLAGS "-std=c++11 -Wall -Wno-switch" )
+    set( CMAKE_CXX_FLAGS_RELEASE "-DGLUON_MAX_LOG_LEVEL=GluonCore::LogWarning" )
 endif( CMAKE_CXX_COMPILER_ID STREQUAL "GNU" )
 
 # To make sure we can run when not installed into $LD_LIBRARY_PATH
@@ -94,6 +103,10 @@ if( BUILD_GLUONCREATOR )
     add_subdirectory( creator )
 endif()
 
+if( BUILD_NODEEDITOR )
+    add_subdirectory( nodeeditor )
+endif()
+
 if( BUILD_GLUONAPPS )
     add_subdirectory( apps )
 endif()
@@ -119,6 +132,7 @@ log_status( GluonSmarts )
 log_status( GluonEngine )
 log_status( GluonPlayer )
 log_status( GluonCreator )
+log_status( NodeEditor )
 log_status( GluonApps )
 log_status( Tools )
 log_status( Tests )

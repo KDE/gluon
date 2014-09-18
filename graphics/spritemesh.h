@@ -33,7 +33,6 @@ namespace GluonGraphics
      * sprites. It defines the following attributes:
      *
      * - vertex
-     * - color
      * - uv0
      */
     class GLUON_GRAPHICS_EXPORT SpriteMesh : public Mesh

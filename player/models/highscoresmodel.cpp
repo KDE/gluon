@@ -130,7 +130,7 @@ void HighScoresModel::loadData()
     gluonDir.cd( GluonEngine::projectSuffix + "/games/" );
  
     GluonCore::GluonObjectList list;
-    if( GluonCore::GDLSerializer::instance()->read( gluonDir.absoluteFilePath( "highscores.gdl" ), list ) )
+    if( GluonCore::GDLSerializer::read( gluonDir.absoluteFilePath( "highscores.gdl" ), list ) )
         d->m_rootNode = list.at( 0 );
 }
  
@@ -151,5 +151,5 @@ void HighScoresModel::saveData()
     gameCacheDir.cd( gameCachePath );
     QString filename = gameCacheDir.absoluteFilePath( "highscores.gdl" );
  
-    GluonCore::GDLSerializer::instance()->write( QUrl::fromLocalFile( filename ), GluonCore::GluonObjectList() << d->m_rootNode );
+    GluonCore::GDLSerializer::write( QUrl::fromLocalFile( filename ), GluonCore::GluonObjectList() << d->m_rootNode );
 }

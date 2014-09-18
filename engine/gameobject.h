@@ -193,14 +193,12 @@ namespace GluonEngine
 
             Q_INVOKABLE Component* findComponent( const QString& name ) const;
             Q_INVOKABLE Component* findComponentByType( const QString& typeName ) const;
-            Q_INVOKABLE Component* findComponentByType( int type ) const;
             Q_INVOKABLE QList<Component*> findComponentsByType( const QString& typeName ) const;
-            Q_INVOKABLE QList<Component*> findComponentsByType( int type ) const;
             Q_INVOKABLE Component* findComponentInChildren( const QString& name ) const;
             Q_INVOKABLE Component* findComponentInChildrenByType( const QString& typeName ) const;
             Q_INVOKABLE QList<Component*> findComponentsInChildren( const QString& name ) const;
             Q_INVOKABLE QList<Component*> findComponentsInChildrenByType( const QString& typeName ) const;
-            Q_INVOKABLE QList<Component*> findComponentsInChildrenByType( int type ) const;
+
             Q_INVOKABLE virtual void addComponent( GluonEngine::Component* addThis );
             Q_INVOKABLE virtual void addComponentAt( Component* addThis, int index );
             Q_INVOKABLE virtual bool removeComponent( GluonEngine::Component* removeThis );

@@ -58,7 +58,7 @@ MaterialInstance::bind()
     foreach( const QByteArray& propertyName, dynamicProperties )
     {
         QVariant prop = property( propertyName );
-        GluonCore::GluonObject* obj = GluonCore::GluonObjectFactory::instance()->wrappedObject( prop );
+        GluonCore::GluonObject* obj = prop.value< GluonCore::GluonObject* >();
         if( obj )
         {
             QVariant tex = obj->property( "texture" );
@@ -101,7 +101,7 @@ Shader* MaterialInstance::shader() const
 
 void MaterialInstance::setShader( Shader* shader )
 {
-    //d->shader = shader;
+//     d->shader = shader;
 }
 
  

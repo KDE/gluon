@@ -30,12 +30,24 @@ namespace GluonGraphics
     class Sprite;
     class Camera;
 
+    /**
+     * Container class for entities in 3D space.
+     *
+     * The world is used as a container for managing entities in 3D space. It maintains a list
+     * of all entities contained within the world and will be used by Camera to do rendering.
+     *
+     * The world class will sort entities based on their Z depth using a stable sorting algorithm
+     * to reduce Z fighting.
+     *
+     * \todo Implement frustum culling and other things to improve render speed.
+     */
     class GLUON_GRAPHICS_EXPORT World : public QObject
     {
             Q_OBJECT
         public:
             explicit World( QObject* parent = 0 );
             virtual ~World();
+
 
             template < typename T > T* createEntity();
             void addEntity( Entity* entity );
@@ -44,9 +56,24 @@ namespace GluonGraphics
             void destroyEntity( int index );
             void destroyEntity( Entity* entity );
 
+            /**
+             * Render the contents of this world.
+             */
             void render();
 
+            /**
+             * \return The current active camera.
+             */
             Camera* activeCamera() const;
+            /**
+             * Set the active camera.
+             *
+             * The active camera will be used during rendering to determine the view and projection
+             * matrices. To render from a different camera, call setActiveCamera( camera ) and after
+             * that render();
+             *
+             * \param cam The camera to set as the active camera.
+             */
             void setActiveCamera( Camera* cam );
 
         private:

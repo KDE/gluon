@@ -170,7 +170,7 @@ QString Writer::writePropertyValue(const QVariant& value)
             {
                 valueString = writeQuaternionValue( value );
             }
-            else if( GluonCore::GluonObjectFactory::instance()->wrappedObject( value ) )
+            else if( value.canConvert< GluonCore::GluonObject* >() )
             {
                 valueString = writeObjectValue( value );
             }
@@ -276,7 +276,7 @@ QString Writer::writeQuaternionValue(const QVariant& value)
 
 QString Writer::writeObjectValue(const QVariant& value)
 {
-    GluonCore::GluonObject* obj = GluonCore::GluonObjectFactory::instance()->wrappedObject( value );
+    GluonCore::GluonObject* obj = value.value< GluonCore::GluonObject* >();
     if( !obj )
         return QString();
 

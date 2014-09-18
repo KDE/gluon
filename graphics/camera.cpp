@@ -19,8 +19,7 @@
 
 #include "camera.h"
 
-#include "frustrum.h"
-#include "viewport.h"
+#include "frustum.h"
 #include "world.h"
 
 #include <QSizeF>
@@ -32,7 +31,7 @@ using namespace GluonGraphics;
 class Camera::Private
 {
     public:
-        Frustrum* frustrum;
+        Frustum* frustum;
         Eigen::Affine3f viewMatrix;
 
         QSizeF visibleArea;
@@ -45,25 +44,25 @@ class Camera::Private
 Camera::Camera( QObject* parent )
     : Entity( parent ), d( new Private )
 {
-    d->frustrum = new Frustrum;
+    d->frustum = new Frustum;
 }
 
-Camera::Camera( Frustrum* frustum, QObject* parent )
+Camera::Camera( Frustum* frustum, QObject* parent )
     : Entity( parent ), d( new Private )
 {
-    d->frustrum = frustum;
+    d->frustum = frustum;
 }
 
 Camera::~Camera()
 {
-    delete d->frustrum;
+    delete d->frustum;
     delete d;
 }
 
-Frustrum*
-Camera::frustrum() const
+Frustum*
+Camera::frustum() const
 {
-    return d->frustrum;
+    return d->frustum;
 }
 
 Eigen::Affine3f
@@ -94,27 +93,27 @@ void Camera::setTransform( const Eigen::Affine3f& transform )
 }
 
 void
-Camera::setFrustrum( Frustrum* frustrum )
+Camera::setFrustum( Frustum* frustum )
 {
-    d->frustrum = frustrum;
+    d->frustum = frustum;
 }
 
 void Camera::setVisibleArea( QSizeF area )
 {
     d->visibleArea = area;
-    d->frustrum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane );
+    d->frustum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane );
 }
 
 void Camera::setNearPlane( float near )
 {
     d->nearPlane = near;
-    d->frustrum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane );
+    d->frustum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane );
 }
 
 void Camera::setFarPlane( float far )
 {
     d->farPlane = far;
-    d->frustrum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane );
+    d->frustum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane );
 }
 
 void Camera::render()
@@ -131,7 +130,7 @@ void Camera::renderContents()
 void Camera::resize( int width, int height )
 {
     d->aspect = float(width) / float(height);
-    d->frustrum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane  );
+    d->frustum->setOrthoAdjusted( d->visibleArea, d->aspect, d->nearPlane, d->farPlane  );
 }
 
  

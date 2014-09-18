@@ -58,7 +58,7 @@ namespace GluonEngine
             GameObject* parentGameObject;
             QList<GameObject*> children;
             QList<Component*> components;
-            QMultiHash<int, Component*> componentTypes;
+            QMultiHash<QString, Component*> componentTypes;
             QList<GameObject*> objectsToDelete;
     };
 }

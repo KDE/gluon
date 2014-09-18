@@ -22,7 +22,7 @@
 #include <QtCore/QMetaProperty>
 
 #include <core/gdlserializer.h>
-#include <core/debughelper.h>
+#include <core/log.h>
 
 #include "materialinstance.h"
 #include "technique.h"
@@ -73,8 +73,11 @@ bool Material::load( const QString& path )
     d->shader = Manager::instance()->backend()->createShader();
 
     GluonCore::GluonObjectList objects;
-    if( !GluonCore::GDLSerializer::instance()->read( path, objects ) )
+    if( !GluonCore::GDLSerializer::read( path, objects ) )
+    {
+        ERROR_NC() << "Unable to read" << path;
         return false;
+    }
 
     GluonCore::GluonObject* obj = objects.at( 0 );
 

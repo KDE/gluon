@@ -24,9 +24,11 @@
 #include <QtCore/QObject>
 #include <QtCore/QList>
 
+#include "gluoninput_export.h"
+
 namespace GluonInput
 {
-    class PlatformPlugin : public QObject
+    class GLUONINPUT_EXPORT PlatformPlugin : public QObject
     {
         Q_OBJECT
 

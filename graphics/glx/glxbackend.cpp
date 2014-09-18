@@ -27,7 +27,7 @@
 #include <GL/gl.h>
 #include <GL/glx.h>
 
-#include <core/debughelper.h>
+#include <core/log.h>
 
 #include <graphics/manager.h>
 
@@ -62,21 +62,20 @@ GLXBackend::~GLXBackend()
     }
 }
 
-bool GLXBackend::initialize( QWindow* window )
+bool GLXBackend::initialize( WId id )
 {
     if( d->context )
         return true;
 
     d->context = new Context();
 
-    if( !d->context->initialize( window ) )
+    if( !d->context->initialize( id ) )
     {
         d->errorString = d->context->errorString();
         return false;
     }
 
-    DEBUG_BLOCK
-    DEBUG_TEXT( information( FullInformation ) );
+    INFO() << information( GluonGraphics::Backend::SummaryInformation );
 
     return true;
 }
@@ -156,4 +155,17 @@ GluonGraphics::OutputSurface* GLXBackend::createOutputSurface( QWindow* window )
 GluonGraphics::MeshData* GLXBackend::createMeshData()
 {
     return new GLXMeshData();
+}
+
+bool GLXBackend::isBufferTypeSuported( GluonGraphics::Buffer::BufferType type )
+{
+    switch( type )
+    {
+        case GluonGraphics::Buffer::Vertex:
+        case GluonGraphics::Buffer::Index:
+            return true;
+        default:
+            return false;
+        //TODO: Implement support for more buffer types.
+    }
 }

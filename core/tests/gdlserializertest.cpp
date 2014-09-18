@@ -31,7 +31,7 @@
 
 #define CHECK_PARSE(source, target, count)\
     GluonObjectList target;\
-    QVERIFY(GDLSerializer::instance()->parse(source, target));\
+    QVERIFY(GDLSerializer::parse(source, target));\
     QCOMPARE(target.size(), count);
 
 #define CHECK_PROPERTY(object, name, proptype)\

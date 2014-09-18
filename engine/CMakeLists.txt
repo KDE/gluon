@@ -1,5 +1,5 @@
-option( BUILD_AUDIO_COMPONENTS "Build Components dependant on Gluon Audio" ON )
-option( BUILD_AUDIO_ASSETS "Build Assets dependant on Gluon Audio" ON )
+option( BUILD_AUDIO_PLUGIN "Build Assets and Components dependant on Gluon Audio" ON )
+
 option( BUILD_GRAPHICS_COMPONENTS "Build Components dependant on Gluon Graphics" OFF )
 option( BUILD_GRAPHICS_ASSETS "Build Assets dependant on Gluon Graphics" OFF )
 option( BUILD_INPUT_COMPONENTS "Build Components dependant on Gluon Input" OFF )
@@ -10,8 +10,7 @@ option( BUILD_OTHER_COMPONENTS "Build other Components" ON )
 option( BUILD_OTHER_ASSETS "Build other Assets" ON )
 
 if( NOT BUILD_GLUONAUDIO )
-    set( BUILD_AUDIO_COMPONENTS OFF )
-    set( BUILD_AUDIO_ASSETS OFF )
+    set( BUILD_AUDIO_PLUGIN OFF )
 endif()
 if( NOT BUILD_GLUONGRAPHICS )
     set( BUILD_GRAPHICS_ASSETS OFF )
@@ -90,6 +89,17 @@ gluon_add_library( Gluon::Engine SHARED
     HEADERS ${GluonEngine_HEADERS}
     LIBRARIES Gluon::Core Qt5::Sql
 )
+
+gluon_add_plugin( gluonengine_types
+    MODULE Gluon::Engine
+    SOURCES factoryplugin.cpp
+)
+
+if( BUILD_AUDIO_PLUGIN )
+    add_subdirectory( audio )
+endif()
+
+add_subdirectory( scripting )
 
 add_subdirectory( assets )
 add_subdirectory( components )

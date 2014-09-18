@@ -51,68 +51,97 @@ namespace GluonGraphics
             Entity( QObject* parent = 0 );
             virtual ~Entity();
 
+            /**
+             * \return The world this entity is contained in.
+             */
             virtual World* world() const;
 
             /**
              * Retrieve the transformation matrix associated with
-             * this item.
+             * this entity.
              *
-             * \return The item's transformation matrix.
+             * \return The entity's transformation matrix.
              */
             virtual Eigen::Affine3f transform() const;
 
             /**
-             * Retrieve the mesh currently used by this item.
+             * Retrieve the mesh currently used by this entity.
              *
-             * \return The item's mesh.
+             * \return The entity's mesh.
              */
             virtual Mesh* mesh() const;
 
+            /**
+             * \return True if there is a mesh attached to this entity, false if not.
+             */
             virtual bool hasMesh() const;
 
             /**
-             * Retrieve the material instance used by this item.
+             * Retrieve the material instance used by this entity.
              *
              * \see GluonGraphics::MaterialInstance
              *
-             * \return The material instance used by this item.
+             * \return The material instance used by this entity.
              */
             virtual MaterialInstance* materialInstance() const;
 
+            /**
+             * \return True if there is a material instance attached to this entity, false if not.
+             */
             virtual bool hasMaterialInstance() const;
 
+            /**
+             * \return True if this entity should be rendered (visible), false if not.
+             */
             virtual bool isVisible() const;
 
         public Q_SLOTS:
+            /**
+             * Set the world containing this entity.
+             *
+             * The world is primarily used for sorting and rendering all entities.
+             *
+             * \sa World
+             *
+             * \param world The world this entity should be contained in.
+             */
             virtual void setWorld( World* world );
 
             /**
-             * Render the item to screen using the material set.
+             * Render the entity to screen.
+             *
+             * This will render the entity to screen using the given mesh and material
+             * instance. If neither is assigned, this method will do nothing.
              */
             virtual void render();
 
             /**
-             * Set the transformation used for this item.
+             * Set the transformation used to render this entity.
              *
              * \param transform The new transformation to use.
              */
             virtual void setTransform( const Eigen::Affine3f& transform );
 
             /**
-             * Set the mesh used by this item.
+             * Set the mesh that should be used to render this entity.
              *
              * \param mesh The mesh to use.
              */
             virtual void setMesh( Mesh* mesh );
 
             /**
-             * Set the material instance that needs to be used by
-             * this item.
+             * Set the material instance that should be used to render
+             * this entity.
              *
              * \param material The material instance to use.
              */
             virtual void setMaterialInstance( MaterialInstance* material );
 
+            /**
+             * Set whether this entity should be rendered at all.
+             *
+             * \param visible True if it should be rendered, false if not.
+             */
             virtual void setVisible( bool visible );
 
         private:

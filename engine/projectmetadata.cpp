@@ -112,7 +112,7 @@ void ProjectMetaData::save()
     if( d->projectFilePath.isEmpty() )
         return;
 
-    if( !GluonCore::GDLSerializer::instance()->write( projectDir() + "/game.gluonmeta", GluonCore::GluonObjectList() << this ) )
+    if( !GluonCore::GDLSerializer::write( projectDir() + "/game.gluonmeta", GluonCore::GluonObjectList() << this ) )
         return;
 }
 
@@ -122,7 +122,7 @@ void ProjectMetaData::load()
         return;
 
     GluonCore::GluonObjectList gdlList;
-    if( !GluonCore::GDLSerializer::instance()->read( QUrl::fromLocalFile( projectDir() + "/game.gluonmeta" ), gdlList ) )
+    if( !GluonCore::GDLSerializer::read( QUrl::fromLocalFile( projectDir() + "/game.gluonmeta" ), gdlList ) )
         return;
 
     ProjectMetaData* object = qobject_cast<ProjectMetaData*>( gdlList[0] );

@@ -33,17 +33,26 @@ namespace GluonGraphics
     class TextureData;
 
     /**
-     * A surface to render to.
+     * A texture to render to.
      *
      * The render target class describes a single target for rendering.
      * The target is most of the time a Frame Buffer Object, but this
-     * class can take any texture and render it to screen. By default,
-     * the target is "renderable", that is, its contents can be directly
-     * rendered to screen. Use setRenderable(false) to disable it in case
-     * the
+     * class can take any texture and render it to screen. Note that if the
+     * render target should be used for off-screen rendering it should not be
+     * included in the render chain directly.
      *
-     * Note that this class always renders its target as a 1x1 full
+     * The render target is the only "container class" in the render chain.
+     * That is, the render target can compose render chain items together to
+     * form a single image, but most other items cannot or will need special
+     * handling. The render target will bind itself, then call renderContents()
+     * on all children and finally release itself. It will then have the composited
+     * result of the rendered children as contents, which can be rendered to screen
+     * or to a different render target.
+     *
+     * \note This class always renders its contents as a 1x1 full
      * screen quad.
+     *
+     * \sa RenderChainItem
      */
     class GLUON_GRAPHICS_EXPORT RenderTarget : public QObject, public RenderChainItem
     {
@@ -64,7 +73,7 @@ namespace GluonGraphics
             virtual ~RenderTarget();
 
             /**
-             * Bind this render target, so that the next calls issues by the
+             * Bind this render target, so that the next draw calls issued by the
              * rest of the system will be rendered to this target. This only
              * works if a Framebuffer Object has been set for this target.
              */
@@ -76,7 +85,17 @@ namespace GluonGraphics
              */
             virtual void release() = 0;
 
+            /**
+             * Add an item to be rendered onto this render target.
+             *
+             * \param item The item to add.
+             */
             void addChild( RenderChainItem* item );
+            /**
+             * Remove an item from being rendered to this render target.
+             *
+             * \param item The item to remove.
+             */
             void removeChild( RenderChainItem* item );
 
             int width() const;

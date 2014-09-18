@@ -38,7 +38,7 @@ namespace GluonGraphics
                 GLXBackend();
                 virtual ~GLXBackend();
 
-                virtual bool initialize( QWindow* window );
+                virtual bool initialize( WId id );
                 virtual QString errorString();
 
                 virtual QString identifier();
@@ -52,6 +52,7 @@ namespace GluonGraphics
                 virtual GluonGraphics::OutputSurface* createOutputSurface( QWindow* window );
                 virtual GluonGraphics::MeshData* createMeshData();
 
+                virtual bool isBufferTypeSuported( Buffer::BufferType type );
 
             GLUON_PRIVATE_POINTER;
         };

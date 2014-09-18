@@ -261,31 +261,16 @@ GameObject::findComponent( const QString& name ) const
 Component*
 GameObject::findComponentByType( const QString& typeName ) const
 {
-    int typeID = QMetaType::type( typeName.toUtf8().data() );
-    return findComponentByType( typeID );
-}
-
-Component*
-GameObject::findComponentByType( int type ) const
-{
-    if( d->componentTypes.find( type ) != d->componentTypes.end() )
-        return d->componentTypes.value( type );
-
-    return 0;
+    if( d->componentTypes.contains( typeName ) )
+        return d->componentTypes.value( typeName );
+    return nullptr;
 }
 
 QList<Component*>
 GameObject::findComponentsByType( const QString& typeName ) const
 {
-    int typeID = QMetaType::type( typeName.toUtf8().data() );
-    return findComponentsByType( typeID );
-}
-
-QList< Component* >
-GameObject::findComponentsByType( int type ) const
-{
-    if( d->componentTypes.find( type ) != d->componentTypes.end() )
-        return d->componentTypes.values( type );
+    if( d->componentTypes.contains( typeName ) )
+        return d->componentTypes.values( typeName );
 
     return QList< Component* >();
 }
@@ -352,27 +337,15 @@ GameObject::findComponentsInChildrenByType( const QString& typeName ) const
     return found;
 }
 
-QList< Component* >
-GameObject::findComponentsInChildrenByType( int type ) const
-{
-    QList<Component*> found;
-    foreach( GameObject * child, d->children )
-    {
-        found.append( child->findComponentsByType( type ) );
-        found.append( child->findComponentsInChildrenByType( type ) );
-    }
-    return found;
-}
-
 void
 GameObject::addComponent( Component* addThis )
 {
     if( addThis )
     {
-        int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( addThis->metaObject()->className() );
-        if( d->componentTypes.constFind( typeID, addThis ) == d->componentTypes.constEnd() )
+        QString typeName = addThis->metaObject()->className();
+        if( d->componentTypes.constFind( typeName, addThis ) == d->componentTypes.constEnd() )
         {
-            d->componentTypes.insert( typeID, addThis );
+            d->componentTypes.insert( typeName, addThis );
             d->components.append( addThis );
             connect( addThis, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
             addThis->setParent( this );
@@ -391,10 +364,10 @@ void GameObject::addComponentAt( Component* addThis, int index )
 {
     Q_ASSERT( addThis );
 
-    int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( addThis->metaObject()->className() );
-    if( d->componentTypes.constFind( typeID, addThis ) == d->componentTypes.constEnd() )
+    QString typeName = addThis->metaObject()->className();
+    if( d->componentTypes.constFind( typeName, addThis ) == d->componentTypes.constEnd() )
     {
-        d->componentTypes.insert( typeID, addThis );
+        d->componentTypes.insert( typeName, addThis );
         d->components.insert( index, addThis );
         connect( addThis, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
         addThis->setName( addThis->name() );
@@ -409,8 +382,8 @@ GameObject::removeComponent( Component* removeThis )
     if( !d->components.contains( removeThis ) )
         return false;
 
-    int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( removeThis->metaObject()->className() );
-    d->componentTypes.remove( typeID, removeThis );
+    QString typeName = removeThis->metaObject()->className();
+    d->componentTypes.remove( typeName, removeThis );
     disconnect( removeThis, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
 
     GluonObject::removeChild( removeThis );
@@ -681,7 +654,7 @@ GameObject::translate( const Vector3f& translation, GameObject::TransformSpace t
     }
     else
     {
-    // TODO: This probably needs fixing to account for world scale/orientation
+        //TODO: This probably needs fixing to account for world scale/orientation
         Vector3f trans = d->worldOrientation * translation;
         trans = trans.cwiseProduct( d->worldScale );
         setPosition( position() + trans );
@@ -843,8 +816,8 @@ GameObject::postCloneSanitize()
         {
             Component* comp = qobject_cast<Component*>( child );
             d->components.append( comp );
-            int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( comp->metaObject()->className() );
-            d->componentTypes.insert( typeID, comp );
+            QString typeName = comp->metaObject()->className();
+            d->componentTypes.insert( typeName, comp );
             comp->setParent( this );
             comp->setGameObject( this );
         }

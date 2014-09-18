@@ -28,6 +28,15 @@
 
 namespace GluonGraphics
 {
+    class OutputSurface;
+    /**
+     * A simple window to render to.
+     *
+     * This class provides a simple window that can be used for rendering to.
+     * It will create an output surface and keep it updated when needed.
+     *
+     * \sa OutputSurface
+     */
     class GLUON_GRAPHICS_EXPORT RenderWindow : public QWindow
     {
             Q_OBJECT
@@ -35,10 +44,13 @@ namespace GluonGraphics
             explicit RenderWindow( QWindow* parent = 0 );
             virtual ~RenderWindow();
 
+            virtual OutputSurface* outputSurface() const;
+
             virtual void exposeEvent( QExposeEvent* event ) override;
             virtual void resizeEvent( QResizeEvent* event ) override;
 
         public Q_SLOTS:
+            virtual void render();
             virtual void update();
 
         GLUON_PRIVATE_POINTER;

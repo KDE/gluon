@@ -112,12 +112,11 @@ void bteditor::setupActions()
 
 void bteditor::showBehaviorTree(btTreeModel* showThis)
 {
-    disconnect(this, SLOT(editorSelectionChanged(QItemSelection,QItemSelection)));
+    disconnect(this, SLOT(editorSelectionChanged(btNode*)));
     btEditor->setModel(showThis);
-    btEditor->setSelectionModel(new QItemSelectionModel(showThis));
     connect(
-        btEditor->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
-        this, SLOT(editorSelectionChanged(QItemSelection,QItemSelection))
+        btEditor, SIGNAL(selectionChanged(btNode*)),
+        this, SLOT(editorSelectionChanged(btNode*))
     );
     currentBTNameLabel->setText(showThis->name());
 
@@ -135,11 +134,9 @@ void bteditor::showBehaviorTree(btTreeModel* showThis)
 
 }
 
-void bteditor::editorSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
+void bteditor::editorSelectionChanged(btNode* newSelection)
 {
-    Q_UNUSED(selected)
-    Q_UNUSED(deselected)
-    btNode* selectedNode = static_cast<btNode*>(btEditor->selectionModel()->currentIndex().internalPointer());
+    btNode* selectedNode = btEditor->selectedNode();
     showPropertiesFor(qobject_cast<btEditorNode*>(selectedNode));
 }
 
@@ -420,20 +417,20 @@ void bteditor::nodeTypeDeleted(int row)
 
 void bteditor::on_btEditor_customContextMenuRequested(QPoint pos)
 {
-    if (btEditor->indexAt(pos).isValid()) {
-        btNode* selectedNode = static_cast<btNode*>(btEditor->indexAt(pos).internalPointer());
-        if (selectedNode->parent()->parent() != 0) {
-            btEditorContextMenu->exec(btEditor->viewport()->mapToGlobal(pos));
-        }
-    }
+//     if (btEditor->indexAt(pos).isValid()) {
+//         btNode* selectedNode = static_cast<btNode*>(btEditor->indexAt(pos).internalPointer());
+//         if (selectedNode->parent()->parent() != 0) {
+//             btEditorContextMenu->exec(btEditor->viewport()->mapToGlobal(pos));
+//         }
+//     }
 }
 
 void bteditor::bteditDeleteNodeTriggered()
 {
-    btNode* selectedNode = static_cast<btNode*>(btEditor->selectionModel()->currentIndex().internalPointer());
+    btNode* selectedNode = btEditor->selectedNode();
     if (selectedNode->parent()->parent() != 0) {
         ///fixme check if memory is deallocated when removed from list ?
-        m_currentBehaviorTree->removeRows(selectedNode->row(),1,btEditor->selectionModel()->currentIndex().parent());
+//        m_currentBehaviorTree->removeRows(selectedNode->row(),1,btEditor->selectionModel()->currentIndex().parent());
     }
 }
 
@@ -472,7 +469,7 @@ void bteditor::on_actionNew_Tree_triggered()
 void bteditor::updateView(const QModelIndex& one, const QModelIndex& two)
 {
     Q_UNUSED(two)
-    btEditor->scrollTo(one);
+    //btEditor->scrollTo(one);
 }
 
 void bteditor::showFor(btEditorNode* node)

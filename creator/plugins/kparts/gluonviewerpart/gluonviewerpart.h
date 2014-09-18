@@ -24,18 +24,16 @@
 
 #include <KParts/ReadOnlyPart>
 
-namespace GluonGraphics
-{
-    class Viewport;
-}
+#include <KCoreAddons/KPluginFactory>
 
-using namespace GluonGraphics;
+#include <core/privatepointer.h>
 
 namespace GluonCreator
 {
     class GluonViewerPart : public KParts::ReadOnlyPart
     {
             Q_OBJECT
+
         public:
             GluonViewerPart( QWidget* parentWidget, QObject* parent, const QVariantList& args );
             virtual ~GluonViewerPart();
@@ -47,15 +45,12 @@ namespace GluonCreator
             void setWireframe();
             void setPoints();
 
-            void newViewport( Viewport* viewport );
             void redraw();
 
         protected:
             virtual bool openFile();
 
-        private:
-            class GluonViewerPartPrivate;
-            GluonViewerPartPrivate* const d;
+        GLUON_PRIVATE_POINTER;
     };
 }
 

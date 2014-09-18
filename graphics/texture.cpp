@@ -22,12 +22,12 @@
 
 #include "texture.h"
 
-#include <core/debughelper.h>
+#include <QtCore/QUrl>
+#include <QtGui/QImage>
+
+#include <core/log.h>
 
 #include "math.h"
-
-#include <QtGui/QImage>
-#include <QtCore/QUrl>
 #include "manager.h"
 #include "backend.h"
 #include "texturedata.h"
@@ -65,17 +65,22 @@ bool Texture::load( const QString& path )
     //TODO: Add support for non-2D textures and non-RGBA colour formats.
     if( !d->image.load( path ) )
     {
-        DEBUG_BLOCK
-        DEBUG_TEXT2( "Failed to load texture %1", path );
+        ERROR_NC() << "Failed to load texture " << path;
         return false;
     }
 
-    //Ensure we have 32-bit ARGB data
-    if( d->image.format() != QImage::Format_ARGB32 )
-        d->image = d->image.convertToFormat( QImage::Format_ARGB32 );
+    //Ensure we have 32-bit RGBA data
+    if( d->image.format() != QImage::Format_RGBA8888 )
+        d->image = d->image.convertToFormat( QImage::Format_RGBA8888 );
 
 
-    qImageToGL( &d->image );
+    d->image = d->image.mirrored();
+
+    if( d->image.isNull() )
+    {
+        ERROR_NC() << "Failed to load texture " << path;
+        return false;
+    }
 
     //Finally, load it into GPU memory.
     d->data->setData( d->image.width(), d->image.height(), d->image.bits() );
@@ -92,25 +97,3 @@ TextureData* Texture::data() const
 {
     return d->data;
 }
-
-void Texture::qImageToGL( QImage* image )
-{
-    const int width = image->width();
-    const int height = image->height();
-
-    //TODO: Support big endian (?)
-    //Convert ARGB to RGBA
-    for( int y = 0; y < height; ++y )
-    {
-        uint* line = reinterpret_cast< uint* >( image->scanLine( y ) );
-        for( int x = 0; x < width; ++x )
-        {
-            line[x] = ((line[x] << 16) & 0xff0000) | ((line[x] >> 16) & 0xff) | (line[x] & 0xff00ff00);
-        }
-    }
-
-    //Mirror it since Qt uses different coords.
-    *image = image->mirrored();
-}
-
- 

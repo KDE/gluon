@@ -22,21 +22,38 @@
 
 namespace GluonGraphics
 {
+    /**
+     * An interface that should be implemented by the backend to provide texture storage.
+     *
+     * The TextureData class is used to represent backend-specific storage for texture data.
+     */
     class TextureData
     {
         public:
+            /**
+             * Determines how this texture should be filtered when drawing at sizes different
+             * from the texture size.
+             */
             enum FilteringMode
             {
-                UnknownFilteringMode,
-                NearestFilteringMode,
-                BilinearFilteringMode,
-                TrilinearFilteringMode
+                UnknownFilteringMode, ///< Undetermined, use whatever is default for the backend.
+                NearestFilteringMode, ///< Use nearest-neighbor filtering, which is fast but can cause pixelation.
+                BilinearFilteringMode, ///< Use bilinear filtering, which smooths out the texture data.
+                TrilinearFilteringMode ///< Use trilinear filtering, causing even more smoothing.
             };
 
             TextureData() { }
             virtual ~TextureData() { }
 
+            /**
+             * Bind the texture data so it can be used for rendering.
+             *
+             * \param unit The texture unit to bind to.
+             */
             virtual void bind( unsigned int unit ) = 0;
+            /**
+             * Release the texture.
+             */
             virtual void release() = 0;
 
             virtual void setData( int width, int height, void* data ) = 0;

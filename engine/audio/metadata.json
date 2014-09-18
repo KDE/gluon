@@ -1,0 +1,22 @@
+{
+    "GluonEngine::SoundAsset": {
+        "name": "Sound",
+        "icon": "audio-x-generic",
+        "category": "Sound",
+        "mimeTypes": [
+            "audio/x-wav",
+            "audio/x-vorbis+ogg",
+            "audio/x-ogg"
+        ]
+    },
+    "GluonEngine::SoundListenerComponent": {
+        "name": "Sound Listener",
+        "icon": "audio-x-generic",
+        "category": "Audio"
+    },
+    "GluonEngine::SoundEmitterComponent": {
+        "name": "Sound Emitter",
+        "icon": "audio-x-generic",
+        "category": "Audio"
+    }
+}

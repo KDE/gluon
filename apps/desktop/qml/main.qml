@@ -10,7 +10,7 @@ ApplicationWindow {
     id: mainWindow
     
     title: qsTr("Gluon Player (Desktop-Qt5)")
-    width: 1024
+    width: 1350
     height: 768
 
     menuBar: GluonMenuBar{ id: gluonmenubar }
@@ -57,49 +57,60 @@ ApplicationWindow {
     //main background
     Background{
         
-        //left area loader
-        //only used for menu
-        Loader{
-            id: leftloader
-            
-            width: 100
-            
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-        }
-        
-        //central area loader
-        //used for content, games, comments etc
-        Loader{
-            id: centerloader
-            
-            anchors.left: leftloader.right
-            anchors.right: rightloader.left
+        Item{
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             
-            function showSingleGame(id){
-                centerloader.setSource("center/singlegame/Game.qml",{"gameId":id});
-            }
-            function showHome(){
-                centerloader.setSource("center/main.qml");
-            }
-            function showSocial(){
-                centerloader.setSource("center/social/Social.qml");
-            }
-        }
-        
-        //right area for modal
-        //used for user management, social etc
-        Loader{
-            id: rightloader
+            anchors.topMargin: 3
             
-            width: 300
+            width: 1050
             
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            
+            //left area loader
+            //only used for menu
+            Loader{
+                id: leftloader
+                
+                width: 100
+                
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+            }
+            
+            //central area loader
+            //used for content, games, comments etc
+            Loader{
+                id: centerloader
+                
+                anchors.left: leftloader.right
+                anchors.right: rightloader.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                
+                function showSingleGame(id){
+                    centerloader.setSource("center/singlegame/Game.qml",{"gameId":id});
+                }
+                function showHome(){
+                    centerloader.setSource("center/main.qml");
+                }
+                function showSocial(){
+                    centerloader.setSource("center/social/Social.qml");
+                }
+            }
+            
+            //right area for modal
+            //used for user management, social etc
+            Loader{
+                id: rightloader
+                
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                
+                width: 350
+            }
         }
     }
     Component.onCompleted: {

@@ -168,7 +168,7 @@ GluonObjectPropertyWidgetItem::browseForItems()
 
 void GluonObjectPropertyWidgetItem::openInEditor()
 {
-    GluonEngine::Asset* theObject = qobject_cast<GluonEngine::Asset*>( GluonCore::GluonObjectFactory::instance()->wrappedObject( editObject()->property( editProperty().toUtf8() ) ) );
+    GluonEngine::Asset* theObject = editObject()->property( editProperty().toUtf8() ).value< GluonEngine::Asset* >();
 
     if( theObject )
     {
@@ -181,7 +181,7 @@ GluonObjectPropertyWidgetItem::setEditValue( const QVariant& value )
 {
     PropertyWidgetItem::setEditValue( value );
 
-    GluonCore::GluonObject* theObject = GluonCore::GluonObjectFactory::instance()->wrappedObject( value );
+    GluonCore::GluonObject* theObject = value.value< GluonCore::GluonObject* >();
     if( theObject )
     {
         d->currentValue->setText( theObject->name() );
@@ -209,7 +209,7 @@ GluonObjectPropertyWidgetItem::objectValueChanged( GluonCore::GluonObject* value
         //d->currentValue->setDisabled(true);
     }
 
-    QVariant oldValue = editObject()->property( editProperty().toUtf8() );
-    QVariant newValue = GluonCore::GluonObjectFactory::instance()->wrapObject( oldValue, value );
-    PropertyWidgetItem::valueChanged( newValue );
+//     QVariant oldValue = editObject()->property( editProperty().toUtf8() );
+//     QVariant newValue = GluonCore::GluonObjectFactory::instance()->wrapObject( oldValue, value );
+    PropertyWidgetItem::valueChanged( QVariant::fromValue( value ) );
 }

@@ -32,6 +32,7 @@ set( GluonCreator_SRCS
     widgets/propertywidgetitem.cpp
     widgets/propertywidgetitemfactory.cpp
     widgets/propertywidgetitemnewcustomproperty.cpp
+    widgets/renderwidget.cpp
 )
 
 set( GluonCreator_HEADERS
@@ -54,12 +55,26 @@ set( GluonCreator_HEADERS
     models/scenemodel.h
 
     widgets/propertywidget.h
+    widgets/renderwidget.h
 )
 
 gluon_add_library( Gluon::Creator SHARED
     SOURCES ${GluonCreator_SRCS}
     HEADERS ${GluonCreator_HEADERS}
-    LIBRARIES Gluon::Player KF5::GuiAddons KF5::KIOCore KF5::KIOWidgets KF5::Parts KF5::TextEditor KF5::XmlGui KF5::CoreAddons KF5::Service KF5::Completion KF5::ConfigCore KF5::I18n
+    LIBRARIES
+        Gluon::Graphics
+        Gluon::Player
+        KF5::GuiAddons
+        KF5::KIOCore
+        KF5::KIOWidgets
+        KF5::Parts
+        KF5::TextEditor
+        KF5::XmlGui
+        KF5::CoreAddons
+        KF5::Service
+        KF5::Completion
+        KF5::ConfigCore
+        KF5::I18n
 )
 
 #add_subdirectory( nodeeditor )

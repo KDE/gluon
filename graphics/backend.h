@@ -22,13 +22,14 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QtPlugin>
+#include <QtGui/QWindow>
 
-class QWindow;
+#include "buffer.h"
+
 namespace GluonGraphics
 {
     class Shader;
     class TextureData;
-    class Buffer;
     class OutputSurface;
     class RenderTarget;
     class MeshData;
@@ -61,11 +62,11 @@ namespace GluonGraphics
             /**
              * Initialize the backend.
              *
-             * \param widget A widget that can be used during initialization.
+             * \param id The winId of a window that can be used during initialization.
              *
              * \return true when successfully initialized, false if not.
              */
-            virtual bool initialize( QWindow* window ) = 0;
+            virtual bool initialize( WId id ) = 0;
 
             /**
              * A description of the last error that occurred.
@@ -114,8 +115,21 @@ namespace GluonGraphics
              * \return A platform-specific implementation of an OutputSurface object.
              */
             virtual OutputSurface* createOutputSurface( QWindow* widget ) = 0;
-
+            /**
+             * Create a MeshData object.
+             *
+             * \return A platform-specific implementation of a MeshData object.
+             */
             virtual MeshData* createMeshData() = 0;
+
+            /**
+             * Check to see if a certain buffer type is supported by the backend.
+             *
+             * \return True if the buffer type is supported, false if not.
+             */
+            virtual bool isBufferTypeSuported( Buffer::BufferType type ) = 0;
+
+            //TODO: Add more methods for querying backend capabilities.
     };
 
 }

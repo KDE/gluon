@@ -27,15 +27,26 @@
 #include "btglobal.h"
 
 #include <QtCore/QXmlStreamWriter>
+#include <QtCore/QPoint>
 
 btEditorNode::btEditorNode(btNodeType *type, btNode *parent)
-    : btNode(type, parent)
+    : btNode(type, parent), m_position(QPointF(0,0))
 {
 }
 
 btEditorNode::~btEditorNode()
 {
     qDeleteAll(m_decorators);
+}
+
+QPointF btEditorNode::position() const
+{
+    return m_position;
+}
+
+void btEditorNode::setPosition(const QPointF& newPosition)
+{
+    m_position = newPosition;
 }
 
 void btEditorNode::toXml(QXmlStreamWriter* xmlWriter, QList<btTreeModel *> behaviorTrees)
@@ -47,6 +58,8 @@ void btEditorNode::toXml(QXmlStreamWriter* xmlWriter, QList<btTreeModel *> behav
 
     xmlWriter->writeAttribute("name", name());
     xmlWriter->writeAttribute("description", description());
+    xmlWriter->writeAttribute("xposition", QVariant(position().x()).toString());
+    xmlWriter->writeAttribute("yposition", QVariant(position().y()).toString());
 
     btNodeType * nodeType = type();
     const QMetaObject * mo = nodeType->metaObject();

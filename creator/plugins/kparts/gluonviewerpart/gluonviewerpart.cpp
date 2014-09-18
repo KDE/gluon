@@ -20,54 +20,47 @@
 
 #include "gluonviewerpart.h"
 
-// #include <graphics/renderwidget.h> TODO: readd after graphics is ported
-#include <graphics/viewport.h>
-#include <graphics/manager.h>
-
-#include <engine/gameproject.h>
-#include <engine/game.h>
-
-//#include <input/inputmanager.h> TODO: after Input
+#include <QtCore/QTimer>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QAction>
 
 #include <KI18n/KLocalizedString>
 #include <KXmlGui/KActionCollection>
 #include <KCoreAddons/KPluginFactory>
 
-#include <QtWidgets/QWidget>
-#include <QtWidgets/QAction>
-#include <QtCore/QTimer>
+#include <graphics/manager.h>
+#include <graphics/backend.h>
+
+#include <engine/gameproject.h>
+#include <engine/game.h>
+
+#include <input/inputmanager.h>
+
+#include <creator/widgets/renderwidget.h>
 
 using namespace GluonCreator;
 using namespace GluonGraphics;
 
-class GluonViewerPart::GluonViewerPartPrivate
+class GluonViewerPart::Private
 {
     public:
-        GluonViewerPartPrivate() : project(0), autoplay( false ), forceLoad( false ) { }
+        RenderWidget* widget = nullptr;
+        GluonEngine::GameProject* project = nullptr;
 
-        //GluonGraphics::RenderWidget* widget; TODO: after Graphics
-        QWidget* widget;
-        GluonEngine::GameProject* project;
-
-        bool autoplay;
-        bool forceLoad;
+        bool autoplay = false;
+        bool forceLoad = false;
 };
 
 GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* /* parentWidget */, QObject* parent, const QVariantList& args )
-    : ReadOnlyPart( parent ),
-      d( new GluonViewerPartPrivate )
+    : ReadOnlyPart( parent )
 {
-    // TODO: Learn hwo to create good kparts
-    //KComponentData data( "gluonviewerpart", "gluoncreator" );
-    //setComponentData( data );
-
-    d->widget = new QWidget(); //new GluonGraphics::RenderWidget(); TODO: after graphics
+    d->widget = new RenderWidget();
     setWidget( d->widget );
 
     GluonGraphics::Manager::instance()->initialize();
     connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), d->widget, SLOT(update()) );
 
-    foreach( const QVariant & arg, args )
+    for( auto arg : args )
     {
         QString keyValue = arg.toString();
         if( keyValue == "autoplay" )
@@ -100,13 +93,14 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* /* parentWidget */, QOb
     actionCollection()->addAction( "togglePointsAction", points );
 
     setXMLFile( "gluonviewerpartui.rc" );
-    //GluonInput::InputManager::instance()->setFilteredObject( d->widget );
+
+    GluonInput::InputManager::instance()->setFilterObject( d->widget );
+    GluonInput::InputManager::instance()->initialize();
 }
 
 GluonCreator::GluonViewerPart::~GluonViewerPart()
 {
     GluonEngine::Game::instance()->stopGame();
-    delete d;
 }
 
 bool GluonCreator::GluonViewerPart::openFile()
@@ -152,13 +146,11 @@ void GluonViewerPart::setPoints()
 {
 }
 
-void GluonViewerPart::newViewport( Viewport* viewport )
-{
-}
-
 void GluonViewerPart::redraw()
 {
     GluonEngine::Game::instance()->drawAll();
 }
 
-K_PLUGIN_FACTORY( GluonViewerPartFactory, registerPlugin<GluonViewerPart>(); )
+K_PLUGIN_FACTORY( GluonViewerPartFactory, registerPlugin< GluonCreator::GluonViewerPart >(); )
+
+#include "gluonviewerpart.moc"

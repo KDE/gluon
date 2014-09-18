@@ -51,11 +51,11 @@ namespace GluonEngine
     {
             Q_OBJECT
         public:
-            AssetTemplate( QString name, QString filename, QString pluginname, QObject* parent = 0 )
+            AssetTemplate( QString name, QString filename, QString typeName, QObject* parent = 0 )
                 : QObject( parent )
                 , name( name )
                 , filename( filename )
-                , pluginname( pluginname )
+                , typeName( typeName )
             { }
             virtual ~AssetTemplate() {};
 
@@ -71,9 +71,9 @@ namespace GluonEngine
             QString filename;
 
             /**
-             * The name of the plugin (that is, the subdir inside which the template file is found)
+             * The name of the type to be created from this template.
              */
-            QString pluginname;
+            QString typeName;
     };
 
     /**

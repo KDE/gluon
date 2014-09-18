@@ -35,8 +35,6 @@ namespace GluonGraphics
                 GLXOutputSurface( GLX::Context* context, QWindow* container, QObject* parent = 0 );
                 virtual ~GLXOutputSurface();
 
-                virtual void createDebug();
-
             public Q_SLOTS:
                 virtual void renderContents();
                 virtual void setSize( int width, int height );

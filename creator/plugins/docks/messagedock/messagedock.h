@@ -24,6 +24,8 @@
 
 #include <QtWidgets/QDockWidget>
 
+namespace GluonCore { struct LogData; }
+
 namespace GluonCreator
 {
     class MessageDock : public QDockWidget
@@ -40,6 +42,8 @@ namespace GluonCreator
             void selectAll();
             void copy();
             void clearSelection();
+
+            void newMessage( const GluonCore::LogData& message );
 
         private:
             class MessageDockPrivate;

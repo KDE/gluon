@@ -66,7 +66,7 @@ GLXOutputSurface::~GLXOutputSurface()
 
 void GLXOutputSurface::renderContents()
 {
-    d->context->makeCurrent( window() );
+    d->context->makeCurrent( window()->winId() );
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
@@ -93,10 +93,3 @@ void GLXOutputSurface::setSize(int width, int height)
     GluonGraphics::OutputSurface::setSize(width, height);
     glViewport( 0, 0, width, height );
 }
-
-void GLXOutputSurface::createDebug()
-{
-
-}
-
- 

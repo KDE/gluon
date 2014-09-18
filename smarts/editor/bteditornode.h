@@ -22,6 +22,7 @@
 #define GLUON_SMARTS_BTEDITORNODE_H
 
 #include "../common/btnode.h"
+#include <QPoint>
 
 class btTreeModel;
 class QXmlStreamWriter;
@@ -34,6 +35,9 @@ class btEditorNode : public btNode
 
         explicit btEditorNode( btNodeType* type = 0, btNode* parent = 0 );
         ~btEditorNode();
+
+        QPointF position() const;
+        void setPosition(const QPointF& newPosition);
 
         void toXml( QXmlStreamWriter* xmlWriter, QList<btTreeModel*> behaviorTrees );
 
@@ -53,6 +57,7 @@ class btEditorNode : public btNode
 
     private:
         QList<btNodeType*> m_decorators;
+        QPointF m_position;
 };
 
 #endif // GLUON_SMARTS_BTEDITORNODE_H

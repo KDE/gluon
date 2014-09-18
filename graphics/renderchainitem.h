@@ -25,9 +25,18 @@
 namespace GluonGraphics
 {
     /**
-     * \brief Abstract base class for objects that want to participate in the render chain.
+     * Interface for objects that want to participate in the render chain.
      *
+     * The render chain is a tree of objects that output a single image to be composited
+     * together into one final image. This includes elements like the "view" of a camera,
+     * interface elements rendered using QtQuick and separate render targets to handle things
+     * like reflections. Render chain items are sorted by Z depth, with lower Z being
+     * rendered before higher.
      *
+     * Note that render chain items and entities are separate concepts. Render chain items
+     * define a set of layers that make up a 2D surface. Entities are objects in 3D space
+     * that can be rendered to a surface. It is in fact possible for an object to be both
+     * a render chain item and an entity, see for example the Camera class.
      */
     class GLUON_GRAPHICS_EXPORT RenderChainItem
     {
@@ -35,13 +44,31 @@ namespace GluonGraphics
             RenderChainItem();
             virtual ~RenderChainItem();
 
+            /**
+             * Render the contents of this item.
+             */
             virtual void renderContents() = 0;
+            /**
+             * Resize the contents of the item so they fit within width and height.
+             */
             virtual void resize( int width, int height ) = 0;
 
+            /**
+             * \return The Z depth of this item.
+             */
             float zDepth() const;
+            /**
+             * Set the Z depth of this item.
+             */
             void setZDepth( float z );
 
+            /**
+             * \return The parent item of this item.
+             */
             RenderChainItem* parentItem() const;
+            /**
+             * Set the parent item of this item.
+             */
             void setParentItem( RenderChainItem* parent );
 
         private:

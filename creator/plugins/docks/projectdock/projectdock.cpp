@@ -72,16 +72,17 @@ class ProjectDock::ProjectDockPrivate
                 theItem = qobject_cast<GluonEngine::Asset*>( i.value()->newInstance() );
                 if( theItem )
                 {
-                    QString category = theItem->metaObject()->classInfo( theItem->metaObject()->indexOfClassInfo( "org.gluon.category" ) ).value();
+                    QJsonObject metaData = GluonCore::GluonObjectFactory::instance()->metaData( theItem->metaObject()->className() );
+                    QString category = metaData.value( "category" ).toString();
                     if( category.isEmpty() )
                         category = i18nc( "Asset without a category", "Uncategorised" );
 
-                    // TODO: fix this by somehow exposing the metadata for plugins
-                    const QList<GluonEngine::AssetTemplate*> templates = QList<GluonEngine::AssetTemplate*>();// theItem->templates();
-                    for( int j = 0; j < templates.length(); ++j )
+                    auto templates = metaData.value( "templates" ).toObject();
+                    for( auto itr = templates.begin(); itr != templates.end(); ++itr )
                     {
-                        assetTemplates.insert( category, templates[j] );
-                        assetIcons.insert( templates[j], theItem->metaObject()->classInfo( theItem->metaObject()->indexOfClassInfo( "org.gluon.icon" ) ).value() );
+                        GluonEngine::AssetTemplate* t = new GluonEngine::AssetTemplate( itr.key(), itr.value().toString(), theItem->metaObject()->className(), q );
+                        assetTemplates.insert( category, t );
+                        assetIcons.insert( t, metaData.value( "icon" ).toString() );
                     }
                 }
                 else
@@ -235,9 +236,8 @@ ProjectDock::ProjectDock( const QString& title, QWidget* parent, Qt::WindowFlags
         GluonEngine::AssetTemplate* item = itr.value();
         QAction* action = menu->addAction( i18nc( "Add a new asset", "New %1", item->name ), this, SLOT(createNewAsset()) );
         action->setIcon( QIcon::fromTheme( d->assetIcons.value( item ) ) );
-        action->setProperty( "newAssetClassname", item->parent()->metaObject()->className() );
+        action->setProperty( "newAssetClassname", item->typeName );
         action->setProperty( "newAssetName", item->name );
-        action->setProperty( "newAssetPluginname", item->pluginname );
         action->setProperty( "newAssetFilename", item->filename );
     }
 

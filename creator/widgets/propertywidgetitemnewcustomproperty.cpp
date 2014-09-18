@@ -67,12 +67,12 @@ PropertyWidgetItemNewCustomProperty::PropertyWidgetItemNewCustomProperty( QWidge
     for( i = objectTypes.constBegin(); i != objectTypes.constEnd(); ++i )
     {
         QObject* obj = i.value()->newInstance();
-        GluonCore::GluonObject* gObj = qobject_cast< GluonCore::GluonObject* >( obj );
-        if( gObj )
-        {
+//         GluonCore::GluonObject* gObj = qobject_cast< GluonCore::GluonObject* >( obj );
+//         if( gObj )
+//         {
             QString humanName = ObjectManager::instance()->humanifyClassName( i.key() );
-            propertyType->addItem( humanName, gObj->toVariant( 0 ) );
-        }
+            propertyType->addItem( humanName, QVariant::fromValue< GluonCore::GluonObject* >( nullptr ) );
+//         }
     }
 
     QFormLayout* formLayout = new QFormLayout();

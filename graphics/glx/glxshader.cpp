@@ -253,9 +253,7 @@ void GLXShader::Private::setUniform( GLint uniform, const QVariant& value )
             if( value.canConvert<Eigen::Affine3f>() )
             {
                 Eigen::Affine3f mat = value.value<Eigen::Affine3f>();
-                float glMatrix[16];
-                MathUtils::qmatrixToGLMatrix( mat, glMatrix );
-                glUniformMatrix4fv( uniform, 1, false, glMatrix );
+                glUniformMatrix4fv( uniform, 1, false, mat.data() );
                 break;
             }
             Texture* tex = value.value< GluonGraphics::Texture* >();

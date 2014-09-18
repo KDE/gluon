@@ -93,16 +93,15 @@ ComponentModel::ComponentModel( QObject* parent )
         GluonEngine::Component* comp = qobject_cast<GluonEngine::Component*>( obj->newInstance() );
         if( comp )
         {
+            QJsonObject metaData = GluonCore::GluonObjectFactory::instance()->metaData( obj->className() );
             QString name( obj->className() );
 
             ComponentModelItem* item = new ComponentModelItem();
-            item->name = ObjectManager::instance()->humanifyClassName( name );
+            item->name = metaData.value( "name" ).toString();
             item->className = name;
-            item->iconName = comp->metaObject()->classInfo( comp->metaObject()->indexOfClassInfo( "org.gluon.icon" ) ).value();
+            item->iconName = metaData.value( "icon" ).toString();
 
-
-
-            QString category = comp->metaObject()->classInfo( comp->metaObject()->indexOfClassInfo( "org.gluon.category" ) ).value();
+            QString category = metaData.value( "category" ).toString();
             if( category.isEmpty() )
                 category = i18nc( "Uncategorised component category", "Uncategorised" );
 

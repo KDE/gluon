@@ -23,10 +23,11 @@
 
 #include "singleton.h"
 #include "privatepointer.h"
+#include "gluoncore_export.h"
 
 namespace GluonCore
 {
-    class PluginRegistry : public Singleton< PluginRegistry >
+    class GLUONCORE_EXPORT PluginRegistry : public Singleton< PluginRegistry >
     {
         Q_OBJECT
         GLUON_SINGLETON( PluginRegistry )

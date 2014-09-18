@@ -65,13 +65,13 @@ GameProject::addChild( GluonObject* child )
 {
     GluonCore::GluonObject::addChild( child );
 
-    connect( child, SIGNAL(showDebug(QString,GluonCore::DebugType)), Game::instance(), SIGNAL(showDebug(QString,GluonCore::DebugType)) );
+//     connect( child, SIGNAL(showDebug(QString,GluonCore::DebugType)), Game::instance(), SIGNAL(showDebug(QString,GluonCore::DebugType)) );
 }
 
 bool
 GameProject::removeChild( GluonObject* child )
 {
-    disconnect( child, SIGNAL(showDebug(QString,GluonCore::DebugType)), Game::instance(), SIGNAL(showDebug(QString,GluonCore::DebugType)) );
+//     disconnect( child, SIGNAL(showDebug(QString,GluonCore::DebugType)), Game::instance(), SIGNAL(showDebug(QString,GluonCore::DebugType)) );
 
     return GluonCore::GluonObject::removeChild( child );
 }
@@ -82,7 +82,7 @@ GameProject::saveToFile()
     // Run through everything first and save each of the saveable assets
     GameProjectPrivate::saveChildren( this );
 
-    if( !GluonCore::GDLSerializer::instance()->write( filename(), GluonCore::GluonObjectList() << this ) )
+    if( !GluonCore::GDLSerializer::write( filename(), GluonCore::GluonObjectList() << this ) )
         return false;
 
     QString projectDir = filename().toLocalFile().section( '/', 0, -2 );
@@ -164,7 +164,7 @@ GameProject::loadFromFile()
     setFilename( filename().toLocalFile() );
 
     QList<GluonObject*> objectList;
-    if( GluonCore::GDLSerializer::instance()->read( filename(), objectList, this ) )
+    if( GluonCore::GDLSerializer::read( filename(), objectList, this ) )
     {
         if( objectList.at(0)->metaObject() )
         {
@@ -408,40 +408,28 @@ Asset* GameProject::findAsset( const QString& name ) const
 
 Asset* GameProject::findAssetByType( const QString& typeName ) const
 {
-    int typeID = QMetaType::type( typeName.toUtf8().data() );
-    return findAssetByType( typeID );
-}
+    if( d->assetTypes.find( typeName ) != d->assetTypes.end() )
+        return d->assetTypes.value( typeName );
 
-Asset* GameProject::findAssetByType( int type ) const
-{
-    if( d->assetTypes.find( type ) != d->assetTypes.end() )
-        return d->assetTypes.value( type );
-
-    return 0;
+    return nullptr;
 }
 
 QList<Asset*> GameProject::findAssetsByType( const QString& typeName ) const
 {
-    int typeID = QMetaType::type( typeName.toUtf8().data() );
-    return findAssetsByType( typeID );
-}
+    if( d->assetTypes.find( typeName ) != d->assetTypes.end() )
+        return d->assetTypes.values( typeName );
 
-QList<Asset*> GameProject::findAssetsByType( int type ) const
-{
-    if( d->assetTypes.find( type ) != d->assetTypes.end() )
-        return d->assetTypes.values( type );
-
-    return QList<Asset*>();
+    return QList< Asset* >();
 }
 
 void GameProject::addAsset( Asset* asset )
 {
     if( asset )
     {
-        int typeID = GluonCore::GluonObjectFactory::instance()->objectTypeIDs().value( asset->metaObject()->className() );
-        if( d->assetTypes.constFind( typeID, asset ) == d->assetTypes.constEnd() )
+        QString typeName = asset->metaObject()->className();
+        if( d->assetTypes.constFind( typeName, asset ) == d->assetTypes.constEnd() )
         {
-            d->assetTypes.insert( typeID, asset );
+            d->assetTypes.insert( typeName, asset );
             d->assets.append( asset );
             // connect( asset, SIGNAL(destroyed(QObject*)), SLOT(childDeleted(QObject*)) );
             // asset->setParent( this );
@@ -458,8 +446,8 @@ void GameProject::addAsset( Asset* asset )
 
 bool GameProject::removeAsset( Asset* asset )
 {
-    int typeID = QMetaType::type( asset->metaObject()->className() );
-    d->assetTypes.remove( typeID, asset );
+    QString typeName = asset->metaObject()->className();
+    d->assetTypes.remove( typeName, asset );
     // disconnect( asset, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
     return d->assets.removeOne( asset );
 }

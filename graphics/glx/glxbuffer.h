@@ -40,6 +40,8 @@ namespace GluonGraphics
                 virtual void bind();
                 virtual void release();
 
+                virtual bool isValid();
+
             private:
                 class Private;
                 Private* const d;

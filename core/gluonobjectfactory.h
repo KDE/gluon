@@ -24,9 +24,11 @@
 
 #include "singleton.h"
 #include "debughelper.h"
+// #include "privatepointer.h"
 
 #include <QtCore/QHash>
 #include <QtCore/QStringList>
+#include <QtCore/QJsonObject>
 #include <QtScript/QScriptEngine>
 
 namespace GluonCore
@@ -46,35 +48,7 @@ namespace GluonCore
             Q_OBJECT
             GLUON_SINGLETON( GluonObjectFactory )
         public:
-            template<class T>
-            void registerObjectType()
-            {
-                DEBUG_BLOCK
-
-                int typeID = qRegisterMetaType<T*>( );
-                //Workaround Qt bug http://bugreports.qt.nokia.com/browse/QTBUG-2393
-                //Register each class with his class name without the namespace too.
-                QString name( QString( T::staticMetaObject.className() ).split( "::" ).at( 1 ) );
-                qRegisterMetaType<T*>( ( name + '*' ).toLatin1().constData() );
-
-                DEBUG_TEXT( QString( "Registering object type %1 with typeID %2" ).arg( T::staticMetaObject.className() ).arg( typeID ) )
-
-                m_objectTypes[T::staticMetaObject.className()] = &( T::staticMetaObject );
-                m_objectTypeIDs[T::staticMetaObject.className()] = typeID;
-
-                // Yeah, i'd like to do this using a virtual static function, but those don't exist in C++ :P
-                T object;
-                QString mimetypenames;
-                foreach( const QString & mimetype, object.supportedMimeTypes() )
-                {
-                    mimetypenames.append( ' ' + mimetype );
-                    m_mimeTypes[mimetype] = T::staticMetaObject.className();
-                }
-                if( mimetypenames.length() > 0 )
-                {
-                    DEBUG_TEXT( QString( "Added mimetypes %1 to the index" ).arg( mimetypenames ) )
-                }
-            };
+            void registerObjectType( const QJsonObject& metaData, GluonObject* object );
 
             /**
              * Create a new object with the class name indicated by the passed string
@@ -90,34 +64,6 @@ namespace GluonCore
              * @return  An object of the appropriate type, or null if there is no suitable class in the factory
              */
             GluonObject* instantiateObjectByMimetype( const QString& objectMimeType );
-
-            /**
-             * Wrap the passed GluonObject in a QVariant of the same type as the
-             * passed QVariant. This enables a property to retain its type when
-             * changing its value along a class inheritance chain.
-             *
-             * @param original The original value of the property
-             * @param newValue The new value of the reference property
-             * @return The object wrapped in a suitably typed QVariant
-             */
-            QVariant wrapObject( const QVariant& original, GluonObject* newValue );
-            /**
-             * Wrap the passed GluonObject in a QVariant of the named type. This
-             * enables a property to retain its type when changing its value along
-             * a class inheritance chain.
-             *
-             * @param   type        The name of the type the QVariant should be
-             * @param   newValue    The object you wish to have wrapped in a QVariant of the specified type
-             * @return  The appropriate QVariant, or an invalid QVariant if the type was not found in the factory
-             */
-            QVariant wrapObject( const QString& type, GluonObject* newValue );
-            /**
-             * Get the GluonObject wrapped inside the passed QVariant
-             *
-             * @param   wrappedObject   A GluonObject wrapped inside a QVariant
-             * @return  The GluonObject wrapped by the QVariant, or null if there is no valid GluonObject inside it
-             */
-            GluonObject* wrappedObject( const QVariant& wrappedObject );
 
             /**
              * Request a reload of the factory's plugins
@@ -143,37 +89,16 @@ namespace GluonCore
              * @return  The hash as described
              */
             QHash<QString, const QMetaObject*> objectTypes() const;
-            /**
-             * A hash containing the QMetaType object IDs for all the classes registered in
-             * the factory. The key is the class name, and the value is the ID
-             *
-             * @return  The hash as described
-             */
-            const QHash<QString, int> objectTypeIDs() const;
+
+            QJsonObject metaData( const QString& type ) const;
 
         private:
-            QHash<QString, const QMetaObject*> m_objectTypes;
-            QHash<QString, QString> m_mimeTypes;
-            QHash<QString, int> m_objectTypeIDs;
+            virtual ~GluonObjectFactory();
+
+            class Private;
+            Private * const d;
     };
 }
-
-/// \cond GluonObjectRegistration
-/**
- * \brief Convenience - do not use directly
- * A convenience class used for object registration, which should not be used directly
- */
-template<class T>
-class GluonObjectRegistration
-{
-    public:
-        GluonObjectRegistration()
-        {
-            GluonCore::GluonObjectFactory::instance()->registerObjectType<T>();
-        }
-};
-
-/// \endcond
 
 /**
  * Use this macro to register a class with the GluonObjectFactory.
@@ -181,10 +106,6 @@ class GluonObjectRegistration
  * be adding functions with the following signatures to your class:
  *
  * GluonCore::GluonObject *instantiate();
- *
- * GluonCore::GluonObject *fromVariant(const QVariant &wrappedObject);
- *
- * QVariant toVariant(GluonCore::GluonObject *wrapThis);
  *
  * Please make sure to insert this macro at the very top of the file containing your
  * implementation. As an example, the following is the code used to register GluonObject
@@ -197,21 +118,10 @@ REGISTER_OBJECTTYPE(GluonCore, GluonObject);
  * @see GLUON_OBJECT
  */
 #define REGISTER_OBJECTTYPE(NAMESPACE,NEWOBJECTTYPE) \
-    GluonObjectRegistration<NAMESPACE :: NEWOBJECTTYPE> NAMESPACE ## NEWOBJECTTYPE ## _GluonObjectRegistration;\
     GluonCore::GluonObject * \
     NAMESPACE::NEWOBJECTTYPE::instantiate()\
     {\
         return new NAMESPACE :: NEWOBJECTTYPE();\
-    }\
-    GluonCore::GluonObject * \
-    NAMESPACE::NEWOBJECTTYPE::fromVariant(const QVariant &wrappedObject) \
-    {\
-        return wrappedObject.value< NAMESPACE :: NEWOBJECTTYPE* >();\
-    }\
-    QVariant \
-    NAMESPACE::NEWOBJECTTYPE::toVariant(GluonCore::GluonObject *wrapThis)\
-    {\
-        return QVariant::fromValue<NAMESPACE :: NEWOBJECTTYPE *>(qobject_cast<NAMESPACE :: NEWOBJECTTYPE*>(wrapThis));\
     }\
     QScriptValue NAMESPACE::NEWOBJECTTYPE::objectToScriptValue( QScriptEngine* engine, NAMESPACE :: NEWOBJECTTYPE* const& in )\
     {\
