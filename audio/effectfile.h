@@ -21,10 +21,11 @@
 #define GLUON_AUDIO_EFFECTFILE_H
 
 #include "abstractfile.h"
+#include "gluon_audio_export.h"
 
 namespace GluonAudio
 {
-    class EffectFile: public AbstractFile
+    class GLUON_AUDIO_EXPORT EffectFile: public AbstractFile
     {
             Q_OBJECT
         public:

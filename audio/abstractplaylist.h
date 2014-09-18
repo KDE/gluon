@@ -21,12 +21,13 @@
 #define GLUONAUDIO_ABSTRACTPLAYLIST_H
 
 #include <QtCore/QObject>
+#include "gluon_audio_export.h"
 
 namespace GluonAudio
 {
     class Source;
     
-    class AbstractPlaylist : public QObject
+    class GLUON_AUDIO_EXPORT AbstractPlaylist : public QObject
     {   
             Q_OBJECT
         public:

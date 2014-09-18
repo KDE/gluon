@@ -23,12 +23,13 @@
 #include <QtCore/QObject>
 
 #include "abstractfile.h"
+#include "gluon_audio_export.h"
 
 namespace GluonAudio
 {
     class Source;
     
-    class MusicFile : public AbstractFile
+    class GLUON_AUDIO_EXPORT MusicFile : public AbstractFile
     {
             Q_OBJECT
         public:

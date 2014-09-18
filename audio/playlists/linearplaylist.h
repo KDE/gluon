@@ -21,12 +21,13 @@
 #define GLUONAUDIO_LINEARPLAYLIST_H
 
 #include "../abstractplaylist.h"
+#include "../gluon_audio_export.h"
 
 namespace GluonAudio
 {
     class AbstractFile;
     
-    class LinearPlaylist: public AbstractPlaylist
+    class GLUON_AUDIO_EXPORT LinearPlaylist: public AbstractPlaylist
     {
             Q_OBJECT
         public:

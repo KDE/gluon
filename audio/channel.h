@@ -23,10 +23,11 @@
 #include <QtCore/QList>
 
 #include "source.h"
+#include "gluon_audio_export.h"
 
 namespace GluonAudio
 {
-    class Channel: public QObject
+    class GLUON_AUDIO_EXPORT Channel: public QObject
     {
             Q_OBJECT
         public:

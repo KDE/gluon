@@ -21,6 +21,7 @@
 #define GLUONAUDIO_SINGLEFILE_H
 
 #include "../abstractplaylist.h"
+#include "../gluon_audio_export.h"
 
 #include <QtCore/QString>
 
@@ -28,7 +29,7 @@ namespace GluonAudio
 {
     class AbstractFile;
     
-    class SingleFile: public AbstractPlaylist
+    class GLUON_AUDIO_EXPORT SingleFile: public AbstractPlaylist
     {
             Q_OBJECT
         public:

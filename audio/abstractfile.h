@@ -21,13 +21,14 @@
 #define GLUON_AUDIO_ABSTRACTFILE_H
 
 #include <QtCore/QObject>
+#include "gluon_audio_export.h"
 
 namespace GluonAudio
 {
     class Source;
     class Buffer;
     
-    class AbstractFile : public QObject
+    class GLUON_AUDIO_EXPORT AbstractFile : public QObject
     {
             Q_OBJECT
         public:
