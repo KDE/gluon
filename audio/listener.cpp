@@ -25,7 +25,7 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
-#include <core/debughelper.h>
+#include <core/log.h>
 
 #include "channel.h"
 
@@ -52,11 +52,10 @@ class Listener::Private
 Listener::Listener ( QObject* parent )
     : GluonCore::Singleton< GluonAudio::Listener >( parent ), d( new Private )
 {
-    DEBUG_BLOCK
     d->device = alcOpenDevice(NULL);
     if( !d->device )
     {
-        DEBUG_TEXT( "OpenAL: Error while opening device" )
+        ERROR() << "OpenAL: Error while opening device";
         return;
     }
     
@@ -65,13 +64,13 @@ Listener::Listener ( QObject* parent )
     d->context = alcCreateContext(d->device, NULL);
     if( !alcMakeContextCurrent(d->context) )
     {
-        DEBUG_TEXT( "OpenAL Error: Could not make context current." )
+        ERROR() << "OpenAL Error: Could not make context current.";
         
     }
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL Error while creating context: %1", error )
+        ERROR() << "OpenAL Error while creating context: " << error;
         return;
     }
     

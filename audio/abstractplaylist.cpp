@@ -21,7 +21,7 @@
 
 #include "source.h"
 
-#include <core/debughelper.h>
+#include <core/log.h>
 
 using namespace GluonAudio;
 
@@ -67,12 +67,11 @@ AbstractPlaylist::PlayingState AbstractPlaylist::getPlayingState() const
 
 void AbstractPlaylist::sourceOutOfBuffer(Source* s)
 {
-    DEBUG_BLOCK
-    DEBUG_TEXT( "Got out of buffer" )
+    DEBUG() << "Got out of buffer";
     Q_UNUSED(s)
     if( d->state == Stopped )
     {
-        DEBUG_TEXT( "Signal stop" )
+        DEBUG() << "Signal stop";
         emit stopped();
     }
 }

@@ -25,7 +25,7 @@
 #include <QtCore/QVector>
 #include <QtCore/QDebug>
 
-#include <core/debughelper.h>
+#include <core/log.h>
 
 #include "listener.h"
 #include "abstractplaylist.h"
@@ -63,13 +63,12 @@ Source::Source(QObject* parent)
     : QObject(parent)
     , d( new Private() )
 {
-    DEBUG_BLOCK
     Listener::instance();
     alGenSources(1, &d->name);
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while creating source: %1", error )
+        ERROR() << "OpenAL-Error while creating source: " << error;
         return;
     }
 }
@@ -81,13 +80,12 @@ Source::~Source()
 
 void Source::queueBuffer( Buffer buffer )
 {
-    DEBUG_BLOCK
     ALuint name = buffer.name;
     alSourceQueueBuffers( d->name, 1, &name );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while queueing buffer: %1", error )
+        ERROR() << "OpenAL-Error while queueing buffer: " << error;
         return;
     }
     d->currentBuffers.prepend(buffer);
@@ -103,13 +101,12 @@ void Source::queueBuffer( Buffer buffer )
 
 int Source::getNumberOfBuffers()
 {
-    DEBUG_BLOCK
     int buffers;
     alGetSourcei( d->name, AL_BUFFERS_QUEUED, &buffers);
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while checking number of buffers: %1", error )
+        ERROR() << "OpenAL-Error while checking number of buffers: " << error;
         return 0;
     }
     return buffers;
@@ -117,13 +114,12 @@ int Source::getNumberOfBuffers()
 
 int Source::removeOldBuffers()
 {
-    DEBUG_BLOCK
     int processed = 0;
     alGetSourcei( d->name, AL_BUFFERS_PROCESSED, &processed);
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while checking number of processed buffers: %1", error )
+        ERROR() << "OpenAL-Error while checking number of processed buffers: " << error;
         return 0;
     }
     for( int i=0; i<processed; i++ )
@@ -133,14 +129,14 @@ int Source::removeOldBuffers()
         error = alGetError();
         if( error != AL_NO_ERROR )
         {
-            DEBUG_TEXT2( "OpenAL-Error while unqueueing buffer: %1", error )
+            ERROR() << "OpenAL-Error while unqueueing buffer: " << error;
             continue;
         }
         alDeleteBuffers( 1, &buffer.name );
         error = alGetError();
         if( error != AL_NO_ERROR )
         {
-            DEBUG_TEXT2( "OpenAL-Error while removing buffer: %1", error )
+            ERROR() << "OpenAL-Error while removing buffer: " << error;
         }
     }
     
@@ -149,7 +145,10 @@ int Source::removeOldBuffers()
     int asd;
     alGetSourcei( d->name, AL_BUFFERS_QUEUED, &asd);
     alGetError();
-    //DEBUG_TEXT2( "Buffers left: %1", asd );
+    if( asd < 10 )
+    {
+        DEBUG() << QString("Only %1 buffers left on source %2").arg(asd).arg(d->name);
+    }
     
     return processed; 
 }
@@ -161,7 +160,6 @@ void Source::audioFileAdded()
 
 void Source::clear()
 {
-    DEBUG_BLOCK
     d->filesQueued = 0;
     for( Buffer& buffer : d->currentBuffers )
     {
@@ -169,14 +167,14 @@ void Source::clear()
         ALCenum error = alGetError();
         if( error != AL_NO_ERROR )
         {
-            DEBUG_TEXT2( "OpenAL-Error while unqueueing buffers: %1", error )
+            ERROR() << "OpenAL-Error while unqueueing buffers: " << error;
             return;
         }
         alDeleteBuffers( 1, &buffer.name );
         error = alGetError();
         if( error != AL_NO_ERROR )
         {
-            DEBUG_TEXT2( "OpenAL-Error while removing buffers: %1", error )
+            ERROR() << "OpenAL-Error while removing buffers: " << error;
             return;
         }
     }
@@ -198,14 +196,13 @@ bool Source::isGlobal() const
 
 void Source::setGlobal( bool isGlobal )
 {
-    DEBUG_BLOCK
     if( isGlobal == d->global )
         return;
     alSourcei( d->name, AL_SOURCE_RELATIVE, isGlobal ? AL_TRUE : AL_FALSE );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while setting relative: %1", error )
+        ERROR() << "OpenAL-Error while setting relative: " << error;
         return;
     }
     setPosition( Eigen::Vector3f(0.0f, 0.0f, 0.0f) );
@@ -219,7 +216,6 @@ Eigen::Vector3f Source::position() const
 
 void Source::setPosition( Eigen::Vector3f position )
 {
-    DEBUG_BLOCK
     if( d->global )
         return;
     if( d->position == position )
@@ -228,7 +224,7 @@ void Source::setPosition( Eigen::Vector3f position )
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while setting position: %1", error )
+        ERROR() << "OpenAL-Error while setting position: " << error;
         return;
     }
     d->position = position;
@@ -246,26 +242,24 @@ float Source::realVolume() const
 
 void Source::setVolume( float vol )
 {
-    DEBUG_BLOCK
     d->volume = vol;
     alSourcef( d->name, AL_GAIN, realVolume() );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while setting volume: %1", error )
+        ERROR() << "OpenAL-Error while setting volume: " << error;
         return;
     }
 }
 
 void Source::setParentChannelVolume( float vol )
 {
-    DEBUG_BLOCK
     d->parentVolume = vol;
     alSourcef( d->name, AL_GAIN, realVolume() );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while setting volume: %1", error )
+        ERROR() << "OpenAL-Error while setting volume: " << error;
         return;
     }
     if( !d->valid )
@@ -274,13 +268,12 @@ void Source::setParentChannelVolume( float vol )
 
 float Source::positionInBuffers()
 {
-    DEBUG_BLOCK
     float position = 0.0f;
     alGetSourcef(d->name, AL_SEC_OFFSET, &position );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while getting second offset: %1", error )
+        ERROR() << "OpenAL-Error while getting second offset: " << error;
     }
     return position;
 }
@@ -315,40 +308,37 @@ void Source::setPlaylist(AbstractPlaylist* playlist)
 
 void Source::pause()
 {
-    DEBUG_BLOCK
     if( d->paused )
         return;
     alSourcePause( d->name );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while pausing: %1", error )
+        ERROR() << "OpenAL-Error while pausing: " << error;
         return;
     }
 }
 
 void Source::continuePlaying()
 {
-    DEBUG_BLOCK
     if( !d->paused )
         return;
     alSourcePause( d->name );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while continueing: %1", error )
+        ERROR() << "OpenAL-Error while continueing: %1" << error;
         return;
     }
 }
 
 void Source::stop()
 {
-    DEBUG_BLOCK
     alSourceStop( d->name );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while stopping to play: %1", error )
+        ERROR() << "OpenAL-Error while stopping to play: %1" << error;
         return;
     }
     d->paused = false;
@@ -358,13 +348,12 @@ void Source::update()
 {
     if( !d->updatesRegistered )
         return;
-    DEBUG_BLOCK
     ALenum state;
     alGetSourcei( d->name, AL_SOURCE_STATE, &state );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while getting playing state: %1", error );
+        ERROR() << "OpenAL-Error while getting playing state: " << error;
         return;
     }
     if( state == AL_STOPPED )
@@ -383,7 +372,6 @@ float Source::pitch() const
 
 void Source::setPitch(float pitch)
 {
-    DEBUG_BLOCK
     if( pitch == d->pitch )
         return;
 
@@ -391,7 +379,7 @@ void Source::setPitch(float pitch)
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while setting pitch: %1", error );
+        ERROR() << "OpenAL-Error while setting pitch: " << error;
         return;
     }
     d->pitch = pitch;
@@ -404,7 +392,6 @@ float Source::radius() const
 
 void Source::setRadius(float radius)
 {
-    DEBUG_BLOCK
     if( radius == d->radius )
         return;
     
@@ -412,7 +399,7 @@ void Source::setRadius(float radius)
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while setting radius: %1", error );
+        ERROR() << "OpenAL-Error while setting radius: " << error;
         return;
     }
     d->radius = radius;
@@ -423,16 +410,13 @@ void Source::setRadius(float radius)
 /////////////////////////////////////////
 
 void Source::Private::play()
-{
-    DEBUG_BLOCK
-    //DEBUG_TEXT("Play")
-    
+{   
     ALenum state;
     alGetSourcei( name, AL_SOURCE_STATE, &state );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while getting playing state: %1", error );
+        ERROR() << "OpenAL-Error while getting playing state: " << error;
         return;
     }
     if( state == AL_PLAYING )
@@ -442,7 +426,7 @@ void Source::Private::play()
     error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while starting to play: %1", error )
+        ERROR() << "OpenAL-Error while starting to play: " << error;
         return;
     }
 }

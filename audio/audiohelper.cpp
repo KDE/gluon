@@ -20,7 +20,7 @@
 #include "audiohelper.h"
 
 #include <core/pluginregistry.h>
-#include <core/debughelper.h>
+#include <core/log.h>
 
 #include "abstractfile.h"
 #include "source.h"
@@ -47,7 +47,6 @@ class AudioHelper::Private
 
 void AudioHelper::Private::loadPlugins()
 {
-    DEBUG_BLOCK
     QObjectList qobjects = GluonCore::PluginRegistry::instance()->loadType( "org.kde.gluon.audio.decoder" );
     
     for( QObject* plugin : qobjects )
@@ -56,7 +55,7 @@ void AudioHelper::Private::loadPlugins()
         if(p)
             plugins.append(p);
     }
-    DEBUG_TEXT2( "%1 decoder plugins loaded.", plugins.count())
+    INFO() << QString("%1 decoder plugins loaded.").arg(plugins.count());
 }
 
 AudioHelper::AudioHelper(QObject* parent)

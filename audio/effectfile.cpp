@@ -25,7 +25,7 @@
 #include "decoder.h"
 #include "decoderplugin.h"
 #include "buffer.h"
-#include <core/debughelper.h>
+#include <core/log.h>
 
 #include <QtCore/QHash>
 
@@ -81,12 +81,11 @@ void EffectFile::stopFeedingSource(Source* source)
 
 void EffectFile::update()
 {
-    DEBUG_BLOCK
     if( !isValid() )
         return;
     if( !d->dec->isValid() )
     {
-        DEBUG_TEXT( "Invalid decoder state..." )
+        ERROR() << "Invalid decoder state...";
         for( Source* s : d->sources )
         {
             stopFeedingSource(s);

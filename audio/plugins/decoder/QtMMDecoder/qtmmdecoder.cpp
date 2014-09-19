@@ -26,7 +26,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QDebug>
 
-#include <core/debughelper.h>
+#include <core/log.h>
 
 using namespace GluonAudio;
 
@@ -44,7 +44,6 @@ class QtMMDecoder::Private
 QtMMDecoder::QtMMDecoder(QString fileName, QObject* parent)
     : QObject(parent)
 {
-    DEBUG_BLOCK
     d = new Private();
     d->decoder = new QAudioDecoder();
     d->valid = true;
@@ -52,7 +51,7 @@ QtMMDecoder::QtMMDecoder(QString fileName, QObject* parent)
     connect( d->decoder, SIGNAL(finished()), this, SLOT(gotFinished()) );
     connect( d->decoder, SIGNAL(formatChanged(const QAudioFormat&)), this, SLOT(gotFormatChanged(const QAudioFormat&)) );
     d->decoder->setSourceFilename( fileName );
-    DEBUG_TEXT2( "Loading %1...", fileName );
+    DEBUG() << QString("Loading %1...").arg(fileName);
     d->loaded = true;
 }
 
@@ -133,8 +132,7 @@ bool QtMMDecoder::isEndOfFile()
 
 void QtMMDecoder::gotError(QAudioDecoder::Error error)
 {
-    DEBUG_BLOCK
-    DEBUG_TEXT2( "Got an error in QtMMDecoder: %1", d->decoder->errorString() );
+    ERROR() << "Got an error in QtMMDecoder: " << d->decoder->errorString();
     d->valid = false;
 }
 
@@ -145,8 +143,7 @@ void QtMMDecoder::gotFinished()
 
 void QtMMDecoder::gotFormatChanged(const QAudioFormat& format)
 {
-    DEBUG_BLOCK
-    DEBUG_TEXT( "Decoder loaded file" );
+    DEBUG() << "Decoder loaded file";
     d->loaded = true;
 }
 

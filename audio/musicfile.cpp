@@ -25,7 +25,7 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
-#include <core/debughelper.h>
+#include <core/log.h>
 
 #include "source.h"
 #include "audiohelper.h"
@@ -103,8 +103,7 @@ void MusicFile::update()
     {
         if( !data->dec->isValid() )
         {
-            DEBUG_BLOCK
-            DEBUG_TEXT( "Invalid decoder state..." )
+            ERROR() << "Invalid decoder state...";
             data->source->clear();
             d->stopFeedingSource(data);
             continue;

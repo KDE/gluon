@@ -22,7 +22,7 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
-#include <core/debughelper.h>
+#include <core/log.h>
 
 #include "source.h"
 #include "audiohelper.h"
@@ -44,11 +44,10 @@ AbstractFile::AbstractFile(QString file, QObject* parent)
     : QObject(parent)
     , d( new Private() )
 {
-    DEBUG_BLOCK
     d->file = file;
     if( AudioHelper::instance()->decoderPlugins().empty() )
     {
-        DEBUG_TEXT( "No decoder plugins found!" )
+        ERROR() << "No decoder plugins found!";
         d->valid = false;
     }
 }
@@ -70,21 +69,20 @@ QString AbstractFile::file()
 
 bool AbstractFile::generateBuffer(Buffer* buffer, bool isStereo)
 {
-    DEBUG_BLOCK
     ALenum format = isStereo ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16;
     Listener::instance();
     alGenBuffers( 1, &buffer->name );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while creating buffer: %1", error )
+        ERROR() << "OpenAL-Error while creating buffer: " << error;
         return false;
     }
     alBufferData( buffer->name, format, (void*) buffer->data, buffer->size, buffer->frequency );
     error = alGetError();
     if( error != AL_NO_ERROR )
     {
-        DEBUG_TEXT2( "OpenAL-Error while filling buffer: %1", error )
+        ERROR() << "OpenAL-Error while filling buffer: " << error;
         return false;
     }
     return true;
