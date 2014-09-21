@@ -6,4 +6,5 @@ gluon_unit_tests(
         gdlserializertest
         singletontest
         gluonobjectfactorytest
+        resourcemanagertest
 )

@@ -17,6 +17,7 @@ set( GluonCore_SRCS
     pluginregistry.cpp
     factoryplugin.cpp
     log.cpp
+    resourcemanager.cpp
 
     bindings/com_trolltech_qt_gui_init.cpp
     bindings/qtscript_QColor.cpp
@@ -51,6 +52,7 @@ set( GluonCore_HEADERS
     pluginregistry.h
     factoryplugin.h
     log.h
+    resourcemanager.h
 )
 
 gluon_add_library( Gluon::Core SHARED
