@@ -23,6 +23,7 @@
 #include "../abstractfile.h"
 #include "../musicfile.h"
 #include "../source.h"
+#include "../audiohelper.h"
 
 using namespace GluonAudio;
 
@@ -60,8 +61,7 @@ void SingleFile::setFile(AbstractFile* file)
 
 void SingleFile::setFile( QString path )
 {
-    //TODO: Use the Audio File Manager
-    AbstractFile* file = new MusicFile( path );
+    AbstractFile* file = AudioHelper::instance()->getAudioFile( path );
     setFile( file );
 }
 

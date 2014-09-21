@@ -27,6 +27,8 @@
 namespace GluonAudio
 {
     class AbstractFile;
+    class MusicFile;
+    class EffectFile;
     class Source;
     class DecoderPlugin;
     
@@ -42,6 +44,11 @@ namespace GluonAudio
             void unregisterForUpdates( Source* source );
             
             QList<DecoderPlugin*> decoderPlugins();
+            
+            AbstractFile* getAudioFile( QString path );
+            
+            MusicFile* getMusicFile( QString path );
+            EffectFile* getEffectFile( QString path );
             
         protected:
             void timerEvent(QTimerEvent* event);

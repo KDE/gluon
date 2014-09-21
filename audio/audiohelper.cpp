@@ -19,10 +19,15 @@
 
 #include "audiohelper.h"
 
+#include <QtCore/QFileInfo>
+
 #include <core/pluginregistry.h>
 #include <core/log.h>
+#include <core/resourcemanager.h>
 
 #include "abstractfile.h"
+#include "musicfile.h"
+#include "effectfile.h"
 #include "source.h"
 #include "decoder.h"
 #include "decoderplugin.h"
@@ -108,6 +113,44 @@ void AudioHelper::unregisterForUpdates(Source* source)
 QList< DecoderPlugin* > AudioHelper::decoderPlugins()
 {
     return d->plugins;
+}
+
+AbstractFile* AudioHelper::getAudioFile( QString path )
+{
+    AbstractFile* file = GluonCore::ResourceManager::instance()->resource<AbstractFile>( path );
+    if( file )
+        return file;
+    QFileInfo info(path);
+    if( info.size() > 1*1024*1024 ) // > 1 MB
+    {
+        file = new MusicFile( path );
+    }
+    else
+    {
+        file = new EffectFile( path );
+    }
+    GluonCore::ResourceManager::instance()->addResource<AbstractFile>( path, file );
+    return file;
+}
+
+MusicFile* AudioHelper::getMusicFile( QString path )
+{
+    AbstractFile* file = GluonCore::ResourceManager::instance()->resource<AbstractFile>( path );
+    if( file )
+        return qobject_cast< MusicFile* >( file );
+    MusicFile* musicFile = new MusicFile( path );
+    GluonCore::ResourceManager::instance()->addResource<AbstractFile>( path, musicFile );
+    return musicFile;
+}
+
+EffectFile* AudioHelper::getEffectFile( QString path )
+{
+    AbstractFile* file = GluonCore::ResourceManager::instance()->resource<AbstractFile>( path );
+    if( file  )
+        return qobject_cast< EffectFile* >( file );
+    EffectFile* effectFile = new EffectFile( path );
+    GluonCore::ResourceManager::instance()->addResource<AbstractFile>( path, effectFile );
+    return effectFile;
 }
 
 void AudioHelper::timerEvent(QTimerEvent* event)
