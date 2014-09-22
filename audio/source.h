@@ -106,7 +106,7 @@ namespace GluonAudio
             /**
              * Get the real volume of this source, based on its volume and the volume of the channel it belongs to.
              */
-            float realVolume() const;
+            float effectiveVolume() const;
             
             /**
              * Set the volume for this source. Volume must be positive or 0.

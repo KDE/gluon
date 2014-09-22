@@ -235,7 +235,7 @@ float Source::volume() const
     return d->volume;
 }
 
-float Source::realVolume() const
+float Source::effectiveVolume() const
 {
     return d->volume * d->parentVolume;
 }
@@ -243,7 +243,7 @@ float Source::realVolume() const
 void Source::setVolume( float vol )
 {
     d->volume = vol;
-    alSourcef( d->name, AL_GAIN, realVolume() );
+    alSourcef( d->name, AL_GAIN, effectiveVolume() );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
@@ -255,7 +255,7 @@ void Source::setVolume( float vol )
 void Source::setParentChannelVolume( float vol )
 {
     d->parentVolume = vol;
-    alSourcef( d->name, AL_GAIN, realVolume() );
+    alSourcef( d->name, AL_GAIN, effectiveVolume() );
     ALCenum error = alGetError();
     if( error != AL_NO_ERROR )
     {
