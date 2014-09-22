@@ -81,7 +81,7 @@ void SingleFile::fileNearlyFinished()
     if( d->repeat )
         d->file->feedSource( source() );
     else
-        setPlayingState(Stopped);
+        aboutToStop();
 }
 
 bool SingleFile::repeat() const
@@ -115,22 +115,12 @@ void SingleFile::start()
     }
 }
 
-void SingleFile::pause()
-{
-    if( getPlayingState() != Started )
-        return;
-    source()->pause();
-    setPlayingState(Paused);
-}
-
 void SingleFile::stop()
 {
+    AbstractPlaylist::stop();
     if( getPlayingState() == Stopped )
         return;
     d->file->stopFeedingSource( source() );
-    source()->stop();
-    source()->clear();
-    setPlayingState(Stopped);
 }
 
 

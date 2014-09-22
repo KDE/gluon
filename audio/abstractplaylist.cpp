@@ -28,10 +28,11 @@ using namespace GluonAudio;
 class AbstractPlaylist::Private
 {
     public:
-        Private() : source(0), state(Stopped) {}
+        Private() : source(0), state(Stopped), aboutToStop(false) {}
         
         Source* source;
         PlayingState state;
+        bool aboutToStop;
 };
 
 AbstractPlaylist::AbstractPlaylist( QObject* parent )
@@ -65,12 +66,31 @@ AbstractPlaylist::PlayingState AbstractPlaylist::getPlayingState() const
     return d->state;
 }
 
+void AbstractPlaylist::pause()
+{
+    if( getPlayingState() != Started )
+        return;
+    source()->pause();
+    setPlayingState(Paused);
+}
+
+void AbstractPlaylist::stop()
+{
+    if( getPlayingState() == Stopped )
+        return;
+    source()->stop();
+    source()->clear();
+    setPlayingState(Stopped);
+}
+
 void AbstractPlaylist::sourceOutOfBuffer(Source* s)
 {
     DEBUG() << "Got out of buffer";
     Q_UNUSED(s)
-    if( d->state == Stopped )
+    if( d->aboutToStop )
     {
+        d->state = Stopped;
+        d->aboutToStop = false;
         DEBUG() << "Signal stop";
         emit stopped();
     }
@@ -85,4 +105,9 @@ Source* AbstractPlaylist::source() const
 void AbstractPlaylist::setPlayingState(AbstractPlaylist::PlayingState state)
 {
     d->state = state;
+}
+
+void AbstractPlaylist::aboutToStop()
+{
+    d->aboutToStop = true;
 }

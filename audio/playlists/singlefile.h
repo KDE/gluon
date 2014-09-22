@@ -48,7 +48,6 @@ namespace GluonAudio
             
         public slots:
             void start();
-            void pause();
             void stop();
             
         private:

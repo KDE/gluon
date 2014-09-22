@@ -102,8 +102,8 @@ void LinearPlaylist::fileNearlyFinished()
         d->currentFile = (d->currentFile + 1) % d->files.count();
         if( d->currentFile == 0 && !d->repeatAll )
         {
-            setPlayingState(Stopped);
-            return; // let it stop
+            aboutToStop();
+            return;
         }
     }
     d->files[d->currentFile]->feedSource(source());
@@ -130,22 +130,12 @@ void LinearPlaylist::start()
     }
 }
 
-void LinearPlaylist::pause()
-{
-    if( getPlayingState() != Started )
-        return;
-    source()->pause();
-    setPlayingState(Paused);
-}
-
 void LinearPlaylist::stop()
 {
+    AbstractPlaylist::stop();
     if( getPlayingState() == Stopped )
         return;
     d->files[d->currentFile]->stopFeedingSource( source() );
-    source()->stop();
-    source()->clear();
-    setPlayingState(Stopped);
 }
 
 
