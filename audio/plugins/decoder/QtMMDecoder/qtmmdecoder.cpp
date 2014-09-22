@@ -127,7 +127,7 @@ bool QtMMDecoder::isStereo()
 
 bool QtMMDecoder::isEndOfFile()
 {
-    return d->finished && d->decoder->bufferAvailable();
+    return d->finished;
 }
 
 void QtMMDecoder::gotError(QAudioDecoder::Error error)

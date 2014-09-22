@@ -135,7 +135,7 @@ void MusicFile::update()
             remainingTimeInBuffer += buffer.length;
         }
         
-        if( data->dec->isEndOfFile() )
+        if( data->dec->isEndOfFile() && !data->dec->buffersAvailable() )
         {
             data->source->playlist()->fileNearlyFinished();
             d->stopFeedingSource(data);
