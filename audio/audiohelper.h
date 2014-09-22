@@ -32,22 +32,47 @@ namespace GluonAudio
     class Source;
     class DecoderPlugin;
     
+    /**
+     * A Singleton with a view helper functions for GluonAudio classes.
+     */
     class GLUON_AUDIO_EXPORT AudioHelper: public GluonCore::Singleton<AudioHelper>
     {
             Q_OBJECT
             GLUON_SINGLETON( AudioHelper )
         public:
+            /**
+             * Register the file object. The update function of registered objects will be called regularly.
+             */
             void registerForUpdates( AbstractFile* file );
+            
+            /**
+             * Unregister the file object, so it won't get update calls anymore.
+             */
             void unregisterForUpdates( AbstractFile* file );
             
             void registerForUpdates( Source* source );
             void unregisterForUpdates( Source* source );
             
+            /**
+             * Get a list of decoder plugins.
+             */
             QList<DecoderPlugin*> decoderPlugins();
             
+            /**
+             * Create an audio file object. If there already is an object for this path, it will be returned instead.
+             */
             AbstractFile* getAudioFile( QString path );
             
+            /**
+             * Creates a MusicFile object. If a MusicFile object already exists for this path, return that one. If there is an open
+             * EffectFile for this path, return 0.
+             */
             MusicFile* getMusicFile( QString path );
+            
+            /**
+             * Creates an EffectFile object. If an EffectFile object already exists for this path, return that one. If there is an open
+             * MusicFile for this path, return 0.
+             */
             EffectFile* getEffectFile( QString path );
             
         protected:

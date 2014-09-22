@@ -27,6 +27,12 @@ namespace GluonAudio
 {
     class Source;
     
+    /**
+     * A gluon playlist is not just a list of files played after each other. It controls which file to play next.
+     * Different subclasses define different ways to choose that next file.
+     * 
+     * Additionally, you control the playback (start, stop, pause) in this class.
+     */
     class GLUON_AUDIO_EXPORT AbstractPlaylist : public QObject
     {   
             Q_OBJECT
@@ -36,14 +42,33 @@ namespace GluonAudio
             AbstractPlaylist( QObject* parent=0 );
             virtual ~AbstractPlaylist();
             
+            /**
+             * Called shortly before the source runs out of buffer. Choose a next file to play or call aboutToStop(),
+             * if you want to stop after this file.
+             */
             virtual void fileNearlyFinished()=0;
             
+            /**
+             * Informs you that this playlist instance was added to the given source.
+             */
             virtual void addedToSource( Source* source );
+            
+            /**
+             * Informs you that this playlist instance was removed from the given source. Stop all data streaming to this
+             * source.
+             */
             virtual void removedFromSource( Source* source );
             
+            /**
+             * Get the current playing state of this playlist.
+             */
             virtual PlayingState getPlayingState() const;
             
         public slots:
+            
+            /**
+             * Start playing the playlist or continue after the playlist was paused.
+             */
             virtual void start()=0;
             
             /**
@@ -55,16 +80,35 @@ namespace GluonAudio
              * Stop playing. This will stop the source, too.
              */
             virtual void stop();
-
+            
+            /**
+             * This slot is called when the source ran out of buffer.
+             */
             virtual void sourceOutOfBuffer(Source* s);
             
         signals:
+            /**
+             * The playlist finished playing.
+             * 
+             * @Note: This is not emitted if you called stop().
+             */
             void stopped();
             
         protected:
+            /**
+             * The current source. May be 0.
+             */
             Source* source() const;
             
+            /**
+             * Set the internal playing state.
+             */
             void setPlayingState( PlayingState state );
+            
+            /**
+             * Call this function if you want to stop playing after the current file.
+             */
+            void aboutToStop();
             
         private:
             class Private;

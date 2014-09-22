@@ -46,7 +46,7 @@ namespace GluonAudio
             
             /**
              * Add more or the initial buffers to the source. This should be done via an
-             * AudioFile object.
+             * AbstractFile object.
              */
             void queueBuffer(Buffer buffer);
             
@@ -62,7 +62,7 @@ namespace GluonAudio
             int removeOldBuffers();
             
             /**
-             * Tell the source a file was added. This should be called by AudioFile.
+             * Tell the source a file was added. This should be called by AbstractFile.
              */
             void audioFileAdded();
             
@@ -71,12 +71,15 @@ namespace GluonAudio
              */
             void clear();
             
+            /**
+             * Returns whether the source is in a valid state.
+             */
             bool isValid() const;
             
             /**
              * Checks whether the Source is global.
              * Global sources can be heard everywhere.
-             * Note: Stereo output is always global.
+             * @Note: Stereo output is always global.
              */
             bool isGlobal() const;
             
@@ -93,7 +96,7 @@ namespace GluonAudio
             Eigen::Vector3f position() const;
             
             /**
-             * Set the position of the Source. You are not able to do this if the source is ambient.
+             * Set the position of the Source. You are not able to do this if the source is global.
              * @see position()
              */
             void setPosition( Eigen::Vector3f pos );
@@ -104,7 +107,7 @@ namespace GluonAudio
             float volume() const;
             
             /**
-             * Get the real volume of this source, based on its volume and the volume of the channel it belongs to.
+             * Get the effective volume of this source, based on its volume and the volume of the channel it belongs to.
              */
             float effectiveVolume() const;
             
@@ -163,13 +166,32 @@ namespace GluonAudio
              */
             void update();
             
+            /**
+             * Get the pitch of this source.
+             */
             float pitch() const;
+            
+            /**
+             * Set the pitch of this source
+             */
             void setPitch( float pitch );
             
+            /**
+             * Get the radius of the source.
+             * If the listener is outside the radius, the volume of the source is reduced based on the distance.
+             */
             float radius() const;
+            
+            /**
+             * Set the radius of the source.
+             * @see Source::radius()
+             */
             void setRadius( float radius );
             
         signals:
+            /**
+             * Signals that the source has reached the end of its buffer
+             */
             void endOfBuffer(Source* s);
             
             

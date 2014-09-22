@@ -29,6 +29,9 @@ namespace GluonAudio
 {
     class AbstractFile;
     
+    /**
+     * Plays a single file and stops after that.
+     */
     class GLUON_AUDIO_EXPORT SingleFile: public AbstractPlaylist
     {
             Q_OBJECT
@@ -36,6 +39,9 @@ namespace GluonAudio
             SingleFile(QObject* parent=0);
             ~SingleFile();
             
+            /**
+             * Set the file to play
+             */
             void setFile( AbstractFile* file );
             void setFile( QString path );
             
@@ -43,7 +49,14 @@ namespace GluonAudio
             
             void fileNearlyFinished();
             
+            /**
+             * Does this playlist repeat the file?
+             */
             bool repeat() const;
+            
+            /**
+             * Set whether the playlist should repeat playing the file whenever it finishes.
+             */
             void setRepeat( bool repeat );
             
         public slots:

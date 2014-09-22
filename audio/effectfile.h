@@ -25,6 +25,10 @@
 
 namespace GluonAudio
 {
+    /**
+     * EffectFile loads a file completely into memory. This improves the performance for files played many times,
+     * but for bigger files, it causes a lot more memory usage than a MusicFile.
+     */
     class GLUON_AUDIO_EXPORT EffectFile: public AbstractFile
     {
             Q_OBJECT

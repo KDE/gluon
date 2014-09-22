@@ -26,6 +26,9 @@
 
 namespace GluonAudio {
     
+    /**
+     * A small data class holding information about a buffer.
+     */
     class GLUON_AUDIO_EXPORT Buffer
     {
         public:

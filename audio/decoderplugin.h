@@ -28,6 +28,9 @@ namespace GluonAudio
 {
     class Decoder;
     
+    /**
+     * A Decoder plugin creates new instances of the decoder of this plugin.
+     */
     class GLUON_AUDIO_EXPORT DecoderPlugin : public QObject
     {
             Q_OBJECT
@@ -35,6 +38,9 @@ namespace GluonAudio
             DecoderPlugin(QObject* parent=0);
             virtual ~DecoderPlugin();
             
+            /**
+             * Create a new decoder instance to decode the given fileName.
+             */
             virtual Decoder* createDecoder(QString fileName)=0;
     };
 }

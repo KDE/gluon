@@ -28,22 +28,49 @@ namespace GluonAudio
     class Source;
     class Buffer;
     
+    /**
+     * AbstractFile represents an audio file on your disk, used to stream it to an audio source in your game.
+     * Different file classes (like MusicFile and EffectFile) behave different in the way they manage the streaming.
+     */
     class GLUON_AUDIO_EXPORT AbstractFile : public QObject
     {
             Q_OBJECT
         public:
+            /**
+             * Create an AbstractFile.
+             * @p file The path to the audio file
+             * @p parent The parent object
+             */
             AbstractFile( QString file, QObject* parent=0 );
             virtual ~AbstractFile();
             
             virtual bool isValid();
             
+            /**
+             * Start streaming this file to the source
+             */
             virtual void feedSource( Source* source )=0;
+            
+            /**
+             * Stop streaming this file to the source
+             */
             virtual void stopFeedingSource( Source* source )=0;
             
+            /**
+             * Regularly called to do things like moving buffered data from the decoder
+             * to the source.
+             */
             virtual void update()=0;
             
         protected:
+            /**
+             * The path of the file this instance represents
+             */
             QString file();
+            
+            /**
+             * Generate an OpenAL-internal buffer with the given data.
+             */
             bool generateBuffer( Buffer* buffer, bool isStereo );
             
         private:

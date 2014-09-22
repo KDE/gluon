@@ -27,6 +27,11 @@
 
 namespace GluonAudio
 {
+    /**
+     * A channel groups together a number of sources or other channels, setting a volume for all of them. The
+     * volume of a source is calculated by multiplicating the source volume with all parent channel volumes and
+     * the master volume.
+     */
     class GLUON_AUDIO_EXPORT Channel: public QObject
     {
             Q_OBJECT
@@ -36,14 +41,39 @@ namespace GluonAudio
             
             bool isValid() const;
             
+            /**
+             * Set the volume of this channel. It has to be non-negative.
+             */
             void setChannelVolume( float volume );
+            
+            /**
+             * returns the channel volume. The default is 1.0f.
+             */
             float channelVolume() const;
             
+            /**
+             * Add a subchannel to this channel.
+             */
             void addSubchannel( Channel* subchannel );
+            
+            /**
+             * Get the list of subchannels.
+             */
             QList<Channel*> subchannels() const;
+            
+            /**
+             * Add a source to this channel.
+             */
             void addSource( Source* source );
+            
+            /**
+             * Get a list of sources added to this channel.
+             */
             QList<Source*> sources() const;
             
+            /**
+             * Called by the parent channel to calculate the effective volume for every source.
+             */
             void setParentChannelVolume( float volume );
             
         private:

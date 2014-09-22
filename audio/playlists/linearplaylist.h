@@ -27,6 +27,9 @@ namespace GluonAudio
 {
     class AbstractFile;
     
+    /**
+     * Plays a list of files linear.
+     */
     class GLUON_AUDIO_EXPORT LinearPlaylist: public AbstractPlaylist
     {
             Q_OBJECT
@@ -34,12 +37,29 @@ namespace GluonAudio
             LinearPlaylist(QObject* parent=0);
             ~LinearPlaylist();
             
+            /**
+             * Set the list of files to play.
+             */
             void setFiles( QList<AbstractFile*> files );
             
+            /**
+             * Should the next file be chosen randomly?
+             */
             bool random();
+            
+            /**
+             * Set whether the next files will be chosen randomly from the provided list.
+             */
             void setRandom( bool random );
             
+            /**
+             * Returns whether the playlist starts again at the beginning after the last file was played.
+             */
             bool repeatAll();
+            
+            /**
+             * Set whether the playlist should start from the beginning after the last file.
+             */
             void setRepeatAll( bool repeat );
             
             void removedFromSource(Source* source);

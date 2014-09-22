@@ -29,6 +29,10 @@ namespace GluonAudio
 {
     class Source;
     
+    /**
+     * A MusicFile streams a file from disk instead of loading it completely. This should reduce the memory
+     * usage for big audio files.
+     */
     class GLUON_AUDIO_EXPORT MusicFile : public AbstractFile
     {
             Q_OBJECT
