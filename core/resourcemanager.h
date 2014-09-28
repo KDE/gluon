@@ -138,6 +138,9 @@ namespace GluonCore
              */
             void destroyResource( QObject* resource );
 
+            template < typename T >
+            bool hasResource( const QString& identifier );
+
         private:
             friend class ResourceManagerTest;
             ~ResourceManager();
@@ -220,6 +223,12 @@ namespace GluonCore
             m_resources.remove( prefixedIdentifier );
             delete resource;
         }
+    }
+
+    template < typename T >
+    bool ResourceManager::hasResource( const QString& identifier )
+    {
+        return m_resources.contains( internalID< T >( identifier ) );
     }
 
     template < typename T >
