@@ -22,8 +22,9 @@
 #include "keyboardinputcomponent.h"
 
 #include <input/inputmanager.h>
-#include <input/keyboard.h>
-#include <core/debughelper.h>
+#include <input/inputdevice.h>
+#include <input/inputparameter.h>
+#include <core/log.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, KeyboardInputComponent );
 
@@ -36,6 +37,7 @@ KeyboardInputComponent::KeyboardInputComponent( QObject* parent )
     , m_actionStopped( false )
     , m_keyCode( Qt::Key_unknown )
     , m_keyboard( 0 )
+    , m_key( 0 )
 {
 }
 
@@ -52,7 +54,18 @@ KeyboardInputComponent::category() const
 void KeyboardInputComponent::initialize()
 {
     if( !m_keyboard )
-        m_keyboard = GluonInput::InputManager::instance()->keyboard();
+    {
+        GluonInput::InputManager::instance()->initialize();
+        m_keyboard = GluonInput::InputManager::instance()->device( "qt_keyboard" );
+        if( !m_keyboard )
+        {
+            ERROR() << "Could not find qt_keyboard!";
+            return;
+        }
+        m_keyboard->initialize();
+        if( m_keyCode != Qt::Key_unknown )
+            m_key = m_keyboard->parameter( m_keyCode );
+    }
 }
 
 void
@@ -60,7 +73,7 @@ KeyboardInputComponent::start()
 {
     if( m_keyboard )
     {
-        m_keyboard->setEnabled( true );
+        // m_keyboard->setEnabled( true );
     }
     else
     {
@@ -71,14 +84,13 @@ KeyboardInputComponent::start()
 void
 KeyboardInputComponent::update( int elapsedMilliseconds )
 {
-    DEBUG_BLOCK
     if( m_actionStarted )
         m_actionStarted = false;
 
     if( m_actionStopped )
         m_actionStopped = false;
 
-    if( m_keyboard && m_keyboard->buttonPressed( m_keyCode ) )
+    if( m_key && m_key->buttonState() == GluonInput::InputParameter::ButtonPressed )
     {
         if( !m_actionHeld )
         {
@@ -98,11 +110,6 @@ KeyboardInputComponent::update( int elapsedMilliseconds )
 
 void KeyboardInputComponent::stop()
 {
-    if( m_keyboard )
-    {
-        m_keyboard->setEnabled( false );
-    }
-
     m_actionStopped = false;
     m_actionStarted = false;
     m_actionHeld = false;
@@ -136,6 +143,14 @@ void
 KeyboardInputComponent::setKeyCode( Qt::Key newKeyCode )
 {
     m_keyCode = newKeyCode;
+    if( m_keyboard )
+    {
+        m_key = m_keyboard->parameter( newKeyCode );
+        if( !m_key )
+        {
+            WARNING() << "Could not find the key" << newKeyCode;
+        }
+    }
 }
 
 Q_EXPORT_PLUGIN2( gluon_component_keyboardinput, GluonEngine::KeyboardInputComponent );

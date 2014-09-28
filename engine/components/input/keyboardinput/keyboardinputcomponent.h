@@ -26,7 +26,8 @@
 
 namespace GluonInput
 {
-    class Keyboard;
+    class InputDevice;
+    class InputParameter;
 }
 
 namespace GluonEngine
@@ -58,7 +59,6 @@ namespace GluonEngine
             Q_INVOKABLE bool isActionStopped();
 
             virtual void initialize();
-            virtual void start();
             virtual void update( int elapsedMilliseconds );
             virtual void stop();
 
@@ -72,7 +72,8 @@ namespace GluonEngine
 
             Qt::Key m_keyCode;
 
-            GluonInput::Keyboard* m_keyboard;
+            GluonInput::InputDevice* m_keyboard;
+            GluonInput::InputParameter* m_key;
     };
 }
 
