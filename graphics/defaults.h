@@ -17,55 +17,40 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "sprite.h"
+#ifndef GLUONGRAPHICS_DEFAULTS_H
+#define GLUONGRAPHICS_DEFAULTS_H
 
-#include <core/resourcemanager.h>
+#include <QtCore/QHash>
+#include <QtCore/QVariant>
 
-#include "defaults.h"
-#include "spritemesh.h"
-#include "world.h"
-#include "camera.h"
+#include <core/singleton.h>
+#include <core/debughelper.h>
 
-using namespace GluonGraphics;
+#include "gluon_graphics_export.h"
 
-class Sprite::Private
+namespace GluonGraphics
 {
-    public:
-        Private() : type( AllAxisSpriteType ) { }
-
-        SpriteType type;
-};
-
-Sprite::Sprite( QObject* parent )
-    : Entity( parent ), d( new Private )
-{
-    setMesh( GluonCore::ResourceManager::instance()->resource< SpriteMesh >( Defaults::SpriteMesh ) );
-}
-
-Sprite::~Sprite()
-{
-    delete d;
-}
-
-void Sprite::render()
-{
-    if( !isVisible() )
-        return;
-
-    Camera* activeCam = world()->activeCamera();
-    if( !activeCam )
-        return;
-
-    switch( d->type )
+    /**
+     */
+    class GLUON_GRAPHICS_EXPORT Defaults
     {
-        case AllAxisSpriteType:
-            break;
-        case BillboardSpriteType:
-            break;
-        case FixedSpriteType:
-            //Do nothing to change the model matrix.
-            break;
-    }
 
-    GluonGraphics::Entity::render();
+        public:
+            /**
+             * Names for certain default objects that should always be available.
+             */
+            static const QString World;
+            static const QString RenderTarget;
+            static const QString Material;
+            static const QString MaterialInstance;
+            static const QString SpriteMesh;
+            static const QString Texture;
+
+            /**
+             * Initialize the default objects.
+             */
+            static void initialize();
+    };
 }
+
+#endif // GLUONGRAPHICS_DEFAULTS_H

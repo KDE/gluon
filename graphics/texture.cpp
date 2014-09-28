@@ -28,7 +28,6 @@
 #include <core/log.h>
 
 #include "math.h"
-#include "manager.h"
 #include "backend.h"
 #include "texturedata.h"
 
@@ -44,7 +43,7 @@ class Texture::Private
 Texture::Texture( QObject* parent )
     : QObject( parent ), d( new Private )
 {
-    d->data = Manager::instance()->backend()->createTextureData();
+    d->data = Backend::currentBackend()->createTextureData();
 }
 
 Texture::Texture(TextureData* data, QObject* parent)

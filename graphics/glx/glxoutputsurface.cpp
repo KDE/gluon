@@ -28,7 +28,6 @@
 #undef CursorShape // see http://eigen.tuxfamily.org/bz/show_bug.cgi?id=253 (but Qt related)
 #undef Success // see http://eigen.tuxfamily.org/bz/show_bug.cgi?id=253
 
-#include <graphics/manager.h>
 #include <graphics/rendertarget.h>
 #include <graphics/spritemesh.h>
 #include <graphics/shader.h>

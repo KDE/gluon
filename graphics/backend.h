@@ -25,6 +25,7 @@
 #include <QtGui/QWindow>
 
 #include "buffer.h"
+#include "gluon_graphics_export.h"
 
 namespace GluonGraphics
 {
@@ -40,7 +41,7 @@ namespace GluonGraphics
      * This class primarily acts as a factory for creating platform-specific
      * instances of basic graphics objects.
      */
-    class Backend : public QObject
+    class GLUON_GRAPHICS_EXPORT Backend : public QObject
     {
         public:
             enum InformationLevel
@@ -130,6 +131,12 @@ namespace GluonGraphics
             virtual bool isBufferTypeSuported( Buffer::BufferType type ) = 0;
 
             //TODO: Add more methods for querying backend capabilities.
+
+            static Backend* currentBackend();
+
+        private:
+            static void createBackend();
+            static Backend* m_backend;
     };
 
 }

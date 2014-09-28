@@ -19,14 +19,14 @@ set( GluonGraphics_SRCS
     texture.cpp
     mesh.cpp
     spritemesh.cpp
-
-    manager.cpp
+    defaults.cpp
     world.cpp
     outputsurface.cpp
     shader.cpp
     meshdata.cpp
     renderchainitem.cpp
     sprite.cpp
+    backend.cpp
 
 #     qtquickrenderer.cpp
 )
@@ -46,6 +46,7 @@ set( GluonGraphics_HEADERS
     technique.h
     texture.h
     texturedata.h
+    defaults.h
 )
 
 if( ASSIMP_FOUND )

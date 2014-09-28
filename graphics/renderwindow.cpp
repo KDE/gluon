@@ -23,7 +23,8 @@
 #include <QtGui/QResizeEvent>
 #include <QtGui/QBackingStore>
 
-#include "manager.h"
+#include "backend.h"
+#include "defaults.h"
 #include "outputsurface.h"
 #include "backend.h"
 #include "shader.h"
@@ -47,8 +48,8 @@ RenderWindow::RenderWindow( QWindow* parent ) : QWindow( parent )
 
     resize( 640, 480 );
 
-    if( !Manager::instance()->backend()->initialize( winId() ) )
-        qFatal( Manager::instance()->backend()->errorString().toUtf8() );
+    if( !Backend::currentBackend()->initialize( winId() ) )
+        qFatal( Backend::currentBackend()->errorString().toUtf8() );
 }
 
 RenderWindow::~RenderWindow()
@@ -90,8 +91,8 @@ void RenderWindow::render()
 
     if( !d->surface )
     {
-        Manager::instance()->initialize();
-        d->surface = Manager::instance()->backend()->createOutputSurface( this );
+        Defaults::initialize();
+        d->surface = Backend::currentBackend()->createOutputSurface( this );
         d->surface->setSize( width(), height() );
     }
 

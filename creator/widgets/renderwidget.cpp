@@ -22,7 +22,9 @@
 #include <QtGui/QResizeEvent>
 #include <QtWidgets/QApplication>
 
-#include <graphics/manager.h>
+#include <core/log.h>
+
+#include <graphics/defaults.h>
 #include <graphics/outputsurface.h>
 #include <graphics/backend.h>
 #include <graphics/shader.h>
@@ -48,8 +50,12 @@ RenderWidget::RenderWidget( QWidget* parent, Qt::WindowFlags f ) :
     setAttribute( Qt::WA_PaintOnScreen );
     setAttribute( Qt::WA_OpaquePaintEvent );
 
-    if( !Manager::instance()->backend()->initialize( winId() ) )
-        qFatal( Manager::instance()->backend()->errorString().toUtf8() );
+    if( !Backend::currentBackend()->initialize( winId() ) )
+    {
+        CRITICAL() << "Could not initialize GluonGraphics backend";
+        CRITICAL() << Backend::currentBackend()->errorString();
+        QCoreApplication::exit( 1 );
+    }
 }
 
 RenderWidget::~RenderWidget()
@@ -61,8 +67,8 @@ void RenderWidget::paintEvent( QPaintEvent* event )
 {
     if( !d->surface )
     {
-        Manager::instance()->initialize();
-        d->surface = Manager::instance()->backend()->createOutputSurface( windowHandle() );
+        Defaults::initialize();
+        d->surface = Backend::currentBackend()->createOutputSurface( windowHandle() );
         d->surface->setSize( width(), height() );
     }
 

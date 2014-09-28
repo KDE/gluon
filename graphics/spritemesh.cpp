@@ -23,7 +23,6 @@
 #include <QVector>
 
 #include "meshdata.h"
-#include "manager.h"
 #include "backend.h"
 #include "shader.h"
 
@@ -42,7 +41,7 @@ SpriteMesh::~SpriteMesh()
 
 void SpriteMesh::initialize()
 {
-    MeshData* data = Manager::instance()->backend()->createMeshData();
+    MeshData* data = Backend::currentBackend()->createMeshData();
     data->setPrimitiveType( MeshData::TrianglePrimitive );
     data->setPrimitiveCount( 6, 80, 24 );
 

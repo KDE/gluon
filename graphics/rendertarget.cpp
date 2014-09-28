@@ -25,15 +25,16 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
+#include <core/gluonvarianttypes.h>
+#include <core/resourcemanager.h>
+
 #include "mathutils.h"
-#include "manager.h"
+#include "defaults.h"
 #include "backend.h"
 #include "spritemesh.h"
 #include "texture.h"
 #include "material.h"
 #include "materialinstance.h"
-
-#include <core/gluonvarianttypes.h>
 
 using namespace GluonGraphics;
 
@@ -169,8 +170,8 @@ void RenderTarget::setBackgroundColor( const QColor& color )
 
 void RenderTarget::Private::initialize()
 {
-    mesh = Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh );
-    materialInstance = Manager::instance()->resource< Material >( Manager::Defaults::Material )->createInstance();
+    mesh = GluonCore::ResourceManager::instance()->resource< SpriteMesh >( Defaults::SpriteMesh );
+    materialInstance = GluonCore::ResourceManager::instance()->resource< Material >( Defaults::Material )->createInstance();
     Eigen::Affine3f id = Eigen::Affine3f::Identity();
     materialInstance->setProperty( "modelMatrix", QVariant::fromValue(id) );
     materialInstance->setProperty( "viewMatrix", QVariant::fromValue(id) );

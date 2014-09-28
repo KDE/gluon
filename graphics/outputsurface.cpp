@@ -21,7 +21,9 @@
 
 #include <QtGui/QWindow>
 
-#include "manager.h"
+#include <core/resourcemanager.h>
+
+#include "defaults.h"
 #include "rendertarget.h"
 #include "shader.h"
 #include "meshdata.h"
@@ -45,7 +47,7 @@ OutputSurface::OutputSurface( QWindow* container, QObject* parent )
     : QObject( parent ), d( new Private )
 {
     d->window = container;
-    d->renderTarget = Manager::instance()->resource< RenderTarget >( Manager::Defaults::RenderTarget );
+    d->renderTarget = GluonCore::ResourceManager::instance()->resource< RenderTarget >( Defaults::RenderTarget );
 }
 
 OutputSurface::~OutputSurface()
@@ -69,7 +71,7 @@ void OutputSurface::setRenderTarget( RenderTarget* newTarget )
 
 void OutputSurface::setRenderTarget( const QString& targetIdentifier )
 {
-    setRenderTarget( Manager::instance()->resource< RenderTarget >( targetIdentifier ) );
+    setRenderTarget( GluonCore::ResourceManager::instance()->resource< RenderTarget >( targetIdentifier ) );
 }
 
 QWindow* OutputSurface::window()

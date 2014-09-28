@@ -28,7 +28,7 @@
 #include <KXmlGui/KActionCollection>
 #include <KCoreAddons/KPluginFactory>
 
-#include <graphics/manager.h>
+#include <graphics/defaults.h>
 #include <graphics/backend.h>
 
 #include <engine/gameproject.h>
@@ -57,7 +57,7 @@ GluonCreator::GluonViewerPart::GluonViewerPart( QWidget* /* parentWidget */, QOb
     d->widget = new RenderWidget();
     setWidget( d->widget );
 
-    GluonGraphics::Manager::instance()->initialize();
+    GluonGraphics::Defaults::initialize();
     connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), d->widget, SLOT(update()) );
 
     for( auto arg : args )

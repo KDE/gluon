@@ -21,7 +21,6 @@
 
 #include "mesh.h"
 #include "materialinstance.h"
-#include "manager.h"
 #include "world.h"
 
 #include "camera.h"

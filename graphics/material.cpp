@@ -26,7 +26,6 @@
 
 #include "materialinstance.h"
 #include "technique.h"
-#include "manager.h"
 #include "backend.h"
 #include "shader.h"
 
@@ -70,7 +69,7 @@ bool Material::load( const QString& path )
         d->defaultValues.clear();
     }
 
-    d->shader = Manager::instance()->backend()->createShader();
+    d->shader = Backend::currentBackend()->createShader();
 
     GluonCore::GluonObjectList objects;
     if( !GluonCore::GDLSerializer::read( path, objects ) )

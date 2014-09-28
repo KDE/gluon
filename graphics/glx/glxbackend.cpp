@@ -29,8 +29,6 @@
 
 #include <core/log.h>
 
-#include <graphics/manager.h>
-
 #include "glxcontext.h"
 #include "glxshader.h"
 #include "glxoutputsurface.h"
