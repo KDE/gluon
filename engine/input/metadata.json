@@ -1,0 +1,12 @@
+{
+    "GluonEngine::KeyboardInputComponent": {
+        "name": "Keyboard",
+        "icon": "input-keyboard",
+        "category": "Input"
+    },
+    "GluonEngine::MouseInputComponent": {
+        "name": "Mouse",
+        "icon": "input-mouse",
+        "category": "Input"
+    }
+}

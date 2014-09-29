@@ -19,33 +19,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef KEYBOARDINPUTCOMPONENT_H
-#define KEYBOARDINPUTCOMPONENT_H
+#ifndef GLUON_ENGINE_MOUSEINPUTCOMPONENT_H
+#define GLUON_ENGINE_MOUSEINPUTCOMPONENT_H
 
 #include <engine/component.h>
 
 namespace GluonInput
 {
-    class InputDevice;
-    class InputParameter;
+    class Mouse;
 }
 
 namespace GluonEngine
 {
-    class KeyboardInputComponent : public Component
+    class MouseInputComponent : public Component
     {
             Q_OBJECT;
-            GLUON_OBJECT( GluonEngine::KeyboardInputComponent )
-            Q_PROPERTY( Qt::Key keyCode READ keyCode WRITE setKeyCode );
+            GLUON_OBJECT( GluonEngine::MouseInputComponent )
             Q_INTERFACES( GluonEngine::Component )
 
-            Q_CLASSINFO( "org.gluon.category", "Input" )
-            Q_CLASSINFO( "org.gluon.icon", "input-keyboard" )
+            Q_PROPERTY( Qt::MouseButton mouseButton READ mouseButton WRITE setMouseButton )
+            Q_PROPERTY( bool mouseTrack READ mouseTrack WRITE setMouseTrack )
 
         public:
-            Q_INVOKABLE KeyboardInputComponent( QObject* parent = 0 );
-            virtual ~KeyboardInputComponent();
 
+            Q_INVOKABLE MouseInputComponent( QObject* parent = 0 );
+            virtual ~MouseInputComponent();
             virtual QString category() const;
 
             // True on any frame between getActionStarted and
@@ -62,21 +60,29 @@ namespace GluonEngine
             virtual void update( int elapsedMilliseconds );
             virtual void stop();
 
-            Qt::Key keyCode() const;
-            void setKeyCode( Qt::Key newKeyCode );
+            Qt::MouseButton mouseButton() const;
+            void setMouseButton( Qt::MouseButton button );
+
+            bool mouseTrack() const;
+            void setMouseTrack( bool enable );
+
+            Q_INVOKABLE virtual int xAxis();
+            Q_INVOKABLE virtual int yAxis();
+            Q_INVOKABLE virtual int zAxis();
+
+            Q_INVOKABLE virtual int relativeXAxis();
+            Q_INVOKABLE virtual int relativeYAxis();
+            Q_INVOKABLE virtual int relativeZAxis();
+
+//             Q_INVOKABLE virtual float normalizedXAxis();
+//             Q_INVOKABLE virtual float normalizedYAxis();
 
         private:
-            bool m_actionHeld;
-            bool m_actionStarted;
-            bool m_actionStopped;
-
-            Qt::Key m_keyCode;
-
-            GluonInput::InputDevice* m_keyboard;
-            GluonInput::InputParameter* m_key;
+            class MouseInputComponentPrivate;
+            MouseInputComponentPrivate* const d;
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::KeyboardInputComponent* )
+Q_DECLARE_METATYPE( GluonEngine::MouseInputComponent* )
 
-#endif // KEYBOARDINPUTCOMPONENT_H
+#endif // GLUON_ENGINE_MOUSEINPUTCOMPONENT_H

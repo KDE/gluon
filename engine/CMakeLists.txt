@@ -1,9 +1,8 @@
 option( BUILD_AUDIO_PLUGIN "Build Assets and Components dependant on Gluon Audio" ON )
+option( BUILD_INPUT_PLUGIN "Build Assets and Components dependant on Gluon Input" ON )
 
 option( BUILD_GRAPHICS_COMPONENTS "Build Components dependant on Gluon Graphics" OFF )
 option( BUILD_GRAPHICS_ASSETS "Build Assets dependant on Gluon Graphics" OFF )
-option( BUILD_INPUT_COMPONENTS "Build Components dependant on Gluon Input" OFF )
-option( BUILD_INPUT_ASSETS "Build Assets dependant on Gluon Input" OFF )
 option( BUILD_PHYSICS_COMPONENTS "Build Components related to physics" OFF )
 option( BUILD_PHYSICS_ASSETS "Build Assets related to physics" OFF )
 option( BUILD_OTHER_COMPONENTS "Build other Components" ON )
@@ -17,8 +16,7 @@ if( NOT BUILD_GLUONGRAPHICS )
     set( BUILD_GRAPHICS_COMPONENTS OFF )
 endif()
 if( NOT BUILD_GLUONINPUT )
-    set( BUILD_INPUT_ASSETS OFF )
-    set( BUILD_INPUT_COMPONENTS OFF )
+    set( BUILD_INPUT_PLUGIN OFF )
 endif()
 
 find_package( Qt5Sql REQUIRED )
@@ -97,6 +95,10 @@ gluon_add_plugin( gluonengine_types
 
 if( BUILD_AUDIO_PLUGIN )
     add_subdirectory( audio )
+endif()
+
+if( BUILD_INPUT_PLUGIN )
+    add_subdirectory( input )
 endif()
 
 add_subdirectory( scripting )

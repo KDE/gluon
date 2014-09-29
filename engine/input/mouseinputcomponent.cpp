@@ -26,9 +26,6 @@
 #include <input/inputparameter.h>
 #include <core/log.h>
 
-#include <QtGui/QWidget>
-// #include <QtCore/QDebug>
-
 REGISTER_OBJECTTYPE( GluonEngine, MouseInputComponent );
 
 using namespace GluonEngine;
@@ -183,7 +180,7 @@ MouseInputComponent::isActionStopped()
     return d->actionStopped;
 }
 
-GluonInput::Mouse::MouseButton MouseInputComponent::mouseButton() const
+Qt::MouseButton MouseInputComponent::mouseButton() const
 {
     return d->buttonCode;
 }
@@ -252,7 +249,5 @@ int MouseInputComponent::zAxis()
 //     }
 //     return 0.f;
 // }
-
-Q_EXPORT_PLUGIN2( gluon_component_mouseinput, GluonEngine::MouseInputComponent );
 
  

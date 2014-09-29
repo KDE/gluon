@@ -128,6 +128,4 @@ void TouchInputComponent::setTouchCode( TouchInputComponent::TouchName newTouchC
     m_touchCode = newTouchCode;
 }
 
-Q_EXPORT_PLUGIN2( gluon_component_touchinput, GluonEngine::TouchInputComponent );
-
  

@@ -69,19 +69,6 @@ void KeyboardInputComponent::initialize()
 }
 
 void
-KeyboardInputComponent::start()
-{
-    if( m_keyboard )
-    {
-        // m_keyboard->setEnabled( true );
-    }
-    else
-    {
-        debug( "WARNING! No keyboard found!" );
-    }
-}
-
-void
 KeyboardInputComponent::update( int elapsedMilliseconds )
 {
     if( m_actionStarted )
@@ -152,7 +139,5 @@ KeyboardInputComponent::setKeyCode( Qt::Key newKeyCode )
         }
     }
 }
-
-Q_EXPORT_PLUGIN2( gluon_component_keyboardinput, GluonEngine::KeyboardInputComponent );
 
  
