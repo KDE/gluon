@@ -22,7 +22,9 @@
 #include "mouseinputcomponent.h"
 
 #include <input/inputmanager.h>
-#include <core/debughelper.h>
+#include <input/inputdevice.h>
+#include <input/inputparameter.h>
+#include <core/log.h>
 
 #include <QtGui/QWidget>
 // #include <QtCore/QDebug>
@@ -38,8 +40,11 @@ class MouseInputComponent::MouseInputComponentPrivate
             : actionHeld( false )
             , actionStarted( false )
             , actionStopped( false )
-            , mouseButton( GluonInput::Mouse::MOUSE_BUTTON_UNKNOWN )
+            , buttonCode( Qt::NoButton )
             , mouse( 0 )
+            , mouseButton( 0 )
+            , xAxis( 0 )
+            , yAxis( 0 )
             , lastX( 0 )
             , lastY( 0 )
             , lastZ( 0 )
@@ -55,9 +60,13 @@ class MouseInputComponent::MouseInputComponentPrivate
         bool actionStarted;
         bool actionStopped;
 
-        GluonInput::Mouse::MouseButton mouseButton;
+        Qt::MouseButton buttonCode;
 
-        GluonInput::Mouse* mouse;
+        GluonInput::InputDevice* mouse;
+        GluonInput::InputParameter* mouseButton;
+        GluonInput::InputParameter* xAxis;
+        GluonInput::InputParameter* yAxis;
+        GluonInput::InputParameter* wheel;
 
         int lastX;
         int lastY;
@@ -95,20 +104,20 @@ void MouseInputComponent::initialize()
 {
     if( !d->mouse )
     {
-        d->mouse = GluonInput::InputManager::instance()->mouse();
-    }
-}
-
-void
-MouseInputComponent::start()
-{
-    if( d->mouse )
-    {
-        d->mouse->setEnabled( true );
-    }
-    else
-    {
-        debug( "WARNING! No mouse found!" );
+        GluonInput::InputManager::instance()->initialize();
+        d->mouse = GluonInput::InputManager::instance()->device( "qt_mouse" );
+        if( !d->mouse )
+        {
+            ERROR() << "Could not find qt_mouse";
+            return;
+        }
+        if( d->buttonCode != Qt::NoButton )
+        {
+            d->mouseButton = d->mouse->parameter( d->buttonCode );
+        }
+        d->xAxis = d->mouse->parameter( "X Axis" );
+        d->yAxis = d->mouse->parameter( "Y Axis" );
+        d->wheel = d->mouse->parameter( "Wheel Vertical" );
     }
 }
 
@@ -123,7 +132,7 @@ MouseInputComponent::update( int elapsedMilliseconds )
         d->actionStopped = false;
 
     // qDebug() << "READ - KEYCODE - OFFSET:  " << d->mouseButton << d->mouseButtonOffset << "PRESSED: " << d->mouse->buttonPressed( d->mouseButton + d->mouseButtonOffset );
-    if( d->mouse && d->mouseButton && d->mouse->buttonPressed( d->mouseButton ) )
+    if( d->mouseButton && d->mouseButton->buttonState() == GluonInput::InputParameter::ButtonPressed )
     {
         if( !d->actionHeld )
         {
@@ -140,22 +149,17 @@ MouseInputComponent::update( int elapsedMilliseconds )
         }
     }
 
-    d->relX = d->mouse->position().x() - d->lastX;
-    d->relY = d->mouse->position().y() - d->lastY;
-    d->relZ = d->mouse->wheelPosition() - d->lastZ;
+    d->relX = d->xAxis->axisValue() - d->lastX;
+    d->relY = d->yAxis->axisValue() - d->lastY;
+    d->relZ = d->wheel->axisValue() - d->lastZ;
 
-    d->lastX = d->mouse->position().x();
-    d->lastY = d->mouse->position().y();
-    d->lastZ = d->mouse->wheelPosition();
+    d->lastX = d->xAxis->axisValue();
+    d->lastY = d->yAxis->axisValue();
+    d->lastZ = d->wheel->axisValue();
 }
 
 void MouseInputComponent::stop()
 {
-    if( d->mouse )
-    {
-        d->mouse->setEnabled( false );
-    }
-
     d->actionStopped = false;
     d->actionStarted = false;
     d->actionHeld = false;
@@ -181,12 +185,12 @@ MouseInputComponent::isActionStopped()
 
 GluonInput::Mouse::MouseButton MouseInputComponent::mouseButton() const
 {
-    return d->mouseButton;
+    return d->buttonCode;
 }
 
-void MouseInputComponent::setMouseButton( GluonInput::Mouse::MouseButton button )
+void MouseInputComponent::setMouseButton( Qt::MouseButton button )
 {
-    d->mouseButton = button;
+    d->buttonCode = button;
 }
 
 bool MouseInputComponent::mouseTrack() const
@@ -216,38 +220,38 @@ int MouseInputComponent::relativeZAxis()
 
 int MouseInputComponent::xAxis()
 {
-    return d->mouse->position().x();
+    return d->xAxis->axisValue();
 }
 
 int MouseInputComponent::yAxis()
 {
-    return d->mouse->position().y();
+    return d->yAxis->axisValue();
 }
 
 int MouseInputComponent::zAxis()
 {
-    return d->mouse->wheelPosition();
+    return d->wheel->axisValue();
 }
 
-float MouseInputComponent::normalizedXAxis()
-{
-    QWidget* filter = qobject_cast<QWidget*>( GluonInput::InputManager::instance()->filteredObject() );
-    if( filter )
-    {
-        return ( d->mouse->position().x() / float( filter->width() ) ) * 2.f - 1.f;
-    }
-    return 0.f;
-}
-
-float MouseInputComponent::normalizedYAxis()
-{
-    QWidget* filter = qobject_cast<QWidget*>( GluonInput::InputManager::instance()->filteredObject() );
-    if( filter )
-    {
-        return ( d->mouse->position().y() / float( filter->height() ) ) * 2.f - 1.f;
-    }
-    return 0.f;
-}
+// float MouseInputComponent::normalizedXAxis()
+// {
+//     QWidget* filter = qobject_cast<QWidget*>( GluonInput::InputManager::instance()->filteredObject() );
+//     if( filter )
+//     {
+//         return ( d->mouse->position().x() / float( filter->width() ) ) * 2.f - 1.f;
+//     }
+//     return 0.f;
+// }
+// 
+// float MouseInputComponent::normalizedYAxis()
+// {
+//     QWidget* filter = qobject_cast<QWidget*>( GluonInput::InputManager::instance()->filteredObject() );
+//     if( filter )
+//     {
+//         return ( d->mouse->position().y() / float( filter->height() ) ) * 2.f - 1.f;
+//     }
+//     return 0.f;
+// }
 
 Q_EXPORT_PLUGIN2( gluon_component_mouseinput, GluonEngine::MouseInputComponent );
 

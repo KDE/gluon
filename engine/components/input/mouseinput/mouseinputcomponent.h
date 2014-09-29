@@ -62,7 +62,6 @@ namespace GluonEngine
             Q_INVOKABLE bool isActionStopped();
 
             virtual void initialize();
-            virtual void start();
             virtual void update( int elapsedMilliseconds );
             virtual void stop();
 
@@ -80,8 +79,8 @@ namespace GluonEngine
             Q_INVOKABLE virtual int relativeYAxis();
             Q_INVOKABLE virtual int relativeZAxis();
 
-            Q_INVOKABLE virtual float normalizedXAxis();
-            Q_INVOKABLE virtual float normalizedYAxis();
+//             Q_INVOKABLE virtual float normalizedXAxis();
+//             Q_INVOKABLE virtual float normalizedYAxis();
 
         private:
             class MouseInputComponentPrivate;
