@@ -56,6 +56,7 @@ SphereCollisionComponent::SphereCollisionComponent( QObject* parent )
     , d( new SphereCollisionComponentPrivate )
 {
     d->componentType = qMetaTypeId<GluonEngine::SphereCollisionComponent*>();
+    d->typeName = metaObject()->className();
 }
 
 SphereCollisionComponent::~SphereCollisionComponent()
@@ -70,7 +71,7 @@ QString SphereCollisionComponent::category() const
 
 void SphereCollisionComponent::start()
 {
-    d->collisionComponents = gameObject()->scene()->sceneContents()->findComponentsInChildrenByType( d->componentType ).toVector();
+    d->collisionComponents = gameObject()->scene()->sceneContents()->findComponentsInChildrenByType( d->typeName ).toVector();
 
     int counter = 0;
     foreach( Component * component, d->collisionComponents )
