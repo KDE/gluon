@@ -1,12 +1,11 @@
 option( BUILD_AUDIO_PLUGIN "Build Assets and Components dependant on Gluon Audio" ON )
 option( BUILD_INPUT_PLUGIN "Build Assets and Components dependant on Gluon Input" ON )
+option( BUILD_OTHER_PLUGIN "Build other Assets and Components" ON )
 
 option( BUILD_GRAPHICS_COMPONENTS "Build Components dependant on Gluon Graphics" OFF )
 option( BUILD_GRAPHICS_ASSETS "Build Assets dependant on Gluon Graphics" OFF )
 option( BUILD_PHYSICS_COMPONENTS "Build Components related to physics" OFF )
 option( BUILD_PHYSICS_ASSETS "Build Assets related to physics" OFF )
-option( BUILD_OTHER_COMPONENTS "Build other Components" ON )
-option( BUILD_OTHER_ASSETS "Build other Assets" ON )
 
 if( NOT BUILD_GLUONAUDIO )
     set( BUILD_AUDIO_PLUGIN OFF )
@@ -99,6 +98,10 @@ endif()
 
 if( BUILD_INPUT_PLUGIN )
     add_subdirectory( input )
+endif()
+
+if( BUILD_OTHER_PLUGIN )
+    add_subdirectory( other )
 endif()
 
 add_subdirectory( scripting )

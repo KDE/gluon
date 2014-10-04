@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_ENGINE_STATISTICSASSET_H
-#define GLUON_ENGINE_STATISTICSASSET_H
+#ifndef GLUON_ENGINE_ACHIEVEMENTSASSET_H
+#define GLUON_ENGINE_ACHIEVEMENTSASSET_H
 
 #include <core/metainfo.h>
 #include <engine/asset.h>
@@ -27,19 +27,19 @@
 namespace GluonEngine
 {
     /**
-     * StatisticsAsset handles a file which contains
-     * several statistics. The file is written in GDL.
+     * AchievementsAsset handles a file which contains
+     * several achievements. The file is written in GDL.
      */
-    class StatisticsAsset : public Asset, public Savable
+    // TODO: Arjen Hiemstra says that the export macro should not be needed here, but Windows meeds it.
+    class AchievementsAsset : public Asset, public Savable
     {
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Asset )
-            GLUON_OBJECT( GluonEngine::StatisticsAsset )
-            GLUON_ASSET_PLUGIN(metadata.json)
+            GLUON_OBJECT( GluonEngine::AchievementsAsset )
 
         public:
-            Q_INVOKABLE StatisticsAsset( QObject* parent = 0 );
-            virtual ~StatisticsAsset();
+            Q_INVOKABLE AchievementsAsset( QObject* parent = 0 );
+            virtual ~AchievementsAsset();
 
             /**
              * Reimplemented from Savable::writeContents()
@@ -52,46 +52,26 @@ namespace GluonEngine
             /** Reimplemented from Asset::unload() */
             virtual void unload();
 
-            /** Creates the statistics from the file at startup */
+            /** Creates the achievements from the file at startup */
             virtual void setFile( const QString& newFile );
-
-            virtual bool shouldSerializeChildren() const;
 
         public Q_SLOTS:
             /**
-             * Use this method to create Statistic objects. If you use the normal
+             * Use this method to create Achievement objects. If you use the normal
              * constructor, it won't be saved.
              */
-            void createStatistic();
-
-            /**
-             * Use this method to create TasksStatistic objects. If you use the normal
-             * constructor, it won't be saved.
-             */
-            void createTasksStatistic();
-
-            /**
-             * Use this method to create MultiScoreStatistic objects. If you use the
-             * normal constructor, it won't be saved.
-             */
-            void createMultiScoreStatistic();
-
-            /**
-             * Use this method to create BooleanStatistic objects. If you use the normal
-             * constructor, it won't be saved.
-             */
-            void createBooleanStatistic();
+            void createAchievement();
 
         protected:
             /** Reimplemented from GluonCore::GluonObject::populateMetaInfo() */
             virtual void populateMetaInfo( GluonCore::MetaInfo* info );
 
         private:
-            class StatisticsAssetPrivate;
-            StatisticsAssetPrivate* d;
+            class AchievementsAssetPrivate;
+            AchievementsAssetPrivate* d;
     };
 }
 
-Q_DECLARE_METATYPE( GluonEngine::StatisticsAsset* )
+Q_DECLARE_METATYPE( GluonEngine::AchievementsAsset* )
 
-#endif //STATISTICSASSET_H
+#endif // GLUON_ENGINE_ACHIEVEMENTSASSET_H

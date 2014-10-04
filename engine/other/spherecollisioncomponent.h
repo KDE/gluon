@@ -37,7 +37,6 @@ namespace GluonEngine
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Component )
             GLUON_OBJECT( GluonEngine::SphereCollisionComponent )
-            GLUON_COMPONENT_PLUGIN(metadata.json)
 
             Q_PROPERTY( int collisionGroup READ collisionGroup WRITE setCollisionGroup )
             Q_PROPERTY( int targetGroup READ targetGroup WRITE setTargetGroup )

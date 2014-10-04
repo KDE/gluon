@@ -34,7 +34,6 @@ namespace GluonEngine
             Q_OBJECT
             Q_INTERFACES( GluonEngine::Component )
             GLUON_OBJECT( GluonEngine::StatisticsComponent )
-            GLUON_COMPONENT_PLUGIN( metadata.json )
 
             /**
              * The statistic which this component is connected to. The statistic
