@@ -93,15 +93,15 @@ gluon_add_plugin( gluonengine_types
 )
 
 if( BUILD_AUDIO_PLUGIN )
-    add_subdirectory( audio )
+    add_subdirectory( plugins/audio )
 endif()
 
 if( BUILD_INPUT_PLUGIN )
-    add_subdirectory( input )
+    add_subdirectory( plugins/input )
 endif()
 
 if( BUILD_OTHER_PLUGIN )
-    add_subdirectory( other )
+    add_subdirectory( plugins/other )
 endif()
 
 add_subdirectory( scripting )
