@@ -31,7 +31,7 @@ namespace GluonGraphics
     * library for loading.
     *
     */
-    class FileMesh : public Mesh
+    class GLUON_GRAPHICS_EXPORT FileMesh : public Mesh
     {
             Q_OBJECT
         public:
