@@ -26,7 +26,6 @@
 #include <assimp/scene.h>
 
 #include "core/debughelper.h"
-#include "manager.h"
 #include "backend.h"
 
 using namespace GluonGraphics;
@@ -65,7 +64,7 @@ void FileMesh::initialize()
         return;
     }
 
-    MeshData* data = Manager::instance()->backend()->createMeshData();
+    MeshData* data = Backend::currentBackend()->createMeshData();
     data->setPrimitiveType( MeshData::TrianglePrimitive );
 
 //    int count = 0;

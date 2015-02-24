@@ -127,6 +127,7 @@ namespace GluonGraphics
              * \param indexSize The total size of the index data for this mesh.
              */
             virtual void setPrimitiveCount( int count, int vertexSize, int indexSize ) = 0;
+            virtual void setPrimitiveCount( int count );
 
             /**
              * Render this mesh to screen using shader.
@@ -135,8 +136,6 @@ namespace GluonGraphics
 
         protected:
             virtual void setAttribute( const QString& name, AttributeType type, void* data, int size ) = 0;
-
-            virtual void setPrimitiveCount( int count );
 
         private:
             class Private;
