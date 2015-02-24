@@ -25,7 +25,7 @@
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 
-#include "core/debughelper.h"
+#include "core/log.h"
 #include "backend.h"
 
 using namespace GluonGraphics;
@@ -59,8 +59,7 @@ void FileMesh::initialize()
 
     if( !scene || scene->mNumMeshes == 0 )
     {
-        DEBUG_BLOCK
-        DEBUG_TEXT2( "Unable to load file mesh: %1", d->file );
+        WARNING() << "Unable to load file mesh: " << d->file; 
         return;
     }
 
