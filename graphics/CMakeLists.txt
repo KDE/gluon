@@ -66,8 +66,8 @@ gluon_add_plugin( gluongraphics_types
 )
 
 if( ASSIMP_FOUND )
-    target_include_directories( Gluon::Graphics ${ASSIMP_INCLUDE_DIR} )
-    target_link_libraries( GluonGraphics ${ASSIMP_LIBRARY} )
+    target_include_directories( GluonGraphics PUBLIC ${ASSIMP_INCLUDE_DIRS} )
+    target_link_libraries( GluonGraphics PUBLIC ${ASSIMP_LIBRARIES} )
 endif( ASSIMP_FOUND )
 
 if( APPLE )
