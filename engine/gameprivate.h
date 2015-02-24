@@ -24,6 +24,7 @@
 #include <QtCore/QSharedData>
 #include <QtCore/QTime>
 #include <QtCore/QList>
+#include <QtCore/QObject>
 
 namespace GluonCore
 {
