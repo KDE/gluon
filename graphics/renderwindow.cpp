@@ -41,7 +41,7 @@ class RenderWindow::Private
 
 RenderWindow::RenderWindow( QWindow* parent ) : QWindow( parent )
 {
-    setSurfaceType( QSurface::RasterSurface );
+    setSurfaceType( QSurface::OpenGLSurface );
 
     //This is used to indirectly call some platform methods to handle resizing.
     d->store = new QBackingStore{ this };

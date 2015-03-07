@@ -87,6 +87,11 @@ void GLXRenderTarget::release()
     d->bound = false;
 }
 
+uint GLXRenderTarget::fbo()
+{
+    return d->fbo;
+}
+
 void GLXRenderTarget::resizeImpl()
 {
     if( d->bound )

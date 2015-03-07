@@ -22,6 +22,9 @@
 
 #include <QtCore/QList>
 #include <QtGui/QWindow>
+#include <QtPlatformHeaders/QGLXNativeContext>
+
+#include <GL/glx.h>
 
 namespace GluonGraphics
 {
@@ -45,7 +48,7 @@ namespace GluonGraphics
                 bool initialize( WId winId );
                 void destroy();
 
-                void makeCurrent( WId winId );
+                void makeCurrent( QWindow* window );
                 void clearCurrent();
                 bool isCurrent() const;
 
@@ -58,6 +61,10 @@ namespace GluonGraphics
 
                 bool hasExtension( const QString& extension ) const;
                 const QList< QString > extensions() const;
+
+                GLXContext nativeContext();
+
+                QWindow* currentWindow();
 
             private:
                 class Private;

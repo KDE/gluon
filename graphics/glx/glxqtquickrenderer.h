@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2015 Felix Rohrbach <kde@fxrh.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,30 +18,38 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUONGRAPHICS_GLX_GLXRENDERTARGET_H
-#define GLUONGRAPHICS_GLX_GLXRENDERTARGET_H
+#ifndef GLXQTQUICKRENDERTARGET_H
+#define GLXQTQUICKRENDERTARGET_H
 
-#include <graphics/rendertarget.h>
+#include <graphics/qtquickrenderer.h>
 
 namespace GluonGraphics
 {
     namespace GLX
     {
-        class GLXRenderTarget : public GluonGraphics::RenderTarget
+        /**
+        * The GLX Version of the QtQuickRenderer.
+        */
+        class GLXQtQuickRenderer : public GluonGraphics::QtQuickRenderer
         {
-
+                Q_OBJECT
             public:
-                explicit GLXRenderTarget( QObject* parent = 0 );
-                virtual ~GLXRenderTarget();
+                explicit GLXQtQuickRenderer( QObject* parent = 0 );
+                virtual ~GLXQtQuickRenderer();
 
-                virtual void bind();
-                virtual void release();
+                virtual TextureData* data() const override;
 
-                uint fbo();
+                virtual void resize( int width, int height ) override;
 
             protected:
-                virtual void resizeImpl();
-                virtual GluonGraphics::TextureData* textureData();
+                virtual void renderQuick() override;
+
+            protected Q_SLOTS:
+                virtual bool startQuick() override;
+
+            private Q_SLOTS:
+                void createBuffer();
+                void destroyBuffer();
 
             private:
                 class Private;
@@ -49,4 +58,4 @@ namespace GluonGraphics
     }
 }
 
-#endif // GLUONGRAPHICS_GLX_GLXRENDERTARGET_H
+#endif // QTQUICKRENDERTARGET_H

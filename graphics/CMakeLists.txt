@@ -5,6 +5,8 @@ if( BUILD_MESH_LOADING )
     find_package( AssImp )
 endif( BUILD_MESH_LOADING )
 
+find_package( Qt5Quick REQUIRED CONFIG )
+
 set( GluonGraphics_SRCS
     camera.cpp
     frustum.cpp
@@ -27,8 +29,7 @@ set( GluonGraphics_SRCS
     renderchainitem.cpp
     sprite.cpp
     backend.cpp
-
-#     qtquickrenderer.cpp
+    qtquickrenderer.cpp
 )
 
 set( GluonGraphics_HEADERS
@@ -47,6 +48,7 @@ set( GluonGraphics_HEADERS
     texture.h
     texturedata.h
     defaults.h
+    qtquickrenderer.h
 )
 
 if( ASSIMP_FOUND )
@@ -57,7 +59,7 @@ endif( ASSIMP_FOUND )
 gluon_add_library( Gluon::Graphics SHARED
     SOURCES ${GluonGraphics_SRCS}
     HEADERS ${GluonGraphics_HEADERS}
-    LIBRARIES Gluon::Core
+    LIBRARIES Gluon::Core Qt5::Quick
 )
 
 gluon_add_plugin( gluongraphics_types

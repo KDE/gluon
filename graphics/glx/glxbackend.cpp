@@ -36,6 +36,7 @@
 #include "glxtexturedata.h"
 #include "glxrendertarget.h"
 #include "glxmeshdata.h"
+#include "glxqtquickrenderer.h"
 
 using namespace GluonGraphics::GLX;
 
@@ -153,6 +154,11 @@ GluonGraphics::OutputSurface* GLXBackend::createOutputSurface( QWindow* window )
 GluonGraphics::MeshData* GLXBackend::createMeshData()
 {
     return new GLXMeshData();
+}
+
+GluonGraphics::QtQuickRenderer* GLXBackend::createQuickRenderer( QObject* parent )
+{
+    return new GLXQtQuickRenderer(parent);
 }
 
 bool GLXBackend::isBufferTypeSuported( GluonGraphics::Buffer::BufferType type )

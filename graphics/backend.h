@@ -34,6 +34,7 @@ namespace GluonGraphics
     class OutputSurface;
     class RenderTarget;
     class MeshData;
+    class QtQuickRenderer;
 
     /**
      * \brief Abstract class for encapsulating all graphics backend details.
@@ -122,6 +123,15 @@ namespace GluonGraphics
              * \return A platform-specific implementation of a MeshData object.
              */
             virtual MeshData* createMeshData() = 0;
+
+            /**
+             * Create a QtQuickRenderer object
+             *
+             * \param parent The parent object of the renderer
+             *
+             * \return A platform-specific implementation of a QtQuickRenderer object.
+             */
+            virtual QtQuickRenderer* createQuickRenderer( QObject* parent = 0 ) = 0;
 
             /**
              * Check to see if a certain buffer type is supported by the backend.

@@ -41,7 +41,7 @@ using namespace GluonGraphics;
 class RenderTarget::Private
 {
     public:
-        Private( RenderTarget* qq ) : q( qq ), mesh( 0 ), materialInstance( 0 ), texture( 0 ) { }
+        Private( RenderTarget* qq ) : q( qq ), width(0), height(0), mesh( 0 ), materialInstance( 0 ), texture( 0 ) { }
 
         void initialize();
         void sortChildren();

@@ -17,13 +17,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include <QtCore/QDebug>
+
 #include "glxcontext.h"
 
 #include <QtCore/QDebug>
 #include <QtGui/QWindow>
 #include <QtX11Extras/QX11Info>
+#include <QOpenGLContext>
 
 #include <GL/glx.h>
+
+#include <core/log.h>
 
 #include "glxfunctions.h"
 
@@ -37,7 +42,7 @@ class Context::Private
         Version parseVersion( const QByteArray& string );
 
         GLXContext context;
-        WId currentWindow = 0;
+        QWindow* currentWindow = 0;
 
         Version glXVersion;
         Version glVersion;
@@ -141,13 +146,14 @@ void Context::destroy()
     d->context = 0;
 }
 
-void Context::makeCurrent( WId winId )
+void Context::makeCurrent( QWindow* window )
 {
-    if( winId == d->currentWindow )
+    if( window == d->currentWindow )
         return;
 
-    glXMakeCurrent( QX11Info::display(), winId, d->context );
-    d->currentWindow = winId;
+    d->currentWindow = window;
+
+    glXMakeCurrent( QX11Info::display(), window->winId(), d->context );
 }
 
 void Context::clearCurrent()
@@ -194,6 +200,16 @@ bool Context::hasExtension( const QString& extension ) const
 const QList< QString > Context::extensions() const
 {
     return d->extensions;
+}
+
+GLXContext Context::nativeContext()
+{
+    return d->context;
+}
+
+QWindow* Context::currentWindow()
+{
+    return d->currentWindow;
 }
 
 Version Context::Private::parseVersion( const QByteArray& string )

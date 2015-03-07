@@ -51,6 +51,7 @@ namespace GluonGraphics
                 virtual GluonGraphics::Shader* createShader();
                 virtual GluonGraphics::OutputSurface* createOutputSurface( QWindow* window );
                 virtual GluonGraphics::MeshData* createMeshData();
+                virtual GluonGraphics::QtQuickRenderer* createQuickRenderer( QObject* parent = 0 );
 
                 virtual bool isBufferTypeSuported( Buffer::BufferType type );
 

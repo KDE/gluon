@@ -21,6 +21,7 @@
 
 #include <QtGui/QWindow>
 #include <QtX11Extras/QX11Info>
+#include <QApplication>
 
 #include <GL/gl.h>
 #include <GL/glx.h>
@@ -65,7 +66,7 @@ GLXOutputSurface::~GLXOutputSurface()
 
 void GLXOutputSurface::renderContents()
 {
-    d->context->makeCurrent( window()->winId() );
+    d->context->makeCurrent( window() );
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 

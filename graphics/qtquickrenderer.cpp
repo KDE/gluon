@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2015 Felix Rohrbach <kde@fxrh.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,64 +19,72 @@
 
 #include "qtquickrenderer.h"
 
-#include <QtCore>
-#include <QGraphicsScene>
-#include <QDeclarativeError>
-#include <QDeclarativeEngine>
-#include <QDeclarativeComponent>
-#include <QDeclarativeItem>
-#include <QDeclarativeContext>
-#include <QPainter>
-#include <QMouseEvent>
-#include <QGraphicsSceneMouseEvent>
+#include <QQmlComponent>
+#include <QQmlEngine>
+#include <QQmlContext>
+#include <QQuickRenderControl>
+#include <QQuickWindow>
+#include <QQuickItem>
 
-#include <Eigen/Core>
-#include <Eigen/Geometry>
-
-#include <core/messagehandler.h>
-#include <core/gluonvarianttypes.h>
-
-#include "texturedata.h"
 #include "spritemesh.h"
-#include "material.h"
 #include "materialinstance.h"
-#include "manager.h"
-#include "backend.h"
 #include "mathutils.h"
+#include "defaults.h"
+#include "material.h"
+
+#include <core/resourcemanager.h>
+#include <core/messagehandler.h>
+#include <core/log.h>
+#include <core/gluonvarianttypes.h>
 
 using namespace GluonGraphics;
 
 class QtQuickRenderer::Private
 {
     public:
-        Private() : buffer( 0 ), root( 0 ), data( 0 ) { }
+        Private(): width(1024), height(1024), quickLoaded(false), quickInitialized(false), needsUpdating(false){}
 
         void createEngine();
 
-        QImage* buffer;
+        QQuickRenderControl* renderControl;
+        QQuickWindow* quickWindow;
+        static QQmlEngine* qmlEngine;
+        QQmlComponent* qmlComponent;
+        QQuickItem* rootItem;
+        QQmlContext* context;
 
-        QGraphicsScene* scene;
-        QDeclarativeContext* context;
-        QDeclarativeItem* root;
+        int width;
+        int height;
+
+        bool quickLoaded;
+        bool quickInitialized;
+        bool needsUpdating;
 
         SpriteMesh* mesh;
         MaterialInstance* material;
-
-        TextureData* data;
-
-        static QDeclarativeEngine* engine;
 };
 
-QDeclarativeEngine* QtQuickRenderer::Private::engine = 0;
+QQmlEngine* QtQuickRenderer::Private::qmlEngine = 0;
+
+void QtQuickRenderer::Private::createEngine()
+{
+    qmlEngine = new QQmlEngine( QCoreApplication::instance() );
+    if( !qmlEngine->incubationController() )
+        qmlEngine->setIncubationController( quickWindow->incubationController() );
+
+    qmlEngine->rootContext()->setContextProperty( "MessageHandler", GluonCore::MessageHandler::instance() );
+    qmlEngine->rootContext()->setContextProperty( "ObjectFactory", GluonCore::GluonObjectFactory::instance() );
+}
 
 QtQuickRenderer::QtQuickRenderer( QObject* parent )
-    : Texture( parent ), d( new Private )
+    : Texture(parent)
+    , d(new Private())
 {
-    //TODO: Make this configurable
-    setZDepth( 1.0f );
+        //TODO: Make this configurable
+    setZDepth( -1.0f );
 
-    d->mesh = Manager::instance()->resource< SpriteMesh >( Manager::Defaults::SpriteMesh );
-    d->material = Manager::instance()->resource< Material >( Manager::Defaults::Material )->createInstance();
+    d->mesh = GluonCore::ResourceManager::instance()->resource< GluonGraphics::SpriteMesh >( GluonGraphics::Defaults::SpriteMesh );
+    d->material = GluonCore::ResourceManager::instance()->resource< GluonGraphics::Material >( GluonGraphics::Defaults::Material )->createInstance();
     Eigen::Affine3f proj = MathUtils::ortho( -0.5, 0.5, -0.5, 0.5, -2, 2);
     d->material->setProperty( "projectionMatrix", QVariant::fromValue(proj) );
     Eigen::Affine3f id = Eigen::Affine3f::Identity();
@@ -84,108 +92,84 @@ QtQuickRenderer::QtQuickRenderer( QObject* parent )
     d->material->setProperty( "modelMatrix", QVariant::fromValue(id) );
     d->material->setProperty( "texture0", QVariant::fromValue< Texture* >( this ) );
 
-    if( !d->engine )
+    d->renderControl = new QQuickRenderControl(this);
+    d->quickWindow = new QQuickWindow(d->renderControl);
+
+    connect( d->renderControl, &QQuickRenderControl::sceneChanged, this, &QtQuickRenderer::requestUpdate );
+
+    if( !d->qmlEngine )
         d->createEngine();
 }
 
 QtQuickRenderer::~QtQuickRenderer()
 {
-    delete d->buffer;
-    delete d->data;
     delete d;
-}
-
-void QtQuickRenderer::update()
-{
-    if( !d->root )
-        return;
-
-    d->buffer->fill( Qt::transparent );
-
-    QPainter painter( d->buffer );
-    d->scene->render( &painter );
-    painter.end();
-
-    qImageToGL( d->buffer );
-    d->data->setData( d->buffer->width(), d->buffer->height(), d->buffer->bits() );
 }
 
 void QtQuickRenderer::renderContents()
 {
-    if( !d->root )
-        return;
+    if( d->needsUpdating )
+    {
+        if( !d->quickLoaded )
+        {
+            if( d->qmlComponent->isLoading() )
+            {
+                connect( d->qmlComponent, &QQmlComponent::statusChanged, this, &QtQuickRenderer::startQuick );
+                return;
+            }
+            else
+            {
+                startQuick();
+            }
+        }
 
-    update();
+        renderQuick();
+    }
 
     d->material->bind();
     d->mesh->render( d->material->shader() );
     d->material->release();
 }
 
-bool QtQuickRenderer::load( const QUrl& url )
+void QtQuickRenderer::load( const QUrl& url )
 {
-    if( d->root )
-        return true;
+    d->quickInitialized = false;
+    d->needsUpdating = false;
 
-    d->scene = new QGraphicsScene( 0, 0, 1024, 1024, this );
-    d->context = new QDeclarativeContext( d->engine->rootContext(), this );
-
-    QDeclarativeComponent comp( d->engine, url );
-    d->root = qobject_cast<QDeclarativeItem*>( comp.create( d->context ) );
-    d->root->setWidth( 1024 );
-    d->root->setHeight( 1024 );
-
-    d->scene->addItem( d->root );
-
-    if( comp.errors().count() > 0 )
-    {
-        DEBUG_BLOCK
-        Q_FOREACH( QDeclarativeError error, comp.errors() )
-        {
-            DEBUG_TEXT( error.toString() );
-        }
-        return false;
-    }
-
-    d->data = Manager::instance()->backend()->createTextureData();
-    d->data->setFilteringMode( TextureData::NearestFilteringMode );
-    d->buffer = new QImage( 1024, 1024, QImage::Format_ARGB32 );
-
-    return true;
+    d->qmlComponent = new QQmlComponent( d->qmlEngine, url );
 }
 
 QImage QtQuickRenderer::image() const
 {
-    return *(d->buffer);
+    // TODO: This might need the right context to be active
+    DEBUG();
+    QImage img = d->renderControl->grab();
+    return img;
 }
 
-TextureData* QtQuickRenderer::data() const
-{
-    return d->data;
-}
-
-QDeclarativeContext* QtQuickRenderer::context() const
+QQmlContext* QtQuickRenderer::context() const
 {
     return d->context;
 }
 
-void QtQuickRenderer::resize( int width, int height )
+void QtQuickRenderer::resize(int width, int height)
 {
-    if( d->buffer )
-        delete d->buffer;
+    DEBUG() << width << "x" << height;
+    d->width = width;
+    d->height = height;
 
-    d->buffer = new QImage( width, height, QImage::Format_ARGB32 );
-    d->scene->setSceneRect( 0, 0, width, height );
-    d->root->setWidth( width );
-    d->root->setHeight( height );
+    if( d->quickLoaded )
+    {
+        d->rootItem->setWidth( d->width );
+        d->rootItem->setHeight( d->height );
+    }
+
+    d->quickWindow->setGeometry( 0, 0, width, height );
+    d->needsUpdating = true;
 }
 
 void QtQuickRenderer::deliverEvent(QEvent* event)
 {
-    QRect bounds = d->scene->sceneRect().toRect();
-    int screenX = 0;
-    int screenY = 0;
-
     // Convert the event and deliver it to the scene.
     switch( event->type() )
     {
@@ -196,46 +180,21 @@ void QtQuickRenderer::deliverEvent(QEvent* event)
         {
             QMouseEvent* ev = static_cast<QMouseEvent*>( event );
 
-            screenX = qRound( qBound( 0, ev->globalPos().x(), bounds.width() - 1 ) );
-            screenY = qRound( qBound( 0, ev->globalPos().y(), bounds.height() - 1 ) );
-            QPoint pressedPos = QPoint( screenX, screenY );
+            // From the rendercontrol example:
+            // "Use the constructor taking localPos and screenPos. That puts localPos into the
+            // event's localPos and windowPos, and screenPos into the event's screenPos. This way
+            // the windowPos in e is ignored and is replaced by localPos. This is necessary
+            // because QQuickWindow thinks of itself as a top-level window always."
 
-            QEvent::Type type;
-            if( ev->type() == QEvent::MouseButtonPress )
-                type = QEvent::GraphicsSceneMousePress;
-            else if( ev->type() == QEvent::MouseButtonRelease )
-                type = QEvent::GraphicsSceneMouseRelease;
-            else if( ev->type() == QEvent::MouseButtonDblClick )
-                type = QEvent::GraphicsSceneMouseDoubleClick;
-            else
-                type = QEvent::GraphicsSceneMouseMove;
-
-            QGraphicsSceneMouseEvent e( type );
-            e.setPos( QPointF( ev->pos().x(), ev->pos().y() ) );
-            e.setScenePos( QPointF( ev->pos().x(), ev->pos().y() ) );
-            e.setScreenPos( QPoint( screenX, screenY ) );
-            e.setButtonDownScreenPos( ev->button(), pressedPos );
-            e.setButtonDownScenePos( ev->button(), QPointF( pressedPos.x() + bounds.x(), pressedPos.y() + bounds.y() ) );
-            e.setButtons( ev->buttons() );
-            e.setButton( ev->button() );
-            e.setModifiers( ev->modifiers() );
-            e.setAccepted( false );
-            QCoreApplication::sendEvent( d->scene, &e );
+            QMouseEvent mappedEvent( ev->type(), ev->localPos(), ev->screenPos(), ev->button(), ev->buttons(), ev->modifiers() );
+            QCoreApplication::sendEvent( d->quickWindow, &mappedEvent );
         }
         break;
         case QEvent::Wheel:
         {
             QWheelEvent* ev = static_cast<QWheelEvent*>( event );
-            QGraphicsSceneWheelEvent e( QEvent::GraphicsSceneWheel );
-            e.setPos( QPointF( ev->pos().x(), ev->pos().y() ) );
-            e.setScenePos( QPointF( ev->pos().x(), ev->pos().y() ) );
-            e.setScreenPos( QPoint( screenX, screenY ) );
-            e.setButtons( ev->buttons() );
-            e.setModifiers( ev->modifiers() );
-            e.setDelta( ev->delta() );
-            e.setOrientation( ev->orientation() );
-            e.setAccepted( false );
-            QCoreApplication::sendEvent( d->scene, &e );
+            QWheelEvent mappedEvent( ev->posF(), ev->globalPosF(), ev->pixelDelta(), ev->angleDelta(), ev->delta(), ev->orientation(), ev->buttons(), ev->modifiers(), ev->phase() );
+            QCoreApplication::sendEvent( d->quickWindow, &mappedEvent );
         }
         break;
 
@@ -249,19 +208,97 @@ void QtQuickRenderer::deliverEvent(QEvent* event)
         {
             // Send the event directly without any conversion.
             // Typically used for keyboard, focus, and enter/leave events.
-            QCoreApplication::sendEvent( d->scene, event );
+            QCoreApplication::sendEvent( d->quickWindow, event );
         }
         break;
 
     }
 }
 
-void QtQuickRenderer::Private::createEngine()
+void QtQuickRenderer::requestUpdate()
 {
-    engine = new QDeclarativeEngine( QCoreApplication::instance() );
-
-    engine->rootContext()->setContextProperty( "MessageHandler", GluonCore::MessageHandler::instance() );
-    engine->rootContext()->setContextProperty( "ObjectFactory", GluonCore::GluonObjectFactory::instance() );
+    d->needsUpdating = true;
 }
 
- 
+int QtQuickRenderer::width()
+{
+    return d->width;
+}
+
+int QtQuickRenderer::height()
+{
+    return d->height;
+}
+
+QQuickWindow* QtQuickRenderer::quickWindow()
+{
+    return d->quickWindow;
+}
+
+QQuickRenderControl* QtQuickRenderer::renderControl()
+{
+    return d->renderControl;
+}
+
+bool QtQuickRenderer::quickLoaded()
+{
+    return d->quickLoaded;
+}
+
+bool QtQuickRenderer::quickInitialized()
+{
+    return d->quickInitialized;
+}
+
+bool QtQuickRenderer::needsUpdating()
+{
+    return d->needsUpdating;
+}
+
+bool QtQuickRenderer::startQuick()
+{
+    disconnect( d->qmlComponent, &QQmlComponent::statusChanged, this, &QtQuickRenderer::startQuick );
+
+    if( d->qmlComponent->isError() )
+    {
+        QList<QQmlError> errorList = d->qmlComponent->errors();
+        for( const QQmlError& error: errorList )
+        {
+            ERROR() << error.url().toDisplayString() << error.line() << error.toString();
+        }
+        return false;
+    }
+
+    QObject* rootObject = d->qmlComponent->create();
+    if( d->qmlComponent->isError() )
+    {
+        QList<QQmlError> errorList = d->qmlComponent->errors();
+        for( const QQmlError& error: errorList )
+        {
+            ERROR() << error.url().toDisplayString() << error.line() << error.toString();
+        }
+        return false;
+    }
+
+    d->rootItem = qobject_cast<QQuickItem*>(rootObject);
+    if( !d->rootItem )
+    {
+        ERROR() << "Not a QQuickItem!";
+        delete rootObject;
+        return false;
+    }
+
+    d->rootItem->setWidth(width());
+    d->rootItem->setHeight(height());
+
+    d->rootItem->setParentItem( d->quickWindow->contentItem() );
+
+    d->context = new QQmlContext( d->qmlEngine->rootContext(), this );
+
+    d->quickLoaded = true;
+    d->quickInitialized = false;
+    d->needsUpdating = true;
+    return true;
+}
+
+

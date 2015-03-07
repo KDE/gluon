@@ -1,6 +1,7 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
  * Copyright (c) 2012 Arjen Hiemstra <ahiemstra@heimr.nl>
+ * Copyright (c) 2015 Felix Rohrbach <kde@fxrh.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,13 +26,20 @@
 
 #include "gluon_graphics_export.h"
 
-class QDeclarativeContext;
+class QQmlContext;
+class QQuickRenderControl;
+class QQuickWindow;
 namespace GluonGraphics
 {
     /**
-     * A class providing a rendered version of a QtQuick scene.
+     * A class providing a rendered version of a QtQuick scene. This is the abstract
+     * class - use Backend::createQuickRenderer to get an instance.
      *
-     * \todo This needs porting to Qt5.
+     * QtQuickRender provides the scene as texture as well as renders it to screen.
+     *
+     * For Implementations, you need to at least implement renderQuick (which renders the
+     * quick scene to texture data) and data (which returns that texture data), but
+     * you might want to customize resize and startQuick, too.
      */
     class GLUON_GRAPHICS_EXPORT QtQuickRenderer : public Texture, public RenderChainItem
     {
@@ -40,23 +48,58 @@ namespace GluonGraphics
             explicit QtQuickRenderer( QObject* parent = 0 );
             virtual ~QtQuickRenderer();
 
-            virtual void update();
             virtual void renderContents();
 
-            virtual bool load( const QUrl& url );
-            virtual QImage image() const;
-            virtual TextureData* data() const;
+            virtual void load( const QUrl& url );
 
-            QDeclarativeContext* context() const;
+            /**
+             * return an Image of the current szene
+             */
+            virtual QImage image() const;
+
+            virtual TextureData* data() const=0;
+
+            virtual QQmlContext* context() const;
 
             virtual void resize( int width, int height );
 
         public Q_SLOTS:
-            void deliverEvent( QEvent* event );
+            /**
+             * Create an event in the quick scene (e.g. a mouse click).
+             */
+            virtual void deliverEvent( QEvent* event );
+
+            /**
+             * Request a re-rendering of the scene.
+             */
+            void requestUpdate();
+
+        protected:
+            /**
+             * Render the scene to texture data. You don't need to care about
+             * updating the scene here.
+             */
+            virtual void renderQuick()=0;
+
+            int width();
+            int height();
+            QQuickWindow* quickWindow();
+            QQuickRenderControl* renderControl();
+            bool quickLoaded();
+            bool quickInitialized();
+            bool needsUpdating();
+
+        protected Q_SLOTS:
+            /**
+             * Called after the QML file was loaded and initializes the scene.
+             * Returns true, if the loading and initialisation was successfull,
+             * false otherwise.
+             */
+            virtual bool startQuick();
 
         private:
             class Private;
-            Private* const d;
+            Private* d;
     };
 }
 
