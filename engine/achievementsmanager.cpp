@@ -20,7 +20,6 @@
 #include "achievementsmanager.h"
 
 #include "achievement.h"
-#include "assets/graphics/texture/textureasset.h"
 
 #include <core/gluonobject.h>
 #include <core/directoryprovider.h>
@@ -29,6 +28,8 @@
 #include <QtCore/QDir>
 #include <QtCore/QTextStream>
 #include <QtCore/QDebug>
+
+#include "asset.h"
 
 using namespace GluonEngine;
 
