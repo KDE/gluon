@@ -106,10 +106,7 @@ void SpriteRendererComponent::initialize()
                 debug( QString( "Texture failed to load - attempted to load texture named %1 (searched for %2)" ).arg( theName ).arg( theName ) );
         }
         else
-            texture = qobject_cast<Asset*>( GluonCore::GluonObjectFactory::instance()->wrappedObject( d->material->property( "texture0" ) ) );
-
-        if( texture )
-            texture->load();
+            texture = d->material->property( "texture0" ).value< Asset* >();
 
         d->entity->setMaterialInstance( d->material );
     }
@@ -207,7 +204,3 @@ void SpriteRendererComponent::setEnabled( bool newEnabled )
 
     GluonEngine::Component::setEnabled( newEnabled );
 }
-
-Q_EXPORT_PLUGIN2( gluon_component_spriterenderer, GluonEngine::SpriteRendererComponent );
-
- 

@@ -42,9 +42,6 @@ namespace GluonEngine
             Q_PROPERTY( QSizeF size READ size WRITE setSize )
             Q_PROPERTY( GluonGraphics::MaterialInstance* material READ material WRITE setMaterial )
 
-            Q_CLASSINFO( "org.gluon.category", "Graphics Rendering" )
-            Q_CLASSINFO( "org.gluon.icon", "image-x-generic" )
-
         public:
             Q_INVOKABLE SpriteRendererComponent( QObject* parent = 0 );
             virtual ~SpriteRendererComponent();

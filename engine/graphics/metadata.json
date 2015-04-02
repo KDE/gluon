@@ -1,0 +1,28 @@
+{
+    "GluonEngine::MaterialAsset": {
+        "name": "Material",
+        "icon": "text-mathml",
+        "category": "Graphics Rendering",
+        "mimeTypes": [
+            "application/x-gluon-material"
+        ],
+        "templates": {
+            "Material": "graphics/material_template.gluonmaterial"
+        }
+    },
+    "GluonEngine::TextureAsset": {
+        "name": "Texture",
+        "icon": "image-x-generic",
+        "category": "Graphics Rendering"
+    },
+    "GluonEngine::CameraControllerComponent": {
+        "name": "Camera Controller",
+        "icon": "image-x-generic",
+        "category": "Graphics Rendering"
+    },
+    "GluonEngine::SpriteRendererComponent": {
+        "name": "Sprite Renderer",
+        "icon": "image-x-generic",
+        "category": "Graphics Rendering"
+    }
+}

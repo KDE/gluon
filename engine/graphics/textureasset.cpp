@@ -74,7 +74,7 @@ void TextureAsset::load()
         if( !d->texture )
             d->texture = GluonGraphics::Manager::instance()->createResource< GluonGraphics::Texture >( name() );
 
-        if( d->texture->load( absolutePath() ) )
+        if( d->texture->load( absolutePath().toLocalFile() ) )
         {
             mimeData()->setText( name() );
             setLoaded( true );
@@ -97,7 +97,3 @@ GluonGraphics::Texture* TextureAsset::texture() const
 {
     return GluonGraphics::Manager::instance()->resource< GluonGraphics::Texture >( name() );
 }
-
-Q_EXPORT_PLUGIN2( gluon_asset_texture, GluonEngine::TextureAsset )
-
- 

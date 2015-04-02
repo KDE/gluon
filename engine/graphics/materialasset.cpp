@@ -18,13 +18,14 @@
  */
 
 #include "materialasset.h"
+#include <engine/assetaction.h>
 
 #include <core/metainfo.h>
 #include <graphics/material.h>
 #include <graphics/materialinstance.h>
 #include <graphics/manager.h>
 
-#include <QtGui/QAction>
+// #include <QtGui/QAction>
 
 REGISTER_OBJECTTYPE( GluonEngine, MaterialAsset )
 
@@ -36,15 +37,15 @@ class MaterialAsset::Private
         Private() : material( 0 ) { }
 
         GluonGraphics::Material* material;
-        QList<QAction*> actions;
+//         QList<QAction*> actions;
 };
 
 MaterialAsset::MaterialAsset( QObject* parent )
     : Asset( parent ), d( new Private )
 {
-    QAction* newInstance = new QAction( "New instance", 0 );
-    connect( newInstance, SIGNAL(triggered(bool)), SLOT(createInstance()) );
-    d->actions.append( newInstance );
+//     QAction* newInstance = new QAction( "New instance", 0 );
+//     connect( newInstance, SIGNAL(triggered(bool)), SLOT(createInstance()) );
+//     d->actions.append( newInstance );
 }
 
 MaterialAsset::~MaterialAsset()
@@ -52,7 +53,7 @@ MaterialAsset::~MaterialAsset()
     // TODO: MaterialAsset needs to clean up after itself. This needs loading process fixes though.
     //if(d->material)
     //    GluonGraphics::Engine::instance()->destroyMaterial(name());
-    qDeleteAll( d->actions );
+//     qDeleteAll( d->actions );
     delete d;
 }
 
@@ -75,7 +76,7 @@ void MaterialAsset::load()
         if( !d->material )
             d->material = GluonGraphics::Manager::instance()->createResource< GluonGraphics::Material >( name() );
 
-        if( d->material->load( absolutePath() ) )
+        if( d->material->load( absolutePath().toLocalFile() ) )
         {
             d->material->build();
             mimeData()->setText( name() );
@@ -96,9 +97,11 @@ const QList<AssetTemplate*> MaterialAsset::templates()
     return templates;
 }
 
-QList<QAction*> MaterialAsset::actions()
+QList< AssetAction* > MaterialAsset::actions()
 {
-    return d->actions;
+    AssetAction* newInstance = new AssetAction( "New Instance", this );
+    connect( newInstance, &AssetAction::triggered, this, &MaterialAsset::createInstance );
+    return QList< AssetAction* >() << newInstance;
 }
 
 void MaterialAsset::setName( const QString& newName )
@@ -143,7 +146,3 @@ void MaterialAsset::createInstance()
 
     emit instanceCreated(instance);
 }
-
-Q_EXPORT_PLUGIN2( gluon_asset_material, GluonEngine::MaterialAsset )
-
- 

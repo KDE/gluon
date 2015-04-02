@@ -33,9 +33,6 @@ namespace GluonEngine
 
             Q_PROPERTY( GluonGraphics::Texture* texture READ texture );
 
-            Q_CLASSINFO( "org.gluon.category", "Graphics Rendering" )
-            Q_CLASSINFO( "org.gluon.icon", "image-x-generic" )
-
         public:
             Q_INVOKABLE TextureAsset( QObject* parent = 0 );
             virtual ~TextureAsset();

@@ -36,9 +36,6 @@ namespace GluonEngine
             Q_INTERFACES( GluonEngine::Asset )
             GLUON_OBJECT( GluonEngine::MaterialAsset )
 
-            Q_CLASSINFO( "org.gluon.category", "Graphics Rendering" )
-            Q_CLASSINFO( "org.gluon.icon", "text-mathml" )
-
         public:
             Q_INVOKABLE MaterialAsset( QObject* parent = 0 );
             virtual ~MaterialAsset();
@@ -47,7 +44,7 @@ namespace GluonEngine
 
             virtual const QStringList supportedMimeTypes() const;
             virtual const QList<AssetTemplate*> templates();
-            virtual QList<QAction*> actions();
+            virtual QList< AssetAction* > actions();
 
             virtual void setName( const QString& newName );
             virtual void sanitize();
