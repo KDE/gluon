@@ -1,9 +1,7 @@
 option( BUILD_AUDIO_PLUGIN "Build Assets and Components dependant on Gluon Audio" ON )
-option( BUILD_INPUT_PLUGIN "Build Assets and Components dependant on Gluon
-Input" ON )
+option( BUILD_INPUT_PLUGIN "Build Assets and Components dependant on Gluon Input" ON )
 option( BUILD_OTHER_PLUGIN "Build other Assets and Components" ON )
-option( BUILD_GRAPHICS_PLUGIN "Build Assets and Components dependant on Gluon
-Graphics" ON )
+option( BUILD_GRAPHICS_PLUGIN "Build Assets and Components dependant on Gluon Graphics" ON )
 
 option( BUILD_PHYSICS_COMPONENTS "Build Components related to physics" OFF )
 option( BUILD_PHYSICS_ASSETS "Build Assets related to physics" OFF )
@@ -122,7 +120,6 @@ save_status( Gluon::Engine
     "Build Assets dependant on Gluon Input (BUILD_INPUT_ASSETS): ${BUILD_INPUT_ASSETS}"
     "Build Components related to physics (BUILD_PHYSICS_COMPONENTS): ${BUILD_PHYSICS_COMPONENTS}"
     "Build Assets related to physics (BUILD_PHYSICS_ASSETS): ${BUILD_PHYSICS_ASSETS}"
-    "Build other Assets and Components (BUILD_OTHER_PLUGIN):
-${BUILD_OTHER_PLUGIN}"
+    "Build other Assets and Components (BUILD_OTHER_PLUGIN): ${BUILD_OTHER_PLUGIN}"
 )
 
