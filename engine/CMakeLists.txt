@@ -1,9 +1,10 @@
 option( BUILD_AUDIO_PLUGIN "Build Assets and Components dependant on Gluon Audio" ON )
-option( BUILD_INPUT_PLUGIN "Build Assets and Components dependant on Gluon Input" ON )
+option( BUILD_INPUT_PLUGIN "Build Assets and Components dependant on Gluon
+Input" ON )
 option( BUILD_OTHER_PLUGIN "Build other Assets and Components" ON )
+option( BUILD_GRAPHICS_PLUGIN "Build Assets and Components dependant on Gluon
+Graphics" ON )
 
-option( BUILD_GRAPHICS_COMPONENTS "Build Components dependant on Gluon Graphics" OFF )
-option( BUILD_GRAPHICS_ASSETS "Build Assets dependant on Gluon Graphics" OFF )
 option( BUILD_PHYSICS_COMPONENTS "Build Components related to physics" OFF )
 option( BUILD_PHYSICS_ASSETS "Build Assets related to physics" OFF )
 
@@ -11,8 +12,7 @@ if( NOT BUILD_GLUONAUDIO )
     set( BUILD_AUDIO_PLUGIN OFF )
 endif()
 if( NOT BUILD_GLUONGRAPHICS )
-    set( BUILD_GRAPHICS_ASSETS OFF )
-    set( BUILD_GRAPHICS_COMPONENTS OFF )
+    set( BUILD_GRAPHICS_PLUGIN OFF )
 endif()
 if( NOT BUILD_GLUONINPUT )
     set( BUILD_INPUT_PLUGIN OFF )
@@ -104,6 +104,10 @@ if( BUILD_OTHER_PLUGIN )
     add_subdirectory( plugins/other )
 endif()
 
+if( BUILD_GRAPHICS_PLUGIN )
+    add_subdirectory( graphics )
+endif()
+
 add_subdirectory( scripting )
 
 add_subdirectory( assets )
@@ -112,15 +116,13 @@ add_subdirectory( components )
 gluon_add_subdirectories( tests )
 
 save_status( Gluon::Engine
-    "Build Components dependant on Gluon Audio (BUILD_AUDIO_COMPONENTS): ${BUILD_AUDIO_COMPONENTS}"
-    "Build Assets dependant on Gluon Audio (BUILD_AUDIO_ASSETS): ${BUILD_AUDIO_ASSETS}"
-    "Build Components dependant on Gluon Graphics (BUILD_GRAPHICS_COMPONENTS): ${BUILD_GRAPHICS_COMPONENTS}"
-    "Build Assets dependant on Gluon Graphics (BUILD_GRAPHICS_ASSETS): ${BUILD_GRAPHICS_ASSETS}"
+    "Build Assets and Components dependant on Gluon Audio (BUILD_AUDIO_PLUGIN): ${BUILD_AUDIO_PLUGIN}"
+    "Build Assets and Components dependant on Gluon Graphics (BUILD_GRAPHICS_PLUGIN): ${BUILD_GRAPHICS_PLUGIN}"
     "Build Components dependant on Gluon Input (BUILD_INPUT_COMPONENTS): ${BUILD_INPUT_COMPONENTS}"
     "Build Assets dependant on Gluon Input (BUILD_INPUT_ASSETS): ${BUILD_INPUT_ASSETS}"
     "Build Components related to physics (BUILD_PHYSICS_COMPONENTS): ${BUILD_PHYSICS_COMPONENTS}"
     "Build Assets related to physics (BUILD_PHYSICS_ASSETS): ${BUILD_PHYSICS_ASSETS}"
-    "Build other Components (BUILD_OTHER_COMPONENTS): ${BUILD_OTHER_COMPONENTS}"
-    "Build other Assets (BUILD_OTHER_ASSETS): ${BUILD_OTHER_ASSETS}"
+    "Build other Assets and Components (BUILD_OTHER_PLUGIN):
+${BUILD_OTHER_PLUGIN}"
 )
 
