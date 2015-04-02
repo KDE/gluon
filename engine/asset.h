@@ -92,8 +92,8 @@ namespace GluonEngine
      *    "icon": The icon used for the asset.
      *    "category": The category of the asset.
      *    "mimeTypes": An array of strings with supported mime types.
-     *    "templates": An array of objects describing the templates to use.
-     *          Each object is expected to have a name and template property.
+     *    "templates": An associative array of objects describing the templates to use.
+     *          Each entry should declare the name as key and the template as value.
      *    "actions": An array of objects describing the actions that can be
      *          performed on this asset. Each object is expected to have a name
      *          and method property, where method should be the name of a slot on the asset.
@@ -245,10 +245,7 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_INTERFACE( GluonEngine::Asset, "org.gluon.engine.asset/1.0" )
+Q_DECLARE_INTERFACE( GluonEngine::Asset, "org.kde.gluon.engine.asset" )
 Q_DECLARE_METATYPE( GluonEngine::Asset* )
-
-#define GLUON_ASSET_PLUGIN(_file)\
-    Q_PLUGIN_METADATA(IID "org.gluon.engine.asset/1.0" FILE #_file)
 
 #endif  // GLUON_ENGINE_ASSET_H

@@ -43,12 +43,6 @@ Component::~Component()
     delete d;
 }
 
-QString
-Component::category() const
-{
-    return QString( "Uncategorised" );
-}
-
 QVariant
 Component::toVariant( GluonCore::GluonObject* wrapThis )
 {

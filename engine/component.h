@@ -96,12 +96,6 @@ namespace GluonEngine
             virtual ~Component();
 
             /**
-            * Return the category of the component. Meta-data used for filtering
-            * and sorting components
-            */
-            virtual QString category() const;
-
-            /**
             * If you wish to be able to use your objects as properties, make sure
             * to implement this function to return a QVariant which is of the type
             * of your class.
@@ -240,9 +234,7 @@ namespace GluonEngine
     };
 }
 
-Q_DECLARE_INTERFACE( GluonEngine::Component, "org.gluon.engine.component/1.0" )
+Q_DECLARE_INTERFACE( GluonEngine::Component, "org.kde.gluon.engine.component" )
 Q_DECLARE_METATYPE( GluonEngine::Component* )
-
-#define GLUON_COMPONENT_PLUGIN(_file) Q_PLUGIN_METADATA(IID "org.gluon.engine.component/1.0" FILE #_file)
 
 #endif  // GLUON_ENGINE_COMPONENT_H
