@@ -33,8 +33,6 @@ using namespace GluonEngine;
 
 GameProjectPrivate::GameProjectPrivate()
     : entryPoint( 0 )
-    , icon( 0 )
-    , screenshot( 0 )
     , userName( "user" )
 {
 }
@@ -47,8 +45,6 @@ GameProjectPrivate::GameProjectPrivate( const GameProjectPrivate& other )
     , filename( other.filename )
     , dirname( other.dirname )
     , entryPoint( other.entryPoint )
-    , icon( other.icon )
-    , screenshot( other.screenshot )
     , userName( other.userName )
 {
 }

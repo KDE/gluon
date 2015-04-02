@@ -21,19 +21,13 @@
 #ifndef GLUON_ENGINE_GAMEPROJECTPRIVATE_H
 #define GLUON_ENGINE_GAMEPROJECTPRIVATE_H
 
-#include "assets/graphics/texture/textureasset.h"
-
 #include <QtCore/QSharedData>
 #include <QtCore/QUrl>
+#include <QtCore/QMultiHash>
 
 namespace GluonCore
 {
     class GluonObject;
-}
-
-namespace GluonGraphics
-{
-    class Texture;
 }
 
 namespace GluonEngine
@@ -55,8 +49,6 @@ namespace GluonEngine
             QUrl filename;
             QUrl dirname;
             Scene* entryPoint;
-            GluonEngine::TextureAsset* icon;
-            GluonEngine::TextureAsset* screenshot;
             QList<Achievement*> achievements;
             QString userName;
 

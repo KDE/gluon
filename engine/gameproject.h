@@ -24,8 +24,6 @@
 #include "gluon_engine_export.h"
 #include "scene.h"
 
-#include <graphics/texture.h>
-
 #include <core/gluonobject.h>
 
 #include <QtCore/QUrl>
@@ -40,7 +38,6 @@ namespace GluonEngine
     const QString projectScreenshot( "screenshot.png" );
 
     class GameProjectPrivate;
-    class TextureAsset;
     class Achievement;
 
     /**
@@ -119,20 +116,8 @@ namespace GluonEngine
              * scene or a menu but can also be directly into gameplay by pointing to a scene
              * which contains the game.
              */
-            Q_PROPERTY( GluonEngine::Scene* entryPoint READ entryPoint WRITE setEntryPoint )
-
-            /**
-             * The icon used to represent the game both on disk, on the distribution site, and in
-             * the players which show icons for the games.
-             */
-            Q_PROPERTY( GluonEngine::TextureAsset* icon READ icon WRITE setIcon )
-
-            /**
-             * A screenshot to represent the game, shown in the various players, and on the
-             * distribution site
-             */
-            Q_PROPERTY( GluonEngine::TextureAsset* screenshot READ screenshot WRITE setScreenshot )
-
+            Q_PROPERTY( GluonEngine::Scene* entryPoint READ entryPoint WRITE
+setEntryPoint )
         public:
             Q_INVOKABLE GameProject( QObject* parent = 0 );
             GameProject( const GameProject& other, QObject* parent = 0 );
@@ -169,12 +154,6 @@ namespace GluonEngine
 
             Scene* entryPoint() const;
             void setEntryPoint( Scene* newEntryPoint );
-
-            GluonEngine::TextureAsset* icon() const;
-            void setIcon( GluonEngine::TextureAsset* newIcon );
-
-            GluonEngine::TextureAsset* screenshot() const;
-            void setScreenshot( GluonEngine::TextureAsset* newScreenshot );
 
             /** Get a list of all achievements in this project */
             QList<Achievement*> achievements() const;

@@ -89,8 +89,7 @@ GameProject::saveToFile()
     // Recreate the various icon files if we have an icon file available
     QIcon tempIcon = QIcon::fromTheme ("gluon", QIcon( QPixmap( 128, 128 ) ) );
     QImage icon = tempIcon.pixmap(128, 128).toImage();
-    if( d->icon )
-        icon = d->icon->texture()->image().scaled( 128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+
     QString iconFile( projectDir );
     iconFile.append( '/' );
     iconFile.append( GluonEngine::projectIcon );
@@ -119,15 +118,6 @@ GameProject::saveToFile()
         QTextStream out( &folderFile );
         out << "[.ShellClassInfo]" << endl << "ConfirmFileOp=0" << endl << "IconFile=game.ico" << endl << "IconIndex=0" << endl << "InfoTip=A Gluon Game" << endl;
         folderFile.close();
-    }
-
-    // Recreate the screenshot file if we have one such
-    if( d->screenshot )
-    {
-        QString screenshotFile = projectDir;
-        screenshotFile.append( '/' );
-        screenshotFile.append( GluonEngine::projectScreenshot );
-        d->screenshot->texture()->image().scaled( 800, 600, Qt::KeepAspectRatio ).save( screenshotFile );
     }
 
     // Save meta data
@@ -341,26 +331,6 @@ GameProject::setEntryPoint( Scene* newEntryPoint )
     d->entryPoint = newEntryPoint;
 }
 
-GluonEngine::TextureAsset* GameProject::icon() const
-{
-    return d->icon;
-}
-
-void GameProject::setIcon( GluonEngine::TextureAsset* newIcon )
-{
-    d->icon = newIcon;
-}
-
-GluonEngine::TextureAsset* GameProject::screenshot() const
-{
-    return d->screenshot;
-}
-
-void GameProject::setScreenshot( GluonEngine::TextureAsset* newScreenshot )
-{
-    d->screenshot = newScreenshot;
-}
-
 QList<Achievement*> GameProject::achievements() const
 {
     return d->achievements;
@@ -456,5 +426,3 @@ QList<Asset*> GameProject::assets() const
 {
     return d->assets;
 }
-
- 
