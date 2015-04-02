@@ -40,6 +40,7 @@ FactoryPlugin::~FactoryPlugin()
 
 GluonCore::GluonObjectList FactoryPlugin::typesToRegister()
 {
+    qRegisterMetaType< MaterialInstance* >();
     return GluonCore::GluonObjectList()
         << new Material( this )
         << new MaterialInstance( this )
