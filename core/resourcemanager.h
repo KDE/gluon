@@ -141,6 +141,9 @@ namespace GluonCore
             template < typename T >
             bool hasResource( const QString& identifier );
 
+            template < typename T >
+            void renameResource( const QString& oldIdentifier, const QString& newIdentifier );
+
         private:
             friend class ResourceManagerTest;
             ~ResourceManager();
@@ -235,6 +238,17 @@ namespace GluonCore
     QString ResourceManager::internalID( const QString& id )
     {
         return QString( "%1::%2" ).arg( T::staticMetaObject.className() ).arg( id );
+    }
+
+    template < typename T >
+    void ResourceManager::renameResource( const QString& oldIdentifier, const QString& newIdentifier )
+    {
+        if( !m_resources.contains( internalID< T >( oldIdentifier ) ) )
+            return;
+
+        auto resource = m_resources.value( oldIdentifier );
+        m_resources.remove( oldIdentifier );
+        m_resources.insert( newIdentifier, resource );
     }
 }
 
