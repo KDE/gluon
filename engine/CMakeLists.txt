@@ -103,10 +103,10 @@ if( BUILD_OTHER_PLUGIN )
 endif()
 
 if( BUILD_GRAPHICS_PLUGIN )
-    add_subdirectory( graphics )
+    add_subdirectory( plugins/graphics )
 endif()
 
-add_subdirectory( scripting )
+add_subdirectory( plugins/scripting )
 
 add_subdirectory( assets )
 add_subdirectory( components )
