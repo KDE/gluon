@@ -1,6 +1,6 @@
 /******************************************************************************
  * This file is part of the Gluon Development Platform
- * Copyright (c) 2011 Laszlo Papp <lpapp@kde.org>
+ * Copyright (c) 2015 Arjen Hiemstra <ahiemstra@heimr.nl>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,98 +17,57 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include <engine/game.h>
-#include <engine/gameproject.h>
-#include <graphics/renderwidget.h>
-
-#include <input/inputmanager.h>
-
-#include <QtGui/QApplication>
-
+#include <QtCore/QCommandLineParser>
 #include <QtCore/QFileInfo>
-#include <QtCore/QDebug>
-#include <QtCore/QString>
-#include <QtCore/QTimer>
+#include <QtGui/QGuiApplication>
 
-#include <graphics/manager.h>
+#include <gluon_global.h>
 
-class Player : public QObject
+#include <core/gluonobjectfactory.h>
+#include <graphics/renderwindow.h>
+#include <graphics/defaults.h>
+#include <engine/gameproject.h>
+#include <engine/game.h>
+
+int main(int argc, char** argv)
 {
-    Q_OBJECT
+    QGuiApplication app{ argc, argv };
+    app.setApplicationName("Gluon Viewer");
+    app.setApplicationVersion(GluonCore::Global::versionString());
 
-    public:
-        explicit Player(const QString &fileName, QObject *parent = 0) : QObject(parent), m_fileName(fileName) {}
-        ~Player() { delete m_renderWidget; }
+    QCommandLineParser parser;
+    parser.setApplicationDescription("An application for viewing Gluon Projects");
+    parser.addHelpOption();
+    parser.addVersionOption();
 
-    public slots:
-        void openProject() {
-            m_renderWidget = new GluonGraphics::RenderWidget( );
-            m_renderWidget->installEventFilter(this);
-            m_renderWidget->setFocus();
+    parser.addPositionalArgument( "project", "The project to view." );
 
-            GluonGraphics::Manager::instance()->initialize();
+    parser.process(app);
 
-            connect( GluonEngine::Game::instance(), SIGNAL(painted(int)), m_renderWidget, SLOT(update()) );
+    if( parser.positionalArguments().size() != 1 )
+        parser.showHelp( 1 );
 
-            GluonInput::InputManager::instance()->setFilteredObject( m_renderWidget );
-            QTimer::singleShot(100, this, SLOT(startGame()));
-        }
+    QString file = parser.positionalArguments().at(0);
+    QFileInfo fileInfo{ file };
 
-        void startGame() {
-            GluonCore::GluonObjectFactory::instance()->loadPlugins();
+    if( !fileInfo.exists() )
+        parser.showHelp( 2 );
 
-            m_gameProject = new GluonEngine::GameProject();
-            m_gameProject->loadFromFile( m_fileName );
+    GluonCore::GluonObjectFactory::instance()->loadPlugins();
 
-            GluonEngine::Game::instance()->setGameProject( m_gameProject );
-            GluonEngine::Game::instance()->setCurrentScene( m_gameProject->entryPoint() );
+    auto project = new GluonEngine::GameProject{ };
+    project->loadFromFile( fileInfo.absoluteFilePath() );
 
-            m_renderWidget->show();
-            GluonEngine::Game::instance()->runGame();
-            QApplication::instance()->exit();
-        }
+    GluonEngine::Game::instance()->setGameProject( project );
 
-        bool eventFilter(QObject *obj, QEvent *event) {
-            if (obj == m_renderWidget) {
-                if (event->type() == QEvent::Close) {
-                    GluonEngine::Game::instance()->stopGame();
-                    QApplication::instance()->quit();
-                    return true;
-                }
-            } else {
-                QObject::eventFilter(obj, event);
-            }
-            return false;
-        }
+    auto window = new GluonGraphics::RenderWindow{ };
+    window->show();
 
-    private:
-        QString m_fileName;
-        GluonEngine::GameProject* m_gameProject;
-        GluonGraphics::RenderWidget* m_renderWidget;
-};
+    QObject::connect( window, &QWindow::visibleChanged, GluonEngine::Game::instance(), &GluonEngine::Game::stopGame );
 
-#include "main.moc"
+    GluonGraphics::Defaults::initialize();
 
-int main( int argc, char** argv )
-{
-    if( argc > 1 )
-    {
-        if (!QFile::exists( argv[1] )) {
-            qDebug() << "File does not exist:" << argv[1];
-            return 1;
-        }
+    app.processEvents();
 
-        QApplication app( argc, argv );
-
-        QString fileName = QFileInfo( argv[1] ).absoluteFilePath();
-
-        Player player(fileName);
-        QTimer::singleShot(0, &player, SLOT(openProject()));
-
-        return app.exec();
-    }
-    else
-    {
-        qDebug() << "Usage:" << argv[0] << "<gameproject>";
-    }
+    GluonEngine::Game::instance()->runGame();
 }
