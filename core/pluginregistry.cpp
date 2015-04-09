@@ -113,7 +113,17 @@ QList< QJsonObject > PluginRegistry::metaDataForType( const QString& type )
 QObject* PluginRegistry::load( const QString& plugin )
 {
     if( d->plugins.contains( plugin ) )
-        return d->plugins.value( plugin )->instance();
+    {
+        auto loader = d->plugins.value( plugin );
+        if( !loader->isLoaded() )
+        {
+            if( !loader->load() )
+            {
+                WARNING() << d->plugins.value( plugin )->errorString();
+            }
+        }
+        return loader->instance();
+    }
 
     QPluginLoader* loader = d->findPlugin( plugin );
     if( loader )
@@ -122,7 +132,9 @@ QObject* PluginRegistry::load( const QString& plugin )
         d->pluginNames.insert( loader->metaData().value( "type" ).toString(), plugin );
 
         if( !loader->load() )
+        {
             WARNING() << loader->errorString();
+        }
 
         return loader->instance();
     }
@@ -339,10 +351,13 @@ void PluginRegistry::Private::updatePluginDirectories()
 
 #if defined(Q_OS_WIN)
     if( location.endsWith(QLatin1String("/debug"), Qt::CaseInsensitive) )
+    {
         location.chop(QByteArray("/debug").size());
-
+    }
     else if( location.endsWith(QLatin1String("release"), Qt::CaseInsensitive) )
+    {
         location.chop(QByteArray("/release").size());
+    }
 
     if( QFile::exists( location + "/plugins" ) )
         pluginLocations.append( location + "/plugins" );
