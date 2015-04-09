@@ -23,6 +23,7 @@
 #include <engine/component.h>
 
 #include <QSizeF>
+#include <core/privatepointer.h>
 
 namespace GluonGraphics
 {
@@ -45,7 +46,6 @@ namespace GluonEngine
         public:
             Q_INVOKABLE SpriteRendererComponent( QObject* parent = 0 );
             virtual ~SpriteRendererComponent();
-            virtual QString category() const;
 
             virtual void initialize();
             virtual void start();
@@ -63,8 +63,7 @@ namespace GluonEngine
             virtual void setEnabled( bool newEnabled );
 
         private:
-            class SpriteRendererComponentPrivate;
-            SpriteRendererComponentPrivate* const d;
+            GLUON_PRIVATE_POINTER;
     };
 
 }

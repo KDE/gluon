@@ -21,7 +21,8 @@
 
 #include <QtGui/QImageReader>
 
-#include <graphics/manager.h>
+#include <core/resourcemanager.h>
+#include <graphics/backend.h>
 #include <graphics/texture.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, TextureAsset )
@@ -45,7 +46,7 @@ TextureAsset::~TextureAsset()
 {
     if( d->texture )
     {
-        GluonGraphics::Manager::instance()->destroyResource< GluonGraphics::Texture >( name() );
+        GluonCore::ResourceManager::instance()->destroyResource< GluonGraphics::Texture >( name() );
         d->texture = 0;
     }
     delete d;
@@ -72,7 +73,7 @@ void TextureAsset::load()
     if( !file().isEmpty() )
     {
         if( !d->texture )
-            d->texture = GluonGraphics::Manager::instance()->createResource< GluonGraphics::Texture >( name() );
+            d->texture = GluonCore::ResourceManager::instance()->createResource< GluonGraphics::Texture >( name() );
 
         if( d->texture->load( absolutePath().toLocalFile() ) )
         {
@@ -87,13 +88,13 @@ void TextureAsset::load()
 
 void TextureAsset::setName( const QString& newName )
 {
-    GluonGraphics::Manager::instance()->removeResource< GluonGraphics::Texture >( name() );
+    GluonCore::ResourceManager::instance()->removeResource< GluonGraphics::Texture >( name() );
     if( d->texture )
-        GluonGraphics::Manager::instance()->addResource< GluonGraphics::Texture >( newName, d->texture );
+        GluonCore::ResourceManager::instance()->addResource< GluonGraphics::Texture >( newName, d->texture );
     GluonEngine::Asset::setName( newName );
 }
 
 GluonGraphics::Texture* TextureAsset::texture() const
 {
-    return GluonGraphics::Manager::instance()->resource< GluonGraphics::Texture >( name() );
+    return GluonCore::ResourceManager::instance()->resource< GluonGraphics::Texture >( name() );
 }

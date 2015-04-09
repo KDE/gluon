@@ -44,7 +44,7 @@ namespace GluonEngine
 
             virtual const QStringList supportedMimeTypes() const;
             virtual const QList<AssetTemplate*> templates();
-            virtual QList< AssetAction* > actions();
+//             virtual QList< AssetAction* > actions();
 
             virtual void setName( const QString& newName );
             virtual void sanitize();

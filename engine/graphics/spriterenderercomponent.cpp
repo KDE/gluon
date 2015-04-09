@@ -19,48 +19,48 @@
 
 #include "spriterenderercomponent.h"
 
+// #include <QtCore/qmath.h>
+#include <QtGui/QColor>
+
+#include <Eigen/Core>
+#include <Eigen/Geometry>
+
 #include <core/axisalignedbox.h>
+#include <core/resourcemanager.h>
 
-#include <engine/gameobject.h>
-#include <engine/asset.h>
-#include <engine/game.h>
-
-#include <graphics/manager.h>
+#include <graphics/defaults.h>
 #include <graphics/entity.h>
 #include <graphics/material.h>
 #include <graphics/spritemesh.h>
 #include <graphics/materialinstance.h>
 #include <graphics/texture.h>
 #include <graphics/mesh.h>
-
-#include <QtCore/qmath.h>
-#include <QtGui/QColor>
 #include <graphics/world.h>
 
-#include <Eigen/Core>
-#include <Eigen/Geometry>
+#include <engine/gameobject.h>
+#include <engine/asset.h>
+#include <engine/game.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, SpriteRendererComponent )
 
 using namespace GluonEngine;
 
-class SpriteRendererComponent::SpriteRendererComponentPrivate
+class SpriteRendererComponent::Private
 {
     public:
-        SpriteRendererComponentPrivate() : entity( 0 ), texture( 0 ), material( 0 ), size( QSizeF( 1.0f, 1.0f ) )
+        Private() : size( QSizeF( 1.0f, 1.0f ) )
         {
         }
 
-        GluonGraphics::Entity* entity;
-        GluonEngine::Asset* texture;
-        GluonGraphics::MaterialInstance* material;
+        GluonGraphics::Entity* entity = nullptr;
+        GluonEngine::Asset* texture = nullptr;
+        GluonGraphics::MaterialInstance* material = nullptr;
 
         QSizeF size;
 };
 
 SpriteRendererComponent::SpriteRendererComponent( QObject* parent )
     : Component( parent )
-    , d( new SpriteRendererComponentPrivate )
 {
 
 }
@@ -74,26 +74,20 @@ SpriteRendererComponent::~SpriteRendererComponent()
         if( materialAsset )
             materialAsset->deref();
     }
-    delete d;
-}
-
-QString SpriteRendererComponent::category() const
-{
-    return QString( "Graphics Rendering" );
 }
 
 void SpriteRendererComponent::initialize()
 {
     if( !d->entity )
     {
-        d->entity = GluonGraphics::Manager::instance()->currentWorld()->createEntity< GluonGraphics::Entity >();
-        d->entity->setMesh( GluonGraphics::Manager::instance()->resource< GluonGraphics::SpriteMesh >( GluonGraphics::Manager::Defaults::SpriteMesh ) );
+        d->entity = GluonCore::ResourceManager::instance()->resource< GluonGraphics::World >( GluonGraphics::Defaults::World )->createEntity< GluonGraphics::Entity >();
+        d->entity->setMesh( GluonCore::ResourceManager::instance()->resource< GluonGraphics::SpriteMesh >( GluonGraphics::Defaults::SpriteMesh ) );
         d->entity->setVisible( false );
     }
 
     if( d->material )
     {
-        Asset* materialAsset = qobject_cast<Asset*>( d->material->parent() );
+        Asset* materialAsset = qobject_cast< Asset* >( d->material->parent() );
         if( materialAsset )
             materialAsset->load();
 
@@ -101,7 +95,7 @@ void SpriteRendererComponent::initialize()
         if( d->material->property( "texture0" ).type() == QVariant::String )
         {
             QString theName( d->material->property( "texture0" ).toString() );
-            texture = gameProject()->findChild<Asset*>( theName );
+            texture = gameProject()->findChild< Asset* >( theName );
             if( !texture )
                 debug( QString( "Texture failed to load - attempted to load texture named %1 (searched for %2)" ).arg( theName ).arg( theName ) );
         }
@@ -133,7 +127,7 @@ void SpriteRendererComponent::cleanup()
 {
     if( d->entity )
     {
-        GluonGraphics::Manager::instance()->currentWorld()->destroyEntity( d->entity );
+        d->entity->world()->destroyEntity( d->entity );
         d->entity = 0;
     }
 }
@@ -187,7 +181,7 @@ void SpriteRendererComponent::setMaterial( GluonGraphics::MaterialInstance* mate
         }
         else
         {
-            d->entity->setMaterialInstance( GluonGraphics::Manager::instance()->resource< GluonGraphics::Material >( "default" )->instance( "default" ) );
+            d->entity->setMaterialInstance( GluonCore::ResourceManager::instance()->resource< GluonGraphics::Material >( GluonGraphics::Defaults::Material )->instance( GluonGraphics::Defaults::MaterialInstance ) );
         }
     }
 }

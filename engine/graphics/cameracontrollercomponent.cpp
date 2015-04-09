@@ -19,55 +19,42 @@
 
 #include "cameracontrollercomponent.h"
 
-#include <graphics/manager.h>
+#include <QtCore/QSizeF>
+
+#include <core/resourcemanager.h>
 #include <graphics/camera.h>
-#include <graphics/frustrum.h>
-#include <graphics/viewport.h>
 #include <graphics/rendertarget.h>
 #include <graphics/materialinstance.h>
 #include <graphics/material.h>
+#include <graphics/world.h>
+#include <graphics/defaults.h>
 
 #include <engine/gameobject.h>
 #include <engine/asset.h>
-
-#include <QtGui/QMatrix4x4>
-#include <QtCore/QSizeF>
-#include <graphics/world.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, CameraControllerComponent )
 
 using namespace GluonEngine;
 
-class CameraControllerComponent::CameraControllerComponentPrivate
+class CameraControllerComponent::Private
 {
     public:
-        CameraControllerComponentPrivate()
-            : camera( 0 )
-            , active( true )
-            , visibleArea( QSizeF( 100.0f, 100.0f ) )
-            , nearPlane( 1.0f )
-            , farPlane( 100.0f )
-            , material( 0 )
+        Private() : visibleArea( QSizeF( 100.0f, 100.0f ) )
         {
         }
 
-        GluonGraphics::Camera* camera;
-        bool active;
+        GluonGraphics::RenderTarget* renderTarget = nullptr;
+        GluonGraphics::Camera* camera = nullptr;
+        GluonGraphics::MaterialInstance* material = nullptr;
+        bool active = false;
 
         QSizeF visibleArea;
-        float nearPlane;
-        float farPlane;
-
-        GluonGraphics::MaterialInstance* material;
-
-        static GluonGraphics::Camera* activeCamera;
+        float nearPlane = 1.0f;
+        float farPlane = 100.0f;
 };
-
-GluonGraphics::Camera* CameraControllerComponent::CameraControllerComponentPrivate::activeCamera = 0;
 
 CameraControllerComponent::CameraControllerComponent( QObject* parent )
     : Component( parent )
-    , d( new CameraControllerComponentPrivate )
 {
 
 }
@@ -81,23 +68,17 @@ CameraControllerComponent::~CameraControllerComponent()
         if( materialAsset )
             materialAsset->deref();
     }
-    delete d;
-}
-
-QString CameraControllerComponent::category() const
-{
-    return QString( "Graphics " );
 }
 
 void CameraControllerComponent::initialize()
 {
     if( !d->camera )
-        d->camera = GluonGraphics::Manager::instance()->currentWorld()->createEntity< GluonGraphics::Camera >();
+        d->camera = GluonCore::ResourceManager::instance()->resource< GluonGraphics::World >( GluonGraphics::Defaults::World )->createEntity< GluonGraphics::Camera >();
 
-    GluonGraphics::RenderTarget* rt = GluonGraphics::Manager::instance()->resource< GluonGraphics::RenderTarget >( GluonGraphics::Manager::Defaults::RenderTarget );
+    d->renderTarget = GluonCore::ResourceManager::instance()->resource< GluonGraphics::RenderTarget >( GluonGraphics::Defaults::RenderTarget );
     if( d->active )
     {
-        rt->addChild( d->camera );
+        d->renderTarget->addChild( d->camera );
     }
 
     d->camera->setVisibleArea( d->visibleArea );
@@ -134,10 +115,8 @@ void CameraControllerComponent::draw( int /* timeLapse */ )
 
 void CameraControllerComponent::cleanup()
 {
-    CameraControllerComponentPrivate::activeCamera = 0;
-    GluonGraphics::Manager::instance()->resource< GluonGraphics::RenderTarget >( GluonGraphics::Manager::Defaults::RenderTarget )->removeChild( d->camera );
-
-    GluonGraphics::Manager::instance()->currentWorld()->destroyEntity( d->camera );
+    d->renderTarget->removeChild( d->camera );
+    d->camera->world()->destroyEntity( d->camera );
     d->camera = 0;
 }
 
@@ -149,14 +128,12 @@ bool CameraControllerComponent::isActive()
 void CameraControllerComponent::setActive( bool active )
 {
     if( d->active && d->camera )
-        GluonGraphics::Manager::instance()->resource< GluonGraphics::RenderTarget >( GluonGraphics::Manager::Defaults::RenderTarget )->removeChild( d->camera );
+        d->renderTarget->removeChild( d->camera );
 
     d->active = active;
     if( active && d->camera )
     {
-        CameraControllerComponentPrivate::activeCamera = d->camera;
-        GluonGraphics::Manager::instance()->resource< GluonGraphics::RenderTarget >( GluonGraphics::Manager::Defaults::RenderTarget )->addChild( d->camera );
-//         GluonGraphics::Engine::instance()->setActiveCamera( d->camera );
+        d->renderTarget->addChild( d->camera );
     }
 }
 
@@ -221,17 +198,4 @@ void CameraControllerComponent::setRenderTargetMaterial( GluonGraphics::Material
         if( materialAsset )
             materialAsset->ref();
     }
-
-//     GluonGraphics::RenderTarget* target = GluonGraphics::Engine::instance()->mainRenderTarget();
-//     if( target )
-//     {
-//         if( material )
-//         {
-//             target->setMaterialInstance( material );
-//         }
-//         else
-//         {
-//             target->setMaterialInstance( GluonGraphics::Engine::instance()->material( "default" )->createInstance( fullyQualifiedName() ) );
-//         }
-//     }
 }

@@ -18,12 +18,13 @@
  */
 
 #include "materialasset.h"
-#include <engine/assetaction.h>
 
 #include <core/metainfo.h>
+#include <core/resourcemanager.h>
 #include <graphics/material.h>
 #include <graphics/materialinstance.h>
-#include <graphics/manager.h>
+#include <graphics/backend.h>
+#include <engine/assetaction.h>
 
 // #include <QtGui/QAction>
 
@@ -74,7 +75,7 @@ void MaterialAsset::load()
     if( !file().isEmpty() )
     {
         if( !d->material )
-            d->material = GluonGraphics::Manager::instance()->createResource< GluonGraphics::Material >( name() );
+            d->material = GluonCore::ResourceManager::instance()->createResource< GluonGraphics::Material >( name() );
 
         if( d->material->load( absolutePath().toLocalFile() ) )
         {
@@ -97,19 +98,19 @@ const QList<AssetTemplate*> MaterialAsset::templates()
     return templates;
 }
 
-QList< AssetAction* > MaterialAsset::actions()
-{
-    AssetAction* newInstance = new AssetAction( "New Instance", this );
-    connect( newInstance, &AssetAction::triggered, this, &MaterialAsset::createInstance );
-    return QList< AssetAction* >() << newInstance;
-}
+// QList< AssetAction* > MaterialAsset::actions()
+// {
+//     AssetAction* newInstance = new AssetAction( "New Instance", this );
+//     connect( newInstance, &AssetAction::triggered, this, &MaterialAsset::createInstance );
+//     return QList< AssetAction* >() << newInstance;
+// }
 
 void MaterialAsset::setName( const QString& newName )
 {
     if( d->material )
     {
-        GluonGraphics::Manager::instance()->removeResource< GluonGraphics::Material >( name() );
-        GluonGraphics::Manager::instance()->addResource< GluonGraphics::Material >( newName, d->material );
+        GluonCore::ResourceManager::instance()->removeResource< GluonGraphics::Material >( name() );
+        GluonCore::ResourceManager::instance()->addResource< GluonGraphics::Material >( newName, d->material );
     }
     GluonEngine::Asset::setName( newName );
 }
@@ -124,7 +125,7 @@ void MaterialAsset::sanitize()
     GluonCore::GluonObject::sanitize();
 
     if( !d->material )
-        d->material = GluonGraphics::Manager::instance()->createResource< GluonGraphics::Material >( name() );
+        d->material = GluonCore::ResourceManager::instance()->createResource< GluonGraphics::Material >( name() );
 
     QObjectList allChildren = children();
     foreach( QObject * child, allChildren )

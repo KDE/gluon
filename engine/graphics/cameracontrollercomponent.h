@@ -23,6 +23,7 @@
 #include <engine/component.h>
 
 #include <QSizeF>
+#include <core/privatepointer.h>
 
 namespace GluonGraphics
 {
@@ -43,13 +44,9 @@ namespace GluonEngine
             Q_PROPERTY( float farPlane READ farPlane WRITE setFarPlane )
             Q_PROPERTY( GluonGraphics::MaterialInstance* renderTargetMaterial READ renderTargetMaterial WRITE setRenderTargetMaterial )
 
-            Q_CLASSINFO( "org.gluon.category", "Graphics Rendering" )
-            Q_CLASSINFO( "org.gluon.icon", "image-x-generic" )
-
         public:
             Q_INVOKABLE CameraControllerComponent( QObject* parent = 0 );
             virtual ~CameraControllerComponent();
-            virtual QString category() const;
 
             virtual void initialize();
             virtual void start();
@@ -70,8 +67,7 @@ namespace GluonEngine
             virtual void setRenderTargetMaterial( GluonGraphics::MaterialInstance* material );
 
         private:
-            class CameraControllerComponentPrivate;
-            CameraControllerComponentPrivate* const d;
+            GLUON_PRIVATE_POINTER;
     };
 
 }
