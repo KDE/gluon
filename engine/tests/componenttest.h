@@ -31,7 +31,6 @@ class ComponentTest : public QObject
         virtual ~ComponentTest();
 
     private Q_SLOTS:
-        void testCategory();
         void testDescription();
         void testEnabled();
         void testGameObject();

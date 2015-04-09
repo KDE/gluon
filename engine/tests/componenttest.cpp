@@ -34,12 +34,6 @@ ComponentTest::~ComponentTest()
 {
 }
 
-void ComponentTest::testCategory()
-{
-    Component component;
-    QVERIFY(component.category() == "Uncategorised");
-}
-
 void ComponentTest::testDescription()
 {
     Component component;
