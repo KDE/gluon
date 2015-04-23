@@ -30,7 +30,7 @@
 
 #include <core/gdlserializer.h>
 #include <core/scriptengine.h>
-#include <core/debughelper.h>
+#include <core/log.h>
 #include <core/directoryprovider.h>
 
 #include <QtGui/QImageWriter>
@@ -64,15 +64,11 @@ void
 GameProject::addChild( GluonObject* child )
 {
     GluonCore::GluonObject::addChild( child );
-
-//     connect( child, SIGNAL(showDebug(QString,GluonCore::DebugType)), Game::instance(), SIGNAL(showDebug(QString,GluonCore::DebugType)) );
 }
 
 bool
 GameProject::removeChild( GluonObject* child )
 {
-//     disconnect( child, SIGNAL(showDebug(QString,GluonCore::DebugType)), Game::instance(), SIGNAL(showDebug(QString,GluonCore::DebugType)) );
-
     return GluonCore::GluonObject::removeChild( child );
 }
 
@@ -213,10 +209,9 @@ GameProject::loadFromFile()
             // Otherwise it is not a GluonProject, and should fail!
             else
             {
-                DEBUG_BLOCK
-                DEBUG_TEXT( QString( "First object loaded is not a Gluon::GameProject." ) )
-                DEBUG_TEXT2( "Type of loaded object: %1", objectList.at(0)->metaObject()->className() )
-                DEBUG_TEXT2( "Name of loaded object: %1", objectList.at(0)->name() )
+                ERROR() << "First object loaded is not a Gluon::GameProject.";
+                DEBUG() << "Type of loaded object: " << objectList.at(0)->metaObject()->className();
+                DEBUG() << "Name of loaded object: " << objectList.at(0)->name();
                 return false;
             }
         }
@@ -409,8 +404,7 @@ void GameProject::addAsset( Asset* asset )
     }
     else
     {
-        DEBUG_BLOCK
-        DEBUG_TEXT( "Attempting to add a null asset" )
+        WARNING() << "Attempting to add a null asset";
     }
 }
 

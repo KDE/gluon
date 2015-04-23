@@ -22,7 +22,7 @@
 #include "enumpropertywidgetitem.h"
 #include "gluonobjectpropertywidgetitem.h"
 
-#include <core/debughelper.h>
+#include <core/log.h>
 #include <core/gluonobjectfactory.h>
 
 #include <QtCore/QMetaClassInfo>
@@ -34,8 +34,6 @@ GLUON_DEFINE_SINGLETON( PropertyWidgetItemFactory )
 PropertyWidgetItem*
 PropertyWidgetItemFactory::create( const QObject* object, const QString& type, QWidget* parent )
 {
-    DEBUG_BLOCK
-
     // First check if there's any PIW which supports the type
     QList<QString> pwiKeys = piwTypes.keys();
     foreach( const QString & thisType, pwiKeys )
@@ -91,7 +89,7 @@ PropertyWidgetItemFactory::create( const QObject* object, const QString& type, Q
     }
 
     // Finally, throw back a Null item if we've got nothing...
-    DEBUG_TEXT2( "Attempting to instantiate unknown property widget item of type %1", type )
+    WARNING() << "Attempting to instantiate unknown property widget item of type " << type;
 
     return new NullPropertyWidgetItem( parent );
 }

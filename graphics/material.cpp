@@ -106,7 +106,7 @@ void Material::build( const QString& name )
         return;
 
     if( !d->shader->build() )
-        debug( d->shader->error() );
+        WARNING_NC() << d->shader->error();
 }
 
 Technique*

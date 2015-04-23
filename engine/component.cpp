@@ -24,7 +24,7 @@
 
 #include "asset.h"
 
-#include <core/debughelper.h>
+#include <core/log.h>
 #include <core/axisalignedbox.h>
 
 #include <QtCore/QString>
@@ -48,8 +48,7 @@ Component::toVariant( GluonCore::GluonObject* wrapThis )
 {
     if( QString::fromUtf8( staticMetaObject.className() ).compare( "GluonCore::Component" ) )
     {
-        DEBUG_BLOCK
-        DEBUG_TEXT2( "Found attempt to use class without toVariant as property. Offending class: %1", staticMetaObject.className() )
+        DEBUG() << "Found attempt to use class without toVariant as property. Offending class: " << staticMetaObject.className();
     }
     return QVariant::fromValue<GluonEngine::Component*>( qobject_cast<GluonEngine::Component*>( wrapThis ) );
 }

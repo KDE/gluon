@@ -19,8 +19,6 @@
 
 #include "longlongpropertywidgetitem.h"
 
-#include <core/debughelper.h>
-
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QDoubleSpinBox>
 

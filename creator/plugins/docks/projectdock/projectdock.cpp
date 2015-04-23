@@ -36,7 +36,7 @@
 #include <engine/asset.h>
 #include <engine/assetaction.h>
 
-#include <core/debughelper.h>
+#include <core/log.h>
 #include <core/directoryprovider.h>
 
 #include <KI18n/KLocalizedString>
@@ -61,7 +61,6 @@ class ProjectDock::ProjectDockPrivate
     public:
         ProjectDockPrivate( ProjectDock* parent )
         {
-            DEBUG_BLOCK
             q = parent;
             view = 0;
             GluonEngine::Asset* theItem;
@@ -92,7 +91,7 @@ class ProjectDock::ProjectDockPrivate
                     {
                         if( obj->inherits( "GluonEngine::Asset" ) )
                         {
-                            DEBUG_TEXT2( "The Asset class %1 is lacking the Q_INTERFACES(GluonEngine::Asset) macro", i.value()->className() )
+                            DEBUG() << "The Asset class " << i.value()->className() << " is lacking the Q_INTERFACES(GluonEngine::Asset) macro";
                         }
                     }
                 }
@@ -331,7 +330,6 @@ void ProjectDock::contextMenuHiding()
 
 void ProjectDock::deleteActionTriggered()
 {
-    DEBUG_BLOCK
     if( !d->currentContextIndex.isValid() )
         d->currentContextIndex = d->view->selectionModel()->currentIndex();
 
@@ -396,8 +394,7 @@ void ProjectDock::createNewAsset()
         QString fileName = GluonCore::DirectoryProvider::instance()->dataDirectory() + '/' + templateFilename;
         if( fileName.isEmpty() )
         {
-            DEBUG_BLOCK
-            DEBUG_TEXT( "Failed at finding the template file!" )
+            NOTICE() << "Failed at finding the template file!";
             return;
         }
 

@@ -198,30 +198,6 @@ namespace GluonCore
             Q_INVOKABLE static QString nameToObjectName( const QString& name );
 
             /**
-             * Write a debug statement to the console and into the debug messages pane in Gluon Creator
-             * when running a game from inside the tool.
-             *
-             * @param   debugText   The message you wish to write out
-             */
-            Q_INVOKABLE void debug( const QString& debugText, const GluonCore::DebugType& debugType = GluonCore::DebugDefault ) const;
-
-            /**
-             * Write a debug statement to the console and into the debug messages pane in Gluon Creator
-             * when running a game from inside the tool.
-             *
-             * \param   debugText   The message you wish to write out
-             * \param   arg         The argument of debugText. See QString::arg() for more information.
-             */
-            Q_INVOKABLE void debug( const QString& debugText, const QString& arg, const DebugType& debugType = GluonCore::DebugDefault ) const;
-
-            /**
-             * Signal which is emitted whenever a debug statement is produced using the debug() function
-             *
-             * @param   debugText   The debug message test
-             */
-            Q_SIGNAL void showDebug( const QString& debugText, const GluonCore::DebugType& debugType ) const;
-
-            /**
              * Copy this object and all of its children, recursively.
              * It will be a child of the same GluonObject that the current object is a child of.
              *

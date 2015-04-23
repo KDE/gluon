@@ -19,6 +19,7 @@
 
 #include "materialasset.h"
 
+#include <core/log.h>
 #include <core/metainfo.h>
 #include <core/resourcemanager.h>
 #include <graphics/material.h>
@@ -87,7 +88,7 @@ void MaterialAsset::load()
         }
     }
 
-    debug( "Error loading material: %1", name() );
+    DEBUG() << "Error loading material: " << name();
 }
 
 const QList<AssetTemplate*> MaterialAsset::templates()

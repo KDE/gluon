@@ -25,7 +25,7 @@
 #include "prefabinstance.h"
 #include "prefabinstancechild.h"
 
-#include <core/debughelper.h>
+#include <core/log.h>
 
 #include <QtCore/QMetaProperty>
 
@@ -97,7 +97,6 @@ void PrefabPrivate::moveChildrenIntoPlace(GluonCore::GluonObject* updateThis, Gl
 
 void PrefabPrivate::addRemoveAndUpdateChildren(GluonCore::GluonObject* updateThis, GluonCore::GluonObject* updateFrom)
 {
-    DEBUG_FUNC_NAME
     // Go through all children on "updateThis" and remove all objects which no longer
     // exist on updateFrom
     foreach(QObject* child, updateThis->children())
@@ -141,7 +140,6 @@ void PrefabPrivate::addRemoveAndUpdateChildren(GluonCore::GluonObject* updateThi
         GluonCore::GluonObject* otherChild = updateThis->findItemByName( childObject->name() );
         if(!otherChild)
         {
-            DEBUG_TEXT2( "Adding new child named %1", childObject->name() )
             // Clone the new child... 
             GluonCore::GluonObject* clone = childObject->clone(updateThis);
 
@@ -226,7 +224,6 @@ void PrefabPrivate::addRemoveAndUpdateChildren(GluonCore::GluonObject* updateThi
         if(!childObject)
             continue;
         //...recurse
-        DEBUG_TEXT2( "Child name: %1", childObject->name() )
         GluonCore::GluonObject* otherChildObject = updateThis->findItemByName(childObject->qualifiedName( updateFrom ));
         if(otherChildObject)
             addRemoveAndUpdateChildren(otherChildObject, childObject);

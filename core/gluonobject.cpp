@@ -18,9 +18,9 @@
  */
 #include "gluonobject.h"
 
-#include "debughelper.h"
 #include "gluonvarianttypes.h"
 #include "metainfo.h"
+#include "log.h"
 
 #include <QtCore/QVariant>
 #include <QtCore/QDebug>
@@ -89,29 +89,9 @@ QString GluonObject::nameToObjectName( const QString& name )
     return theObjectName;
 }
 
-void
-GluonObject::debug( const QString& debugText, const DebugType& debugType ) const
-{
-    DEBUG_BLOCK
-    DEBUG_TEXT( debugText )
-    emit showDebug( QString( "%1: %2" ).arg( fullyQualifiedName() ).arg( debugText ), debugType );
-}
-
-void
-GluonObject::debug( const QString& debugText, const QString& arg, const DebugType& debugType ) const
-{
-    DEBUG_BLOCK
-    DEBUG_TEXT2( debugText, arg )
-    emit showDebug( QString( "%1: %2" ).arg( fullyQualifiedName() ).arg( debugText.arg( arg ) ), debugType );
-}
-
 GluonObject*
 GluonObject::clone() const
 {
-    const QMetaObject* metaObj = metaObject();
-    if( !metaObj )
-        debug( QString( "Failed to get the meta object for object %1" ).arg( fullyQualifiedName() ) );
-
     // Find my parent...
     GluonObject* parentObject = qobject_cast<GluonObject*>( parent() );
     if( !parentObject )
@@ -125,7 +105,10 @@ GluonObject::clone( GluonObject* parentObject ) const
 {
     const QMetaObject* metaObj = metaObject();
     if( !metaObj )
-        debug( QString( "Failed to get the meta object for object %1" ).arg( fullyQualifiedName() ) );
+    {
+        WARNING() << "Failed to get the meta object for object " << fullyQualifiedName();
+        return nullptr;
+    }
 
     GluonObject* newObject = GluonObjectFactory::instance()->instantiateObjectByName( metaObj->className() );
     parentObject->addChild( newObject );
@@ -358,14 +341,12 @@ void GluonObject::addChild( GluonObject* child )
     if( parent )
     {
         parent->removeChild( child );
-//         disconnect( child, SIGNAL(showDebug(QString,GluonCore::DebugType)), parent, SIGNAL(showDebug(QString,GluonCore::DebugType)) );
     }
 
     child->setParent( this );
 
     //Make sure to update the child's name to avoid name conflicts.
     child->setName( child->name() );
-//     connect( child, SIGNAL(showDebug(QString,GluonCore::DebugType)), SIGNAL(showDebug(QString,GluonCore::DebugType)) );
 }
 
 GluonObject* GluonObject::child( int index ) const
@@ -393,8 +374,6 @@ bool GluonObject::removeChild( GluonObject* child )
 GluonObject*
 GluonObject::findItemByNameInternal( QStringList qualifiedName )
 {
-    //DEBUG_FUNC_NAME
-    DEBUG_BLOCK
     GluonObject* foundChild = 0;
 
     if( qualifiedName.isEmpty() )
@@ -403,7 +382,6 @@ GluonObject::findItemByNameInternal( QStringList qualifiedName )
     QString lookingFor( qualifiedName[0] );
     qualifiedName.removeFirst();
 
-    //DEBUG_TEXT(QString("Looking for object of name %1 in the object %2").arg(lookingFor).arg(object->name()));
     foreach( QObject * child, children() )
     {
         if( qobject_cast<GluonObject*>( child ) )
@@ -421,12 +399,7 @@ GluonObject::findItemByNameInternal( QStringList qualifiedName )
     {
         if( qualifiedName.count() > 0 )
         {
-            //DEBUG_TEXT(QString("Found child, recursing..."))
             return foundChild->findItemByNameInternal( qualifiedName );
-        }
-        else
-        {
-            //DEBUG_TEXT(QString("Found child!"))
         }
     }
     else
@@ -436,11 +409,6 @@ GluonObject::findItemByNameInternal( QStringList qualifiedName )
         {
             childNames.append( child->objectName() ).append( ", " );
         }
-        /*DEBUG_TEXT( QString( "Did not find child - bailing out! Was looking for object named %1 in object named %2. Available children are: %3" )
-                    .arg( lookingFor )
-                    .arg( object->fullyQualifiedName() )
-                    .arg( childNames )
-                  );*/
     }
 
     return foundChild;

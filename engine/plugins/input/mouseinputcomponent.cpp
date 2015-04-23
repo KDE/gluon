@@ -121,14 +121,12 @@ void MouseInputComponent::initialize()
 void
 MouseInputComponent::update( int elapsedMilliseconds )
 {
-    DEBUG_BLOCK
     if( d->actionStarted )
         d->actionStarted = false;
 
     if( d->actionStopped )
         d->actionStopped = false;
 
-    // qDebug() << "READ - KEYCODE - OFFSET:  " << d->mouseButton << d->mouseButtonOffset << "PRESSED: " << d->mouse->buttonPressed( d->mouseButton + d->mouseButtonOffset );
     if( d->mouseButton && d->mouseButton->buttonState() == GluonInput::InputParameter::ButtonPressed )
     {
         if( !d->actionHeld )

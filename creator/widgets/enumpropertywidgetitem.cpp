@@ -20,7 +20,7 @@
 
 #include "enumpropertywidgetitem.h"
 
-#include <core/debughelper.h>
+#include <core/log.h>
 #include <core/gluonobjectfactory.h>
 
 #include <KCompletion/KComboBox>
@@ -48,7 +48,6 @@ namespace GluonCreator
 
             void setupComboBox()
             {
-                DEBUG_BLOCK
                 if( !editObject )
                     return;
 
@@ -80,12 +79,11 @@ namespace GluonCreator
                     }
                     else
                     {
-                        DEBUG_TEXT2( "The enumerator %1 was not found! Maybe you forgot to declare it in the class?", typeName )
+                        WARNING() << "The enumerator " << typeName << " was not found! Maybe you forgot to declare it in the class?";
                         metaEnum = QMetaEnum();
                     }
                 }
 
-                //DEBUG_TEXT(QString("Adding %1 items from the enum %2 (requested: %3)").arg(metaEnum.keyCount()).arg(metaEnum.name()).arg(typeName))
                 for( int i = 0; i < metaEnum.keyCount(); ++i )
                 {
                     comboBox->addItem( QString( metaEnum.key( i ) ), metaEnum.value( i ) );

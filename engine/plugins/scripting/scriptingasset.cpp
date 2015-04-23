@@ -24,6 +24,8 @@
 #include <QtCore/QFile>
 #include <QtCore/QMimeData>
 
+#include <core/log.h>
+
 REGISTER_OBJECTTYPE( GluonEngine, ScriptingAsset );
 
 namespace GluonEngine
@@ -95,7 +97,7 @@ void ScriptingAsset::load()
         QScriptSyntaxCheckResult result = ScriptingEngine::instance()->registerAsset( this );
         if( result.state() != QScriptSyntaxCheckResult::Valid )
         {
-            debug( tr( "Script error %1 (%2,%3): %4" ).arg( fullyQualifiedName() ).arg( result.errorLineNumber() ).arg( result.errorColumnNumber() ).arg( result.errorMessage() ) );
+            ERROR() << "Script error " << fullyQualifiedName() << "(" << result.errorLineNumber() << "," << result.errorColumnNumber() << "): " << result.errorMessage();
         }
         else
         {

@@ -23,8 +23,6 @@
 #include "gluoncore_export.h"
 
 #include "singleton.h"
-#include "debughelper.h"
-// #include "privatepointer.h"
 
 #include <QtCore/QHash>
 #include <QtCore/QStringList>

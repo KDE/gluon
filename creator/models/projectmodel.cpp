@@ -26,7 +26,7 @@
 #include "scenemodel.h"
 
 #include <core/gluonobject.h>
-#include <core/debughelper.h>
+#include <core/log.h>
 #include <engine/game.h>
 #include <engine/gameproject.h>
 #include <engine/asset.h>
@@ -253,7 +253,6 @@ ProjectModel::index( int row, int column, const QModelIndex& parent ) const
 QModelIndex
 ProjectModel::objectToIndex( GluonCore::GluonObject* object ) const
 {
-    DEBUG_FUNC_NAME
     if( object->root() != d->project )
         return QModelIndex();
 
@@ -329,15 +328,10 @@ ProjectModel::mimeTypes() const
 {
     if( d->acceptedMimeTypes.count() < 1 )
     {
-        DEBUG_FUNC_NAME
         d->acceptedMimeTypes.append( "application/gluon.object.gameobject" );
         d->acceptedMimeTypes.append( "application/gluoncreator.projectmodel.gluonobject" );
         d->acceptedMimeTypes.append( "text/uri-list" );
         d->acceptedMimeTypes.append( GluonCore::GluonObjectFactory::instance()->objectMimeTypes() );
-        foreach( const QString & theName, d->acceptedMimeTypes )
-        {
-            DEBUG_TEXT( theName )
-        }
     }
 
     return d->acceptedMimeTypes;
@@ -383,8 +377,6 @@ QMimeData* ProjectModel::mimeData( const QModelIndexList& indexes ) const
 bool
 ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int /* row */, int /* column */, const QModelIndex& parent )
 {
-    DEBUG_FUNC_NAME
-
     if( action == Qt::IgnoreAction )
         return false;
 
@@ -409,19 +401,17 @@ ProjectModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int /*
             GluonCore::GluonObject* itemObject = d->project->findGlobalItemByName( item );
             if( qobject_cast<GluonEngine::GameObject*>( itemObject ) )
             {
-                DEBUG_TEXT2("Dropped the object %1 on the project", itemObject->fullyQualifiedName())
+                DEBUG() << "Dropped the object " << itemObject->fullyQualifiedName() << " on the project";
                 GluonEngine::GameObject* gameObject = qobject_cast<GluonEngine::GameObject*>( itemObject );
                 GluonEngine::GameObject* parentGO = gameObject->parentGameObject();
                 if(parentGO)
                 {
                     Models::instance()->sceneModel()->beginResetModel();
-                    DEBUG_TEXT("// Add Prefab on parent, set name to name of the dropped GameObject")
                     GluonEngine::Prefab* prefab = new GluonEngine::Prefab();
                     prefab->setName( gameObject->name() );
                     beginInsertRows( parent, rowCount( parent ), rowCount( parent ) );
                     newParentObject->addChild( prefab );
                     endInsertRows();
-                    DEBUG_TEXT("// Remove item from current parent, which automatically adds a new instance in the same place!")
                     prefab->setGameObject(gameObject);
                     // Unfortunately the model needs to be reset here, as we can't do anything else
                     Models::instance()->sceneModel()->endResetModel();
@@ -500,7 +490,6 @@ ProjectModel::setData( const QModelIndex& index, const QVariant& value, int role
 bool
 ProjectModel::removeRows( int row, int count, const QModelIndex& parent )
 {
-    DEBUG_FUNC_NAME
     if( !parent.isValid() )
         return false;
 
@@ -508,21 +497,21 @@ ProjectModel::removeRows( int row, int count, const QModelIndex& parent )
         return false;
 
     GluonCore::GluonObject* parentObject = static_cast<GluonCore::GluonObject*>( parent.internalPointer() );
-    DEBUG_TEXT( "Object removal begins..." )
+    DEBUG() << "Object removal begins...";
 
     for( int i = row; i < row + count; ++i )
     {
-        DEBUG_TEXT2( "Checking child at row %1", i )
+        DEBUG() << "Checking child at row " << i;
         GluonCore::GluonObject* child = parentObject->child( row );
         GluonEngine::Scene* sceneChild = qobject_cast< GluonEngine::Scene* >( child );
         if( sceneChild == GluonEngine::Game::instance()->currentScene() )
         {
-            sceneChild->debug( "You cannot delete this scene, as it is currently loaded." );
+//             sceneChild->debug( "You cannot delete this scene, as it is currently loaded." );
             return false;
         }
         if( sceneChild == GluonEngine::Game::instance()->gameProject()->entryPoint() )
         {
-            sceneChild->debug( "You cannot delete this scene, as it is the current entrypoint." );
+//             sceneChild->debug( "You cannot delete this scene, as it is the current entrypoint." );
             return false;
         }
         ///TODO Ensure that the object is not referenced in some property somewhere. This will be
@@ -533,7 +522,7 @@ ProjectModel::removeRows( int row, int count, const QModelIndex& parent )
     beginRemoveRows( parent, row, row + count - 1 );
     for( int i = row; i < row + count; ++i )
     {
-        DEBUG_TEXT2( "Removing child at row %1", i )
+        DEBUG() << "Removing child at row " << i;
         GluonCore::GluonObject* child = parentObject->child( row );
         if( child && parentObject->removeChild( child ) )
             child->deleteLater();

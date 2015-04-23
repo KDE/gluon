@@ -21,6 +21,7 @@
 
 #include <QtGui/QImageReader>
 
+#include <core/log.h>
 #include <core/resourcemanager.h>
 #include <graphics/backend.h>
 #include <graphics/texture.h>
@@ -83,7 +84,7 @@ void TextureAsset::load()
         }
     }
 
-    debug( "Error loading texture: %1", name() );
+    ERROR() << "Error loading texture: " << name();
 }
 
 void TextureAsset::setName( const QString& newName )

@@ -98,16 +98,16 @@ void ScriptingComponent::initialize()
         d->updateScriptObject();
     }
 
-    if( !d->scriptObject.isValid() )
-        debug( "Warning: No scripting asset has been chosen" );
+//     if( !d->scriptObject.isValid() )
+//         debug( "Warning: No scripting asset has been chosen" );
 
     if( d->initializeFunction.isFunction() )
     {
         d->initializeFunction.call( d->scriptObject );
-        if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
-            debug( QString( "%1: %2" )
-                   .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
-                   .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
+//         if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
+//             debug( QString( "%1: %2" )
+//                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
+//                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
     }
     GluonEngine::Component::initialize();
 }
@@ -117,12 +117,12 @@ void ScriptingComponent::start()
     if( d->startFunction.isFunction() )
     {
         d->startFunction.call( d->scriptObject );
-        if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
-        {
-            debug( QString( "%1: %2" )
-                   .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
-                   .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
-        }
+//         if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
+//         {
+//             debug( QString( "%1: %2" )
+//                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
+//                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
+//         }
     }
     GluonEngine::Component::start();
 }
@@ -135,9 +135,9 @@ void ScriptingComponent::update( int elapsedMilliseconds )
         if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
         {
             d->updateFunction = QScriptValue();
-            debug( QString( "%1: %2" )
-                   .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
-                   .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
+//             debug( QString( "%1: %2" )
+//                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
+//                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
         }
     }
     GluonEngine::Component::update( elapsedMilliseconds );
@@ -151,9 +151,9 @@ void ScriptingComponent::draw( int timeLapse )
         if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
         {
             d->drawFunction = QScriptValue();
-            debug( QString( "%1: %2" )
-                   .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
-                   .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
+//             debug( QString( "%1: %2" )
+//                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
+//                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
         }
     }
     GluonEngine::Component::draw();
@@ -164,10 +164,10 @@ void ScriptingComponent::stop()
     if( d->stopFunction.isFunction() )
     {
         d->stopFunction.call( d->scriptObject );
-        if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
-            debug( QString( "%1: %2" )
-                   .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
-                   .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
+//         if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
+//             debug( QString( "%1: %2" )
+//                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
+//                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
     }
     GluonEngine::Component::stop();
 }
@@ -177,10 +177,10 @@ void ScriptingComponent::cleanup()
     if( d->cleanupFunction.isFunction() )
     {
         d->cleanupFunction.call( d->scriptObject );
-        if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
-            debug( QString( "%1: %2" )
-                   .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
-                   .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
+//         if( ScriptingEngine::instance()->scriptEngine()->uncaughtException().isValid() )
+//             debug( QString( "%1: %2" )
+//                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtException().toString() )
+//                    .arg( ScriptingEngine::instance()->scriptEngine()->uncaughtExceptionBacktrace().join( " " ) ) );
     }
     GluonEngine::Component::cleanup();
 }

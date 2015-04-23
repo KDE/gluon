@@ -20,7 +20,6 @@
 
 #include "scenedock.h"
 
-#include <core/debughelper.h>
 #include <engine/game.h>
 #include <engine/gameobject.h>
 #include <engine/scene.h>

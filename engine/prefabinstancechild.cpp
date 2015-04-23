@@ -17,8 +17,9 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-
 #include "prefabinstancechild.h"
+
+#include <core/log.h>
 
 #include "prefabinstance.h"
 #include "component.h"
@@ -57,7 +58,6 @@ PrefabInstanceChild::~PrefabInstanceChild()
 
 void PrefabInstanceChild::cloneFromGameObject(GluonEngine::GameObject* gameObject)
 {
-    DEBUG_FUNC_NAME
     d->linkedGameObject = gameObject;
     Prefab::cloneObjectProperties(gameObject, this);
 
@@ -80,10 +80,10 @@ void PrefabInstanceChild::cloneFromGameObject(GluonEngine::GameObject* gameObjec
     {
         cmp->clone(this);
         //Prefab::cloneObjectProperties( cmp, cmpClone );
-        DEBUG_TEXT2("Completed copy of %1", cmp->name());
+        DEBUG() << "Completed copy of " << cmp->name();
     }
     setInstantiationCompleted( true );
-    DEBUG_TEXT2("Completed copy of %1", name());
+    DEBUG() << "Completed copy of " << name();
 }
 
 PrefabInstance* PrefabInstanceChild::parentInstance()

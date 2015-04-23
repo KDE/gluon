@@ -25,7 +25,7 @@
 #include <engine/component.h>
 
 #include <core/gluonobject.h>
-#include <core/debughelper.h>
+#include <core/log.h>
 
 #include <KI18n/KLocalizedString>
 
@@ -84,8 +84,6 @@ ComponentModel::ComponentModel( QObject* parent )
     : QAbstractItemModel( parent )
     , d( new ComponentModelPrivate )
 {
-    DEBUG_BLOCK
-
     QHash<QString, const QMetaObject*> objectTypes = GluonCore::GluonObjectFactory::instance()->objectTypes();
     int i = 0;
     foreach( const QMetaObject * obj, objectTypes )
@@ -127,7 +125,7 @@ ComponentModel::ComponentModel( QObject* parent )
             {
                 if( anobj->inherits( "GluonEngine::Component" ) )
                 {
-                    DEBUG_TEXT2( "The Component %1 is lacking the Q_INTERFACES(GluonEngine::Component) macro", obj->className() )
+                    WARNING() << "The Component " << obj->className() << " is lacking the Q_INTERFACES(GluonEngine::Component) macro";
                 }
             }
             else
@@ -136,7 +134,7 @@ ComponentModel::ComponentModel( QObject* parent )
                 {
                     if( obj->superClass()->className() )
                     {
-                        DEBUG_TEXT2( "The Component %1 does not have its constructor marked with Q_INVOKABLE", obj->className() );
+                        WARNING() << "The Component " << obj->className() << " does not have its constructor marked with Q_INVOKABLE";
                     }
                 }
             }

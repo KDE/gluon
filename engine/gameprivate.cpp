@@ -22,8 +22,6 @@
 #include "game.h"
 #include "scene.h"
 
-#include <core/debughelper.h>
-
 using namespace GluonEngine;
 
 GamePrivate::GamePrivate( Game* qq )
@@ -91,10 +89,8 @@ GamePrivate::listAllChildren( const GluonCore::GluonObject* root ) const
 Scene*
 GamePrivate::findSceneInChildren( QObject* object )
 {
-    DEBUG_BLOCK
     foreach( QObject * child, object->children() )
     {
-        DEBUG_TEXT2( "Checking child %1", qobject_cast<GluonCore::GluonObject*>( child )->fullyQualifiedName() )
         Scene* scene = qobject_cast<Scene*>( child );
         if( scene )
             return scene;

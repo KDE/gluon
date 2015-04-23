@@ -20,7 +20,7 @@
 #include "pluginmanager.h"
 #include "plugin.h"
 
-#include <core/debughelper.h>
+#include <core/log.h>
 #include <core/pluginregistry.h>
 
 #include <KService/KServiceTypeTrader>
@@ -64,7 +64,6 @@ void PluginManager::setMainWindow( KXmlGuiWindow* window )
 
 void PluginManager::loadPlugins()
 {
-    DEBUG_FUNC_NAME
     QObjectList plugins = GluonCore::PluginRegistry::instance()->loadType( "org.kde.gluon.creator.dock" );
 
     plugins.append( GluonCore::PluginRegistry::instance()->loadType( "org.kde.gluon.creator.tool" ) );

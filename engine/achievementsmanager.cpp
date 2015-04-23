@@ -24,6 +24,7 @@
 #include <core/gluonobject.h>
 #include <core/directoryprovider.h>
 #include <core/gdlserializer.h>
+#include <core/log.h>
 
 #include <QtCore/QDir>
 #include <QtCore/QTextStream>
@@ -79,7 +80,7 @@ void AchievementsManager::load( const QString& directory )
 
 void AchievementsManager::readFromProject( const QList< Achievement* >& achievements )
 {
-    qDebug() << "Number of Achievements:" << achievements.count();
+    DEBUG() << "Number of Achievements: " << achievements.count();
     // Delete all children, as they contain old information
     foreach( QObject* child, children() )
     {

@@ -21,7 +21,9 @@
 #include "prefabprivate.h"
 #include "prefabinstance.h"
 #include "prefabinstancechild.h"
+
 #include <core/gdlserializer.h>
+#include <core/log.h>
 
 #include <QtCore/QMetaProperty>
 
@@ -96,16 +98,15 @@ GameObject* Prefab::gameObject() const
 
 void Prefab::setGameObject( GameObject* newGameObject )
 {
-    DEBUG_FUNC_NAME
     // Grab the parent of the GameObject...
     GameObject* oldParent = newGameObject->parentGameObject();
     int position = oldParent->children().indexOf(newGameObject);
-    DEBUG_TEXT2("Grabbing object from position %1", position)
+    DEBUG() << "Grabbing object from position " << position;
 
     // Remove GameObject from parent, reparent to this
     oldParent->removeChild(newGameObject);
     addChild(newGameObject);
-    DEBUG_TEXT2("Object is named %1", newGameObject->fullyQualifiedName())
+    DEBUG() << "Object is named " << newGameObject->fullyQualifiedName();
 
     // Replace the GameObject in-line with a prefab instance
     d->gameObject = newGameObject;

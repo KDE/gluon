@@ -25,8 +25,6 @@
 #include <QtCore/QMetaEnum>
 #include <QtGui/QKeyEvent>
 
-#include <core/debughelper.h>
-
 #include <input/inputparameter.h>
 #include <input/inputmanager.h>
 

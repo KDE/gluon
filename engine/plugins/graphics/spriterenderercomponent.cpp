@@ -96,8 +96,6 @@ void SpriteRendererComponent::initialize()
         {
             QString theName( d->material->property( "texture0" ).toString() );
             texture = gameProject()->findChild< Asset* >( theName );
-            if( !texture )
-                debug( QString( "Texture failed to load - attempted to load texture named %1 (searched for %2)" ).arg( theName ).arg( theName ) );
         }
         else
             texture = d->material->property( "texture0" ).value< Asset* >();

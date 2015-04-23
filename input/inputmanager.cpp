@@ -24,7 +24,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QCoreApplication>
 
-#include <core/debughelper.h>
+#include <core/log.h>
 #include <core/pluginregistry.h>
 
 #include "inputdevice.h"
@@ -110,7 +110,10 @@ void InputManager::initialize()
     d->platform = qobject_cast< PlatformPlugin* >( GluonCore::PluginRegistry::instance()->load( "gluoninput_platform" ) );
 
     if( !d->platform )
-        qFatal( "Abort: Could not find an input platform plugin!" );
+    {
+        CRITICAL() << "Abort: Could not find an input platform plugin!";
+        abort();
+    }
 
     d->platform->initialize();
 
@@ -145,8 +148,7 @@ void InputManager::loadDevice(const QString& device)
     }
     else
     {
-        DEBUG_BLOCK
-        DEBUG_TEXT2( "Could not find plugin for device %1", device )
+        WARNING() << "Could not find plugin for device " << device;
     }
 }
 

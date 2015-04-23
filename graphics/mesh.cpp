@@ -21,8 +21,6 @@
 
 #include "meshdata.h"
 
-#include "core/debughelper.h"
-
 using namespace GluonGraphics;
 
 class Mesh::Private

@@ -32,7 +32,7 @@ namespace GluonEngine
             ScriptingComponentPrivate( ScriptingComponent* qq );
             ~ScriptingComponentPrivate();
 
-            static QScriptValue debug( QScriptContext* context, QScriptEngine* engine );
+//             static QScriptValue debug( QScriptContext* context, QScriptEngine* engine );
 
             void updateScriptObject();
 

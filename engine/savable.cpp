@@ -25,7 +25,7 @@
 #include <gluon_global.h>
 
 #include <core/gluonobject.h>
-#include <core/debughelper.h>
+#include <core/log.h>
 #include <core/metainfo.h>
 
 #include <QtCore/QFile>
@@ -37,11 +37,9 @@ using namespace GluonEngine;
 
 bool Savable::saveToFile( GluonCore::GluonObject* object )
 {
-    DEBUG_BLOCK
-
     if( !object )
     {
-        DEBUG_TEXT( "Asset was NULL!" )
+        ERROR() << "Asset was NULL!";
         return false;
     }
 
@@ -66,7 +64,7 @@ bool Savable::saveToFile( GluonCore::GluonObject* object )
     QFile* savableFile = new QFile( file );
     if( !savableFile->open( QIODevice::WriteOnly ) )
     {
-        DEBUG_TEXT2( "Could not write to file %1", object->property( "file" ).value<QUrl>().toString() )
+        ERROR() << "Could not write to file " << object->property( "file" ).value<QUrl>().toString();
         delete savableFile;
         return false;
     }

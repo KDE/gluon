@@ -23,6 +23,7 @@
 
 #include <core/gluonobjectfactory.h>
 #include <core/scriptengine.h>
+#include <core/log.h>
 
 #include <engine/game.h>
 
@@ -60,8 +61,7 @@ namespace GluonEngine
                 }
                 if( !theEngine )
                 {
-                    DEBUG_BLOCK
-                    DEBUG_TEXT( "Somehow we do not have a scripting engine. This will cause crashes!" )
+                    CRITICAL() << "Somehow we do not have a scripting engine. This will cause crashes!";
                 }
                 return theEngine;
             }
@@ -98,22 +98,18 @@ ScriptingEngine::~ScriptingEngine()
 QScriptSyntaxCheckResult
 ScriptingEngine::registerAsset( const ScriptingAsset* asset )
 {
-    DEBUG_BLOCK
-
-
-
     // Own QScriptSyntaxCheckResult instances and set the values?!
 
     // Dumb...
     if( !asset )
     {
-        DEBUG_TEXT( "Asset is empty" )
+        WARNING() << "Asset " << asset->name() << " is empty!";
         return d->engine()->checkSyntax( QString( ')' ) );
     }
     // This is even dumberer...
     if( d->classNames.contains( asset ) )
     {
-        DEBUG_TEXT( "Asset is already registered" )
+        WARNING() << "Asset " << asset->name() << " is already registered";
         return d->engine()->checkSyntax( QString( '}' ) );
     }
 
@@ -165,15 +161,12 @@ ScriptingEngine::Private::appendScript( const GluonEngine::ScriptingAsset* asset
 bool
 ScriptingEngine::unregisterAsset( const ScriptingAsset* asset )
 {
-    DEBUG_BLOCK
     if( !asset )
     {
-        DEBUG_TEXT("Cannot unregister a null asset");
         return false;
     }
     if( !d->classNames.contains( asset ) )
     {
-        DEBUG_TEXT2("Cannot unregister an asset which is not previously registered (%1)", asset->fullyQualifiedName());
         return false;
     }
 
@@ -196,7 +189,6 @@ ScriptingEngine::isRegistered( const ScriptingAsset* asset ) const
 QScriptValue
 ScriptingEngine::instantiateClass( const ScriptingAsset* asset ) const
 {
-    DEBUG_BLOCK
     // Ensure the asset exists...
     if( d->scriptInstances.contains( asset ) )
     {
@@ -206,9 +198,9 @@ ScriptingEngine::instantiateClass( const ScriptingAsset* asset ) const
         if( d->engine()->hasUncaughtException() )
         {
             QScriptValue exception = d->engine()->uncaughtException();
-            asset->debug( QString( "Exception on class instantiation: %2\n at %1" )
-                          .arg( d->engine()->uncaughtExceptionBacktrace().join( " --> " ) )
-                          .arg( exception.toString() ) );
+//             asset->debug( QString( "Exception on class instantiation: %2\n at %1" )
+//                           .arg( d->engine()->uncaughtExceptionBacktrace().join( " --> " ) )
+//                           .arg( exception.toString() ) );
         }
 
         return instance;
@@ -220,7 +212,6 @@ ScriptingEngine::instantiateClass( const ScriptingAsset* asset ) const
 QScriptValue
 ScriptingEngine::instantiateClass( const QString& className ) const
 {
-    DEBUG_BLOCK
     QScriptValue val = d->engine()->globalObject().property( className );
 
     QScriptValue instance = val.construct();
@@ -228,9 +219,9 @@ ScriptingEngine::instantiateClass( const QString& className ) const
     {
         const ScriptingAsset* asset = d->classNames.key( className );
         QScriptValue exception = d->engine()->uncaughtException();
-        asset->debug( QString( "Exception on class instantiation: %2\n at %1" )
-                      .arg( d->engine()->uncaughtExceptionBacktrace().join( " --> " ) )
-                      .arg( exception.toString() ) );
+//         asset->debug( QString( "Exception on class instantiation: %2\n at %1" )
+//                       .arg( d->engine()->uncaughtExceptionBacktrace().join( " --> " ) )
+//                       .arg( exception.toString() ) );
     }
 
     return instance;

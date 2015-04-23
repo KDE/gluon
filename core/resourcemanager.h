@@ -26,7 +26,6 @@
 #include <QtCore/QVariant>
 
 #include "singleton.h"
-#include "debughelper.h"
 #include "gluoncore_export.h"
 #include "log.h"
 

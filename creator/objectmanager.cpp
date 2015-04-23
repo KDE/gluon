@@ -29,6 +29,7 @@
 #include "models/models.h"
 #include "models/scenemodel.h"
 
+#include <core/log.h>
 #include <engine/gameproject.h>
 #include <engine/gameobject.h>
 #include <engine/scene.h>
@@ -38,8 +39,6 @@
 #include <gluon_global.h>
 
 #include <graphics/materialinstance.h>
-
-#include <core/debughelper.h>
 
 #include <KI18n/KLocalizedString>
 #include <KCoreAddons/KDirWatch>
@@ -102,13 +101,12 @@ ObjectManager::humanifyClassName( const QString& fixThis, bool justRemoveNamespa
 
 GluonEngine::Asset* ObjectManager::createNewAsset( const QString& fileName, GluonCore::GluonObject* parent, const QString& className, const QString& name )
 {
-    DEBUG_BLOCK
     GluonCore::GluonObject* newChild = 0;
     if( className.isEmpty() )
     {
         QMimeDatabase db;
         QMimeType type = db.mimeTypeForFile(fileName, QMimeDatabase::MatchContent);
-        DEBUG_TEXT( QString( "Creating asset for file %1 of mimetype %2" ).arg( fileName ).arg( type.name() ) )
+        DEBUG() << "Creating asset for file " << fileName << " of mimetype " << type.name();
         newChild = GluonCore::GluonObjectFactory::instance()->instantiateObjectByMimetype( type.name() );
     }
     else
@@ -185,7 +183,6 @@ void ObjectManager::changeProperty( GluonCore::GluonObject* object, QString& pro
 
 GluonEngine::Component* ObjectManager::createNewComponent( const QString& type, GluonEngine::GameObject* parent )
 {
-    DEBUG_BLOCK
     GluonCore::GluonObject* newObj = GluonCore::GluonObjectFactory::instance()->instantiateObjectByName( type );
     if( newObj )
     {
@@ -208,10 +205,8 @@ GluonEngine::Component* ObjectManager::createNewComponent( const QString& type, 
 
 GluonEngine::GameObject* ObjectManager::createNewGameObject()
 {
-    DEBUG_FUNC_NAME
     GluonEngine::GameObject* newObj = new GluonEngine::GameObject();
     newObj->setName( humanifyClassName( newObj->metaObject()->className(), false ) );
-    DEBUG_TEXT2( "Creating object: %1", newObj->name() )
 
     newObj->initialize();
 
@@ -221,14 +216,12 @@ GluonEngine::GameObject* ObjectManager::createNewGameObject()
         GluonEngine::GameObject* obj = qobject_cast<GluonEngine::GameObject*>( selection.at( 0 ) );
         if( obj )
         {
-            DEBUG_TEXT2( "Item %1 selected in Scene tree - assign new object as child", obj->fullyQualifiedName() )
             Models::instance()->sceneModel()->newGameObject( obj, newObj );
         }
     }
 
     if( newObj->parentGameObject() == 0 )
     {
-        DEBUG_TEXT( QString( "No parent game object yet - assign as child to Scene root" ) )
         Models::instance()->sceneModel()->newGameObject( Models::instance()->sceneModel()->rootGameObject(), newObj );
     }
 
@@ -248,7 +241,7 @@ void ObjectManager::deleteObject( GluonCore::GluonObject* object )
 {
     if( !object )
     {
-        qDebug() << "No object specified for deleting";
+        NOTICE() << "No object specified for deleting";
         return;
     }
 

@@ -19,7 +19,6 @@
 
 
 #include "qvariantlistpropertywidgetitem.h"
-#include "core/debughelper.h"
 
 #include <KI18n/KLocalizedString>
 
@@ -102,14 +101,12 @@ void QVariantListPropertyWidgetItem::showAdditionMenu()
 
 void QVariantListPropertyWidgetItem::addItem()
 {
-    DEBUG_FUNC_NAME
     QAction* theAction = qobject_cast< QAction* >( sender() );
     if( theAction )
     {
         if( theAction->data().isValid() )
         {
             int addWhat = theAction->data().toInt();
-            DEBUG_TEXT2("Attempting to add an item of type %1", addWhat);
             switch(addWhat)
             {
                 case Integer:
@@ -128,20 +125,17 @@ void QVariantListPropertyWidgetItem::addItem()
         }
         else
         {
-            DEBUG_TEXT("The caller had no int data!");
             addItem(QVariant());
         }
     }
     else
     {
-        DEBUG_TEXT("The caller was not an action");
         addItem(QVariant());
     }
 }
 
 void QVariantListPropertyWidgetItem::addItem(QVariant value)
 {
-    DEBUG_BLOCK
     QWidget* editorWidget = 0;
     QSpinBox* editorSpin = 0;
     QDoubleSpinBox* editorDSpin = 0;
@@ -163,7 +157,6 @@ void QVariantListPropertyWidgetItem::addItem(QVariant value)
             break;
     }
 
-    DEBUG_TEXT2("Adding an item with value type %1", valueType);
     switch(valueType)
     {
         case Integer:

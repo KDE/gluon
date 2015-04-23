@@ -20,11 +20,7 @@
 #ifndef GLUONGRAPHICS_DEFAULTS_H
 #define GLUONGRAPHICS_DEFAULTS_H
 
-#include <QtCore/QHash>
-#include <QtCore/QVariant>
-
-#include <core/singleton.h>
-#include <core/debughelper.h>
+#include <QtCore/QString>
 
 #include "gluon_graphics_export.h"
 

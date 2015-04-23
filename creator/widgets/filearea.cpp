@@ -21,7 +21,7 @@
 
 #include "filemanager.h"
 
-#include <core/debughelper.h>
+#include <core/log.h>
 
 #include <KParts/PartManager>
 #include <KParts/ReadOnlyPart>

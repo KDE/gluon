@@ -23,7 +23,6 @@
 #include "gameobject.h"
 #include "game.h"
 
-#include <core/debughelper.h>
 #include <core/gdlserializer.h>
 
 #include <QtCore/QUrl>
@@ -56,7 +55,6 @@ ScenePrivate::unloadContents()
 void
 ScenePrivate::loadContents( const QUrl& file )
 {
-    DEBUG_BLOCK
     if( file.isEmpty() )
     {
         sceneContentsLoaded = true;

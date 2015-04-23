@@ -30,8 +30,8 @@
 
 #include <core/gluonobject.h>
 #include <core/gluonobjectfactory.h>
-#include <core/debughelper.h>
 #include <core/gluonvarianttypes.h>
+#include <core/log.h>
 
 #include <core/gdl/gdllexer.h>
 #include <core/gdl/gdlparser.h>
@@ -131,7 +131,7 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
 
             if( !target )
             {
-                ref.object->debug("Warning: Invalid reference for property %1", ref.property);
+                WARNING() << "Invalid reference for property " << ref.property;
                 continue;
             }
         }
@@ -144,7 +144,9 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
         if( !ref.object->setProperty( ref.property.toUtf8(), QVariant::fromValue( target ) ) )
         {
             if( propertyIndex != -1 )
-                ref.object->debug( QString("Warning: Could not set property %1 on object %2").arg(ref.property, ref.object->fullyQualifiedName()) );
+            {
+                WARNING() << "Could not set property " << ref.property << " on object " << ref.object->fullyQualifiedName();
+            }
         }
     }
 
@@ -197,7 +199,7 @@ void ObjectTreeBuilder::visitProperty(GDL::PropertyAst* node)
 {
     if(!d->currentObject)
     {
-        qFatal("Cannot set properties on non-existing object");
+        CRITICAL() << "Cannot set properties on non-existing object";
         return;
     }
 

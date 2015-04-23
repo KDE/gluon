@@ -19,6 +19,8 @@
 
 #include "prefabinstance.h"
 
+#include <core/log.h>
+
 #include "component.h"
 #include "prefabinstancechild.h"
 
@@ -91,7 +93,6 @@ void PrefabInstance::storeChanges()
 
 void PrefabInstance::rebuildInstance()
 {
-    DEBUG_FUNC_NAME
     setInstantiationCompleted( false );
     // Clear all children out
     foreach( QObject* child, children() )
@@ -116,7 +117,7 @@ void PrefabInstance::rebuildInstance()
             PrefabInstanceChild* newChild = new PrefabInstanceChild();
             addChild(newChild);
             newChild->cloneFromGameObject(childGobj);
-            DEBUG_TEXT2( "Completed copy of %1", newChild->name() )
+            DEBUG() << "Completed copy of " << newChild->name();
         }
     }
 
@@ -125,10 +126,10 @@ void PrefabInstance::rebuildInstance()
     {
         cmp->clone( this );
         //Prefab::cloneObjectProperties( cmp,  );
-        DEBUG_TEXT2("Completed copy of %1", cmp->name());
+        DEBUG() << "Completed copy of " << cmp->name();
     }
     setInstantiationCompleted( true );
-    DEBUG_TEXT2("Completed copy of %1", name());
+    DEBUG() << "Completed copy of " << name();
 }
 
  

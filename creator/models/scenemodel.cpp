@@ -24,7 +24,7 @@
 #include "historymanager.h"
 #include "objectmanager.h"
 
-#include <core/debughelper.h>
+#include <core/log.h>
 #include <engine/gameobject.h>
 #include <engine/component.h>
 #include <engine/gameproject.h>
@@ -258,8 +258,6 @@ QMimeData* SceneModel::mimeData( const QModelIndexList& indexes ) const
 
 bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int row, int /* column */, const QModelIndex& parent )
 {
-    DEBUG_FUNC_NAME
-
     if( action == Qt::IgnoreAction )
         return false;
 
@@ -274,7 +272,7 @@ bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int
 
     foreach( const QString & something, data->formats() )
     {
-        DEBUG_TEXT( QString( "Dropped mimetype %1 on object %2" ).arg( something ).arg( gobj->fullyQualifiedName() ) )
+        DEBUG() << "Dropped mimetype " << something << " on object " << gobj->fullyQualifiedName();
     }
 
     if( data->hasFormat( "application/gluon.engine.GluonEngine::Prefab" ) )
@@ -291,7 +289,7 @@ bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int
         }
         foreach( const QString & text, newItems )
         {
-            DEBUG_TEXT2( "Creating instance for %1", text )
+            DEBUG() << "Creating instance for " << text;
             GluonEngine::Prefab* prefab = qobject_cast<GluonEngine::Prefab*>( d->root->findGlobalItemByName( text ) );
             if( !prefab )
                 continue;
@@ -330,7 +328,7 @@ bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int
         }
         foreach( const QString & text, newItems )
         {
-            DEBUG_TEXT2( "Adding component of class %1", text )
+            DEBUG() << "Adding component of class " << text;
             ObjectManager::instance()->createNewComponent( text, gobj );
         }
     }
@@ -341,7 +339,7 @@ bool SceneModel::dropMimeData( const QMimeData* data, Qt::DropAction action, int
 
         QString dataString = data->data( "application/gluon.object.gameobject" );
         QStringList names = dataString.split( ';' );
-        DEBUG_TEXT2( "Dropped names %1 on Scene Model", dataString )
+        DEBUG() << "Dropped names " << dataString << " on Scene Model";
 
         GluonEngine::GameProject* project = GluonEngine::Game::instance()->gameProject();
         foreach( const QString & name, names )
@@ -407,7 +405,6 @@ bool SceneModel::insertRows( int row, int count, const QModelIndex& parent )
 
 bool SceneModel::insertRows( int row, const QList<GluonEngine::GameObject*> &children, const QModelIndex& parent )
 {
-    DEBUG_FUNC_NAME;
     int count = children.count();
 
     GluonEngine::GameObject* pobj = static_cast<GluonEngine::GameObject*>( parent.internalPointer() );

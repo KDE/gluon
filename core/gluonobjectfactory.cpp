@@ -27,7 +27,6 @@
 
 #include "directoryprovider.h"
 #include "gluonobject.h"
-#include "debughelper.h"
 #include "pluginregistry.h"
 #include "factoryplugin.h"
 #include "log.h"

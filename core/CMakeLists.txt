@@ -6,7 +6,6 @@ include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/gdl )
 set( GluonCore_SRCS
     axisalignedbox.cpp
     directoryprovider.cpp
-    debughelper.cpp
     gluonobject.cpp
     gluonobjectfactory.cpp
     messagehandler.cpp
@@ -37,7 +36,6 @@ set( GluonCore_SRCS
 
 set( GluonCore_HEADERS
     axisalignedbox.h
-    debughelper.h
     gluoncore_export.h
     gluonobject.h
     gluonobjectfactory.h
