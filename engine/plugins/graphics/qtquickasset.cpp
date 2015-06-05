@@ -19,8 +19,12 @@
 
 #include "qtquickasset.h"
 
-#include <graphics/manager.h>
+#include <core/resourcemanager.h>
+#include <core/log.h>
+#include <graphics/qtquickrenderer.h>
+#include <graphics/texture.h>
 #include <graphics/rendertarget.h>
+#include <graphics/backend.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, QtQuickAsset )
 
@@ -43,7 +47,7 @@ QtQuickAsset::~QtQuickAsset()
 {
     if( d->renderer )
     {
-        GluonGraphics::Manager::instance()->destroyResource< GluonGraphics::QtQuickRenderer >( name() );
+        GluonCore::ResourceManager::instance()->destroyResource< GluonGraphics::QtQuickRenderer >( name() );
         d->renderer = 0;
     }
     delete d;
@@ -61,17 +65,23 @@ void QtQuickAsset::load()
 
     if( !file().isEmpty() )
     {
-        d->renderer = GluonGraphics::Manager::instance()->createResource< GluonGraphics::QtQuickRenderer >( name() );
-
-        if( d->renderer->load( absolutePath() ) )
+        if( GluonCore::ResourceManager::instance()->hasResource< GluonGraphics::QtQuickRenderer >( name() ) )
         {
-            mimeData()->setText( name() );
-            setLoaded( true );
-            return;
+            d->renderer = GluonCore::ResourceManager::instance()->resource< GluonGraphics::QtQuickRenderer >( name() );
         }
+        else
+        {
+            d->renderer = GluonGraphics::Backend::currentBackend()->createQuickRenderer();
+            GluonCore::ResourceManager::instance()->addResource< GluonGraphics::QtQuickRenderer >( name(), d->renderer );
+        }
+
+        d->renderer->load( absolutePath() );
+        mimeData()->setText( name() );
+        setLoaded( true );
+        return;
     }
 
-    debug( "Error loading QtQuick file: %1", name() );
+    DEBUG() << "Error loading QtQuick file: " << name();
 }
 
 void QtQuickAsset::unload()
@@ -82,7 +92,7 @@ void QtQuickAsset::unload()
         if( parent )
             parent->removeChild( d->renderer );
 
-        GluonGraphics::Manager::instance()->destroyResource< GluonGraphics::QtQuickRenderer >( name() );
+        GluonCore::ResourceManager::instance()->destroyResource< GluonGraphics::QtQuickRenderer >( name() );
         d->renderer = 0;
 
         setLoaded( false );
@@ -103,8 +113,8 @@ void QtQuickAsset::setName( const QString& newName )
 {
     if( d->renderer )
     {
-        GluonGraphics::Manager::instance()->removeResource< GluonGraphics::QtQuickRenderer >( name() );
-        GluonGraphics::Manager::instance()->addResource< GluonGraphics::QtQuickRenderer >( newName, d->renderer );
+        GluonCore::ResourceManager::instance()->removeResource< GluonGraphics::QtQuickRenderer >( name() );
+        GluonCore::ResourceManager::instance()->addResource< GluonGraphics::QtQuickRenderer >( newName, d->renderer );
     }
     GluonEngine::Asset::setName( newName );
 }
@@ -118,7 +128,5 @@ GluonGraphics::QtQuickRenderer* QtQuickAsset::renderer() const
 {
     return d->renderer;
 }
-
-Q_EXPORT_PLUGIN2( gluon_asset_qtquick, GluonEngine::QtQuickAsset )
 
  

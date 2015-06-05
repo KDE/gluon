@@ -15,6 +15,11 @@
         "icon": "image-x-generic",
         "category": "Graphics Rendering"
     },
+    "GluonEngine::QtQuickAsset": {
+        "name": "QtQuick file",
+        "icon": "text-x-qml",
+        "category": "Graphics Rendering"
+    },
     "GluonEngine::CameraControllerComponent": {
         "name": "Camera Controller",
         "icon": "image-x-generic",
@@ -22,6 +27,11 @@
     },
     "GluonEngine::SpriteRendererComponent": {
         "name": "Sprite Renderer",
+        "icon": "image-x-generic",
+        "category": "Graphics Rendering"
+    },
+    "GluonEngine::InterfaceRendererComponent": {
+        "name": "QtQuick Renderer",
         "icon": "image-x-generic",
         "category": "Graphics Rendering"
     }

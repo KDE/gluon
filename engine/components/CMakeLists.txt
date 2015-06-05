@@ -11,7 +11,7 @@ if(BUILD_GRAPHICS_COMPONENTS)
     #add_subdirectory(graphics/animatedspriterenderer)
     add_subdirectory(graphics/cameracontroller)
     add_subdirectory(graphics/spriterenderer)
-    add_subdirectory(graphics/interfacerenderer)
+    #add_subdirectory(graphics/interfacerenderer)
     if(GLUON_GRAPHICS_HAS_MESH)
         #TODO: Port to new rendering engine
         #add_subdirectory(graphics/meshrenderer)

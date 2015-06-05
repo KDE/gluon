@@ -1,12 +1,15 @@
 gluon_add_plugin( gluonengine_graphicsplugin
     MODULE Gluon::Engine
-    LIBRARIES Gluon::Graphics
+    LIBRARIES Gluon::Graphics Gluon::Input
     SOURCES
         materialasset.cpp
         textureasset.cpp
         cameracontrollercomponent.cpp
         spriterenderercomponent.cpp
         graphicsplugin.cpp
+        qtquickasset.cpp
+        interfacerenderercomponent.cpp
+        textureimageprovider.cpp
 )
 
 install( FILES material_template.gluonmaterial

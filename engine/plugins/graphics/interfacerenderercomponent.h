@@ -17,8 +17,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_ENGINE_SPRITERENDERERCOMPONENT_H
-#define GLUON_ENGINE_SPRITERENDERERCOMPONENT_H
+#ifndef GLUON_ENGINE_INTERFACERENDERERCOMPONENT_H
+#define GLUON_ENGINE_INTERFACERENDERERCOMPONENT_H
 
 #include <engine/component.h>
 
@@ -33,9 +33,6 @@ namespace GluonEngine
             GLUON_OBJECT( GluonEngine::InterfaceRendererComponent )
 
             Q_PROPERTY( GluonEngine::Asset* qtquickfile READ qtQuickFile WRITE setQtQuickFile )
-
-            Q_CLASSINFO( "org.gluon.category", "Graphics Rendering" )
-            Q_CLASSINFO( "org.gluon.icon", "image-x-generic" )
 
         public:
             Q_INVOKABLE InterfaceRendererComponent( QObject* parent = 0 );
@@ -60,4 +57,4 @@ namespace GluonEngine
 
 Q_DECLARE_METATYPE( GluonEngine::InterfaceRendererComponent* )
 
-#endif // GLUON_ENGINE_SPRITERENDERERCOMPONENT_H
+#endif // GLUON_ENGINE_INTERFACERENDERERCOMPONENT_H

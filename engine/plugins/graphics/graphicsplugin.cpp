@@ -22,8 +22,10 @@
 
 #include "materialasset.h"
 #include "textureasset.h"
+#include "qtquickasset.h"
 #include "cameracontrollercomponent.h"
 #include "spriterenderercomponent.h"
+#include "interfacerenderercomponent.h"
 
 using namespace GluonEngine;
 
@@ -32,7 +34,9 @@ GluonCore::GluonObjectList GraphicsPlugin::typesToRegister()
     return GluonCore::GluonObjectList()
         << new MaterialAsset( this )
         << new TextureAsset( this )
+        << new QtQuickAsset( this )
         << new CameraControllerComponent( this )
-        << new SpriteRendererComponent( this );
+        << new SpriteRendererComponent( this )
+        << new GluonEngine::InterfaceRendererComponent( this );
 
 }

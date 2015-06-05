@@ -17,11 +17,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef GLUON_ENGINE_TEXTUREASSET_H
-#define GLUON_ENGINE_TEXTUREASSET_H
+#ifndef GLUON_ENGINE_QTQUICKASSET_H
+#define GLUON_ENGINE_QTQUICKASSET_H
 
 #include <engine/asset.h>
-#include <graphics/qtquickrenderer.h>
+//#include <graphics/qtquickrenderer.h>
+
+namespace GluonGraphics
+{
+    class QtQuickRenderer;
+    class Texture;
+}
 
 namespace GluonEngine
 {
@@ -61,4 +67,4 @@ namespace GluonEngine
 
 Q_DECLARE_METATYPE( GluonEngine::QtQuickAsset* )
 
-#endif // GLUON_ENGINE_TEXTUREASSET_H
+#endif // GLUON_ENGINE_QTQUICKASSET_H

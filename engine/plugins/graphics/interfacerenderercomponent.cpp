@@ -20,12 +20,13 @@
 #include "interfacerenderercomponent.h"
 #include "textureimageprovider.h"
 
-#include <QDeclarativeContext>
-#include <QDeclarativeEngine>
+#include <QQmlContext>
+#include <QQmlEngine>
 
 #include <core/messagehandler.h>
-#include <graphics/manager.h>
+#include <core/resourcemanager.h>
 #include <graphics/rendertarget.h>
+#include <graphics/defaults.h>
 #include <graphics/qtquickrenderer.h>
 #include <input/inputmanager.h>
 
@@ -101,18 +102,18 @@ void InterfaceRendererComponent::Private::setRenderer(const QString& name)
 {
     if( renderer )
     {
-        GluonGraphics::Manager::instance()->resource< GluonGraphics::RenderTarget >( GluonGraphics::Manager::Defaults::RenderTarget )->removeChild( renderer );
+        GluonCore::ResourceManager::instance()->resource< GluonGraphics::RenderTarget >( GluonGraphics::Defaults::RenderTarget )->removeChild( renderer );
         disconnect( GluonInput::InputManager::instance(), SIGNAL(eventFiltered(QEvent*)), q, SLOT(sendEvent(QEvent*)) );
     }
 
-    renderer = GluonGraphics::Manager::instance()->resource< GluonGraphics::QtQuickRenderer >( name );
+    renderer = GluonCore::ResourceManager::instance()->resource< GluonGraphics::QtQuickRenderer >( name );
 
     if( renderer )
     {
-        GluonGraphics::Manager::instance()->resource< GluonGraphics::RenderTarget >( GluonGraphics::Manager::Defaults::RenderTarget )->addChild( renderer );
+        GluonCore::ResourceManager::instance()->resource< GluonGraphics::RenderTarget >( GluonGraphics::Defaults::RenderTarget )->addChild( renderer );
         connect( GluonInput::InputManager::instance(), SIGNAL(eventFiltered(QEvent*)), q, SLOT(sendEvent(QEvent*)) );
 
-        QDeclarativeContext* context = renderer->context();
+        QQmlContext* context = renderer->context();
         context->setContextProperty( "Game", Game::instance() );
         context->setContextProperty( "GameProject", q->gameProject() );
         context->setContextProperty( "Scene", q->gameObject()->scene() );
@@ -123,7 +124,3 @@ void InterfaceRendererComponent::Private::setRenderer(const QString& name)
             context->engine()->addImageProvider( "texture", new TextureImageProvider() );
     }
 }
-
-Q_EXPORT_PLUGIN2( gluon_component_interfacerenderer, GluonEngine::InterfaceRendererComponent );
-
- 

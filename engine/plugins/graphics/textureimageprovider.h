@@ -21,11 +21,11 @@
 #ifndef GLUONENGINE_TEXTUREIMAGEPROVIDER_H
 #define GLUONENGINE_TEXTUREIMAGEPROVIDER_H
 
-#include <QtDeclarative/QDeclarativeImageProvider>
+#include <QQuickImageProvider>
 
 namespace GluonEngine
 {
-    class TextureImageProvider : public QDeclarativeImageProvider
+    class TextureImageProvider : public QQuickImageProvider
     {
         public:
             TextureImageProvider();

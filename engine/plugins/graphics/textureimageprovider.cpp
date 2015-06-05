@@ -19,15 +19,17 @@
 
 #include "textureimageprovider.h"
 
+#include <core/resourcemanager.h>
+
 #include <engine/game.h>
 
-#include <graphics/manager.h>
 #include <graphics/texture.h>
+#include <graphics/defaults.h>
 
 using namespace GluonEngine;
 
 TextureImageProvider::TextureImageProvider()
-    : QDeclarativeImageProvider( QDeclarativeImageProvider::Image )
+    : QQuickImageProvider( QQuickImageProvider::Image )
 {
 
 }
@@ -55,7 +57,7 @@ QImage TextureImageProvider::requestImage( const QString& id, QSize* size, const
     }
 
 
-    GluonGraphics::Texture* tex = GluonGraphics::Manager::instance()->resource< GluonGraphics::Texture >( asset->data()->text() );
+    GluonGraphics::Texture* tex = GluonCore::ResourceManager::instance()->resource< GluonGraphics::Texture >( asset->data()->text() );
     *size = tex->image().size();
     if( requestedSize.isValid() )
     {
@@ -69,5 +71,5 @@ QImage TextureImageProvider::requestImage( const QString& id, QSize* size, const
 
 QImage TextureImageProvider::defaultImage()
 {
-    return GluonGraphics::Manager::instance()->resource< GluonGraphics::Texture >( GluonGraphics::Manager::Defaults::Texture )->image();
+    return GluonCore::ResourceManager::instance()->resource< GluonGraphics::Texture >( GluonGraphics::Defaults::Texture )->image();
 }
