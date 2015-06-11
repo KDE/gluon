@@ -463,10 +463,11 @@ GameObject::addChild( GameObject* addThis )
         connect( addThis, SIGNAL(destroyed(QObject*)), this, SLOT(childDeleted(QObject*)) );
 
         if( addThis->d->parentGameObject )
+        {
             addThis->d->parentGameObject->removeChild( addThis );
+        }
 
         addThis->d->parentGameObject = this;
-        GluonCore::GluonObject::addChild( addThis );
     }
 }
 
