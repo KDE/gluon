@@ -22,11 +22,10 @@
 #define GLUON_ENGINE_SOUNDEMITTERCOMPONENT_H
 
 #include <engine/component.h>
+#include <engine/asset.h>
 
 namespace GluonEngine
 {
-    class Asset;
-
     class SoundEmitterComponent : public Component
     {
             Q_OBJECT
