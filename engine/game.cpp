@@ -313,15 +313,12 @@ Game::setGameProject( GluonEngine::GameProject* newGameProject )
             stopAll();
             cleanupAll();
         }
-        disconnect( d->gameProject, SIGNAL(showDebug(QString,GluonCore::DebugType)), this, SIGNAL(showDebug(QString,GluonCore::DebugType)) );
     }
 
     d->gameProject = newGameProject;
 
     if( !d->gameProject )
         return;
-
-    connect( d->gameProject, SIGNAL(showDebug(QString,GluonCore::DebugType)), SIGNAL(showDebug(QString,GluonCore::DebugType)) );
 
     if( !d->gameProject->entryPoint() )
     {
