@@ -108,10 +108,7 @@ endif()
 
 add_subdirectory( plugins/scripting )
 
-add_subdirectory( assets )
-add_subdirectory( components )
-
-gluon_add_subdirectories( tests )
+gluon_add_subdirectories( examples tests )
 
 save_status( Gluon::Engine
     "Build Assets and Components dependant on Gluon Audio (BUILD_AUDIO_PLUGIN): ${BUILD_AUDIO_PLUGIN}"
