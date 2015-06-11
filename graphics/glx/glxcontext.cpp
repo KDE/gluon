@@ -142,7 +142,9 @@ void Context::destroy()
         return;
 
     clearCurrent();
-    glXDestroyContext( QX11Info::display(), d->context );
+
+    //TODO: We need to clean up the context properly but glXDestroyContext crashes.
+    //glXDestroyContext( QX11Info::display(), d->context );
     d->context = 0;
 }
 
