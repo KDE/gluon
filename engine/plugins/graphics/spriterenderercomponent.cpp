@@ -102,6 +102,10 @@ void SpriteRendererComponent::initialize()
 
         d->entity->setMaterialInstance( d->material );
     }
+    else
+    {
+        d->entity->setMaterialInstance( GluonCore::ResourceManager::instance()->resource< GluonGraphics::Material >( GluonGraphics::Defaults::Material )->instance( GluonGraphics::Defaults::MaterialInstance ) );
+    }
 }
 
 void SpriteRendererComponent::start()
