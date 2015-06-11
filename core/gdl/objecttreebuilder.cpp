@@ -141,7 +141,15 @@ void ObjectTreeBuilder::visitStart(StartAst* node)
         if( propertyIndex != -1 )
             type = ref.object->metaObject()->property( propertyIndex ).typeName();
 
-        if( !ref.object->setProperty( ref.property.toUtf8(), QVariant::fromValue( target ) ) )
+        QVariant value = QVariant::fromValue( target );
+        //Workaroudn because canConvert does magic behind the scenes that makes the actual setProperty call work.
+        if( propertyIndex != -1 && !value.canConvert( ref.object->metaObject()->property( propertyIndex ).userType() ) )
+        {
+            WARNING() << "Invalid type for reference " << type;
+            continue;
+        }
+
+        if( !ref.object->setProperty( ref.property.toUtf8(), value ) )
         {
             if( propertyIndex != -1 )
             {
