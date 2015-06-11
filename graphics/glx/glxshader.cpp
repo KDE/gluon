@@ -19,6 +19,8 @@
 
 #include "glxshader.h"
 
+#include <core/log.h>
+
 #include <GL/gl.h>
 #include <GL/glext.h>
 
@@ -256,13 +258,16 @@ void GLXShader::Private::setUniform( GLint uniform, const QVariant& value )
                 glUniformMatrix4fv( uniform, 1, false, mat.data() );
                 break;
             }
-            Texture* tex = value.value< GluonGraphics::Texture* >();
-            if( tex != 0 )
+            if( value.canConvert<GluonGraphics::Texture*>() )
             {
+                Texture* tex = value.value< GluonGraphics::Texture* >();
                 tex->data()->bind( currentTextureUnit );
                 glUniform1i( uniform, currentTextureUnit );
                 currentTextureUnit++;
+                break;
             }
+
+            WARNING() << "Unknown type " << value.typeName() << " for Uniform " << uniforms.key( uniform );
             break;
     }
 }
