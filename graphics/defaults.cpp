@@ -52,9 +52,10 @@ void Defaults::initialize()
         defaultSpriteMesh->initialize();
     }
 
+    GluonGraphics::Texture* defaultTexture = nullptr;
     if( !GluonCore::ResourceManager::instance()->hasResource< GluonGraphics::Texture >( Defaults::Texture ) )
     {
-        GluonGraphics::Texture* defaultTexture = GluonCore::ResourceManager::instance()->createResource< GluonGraphics::Texture >( Defaults::Texture );
+        defaultTexture = GluonCore::ResourceManager::instance()->createResource< GluonGraphics::Texture >( Defaults::Texture );
         defaultTexture->load( GluonCore::DirectoryProvider::instance()->dataDirectory() + "/gluon/defaults/default.png" );
     }
 
@@ -65,7 +66,7 @@ void Defaults::initialize()
         defaultMaterial->build();
 
         GluonGraphics::MaterialInstance* defaultInstance = defaultMaterial->createInstance( Defaults::MaterialInstance );
-        defaultInstance->setProperty( "texture0", Defaults::Texture );
+        defaultInstance->setProperty( "texture0", QVariant::fromValue< GluonGraphics::Texture* >( defaultTexture ) );
     }
 
     if( !GluonCore::ResourceManager::instance()->hasResource< GluonGraphics::RenderTarget >( Defaults::RenderTarget ) )
