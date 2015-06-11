@@ -116,8 +116,8 @@ namespace GluonEngine
              * scene or a menu but can also be directly into gameplay by pointing to a scene
              * which contains the game.
              */
-            Q_PROPERTY( GluonEngine::Scene* entryPoint READ entryPoint WRITE
-setEntryPoint )
+            Q_PROPERTY( GluonEngine::Scene* entryPoint READ entryPoint WRITE setEntryPoint )
+
         public:
             Q_INVOKABLE GameProject( QObject* parent = 0 );
             GameProject( const GameProject& other, QObject* parent = 0 );
