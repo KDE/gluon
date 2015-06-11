@@ -24,6 +24,7 @@
 #include <engine/gameobject.h>
 #include <audio/source.h>
 #include <audio/playlists/singlefile.h>
+#include <audio/listener.h>
 #include <core/metainfo.h>
 
 REGISTER_OBJECTTYPE( GluonEngine, SoundEmitterComponent )
@@ -123,6 +124,8 @@ void SoundEmitterComponent::start()
             d->asset->load();
         d->playlist->setFile( d->asset->data()->text() );
     }
+
+    GluonAudio::Listener::instance()->addSource(d->source);
 
     d->source->setPosition( gameObject()->position() );
     d->source->setRadius( d->radius );
