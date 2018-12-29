@@ -1,22 +1,5 @@
 [Desktop Entry]
 Name=Gluon Project Viewer Component
-Name[bs]=Komponenta Gluon Projekt pregledača
-Name[de]=Gluon-Projektansicht-Komponente
-Name[es]=Componente del visor del proyecto Gluon
-Name[et]=Gluoni projektinäitaja komponent
-Name[fi]=Gluon-projektikatselinosa
-Name[fr]=Composant d'affichage de projets Gluon
-Name[gl]=Compoñente do visor de proxectos de Gluon
-Name[hu]=Gluon projektmegjelenítő komponens
-Name[km]=សមាសភាគ​កម្មវិធី​មើល​គម្រោង​របស់ Gluon
-Name[nds]=Projektkieker-Komponent för Gluon
-Name[nl]=Weergavecomponent van Gluon-project
-Name[pl]=Składnik przeglądarki projektu Gluon
-Name[pt]=Componente de Visualização de Projectos do Gluon
-Name[pt_BR]=Componente de visualização de projetos do Gluon
-Name[sv]=Gluon-projektvisningskomponent
-Name[uk]=Компонент перегляду проектів Gluon
-Name[x-test]=xxGluon Project Viewer Componentxx
 MimeType=application/x-gluon-project;
 X-KDE-ServiceTypes=KParts/ReadOnlyPart
 X-KDE-Library=gluon_viewer_part

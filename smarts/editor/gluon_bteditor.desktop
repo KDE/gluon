@@ -2,42 +2,8 @@
 Encoding=UTF-8
 
 Name=bteditor
-Name[bs]=bteditor
-Name[de]=BT-Editor
-Name[es]=bteditor
-Name[et]=BT redaktor
-Name[fi]=bteditor
-Name[fr]=bteditor
-Name[ga]=bteditor
-Name[gl]=bteditor
-Name[hu]=bteditor
-Name[km]=bteditor
-Name[nl]=bteditor
-Name[pl]=bteditor
-Name[pt]=bteditor
-Name[pt_BR]=bteditor
-Name[sk]=bteditor
-Name[sv]=BT-editor
-Name[uk]=bteditor
-Name[x-test]=xxbteditorxx
 
 Comment=Provides a Behavior Tree Editor for Gluon Creator
-Comment[bs]=Obezbjeđuje uređivač stabla ponašanja za Gluon Creator
-Comment[de]=Ein Editor für einen Verhaltensbaum für Gluon Creator
-Comment[es]=Proporciona un editor del árbol de comportamiento para Gluon Creator
-Comment[et]=Gluoni mängulooja Behavior Tree redaktor
-Comment[fi]=Tarjoaa Gluon Creatoriin toimintapuumuokkaimen
-Comment[fr]=Fournit un éditeur de graphe d'états pour Gluon Creator
-Comment[gl]=Fornece un editor de árbore de comportamento para o creador de Gluon.
-Comment[hu]=Viselkedésfa-szerkesztő a Gluon lejátszóhoz
-Comment[km]=ផ្ដល់​កម្មវិធី​កែសម្រួល​មែកធាង​ឥរិយាបថ​សម្រាប់​កម្ម​បង្កើត Gluon
-Comment[nl]=Biedt een bewerker van boomstructuur van gedrag voor Gluon-spelcreatie
-Comment[pl]=Dostarcza Behavior Tree Editor (edytor drzewa zachowania) dla kreatora Gluon
-Comment[pt]=Oferece um editor da árvore de comportamento do Criador do Gluon
-Comment[pt_BR]=Fornece um editor de árvore do comportamento para o criador do Gluon
-Comment[sv]=Tillhandahåller en editor av beteendeträd för Gluon Creator
-Comment[uk]=Забезпечує роботу редактора дерева поведінки у Gluon Creator
-Comment[x-test]=xxProvides a Behavior Tree Editor for Gluon Creatorxx
 
 Icon=gluon
 
